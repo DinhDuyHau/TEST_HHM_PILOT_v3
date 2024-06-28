@@ -1,0 +1,39 @@
+[
+  {
+    "name": "line_nbr",
+    "title": "STT",
+    "width": 100,
+    "isPrimaryKey": true,
+    "align": "center"
+  },
+  {
+    "name": "ma_phi",
+    "title": "Mã chi phí",
+    "width": 140
+  },
+  {
+    "name": "ten_phi",
+    "title": "Tên chi phí",
+    "width": 220
+  },
+  {
+    "name": "dien_giai",
+    "title": "Ghi chú",
+    "width": 220
+  },
+  {
+    "name": "tien_nt",
+    "title": "Tiền",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "action",
+    "title": "Thao tác",
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "action"
+  }
+]

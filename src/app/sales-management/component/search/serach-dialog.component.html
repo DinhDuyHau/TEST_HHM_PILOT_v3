@@ -1,0 +1,26 @@
+<div class="search-dialog-container">
+  <div class="search-dialog-wrapper">
+    <div class="title mb-3">{{ title }}</div>
+    <div class="search-dialog">
+      <table-custom
+        [isLoading]="isLoading"
+        [type]="'search-dialog'"
+        [dataSource]="dataSource"
+        [columns]="columns"
+        [totalItem]="recordCount"
+        [size]="page_size"
+        (handleSelect)="onSelectItem($event)"
+        (handleFilter)="onClickSearchFilter($event)"
+        (handleChangePage)="onChangePage($event)"
+        (handleChangePageSize)="onChangePageSize($event)"></table-custom>
+    </div>
+
+    <div class="d-flex justify-end gap-2 m-3">
+      <div class="btn-responsive btn-cancel" (click)="onCancel()">Đóng</div>
+      <!-- <div class="btn-responsive btn-add" (click)="onSave()">Chọn</div> -->
+    </div>
+    <div class="close-btn" (click)="onCancel()">
+      <i class="fas fa-times"></i>
+    </div>
+  </div>
+</div>

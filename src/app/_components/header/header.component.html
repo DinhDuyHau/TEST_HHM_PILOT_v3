@@ -1,0 +1,116 @@
+<div
+  id="header"
+  class="max-h-header h-header_height pt-1 border-b border-solid border-b-primary">
+  <nav class="flex flex-row h-full">
+    <div class="navbar basis-full lg:basis-2/10 flex self-center">
+      <a [routerLink]="['/home']" class="flex flex-row pl-5" routerLink="home">
+        <img
+          src="../assets/images/menu-header.png"
+          class="flex self-center w-5 h-5"
+          alt="" />
+        <img
+          src="../assets/images/logo-moka.png"
+          class="flex self-center w-36 h-9 ml-3"
+          alt="" />
+      </a>
+    </div>
+    <div class="hidden lg:basis-8/10 lg:flex flex-col">
+      <div class="flex flex-1 flex-row">
+        <div class="basis-1/4">
+          <div class="flex text-small">
+            <img
+              src="../assets/images/phone_orange.png"
+              class="flex self-center w-5.5 h-5.5"
+              alt="" />
+            <span class="text-secondary leading-6 ml-2"
+              >Hotline: 024 7102 1818</span
+            >
+          </div>
+        </div>
+        <div class="basis-3/4">
+          <div class="flex flex-row">
+            <div class="flex text-small flex-1">
+              <img
+                src="../assets/images/header-chart.png"
+                class="flex self-center w-4 h-4"
+                alt="" />
+              <span class="leading-6 ml-2">{{ 'Cửa hàng: ' + user.shop }}</span>
+            </div>
+            <div class="flex text-small basis-1/5">
+              <img
+                src="../assets/images/header-unit.png"
+                class="flex self-center w-4 h-4"
+                alt="" />
+              <span class="leading-6 ml-2">{{ 'Đơn vị: ' + user.unit }}</span>
+            </div>
+            <div class="flex text-small basis-1/5">
+              <img
+                src="../assets/images/header-user.png"
+                class="flex self-center w-4 h-4"
+                alt="" />
+              <span class="leading-6 ml-2">{{ user.username }}</span>
+            </div>
+            <div class="flex text-small basis-1/5">
+              <fa-icon
+                class="text-primary leading-6 text-small self-cente"
+                [icon]="faUnlock"></fa-icon>
+              <span
+                class="leading-6 ml-2 hover:text-secondary hover:cursor-pointer hover:underline"
+                >Đổi mật khẩu</span
+              >
+            </div>
+            <div class="flex text-small basis-1/7">
+              <a class="" routerLink="/logout">
+                <fa-icon
+                  class="text-secondary leading-6 text-small self-center"
+                  [icon]="faPowerOff"></fa-icon>
+                <span
+                  class="leading-6 ml-2 hover:text-secondary hover:cursor-pointer hover:underline"
+                  >Thoát</span
+                >
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Menu -->
+      <div class="flex flex-1 flex-row bg-navbar text-color">
+        <div class="flex flex-1">
+          <div
+            *ngFor="let item of menuItem"
+            class="flex items-center group px-2 cursor-pointer relative hover:text-secondary hover:bg-hover_navbar hover:after:block after:hidden after:content-[''] after:absolute after:w-48 after:z-50 after:h-5 after:top-8">
+            <a
+              *ngIf="item.children && item.children.length !== 0"
+              class="flex items-center h-full nav-link">
+              <fa-icon
+                class="submit-icon pr-1 pt-0.5"
+                [icon]="['fas', castIcon(item.icon)]"
+                size="xs"></fa-icon>
+              {{ item.bar }}
+              <fa-icon
+                class="submit-icon pl-1 pt-0.5"
+                [icon]="['fas', 'chevron-down']"
+                size="xs"></fa-icon>
+            </a>
+            <a
+              *ngIf="!item.children || item.children.length === 0"
+              class="flex items-center h-full nav-link"
+              [routerLink]="item.link"
+              routerLinkActive="active"
+              ><fa-icon
+                class="submit-icon pr-1 pt-0.5"
+                [icon]="['fas', castIcon(item.icon)]"
+                size="xs"></fa-icon
+              >{{ item.bar }}
+            </a>
+            <app-menu-header
+              *ngIf="item.children.length !== 0"
+              [items]="item.children"
+              class="absolute top-12 left-0 z-50 hidden group-hover:block before:content-[''] before:absolute before:-top-1 before:left-1 before:border-t-16 before:border-r-16 before:border-t-navbar before:border-r-transparent before:rotate-45"></app-menu-header>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>

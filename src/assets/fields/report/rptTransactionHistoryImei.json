@@ -1,0 +1,84 @@
+[
+  {
+    "name": "ten_loaigd",
+    "title": "Giao dịch",
+    "width": 200
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày ct",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "so_ct",
+    "title": "Số ct",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 140,
+    "link": true
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã vật tư",
+    "width": 120
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên vật tư",
+    "width": 200
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 140,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kh",
+    "allowFilter": true,
+    "title": "Tên khách hàng",
+    "width": 360
+  },
+  {
+    "name": "tr_thai",
+    "title": "NXT",
+    "isLockingColumn": true,
+    "width": 80
+  },
+  {
+    "name": "tien",
+    "title": "Tiền",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "ma_kho",
+    "title": "Mã kho",
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kho",
+    "title": "Tên kho",
+    "width": 200
+  },
+  {
+    "name": "ma_loai",
+    "title": "Mã loại",
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_loai",
+    "title": "Tên loại",
+    "width": 200
+  }
+]

@@ -1,0 +1,9 @@
+.truncate-3-lines {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Số dòng tối đa */
+  -webkit-box-orient: vertical;
+}
+.box-shadow {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(0, 0, 0, 0.2);
+}

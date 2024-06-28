@@ -1,0 +1,22 @@
+<div class="px-2 pb-2">
+  <div
+    class="flex flex-col px-2 py-2 bg-primary01_color text-white rounded-lg box-shadow">
+    <div class="flex justify-between items-center">
+      <div class="text-lg font-medium">{{ notification.title }}</div>
+      <div class="flex items-center cursor-pointer" (click)="onClickCancel()">
+        <mat-icon>cancel</mat-icon>
+      </div>
+    </div>
+    <div
+      class="flex h-24"
+      [ngClass]="{'cursor-pointer': notification.redirect}"
+      (click)="notification.redirect && onClickRedirect()">
+      <div class="flex w-20 items-center">
+        <img [src]="notification.image" alt="" class="w-full" />
+      </div>
+      <div class="flex flex-1 pl-2 text-base">
+        <div class="truncate-3-lines">{{ notification.body }}</div>
+      </div>
+    </div>
+  </div>
+</div>

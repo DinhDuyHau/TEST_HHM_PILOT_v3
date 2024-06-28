@@ -1,0 +1,191 @@
+[
+    {
+      "name": "ma_cuahang",
+      "title": "Mã cửa hàng",
+      "allowFilter": true,
+      "width": 120,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ma_ca",
+      "title": "Mã ca",
+      "allowFilter": true,
+      "width": 80,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "so_ct",
+      "title": "số c.từ",
+      "allowFilter": true,
+      "width": 100,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ngay_ct",
+      "title": "Ngày c.từ",
+      "allowFilter": true,
+      "width": 100,
+      "dataFormatString": "datetimeFormat",
+      "isLockingColumn": true,
+      "align": "center"
+    },
+    {
+      "name": "ma_kh",
+      "title": "Mã khách",
+      "allowFilter": true,
+      "width": 120,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ten_kh",
+      "title": "Tên khách hàng",
+      "allowFilter": true,
+      "width": 250,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ma_vt",
+      "title": "Mã vật tư",
+      "allowFilter": true,
+      "width": 120,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ten_vt",
+      "title": "Tên vật tư",
+      "allowFilter": true,
+      "width": 250,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ma_imei",
+      "title": "Mã imei",
+      "allowFilter": true,
+      "width": 120,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ma_kho",
+      "title": "Mã kho",
+      "allowFilter": true,
+      "width": 120,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ten_loai",
+      "title": "Tình trạng",
+      "allowFilter": true,
+      "width": 120,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    
+    {
+      "name": "so_luong",
+      "title": "Số lượng",
+      "allowFilter": true,
+      "type": "number",
+      "dataFormatString": "normalPrice",
+      "align": "right",
+      "width": 100
+    },
+    {
+      "name": "gia2",
+      "title": "Đơn giá",
+      "allowFilter": true,
+      "type": "number",
+      "dataFormatString": "normalPrice",
+      "align": "right",
+      "width": 120
+    },
+    {
+      "name": "thue",
+      "title": "VAT",
+      "allowFilter": true,
+      "type": "number",
+      "dataFormatString": "normalPrice",
+      "align": "right",
+      "width": 100
+    },
+    {
+      "name": "pt",
+      "title": "Thành tiền",
+      "allowFilter": true,
+      "type": "number",
+      "dataFormatString": "normalPrice",
+      "align": "right",
+      "width": 180
+    },
+    {
+      "name": "ck",
+      "title": "Tiền đã CK/giảm giá",
+      "allowFilter": true,
+      "type": "number",
+      "dataFormatString": "normalPrice",
+      "align": "right",
+      "width": 170
+    },
+    {
+      "name": "tien_hh",
+      "title": "Tiền hoa hồng",
+      "allowFilter": true,
+      "type": "number",
+      "dataFormatString": "normalPrice",
+      "align": "right",
+      "width": 120
+    },
+    {
+      "name": "dien_giai",
+      "title": "Ghi chú",
+      "allowFilter": true,
+      "width": 250,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ma_nvbh",
+      "title": "Mã NVBH",
+      "allowFilter": true,
+      "width": 120,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ten_nvbh",
+      "title": "Tên NVBH",
+      "allowFilter": true,
+      "width": 250,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "datetime0",
+      "title": "Ngày lập",
+      "allowFilter": true,
+      "width": 150,
+      "dataFormatString": "fullDateTimeFormat",
+      "isLockingColumn": true,
+      "align": "center"
+    },
+    {
+      "name": "datetime2",
+      "title": "Ngày sửa lần cuối",
+      "allowFilter": true,
+      "width": 150,
+      "dataFormatString": "fullDateTimeFormat",
+      "isLockingColumn": true,
+      "align": "center"
+    }
+    
+    
+  ]
+  

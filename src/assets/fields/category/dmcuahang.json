@@ -1,0 +1,48 @@
+[
+  {
+    "name": "ma_cuahang",
+    "title": "Mã cửa hàng",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_cuahang",
+    "title": "Tên cửa hàng",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "ma_dvcs",
+    "title": "Mã đơn vị",
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_tinh",
+    "title": "Tỉnh thành",
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "dia_chi",
+    "title": "Địa chỉ",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "dien_thoai",
+    "title": "Điện thoại",
+    "width": 160
+  }
+]

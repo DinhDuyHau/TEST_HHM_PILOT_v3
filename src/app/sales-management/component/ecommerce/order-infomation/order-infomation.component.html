@@ -1,0 +1,113 @@
+<div class="bg-white">
+  <div class="title-content mb-3">Thông tin đơn Thương mại điện tử</div>
+  <div class="box-container">
+    <form-input-custom
+      class="box order-dynamic-1"
+      [name]="'ma_dh'"
+      [label]="'Mã đơn hàng'"
+      [readonly]="readonly"
+      [value]="data.ma_dh"
+      (handleChangeValue)="data.ma_dh = $event" />
+    <form-input-custom
+      class="box order-dynamic-2"
+      [name]="'giam_gia_hhm'"
+      [label]="'Giảm giá của Hoàng Hà'"
+      [value]="data.giam_gia_hhm"
+      [readonly]="readonly"
+      dataType="number"
+      [align]="'end'"
+      format="moneyViewFormat"
+      (handleChangeValue)="data.giam_gia_hhm = $event" />
+      
+    <!-- <form-input-custom
+      class="box order-dynamic-3"
+      [name]="'ngay_nhan_hang'"
+      [label]="'Ngày lấy hàng'"
+      [value]="data.ngay_nhan_hang"
+      [readonly]="readonly"
+      type="date"
+      (handleChangeValue)="handleNgayNhanHang($event)" /> -->
+
+    <div class="box order-dynamic-1">
+      <div>
+        <label class="col-form-label ng-star-inserted" for="ngay_nhan_hang">Ngày nhận hàng</label>
+      </div>
+      <div class="d-flex input-select flex-1 gap-2">
+        <app-input-date #ngay_nhan_hang
+          id="ngay_nhan_hang"
+          [text]="data.ngay_nhan_hang"
+          (handleBlur)="onBlurNgayNhanHang($event, ngay_nhan_hang)"
+          (handleKeyUp)="onEnterNgayNhanHang($event, doanh_thu)"
+          (handleChangeValue)="handleNgayNhanHang($event, ngay_nhan_hang)"
+        ></app-input-date>
+      </div>
+    </div>
+    
+    <form-input-custom #doanh_thu
+      class="box order-dynamic-4"
+      [name]="'doanh_thu'"
+      [label]="'Doanh thu đơn hàng'"
+      [value]="data.doanh_thu"
+      [readonly]="readonly"
+      [align]="'end'"
+      dataType="number"
+      format="moneyViewFormat"
+      (handleChangeValue)="data.doanh_thu = $event" />
+    <form-input-custom
+      class="box order-dynamic-5"
+      [name]="'thanh_tien'"
+      [label]="'Tiền hàng trả sau giảm giá'"
+      [value]="data.thanh_tien"
+      [readonly]="readonly"
+      [align]="'end'"
+      dataType="number"
+      format="moneyViewFormat"
+      (handleChangeValue)="data.thanh_tien = $event" />
+    <form-input-custom
+      class="box order-dynamic-6"
+      [name]="'phi_vc'"
+      [label]="'Phí vận chuyển'"
+      [value]="data.phi_vc"
+      [readonly]="readonly"
+      [align]="'end'"
+      dataType="number"
+      format="moneyViewFormat"
+      (handleChangeValue)="data.phi_vc = $event" />
+
+    <form-input-custom
+      class="box order-dynamic-7"
+      [name]="'giam_gia_tmdt'"
+      [label]="'Giảm giá của sàn TMĐT'"
+      [value]="data.giam_gia_tmdt"
+      [readonly]="readonly"
+      [align]="'end'"
+      dataType="number"
+      format="moneyViewFormat"
+      (handleChangeValue)="data.giam_gia_tmdt = $event" />
+
+    <form-input-custom
+      class="box order-dynamic-8"
+      [name]="'ma_dvvc'"
+      [label]="'Mã đơn vị vận chuyển'"
+      [value]="data.ma_dvvc"
+      [readonly]="readonly"
+      (handleChangeValue)="onEnterDECode($event)"
+      (handleClickOpenDialog)="openSearchDEDialog()" />
+
+    <form-input-custom
+      class="box order-dynamic-9"
+      name="ma_van_don"
+      label="Mã vận đơn"
+      [readonly]="readonly"
+      [value]="data.ma_van_don"
+      (handleChangeValue)="data.ma_van_don = $event" />
+
+    <form-input-custom
+      class="box order-dynamic-9"
+      name="nguoi_nhan_hang"
+      label="Người nhận hàng"
+      [readonly]="readonly"
+      [value]="data.nguoi_nhan_hang"
+      (handleChangeValue)="data.nguoi_nhan_hang = $event" />
+  </div>
+</div>

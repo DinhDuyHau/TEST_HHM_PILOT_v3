@@ -1,0 +1,54 @@
+.dialog-confirm-container {
+  padding: 20px;
+  background: #fff;
+
+  .content {
+    text-align: center;
+    .title {
+      color: #595959;
+      font-size: 30px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px auto;
+      font-size: 40px;
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      color: #f8bb86;
+      border: 4px solid #facea8;
+    }
+  }
+  .actions {
+    text-align: center;
+
+    .btn-confirm {
+      padding: 8px 12px;
+      margin: 0px 8px;
+      border-radius: 5px;
+      color: #fff;
+      background-color: #28a745;
+      white-space: nowrap;
+      &:hover {
+        background-color: #218838;
+      }
+    }
+
+    .btn-cancel {
+      padding: 8px 12px;
+      margin: 0px 8px;
+      border-radius: 5px;
+      color: #fff;
+      background-color: #dc3545;
+      white-space: nowrap;
+      &:hover {
+        background-color: #c82333;
+      }
+    }
+  }
+}

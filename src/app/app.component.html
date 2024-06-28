@@ -1,0 +1,11 @@
+<div class="page-container">
+  <router-outlet></router-outlet>
+  <div
+    class="fixed left-0 bottom-0 z-50"
+    [@slideInOutAnimation]="animationState">
+    <app-push-notification
+      class="block w-full md:w-80"
+      [notification]="notification"
+      (handleClickCancel)="onClickCancelNotification()"></app-push-notification>
+  </div>
+</div>

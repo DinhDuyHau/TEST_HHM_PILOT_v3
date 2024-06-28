@@ -1,0 +1,76 @@
+[
+  {
+    "name": "stt",
+    "title": "Stt",
+    "isLockingColumn": true,
+    "align": "center",
+    "width": 50
+  },
+  {
+    "name": "ma_cuahang",
+    "title": "Mã cửa hàng",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã vật tư",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên vật tư",
+    "isLockingColumn": true,
+    "width": 300
+  },
+  {
+    "name": "ngay_hl",
+    "title": "Ngày hiệu lực",
+    "type": "date",
+    "dataFormatString": "datetimeFormat",
+    "width": 90
+  },
+  {
+    "name": "gia_co_vat",
+    "title": "Giá có VAT",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "vat",
+    "title": "VAT",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "gia_chua_vat",
+    "title": "Giá chưa VAT",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "nh_vt3",
+    "title": "Model",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  }
+
+  
+
+]

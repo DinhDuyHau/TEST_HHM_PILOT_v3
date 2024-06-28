@@ -1,0 +1,130 @@
+[
+  {
+    "name": "ma_dvcs",
+    "title": "Đơn vị",
+    "isLockingColumn": true,
+    "width": 80,
+    "align": "center",
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày",
+    "width": 100,
+    "allowSorting": true,
+    "allowFilter": true,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "so_ct",
+    "title": "Số phiếu",
+    "isLockingColumn": true,
+    "width": 120,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "statusname",
+    "title": "Trạng thái",
+    "isLockingColumn": false,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140
+  },
+  {
+    "name": "so_ct0",
+    "title": "Số hoá đơn",
+    "isLockingColumn": true,
+    "width": 120,
+    "allowSorting": true,
+    "allowFilter": true
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "isLockingColumn": true,
+    "width": 120,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách",
+    "width": 450
+  },
+  {
+    "name": "t_so_luong",
+    "title": "Số lượng",
+    "isLockingColumn": true,
+    "align": "center",
+    "width": 160,
+    "type": "number",
+    "dataFormatString": "normalQuantity"
+  },
+  {
+    "name": "t_tien_nt",
+    "title": "Tiền",
+    "align": "right",
+    "width": 160,
+    "type": "number",
+    "dataFormatString": "normalPrice"
+  },
+  {
+    "name": "t_thue_nt",
+    "title": "Thuế",
+    "align": "right",
+    "width": 160,
+    "type": "number",
+    "dataFormatString": "normalPrice"
+  },
+  {
+    "name": "t_tt_nt",
+    "title": "Thanh toán",
+    "align": "right",
+    "width": 180,
+    "type": "number",
+    "dataFormatString": "normalPrice"
+  },
+  {
+    "name": "dien_giai",
+    "title": "Diễn giải",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "comment",
+    "title": "Người lập",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 240
+  },
+  {
+    "name": "comment2",
+    "title": "Người sửa",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 240
+  },
+  {
+    "name": "stt_rec",
+    "title": "stt_rec",
+    "isPrimaryKey": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "hidden": true,
+    "width": 240
+  },
+  {
+    "name": "action",
+    "title": "Thao tác",
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "action"
+  }
+]

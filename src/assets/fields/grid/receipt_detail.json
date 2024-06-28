@@ -1,0 +1,114 @@
+[
+  {
+    "name": "line_nbr",
+    "title": "STT",
+    "isLockingColumn": true,
+    "align": "center",
+    "width": 40
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã hàng",
+    "isLockingColumn": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên hàng",
+    "isLockingColumn": true,
+    "width": 400,
+    "allowSorting": true,
+    "allowFilter": true
+  },
+  {
+    "name": "dvt",
+    "title": "Đvt",
+    "isLockingColumn": false,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 100
+  },
+  {
+    "name": "ma_kho",
+    "title": "Mã kho",
+    "isLockingColumn": false,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 100
+  },
+  {
+    "name": "so_luong",
+    "title": "Số lượng",
+    "type": "number",
+    "align": "center",
+    "dataFormatString": "normalQuantity",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140
+  },
+  {
+    "name": "ma_imei",
+    "title": "Imei",
+    "width": 400,
+    "multipleLine": true
+  },
+  {
+    "name": "ma_td1",
+    "title": "Mã chương trình",
+    "width": 180
+  },
+  {
+    "name": "budslive",
+    "title": "Combo",
+    "type": "boolean",
+    "width": 100
+  },
+  {
+    "name": "gia_nt",
+    "title": "Đơn giá",
+    "width": 200,
+    "type": "number",
+    "dataFormatString": "normalQuantity",
+    "align": "right"
+  },
+  {
+    "name": "tien_nt",
+    "title": "Thành tiền",
+    "width": 200,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "thue_suat",
+    "title": "Thuế suất",
+    "width": 200,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "thue_nt",
+    "title": "Tiền thuế",
+    "width": 200,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "tt_nt",
+    "title": "Thanh toán",
+    "width": 200,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "ghi_chu",
+    "title": "Ghi chú",
+    "width": 200
+  }
+]

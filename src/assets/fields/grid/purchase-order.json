@@ -1,0 +1,97 @@
+[
+  {
+    "name": "ma_dvcs",
+    "title": "Đơn vị",
+    "isLockingColumn": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày",
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "so_ct",
+    "title": "Số",
+    "isLockingColumn": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "dept_id",
+    "title": "Mã bộ phận",
+    "isLockingColumn": false,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140
+  },
+  {
+    "name": "ten_bp",
+    "title": "Tên bộ phận",
+    "isLockingColumn": false,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "Dien_giai",
+    "title": "Diễn giải",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "ma_md",
+    "title": "Mã mức độ",
+    "isLockingColumn": false,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140
+  },
+  {
+    "name": "ma_nt",
+    "title": "Mã ngoại tệ",
+    "isLockingColumn": false,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140
+  },
+  {
+    "name": "statusname",
+    "title": "Trạng thái",
+    "isLockingColumn": false,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140
+  },
+  {
+    "name": "comment",
+    "title": "Người lập",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 240
+  },
+  {
+    "name": "comment2",
+    "title": "Người sửa",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 240
+  },
+  {
+    "name": "action",
+    "title": "Thao tác",
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "action"
+  }
+]

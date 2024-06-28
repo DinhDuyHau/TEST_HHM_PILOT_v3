@@ -1,0 +1,152 @@
+/* You can add global styles to this file, and also import other style files */
+// @import "css/bootstrap.min.css";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.layout-wrapper {
+  height: 100%;
+}
+
+.flex-wrapper {
+  height: 100%;
+}
+
+section div p {
+  color: #3f51b5;
+  font-size: 30px;
+  text-shadow: 2px 3px 5px grey;
+  margin: 30px 0;
+}
+
+section div + p {
+  color: #3f51b5;
+  font-weight: bold;
+  font-size: 20px;
+  padding-bottom: 20px;
+}
+/* You can add global styles to this file, and also import other style files */
+body {
+  font-family: 'Roboto', Tahoma, arial !important;
+}
+
+@import '~@fortawesome/fontawesome-free/css/all.css';
+@import url(./css/bootstrap.min.css);
+@import url(./assets/css/progressbar.min.css);
+@import url(./assets/css/reset.css);
+/* @import url(./assets/css/base.css); */
+@import url(./assets/css/loading.css);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body,
+.root,
+#root,
+#docs-root,
+.page-container,
+.cdk-overlay-container {
+  --primary_color: #005447;
+  --primary01: #01493e;
+  --primary02: #005447;
+  --primary03: #069981;
+  --secondary_color: #ff5f06;
+  --tertiary_color: #069981;
+  --active_color: #01493e;
+  --icon_active_color: #069981;
+  --text_color: #272727;
+  --neutrals01: #10141a;
+  --neutrals02: #1a212a;
+  --neutrals03: #262f3d;
+  --neutrals04: #3d495c;
+  --neutrals05: #768597;
+  --neutrals06: #aab5c3;
+  --neutrals07: #cbd5e0;
+  --neutrals08: #ebedf2;
+  --neutrals09: #f8f9fb;
+  --other01: #014549;
+  --other02: #3e93a6;
+  --other03: #45cfd8;
+  --other04: #acedd9;
+  --other_gradient01: linear-gradient(87.95deg, #014549 1.27%, #02676d 97.95%);
+  --other_gradient01: linear-gradient(88.07deg, #3e93a6 -4.44%, #55d9f5 98.18%);
+  --other_gradient01: linear-gradient(87.46deg, #45cfd8 -5.47%, #60f5ff 97.32%);
+  --other_gradient01: linear-gradient(89.32deg, #acedd9 0.46%, #c5ffed 99.3%);
+  --semi_transparent: rgba(0, 0, 0, 0.5);
+
+  --table_header_color: #f5f5f5;
+  --table_row_odd_color: var(--neutrals09);
+  --table_row_even_color: #fff;
+  --border_style: 1px solid #3e8076;
+  --border_color: #3e8076;
+  --search_table_color: #fefabe;
+  --table_header_height: 46px;
+  --table_search_height: 32px;
+  --table_row_height: 40px;
+  --header_height: 100px;
+  --header_height_small: 80px;
+  --sidebar_width: 300px;
+  --sidebar_width_mobile: 360px;
+  --sidebar_width_small: 100px;
+  --footer_height: 32px;
+  --content_height: calc(100vh - var(--header_height) - var(--footer_height));
+  --content_sidebar: calc(100vh - var(--header_height));
+  --header_notification: calc(var(--header_height) - 20px);
+  --row_hover_color: #fefabe;
+  --row_focus_color: #c6dddc;
+}
+
+app-grid {
+  display: block;
+  height: var(--content_height);
+  // flex-direction: column;
+  // flex: 1;
+  // flex-shrink: 0; /* không bị co lại quá nhiều */
+  // flex-grow: 0;
+  // box-sizing: border-box;
+}
+app-grid-v2 {
+  display: block;
+  height: var(--content_height);
+}
+app-menu-header {
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+app-input {
+  width: 100%;
+}
+
+.mat-mdc-tab.mdc-tab {
+  height: 30px !important;
+  flex-grow: 0 !important;
+}
+.mat-mdc-tab-labels {
+  background-color: #dedcdc;
+}
+.mdc-tab.mat-mdc-tab.mat-mdc-focus-indicator.ng-star-inserted.mdc-tab--active {
+  background-color: var(--primary_color);
+}
+
+.mdc-tab.mat-mdc-tab.mat-mdc-focus-indicator.ng-star-inserted.mdc-tab--active
+  .mdc-tab__text-label {
+  color: white;
+}
+
+.mat-mdc-dialog-surface.mdc-dialog__surface {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+
+.cdk-drag.cdk-drag-handle {
+  cursor: move;
+}
+

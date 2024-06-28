@@ -1,0 +1,67 @@
+[
+  {
+    "name": "stt",
+    "title": "Stt",
+    "isLockingColumn": true,
+    "align": "center",
+    "width": 60
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "isPrimaryKey": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 300
+  },
+  {
+    "name": "no_dk",
+    "title": "Nợ đầu kỳ",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "ps_no",
+    "title": "Phát sinh nợ",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "ps_co",
+    "title": "Phát sinh có",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "no_ck",
+    "title": "Nợ cuối kỳ",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "co_ck",
+    "title": "Có cuối kỳ",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 150
+  }
+
+
+]

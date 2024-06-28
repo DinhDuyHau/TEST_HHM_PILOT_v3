@@ -1,0 +1,46 @@
+<div class="lookup flex flex-col h-full" mat-dialog-actions>
+  <div class="w-full relative bg-white py-3 px-4">
+    <button
+      class="btn_close outline-none bg-white rounded-full"
+      mat-icon-button
+      mat-dialog-close
+      aria-label="Close">
+      <mat-icon
+        class="text-primary02_color"
+        style="font-size: 28px; width: 28px; height: 28px"
+        >cancel</mat-icon
+      >
+    </button>
+    <app-grid-v2
+      [gridType]="1"
+      [titleGrid]="title"
+      [fields]="fields"
+      [dataSource]="dataSource"
+      [totalItems]="totalItems"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageCount]="pageCount"
+      [multipleChoose]="multipleChoose"
+      [pageSizeOptions]="pageSizeOptions"
+      [isLockingColumn]="isLockingColumn"
+      [buttons]="[]"
+      (handlePaging)="onPageChange($event)"
+      (handleChangeCheckbox)="onHanleCheckboxListChanged($event)"
+      (handleSelectColumn)="onSelectColumn($event)"
+      (handleSortColumn)="onSortColumn($event)"
+      (handleSearch)="onSearch()"
+      (handleButton)="onClickButton($event)"
+      (handleItemLookup)="onClickItemLookup($event)"
+      class="flex-1">
+    </app-grid-v2>
+    <div
+      class="w-full relative flex justify-between items-end bg-white px-2 py-2"
+      *ngIf="multipleChoose">
+      <div
+        (click)="onClickChoose()"
+        class="btn text-white bg-primary03_color cursor-pointer hover:bg-primary01_color">
+        Chọn
+      </div>
+    </div>
+  </div>
+</div>

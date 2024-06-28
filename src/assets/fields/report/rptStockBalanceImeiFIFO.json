@@ -1,0 +1,67 @@
+[
+  {
+    "name": "stt",
+    "title": "Stt",
+    "isLockingColumn": true,
+    "align": "center",
+    "width": 50,
+    "dataFormatString": "normalPrice"
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã vật tư",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên vật tư",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 250
+  },
+  {
+    "name": "dvt",
+    "title": "Đvt",
+    "allowFilter": true,
+    "width": 60
+  },
+  {
+    "name": "so_luong",
+    "title": "Số lượng",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "center",
+    "width": 80
+  },
+  {
+    "name": "ngay_tinh_tuoi",
+    "title": "Ngày nhập",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 90,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "ma_imei",
+    "title": "Mã imei",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 150,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "tuoi",
+    "title": "Tuổi imei",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "center",
+    "width": 80
+  }
+]

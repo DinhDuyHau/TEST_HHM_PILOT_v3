@@ -1,0 +1,56 @@
+[
+  {
+    "name": "ma_vt",
+    "title": "Mã vật tư",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên vật tư",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "tien_coc",
+    "title": "Tiền cọc",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "center"
+  },
+  {
+    "name": "ngay_tra",
+    "title": "Ngày trả",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "type": "date",
+    "dataFormatString": "datetimeFormat",
+    "width": 120
+  },
+  {
+    "name": "ma_ctr",
+    "title": "Mã chương trình",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_ctr",
+    "title": "Tên chương trình",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  }
+]

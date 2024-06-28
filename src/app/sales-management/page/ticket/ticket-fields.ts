@@ -1,0 +1,1003 @@
+
+export const TICKET_FIELDS = {
+    RETAIL: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'ma_ca',
+            title: 'Mã ca',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Tiền đơn hàng',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_ck_nt',
+            title: 'Chiết khấu',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        }
+
+    ],
+    SALE_ONLINE: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Tiền đơn hàng',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_ck_nt',
+            title: 'Chiết khấu',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        }
+    ],
+    SALE_ONLINE_ECOMMERCE: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Tiền đơn hàng',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_ck_nt',
+            title: 'Chiết khấu',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        }
+    ],
+    SALE_WHOLE: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Tiền đơn hàng',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_ck_nt',
+            title: 'Chiết khấu',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        }
+    ],
+    SALE_AFFILIATE: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Tiền đơn hàng',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_ck_nt',
+            title: 'Chiết khấu',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        }
+    ],
+    SALE_TELECOM: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Tiền đơn hàng',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_ck_nt',
+            title: 'Chiết khấu',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        }
+    ],
+    SALE_ITINERANT: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Tiền đơn hàng',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_ck_nt',
+            title: 'Chiết khấu',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        }
+    ],
+    SALE_SERVICE: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Tiền đơn hàng',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_ck_nt',
+            title: 'Chiết khấu',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        }
+    ],
+    SALE_RETURN: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Tiền đơn hàng',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_ck_nt',
+            title: 'Chiết khấu',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        }
+    ],
+    SALE_RETURN_ONLINE: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Tiền đơn hàng',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_ck_nt',
+            title: 'Chiết khấu',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        }
+    ],
+    SALE_RETURN_SERVICE: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Tiền đơn hàng',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_ck_nt',
+            title: 'Chiết khấu',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        }
+    ],
+    SALE_CHANGE: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Tiền đơn hàng',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_ck_nt',
+            title: 'Chiết khấu',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        }
+    ],
+    SALE_GIFT_REPAY: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Tiền đơn hàng',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_ck_nt',
+            title: 'Chiết khấu',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        }
+    ],
+    SALE_REPURCHASE: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Tiền đơn hàng',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_ck_nt',
+            title: 'Chiết khấu',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        }
+    ],
+    SALE_RENEW: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Tiền đơn hàng',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_ck_nt',
+            title: 'Chiết khấu',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        }
+    ],
+    SALE_CONTRACT: [
+        {
+            name: 'ma_dvcs',
+            title: 'Mã đơn vị',
+        },
+        {
+            name: 'statusname',
+            title: 'Trạng thái',
+        },
+        {
+            name: 'ngay_ct',
+            title: 'Ngày chứng từ',
+            dataType: 'date',
+            format: 'datetimeFormat',
+        },
+        {
+            name: 'so_ct',
+            title: 'Số phiếu',
+        },
+        {
+            name: 'ma_kh',
+            title: 'Mã khách',
+        },
+        {
+            name: 'ten_kh',
+            title: 'Tên khách hàng',
+        },
+        {
+            name: 'dien_giai',
+            title: 'Diễn giải',
+        },
+        {
+            name: 't_tien_nt',
+            title: 'Thành tiền',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_thue_nt',
+            title: 'Thuế ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            name: 't_tt_nt',
+            title: 'Thanh toán ',
+            align: 'right',
+            format: 'moneyView2Digit',
+            dataType: 'number'
+        },
+        {
+            'name': 'ma_nt',
+            'title': 'ma_nt',
+        },
+        {
+            'name': 'ma_ct',
+            'title': 'ma_ct',
+        }
+    ]
+};

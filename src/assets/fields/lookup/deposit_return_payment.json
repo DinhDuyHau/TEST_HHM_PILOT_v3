@@ -1,0 +1,89 @@
+[
+  {
+    "name": "choose",
+    "title": "Chọn",
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "select"
+  },
+  {
+    "name": "ma_ctr",
+    "title": "Mã ctr",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 100,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_ctr",
+    "title": "Tên chương trình",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 200
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã SP",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 100,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên sản phẩm",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 260
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày CT",
+    "type": "date",
+    "dataFormatString": "datetimeFormat",
+    "width": 120
+  },
+  {
+    "name": "so_ct",
+    "title": "Số CT",
+    "width": 100
+  },
+  {
+    "name": "t_tt_nt",
+    "title": "Tổng tiền cọc",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "da_tt_nt",
+    "title": "Tiền đã hoàn",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "cl_nt",
+    "title": "Tiền còn lại",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "tien_nt",
+    "title": "Tiền hoàn cọc",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  }
+]

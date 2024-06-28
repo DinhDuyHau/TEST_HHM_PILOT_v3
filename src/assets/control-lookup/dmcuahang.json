@@ -1,0 +1,12 @@
+{
+  "title": "Danh mục cửa hàng",
+  "entity": "dmcuahang",
+  "filter": [
+    {
+      "name": "ma_cuahang",
+      "operator": "=",
+      "value": "@@shop"
+    }
+  ],
+  "multipleChoose": false
+}

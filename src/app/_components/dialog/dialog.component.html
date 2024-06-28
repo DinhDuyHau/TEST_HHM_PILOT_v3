@@ -1,0 +1,23 @@
+<div mat-dialog-actions class="flex flex-col h-full bg-white">
+  <div class="w-full relative flex justify-between p-1">
+    <div>{{ title }}</div>
+  </div>
+  <div class="w-full flex-1 relative flex justify-between px-2 pb-2 items-end">
+    <button
+      class="btn_close outline-none btn-danger btn"
+      (click)="onClickDelete()"
+      mat-icon-button
+      mat-dialog-close
+      aria-label="Close">
+      Có
+    </button>
+    <button
+      class="btn_close outline-none btn-primary btn"
+      (click)="onClickClose()"
+      mat-icon-button
+      mat-dialog-close
+      aria-label="Close">
+      Không
+    </button>
+  </div>
+</div>

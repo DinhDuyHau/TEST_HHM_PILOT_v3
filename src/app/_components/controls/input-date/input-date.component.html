@@ -1,0 +1,13 @@
+<div class="ctrl-date-box {{ cssClass }}">
+    <input class="form-control date-text"
+        #date_textbox
+        [value]="date_text"
+        (keyup)="onDateTextboxKeyUp($event)"
+        (blur)="onBlur($event, date_textbox)"
+        (change)="onChangeValue($event)"
+        />
+    <input class="date-pickup"
+        type="date"
+        (change)="onDatePickupChange($event)"
+    />
+</div>

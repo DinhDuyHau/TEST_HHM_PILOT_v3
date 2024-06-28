@@ -1,0 +1,13 @@
+<div mat-dialog-content class="customer-create-dialog-container">
+  <div class="customer-create-dialog-wrapper">
+    <div class="body-wrapper">
+      <app-customer-create
+        [isComponent]="true"
+        [customerName]="customerName"
+        (handleCreateSucess)="onCreateSuccess($event)" />
+    </div>
+    <div class="close-btn" (click)="onCancel()">
+      <i class="fas fa-times"></i>
+    </div>
+  </div>
+</div>

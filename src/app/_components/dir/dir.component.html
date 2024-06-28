@@ -1,0 +1,29 @@
+<div mat-dialog-actions>
+  <div class="w-full relative">
+    <button
+      class="btn_close"
+      mat-icon-button
+      mat-dialog-close
+      aria-label="Close">
+      <mat-icon>cancel</mat-icon>
+    </button>
+    <app-grid
+      [titleGrid]="title"
+      [fields]="fields"
+      [dataSource]="dataSource"
+      [totalItems]="totalItems"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageSizeOptions]="pageSizeOptions"
+      [isLockingColumn]="isLockingColumn"
+      [buttons]="[]"
+      (handlePaging)="onPageChange($event)"
+      (handleChangeCheckbox)="onCheckboxListChanged($event)"
+      (handleSelectColumn)="onSelectColumn($event)"
+      (handleSortColumn)="onSortColumn($event)"
+      (handleSearch)="onSearch()"
+      (handleButton)="onClickButton($event)"
+      class="flex-1">
+    </app-grid>
+  </div>
+</div>

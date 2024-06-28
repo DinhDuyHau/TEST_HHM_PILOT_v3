@@ -1,0 +1,1 @@
+export * from './sale-itinerant.component';

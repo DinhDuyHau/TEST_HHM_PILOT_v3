@@ -1,0 +1,57 @@
+<div mat-dialog-actions class="flex flex-col h-full relative px-2 py-3">
+  <div
+    class="w-full relative flex justify-between px-4 pt-2 pb-1 bg-white rounded-t-lg"
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragHandle
+    *ngIf="!isMobile">
+    <div class="font-medium text-xl">Tìm kiếm</div>
+  </div>
+  <div
+    class="w-full relative flex justify-between px-4 pt-2 pb-1 bg-white rounded-t-lg"
+    *ngIf="isMobile">
+    <div class="font-medium text-xl">Tìm kiếm</div>
+  </div>
+  <div class="flex flex-1 w-full flex-col px-4 py-1 bg-white" #form>
+    <div *ngFor="let row of controls; let indexRow = index" class="gap-2 flex">
+      <ng-container
+        *ngFor="let item of controls[indexRow]; let indexColumn = index">
+        <div
+          [class]="
+            (item.class ? item.class : 'flex-1') +
+            (item.hidden ? ' hidden' : '')
+          ">
+          <app-input-custom-v2
+            [label]="item.label"
+            class="flex-1"
+            [name]="item.name"
+            [type]="item.type || 'text'"
+            [value]="item.isExternalField ? this[item.name] : filter[item.name]"
+            [dataFormatString]="item.dataFormatString || ''"
+            [control]="item.control"
+            [lookup]="item.isLookup || false"
+            [reference]="item.reference"
+            [mapper]="item.mapper"
+            [disabled]="item.disabled || false"
+            [filterOther]="filter"
+            [invalid]="
+              (!filter[item.name] || true) && (item.required || false) && submit
+            "
+            (handleChange)="handleInputChange(item.name, $event)"
+            (handleChangeLookup)="handleInputLookupChange($event)"
+            (handleEnter)="onEnter($event)"></app-input-custom-v2>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div
+    class="w-full relative flex justify-end px-2 pb-2 items-end bg-white rounded-b-lg">
+    <div class="d-flex justify-end gap-2">
+      <div class="btn-responsive btn-add" (click)="onSave()">Tìm kiếm</div>
+      <div class="btn-responsive btn-cancel" (click)="onCancel()">Hủy bỏ</div>
+    </div>
+  </div>
+  <div class="close-btn" (click)="onCancel()">
+    <i class="fas fa-times"></i>
+  </div>
+</div>

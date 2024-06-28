@@ -1,0 +1,20 @@
+[
+  {
+    "name": "ma_nt",
+    "title": "Mã ngoại tệ",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 260,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_nt",
+    "title": "Tên ngoại tệ",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 600
+  }
+]

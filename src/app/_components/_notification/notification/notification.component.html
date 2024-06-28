@@ -1,0 +1,75 @@
+<div>
+  <div class="px-2 py-1 text-xl font-semibold">Thông báo</div>
+  <div class="flex px-2 pt-1 pb-2 text-base">
+    <div
+      class="px-2 py-1 rounded-2xl hover:text-white hover:bg-primary03_color cursor-pointer"
+      [ngClass]="{
+            'text-white bg-primary03_color': isNotificationAll,
+          }"
+      (click)="onChangeNotification()">
+      Tất cả
+    </div>
+    <div
+      (click)="onChangeNotification()"
+      class="ml-2 px-2 py-1 rounded-2xl hover:text-white hover:bg-primary03_color cursor-pointer"
+      [ngClass]="{
+            'text-white bg-primary03_color': !isNotificationAll,
+          }">
+      Chưa đọc
+    </div>
+  </div>
+  <div
+    class="max-h-112 md:max-h-128 overflow-y-scroll"
+    (scroll)="onScroll($event)">
+    <div
+      class="px-2 pb-2 w-full md:w-80"
+      *ngFor="let notification of notifications">
+      <div
+        class="flex flex-col px-2 py-2 bg-neutrals08_color text-text_color rounded-lg box-shadow">
+        <div class="flex justify-between items-center">
+          <div class="text-lg font-medium">{{ notification.title }}</div>
+          <div></div>
+        </div>
+        <div
+          class="flex max-h-24"
+          [ngClass]="{'cursor-pointer': notification.redirect}"
+          (click)="onClickRedirect(notification)">
+          <div class="flex w-20 items-center">
+            <img
+              [src]="notification.image || 'assets/images/logo_small.png'"
+              alt=""
+              class="w-full" />
+          </div>
+          <div class="flex flex-1">
+            <div class="flex flex-1 flex-col pl-2 text-base">
+              <div class="max-h-18 truncate-3-lines">
+                {{ notification.body }}
+              </div>
+              <div class="text-medium">
+                {{ getTime(notification.send_date) }}
+              </div>
+            </div>
+            <div
+              class="flex items-center pl-1"
+              *ngIf="notification.status !== '2'">
+              <i class="fa-solid fa-circle text-small text-primary02_color"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="loaded && (!notifications || notifications.length == 0)"
+      class="px-2 pb-2 w-full md:w-80">
+      Bạn chưa có thông báo
+    </div>
+    <div *ngIf="!loaded" class="px-2 pb-2 w-full md:w-80 text-center">
+      <div class="flex justify-center">
+        <mat-spinner class="w-5 h-5"></mat-spinner>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isLoading" class="flex justify-center">
+    <mat-spinner class="w-5 h-5"></mat-spinner>
+  </div>
+</div>

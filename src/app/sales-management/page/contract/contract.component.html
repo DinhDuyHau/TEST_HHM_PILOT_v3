@@ -1,0 +1,139 @@
+<div class="container flex-1 bg-white">
+  <div class="d-flex flex-column gap-2 mt-5 flex-1">
+    <div class="title-page pb-2 flex justify-between items-center">
+      <h5 class="">{{ title }}</h5>
+      <app-voucher-info
+        *ngIf="this.mode != 0"
+        [entity]="entity"
+        class="text-base"
+        [voucherId]="contract.masterInfo.stt_rec" />
+    </div>
+    <div class="title-content">{{ getLabel('tlt_content') }}</div>
+    <div class="box-container mb-3">
+      <div class="d-flex gap-2 box">
+        <form-input-custom
+          class="flex-1"
+          [name]="'so_ct'"
+          [label]="getLabel('lbl_so_hop_dong')"
+          [value]="contract.masterInfo.so_ct"
+          [disabled]="true" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ngay_ct'"
+          [label]="getLabel('lbl_ngay_ct')"
+          [label]="'Ngày lập'"
+          [value]="contract.masterInfo.ngay_ct"
+          format="datetimeFormat"
+          dataType="date"
+          [disabled]="true" />
+      </div>
+      <form-input-custom
+        class="box"
+        [name]="'so_hd'"
+        [label]="getLabel('lbl_hop_dong')"
+        [value]="contract.masterInfo.s1"
+        [disabled]="true" />
+
+      <form-input-custom
+        class="box"
+        [name]="'ma_kh'"
+        [label]="getLabel('lbl_ma_kh')"
+        [value]="contract.masterInfo.ma_kh"
+        [disabled]="true" />
+      <form-input-custom
+        class="box"
+        [name]="'ten_kh'"
+        [label]="getLabel('lbl_ten_kh')"
+        [value]="contract.masterInfo.ten_kh"
+        [disabled]="true" />
+      <form-input-custom
+        class="box"
+        [name]="'dien_giai'"
+        [label]="getLabel('lbl_dien_giai')"
+        [value]="contract.masterInfo.dien_giai"
+        [disabled]="true" />
+
+      <form-input-custom
+        class="box"
+        [name]="'han_tt'"
+        [label]="getLabel('lbl_han_tt')"
+        [value]="contract.masterInfo.han_tt"
+        [disabled]="true" />
+
+      <form-select-custom
+        class="box"
+        [label]="getLabel('lbl_trang_thai')"
+        [options]="statusList"
+        optionDes="statusname"
+        optionValue="status"
+        [value]="contract.masterInfo.status"
+        (handleChangeValue)="contract.masterInfo.status = $event" />
+    </div>
+
+    <tabs-custom title="Thông tin hàng hóa">
+      <tab-custom label="Hàng hoá" class="w-100">
+        <table-custom
+          [dataSource]="contract.merchandise"
+          [columns]="merchandiseColumns" />
+      </tab-custom>
+      <tab-custom label="Thông tin giao hàng" class="w-100">
+        <h3>Thông tin giao hàng</h3>
+      </tab-custom>
+    </tabs-custom>
+
+    <div class="box-container">
+      <div class="box d-flex gap-2">
+        <form-input-custom
+          class="flex-1"
+          [disabled]="true"
+          [label]="getLabel('lbl_so_luong')"
+          [align]="'end'"
+          [value]="contract.masterInfo.t_so_luong" />
+
+        <form-input-custom
+          class="flex-1"
+          [disabled]="true"
+          [align]="'end'"
+          [label]="getLabel('lbl_thanh_tien')"
+          [value]="
+            contract.masterInfo.t_tien_nt2
+              | formatData : 'number' : dataFormat.moneyViewFormat
+          " />
+      </div>
+      <form-input-custom
+        class="box"
+        [disabled]="true"
+        [label]="getLabel('lbl_thue')"
+        [align]="'end'"
+        [value]="
+          contract.masterInfo.t_thue_nt
+            | formatData : 'number' : dataFormat.moneyViewFormat
+        " />
+      <form-input-custom
+        class="box"
+        [disabled]="true"
+        [label]="getLabel('lbl_t_tt')"
+        [align]="'end'"
+        [value]="
+          contract.masterInfo.t_tt_nt
+            | formatData : 'number' : dataFormat.moneyViewFormat
+        " />
+    </div>
+    <div class="d-flex justify-end gap-2 m-3">
+      <app-voucher-info
+        *ngIf="this.mode != 0"
+        [entity]="entity"
+        class="text-base"
+        [voucherId]="contract.masterInfo.stt_rec" />
+      <div class="btn-responsive btn-in-file">
+        <span>{{ getLabel('btnPrint') }}</span>
+      </div>
+      <div class="btn-responsive btn-cancel" (click)="onCancel()">
+        {{ getLabel('btnCancelAdd') }}
+      </div>
+      <div class="btn-responsive btn-add" (click)="onSave()">
+        {{ getLabel('btnSubmitAdd') }}
+      </div>
+    </div>
+  </div>
+</div>

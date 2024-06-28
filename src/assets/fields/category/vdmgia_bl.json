@@ -1,0 +1,54 @@
+[
+    {
+      "name": "ma_vt",
+      "title": "Mã vật tư",
+      "isPrimaryKey": true,
+      "width": 160,
+      "allowSorting": true,
+      "allowFilter": true,
+      "dataFormatString": "upperCaseFormat"
+    },
+    {
+      "name": "ten_vt",
+      "title": "Tên vật tư",
+      "width": 260,
+      "allowSorting": true,
+      "allowFilter": true
+    },
+    {
+      "name": "ma_cuahang",
+      "title": "Mã cửa hàng",
+      "width": 100,
+      "isPrimaryKey": true,
+      "allowSorting": true,
+      "allowFilter": true
+    },
+    {
+      "name": "ngay_ban",
+      "title": "Ngày bán",
+      "width": 160,
+      "isPrimaryKey": true,
+      "allowSorting": true,
+      "allowFilter": true,
+      "dataFormatString": "datetimeFormat"
+    },
+    
+    {
+      "name": "gia_vat_nt",
+      "title": "Giá bán",
+      "isLockingColumn": true,
+      "width": 160,
+      "type": "number",
+      "align": "right",
+      "dataFormatString": "normalPrice"
+    },
+    {
+        "name": "ma_nt",
+        "title": "Mã nt",
+        "width": 100,
+        "isPrimaryKey": true,
+        "allowSorting": true,
+        "allowFilter": true
+    }
+  ]
+  

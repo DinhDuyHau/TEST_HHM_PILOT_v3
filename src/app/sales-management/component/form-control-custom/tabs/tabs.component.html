@@ -1,0 +1,21 @@
+<div>
+  <div class="title-content pb-2" *ngIf="title">{{ title }}</div>
+  <div class="tab-container">
+    <div class="header-tab">
+      <div class="d-flex">
+        <div
+          *ngFor="let label of titleList; index as i"
+          (click)="tabChange(i)"
+          class="title-tab"
+          [class.active]="activatedTab === i">
+          {{ label }}
+        </div>
+      </div>
+    </div>
+    <div class="tab-wrapper">
+      <div class="d-flex tab-content">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

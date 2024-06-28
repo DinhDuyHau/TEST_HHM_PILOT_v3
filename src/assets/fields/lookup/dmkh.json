@@ -1,0 +1,40 @@
+[
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách hàng",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "ten_kh2",
+    "title": "Tên khách hàng 2",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "dia_chi",
+    "title": "Địa chỉ",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "ma_so_thue",
+    "title": "Mã số thuế",
+    "width": 160
+  }
+]

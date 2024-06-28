@@ -1,0 +1,32 @@
+[
+  {
+    "name": "ma_bp",
+    "title": "Mã bộ phận",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_bp",
+    "title": "Tên bộ phận",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "dia_chi",
+    "title": "Địa chỉ",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "dien_thoai",
+    "title": "Điện thoại",
+    "width": 160
+  }
+]

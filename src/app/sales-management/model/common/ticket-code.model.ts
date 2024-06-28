@@ -1,0 +1,42 @@
+
+
+
+export const TICKET_CODE = {
+    RETAIL: 'BHA',
+    ONLINE: 'BHW',
+    ONLINE_ECOMMERCE: 'BHC',
+    WHOLE: 'BHB',
+    TELECOM: 'BHE',
+    AFFILIATE: 'BHD',
+    RETURN: 'HDF',
+    RETURN_SERVICE: 'HD3',
+    REPURCHASE: 'MHA',
+    ITINERANT: 'BHF',
+    SERVICE: 'DV1',
+    GIFT_REPAY: 'BHI',
+    RENEW: 'BHK',
+    CHANGE: 'BHG',
+    RETURN_ONLINE: 'HDR',
+    CONTRACT: 'DXA'
+
+};
+
+export const TICKET_ENTITY = {
+    RETAIL: 'SVTran',
+    ONLINE: 'SVTran_BHW',
+    ONLINE_ECOMMERCE: 'SVTran_BHC',
+    WHOLE: 'SVTran_BHB',
+    AFFILIATE: 'SVTran_BHD',
+    TELECOM: 'SVTran_BHE',
+    RETURN: 'SVTran_HDF',
+    RETURN_SERVICE: 'SVTran_HD3',
+    REPURCHASE: 'SVTran_MHA',
+    CONTRACT: 'SVTran_DXA',
+    ITINERANT: 'SVTran_BHF',
+    SERVICE: 'SVTran_DV1',
+    GIFT_REPAY: 'SVTran_BHI',
+    RENEW: 'SVTran_BHK',
+    CHANGE: 'SVTran_BHG',
+    RETURN_ONLINE: 'SVTran_HDR',
+};
+

@@ -1,0 +1,62 @@
+.sidebar_header {
+  border-bottom: 1px solid #036758;
+}
+.sidebar_logo {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+}
+
+.menu_item {
+  display: flex;
+  align-items: center;
+  // padding: 16px 24px;
+  cursor: pointer;
+}
+.active {
+  color: #fff !important;
+}
+// .nav-link:hover {
+//   background-color: var(--secondary_color);
+// }
+.sidebar-transition {
+  transition: width 0.3s ease;
+}
+/* Chỉnh kích thước của thanh cuộn dọc */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Chỉnh kích thước của thanh cuộn ngang */
+::-webkit-scrollbar-horizontal {
+  height: 6px;
+}
+
+/* Chỉnh kích thước của "nút" trên và dưới thanh cuộn dọc */
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 3px;
+}
+
+/* Chỉnh kích thước của "nút" trái và phải thanh cuộn ngang */
+::-webkit-scrollbar-thumb:horizontal {
+  background-color: #888;
+  border-radius: 3px;
+}
+
+/* Tô màu khi di chuột qua thanh cuộn */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+/* Chỉnh kích thước và tô màu của vùng giữa thanh cuộn và "nút" */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  border-radius: 3px;
+}
+
+/* Tô màu khi di chuột qua vùng giữa thanh cuộn và "nút" */
+::-webkit-scrollbar-track:hover {
+  background-color: #eee;
+}

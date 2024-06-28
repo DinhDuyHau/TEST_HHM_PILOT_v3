@@ -1,0 +1,26 @@
+<div class="dialog-confirm-container bg-white">
+  <div class="content">
+    <div class="icon">
+      <i class="fas fa-exclamation"></i>
+    </div>
+    <div class="title">Bạn có chắc không?</div>
+  </div>
+  <div class="actions">
+    <button
+      class="btn-confirm"
+      (click)="onClickConfirm()"
+      mat-icon-button
+      mat-dialog-close
+      aria-label="Close">
+      Xác nhận!
+    </button>
+    <button
+      class="btn-cancel"
+      (click)="onClickClose()"
+      mat-icon-button
+      mat-dialog-close
+      aria-label="Close">
+      Hủy bỏ!
+    </button>
+  </div>
+</div>

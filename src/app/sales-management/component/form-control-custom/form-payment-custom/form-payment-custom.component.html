@@ -1,0 +1,33 @@
+<div>
+  <label class="title" for="{{ name }}">{{ label }}</label>
+  <div class="position-relative">
+    <input
+      [class]="'form-control text-end' + (highlightText ? ' input-highlight-text' : '') + (highlightBox ? ' input-highlight-box' : '')"
+      [ngClass]="{
+          'text-center': align === 'center',
+              'text-end': align === 'end',
+              'text-right': align === 'right',
+              'text-left': align === 'left',
+          }"
+      id="{{ name }}"
+      #ref
+      [disabled]="disabled || readonly"
+      [ngModel]="value"
+      (input)="onInput(ref)"
+      (change)="onChange()"
+      (focus)="onFocus(ref)"
+      (blur)="onChange()"
+      (keyup)="onEnter($event)" />
+    <span class="text-danger" *ngIf="invalid && !value"
+      >Nhập thiếu thông tin {{ label.toLowerCase() }}</span
+    >
+    <div
+      class="position-absolute top-0 end-0"
+      (click)="openDialog()"
+      *ngIf="handleClickOpenDialog.observers.length && !readonly">
+      <button class="search-btn">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

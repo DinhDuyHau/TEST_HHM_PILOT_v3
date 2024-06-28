@@ -1,0 +1,75 @@
+[
+  {
+    "name": "stt",
+    "title": "Stt",
+    "isLockingColumn": true,
+    "align": "center",
+    "width": 60
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "isPrimaryKey": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 300
+  },
+  {
+    "name": "du_dk",
+    "title": "Dư đầu",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "nc_dk2",
+    "title": "Nợ / có",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "ps_no",
+    "title": "Phát sinh nợ",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "ps_co",
+    "title": "Phát sinh có",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "du_ck",
+    "title": "Nợ cuối kỳ",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "nc_ck2",
+    "title": "Nợ / có",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 100
+  }
+
+
+]

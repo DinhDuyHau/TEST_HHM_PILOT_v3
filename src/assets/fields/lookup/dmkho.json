@@ -1,0 +1,35 @@
+[
+  {
+    "name": "ma_kho",
+    "title": "Mã kho",
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kho",
+    "title": "Tên kho",
+    "width": 260,
+    "allowSorting": true,
+    "allowFilter": true
+  },
+  {
+    "name": "ma_dvcs",
+    "title": "Mã đơn vị",
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_cuahang",
+    "title": "Mã cửa hàng",
+    "isLockingColumn": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  }
+]

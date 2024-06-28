@@ -1,0 +1,27 @@
+[
+  {
+    "name": "ma_tinh",
+    "title": "Mã tỉnh",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_tinh",
+    "title": "Tên tỉnh",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "ten_tinh2",
+    "title": "Tên khác",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 200
+  }
+]

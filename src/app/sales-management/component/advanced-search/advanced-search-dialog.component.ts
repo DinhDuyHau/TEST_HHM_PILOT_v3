@@ -1,0 +1,216 @@
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import dataFormat from '@app/_common/dataFormat';
+import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
+import { CommonService } from '@app/sales-management/page/common/common.service';
+import { StatusTicket } from '@app/sales-management/model/common/status.model';
+import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '../search/serach-dialog.component';
+import { formatDate } from '@angular/common';
+
+interface IFilter {
+  ngay_bd: string;
+  ngay_kt: string;
+  so_ct_bd: string;
+  so_ct_kt: string;
+  ma_kh: string;
+  ma_kho: string;
+  ma_vt: string;
+  ma_imei: string;
+  status: string;
+  voucherCode: string;
+  ten_kh: string;
+  ten_kho_nhap: string;
+  ma_kho_x: string;
+  ten_kho_xuat: string;
+  ten_vt: string;
+}
+
+@Component({
+  selector: 'advanced-search',
+  templateUrl: './advanced-search-dialog.component.html',
+  styleUrls: ['./advanced-search-dialog.component.scss'],
+})
+export class AdvancedSearchDialogComponent implements OnInit {
+  title = 'Thêm khách hàng';
+  dataFormat = dataFormat;
+  invalid = false;
+  filters: IFilter = {
+    ngay_bd: '',
+    ngay_kt: '',
+    so_ct_bd: '',
+    so_ct_kt: '',
+    ma_kh: '',
+    ma_kho: '',
+    ma_vt: '',
+    ma_imei: '',
+    status: '',
+    voucherCode: '',
+    ten_kh: '',
+    ten_kho_nhap: '',
+    ma_kho_x: '',
+    ten_kho_xuat: '',
+    ten_vt: ''
+  };
+
+  statusList: StatusTicket[] = [
+    {
+      status: '*',
+      statusname: 'Tất cả'
+    },
+    {
+      status: '0',
+      statusname: 'Lập chứng từ'
+    },
+    {
+      status: '2',
+      statusname: 'Hoàn thành'
+    },
+  ];
+
+  voucherCode = '';
+  date_from: Date | null = new Date();
+
+  constructor(
+    public dialogRef: MatDialogRef<AdvancedSearchDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: IFilter,
+    private customerApiService: CustomerApiService,
+    private commonService: CommonService,
+  ) {
+  }
+
+  ngOnInit(): void {
+    if (this.data && this.data.voucherCode)
+      this.voucherCode = this.data.voucherCode;
+
+    const convert = { ...this.data };
+
+    //Lấy thông tin params từ localStorage
+    const params_string = localStorage.getItem('saleSearchParams')!;
+    if (params_string && params_string !== '') {
+      const search_params: any = JSON.parse(params_string);
+
+      if (search_params.ngay_bd !== '') convert.ngay_bd = search_params.ngay_bd;
+      if (search_params.ngay_kt !== '') convert.ngay_kt = search_params.ngay_kt;
+      convert.status = search_params.status !== '' ? search_params.status : this.statusList[0].status;
+    }
+
+    if (convert.ngay_bd && convert.ngay_kt) {
+      convert.ngay_bd = formatDate(new Date(convert.ngay_bd), 'yyyy-MM-dd', 'en_US');
+      convert.ngay_kt = formatDate(new Date(convert.ngay_kt), 'yyyy-MM-dd', 'en_US');
+    }
+
+    if (!convert.status || convert.status === '') convert.status = this.statusList[0].status;
+    if (!convert.ngay_bd || convert.ngay_bd === '') convert.ngay_bd = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
+    if (!convert.ngay_kt || convert.ngay_kt === '') convert.ngay_kt = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
+
+    Object.assign(this.filters, convert);
+  }
+
+  // #region customer
+  onEnterCustomerCode(ma_kh: string) {
+    this.openSearchCustomerDialog(ma_kh);
+  }
+
+  openSearchCustomerDialog(ma_kh?: string) {
+    this.commonService.openDialog(SearchDialogComponent,
+      { keyword: ma_kh || '', componentName: SEARCH_COMPONENT_NAME.CUSTOMER, title: 'Danh sách mã khách hàng' }, 'search-style-dialog')
+      .afterClosed()
+      .subscribe((customer: any) => {
+        if (customer) {
+          this.filters.ma_kh = customer.ma_kh;
+          this.filters.ten_kh = customer.ten_kh;
+        }
+      }
+      );
+  }
+  // #endregion customer
+
+  openWarehouseDialog(ma_kho: string, ten_kho: string, ma_vt?: string) {
+    this.commonService.openDialog(SearchDialogComponent, {
+      keyword: ma_vt || '',
+      componentName: SEARCH_COMPONENT_NAME.WAREHOUSE
+    }, 'search-style-dialog')
+      .afterClosed().subscribe(result => {
+        if (result) {
+          (this.filters as any)[ma_kho] = result.ma_kho;
+          (this.filters as any)[ten_kho] = result.ten_kho;
+        }
+      });
+  }
+
+  // #region merchandise
+  openMerchandiseDialog(ma_vt?: string) {
+    this.commonService.openDialog(SearchDialogComponent, {
+      keyword: ma_vt || '',
+      componentName: SEARCH_COMPONENT_NAME.MERCHANDISE
+    }, 'search-style-dialog')
+      .afterClosed().subscribe(result => {
+        if (result) {
+          this.filters.ma_vt = result.ma_vt;
+          this.filters.ten_vt = result.ten_vt;
+        }
+      });
+  }
+
+  onEnterMerchandiseCode(ma_vt: string) {
+    this.openMerchandiseDialog(ma_vt);
+  }
+
+  // #endregion merchandise
+
+  /*   onChangeDateStart(event: any) {
+      this.filters.ngay_bd = (event.target as HTMLInputElement).value;
+    }
+  
+    onChangeDateEnd(event: any) {
+      this.filters.ngay_kt = (event.target as HTMLInputElement).value;
+    } */
+
+  onBlurDateStart(event: any, ref: any) {
+    this.filters.ngay_bd = ref.isoDateString.toString();
+  }
+
+  onBlurDateEnd(event: any, ref: any) {
+    this.filters.ngay_kt = ref.isoDateString.toString();
+  }
+
+  onEnter(event: any, next_control: any) {
+    if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13) {
+      if (next_control)
+        if (next_control.input)
+          next_control.input.nativeElement.focus();
+        else
+          next_control.focus();
+    }
+
+  }
+
+  onSave() {
+    this.invalid = false;
+    if (!(this.filters.ngay_bd && this.filters.ngay_kt)) {
+      this.invalid = true;
+      return;
+    }
+
+    this.filters.ngay_bd = new Date(this.filters.ngay_bd).toISOString();
+    this.filters.ngay_kt = new Date(this.filters.ngay_kt).toISOString();
+
+    const keyValueArray = Object.entries(this.filters);
+    for (const [key, value] of keyValueArray) {
+      if (value === '') {
+        delete this.filters[key as keyof typeof this.filters];
+      }
+    }
+
+    //lưu param tìm kiếm vào localStorage
+    const json_filter: string = JSON.stringify(this.filters);
+    localStorage.setItem('saleSearchParams', json_filter);
+
+    this.dialogRef.close(this.filters);
+  }
+
+  onCancel() {
+    this.dialogRef.close();
+  }
+}
+

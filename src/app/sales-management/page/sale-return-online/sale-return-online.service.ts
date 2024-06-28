@@ -1,0 +1,230 @@
+import { Injectable } from '@angular/core';
+import { Customer } from '@app/_components/category/customer/customer.model';
+import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
+import { ImeiApiService } from '@app/sales-management/api/imei-api.service';
+import { MerchandiseApiService } from '@app/sales-management/api/merchandise-api.service';
+import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
+import { Payment, TransferDetail } from '@app/sales-management/model/ticket/common-model/payment.model';
+import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
+import { MasterInfo, Merchandise, ReturnSaleOnlineTicketCreate, TAB_NAME } from '@app/sales-management/model/ticket/sale-return-online/model';
+import { CommonService } from '../common/common.service';
+import { MerchandiseService } from '../common/merchandise.service';
+import { MerchandiseRequest, MasterInfoRequest } from '@app/sales-management/model/ticket/sale-return-online/request.model';
+import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
+import { PaymentService } from '../common/payment.service';
+import { Language } from '../common/language';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class SaleReturnOnlineService {
+    ticket!: ReturnSaleOnlineTicketCreate;
+
+    constructor(
+        private customerApiService: CustomerApiService,
+        private ticketApiService: TicketApiService,
+        private imeiApiService: ImeiApiService,
+        private merchandiseApiService: MerchandiseApiService,
+        private commonService: CommonService,
+        private paymentService: PaymentService,
+        private merchandiseService: MerchandiseService,
+    ) {
+    }
+
+    //#region setter
+    setTicket(ticket: ReturnSaleOnlineTicketCreate) {
+        this.ticket = ticket;
+    }
+
+    //#endregion setter
+
+    // #region init
+    loadData(data: VoucherDto) {
+        this.ticket.masterInfo = this.commonService.convertMasterInfoFromVoucher(data.masterInfo, MasterInfo);
+        this.customerApiService.getOneById(data.masterInfo.ma_kh).subscribe(result => {
+            const customer = result.result as any;
+            this.ticket.masterInfo.ten_kh = customer.ten_kh;
+            this.ticket.masterInfo.dia_chi = customer.dia_chi;
+        });
+
+        data.details.forEach(e => {
+            switch (e.name) {
+                case TAB_NAME.MERCHANDISE:
+                    this.merchandiseService.convertFromVoucher(e.data, this.ticket.merchandise, Merchandise);
+                    break;
+                case TAB_NAME.ELECTRONIC_BILL:
+                    this.ticket.electronic_bill = this.commonService.convertDateOfModelFromVoucher(e.data[0]);
+                    break;
+                case TAB_NAME.PAYMENT:
+                    this.paymentService.convertPaymentFromVoucher(e.data, this.ticket.payment);
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    // create or update
+    prepareVoucher(): VoucherDto {
+        const voucherDto: VoucherDto = new VoucherDto;
+        voucherDto.details = [];
+        voucherDto.masterInfo = this.commonService.convertMasterInfo(this.ticket.masterInfo, MasterInfoRequest);
+        voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.MERCHANDISE, data: this.merchandiseService.convertMerchandiseToRequest(this.ticket.merchandise, voucherDto.masterInfo, MerchandiseRequest) }];
+        // voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.ELECTRONIC_BILL, data: [] }];
+        voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.ELECTRONIC_BILL, data: [this.commonService.convertDateOfModelToRequest(this.ticket.electronic_bill, voucherDto.masterInfo)] }];
+        voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
+        return voucherDto;
+    }
+
+    initTicket(ticket: ReturnSaleOnlineTicketCreate) {
+        const userJson = localStorage.getItem('user');
+        const userObj = userJson !== null && JSON.parse(userJson);
+
+        ticket.masterInfo.ma_ct = TICKET_CODE.RETURN_ONLINE;
+        ticket.masterInfo.ma_cuahang = userObj['shop'];
+        ticket.masterInfo.status = '0';
+        ticket.masterInfo.ma_ca = userObj['shift'];
+        ticket.masterInfo.ngay_ct = Date();
+        ticket.masterInfo.ma_nvbh = userObj['username'];
+        ticket.masterInfo.ma_dvcs = userObj['unit'];
+        this.ticketApiService.getVoucherNumber(TICKET_ENTITY.RETURN_ONLINE).subscribe(result => {
+            ticket.masterInfo.so_ct = result.result as any;
+        });
+    }
+
+    //#endregion init
+
+    //#region customer
+    setInfoCustomer(customer: Customer) {
+        this.ticket.masterInfo.ma_kh = customer.ma_kh;
+        this.ticket.masterInfo.ten_kh = customer.ten_kh;
+        this.ticket.masterInfo.dia_chi = customer.dia_chi;
+        if (this.ticket.payment.chuyen_khoan.detail.length == 0)
+            this.ticket.payment.chuyen_khoan.detail = [new TransferDetail];
+        this.ticket.payment.chuyen_khoan.detail[0].ten_ngan_hang = customer.ngan_hang || '';
+        this.ticket.payment.chuyen_khoan.detail[0].tk_nh_nhan = customer.tk_nh || '';
+        this.ticket.payment.chuyen_khoan.detail[0].ten_nguoi_nhan = customer.ten_kh || '';
+    }
+
+    resetCustomerInfo(ticket: ReturnSaleOnlineTicketCreate) {
+        ticket.masterInfo.ten_kh = '';
+        ticket.masterInfo.dia_chi = '';
+    }
+
+    //#endregion customer
+
+    // #region imei
+    getSoldInfo(imei: string, rate = -1, tien_giam = 0) {
+        return this.imeiApiService.getSoldInfo(imei, this.ticket.masterInfo.ma_cuahang, this.ticket.masterInfo.ma_ct, rate, tien_giam);
+    }
+
+    getMerchandiseInfo(ma_vt: string) {
+        return this.merchandiseApiService.getOneById(ma_vt);
+    }
+    // #endregion imei
+
+    // #region merchandise
+    removePromotionMechandise(merchandise: Merchandise) {
+        this.merchandiseService.removeMerchandise(merchandise, this.ticket.merchandise);
+        this.ticket.masterInfo.t_tien_tnk += merchandise.tien_kmqd;
+        this.calcMoney();
+        this.commonService.removeImeiFromStorage(merchandise.ma_imei);
+        this.commonService.showMessage(Language.content.Delete_Completed);
+        // this.imeiApiService.updateImeiState([merchandise.ma_imei], false, 1).subscribe((result) => {
+        //     if (!result.result[0].dat_hang_yn) {
+        //         this.merchandiseService.removeMerchandise(merchandise, this.ticket.merchandise);
+        //         this.ticket.masterInfo.t_tien_tnk += merchandise.tien_kmqd;
+        //         this.calcMoney();
+        //         this.commonService.removeImeiFromStorage(merchandise.ma_imei);
+        //         this.commonService.showMessage(Language.content.Delete_Completed);
+        //     }
+        // });
+    }
+
+    removeMerchandise(merchandise: Merchandise) {
+        this.merchandiseService.removeMerchandise(merchandise, this.ticket.merchandise);
+        this.merchandiseService.removePromotionMerchandiseByOrderImei(merchandise.ma_imei, this.ticket.merchandise);
+        this.calcMoney();
+        this.commonService.removeImeiFromStorage(merchandise.ma_imei);
+        this.commonService.showMessage(Language.content.Delete_Completed);
+        // this.imeiApiService.updateImeiState([merchandise.ma_imei], false, 1).subscribe((result) => {
+        //     if (!result.result[0].dat_hang_yn) {
+        //         this.merchandiseService.removeMerchandise(merchandise, this.ticket.merchandise);
+        //         this.merchandiseService.removePromotionMerchandiseByOrderImei(merchandise.ma_imei, this.ticket.merchandise);
+        //         this.calcMoney();
+        //         this.commonService.removeImeiFromStorage(merchandise.ma_imei);
+        //         this.commonService.showMessage(Language.content.Delete_Completed);
+        //     }
+        // });
+    }
+
+    // #endregion merchandise
+
+    //#region other
+    calcMoney() {
+        this.ticket.masterInfo.t_so_luong = this.ticket.merchandise.length;
+
+        const merchandiseMoney = this.ticket.merchandise
+            .filter(e => !e.km_yn)
+            .map(e => e.thanh_tien)
+            .reduce((pre, cur) => pre + cur, 0);
+
+        const merchandiseTax = this.ticket.merchandise
+            .filter(e => !e.km_yn)
+            .map(e => e.tien_thue)
+            .reduce((pre, cur) => pre + cur, 0);
+
+        const discountMoney = this.ticket.merchandise
+            .filter(e => !e.km_yn)
+            .map(e => e.tien_ck)
+            .reduce((pre, cur) => pre + cur, 0);
+
+        this.ticket.masterInfo.t_ck = discountMoney;
+        this.ticket.masterInfo.t_thue_nt = this.commonService.rouding(merchandiseTax);
+        this.ticket.masterInfo.t_tien_nt2 = merchandiseMoney;
+        this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt - this.ticket.masterInfo.t_tien_tnk;
+        this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt);
+
+        this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);
+    }
+
+    // validate ticket before create or update
+    validateTicket(ticket: ReturnSaleOnlineTicketCreate): string {
+        let message = '';
+        if (!ticket.masterInfo.so_ct) {
+            message = this.commonService.getMessage('lbl_invalid_so_ct');
+        } else if (!ticket.masterInfo.ma_dvcs) {
+            message = this.commonService.getMessage('lbl_invalid_ma_dvcs');
+        } else if (!ticket.masterInfo.ma_kh && !ticket.masterInfo.ten_kh) {
+            message = this.commonService.getMessage('lbl_invalid_ma_kh');
+        } else if (ticket.masterInfo.t_tt_nt < 0) {
+            message = this.commonService.getMessage('lbl_invalid_tt');
+        } else if (ticket.masterInfo.t_tien_nt2 < 0) {
+            message = this.commonService.getMessage('lbl_invalid_t_tien');
+        }
+        return message;
+    }
+
+    validatePayment(payment: Payment): boolean {
+        return false;
+        if (!payment.tien_mat?.selected &&
+            !payment.quet_the?.selected &&
+            !payment.chuyen_khoan?.selected &&
+            !payment.vnpay?.selected &&
+            !payment.tra_gop?.selected &&
+            !payment.vi_dien_tu?.selected) {
+            return true;
+        }
+        return false;
+    }
+    getImeiInStore(imei: string) {
+        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.RETAIL);
+    }
+    getStatusImei(imei: string) {
+        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.RETAIL);
+    }
+    // #endregion other
+    getListImeiInfo(ma_imei: string[]) {
+        return this.imeiApiService.getImeisState(ma_imei);
+    }
+}

@@ -1,0 +1,76 @@
+<div class="container p-0 lg:max-w-full">
+  <div class="bg-white lg:flex lg:flex-col lg:px-9 lg:mx-5 lg:my-4">
+    <div class="ticket-container pb-2 pt-2">
+      <!-- <div class="title">{{ title }}</div> -->
+      <div class="search-container">
+        <input
+          class="form-control"
+          type="text"
+          #ref
+          (keydown.enter)="onChangeQuickSearchInput(ref.value)"
+          placeholder="Tìm nhanh theo số phiếu" />
+        <button class="search-btn">
+          <i class="fas fa-search"></i>
+        </button>
+        <div class="slider-btn" (click)="openAdvancedSearchDialog()">
+          <i class="fas fa-sliders-h"></i>
+        </div>
+      </div>
+      <div class="list-actions">
+        <!-- <button class="btn-responsive btn-lock" (click)="onFreeze()">Khóa cột</button> -->        
+        <button
+          class="btn-responsive btn-add"
+          (click)="onCreate()"
+          *ngIf="entityName !== 'SVTran_DXA'">
+          Thêm
+        </button>
+        <button class="btn-responsive btn-view" (click)="btnViewClickHandle()">Xem</button>
+        <button class="btn-responsive btn-edit" (click)="btnUpdateClickHandle()">Sửa</button>
+        <button class="btn-responsive btn-delete" (click)="btnDeleteClickHandle()">Xóa</button>
+        <div
+          tabindex="0"
+          class="btn-responsive btn-in-file"
+          (click)="toggleOpenOptionInFile()">
+          <button class="btn_in">In file</button>
+          <div class="print_options" *ngIf="isOnpenInFile">
+            <div
+              class="print_option"
+              *ngFor="let option_report of menu_report"
+              (click)="onClickInvoicePrint(option_report)">
+              {{ option_report.name }}
+            </div>
+          </div>
+        </div>
+        <div
+          *ngIf="isOnpenInFile"
+          class="fixed z-50 top-0 left-0 right-0 bottom-0"
+          (click)="isOnpenInFile = false">
+        </div>
+        <button class="btn-responsive btn-refresh" (click)="onReload()">
+          Làm mới
+        </button>
+
+      </div>
+    </div>
+    <div class="table-container">
+      <table-custom
+        [type]="'main'"
+        [dataSource]="dataSource"
+        [columns]="columns"
+        [entityName]="entityName"
+        [isLoading]="isLoading"
+        [totalItem]="recordCount"
+        [page_index]="page_index"
+        [size]="page_size"
+        [isChangeColorWhenSelected]="true"
+        [hiddenPagination]="hiddenPagination"
+        (handleUpdate)="onUpdateItem($event)"
+        (handleDelete)="onDeleteItem($event)"
+        (handleAction)="onCreateWholeSale($event)"
+        (handleView)="onViewItem($event)"
+        (handleChangePage)="onChangePage($event)"
+        (handleChangePageSize)="onChangePageSize($event)"
+        (handleSelect)="onSelectMerchandise($event)" />
+    </div>
+  </div>
+</div>

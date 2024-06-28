@@ -1,0 +1,36 @@
+[
+  {
+    "name": "ma_phi",
+    "title": "Mã chi phí",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_phi",
+    "title": "Tên chi phí",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "ten_phi2",
+    "title": "Tên chi phí khác",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 200
+  },
+  {
+    "name": "tk_cp",
+    "title": "Tài khoản chi phí",
+    "width": 260,
+    "isPrimaryKey": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "hidden": true
+  }
+]

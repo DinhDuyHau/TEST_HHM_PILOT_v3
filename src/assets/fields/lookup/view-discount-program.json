@@ -1,0 +1,49 @@
+[
+  {
+    "name": "ma_gg",
+    "title": "Mã code",
+    "width": 140,
+    "readonly": false
+  },
+  {
+    "name": "ma_imei",
+    "title": "Mã IMEI",
+    "isLockingColumn": true,
+    "width": 160,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã vật tư",
+    "isLockingColumn": true,
+    "width": 160,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên vật tư",
+    "isLockingColumn": true,
+    "width": 400
+  },
+  {
+    "name": "tien_giam",
+    "title": "Tiền giảm",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "ma_ctr",
+    "title": "Mã chương trình",
+    "isLockingColumn": true,
+    "width": 160,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_ctr",
+    "title": "Tên chương trình",
+    "isLockingColumn": true,
+    "width": 400
+  }
+]

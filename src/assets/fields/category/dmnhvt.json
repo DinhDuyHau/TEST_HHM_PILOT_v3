@@ -1,0 +1,20 @@
+[
+  {
+    "name": "ma_nh",
+    "title": "Mã nhóm",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_nh",
+    "title": "Tên nhóm",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  }
+]

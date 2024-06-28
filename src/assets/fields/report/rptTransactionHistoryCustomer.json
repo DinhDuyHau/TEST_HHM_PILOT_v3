@@ -1,0 +1,91 @@
+[
+  {
+    "name": "ngay_ct",
+    "title": "Ngày ct",
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "ma_ct",
+    "title": "Mã ct",
+    "isLockingColumn": true,
+    "width": 80
+  },
+  {
+    "name": "so_ct",
+    "title": "Số ct",
+    "isLockingColumn": true,
+    "width": 120,
+    "link": true
+  },
+  {
+    "name": "ma",
+    "title": "Mã hàng",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 80
+  },
+  {
+    "name": "ten",
+    "title": "Tên hàng",
+    "isLockingColumn": true,
+    "width": 240
+  },
+  {
+    "name": "ma_imei",
+    "title": "Imei",
+    "allowFilter": true,
+    "width": 200,
+    "multipleLine": true
+  },
+  {
+    "name": "so_luong",
+    "title": "Số lượng",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "center",
+    "width": 80
+  },
+  {
+    "name": "gia",
+    "title": "Đơn giá",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tien",
+    "title": "Tiền",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "thue",
+    "title": "Tiền thuế",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "ck",
+    "title": "Chiết khấu",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tt",
+    "title": "Thành tiền",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  }
+]

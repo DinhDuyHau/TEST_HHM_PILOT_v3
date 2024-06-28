@@ -1,0 +1,37 @@
+<div class="service-for-imei-container">
+  <div class="title">{{ title }}</div>
+  <div>
+    <div>
+      <div class="box-container">
+        <form-input-custom
+          class="box"
+          label="Imei"
+          [disabled]="true"
+          [value]="ma_imei" />
+
+        <form-input-custom
+          class="box"
+          label="Dịch vụ"
+          [align]="'end'"
+          [readonly]="true"
+          #ref
+          (handleEnterInput)="onSearch($event)"
+          (handleClickOpenDialog)="openDialogSearch()" />
+      </div>
+    </div>
+
+    <hr />
+    <table-custom
+      [dataSource]="dataSource"
+      [columns]="columns"
+      (handleDelete)="onRemoveItem($event)"
+      (handleChangeInput)="onChangeQuantity($event)" />
+  </div>
+  <div mat-dialog-actions class="d-flex justify-end gap-2 m-2">
+    <div class="btn-responsive btn-cancel" (click)="onCancel()">Hủy bỏ</div>
+    <div class="btn-responsive btn-add" (click)="onSelect()">Chọn</div>
+  </div>
+  <div class="close-btn" (click)="onCancel()">
+    <i class="fas fa-times"></i>
+  </div>
+</div>

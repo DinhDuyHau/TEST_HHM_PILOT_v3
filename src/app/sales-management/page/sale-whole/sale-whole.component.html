@@ -1,0 +1,300 @@
+<div
+  class="px-1 md:px-2 lg:px-4 flex-1 bg-white position-relative ticket-container">
+  <div class="d-flex flex-column gap-2 mt-5 flex-1">
+    <div class="title-page pb-2 flex justify-between items-center">
+      <h5 class="">{{ title }}</h5>
+      <app-voucher-info
+        *ngIf="this.mode != 0"
+        [entity]="entity"
+        class="text-base"
+        [voucherId]="ticket.masterInfo.stt_rec" />
+    </div>
+    <div class="title-content">{{ getLabel('tlt_content') }}</div>
+    <div class="box-container mb-3">
+      <div class="d-flex gap-2 box">
+        <form-input-custom
+          class="flex-1"
+          [name]="'so_ct'"
+          [label]="getLabel('lbl_so_ct')"
+          [value]="ticket.masterInfo.so_ct"
+          [disabled]="true" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ngay_ct'"
+          [label]="getLabel('lbl_ngay_ct')"
+          [value]="ticket.masterInfo.ngay_ct"
+          format="datetimeFormat"
+          dataType="date"
+          [disabled]="true" />
+      </div>
+
+      <form-input-custom
+        class="box"
+        [name]="'so_ct_hd'"
+        [label]="getLabel('lbl_hop_dong')"
+        [readonly]="readonly"
+        [invalid]="invalid"
+        [value]="ticket.contractInfo.so_ct_hd"
+        [tabIndex]="tabIndex.so_ct_hd"
+        (handleEnterInput)="onEnterContractCode($event)"
+        (handleClickOpenDialog)="openSearchContractDialog()" />
+      <form-input-custom
+        class="box"
+        [name]="'ma_kh'"
+        [label]="getLabel('lbl_ma_kh')"
+        [value]="ticket.masterInfo.ma_kh"
+        [disabled]="true" />
+      <form-input-custom
+        class="box"
+        [name]="'ten_kh'"
+        [label]="getLabel('lbl_ten_kh')"
+        [value]="ticket.masterInfo.ten_kh"
+        [disabled]="true" />
+      <form-input-custom
+        class="box"
+        [name]="'dia_chi'"
+        [label]="getLabel('lbl_dia_chi')"
+        [value]="ticket.masterInfo.dia_chi"
+        [disabled]="true" />
+
+      <form-input-custom
+        class="box"
+        [name]="'imei'"
+        [label]="getLabel('lbl_imei')"
+        [tabIndex]="tabIndex.imei"
+        *ngIf="!readonly"
+        (handleEnterInput)="onEnterImeiCode($event)"
+        (handleClickCodeScanner)="onClickCodeScanner()"
+        [uploadImage]="true" />
+      <form-input-custom
+        class="box"
+        name="ma_vt"
+        [label]="getLabel('lbl_ma_vt')"
+        [tabIndex]="tabIndex.ma_vt"
+        *ngIf="!readonly"
+        (handleEnterInput)="onEnterMerchandiseCode($event)"
+        (handleClickOpenDialog)="openMerchandiseDialog()" />
+      
+      <form-input-custom
+        class="box"
+        [name]="'ong_ba'"
+        [label]="getLabel('lbl_nguoi_giao_hang')"
+        [value]="ticket.masterInfo.ong_ba"
+        [disabled]="true" />
+
+      <form-select-custom
+        class="box"
+        [label]="getLabel('lbl_trang_thai')"
+        [options]="statusList"
+        [isDisable]="readonly || disableSelectStatus"
+        optionDes="statusname"
+        optionValue="status"
+        [value]="ticket.masterInfo.status"
+        (handleChangeValue)="ticket.masterInfo.status = $event" />
+    </div>
+
+    <tabs-custom title="Thông tin hàng hóa">
+      <tab-custom label="Hàng hoá" class="w-100">
+        <div class="pb-2">
+          <button
+            [disabled]="readonly"
+            (click)="onClickEditImeiButton()"
+            class="mr-2 px-1 py-1.5 text-sm lg:text-base min-w-button_small lg:min-w-button flex items-center justify-center rounded-md bg-slate-200 border-blue-600">
+            <fa-icon
+              class="flex items-center text-blue-600"
+              [icon]="['fas', 'edit']"
+              size="sm"></fa-icon>
+            <div class="text-medium font-normal ml-2 text-blue-600">
+              {{ getLabel('btnEditIMEI') }}
+            </div>
+          </button>
+        </div>
+        <table-custom
+          [readonly]="readonly"
+          [dataSource]="ticket.merchandise"
+          [columns]="merchandiseColumns"
+          [type]="'main'"
+          [isChangeColorWhenSelected]="true"
+          (handleSelect)="onSelectedItem($event)" />
+      </tab-custom>
+      <tab-custom label="Bảo hành" class="w-100">
+        <table-custom
+          [readonly]="readonly"
+          [dataSource]="ticket.guarantee"
+          [columns]="guaranteeColumns" />
+      </tab-custom>
+      <tab-custom label="Vận chuyển" class="w-100">
+        <delivery-infomation [data]="ticket.transport" />
+      </tab-custom>
+      <tab-custom label="Hồ sơ hợp đồng" class="w-100">
+        <div class="box-container">
+          <div class="box-2">
+            <div class="mb-3">
+              <form-input-custom
+                [readonly]="readonly"
+                [name]="'ma_co'"
+                [label]="getLabel('ma_co')"
+                [value]="ticket.contractInfo.ma_co"
+                (handleChangeValue)="ticket.contractInfo.ma_co = $event" />
+            </div>
+            <form-upload-file-custom
+              (fileSelected)="ticket.contractFile.co_file = $event"
+              [fileName]="ticket.contractInfo.file_co"
+              class="mt-3" />
+          </div>
+          <div class="box-2">
+            <div class="mb-3">
+              <form-input-custom
+                [readonly]="readonly"
+                [name]="'ma_cq'"
+                [label]="getLabel('ma_cq')"
+                [value]="ticket.contractInfo.ma_cq"
+                (handleChangeValue)="ticket.contractInfo.ma_cq = $event" />
+            </div>
+            <form-upload-file-custom
+              (fileSelected)="ticket.contractFile.cq_file = $event"
+              [fileName]="ticket.contractInfo.file_cq" />
+          </div>
+        </div>
+      </tab-custom>
+      <tab-custom label="HĐĐT" class="w-100">
+        <div
+          class="text-medium font-medium flex flex-1 border-b-0.5 border-dashed border-neutrals07_color">
+          {{ getLabel('lbl_tt_xuat_hddt') }}
+        </div>
+        <e-invoice-info
+          [data]="ticket.masterInfo"
+          [disabled]="readonly"></e-invoice-info>
+        <div
+          class="text-medium font-medium flex flex-1 border-b-0.5 border-dashed border-neutrals07_color pt-1 md:pt-3 lg:pt-7">
+          {{ getLabel('lbl_hddt_phat_hanh') }}
+        </div>
+        <e-invoice-tab [data]="eInvoiceInfo"></e-invoice-tab>
+      </tab-custom>
+    </tabs-custom>
+    <div class="conversion" *ngIf="ticket.masterInfo.ma_kh">
+      {{ getLabel('lbl_t_diem_quy_doi') }}
+      <span>{{
+        conversionPoints | formatData : 'number' : 'normalPrice'
+      }}</span>
+    </div>
+    <ng-container>
+      <payment-tab
+        [pay_hidden]="[
+          'tien_dat_coc',
+          'quet_the',
+          'tra_gop',
+          'chiet_khau',
+          'giam_gia_crm',
+          'ma_giam_gia'
+        ]"
+        [invalid]="invalid"
+        [readonly]="readonly"
+        [t_tong_tien]="ticket.masterInfo.t_tt_nt"
+        [data]="ticket.payment"
+        [t_con_no]="ticket.masterInfo.t_con_no"
+        [t_da_tra]="ticket.masterInfo.t_da_tra"
+        [he_so_qd]="ticket.masterInfo.he_so_qd_tien"
+        [diem_qd_max]="conversionPoints"
+        [t_gg]="ticket.masterInfo.t_gg"
+        [merchandise]="ticket.merchandise"
+        (handleChangeValue)="
+          ticket.masterInfo.t_con_no = $event.t_con_no;
+          ticket.masterInfo.t_da_tra = $event.t_da_tra;
+          ticket.masterInfo.t_gg = $event.t_gg;
+          ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck
+        " />
+    </ng-container>
+
+    <div>
+      <div class="title-content p-2">{{ getLabel('lbl_tc_don_hang') }}</div>
+      <div class="box-container">
+        <div class="box d-flex gap-2">
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_so_luong')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.t_so_luong" />
+
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [align]="'end'"
+            [label]="getLabel('lbl_thanh_tien')"
+            [value]="ticket.masterInfo.t_tien_nt2"
+            format="moneyViewFormat"
+            dataType="number" />
+        </div>
+        <div class="box d-flex gap-2">
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_thue')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.t_thue_nt"
+            format="moneyViewFormat"
+            dataType="number" />
+        </div>
+        <form-input-custom
+          class="box"
+          [disabled]="true"
+          [label]="getLabel('lbl_t_tt')"
+          [align]="'end'"
+          [value]="ticket.masterInfo.t_tt_nt"
+          format="moneyViewFormat"
+          dataType="number" />
+        <div class="box hidden md:flex"></div>
+        <form-input-custom
+          class="box"
+          [disabled]="true"
+          [label]="getLabel('lbl_t_gg')"
+          [align]="'end'"
+          [value]="ticket.masterInfo.t_gg"
+          format="moneyViewFormat"
+          dataType="number" />
+        <form-input-custom
+          class="box"
+          [disabled]="true"
+          [label]="getLabel('lbl_diem_qd')"
+          [align]="'end'"
+          [value]="ticket.masterInfo.diem_qd"
+          format="moneyViewFormat"
+          dataType="number" />
+      </div>
+      <div class="d-flex justify-end gap-2 m-3">
+        <app-voucher-info
+          *ngIf="this.mode != 0"
+          [entity]="entity"
+          class="text-base"
+          [voucherId]="ticket.masterInfo.stt_rec" />
+        <div class="btn-responsive btn-in-file">
+          <span>{{ getLabel('btnPrint') }}</span>
+        </div>
+        <div class="btn-responsive btn-cancel" (click)="onCancel()">
+          {{ cancelButtonTitle }}
+        </div>
+        <div
+          class="btn-responsive btn-add"
+          (click)="onSave()"
+          *ngIf="!readonly">
+          {{ submitButtonTitle }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="isSaving"
+    class="position-absolute start-0 top-0 opacity-50"
+    style="width: 100%; height: 100%; background-color: rgb(193, 193, 193)">
+    <div class="position-absolute top-50 start-50 translate-middle">
+      <div class="d-flex flex-column">
+        <div class="spinner-border text-dark align-self-center" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Đang lưu</p>
+      </div>
+    </div>
+  </div>
+</div>

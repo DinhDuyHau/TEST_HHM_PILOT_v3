@@ -1,0 +1,37 @@
+[
+  {
+    "name": "ma_imei",
+    "title": "Mã imei",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã vật tư",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowSorting": true,
+    "allowFilter": true
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên vật tư",
+    "allowSorting": true,
+    "allowFilter": true
+  },
+  {
+    "name": "dvt",
+    "title": "Đvt",
+    "allowSorting": true,
+    "allowFilter": true
+  },
+  {
+    "name": "gia_nt2",
+    "title": "Đơn giá",
+    "align": "right"
+  }
+]

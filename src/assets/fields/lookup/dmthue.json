@@ -1,0 +1,27 @@
+[
+  {
+    "name": "ma_thue",
+    "title": "Mã thuế",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_thue",
+    "title": "Tên thuế",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "thue_suat",
+    "title": "Thuế suất",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 200
+  }
+]

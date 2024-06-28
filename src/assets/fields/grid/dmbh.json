@@ -1,0 +1,41 @@
+[ 
+    {
+        "name": "ma_hh",
+        "title": "Mã hàng hóa",
+        "isLockingColumn": true,
+        "isPrimaryKey": true,
+        "width": 160,
+        "allowSorting": true,
+        "allowFilter": true,
+        "dataFormatString": "upperCaseFormat"
+    },
+    {
+        "name": "hang_sx",
+        "title": "Hãng sản xuất",
+        "isLockingColumn": true,
+        "allowSorting": true,
+        "allowFilter": true,
+        "width": 400
+    },
+    {
+        "name": "ma_ttbh",
+        "title": "Mã trung tâm bảo hành",
+        "allowSorting": true,
+        "allowFilter": true,
+        "width": 400
+    },
+    {
+        "name": "ten_ttbh",
+        "title": "Tên trung tâm bảo hành",
+        "allowSorting": true,
+        "allowFilter": true,
+        "width": 400
+    },
+    {
+        "name": "dia_chi",
+        "title": "Địa chỉ",
+        "allowSorting": true,
+        "allowFilter": true,
+        "width": 400
+    }
+]

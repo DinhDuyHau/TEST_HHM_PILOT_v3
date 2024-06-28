@@ -1,0 +1,47 @@
+<div class="lookup flex flex-col h-full" mat-dialog-actions>
+  <div
+    class="w-full relative bg-white px-4 py-3"
+    [ngClass]="{'flex flex-1 flex-col': lookupData.multipleChoose}">
+    <button
+      class="btn_close outline-none bg-white rounded-full"
+      (click)="onNoClick()"
+      aria-label="Close">
+      <mat-icon
+        class="text-primary02_color"
+        style="font-size: 28px; width: 28px; height: 28px"
+        >cancel</mat-icon
+      >
+    </button>
+    <app-grid-v2
+      [gridType]="gridType"
+      [titleGrid]="lookupData.title"
+      [fields]="fields"
+      [dataSource]="dataSource"
+      [totalItems]="totalItems"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageCount]="pageCount"
+      [multipleChoose]="lookupData.multipleChoose"
+      [pageSizeOptions]="pageSizeOptions"
+      [isLockingColumn]="isLockingColumn"
+      [buttons]="[]"
+      (handlePaging)="onPageChange($event)"
+      (handleChangeCheckbox)="onHanleCheckboxListChanged($event)"
+      (handleSelectColumn)="onSelectColumn($event)"
+      (handleSortColumn)="onSortColumn($event)"
+      (handleSearch)="onSearch()"
+      (handleButton)="onClickButton($event)"
+      (handleItemLookup)="onClickItemLookup($event)"
+      class="flex-1">
+    </app-grid-v2>
+  </div>
+  <div
+    class="w-full relative flex justify-between px-2 pb-2 items-end bg-white"
+    *ngIf="lookupData.multipleChoose">
+    <div
+      (click)="onClickChoose()"
+      class="btn text-white bg-primary03_color cursor-pointer hover:bg-primary01_color">
+      Chọn
+    </div>
+  </div>
+</div>

@@ -1,0 +1,230 @@
+.ticket-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  // gap: 20px;
+  width: 100%;
+
+  .title {
+    width: 20%;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+    color: #1a212a;
+    white-space: nowrap;
+  }
+
+  .search-container {
+    width: 30%;
+    position: relative;
+  }
+
+  .list-actions {
+    width: 64%;
+    display: flex;
+    margin-right: 10px;
+  }
+}
+
+.btn-responsive {
+  font-size: 14px;
+  padding: 6px 5%;
+  border-radius: 5px;
+  white-space: nowrap;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.btn-lock {
+  background-color: #ebedf2;
+  &::before {
+    content: '\f023';
+    font-family: 'Font Awesome 5 free';
+    font-weight: 900;
+    font-size: 14px;
+    padding-right: 8px;
+  }
+}
+
+.btn-view {
+  background-color: #ebedf2;
+  &::before {
+    content: '\f06e';
+    font-family: 'Font Awesome 5 free';
+    font-weight: 900;
+    font-size: 14px;
+    padding-right: 8px;
+  }
+}
+
+.btn-edit {
+  background-color: #ebedf2;
+  &::before {
+    content: '\f044';
+    font-family: 'Font Awesome 5 free';
+    font-weight: 900;
+    font-size: 14px;
+    padding-right: 8px;
+  }
+}
+
+.btn-delete {
+  background-color: #ebedf2;
+  &::before {
+    content: '\f2ed';
+    font-family: 'Font Awesome 5 free';
+    font-weight: 900;
+    font-size: 14px;
+    padding-right: 8px;
+  }
+}
+.btn-delete::before { color: #c00 !important; }
+
+.btn-refresh {
+  background-color: #3e93a6;
+  color: #fff;
+  &::before {
+    content: '\f021';
+    font-family: 'Font Awesome 5 free';
+    font-weight: 900;
+    font-size: 14px;
+    padding-right: 8px;
+  }
+}
+
+.btn-in-file {
+  background-color: #069981;
+  color: #fff;
+  position: relative;
+  &::before {
+    content: '\f02f';
+    font-family: 'Font Awesome 5 free';
+    font-weight: 900;
+    font-size: 14px;
+    padding-right: 8px;
+  }
+  &:hover {
+    opacity: 1;
+    background-color: #069981cc;
+  }
+
+  .print_options {
+    position: absolute;
+    z-index: 100000000000000;
+    top: calc(100% + 5px);
+    right: -70px;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #1a212a;
+    box-shadow: rgba(145, 158, 171, 0.2) 0px 5px 5px -3px,
+      rgba(145, 158, 171, 0.14) 0px 8px 10px 1px,
+      rgba(145, 158, 171, 0.12) 0px 3px 14px 2px;
+
+    .print_option {
+      padding: 15px 20px;
+      cursor: pointer;
+      &:hover {
+        background-color: rgba(145, 158, 171, 0.08);
+      }
+    }
+  }
+}
+
+.btn-add {
+  background-color: #005447;
+  color: #fff;
+  &::before {
+    content: '\f055';
+    font-family: 'Font Awesome 5 free';
+    font-weight: 900;
+    font-size: 14px;
+    padding-right: 8px;
+  }
+}
+
+.table-container {
+  overflow: auto;
+}
+
+.search-btn {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  color: #1a212a;
+}
+
+.slider-btn {
+  position: absolute;
+  text-align: center;
+  right: 8px;
+  top: 50%;
+  width: 24px;
+  background-color: #ebedf2;
+  border-radius: 5px;
+  transform: translateY(-50%);
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}
+
+.form-control {
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  border: none;
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+input {
+  padding-left: 35px;
+  &::placeholder {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #bdbdbd;
+  }
+}
+
+@media only screen and (max-width: 840px) {
+  .btn-responsive {
+    flex: 1;
+    font-size: 12px;
+    padding: 6px 4px;
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
+  }
+}
+
+@media only screen and (max-width: 1450px) {
+  .container {
+    .ticket-container {
+      .title {
+        width: 100%;
+        margin: 5px 0;
+      }
+
+      .search-container {
+        width: 100%;
+        margin: 5px 0;
+      }
+
+      .list-actions {
+        width: 100%;
+        margin: 5px 0;
+        justify-content: end;
+      }
+    }
+  }
+}

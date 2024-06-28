@@ -1,0 +1,50 @@
+<div
+  [ngClass]="{'border-red-400': invalid}"
+  class="border-0.5 border-solid border-gray-500 flex bg-white mx-0.5 rounded overflow-hidden">
+  <ng-container *ngIf="lookup">
+    <span
+      *ngIf="align === 'left' && !readonly"
+      (click)="onFilter()"
+      class="btn_icon-search px-1 cursor-pointer hover:text-primary flex items-center"
+      ><i class="fas fa-search"></i
+    ></span>
+    <input
+      class="w-full outline-none p-0.5 text-text_color text-sm"
+      [(ngModel)]="value"
+      (ngModelChange)="onValueChange($event)"
+      [name]="name"
+      [ngClass]="{'bg-gray-300': readonly}"
+      (keyup)="onEnter($event)"
+      (blur)="onBlur($event)"
+      [readonly]="readonly"
+      autocomplete="off"
+      name="name"
+      type="type" />
+    <span
+      *ngIf="align !== 'left' && !readonly"
+      (click)="onFilter()"
+      class="btn_icon-search px-1 cursor-pointer hover:text-primary flex items-center"
+      ><i class="fas fa-search"></i
+    ></span>
+  </ng-container>
+  <ng-container *ngIf="!lookup">
+    <input
+      #input
+      class="w-full outline-none p-0.5 text-text_color text-sm"
+      [(ngModel)]="value"
+      (ngModelChange)="onValueChange($event)"
+      (blur)="onBlur($event)"
+      [name]="name"
+      [ngClass]="{
+        'bg-gray-300': readonly,
+        'text-right': align == 'right',
+        'text-left': align == 'left',
+        'text-center': align == 'center'
+      }"
+      [readonly]="readonly"
+      (keyup)="onEnter($event)"
+      type="type"
+      autocomplete="off"
+      name="name" />
+  </ng-container>
+</div>

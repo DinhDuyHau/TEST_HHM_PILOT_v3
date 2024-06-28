@@ -1,0 +1,96 @@
+<div class="payment-container">
+  <div class="flex px-0 md:px-2 lg:px-4 flex-col-reverse md:flex-row">
+    <div class="flex-1 md:basis-2/3 md:flex-none">
+      <div class="flex w-full md:justify-normal justify-between items-center">
+        <div class="title-content p-2">Hình thức thanh toán</div>
+        <div
+          class="btn-choose-payment px-8 md:ml-16 rounded mr-2"
+          (click)="onClickPaymentDialog()">
+          Chọn
+        </div>
+        <div
+          *ngFor="let button of buttons; let index = index"
+          (click)="!readonly && onClickButton($event, button.id)"
+          [class]="
+            'py-1 text-sm lg:text-base min-w-button_small lg:min-w-button hover:opacity-80 flex items-center px-2 justify-center rounded-md ' +
+              button.class || ''
+          "
+          [style.backgroundColor]="button.buttonColor"
+          [ngClass]="{
+      'cursor-pointer':  !readonly,
+      }">
+          <fa-icon
+            *ngIf="button.icon"
+            class="flex items-center"
+            [style.color]="button.iconColor"
+            [icon]="['fas', castIcon(button.icon)]"
+            size="sm"></fa-icon>
+          <div
+            class="text-base font-medium"
+            [ngClass]="{
+        'ml-2':  button.icon,
+        }"
+            [ngStyle]="{color: button.iconColor}">
+            {{ button.name }}
+          </div>
+        </div>
+      </div>
+      <table
+        class="table table-bordered mt-2"
+        *ngIf="viewPayment && viewPayment.length">
+        <thead>
+          <th scope="col" class="text-center font-semibold px-2 py-2">
+            Hình thức
+          </th>
+          <th scope="col" class="text-center font-semibold px-2 py-2">
+            Nội dung
+          </th>
+          <th scope="col" class="text-center font-semibold px-2 py-2">
+            Số tiền
+          </th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of viewPayment; let index = index">
+            <td class="text-sm md:text-md">
+              {{ item.payment }}
+            </td>
+            <td class="text-sm md:text-md cell-note-wrap" [innerHTML]="item.note"></td>
+            <td class="text-sm md:text-md text-right">
+              {{ item.money | formatData : 'number' : dataFormat.normalPrice }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="flex justify-between pl-2">
+        <div>Tổng tiền các hình thức thanh toán:</div>
+        <div>
+          {{ t_da_tra | formatData : 'number' : dataFormat.normalPrice }}
+        </div>
+      </div>
+      <div class="flex justify-between pl-2 text-red-600">
+        <div>Số tiền còn nợ:</div>
+        <div>
+          {{ t_con_no | formatData : 'number' : dataFormat.normalPrice }}
+        </div>
+      </div>
+    </div>
+    <div class="flex-none md:flex-1">
+      <div
+        class="flex-1 pl-0 md:pl-8"
+        *ngIf="!(pay_hidden && pay_hidden.includes('chiet_khau'))">
+        <div class="title">Chiết khấu ngoại giao</div>
+        <form-payment-custom
+          [readonly]="readonly"
+          [disabled]="true"
+          [name]="'approveDiscount'"
+          [label]="'Người duyệt'"
+          [value]="approveDiscount"
+          [invalid]="invalid"
+          (handleChangeValue)="
+            approveDiscount = $event; onChangeApproveDiscount()
+          "
+          (handleClickOpenDialog)="onOpenSearchApproverDirector()" />
+      </div>
+    </div>
+  </div>
+</div>

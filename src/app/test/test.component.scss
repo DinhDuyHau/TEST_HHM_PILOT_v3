@@ -1,0 +1,31 @@
+.app-wrapper {
+  min-height: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  .barcode-reader {
+    position: relative;
+    background-color: black;
+    flex-grow: 1;
+    width: 100%;
+  }
+
+  .scan-results {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    gap: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+}

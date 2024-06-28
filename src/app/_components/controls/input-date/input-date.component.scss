@@ -1,0 +1,19 @@
+.ctrl-date-box {
+    position: relative;
+}
+.ctrl-date-box input.date-text {
+    position: relative; 
+    z-index: 1;
+    background-color: #f8f8f8 !important;
+    border: 1px solid #888 !important;
+    font-size: 1rem !important;
+    box-shadow: none;
+}
+.ctrl-date-box input.date-pickup {
+    position:absolute; 
+    z-index: 100; 
+    right:5px; 
+    top: 5px; 
+    width:20px !important;
+    box-shadow: none !important;
+}

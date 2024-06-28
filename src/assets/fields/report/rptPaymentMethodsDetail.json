@@ -1,0 +1,218 @@
+[
+    {
+        "name": "stt",
+        "title": "Stt",
+        "isLockingColumn": true,
+        "align": "center",
+        "width": 50
+    },
+    {
+      "name": "ma_cuahang",
+      "title": "Mã cửa hàng",
+      "allowFilter": true,
+      "width": 120,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ma_ca",
+      "title": "Mã ca",
+      "allowFilter": true,
+      "width": 80,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "so_ct",
+      "title": "số c.từ",
+      "allowFilter": true,
+      "width": 120,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ngay_ct",
+      "title": "Ngày c.từ",
+      "allowFilter": true,
+      "width": 100,
+      "dataFormatString": "datetimeFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ten_loaigd",
+      "title": "Tên giao dịch",
+      "allowFilter": true,
+      "width": 150,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ma_kh",
+      "title": "Mã khách",
+      "allowFilter": true,
+      "width": 120,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ten_kh",
+      "title": "Tên khách hàng",
+      "allowFilter": true,
+      "width": 250,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "t_tien",
+      "title": "Tổng tiền",
+      "type": "number",
+      "dataFormatString": "moneyView2Digit",
+      "align": "right",
+      "width": 120
+    },
+    {
+      "name": "thue",
+      "title": "Thuế",
+      "type": "number",
+      "dataFormatString": "moneyView2Digit",
+      "align": "right",
+      "width": 120
+    },
+    {
+      "name": "t_tien_tt",
+      "title": "Tổng thanh toán",
+      "type": "number",
+      "dataFormatString": "moneyView2Digit",
+      "align": "right",
+      "width": 150
+    },
+    {
+      "name": "t_coc",
+      "title": "Tiền cọc",
+      "type": "number",
+      "dataFormatString": "moneyViewNoDigit",
+      "align": "right",
+      "width": 120
+    },
+    {
+      "name": "t_mat",
+      "title": "Tiền mặt",
+      "type": "number",
+      "dataFormatString": "moneyViewNoDigit",
+      "align": "right",
+      "width": 120
+    },
+    {
+      "name": "t_chuyen_khoan",
+      "title": "Chuyển khoản",
+      "type": "number",
+      "dataFormatString": "moneyViewNoDigit",
+      "align": "right",
+      "width": 120
+    },
+    {
+      "name": "t_quet_the",
+      "title": "Quẹt thẻ",
+      "type": "number",
+      "dataFormatString": "moneyViewNoDigit",
+      "align": "right",
+      "width": 120
+    },
+    {
+      "name": "t_vdt",
+      "title": "Ví điện tử",
+      "type": "number",
+      "dataFormatString": "moneyViewNoDigit",
+      "align": "right",
+      "width": 120
+    },
+    {
+      "name": "t_vnpay",
+      "title": "VNPay",
+      "type": "number",
+      "dataFormatString": "moneyViewNoDigit",
+      "align": "right",
+      "width": 120
+    },
+    {
+      "name": "t_tra_gop",
+      "title": "Trả góp",
+      "type": "number",
+      "dataFormatString": "moneyViewNoDigit",
+      "align": "right",
+      "width": 120
+    },
+    {
+      "name": "t_coupons",
+      "title": "Coupons",
+      "type": "number",
+      "dataFormatString": "moneyViewNoDigit",
+      "align": "right",
+      "width": 120
+    },
+    {
+      "name": "t_sd_diem",
+      "title": "Sử dụng điểm",
+      "type": "number",
+      "dataFormatString": "moneyViewNoDigit",
+      "align": "right",
+      "width": 120
+    },
+    {
+      "name": "t_crm",
+      "title": "CRM",
+      "type": "number",
+      "dataFormatString": "moneyViewNoDigit",
+      "align": "right",
+      "width": 120
+    },
+    {
+      "name": "t_con_no",
+      "title": "Còn nợ",
+      "type": "number",
+      "dataFormatString": "moneyViewNoDigit",
+      "align": "right",
+      "width": 120
+    },
+    {
+      "name": "ma_nvbh",
+      "title": "Mã NVBH",
+      "allowFilter": true,
+      "width": 120,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "ten_nvbh",
+      "title": "Tên NVBH",
+      "allowFilter": true,
+      "width": 250,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "dien_giai",
+      "title": "Diễn giải",
+      "allowFilter": true,
+      "width": 250,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "datetime0",
+      "title": "Ngày lập",
+      "allowFilter": true,
+      "width": 100,
+      "dataFormatString": "datetimeFormat",
+      "isLockingColumn": true
+    },
+    {
+      "name": "datetime2",
+      "title": "Ngày sửa",
+      "allowFilter": true,
+      "width": 100,
+      "dataFormatString": "datetimeFormat",
+      "isLockingColumn": true
+    }
+  ]
+  

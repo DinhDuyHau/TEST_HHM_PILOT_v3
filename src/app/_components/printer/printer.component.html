@@ -1,0 +1,152 @@
+<div mat-dialog-actions class="bg-white">
+  <div
+    class="flex justify-between w-full items-center md:px-2"
+    style="background-color: #55a0ff">
+    <span class="font-medium text-white">{{ data.title }}</span>
+    <button mat-icon-button mat-dialog-close aria-label="Close">
+      <mat-icon class="text-white">cancel</mat-icon>
+    </button>
+  </div>
+  <div class="w-full md:mx-5 bg-gray-200">
+    <div
+      class="w-full md:px-4 py-2 flex justify-between items-center border-0.5 border-t-0 border-gray-500 border-solid bg-gray-200">
+      <div class="md:flex items-center hidden">
+        <button
+          (click)="firstPage()"
+          class="flex items-center px-2"
+          title="Trang đầu">
+          <mat-icon
+            class="text-gray-700 text-2xl flex items-center hover:text-green-700"
+            >skip_previous</mat-icon
+          >
+        </button>
+        <button
+          (click)="previousPage()"
+          class="flex items-center px-2"
+          title="Trang trước">
+          <mat-icon
+            class="text-gray-700 text-2xl flex items-center hover:text-green-700"
+            >navigate_before</mat-icon
+          >
+        </button>
+        <div class="flex items-center px-2" title="Trang hiện tại">
+          <input
+            type="text"
+            class="w-8 text-sm outline-none text-center"
+            [(ngModel)]="pageVariable" />of
+          {{ totalPage }}
+        </div>
+        <button
+          (click)="nextPage()"
+          class="flex items-center px-2"
+          title="Trang sau">
+          <mat-icon
+            class="text-gray-700 text-2xl flex items-center hover:text-green-700"
+            >navigate_next</mat-icon
+          >
+        </button>
+        <button
+          (click)="lastPage()"
+          class="flex items-center px-2"
+          title="Trang cuối">
+          <mat-icon
+            class="text-gray-700 text-2xl flex items-center hover:text-green-700"
+            >skip_next</mat-icon
+          >
+        </button>
+      </div>
+      <div class="flex items-center">
+        <button
+          (click)="zoomOut()"
+          class="md:flex items-center px-2 hidden"
+          title="Thu nhỏ">
+          <mat-icon
+            class="text-gray-700 text-2xl flex items-center hover:text-green-700"
+            >remove</mat-icon
+          ></button
+        ><button
+          (click)="zoomIn()"
+          class="md:flex items-center px-2 hidden"
+          title="Phóng to">
+          <mat-icon
+            class="text-gray-700 text-2xl flex items-center hover:text-green-700"
+            >add</mat-icon
+          >
+        </button>
+        <div>
+          <select
+            class="flex items-center px-2"
+            [(ngModel)]="zoom"
+            title="Tỉ lệ phóng">
+            <option value="0.25">25%</option>
+            <option value="0.375">37.5%</option>
+            <option value="0.5">50%</option>
+            <option value="0.625">62.5%</option>
+            <option value="0.75">75%</option>
+            <option value="0.875">87.5%</option>
+            <option value="1">100%</option>
+            <option value="1.25">125%</option>
+            <option value="1.5">150%</option>
+            <option value="1.75">175%</option>
+            <option value="2">200%</option>
+          </select>
+        </div>
+      </div>
+      <div class="flex items-center">
+        <button
+          (click)="rotateLeft()"
+          class="flex items-center px-2"
+          title="Xoay sang trái 90 độ">
+          <mat-icon
+            class="text-gray-700 text-2xl flex items-center hover:text-green-700"
+            >rotate_left</mat-icon
+          >
+        </button>
+        <button
+          (click)="rotateRight()"
+          class="flex items-center px-2"
+          title="Xoay sang phải 90 độ">
+          <mat-icon
+            class="text-gray-700 text-2xl flex items-center hover:text-green-700"
+            >rotate_right</mat-icon
+          >
+        </button>
+        <button
+          (click)="download()"
+          class="flex items-center px-2"
+          title="Tải về">
+          <mat-icon
+            class="text-gray-700 text-2xl flex items-center hover:text-green-700"
+            >cloud_download</mat-icon
+          >
+        </button>
+        <button
+          (click)="print()"
+          class="lg:flex hidden items-center px-2"
+          title="In">
+          <mat-icon
+            class="text-gray-700 text-2xl flex items-center hover:text-green-700"
+            >print</mat-icon
+          >
+        </button>
+      </div>
+    </div>
+    <div
+      class="pdf-container flex justify-center"
+      style="width: 100%; height: calc(90vh - 80px)">
+      <pdf-viewer
+        *ngIf="pdfSrc"
+        [src]="pdfSrc"
+        [show-all]="true"
+        [(page)]="pageVariable"
+        [zoom]="zoom"
+        [rotation]="rotate"
+        [render-text]="true"
+        [original-size]="true"
+        (after-load-complete)="afterLoadComplete($event)"
+        (page-rendered)="pageRendered($event)"
+        (text-layer-rendered)="textLayerRendered($event)"
+        class="pdf_viewer--mobile md:pdf_viewer"></pdf-viewer>
+    </div>
+  </div>
+</div>

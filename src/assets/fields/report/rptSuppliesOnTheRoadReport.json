@@ -1,0 +1,90 @@
+[
+  {
+    "name": "stt",
+    "title": "Stt",
+    "isLockingColumn": true,
+    "type": "number",
+    "dataFormatString": "countingFormat",
+    "align": "center",
+    "width": 50
+  },
+  {
+    "name": "ma_cuahang",
+    "title": "Mã cửa hàng",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_ca",
+    "title": "Mã ca",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_ct",
+    "title": "Mã c.từ",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_ct",
+    "title": "Tên chứng từ",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 200
+  },
+  {
+    "name": "so_ct",
+    "title": "Số c.từ",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ngay_ct",
+    "title": "ngày c.từ",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã vật tư",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên vật tư",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 280
+  },
+  {
+    "name": "ma_imei",
+    "title": "IMEI",
+    "allowFilter": true,
+    "width": 400,
+    "multipleLine": true
+  },
+  {
+    "name": "so_luong",
+    "allowFilter": true,
+    "title": "Số lượng",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "center",
+    "width": 100
+  }
+  
+]

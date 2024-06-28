@@ -1,0 +1,79 @@
+[
+  {
+    "name": "line_nbr",
+    "title": "STT",
+    "width": 100,
+    "isPrimaryKey": true,
+    "align": "center"
+  },
+  {
+    "name": "so_hd_tt",
+    "title": "Số hóa đơn",
+    "width": 100
+  },
+  {
+    "name": "ngay_hd_tt",
+    "title": "Ngày hóa đơn",
+    "type": "date",
+    "dataFormatString": "datetimeFormat",
+    "width": 100
+  },
+  {
+    "name": "tien_hd",
+    "title": "Tiền hóa đơn",
+    "width": 150,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "da_tt",
+    "title": "Đã thanh toán",
+    "width": 150,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "tien_cl",
+    "title": "Phải thanh toán",
+    "width": 150,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "stt_rec_tt",
+    "title": "stt_rec_tt",
+    "hidden": true,
+    "width": 240
+  },
+  {
+    "name": "dien_giai",
+    "title": "Ghi chú",
+    "width": 220
+  },
+  {
+    "name": "tien_nt",
+    "title": "Tiền",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "con_lai",
+    "title": "Còn lại",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "action",
+    "title": "Thao tác",
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "action"
+  }
+]

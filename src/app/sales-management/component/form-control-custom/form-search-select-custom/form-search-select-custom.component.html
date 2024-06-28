@@ -1,0 +1,30 @@
+<div class="dropdown-custom">
+  <label class="col-form-label">{{ label }}</label>
+  <div class="">
+    <div class="input-container">
+      <input class="form-control" type="text" (click)="handleDropdown()" />
+      <div class="icon-angle-down">
+        <i class="fa-solid fa-angle-down"></i>
+      </div>
+
+      <div *ngIf="dropdown" class="popup-wrapper">
+        <div
+          class="position-relative"
+          *ngIf="handleSearchOption.observers.length">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Tìm tên nhân viên"
+            (change)="onChangeSearch()" />
+          <button class="search-btn position-absolute top-0 left-0">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+
+        <div *ngFor="let option of options" class="option-custom">
+          {{ option[optionDes] }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

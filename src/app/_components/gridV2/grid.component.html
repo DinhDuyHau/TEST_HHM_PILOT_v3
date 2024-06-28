@@ -1,0 +1,550 @@
+<div class="p-0 md:p-2 grid_container flex flex-col" id="container" #container>
+  <div
+    class="flex justify-between p-0 lg:pb-1 lg:pt-1 bg-white ticket-container flex-col md:flex-row md:items-center"
+    #buttonRef>
+    <!-- <div>
+      <div
+        class="text-md font-bold md:text-2xl md:font-medium title"
+        style="color: hsl(214, 24%, 13%)"
+        *ngIf="titleGrid">
+        {{ titleGrid }}
+      </div>
+      <div class="text-base text-primary03_color" *ngIf="filter_mess">
+        {{ filter_mess }}
+      </div>
+    </div> -->
+    <div
+      class="search-container w-full md:w-1/3 relative"
+      *ngIf="titleGrid && gridType == 0">
+      <input
+        class="form-control pl-8 text-medium lg:text-base"
+        type="text"
+        value=""
+        #ref
+        (keydown.enter)="onSearchAvanced(ref.value)"
+        placeholder="Tìm nhanh theo số phiếu" />
+      <button class="search-btn" (click)="onSearchAvanced(ref.value)">
+        <i class="fas fa-search"></i>
+      </button>
+      <div class="slider-btn" (click)="openAdvancedSearchDialog()">
+        <i class="fas fa-sliders-h"></i>
+      </div>
+    </div>
+    <!-- mat-flat-button
+    extended -->
+    <div class="flex py-1">
+      <div *ngFor="let button of buttons">
+        <button
+          *ngIf="button.id != buttonPrintId"
+          [disabled]="disabled"
+          (click)="onClickButton($event, button.id)"
+          class="mr-2 px-1 py-1.5 text-sm lg:text-base min-w-button_small lg:min-w-button flex items-center justify-center rounded-md"
+          [style.backgroundColor]="button.buttonColor">
+          <fa-icon
+            class="flex items-center"
+            [style.color]="button.iconColor"
+            [icon]="['fas', castIcon(button.icon)]"
+            size="sm"></fa-icon>
+          <div
+            class="text-medium font-normal ml-2"
+            [ngStyle]="{color: button.iconColor}">
+            {{ button.name }}
+          </div>
+        </button>
+        <button
+          *ngIf="button.id == buttonPrintId"
+          [matMenuTriggerFor]="
+            menu_report && menu_report.length > 1 ? menu : null
+          "
+          [disabled]="disabled"
+          (click)="onClickButton($event, button.id)"
+          class="mr-2 px-1 py-1.5 text-sm lg:text-base min-w-button_small lg:min-w-button flex items-center justify-center rounded-md"
+          [style.backgroundColor]="button.buttonColor">
+          <fa-icon
+            class="flex items-center"
+            [style.color]="button.iconColor"
+            [icon]="['fas', castIcon(button.icon)]"
+            size="sm"></fa-icon>
+          <div
+            class="text-medium font-normal ml-2"
+            [ngStyle]="{color: button.iconColor}">
+            {{ button.name }}
+          </div>
+        </button>
+        <mat-menu #menu="matMenu" class="menu_custom">
+          <button
+            mat-menu-item
+            class="hover:bg-neutrals08_color"
+            *ngFor="let item of menu_report"
+            (click)="onClickPrint(item)">
+            <div class="flex items-center">
+              <fa-icon
+                class="flex items-center text-base text-blue-500"
+                [ngClass]="{
+                  'text-red-500': item.type == '1',
+                  'text-green-500': item.type != '1',
+                }"
+                [icon]="[
+                  'fas',
+                  item.type == '1' ? 'file-pdf' : 'file-excel'
+                ]"></fa-icon>
+              <div class="ml-2 text-sm text-neutrals03_color">
+                {{ item.name }}
+              </div>
+            </div>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+  <div #grid id="grid" class="bg-white flex flex-1 flex-col">
+    <!-- <div
+      class="table_header"
+      [ngClass]="{
+        'table_header__grid': gridType == 0,
+        'table_header__not_grid': gridType != 0,
+      }"
+      #tblHeader>
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        (matSortChange)="sortData($event)">
+        <ng-container
+          *ngFor="let column of fields; let indexColumn = index"
+          [matColumnDef]="column.name"
+          [sticky]="isSticky(column.name)"
+          [resizeColumn]="!isSticky(column.name)"
+          [index]="indexColumn">
+          <th
+            class="px-2 align-middle text-center header bg-primary_color"
+            [ngClass]="{
+              'bg-primary_color table_grid_type': gridType == 0,
+              'bg-neutrals08_color not_table_grid_type': gridType != 0
+            }"
+            mat-header-cell
+            mat-sort-header
+            [disabled]="!column.allowSorting ? true : false"
+            *matHeaderCellDef
+            [width]="column.width + 'px'">
+            <span
+              *ngIf="column.type !== 'select'"
+              class="text-base font-medium"
+              [ngClass]="{
+                'text-white': gridType == 0,
+                'text-neutrals03_color': gridType != 0
+              }"
+              >{{ column.title }}
+            </span>
+            <span
+              *ngIf="column.type === 'select'"
+              (click)="onClickSelectColumn(indexColumn)"
+              class="text-base font-medium hover:underline hover:cursor-pointer"
+              [ngClass]="{
+                'text-white': gridType == 0,
+                'text-neutrals03_color': gridType != 0
+              }"
+              >{{ column.title }}
+            </span>
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+        </ng-container>
+
+        <ng-container *ngIf="gridType == 1">
+          <ng-container
+            *ngFor="let column of fields; let indexColumn = index"
+            [matColumnDef]="'search' + column.name"
+            [sticky]="isSticky(column.name)">
+            <th mat-header-cell *matHeaderCellDef class="px-0 align-middle">
+              <div class="flex items-center px-1">
+                <div class="pr-1">
+                  <fa-icon
+                    [icon]="['fas', 'search']"
+                    size="lg"
+                    class="text-tertiary_color"></fa-icon>
+                </div>
+                <input
+                  tabIndex="-1"
+                  [(ngModel)]="column.search"
+                  (keypress)="onSearch($event)"
+                  [disabled]="!column.allowFilter"
+                  class="outline-none bg-transparent text-medium w-0 flex-1" />
+              </div>
+            </th>
+          </ng-container>
+        </ng-container>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="title"
+          class="h-table_header_height bg-table_header"></tr>
+        <ng-container *ngIf="gridType == 1">
+          <tr
+            mat-header-row
+            *matHeaderRowDef="titleSearch"
+            class="h-table_search_height bg-search_table_header"></tr>
+        </ng-container>
+        <tr mat-row *matRowDef="let row; columns: fields"></tr>
+      </table>
+    </div> -->
+    <div class="example-container flex flex-1 flex-col" #tblContent>
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        class="h-0"
+        [ngClass]="{
+        'table_content__grid': gridType == 0,
+        'table_content__not_grid': gridType != 0,
+      }">
+        <ng-container
+          *ngFor="let column of fields; let indexColumn = index"
+          [matColumnDef]="column.name"
+          [sticky]="isSticky(column.name)">
+          <th
+            [resizeColumn]="!isSticky(column.name) && gridType == 4"
+            class="px-2 align-middle text-center header bg-primary_color"
+            [ngClass]="{
+              'bg-primary_color table_grid_type': gridType == 0,
+              'bg-neutrals08_color not_table_grid_type': gridType != 0,
+              table_header__grid: gridType == 0,
+              table_header__category: gridType == 4,
+              table_header__lookup: gridType == 1
+            }"
+            mat-header-cell
+            *matHeaderCellDef
+            [width]="column.width + 'px'">
+            <div>
+              <div
+                class="flex items-center justify-center pt-1"
+                [ngClass]="{
+                  'hover:underline cursor-pointer':
+                    column.allowSorting && (gridType == 4 || gridType == 1)
+                }"
+                (click)="
+                  column.allowSorting &&
+                    (gridType == 4 || gridType == 1) &&
+                    sortData(column)
+                ">
+                <span
+                  *ngIf="column.type !== 'select'"
+                  class="text-base font-medium"
+                  [ngClass]="{
+                    'text-white': gridType == 0,
+                    'text-neutrals03_color': gridType != 0
+                  }"
+                  >{{ column.title }}
+                </span>
+                <div
+                  class="pl-1"
+                  *ngIf="
+                    (gridType == 1 || gridType == 4) && column.allowSorting
+                  ">
+                  <i
+                    *ngIf="column.directive == ''"
+                    class="fa-solid fa-filter text-primary02_color text-medium"></i>
+                  <i
+                    *ngIf="column.directive == 'asc'"
+                    class="fa-solid fa-arrow-up-a-z text-primary02_color text-medium"></i>
+                  <i
+                    *ngIf="column.directive == 'desc'"
+                    class="fa-solid fa-arrow-down-z-a text-primary02_color text-medium"></i>
+                </div>
+              </div>
+              <span
+                *ngIf="column.type === 'select'"
+                (click)="onClickSelectColumn(indexColumn)"
+                class="text-base font-medium hover:underline hover:cursor-pointer"
+                [ngClass]="{
+                  'text-white': gridType == 0,
+                  'text-neutrals03_color': gridType != 0
+                }"
+                >{{ column.title }}
+              </span>
+            </div>
+            <div
+              *ngIf="gridType == 1 || gridType == 4"
+              class="flex relative my-1">
+              <input
+                tabIndex="-1"
+                [(ngModel)]="column.search"
+                (keypress)="onSearch($event)"
+                [disabled]="!column.allowFilter"
+                class="form-control pr-8 text-medium lg:text-base"
+                type="text" />
+              <button
+                class="search-btn-right"
+                [disabled]="!column.allowFilter"
+                (click)="onClickSearch()">
+                <i class="fas fa-search text-primary02_color text-lg"></i>
+              </button>
+            </div>
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element; let indexRow = index"
+            [width]="column.width + 'px'"
+            class="px-2 align-middle">
+            <div
+              *ngIf="
+                column.type !== 'action' &&
+                column.type !== 'boolean' &&
+                column.type !== 'select' &&
+                column.type !== 'delete'
+              "
+              (click)="onhandleLookup(element, column)"
+              class="text-medium text-left truncate overflow-ellipsis"
+              [ngClass]="{
+                'text-center': column.align === 'center',
+                'text-right': column.align === 'right',
+                'text-left': column.align === 'left',
+                'cursor-pointer':
+                  (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
+                underline:
+                  (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
+                'hover:text-green-600':
+                  (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
+                'font-medium': element['sysbold'] === 1,
+              }">
+              <input
+                *ngIf="!column.multipleLine"
+                class="outline-none bg-transparent w-full"
+                [readOnly]="column.readonly"
+                [ngClass]="{
+                  'text-center': column.align === 'center',
+                  'text-right': column.align === 'right',
+                  'text-left': column.align === 'left',
+                  'cursor-pointer':
+                    (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
+                  underline:
+                  (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
+                  'hover:text-green-600':
+                    (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
+                  'font-medium': element['sysbold'] === 1,
+                  
+                }"
+                type="text"
+                [name]="column.name"
+                (change)="handleChangeInput(column.name, indexRow, $event)"
+                [value]="
+                  element[column.name]
+                    | formatData : column.type : column.dataFormatString
+                " />
+              <textarea
+                *ngIf="column.multipleLine"
+                class="outline-none bg-transparent w-full"
+                [readOnly]="column.readonly"
+                [ngClass]="{
+                  'text-center': column.align === 'center',
+                  'text-right': column.align === 'right',
+                  'text-left': column.align === 'left',
+                  'cursor-pointer':
+                    (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
+                  underline:
+                    (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
+                  'hover:text-green-600':
+                    (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
+                  'font-medium': element['sysbold'] === 1,                  
+                }"
+                type="text"
+                [name]="column.name"
+                [value]="
+                  element[column.name]
+                    | formatData : column.type : column.dataFormatString
+                "></textarea>
+              <!-- {{
+                element[column.name]
+                  | formatData : column.type : column.dataFormatString
+              }} -->
+            </div>
+            <div *ngIf="column.type === 'action'">
+              <div
+                class="cursor-pointer relative text-center flex justify-center">
+                <!-- <button [matMenuTriggerFor]="menu">
+                  <fa-icon
+                    [icon]="['fas', 'ellipsis']"
+                    class="text-primary02_color"
+                    size="xl"></fa-icon>
+                </button> -->
+
+                <!-- <mat-menu #menu="matMenu"> -->
+                <ng-container
+                  *ngFor="let button of actionButtons; let indexButton = index">
+                  <div
+                    *ngIf="!isHideButtonAction(element, button.id)"
+                    (click)="
+                      !disabled &&
+                        onClickActionButton(
+                          $event,
+                          button.id,
+                          element,
+                          indexRow
+                        )
+                    "
+                    class="px-1 py-1 flex items-center rounded-md hover:bg-primary03_color"
+                    [ngClass]="{
+                      'cursor-pointer': !disabled
+                    }"
+                    [title]="button.name">
+                    <fa-icon
+                      class="flex items-center text-base"
+                      [style.color]="button.iconColor"
+                      [icon]="['fas', castIcon(button.icon)]"></fa-icon>
+                  </div>
+
+                  <!-- <div
+                    class="text-medium font-normal"
+                    [ngStyle]="{color: button.iconColor}">
+                    {{ button.name }}
+                  </div> -->
+                </ng-container>
+                <!-- </mat-menu> -->
+                <!-- <div class="absolute flex z-50 bg-red">
+                  <div class="cursor-pointer hover:bg-slate-200 px-1">
+                    <mat-icon [style.color]="'green'">visibility</mat-icon>
+                  </div>
+                  <div class="cursor-pointer hover:bg-slate-200 px-1">
+                    <mat-icon [style.color]="'blue'">edit</mat-icon>
+                  </div>
+                  <div class="cursor-pointer hover:bg-slate-200 px-1">
+                    <mat-icon [style.color]="'red'">delete</mat-icon>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <div
+              *ngIf="column.type === 'boolean' || column.type === 'select'"
+              (click)="onhandleLookup(element, column)"
+              class="flex self-center text-medium justify-start"
+              [ngClass]="{
+                'justify-center':
+                  column.align === 'center' || column.align === '',
+                'justify-end': column.align === 'right',
+                'justify-start': column.align === 'left',
+                'cursor-pointer': (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
+                'underline': (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
+                'hover:text-green-600': (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
+              }">
+              <mat-checkbox
+                [disabled]="column.type === 'boolean'"
+                [(ngModel)]="element[column.name]"
+                (change)="
+                  onCheckboxChange(
+                    element,
+                    indexColumn,
+                    indexRow,
+                    $event.checked
+                  )
+                "></mat-checkbox>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="title; sticky: true"
+          class="h-table_header_height bg-table_header"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; index as i; columns: title"
+          [ngClass]="{'bg-row_focus_color border-0.5': focusRow === i}"
+          (click)="onClickRow(row, i)"
+          class="h-table_row_height"></tr>
+      </table>
+      <div
+        *ngIf="
+          gridType !== 2 &&
+          dataSource &&
+          dataSource.data &&
+          dataSource.data.length === 0 &&
+          !isLoadData
+        "
+        class="p-4 flex justify-center items-center text-4xl text-red-600 font-semibold"
+        style="height: 100%">
+        Không có dữ liệu
+      </div>
+      <!-- <div
+        *ngIf="
+          gridType !== 2 &&
+          dataSource &&
+          dataSource.data &&
+          dataSource.data.length === 0 &&
+          !isLoadData
+        "
+        class="flex flex-1 justify-center items-center h-full">
+        <mat-spinner></mat-spinner>
+      </div> -->
+      <div
+        *ngIf="
+          (gridType !== 2 &&
+            dataSource &&
+            dataSource.data &&
+            dataSource.data.length === 0 &&
+            isLoadData) ||
+          (gridType !== 2 && isLoadData) ||
+          isLoadReport
+        "
+        class="position-absolute start-0 top-0 opacity-50"
+        style="width: 100%; height: 100%">
+        <div class="position-absolute top-50 start-50 translate-middle">
+          <div class="d-flex flex-column">
+            <div
+              class="spinner-border text-dark align-self-center text-lg"
+              role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-lg">Đang tải</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="table-footer flex items-center justify-end"
+      *ngIf="gridType != 2">
+      <div class="count-page pr-2" *ngIf="totalItems">
+        <span class="hidden lg:block">Số dòng trên trang:&nbsp;</span>
+        <select name="" id="" (change)="onChangePageSize($event)">
+          <option
+            [selected]="value == pageSize"
+            [value]="value"
+            *ngFor="let value of pageSizeOptions">
+            {{ value }}
+          </option>
+        </select>
+      </div>
+      <div class="">
+        {{ pageIndex * pageSize + 1 }} -
+        {{
+          (pageIndex + 1) * pageSize <= totalItems
+            ? (pageIndex + 1) * pageSize
+            : totalItems
+        }}
+        của tổng số
+        {{ totalItems }}
+      </div>
+      <div class="pagination">
+        <i
+          class="fas fa-angle-left btn-pagination"
+          (click)="onClickChangePage('prev')"></i>
+        <i
+          class="fas fa-angle-right btn-pagination"
+          (click)="onClickChangePage('next')"></i>
+      </div>
+    </div>
+
+    <!-- <div #paginatorRef>
+      <mat-paginator
+        *ngIf="gridType != 2"
+        [pageSizeOptions]="pageSizeOptions"
+        showFirstLastButtons
+        (page)="onPageChange($event)"
+        [length]="totalItems"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex"
+        aria-label="Select page">
+      </mat-paginator>
+    </div> -->
+    <!-- Copyright 2019 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->
+  </div>
+</div>

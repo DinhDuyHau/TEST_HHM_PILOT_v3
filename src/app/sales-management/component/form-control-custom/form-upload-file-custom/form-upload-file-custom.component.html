@@ -1,0 +1,26 @@
+<div
+  class="upload-file-wrapper"
+  #uploadfilewrapper
+  [draggable]="true"
+  (drop)="drop($event)"
+  (dragover)="handleOver($event)">
+  <div class="upload-file-container">
+    <div class="icon">
+      <i class="fas fa-file-upload"></i>
+    </div>
+    <div class="title">Kéo và thả tập tin vào đây</div>
+    <div class="note">File có thể tải: PDF, XSLS, Image, Scanner</div>
+    <input
+      ngModel
+      #imguploadfile
+      type="file"
+      id="imguploadfile"
+      style="display: none"
+      (change)="onFileSelected($event)" />
+    <div class="btn-choose-file" (click)="openUploadFile()">
+      {{
+        selectedName ? selectedName : fileNameShow ? fileNameShow : 'Chọn file'
+      }}
+    </div>
+  </div>
+</div>

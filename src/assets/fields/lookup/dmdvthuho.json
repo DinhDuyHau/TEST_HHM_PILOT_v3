@@ -1,0 +1,28 @@
+[
+    {
+      "name": "ma_dvth",
+      "title": "Mã dịch vụ thu hộ",
+      "isLockingColumn": true,
+      "isPrimaryKey": true,
+      "width": 200,
+      "allowSorting": true,
+      "allowFilter": true,
+      "dataFormatString": "upperCaseFormat"
+    },
+    {
+      "name": "ten_dvth",
+      "title": "Tên dịch vụ thu hô",
+      "isLockingColumn": true,
+      "allowSorting": true,
+      "allowFilter": true,
+      "width": 400
+    },
+    {
+      "name": "ma_loai",
+      "title": "Mã loại",
+      "allowSorting": true,
+      "allowFilter": true,
+      "width": 160
+    }
+  ]
+  

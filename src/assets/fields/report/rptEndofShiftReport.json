@@ -1,0 +1,50 @@
+[
+    {
+        "name": "stt",
+        "title": "Stt",
+        "isLockingColumn": true,
+        "align": "center",
+        "width": 50
+    },
+    {
+      "name": "noi_dung",
+      "title": "Nội dung",
+      "allowFilter": true,
+      "width": 250,
+      "dataFormatString": "upperCaseFormat",
+      "isLockingColumn": true
+    },
+    {
+        "name": "tien",
+        "title": "Tiền",
+        "type": "number",
+        "dataFormatString": "normalPrice",
+        "align": "right",
+        "width": 120
+    },
+    {
+        "name": "t_so_dh",
+        "title": "Tổng số đơn hàng",
+        "type": "number",
+        "dataFormatString": "normalPrice",
+        "align": "center",
+        "width": 100
+    },
+    {
+        "name": "tien_tl",
+        "title": "Tiền trả lại",
+        "type": "number",
+        "dataFormatString": "normalPrice",
+        "align": "right",
+        "width": 120
+    },
+    {
+        "name": "tien_tt",
+        "title": "Tiền thực tế",
+        "type": "number",
+        "dataFormatString": "normalPrice",
+        "align": "right",
+        "width": 120
+    }
+  ]
+  

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "ma_md",
+    "title": "Mã mức độ",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 260,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_md",
+    "title": "Tên mức độ",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 600
+  }
+]

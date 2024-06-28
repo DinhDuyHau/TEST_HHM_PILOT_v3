@@ -1,0 +1,36 @@
+[
+  {
+    "name": "tk",
+    "title": "Tài khoản",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "hidden": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "tknh",
+    "title": "Số tài khoản",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "ten_nh",
+    "title": "Tên tài khoản",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "tinh_thanh",
+    "title": "Tỉnh thành",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  }
+]

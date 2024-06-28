@@ -1,0 +1,53 @@
+[
+  {
+    "name": "ngay_ct",
+    "title": "Ngày ct",
+    "type": "date",
+    "dataFormatString": "datetimeFormat",
+    "width": 90
+  },
+  {
+    "name": "so_ct",
+    "title": "Số ct",
+    "width": 80
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã vật tư",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên vật tư",
+    "isLockingColumn": true,
+    "width": 100
+  },
+  {
+    "name": "ma_imei",
+    "title": "Imei",
+    "allowFilter": true,
+    "width": 150,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_hoahong",
+    "title": "Mã hoa hồng",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "tien",
+    "title": "Tiền hoa hồng",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 150
+  }
+]

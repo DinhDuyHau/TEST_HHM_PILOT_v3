@@ -1,0 +1,60 @@
+@import url('../../../css/style.scss');
+
+.form-control {
+  background-color: #f8f8f8;
+  border: none;
+}
+
+.title {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #333333;
+}
+
+.scan-btn {
+  display: flex;
+  align-items: center;
+  background-color: #f8f8f8;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 25px;
+  .icon {
+    color: #005447;
+    margin-right: 5px;
+  }
+}
+@mixin search-button-base {
+  $button-height: 32px;
+  $button-width: 32px;
+
+  .search-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $button-height;
+    width: $button-width;
+    border-radius: 50%;
+    border: none;
+    color: var(--primary_color);
+  }
+}
+
+input {
+  font-size: 14px;
+}
+
+input:focus {
+  box-shadow: none;
+}
+
+.input-highlight-text {
+  color: #f00 !important;
+}
+.input-highlight-box {
+  border: 1px solid #f00 !important;
+}
+
+@include search-button-base;

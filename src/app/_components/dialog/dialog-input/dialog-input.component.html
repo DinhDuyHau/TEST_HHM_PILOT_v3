@@ -1,0 +1,31 @@
+<div mat-dialog-actions class="flex flex-col h-full bg-white">
+  <div class="flex flex-1 px-2">
+    <app-input-custom-v2
+      class="flex-1"
+      [label]="label"
+      name="input"
+      [value]="value"
+      [dataFormatString]="'normalQuantity'"
+      type="number"
+      [align]="'right'"
+      (handleChange)="this.value = $event"></app-input-custom-v2>
+  </div>
+  <div class="w-full relative flex justify-between px-2 pb-2 items-end">
+    <button
+      class="btn_close outline-none btn-primary btn"
+      (click)="onClickSave()"
+      mat-icon-button
+      mat-dialog-close
+      aria-label="Close">
+      OK
+    </button>
+    <button
+      class="btn_close outline-none btn-danger btn"
+      (click)="onClickClose()"
+      mat-icon-button
+      mat-dialog-close
+      aria-label="Close">
+      Hủy
+    </button>
+  </div>
+</div>

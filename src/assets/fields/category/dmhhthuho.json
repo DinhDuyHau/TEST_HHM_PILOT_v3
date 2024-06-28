@@ -1,0 +1,35 @@
+[
+  {
+    "name": "ma_td",
+    "title": "Mã loại",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "align": "center",
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ngay_hl",
+    "title": "Ngày hiệu lực",
+    "type": "date",
+    "align": "center",
+    "dataFormatString": "datetimeFormat",
+    "width": 160
+  },
+  {
+    "name": "ti_le",
+    "title": "Tỉ lệ",
+    "align": "center",
+    "width": 100
+  },
+  {
+    "name": "tien",
+    "title": "Tiền",
+    "type": "number",
+    "align": "center",
+    "dataFormatString": "normalPrice",
+    "width": 100
+  }
+]

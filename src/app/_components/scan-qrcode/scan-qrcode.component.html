@@ -1,0 +1,43 @@
+<div mat-dialog-actions class="flex flex-col h-full bg-transparent px-4 py-3">
+  <div class="w-full relative flex justify-between bg-white p-1 rounded">
+    <button
+      class="btn_close outline-none bg-white rounded-full"
+      (click)="finishScanning()"
+      aria-label="Close">
+      <mat-icon
+        class="text-primary02_color"
+        style="font-size: 28px; width: 28px; height: 28px"
+        >cancel</mat-icon
+      >
+    </button>
+    <div class="app-wrapper">
+      <!-- <div class="scan-header">{{ 'Quét mã IMEI' + ' ' + now }}</div> -->
+      <!-- <div class="scan-header text-base font-medium py-0.5">
+        abcdefghijklmnopqrstuvw
+      </div> -->
+      <div class="scan-header">Continuously scan codes</div>
+      <div class="barcode-reader">
+        <!-- STRICH BarcodeReader instantiated here -->
+      </div>
+
+      <!-- <div class="scan-results">
+        <div
+          class="scan-detection"
+          *ngIf="codeDetection"
+          (click)="dismissDetection()">
+          <div class="type-name">
+            {{ codeDetection.typeName }}
+          </div>
+          <div class="data">{{ codeDetection.data }}</div>
+        </div>
+      </div> -->
+      <!-- <div
+        class="w-full flex-1 relative flex justify-between px-2 pb-2 items-end">
+        <button class="btn-primary" (click)="finishScanning()">Hủy</button>
+        <button class="btn-primary" (click)="goToSingleScanning()">
+          SWITCH TO SINGLE
+        </button>
+      </div> -->
+    </div>
+  </div>
+</div>

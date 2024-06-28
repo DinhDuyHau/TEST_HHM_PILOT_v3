@@ -1,0 +1,142 @@
+<div mat-dialog-content class="advanced-search-dialog-container">
+  <div class="advanced-search-dialog-wrapper adv-search-form-box">
+    <div class="pb-1 title">Tìm kiếm nâng cao</div>
+    <div class="box-container mb-5">
+      <div class="d-flex gap-2 box">
+        <div class="flex-1 form-type-date">
+          <label class="col-form-label" for="ngay_bd">Từ ngày</label>
+          <!-- <input class="form-control" type="date" id="ngay_bd" [value]="filters.ngay_bd" (change)="onChangeDateStart($event)" /> -->
+          <app-input-date #date_start
+            id="ngay_bd"
+            [text]="filters.ngay_bd"
+            (handleBlur)="onBlurDateStart($event, date_start)"
+            (handleKeyUp)="onEnter($event, date_end)"
+          ></app-input-date>
+          <span
+            *ngIf="!filters.ngay_bd && invalid"
+            style="font-size: 12px; color: #dc3545"
+            >Chưa nhập thông tin ngày bắt đầu</span
+          >
+        </div>
+        <div class="flex-1 form-type-date">
+          <label class="col-form-label" for="ngay_kt">Đến ngày</label>
+          <!-- <input class="form-control" type="date" id="ngay_kt" [value]="filters.ngay_kt" (change)="onChangeDateEnd($event)" /> -->
+          <app-input-date #date_end
+            id="ngay_kt"
+            [text]="filters.ngay_kt"
+            (handleBlur)="onBlurDateEnd($event, date_end)"
+            (handleKeyUp)="onEnter($event, so_ct_bd)"
+          ></app-input-date>
+          <span
+            *ngIf="!filters.ngay_kt && invalid"
+            style="font-size: 12px; color: #dc3545"
+            >Chưa nhập thông tin ngày kết thúc</span
+          >
+        </div>
+      </div>
+      <div class="d-flex gap-2 box">
+        <form-input-custom
+          class="flex-1"
+          #so_ct_bd
+          [name]="'so_ct_bd'"
+          [label]="'Số hóa đơn từ'"
+          [value]="filters.so_ct_bd"
+          (handleChangeValue)="filters.so_ct_bd = $event" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'so_ct_kt'"
+          [label]="'Số hóa đơn đến'"
+          [value]="filters.so_ct_kt"
+          (handleChangeValue)="filters.so_ct_kt = $event" />
+      </div>
+
+      <div class="d-flex gap-2 box">
+        <form-input-custom
+          class="flex-1"
+          [name]="'ma_kh'"
+          [label]="'Mã khách'"
+          (handleChangeValue)="filters.ma_kh = $event"
+          [value]="filters.ma_kh"
+          (handleEnterInput)="onEnterCustomerCode($event)"
+          (handleClickOpenDialog)="openSearchCustomerDialog()" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ten_kh'"
+          [label]="'Tên khách'"
+          [value]="filters.ten_kh"
+          [readonly]="true" />
+      </div>
+
+      <!-- <div class="d-flex gap-2 box">
+        <form-input-custom
+          class="flex-1"
+          [name]="'ma_kho_x'"
+          [label]="'Mã kho xuất'"
+          [value]="filters.ma_kho_x"
+          (handleChangeValue)="filters.ma_kho_x = $event"
+          (handleClickOpenDialog)="openWarehouseDialog('ma_kho_x', 'ten_kho_xuat')" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ten_kho_xuat'"
+          [label]="'Tên kho xuất'"
+          [value]="filters.ten_kho_xuat"
+          [readonly]="true" />
+      </div> -->
+
+      <div class="d-flex gap-2 box">
+        <form-input-custom
+          class="flex-1"
+          [name]="'ma_kho'"
+          [label]="'Mã kho'"
+          [value]="filters.ma_kho"
+          (handleChangeValue)="filters.ma_kho = $event"
+          (handleClickOpenDialog)="openWarehouseDialog('ma_kho', 'ten_kho_nhap')" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ten_kho_nhap'"
+          [label]="'Tên kho'"
+          [value]="filters.ten_kho_nhap"
+          [readonly]="true" />
+      </div>
+
+      <div class="d-flex gap-2 box">
+        <form-input-custom
+          class="flex-1"
+          name="ma_vt"
+          label="Mã hàng"
+          [value]="filters.ma_vt"
+          (handleChangeValue)="filters.ma_vt = $event"
+          (handleEnterInput)="onEnterMerchandiseCode($event)"
+          (handleClickOpenDialog)="openMerchandiseDialog()" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ten_vt'"
+          [label]="'Tên hàng'"
+          [value]="filters.ten_vt"
+          [readonly]="true" />
+      </div>
+      
+      <form-input-custom
+        class="box"
+        [name]="'ma_imei'"
+        [label]="'Mã imei'"
+        [value]="filters.ma_imei"
+        (handleChangeValue)="filters.ma_imei = $event" />
+      <form-select-custom
+        class="box"
+        label="Trạng thái"
+        [options]="statusList"
+        optionDes="statusname"
+        optionValue="status"
+        [value]="filters.status"
+        (handleChangeValue)="filters.status = $event" />
+    </div>
+    <div class="d-flex justify-end gap-2">
+      <div class="btn-responsive btn-cancel" (click)="onCancel()">Hủy bỏ</div>
+      <div class="btn-responsive btn-add" (click)="onSave()">Tìm kiếm</div>
+    </div>
+    <div class="close-btn" (click)="onCancel()">
+      <i class="fas fa-times"></i>
+    </div>
+  </div>
+</div>

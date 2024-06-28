@@ -1,0 +1,142 @@
+<div
+  class="flex flex-1 flex-col bg-primary02_color nav"
+  [ngClass]="{'w-sidebar_width': isExtend, 'w-sidebar_width_small': !isExtend}">
+  <div class="flex justify-between h-header_height border-0.5 relative">
+    <div></div>
+    <div class="sidebar_logo cursor-pointer" routerLink="/">
+      <img
+        *ngIf="isExtend"
+        src="/assets/images/logo.png"
+        width="197px"
+        height="62px"
+        alt="logo" />
+      <img
+        *ngIf="!isExtend"
+        src="/assets/images/logo_small.png"
+        width="52px"
+        height="34px"
+        alt="logo" />
+    </div>
+    <div></div>
+    <div></div>
+    <div class="absolute top-1/2 -translate-y-1/2 -right-4">
+      <div class="flex items-center">
+        <div
+          class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+          <div
+            (click)="extend()"
+            class="w-8 h-8 bg-primary03_color flex items-center justify-center rounded-full cursor-pointer hover:bg-slate-500">
+            <fa-icon
+              class="text-white"
+              [icon]="
+                isExtend ? ['fas', 'chevron-left'] : ['fas', 'chevron-right']
+              "
+              size="xs"></fa-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex-1 h-content_sidebar overflow-y-auto flex flex-col">
+    <div class="flex flex-1 flex-col">
+      <div *ngFor="let item of menuItem; let index = index" class="menu_item">
+        <a
+          *ngIf="!isExtend"
+          class="flex flex-1 justify-center items-center h-full nav-link">
+          <div class="flex items-center hover:text-secondary_color px-4 py-6">
+            <div
+              class="flex justify-center items-center w-6 h-6 bg-primary01_color rounded">
+              <fa-icon
+                class="text-white"
+                [icon]="['fas', castIcon(item.icon)]"
+                size="sm"></fa-icon>
+            </div>
+          </div>
+        </a>
+        <ng-container *ngIf="isExtend">
+          <a
+            *ngIf="
+              !item.children || (item.children && item.children.length === 0)
+            "
+            class="flex flex-1 justify-between items-center h-full group hover:bg-primary01_color">
+            <div class="flex items-center hover:text-secondary_color px-4 py-6">
+              <div
+                class="flex justify-center items-center w-6 h-6 bg-primary01_color rounded group-hover:bg-primary03_color">
+                <fa-icon
+                  class="text-white"
+                  [icon]="['fas', castIcon(item.icon)]"
+                  size="sm"></fa-icon>
+              </div>
+              <span class="pl-3 text-lg font-medium text-white">
+                {{ item.bar }}</span
+              >
+            </div>
+          </a>
+          <a
+            *ngIf="item.children && item.children.length !== 0"
+            class="flex flex-1 flex-col">
+            <div class="flex flex-1 flex-col">
+              <div
+                (click)="extendMenu(index)"
+                class="flex flex-1 justify-between items-center hover:text-secondary px-4 py-6 group hover:bg-primary01_color"
+                [ngClass]="{'bg-primary01_color': item.extend}">
+                <div class="flex items-center">
+                  <div
+                    class="flex justify-center items-center w-6 h-6 rounded group-hover:bg-primary03_color"
+                    [ngClass]="{
+                      'bg-primary01_color': !item.extend,
+                      'bg-primary03_color': item.extend
+                    }">
+                    <fa-icon
+                      class="text-white"
+                      [icon]="['fas', castIcon(item.icon)]"
+                      size="sm"></fa-icon>
+                  </div>
+                  <span class="pl-3 text-lg font-medium text-white">
+                    {{ item.bar }}</span
+                  >
+                </div>
+                <div>
+                  <fa-icon
+                    class="text-white"
+                    [icon]="
+                      !item.extend
+                        ? ['fas', 'chevron-down']
+                        : ['fas', 'chevron-up']
+                    "
+                    size="sm"></fa-icon>
+                </div>
+              </div>
+              <div>
+                <nav class="min-w-max pl-8" *ngIf="item.extend">
+                  <div class="flex flex-col flex-1">
+                    <div
+                      *ngFor="let child of item.children"
+                      class="flex flex-1 items-center py-1 px-2">
+                      <a
+                        class="flex items-center h-full nav-link z-50 w-full hover:text-white"
+                        style="color: #63968e"
+                        [routerLink]="child.link"
+                        activeClassName="active"
+                        routerLinkActive="active"
+                        >{{ child.bar }}
+                      </a>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </a>
+        </ng-container>
+      </div>
+    </div>
+    <div class="flex justify-center">
+      <a href="https://genbyte.net/" class="text-white" *ngIf="isExtend">
+        © {{ year }} Genbyte
+      </a>
+      <a href="https://genbyte.net/" class="text-white" *ngIf="!isExtend">
+        © Genbyte
+      </a>
+    </div>
+  </div>
+</div>

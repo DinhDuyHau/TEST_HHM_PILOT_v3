@@ -1,0 +1,67 @@
+[
+  {
+    "name": "line_nbr",
+    "title": "STT",
+    "isLockingColumn": true,
+    "align": "center",
+    "width": 40
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã hàng",
+    "isLockingColumn": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên hàng",
+    "isLockingColumn": true,
+    "width": 400,
+    "allowSorting": true,
+    "allowFilter": true
+  },
+  {
+    "name": "dvt",
+    "title": "Đvt",
+    "isLockingColumn": false,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 100
+  },
+  {
+    "name": "so_luong",
+    "title": "Số lượng",
+    "type": "number",
+    "dataFormatString": "baseCurrencyAmountViewFormat",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140
+  },
+  {
+    "name": "ghi_chu",
+    "title": "Ghi chú",
+    "width": 400
+  },
+  {
+    "name": "sl_duyet",
+    "title": "Sl duyệt",
+    "type": "number",
+    "dataFormatString": "baseCurrencyAmountViewFormat",
+    "width": 140
+  },
+  {
+    "name": "sl_dh",
+    "title": "Sl đặt hàng",
+    "type": "number",
+    "dataFormatString": "baseCurrencyAmountViewFormat",
+    "width": 140
+  },
+  {
+    "name": "xstatus_name",
+    "title": "Trạng thái",
+    "width": 140
+  }
+]

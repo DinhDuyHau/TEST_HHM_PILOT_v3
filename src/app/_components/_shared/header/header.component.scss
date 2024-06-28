@@ -1,0 +1,35 @@
+.header {
+  background-color: #fff;
+  box-shadow: 12px 10px 10px rgba(246, 248, 252, 0.5);
+  border-bottom: 1px solid #fff;
+}
+::ng-deep .cdk-overlay-connected-position-bounding-box {
+  position: relative;
+  margin-top: 0px;
+  margin-left: -16px;
+}
+.box-shadow {
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+.z-1000 {
+  z-index: 1000;
+}
+.z-999 {
+  z-index: 999;
+}
+// ::ng-deep .cdk-overlay-connected-position-bounding-box::before {
+//   content: '';
+//   position: absolute;
+//   top: -5px;
+//   right: 10px;
+//   width: 0;
+//   height: 0;
+//   border-left: 16px solid transparent;
+//   border-right: 16px solid transparent;
+//   border-top: 10px solid #fff;
+//   /* Neutrals 08 */
+//   box-shadow: 2px 4px 15px #e7ebf2;
+//   border-radius: 2px;
+//   transform: rotate(180deg);
+// }

@@ -1,0 +1,77 @@
+[
+  {
+    "name": "line_nbr",
+    "title": "STT",
+    "width": 100,
+    "isPrimaryKey": true,
+    "align": "center"
+  },
+  {
+    "name": "dien_giai",
+    "title": "Ghi chú",
+    "width": 220
+  },
+  {
+    "name": "tien_nt",
+    "title": "Tiền",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "ma_loai_thu_ho",
+    "title": "Mã loại",
+    "width": 120
+  },
+  {
+    "name": "ten_loai_thu_ho",
+    "title": "Tên loại",
+    "width": 220
+  },
+  {
+    "name": "ma_dvth",
+    "title": "Mã DV thu hộ",
+    "width": 120
+  },
+  {
+    "name": "ten_dvth",
+    "title": "Tên DV thu hộ",
+    "width": 220
+  },
+  {
+    "name": "ma_td2",
+    "title": "Mã GD đối tượng thu hộ",
+    "width": 200
+  },
+  {
+    "name": "ma_kh_thuho",
+    "title": "Mã KH đối tượng thu hộ",
+    "width": 200
+  },
+  {
+    "name": "ten_kh_thuho",
+    "title": "Tên đối tượng thu hộ",
+    "width": 220
+  },
+  {
+    "name": "ma_imei",
+    "title": "Mã imei",
+    "width": 120
+  },
+  {
+    "name": "tien_hoa_hong_nt",
+    "title": "Tiền hoa hồng",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "action",
+    "title": "Thao tác",
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "action"
+  }
+]

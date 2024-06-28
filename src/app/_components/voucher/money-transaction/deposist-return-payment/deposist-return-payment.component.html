@@ -1,0 +1,23 @@
+<div class="p-0 lg:mx-5 lg:my-4 lg:px-9 bg-white">
+  <app-grid-v2
+    [sysid]="'CDTran_PCH'"
+    [titleGrid]="titleGrid"
+    [fields]="fields"
+    [dataSource]="dataSource"
+    [totalItems]="totalItems"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageCount]="pageCount"
+    [pageSizeOptions]="pageSizeOptions"
+    [isLockingColumn]="isLockingColumn"
+    [buttons]="buttonsCustom"
+    (handlePaging)="onPageChange($event)"
+    (handleChangeCheckbox)="onCheckboxListChanged($event)"
+    (handleSelectColumn)="onSelectColumn($event)"
+    (handleSortColumn)="onSortColumn($event)"
+    (handleSearch)="onSearch()"
+    (handleButton)="onClickButton($event)"
+    (handleFilter)="onFilter($event)"
+    class="flex-1 rounded-3xl">
+  </app-grid-v2>
+</div>

@@ -1,0 +1,13 @@
+<label *ngIf="label" class="col-form-label">{{ label }}</label>
+<select
+  class="form-select"
+  [disabled]="isDisable"
+  (change)="onChangeValue($event)">
+  <option
+    *ngFor="let option of options"
+    [value]="option[optionValue]"
+    [selected]="value && option[optionValue].trim() == value.trim()"
+    [disabled]="option['disabled'] == true">
+    {{ option[optionDes] }}
+  </option>
+</select>

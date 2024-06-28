@@ -1,0 +1,42 @@
+[
+  {
+    "name": "ma_nv",
+    "title": "Mã nhân viên",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 60,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ngay_lap",
+    "title": "Ngày lập",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 100
+  },
+  {
+    "name": "so_phieu",
+    "title": "Số",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 100
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 100
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 100
+  }
+]

@@ -1,0 +1,90 @@
+<div>
+  <label class="col-form-label" for="{{ name }}" *ngIf="label">{{
+    label
+  }}</label>
+</div>
+<div class="d-flex input-select flex-1 gap-2">
+  <div class="flex-1 position-relative">
+    <input
+      class="form-control"
+      [ngClass]="{
+        'text-center': align === 'center',
+        'text-end': align === 'end',
+        'text-right': align === 'right',
+        'text-left': align === 'left',
+        'border-danger':
+          (!value ||
+            (+value === 0 &&
+              dataType === 'number' &&
+              format === 'moneyViewFormat')) &&
+          invalid
+      }"
+      id="{{ name }}"
+      #ref
+      [type]="type"
+      [ngModel]="value"
+      (input)="onInput(ref)"
+      (change)="onChangeValue()"
+      (blur)="onBlur(ref.value)"
+      (focus)="onFocus(ref)"
+      [tabindex]="tabIndex"
+      (keyup)="onEnter($event)"
+      [disabled]="disabled || readonly" />
+    <span
+      *ngIf="
+        (!value ||
+          (+value === 0 &&
+            dataType === 'number' &&
+            format === 'moneyViewFormat')) &&
+        invalid
+      "
+      class="text-danger"
+      >Chưa nhập thông tin {{ label.toLowerCase() }}</span
+    >
+    <div
+      class="position-absolute top-0 end-0"
+      (click)="openDialog()"
+      *ngIf="handleClickOpenDialog.observers.length && !disabled">
+      <button class="search-btn">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+    <div
+      class="position-absolute top-0 end-0"
+      (click)="onClickSearch()"
+      *ngIf="handleClickSearch.observers.length">
+      <button class="search-btn">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="d-flex align-items-center" *ngIf="uploadImage && !disabled">
+    <button class="scan-btn" (click)="onClickCodeScanner()">
+      <mat-icon class="icon">qr_code_scanner</mat-icon>
+      <span>Quét mã</span>
+    </button>
+  </div>
+  <div
+    class="d-flex align-items-center gap-2"
+    *ngIf="handleUploadImage.observers.length && !disabled">
+    <button class="scan-btn" (click)="onClickUploadImage()">
+      <mat-icon class="icon">add_a_photo</mat-icon>
+    </button>
+  </div>
+  <div
+    class="d-flex align-items-center"
+    *ngIf="handleUploadImage.observers.length && !disabled">
+    <button class="scan-btn" (click)="onClickUViewPhoto()">
+      <mat-icon>remove_red_eye</mat-icon>
+    </button>
+  </div>
+  <div *ngIf="uploading" class="d-flex align-items-center">
+    <div>
+      <mat-icon class="text-primary" *ngIf="false">check_circle</mat-icon>
+      <mat-spinner
+        class="text-primary"
+        *ngIf="uploading"
+        style="width: 24px; height: 24px"></mat-spinner>
+    </div>
+  </div>
+</div>

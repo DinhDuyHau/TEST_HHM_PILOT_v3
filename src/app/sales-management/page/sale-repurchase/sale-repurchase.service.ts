@@ -1,0 +1,197 @@
+import { Injectable } from '@angular/core';
+import { Customer } from '@app/_components/category/customer/customer.model';
+import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
+import { ImeiApiService } from '@app/sales-management/api/imei-api.service';
+import { MerchandiseApiService } from '@app/sales-management/api/merchandise-api.service';
+import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
+import { Discount } from '@app/sales-management/model/ticket/common-model/discount.model';
+import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
+import { MasterInfo, Merchandise, SaleRepurchaseTicket, TAB_NAME } from '@app/sales-management/model/ticket/sale-repurchase/model';
+import { CommonService } from '../common/common.service';
+import { MerchandiseService } from '../common/merchandise.service';
+import { MerchandiseRequest, MasterInfoRequest } from '@app/sales-management/model/ticket/sale-repurchase/request.model';
+import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
+import { Language } from '../common/language';
+import { PaymentService } from '../common/payment.service';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class SaleRepurchaseService {
+    discountOptions: Discount[] = [];
+    isNeedCalcDiscount = true;
+    ticket!: SaleRepurchaseTicket;
+
+    constructor(
+        private customerApiService: CustomerApiService,
+        private ticketApiService: TicketApiService,
+        private imeiApiService: ImeiApiService,
+        private merchandiseApiService: MerchandiseApiService,
+        private commonService: CommonService,
+        private merchandiseService: MerchandiseService,
+        private paymentService: PaymentService
+    ) {
+
+    }
+
+    //#region setter
+    setTicket(ticket: SaleRepurchaseTicket) {
+        this.ticket = ticket;
+    }
+
+    //#endregion setter
+
+    // #region init
+    loadData(data: VoucherDto) {
+        this.ticket.masterInfo = this.commonService.convertMasterInfoFromVoucher(data.masterInfo, MasterInfo);
+        this.customerApiService.getOneById(data.masterInfo.ma_kh).subscribe(result => {
+            const customer = result.result as any;
+            this.ticket.masterInfo.ten_kh = customer.ten_kh;
+            this.ticket.masterInfo.dia_chi = customer.dia_chi;
+        });
+
+        data.details.forEach(e => {
+            switch (e.name) {
+                case TAB_NAME.MERCHANDISE:
+                    this.merchandiseService.convertFromVoucher(e.data, this.ticket.merchandise, Merchandise);
+                    break;
+                case TAB_NAME.PAYMENT:
+                    this.paymentService.convertPaymentFromVoucher(e.data, this.ticket.payment);
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    // create or update
+    prepareVoucher(): VoucherDto {
+        const voucherDto: VoucherDto = new VoucherDto;
+        voucherDto.details = [];
+        voucherDto.masterInfo = this.commonService.convertMasterInfo(this.ticket.masterInfo, MasterInfoRequest);
+        voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.MERCHANDISE, data: this.merchandiseService.convertMerchandiseToRequest(this.ticket.merchandise, voucherDto.masterInfo, MerchandiseRequest) }];
+        voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
+        return voucherDto;
+    }
+
+    initTicket(ticket: SaleRepurchaseTicket) {
+        const userJson = localStorage.getItem('user');
+        const userObj = userJson !== null && JSON.parse(userJson);
+
+        ticket.masterInfo.ma_ct = TICKET_CODE.REPURCHASE;
+        ticket.masterInfo.ma_cuahang = userObj['shop'];
+        ticket.masterInfo.status = '0';
+        ticket.masterInfo.ma_ca = userObj['shift'];
+        ticket.masterInfo.ngay_ct = Date();
+        ticket.masterInfo.ma_nvbh = userObj['username'];
+        ticket.masterInfo.ma_dvcs = userObj['unit'];
+        this.ticketApiService.getVoucherNumber(TICKET_ENTITY.REPURCHASE).subscribe(result => {
+            ticket.masterInfo.so_ct = result.result as any;
+        });
+    }
+
+    //#endregion init
+
+    //#region customer
+    setInfoCustomer(customer: Customer) {
+        this.ticket.masterInfo.ma_kh = customer.ma_kh;
+        this.ticket.masterInfo.ten_kh = customer.ten_kh;
+        this.ticket.masterInfo.dia_chi = customer.dia_chi;
+        this.ticket.masterInfo.email_nhan_key = customer.email_cn;
+
+        //Thông tin khách hàng trên hóa đơn điện tử
+        this.ticket.masterInfo.hd_dia_chi = customer.hoadon_diachi || '';
+        this.ticket.masterInfo.hd_email = customer.hoadon_email || '';
+        this.ticket.masterInfo.hd_mst = customer.hoadon_mst || '';
+        this.ticket.masterInfo.hd_ten_kh = customer.hoadon_tenkh || '';
+    }
+
+    resetCustomerInfo(ticket: SaleRepurchaseTicket) {
+        ticket.masterInfo.ten_kh = '';
+        ticket.masterInfo.dia_chi = '';
+    }
+    //#endregion customer
+
+    // #region imei
+    getImeiInStore(imei: string) {
+        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.REPURCHASE);
+    }
+    getImeisState(imeis: string[]) {
+        return this.imeiApiService.getImeisState(imeis);
+    }
+    getImeisStateAndItem(imeis: string[]) {
+        return this.imeiApiService.getImeisStateAndItem(imeis);
+    }
+    getMerchandiseInfo(ma_vt: string) {
+        return this.merchandiseApiService.getOneById(ma_vt);
+    }
+
+    // #endregion imei
+
+    // #region merchandise
+
+    removeMerchandise(merchandise: Merchandise) {
+        this.merchandiseService.removeMerchandise(merchandise, this.ticket.merchandise);
+        this.calcMoney();
+        this.commonService.removeImeiFromStorage(merchandise.ma_imei);
+        this.commonService.showMessage(Language.content.Delete_Completed);
+        // this.imeiApiService.updateImeiState([merchandise.ma_imei], false, 1).subscribe((result) => {
+        //     if (!result.result[0].dat_hang_yn) {
+        //         this.merchandiseService.removeMerchandise(merchandise, this.ticket.merchandise);
+        //         this.calcMoney();
+        //         this.commonService.removeImeiFromStorage(merchandise.ma_imei);
+        //         this.commonService.showMessage(Language.content.Delete_Completed);
+        //     }
+        // });
+    }
+
+    // #endregion merchandise
+
+    //#region other
+    calcMoney() {
+        this.ticket.masterInfo.t_so_luong = this.ticket.merchandise.length;
+
+        let merchandiseMoney = this.ticket.merchandise
+            .map(e => e.gia_ban)
+            .reduce((pre, cur) => pre + cur, 0);
+        merchandiseMoney = this.commonService.rouding(merchandiseMoney);
+
+        this.ticket.masterInfo.t_tien = merchandiseMoney;
+        this.ticket.masterInfo.t_tien_nt = merchandiseMoney;
+        this.ticket.masterInfo.t_tt = merchandiseMoney;
+        this.ticket.masterInfo.t_tt_nt = merchandiseMoney;
+        this.ticket.masterInfo.t_tt_nt = merchandiseMoney;
+        this.ticket.masterInfo.t_con_no = merchandiseMoney - this.ticket.masterInfo.t_da_tra || 0;
+
+        // this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);
+    }
+
+    // validate ticket before create or update
+    validateTicket(ticket: SaleRepurchaseTicket): string {
+        let message = '';
+        if (!ticket.masterInfo.so_ct) {
+            message = this.commonService.getMessage('lbl_invalid_so_ct');
+        } else if (!ticket.masterInfo.ngay_ct) {
+            message = this.commonService.getMessage('lbl_invalid_ngay_ct');
+        } else if (!ticket.masterInfo.ma_dvcs) {
+            message = this.commonService.getMessage('lbl_invalid_ma_dvcs');
+        } else if (!ticket.masterInfo.ma_kh && !ticket.masterInfo.ten_kh) {
+            message = this.commonService.getMessage('lbl_invalid_ma_kh');
+        } else if (ticket.masterInfo.t_tt_nt < 0) {
+            message = this.commonService.getMessage('lbl_invalid_tt');
+        } else if (ticket.masterInfo.t_tien_nt2 < 0) {
+            message = this.commonService.getMessage('lbl_invalid_t_tien');
+        }
+        return message;
+    }
+
+    isInvalidForm(masterInfo: MasterInfo) {
+        if (!masterInfo.ma_kh) {
+            return true;
+        }
+        return false;
+    }
+
+    // #endregion other
+
+}

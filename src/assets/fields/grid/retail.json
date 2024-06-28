@@ -1,0 +1,105 @@
+[
+  {
+    "name": "action",
+    "title": "Thao tác",
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "action"
+  },
+  {
+    "name": "ma_dvcs",
+    "title": "Đơn vị",
+    "isLockingColumn": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày",
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "so_ct",
+    "title": "Số",
+    "isLockingColumn": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách hàng",
+    "isLockingColumn": false,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "dien_giai",
+    "title": "Diễn giải",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "t_tien_nt2",
+    "title": "Tiền hàng",
+    "type": "number",
+    "dataFormatString": "baseCurrencyAmountViewFormat",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140,
+    "align": "right"
+  },
+  {
+    "name": "t_ck_nt",
+    "title": "Chiết khấu",
+    "type": "number",
+    "dataFormatString": "baseCurrencyAmountViewFormat",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140,
+    "align": "right"
+  },
+  {
+    "name": "t_thue_nt",
+    "title": "Tiền thuế",
+    "type": "number",
+    "dataFormatString": "baseCurrencyAmountViewFormat",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140,
+    "align": "right"
+  },
+  {
+    "name": "t_tt_nt",
+    "title": "Thanh toán",
+    "type": "number",
+    "dataFormatString": "baseCurrencyAmountViewFormat",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140,
+    "align": "right"
+  },
+  {
+    "name": "status",
+    "title": "Trạng thái",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140
+  },
+  {
+    "name": "user_id0",
+    "title": "Người lập",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140
+  }
+]

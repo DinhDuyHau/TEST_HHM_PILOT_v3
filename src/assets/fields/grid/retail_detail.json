@@ -1,0 +1,69 @@
+[
+  {
+    "name": "stt",
+    "title": "STT",
+    "isLockingColumn": true,
+    "align": "center",
+    "width": 40
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã hàng",
+    "isLockingColumn": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên hàng",
+    "isLockingColumn": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true
+  },
+  {
+    "name": "ma_imei",
+    "title": "IMEI",
+    "isLockingColumn": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "dvt",
+    "title": "Đvt",
+    "isLockingColumn": false,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 100
+  },
+  {
+    "name": "ma_kho",
+    "title": "Mã kho",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 100
+  },
+  {
+    "name": "gia_nt2",
+    "title": "Giá bán",
+    "type": "number",
+    "dataFormatString": "baseCurrencyAmountViewFormat",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140,
+    "align": "right"
+  },
+  {
+    "name": "so_luong",
+    "title": "Số lượng",
+    "type": "number",
+    "dataFormatString": "baseCurrencyAmountViewFormat",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140
+  }
+]

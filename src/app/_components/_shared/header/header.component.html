@@ -1,0 +1,86 @@
+<div
+  class="h-header_height_small lg:h-header_height header flex flex-1 justify-between">
+  <div class="h-full flex-col justify-center pl-9 hidden lg:flex">
+    <div class="text-2xl font-semibold text-neutrals03_color">{{ title }}</div>
+    <div class="text-xs font-medium text-neutrals05_color">Ngày: {{ now }}</div>
+  </div>
+  <div class="h-full flex items-center lg:hidden pl-9" (click)="showMenu()">
+    <div><mat-icon class="w-8 h-8 text-3xl">menu</mat-icon></div>
+  </div>
+  <div class="flex">
+    <div class="flex h-full items-center pr-2 relative">
+      <div
+        (click)="onShowNotification()"
+        class="w-8 h-8 md:w-12 md:h-12 flex items-center relative bg-slate-100 rounded-full justify-center">
+        <mat-icon class="text-primary02_color">notifications</mat-icon>
+        <div
+          class="absolute -top-1 -right-1 text-medium leading-none bg-red-400 rounded-full px-1.5 py-0.5 md:px-2 md:py-1 text-white">
+          {{ notification_count }}
+        </div>
+      </div>
+      <div
+        *ngIf="showNotication"
+        class="fixed left-0 md:absolute md:left-auto mx-4 md:mx-0 top-header_notification right-0 md:-right-36 py-1 z-1000 bg-white box-shadow">
+        <app-notification></app-notification>
+      </div>
+      <div
+        *ngIf="showNotication"
+        (click)="onShowNotification()"
+        class="fixed top-0 left-0 right-0 bottom-0 z-999"></div>
+    </div>
+    <div class="flex items-center pr-6" [matMenuTriggerFor]="menu">
+      <div class="flex items-center cursor-pointer py-4">
+        <div class="flex">
+          <img
+            class="rounded-full w-8 h-8 md:w-12 md:h-12"
+            src="/assets/images/user_default.png"
+            alt="" />
+        </div>
+        <div class="pl-2 hidden md:block">
+          <div class="text-sm text-neutrals03_color">
+            {{ user.username }} - {{ user.shop }}
+          </div>
+          <div class="text-sm text-neutrals03_color">
+            {{ shift && shift.ten_ca }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <mat-menu #menu="matMenu" class="menu_custom">
+      <button mat-menu-item class="hover:bg-neutrals08_color">
+        <div class="flex items-center">
+          <fa-icon
+            class="flex items-center text-base text-blue-500"
+            [icon]="['fas', 'circle-info']"></fa-icon>
+          <div class="ml-2 text-sm text-neutrals03_color">
+            Thông tin tài khoản
+          </div>
+        </div>
+      </button>
+      <button mat-menu-item class="hover:bg-neutrals08_color">
+        <div class="flex items-center">
+          <fa-icon
+            class="flex items-center text-base"
+            [icon]="['fas', 'key']"></fa-icon>
+          <div class="ml-2 text-sm text-neutrals03_color">Đổi mật khẩu</div>
+        </div>
+      </button>
+      <button mat-menu-item class="hover:bg-neutrals08_color">
+        <div routerLink="/setting" class="flex items-center">
+          <fa-icon
+            class="flex items-center text-base text-green-400"
+            [icon]="['fas', 'gear']"></fa-icon>
+          <div class="ml-2 text-sm text-neutrals03_color">Cài đặt</div>
+        </div>
+      </button>
+      <button mat-menu-item class="hover:bg-neutrals08_color">
+        <div routerLink="/logout" class="flex items-center">
+          <fa-icon
+            class="flex items-center text-base text-red-600"
+            [icon]="['fas', 'power-off']"></fa-icon>
+          <div class="ml-2 text-sm text-neutrals03_color">Đăng xuất</div>
+        </div>
+      </button>
+    </mat-menu>
+  </div>
+</div>

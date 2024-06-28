@@ -1,0 +1,239 @@
+<div
+  class="px-1 lg:px-5 lg:mx-5 lg:my-4 lg:py-1 content bg-white ticket-container">
+  <div class="title-page pb-2 flex justify-between items-center">
+    <h5 class="">{{ title }}</h5>
+    <app-voucher-info
+      *ngIf="this.mode != 0"
+      [entity]="entity"
+      class="text-base"
+      [voucherId]="data.masterInfo.stt_rec || ''" />
+  </div>
+  <form action="" [formGroup]="voucherForm" #form>
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-3 pb-2">
+      <div class="flex gap-2">
+        <app-input-custom-v2
+          #so_ct
+          [label]="getLabel('lbl_so_ct')"
+          class="flex-1"
+          name="so_ct"
+          [disabled]="true || disabled"
+          [dataFormatString]="'upperCaseFormat'"
+          type="text"
+          [value]="f['so_ct'].value"
+          (handleChange)="handleInputChange('so_ct', $event)"
+          (handleEnter)="onEnter($event)"></app-input-custom-v2>
+        <app-input-custom-v2
+          [label]="getLabel('lbl_ngay_ct')"
+          [readonly]="true"
+          [disabled]="true || disabled"
+          class="flex-1"
+          type="date"
+          name="ngay_ct"
+          type="text"
+          [value]="f['ngay_ct'].value"
+          [dataFormatString]="'datetimeFormat'"
+          (handleChange)="handleInputChange('ngay_ct', $event)"
+          (handleEnter)="onEnter($event)"></app-input-custom-v2>
+      </div>
+      <div class="flex gap-2">
+        <div class="flex basis-1/3">
+          <app-input-custom-v2
+            class="flex-1"
+            [label]="getLabel('lbl_ma_kh')"
+            #ma_kh
+            name="ma_kh"
+            [disabled]="true"
+            [value]="f['ma_kh'].value"
+            [invalid]="submitted && f['ma_kh'].errors != null"
+            (handleChangeLookup)="handleInputLookupChange($event)"
+            (handleEnter)="onEnter($event)"
+            [control]="employeeService"
+            [lookup]="true || disabled"
+            [reference]="[ma_kh, ten_kh, dia_chi]"></app-input-custom-v2>
+        </div>
+        <div class="flex-1">
+          <app-input-custom-v2
+            class="flex-1"
+            [label]="getLabel('lbl_ten_kh')"
+            #ten_kh
+            name="ten_kh"
+            [value]="this.data.masterInfo['ten_kh']"
+            [disabled]="true || disabled"></app-input-custom-v2>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <div class="flex-1">
+          <app-input-custom-v2
+            class="flex-1"
+            [label]="getLabel('lbl_dia_chi')"
+            #dia_chi
+            name="dia_chi"
+            [disabled]="disabled"
+            (handleEnter)="onEnter($event)"
+            name="dia_chi"
+            (handleChange)="handleInputChange('dia_chi', $event)"
+            [value]="this.data.masterInfo['dia_chi']"
+            [invalid]="
+              submitted && f['dia_chi'].errors != null
+            "></app-input-custom-v2>
+        </div>
+      </div>
+      <div class="flex">
+        <select-custom
+          class="flex-1"
+          [label]="getLabel('lbl_trang_thai')"
+          [options]="statusList"
+          optionDes="statusname"
+          optionValue="status"
+          [isDisable]="disabled"
+          [value]="data.masterInfo.status"
+          (handleChangeValue)="data.masterInfo.status = $event" />
+      </div>
+      <div class="flex gap-2">
+        <app-input-custom-v2
+          [label]="getLabel('lbl_ly_do_nop')"
+          class="flex-1"
+          #input2
+          [disabled]="disabled"
+          (handleEnter)="onEnter($event)"
+          name="ten_kh"
+          (handleChange)="handleInputChange('dien_giai', $event)"
+          [value]="f['dien_giai'].value"
+          [invalid]="
+            submitted && f['dien_giai'].errors != null
+          "></app-input-custom-v2>
+      </div>
+      <div class="flex gap-2">
+        <select-custom
+          class="flex-1"
+          [label]="getLabel('lbl_hinh_thuc')"
+          [options]="paymentList"
+          optionDes="ten_thanhtoan"
+          optionValue="ma_thanhtoan"
+          [isDisable]="disabled"
+          [value]="data.masterInfo.ma_thanhtoan"
+          (handleChangeValue)="handleChangePayment($event)" />
+        <app-input-custom-v2
+          *ngIf="
+            data.masterInfo.ma_thanhtoan &&
+            data.masterInfo.ma_thanhtoan.trim() != 'TM'
+          "
+          class="flex-1"
+          [label]="getLabel('lbl_tai_khoan')"
+          #ten_nh
+          name="ten_nh"
+          [disabled]="disabled"
+          [readonly]="true"
+          [value]="data.masterInfo.ten_nh"
+          (handleChangeLookup)="handleInputLookupChange($event)"
+          [filter]="[{name: 's1', operator: '=', value: '1'}]"
+          (handleEnter)="onEnter($event)"
+          [control]="bankingService"
+          [lookup]="true || disabled"
+          [reference]="[tknh, ten_nh]"></app-input-custom-v2>
+        <app-input-custom-v2
+          class="flex-1 hidden"
+          [label]="'Tài khoản ngân hàng'"
+          #tknh
+          name="tknh"></app-input-custom-v2>
+      </div>
+      <!-- <div class="flex gap-2">
+        <div class="flex-1">
+          <app-input-custom-v2
+            class="flex-1"
+            [label]="'Ghi chú'"
+            [value]="ghi_chu"
+            (handleChange)="this.ghi_chu = $event"
+            name="ghi_chu"
+            type="text"
+            [disabled]="disabled"></app-input-custom-v2>
+        </div>
+      </div> -->
+      <div class="flex gap-2">
+        <div class="flex-1">
+          <app-input-custom-v2
+            class="flex-1"
+            [label]="getLabel('lbl_so_tien')"
+            name="tien"
+            [value]="tien"
+            [dataFormatString]="'normalQuantity'"
+            type="number"
+            [align]="'right'"
+            (handleChange)="this.tien = $event"
+            [invalid]="submitted && f['tien'].errors != null"
+            [action]="false"
+            (handleAction)="false && onEnterItem()"
+            (handleEnter)="false && onEnterItem()"
+            [disabled]="disabled"></app-input-custom-v2>
+        </div>
+      </div>
+    </div>
+
+    <!-- <tabs-custom class="pt-2">
+      <tab-custom label="Chi tiết" class="h-80 w-full">
+        <app-grid-v2
+          [fields]="fields"
+          [dataSource]="dataSource"
+          [isLockingColumn]="isLockingColumn"
+          [gridType]="gridType"
+          [buttons]="buttons"
+          [actionButtons]="actionButtons"
+          [disabled]="disabled"
+          (handlePaging)="onPageChange($event)"
+          (handleSelectColumn)="onSelectColumn($event)"
+          (handleActionButton)="onHandleActionButton($event)"
+          (handleSortColumn)="onSortColumn($event)"
+          (handleSearch)="onSearch()"
+          class="h-full w-full">
+        </app-grid-v2>
+      </tab-custom>
+    </tabs-custom> -->
+    <!-- <div class="grid grid-cols-4 gap-x-10 gap-y-3 pb-2 mx-4">
+      <div class="flex"></div>
+      <div class="flex"></div>
+      <div class="flex"></div>
+      <div class="flex">
+        <app-input-custom-v2
+          #so_ct
+          [label]="'Tổng tiền'"
+          class="flex-1"
+          name="t_tt_nt"
+          [disabled]="true || disabled"
+          [dataFormatString]="'normalQuantity'"
+          type="number"
+          [align]="'right'"
+          [value]="data.masterInfo.t_tt_nt"
+          (handleChange)="handleInputChange('so_ct', $event)"
+          (handleEnter)="onEnter($event)"></app-input-custom-v2>
+      </div>
+    </div> -->
+    <div class="pb-4 border-b-0.5 border-solid border-gray-300"></div>
+    <div class="px-4 py-2 flex flex-1 justify-end">
+      <div class="flex">
+        <app-voucher-info
+          *ngIf="this.mode != 0"
+          [entity]="entity"
+          class="text-base"
+          [voucherId]="data.masterInfo.stt_rec || ''" />
+        <div
+          *ngIf="this.submitButtonTitle !== ''"
+          #btnSubmit
+          type="submit"
+          (click)="!disabled && onSubmit()"
+          class="submit px-4 py-1 text-white rounded min-w-button min-h-button bg-primary02_color hover:bg-primary01_color flex items-center justify-center border-0.5 border-solid border-gray-300">
+          <span
+            *ngIf="loading"
+            class="spinner-border spinner-border-sm mr-1"></span>
+          {{ submitButtonTitle }}
+        </div>
+        <div
+          (click)="onCancel()"
+          form=""
+          class="px-4 ml-2 rounded min-w-button min-h-button bg-neutrals08_color hover:bg-slate-200 py-1 flex items-center justify-center border-0.5 border-solid border-gray-300">
+          {{ cancelButtonTitle }}
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,28 @@
+[
+  {
+    "name": "ma_nvbh",
+    "title": "Mã NVBH",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_nvbh",
+    "title": "Tên NVBH",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "ten_nvbh2",
+    "title": "Tên NVBH 2",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  }
+]

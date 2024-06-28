@@ -1,0 +1,34 @@
+[
+  {
+    "name": "ma_vt",
+    "title": "Mã vật tư",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên vật tư",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "ten_vt2",
+    "title": "Tên vật tư 2",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "multipleLine": true,
+    "width": 400
+  },
+  {
+    "name": "dvt",
+    "title": "Đơn vị tính",
+    "width": 260
+  }
+]

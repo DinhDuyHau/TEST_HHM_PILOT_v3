@@ -1,0 +1,85 @@
+[
+  {
+    "name": "ma_imei",
+    "title": "Mã imei",
+    "width": 160,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã vật tư",
+    "allowFilter": true,
+    "width": 160,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên vật tư",
+    "width": 200,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ngay_tinh_tuoi",
+    "title": "Ngày nhập",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "tuoi",
+    "title": "Tuổi imei",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "center",
+    "width": 70
+  },
+  {
+    "name": "nh_vt",
+    "title": "Nhóm vật tư",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 140
+  },
+  {
+    "name": "status",
+    "title": "Trạng thái",
+    "isLockingColumn": true,
+    "width": 100
+  },
+  {
+    "name": "xuat_yn",
+    "title": "Xuất",
+    "type": "boolean",
+    "width": 100
+  },
+  {
+    "name": "dat_hang_yn",
+    "title": "Đặt hàng",
+    "type": "boolean",
+    "width": 100
+  },
+  {
+    "name": "dieu_chuyen_yn",
+    "title": "Điều chuyển",
+    "type": "boolean",
+    "width": 100
+  },
+  {
+    "name": "bao_hanh_yn",
+    "title": "Bảo hành",
+    "type": "boolean",
+    "width": 100
+  },
+  {
+    "name": "di_duong_yn",
+    "title": "Đi đường",
+    "type": "boolean",
+    "width": 100
+  }
+]

@@ -1,0 +1,30 @@
+<div mat-dialog-actions class="flex flex-col h-full bg-white">
+  <div class="screen-container">
+    <webcam
+      *ngIf="!imageData.previewImage"
+      [imageQuality]="1"
+      (imageClick)="handleClick()"
+      (initError)="handleInitError($event)"
+      [trigger]="$trigger"
+      (imageCapture)="snapshot($event)"
+      [videoOptions]="videoOptions"
+      [allowCameraSwitch]="allowCameraSwitch"></webcam>
+    <div
+      class="btn-capture"
+      (click)="handleCaptureImage()"
+      *ngIf="!imageData.previewImage">
+      <i class="fas fa-camera"></i>
+    </div>
+    <div
+      class="btn-back"
+      (click)="handleCaptureImageAgain()"
+      *ngIf="imageData.previewImage">
+      Chụp lại
+    </div>
+    <div class="btn-close" (click)="onClickClose()"></div>
+  </div>
+  <div *ngIf="imageData.previewImage">
+    <img [src]="imageData.previewImage" alt="" />
+  </div>
+  <!-- <div class="btn-success" (click)="CheckPermissions()">Check permissions</div> -->
+</div>

@@ -1,0 +1,62 @@
+<div class="search-dialog-container">
+  <div class="search-dialog-wrapper px-2">
+    <div class="title mb-3">Danh sách chuyển khoản</div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <form-payment-custom
+        [readonly]="readonly"
+        [disabled]="true"
+        [name]="'ten_ngan_hang'"
+        [label]="'Ngân hàng nhận tiền'"
+        class="flex-1"
+        [align]="'left'"
+        [value]="chuyen_khoan.ten_ngan_hang"
+        [invalid]="invalid"
+        [disabled]="readonly"
+        (handleChangeValue)="chuyen_khoan.tk_nh_nhan = $event"
+        (handleClickOpenDialog)="onOpenSearchBankAccount()" />
+      <form-payment-custom
+        [readonly]="readonly"
+        label="Số tiền"
+        class="flex-1"
+        [value]="chuyen_khoan.tien"
+        [align]="'end'"
+        dataType="number"
+        format="moneyInputFormat"
+        [invalid]="invalid"
+        [disabled]="readonly"
+        (handleChangeValue)="chuyen_khoan.tien = $event"
+        (handleEnterInput)="addDetail()" />
+      <form-payment-custom
+        [readonly]="true"
+        label="Tiền còn nợ"
+        class="flex-1"
+        [value]="t_con_no"
+        [align]="'end'"
+        dataType="number"
+        format="moneyViewFormat"
+        [invalid]="invalid"
+        [disabled]="true" />
+    </div>
+    <div class="search-dialog pt-2">
+      <div class="py-1 text-base font-semibold">Chi tiết</div>
+      <table-custom
+        [isLoading]="isLoading"
+        [type]="'search-dialog'"
+        [dataSource]="dataSource"
+        [columns]="columns"
+        [totalItem]="recordCount"
+        [size]="page_size"
+        [isTicket]="false"
+        [readonly]="readonly"
+        (handleDelete)="onDeleteItem($event)"></table-custom>
+    </div>
+
+    <div class="d-flex justify-end gap-2 px-3">
+      <div class="btn-responsive btn-cancel" (click)="onCancel()">Đóng</div>
+      <!-- <div class="btn-responsive btn-add" (click)="onSave()">Chọn</div> -->
+    </div>
+    <div class="close-btn" (click)="onCancel()">
+      <i class="fas fa-times"></i>
+    </div>
+  </div>
+</div>

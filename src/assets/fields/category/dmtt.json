@@ -1,0 +1,32 @@
+[
+  {
+    "name": "ma_tt",
+    "title": "Mã thanh toán",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_tt",
+    "title": "Tên thanh toán",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "han_tt",
+    "title": "Hạn thanh toán",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 200
+  },
+  {
+    "name": "ten_ngan",
+    "title": "Tên ngắn",
+    "width": 260
+  }
+]

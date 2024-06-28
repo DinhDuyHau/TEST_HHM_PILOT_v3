@@ -1,0 +1,63 @@
+[
+  {
+    "name": "ma_vt",
+    "title": "Mã vật tư",
+    "isLockingColumn": true,
+    "width": 120,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên vật tư",
+    "isLockingColumn": true,
+    "width": 220
+  },
+  {
+    "name": "ma_imei",
+    "title": "Imei",
+    "isPrimaryKey": true,
+    "isLockingColumn": true,
+    "width": 120
+  },
+  {
+    "name": "dvt",
+    "title": "Đvt",
+    "isLockingColumn": false,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 80
+  },
+  {
+    "name": "so_luong",
+    "title": "Số lượng",
+    "type": "number",
+    "align": "center",
+    "dataFormatString": "normalQuantity",
+    "width": 100
+  },
+  {
+    "name": "gia_nt",
+    "title": "Giá",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "tien_nt",
+    "title": "Tiền",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "action",
+    "title": "Thao tác",
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "action"
+  }
+]

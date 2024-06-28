@@ -1,0 +1,15 @@
+<nav class="bg-navbar min-w-max">
+  <div class="flex flex-col flex-1">
+    <div
+      *ngFor="let item of items"
+      class="flex flex-1 items-center py-1 group px-2 cursor-pointer relative hover:text-secondary text-text_color hover:bg-hover_navbar hover:after:block after:hidden after:content-[''] after:absolute after:w-48 after:z-50 after:h-5 after:top-8">
+      <a
+        class="flex items-center h-full nav-link z-50 w-full"
+        [routerLink]="item.link"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}"
+        >{{ item.bar }}
+      </a>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,42 @@
+[
+  {
+    "name": "ma_sukien",
+    "title": "Mã sự kiện",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 100,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_sukien",
+    "title": "Tên sự kiện",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 200
+  },
+  {
+    "name": "ngay_bd",
+    "title": "Ngày bắt đầu",
+    "type": "date",
+    "dataFormatString": "datetimeFormat",
+    "width": 100
+  },
+  {
+    "name": "gio_bd",
+    "title": "Giờ bắt đầu",
+    "width": 100
+  },
+  {
+    "name": "gio_kt",
+    "title": "Giờ kết thúc",
+    "width": 100
+  },
+  {
+    "name": "ghi_chu",
+    "title": "Ghi chú",
+    "width": 100
+  }
+]

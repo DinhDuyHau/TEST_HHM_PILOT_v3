@@ -1,0 +1,126 @@
+.table-container {
+  min-height: 390px;
+  width: 100%;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  border: 0.8px solid #ebedf2;
+  color: #333333;
+}
+
+table > tr:nth-of-type(odd):not(:first-child) {
+  background-color: #f8f9fb;
+}
+
+#record.selected {
+  background-color: #c6dddc !important;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 5px 12px;
+  line-height: 24px;
+}
+
+td {
+  font-size: 1rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  height: 46px;
+}
+
+.table-header {
+  background-color: #ebedf2;
+  padding: 5px 0 3px 0;
+}
+
+.table-title {
+  font-weight: 500;
+  font-size: 16px;
+  color: #262f3d;
+  text-align: center;
+  user-select: none;
+  // padding: 12px;
+}
+
+.table-footer {
+  display: flex;
+  justify-content: right;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #333333;
+
+  &.table-search-footer {
+    justify-content: left;
+  }
+
+  .count-page {
+    display: flex;
+    input {
+      outline: none;
+      width: 35px;
+    }
+  }
+  .pagination {
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 30px;
+    .btn-pagination {
+      cursor: pointer;
+    }
+  }
+}
+
+.table-main {
+  table > tr:nth-of-type(even):not(:first-child) > * {
+    background-color: #f8f9fb;
+  }
+  .table-header th {
+    background-color: #005447;
+    border-right: 1px solid #3e8076;
+    font-weight: 400;
+    font-size: 16px;
+    color: #fff;
+    padding: 14px;
+
+    .title-content {
+      &::after {
+        content: '\f0b0';
+        font-family: 'Font Awesome 5 free';
+        font-weight: 900;
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+.table-search {
+  td {
+    font-size: 14px;
+    vertical-align: middle;
+    white-space: nowrap;
+    color: #333333;
+    height: 34px;
+  }
+}
+
+.icon-table {
+  background-color: #ebedf2;
+  padding: 4px;
+  border-radius: 3px;
+  letter-spacing: 1px;
+}
+
+input.form-check-input {
+  width: 17px;
+  height: 17px;
+  box-shadow: none;
+  :checked {
+    background-color: #006b85;
+  }
+}

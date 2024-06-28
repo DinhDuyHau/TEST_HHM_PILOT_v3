@@ -1,0 +1,27 @@
+[
+  {
+    "name": "ma_phuong",
+    "title": "Mã phường/xã",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_phuong",
+    "title": "Tên phường/xã",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  },
+  {
+    "name": "ten_phuong2",
+    "title": "Tên khác",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 200
+  }
+]

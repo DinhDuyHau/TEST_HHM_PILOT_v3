@@ -1,0 +1,732 @@
+<div class="search-dialog-container">
+  <div class="search-dialog-wrapper px-2">
+    <div class="payment-container">
+      <div class="close-btn" (click)="onCancel()">
+        <i class="fas fa-times"></i>
+      </div>
+    </div>
+    <div class="title-content p-2">Chọn hình thức thanh toán</div>
+    <div class="px-0 md:px-2 lg:px-4">
+      <div class="box-container mb-3 payment">
+        <div class="box">
+          <!-- TIỀN ĐẶT CỌC -->
+          <dropdown-custom
+            *ngIf="!(pay_hidden && pay_hidden.includes('tien_dat_coc'))"
+            [disabled]="readonly"
+            name="tien_dat_coc"
+            label="Tiền đặt cọc"
+            [selected]="data.tien_dat_coc.selected"
+            (handleChangeValue)="
+              data.tien_dat_coc.selected = $event; onChange()
+            ">
+            <div class="deposit_payment">
+              <form-payment-custom
+                class="flex-1"
+                [readonly]="readonly"
+                label="Số tiền"
+                [value]="data.tien_dat_coc.tien"
+                [max]="t_dat_coc_max"
+                [align]="'end'"
+                dataType="number"
+                [disabled]="true"
+                format="moneyViewFormat"
+                [invalid]="data.tien_dat_coc.selected && invalid ? true : false"
+                (handleChangeValue)="
+                  data.tien_dat_coc.tien = $event; onChange()
+                " />
+              <button
+                class="flex-1 btn act-deposit-btn text-nowrap"
+                (click)="openDepositDialog()">
+                Chọn tiền cọc
+              </button>
+            </div>
+          </dropdown-custom>
+          <!-- END: Tiền đặt cọc -->
+
+          <!-- TIỀN MẶT -->
+          <dropdown-custom
+            *ngIf="!(pay_hidden && pay_hidden.includes('tien_mat'))"
+            [disabled]="readonly"
+            name="tien_mat"
+            label="Tiền mặt"
+            [selected]="data.tien_mat.selected"
+            (handleChangeValue)="data.tien_mat.selected = $event; onChange()"
+            ><form-payment-custom
+              [readonly]="readonly"
+              label="Số tiền"
+              [value]="data.tien_mat.tien"
+              [align]="'end'"
+              dataType="number"
+              format="moneyInputFormat"
+              [invalid]="data.tien_mat.selected && invalid ? true : false"
+              (handleChangeValue)="data.tien_mat.tien = $event; onChange()" />
+          </dropdown-custom>
+          <!-- END: Tiền mặt -->
+
+          <!-- QUẸT THẺ -->
+          <dropdown-custom
+            *ngIf="!(pay_hidden && pay_hidden.includes('quet_the'))"
+            [disabled]="readonly"
+            name="quet_the"
+            label="Quẹt thẻ"
+            [selected]="data.quet_the.selected"
+            (handleChangeValue)="data.quet_the.selected = $event; onChange()"
+            ><form-payment-custom
+              [readonly]="true"
+              label="Số tiền"
+              [value]="data.quet_the.tien"
+              [align]="'end'"
+              dataType="number"
+              format="moneyViewFormat"
+              [invalid]="data.quet_the.selected && invalid ? true : false"
+              (handleChangeValue)="data.quet_the.tien = $event; onChange()" />
+            <div class="deposit_payment pt-2">
+              <button
+                class="flex-1 btn act-deposit-btn text-nowrap"
+                (click)="openSwipeCardDialog()">
+                Quẹt thẻ
+              </button>
+            </div>
+          </dropdown-custom>
+          <!-- END: quẹt thẻ -->
+
+          <!-- QUẸT THẺ TRẢ GÓP -->
+          <dropdown-custom
+            *ngIf="!(pay_hidden && pay_hidden.includes('quet_the_tra_gop'))"
+            [disabled]="readonly"
+            name="quet_the_tra_gop"
+            label="Quẹt thẻ trả góp"
+            [selected]="data.quet_the_tra_gop.selected"
+            (handleChangeValue)="data.quet_the_tra_gop.selected = $event; onChange()"
+            ><form-payment-custom
+              [readonly]="readonly"
+              label="Số tiền"
+              [value]="data.quet_the_tra_gop.tien"
+              [align]="'end'"
+              dataType="number"
+              format="moneyInputFormat"
+              [invalid]="data.quet_the_tra_gop.selected && invalid ? true : false"
+              (handleChangeValue)="data.quet_the_tra_gop.tien = $event; onChange()" />
+              <div class="d-flex gap-2">
+                <form-payment-custom
+                  [readonly]="readonly"
+                  [disabled]="true"
+                  class="flex-1"
+                  [name]="'qttg_ma_may_pos'"
+                  [label]="'Mã máy POS'"
+                  [value]="data.quet_the_tra_gop.ma_may_pos"
+                  [invalid]="data.quet_the_tra_gop.selected && invalid ? true : false"
+                  [highlightBox]="data.quet_the_tra_gop.tien > 0 && (!data.quet_the_tra_gop.ma_may_pos || data.quet_the_tra_gop.ma_may_pos === '')"
+                  (handleChangeValue)="onPaymentEnterPOSCode($event)"
+                  (handleClickOpenDialog)="openPaymentSearchPOSDialog()
+                " />
+                <form-payment-custom
+                  [readonly]="readonly"
+                  class="flex-1"
+                  [name]="'qttg_so_the'"
+                  [label]="'Số thẻ'"
+                  [value]="data.quet_the_tra_gop.so_the"
+                  [disabled]="readonly"
+                  [invalid]="data.quet_the_tra_gop.selected && invalid ? true : false"
+                  [highlightBox]="data.quet_the_tra_gop.tien > 0 && (!data.quet_the_tra_gop.so_the || data.quet_the_tra_gop.so_the === '')"
+                  (handleChangeValue)="
+                    data.quet_the_tra_gop.so_the = $event; onChange()
+                  " />
+              </div>
+              <div class="d-flex gap-2">
+                <form-payment-custom
+                  [readonly]="readonly"
+                  [disabled]="true"
+                  class="flex-1"
+                  [name]="'qttg_ma_dv_tragop'"
+                  [label]="'Đơn vị trả góp'"
+                  [value]="data.quet_the_tra_gop.ma_dv_tragop"
+                  [invalid]="data.quet_the_tra_gop.selected && invalid ? true : false"
+                  [highlightBox]="data.quet_the_tra_gop.tien > 0 && (!data.quet_the_tra_gop.ma_dv_tragop || data.quet_the_tra_gop.ma_dv_tragop === '')"
+                  (handleChangeValue)="
+                    data.quet_the_tra_gop.ma_dv_tragop = $event; onChange()
+                  "
+                  (handleClickOpenDialog)="onOpenSearchCardInstallmentUnit()" />
+                <form-payment-custom
+                  [readonly]="readonly"
+                  class="flex-1"
+                  [name]="'qttg_ma_chuan_chi'"
+                  [label]="'Mã chuẩn chi'"
+                  [value]="data.quet_the_tra_gop.ma_chuan_chi"
+                  [disabled]="readonly"
+                  [invalid]="data.quet_the_tra_gop.selected && invalid ? true : false"
+                  [highlightBox]="data.quet_the_tra_gop.tien > 0 && (!data.quet_the_tra_gop.ma_chuan_chi || data.quet_the_tra_gop.ma_chuan_chi === '')"
+                  (handleChangeValue)="
+                    data.quet_the_tra_gop.ma_chuan_chi = $event; onChange()
+                  " />
+              </div>
+              <div class="d-flex gap-2">
+                <form-payment-custom
+                  [readonly]="readonly"
+                  class="flex-1"
+                  [name]="'qttg_so_hd_tragop'"
+                  [label]="'Mã hợp đồng'"
+                  [value]="data.quet_the_tra_gop.so_hd_tragop"
+                  [invalid]="data.quet_the_tra_gop.selected && invalid ? true : false"
+                  [highlightBox]="data.quet_the_tra_gop.tien > 0 && (!data.quet_the_tra_gop.so_hd_tragop || data.quet_the_tra_gop.so_hd_tragop === '')"
+                  (handleChangeValue)="
+                    data.quet_the_tra_gop.so_hd_tragop = $event; onChange()
+                  " />
+                
+              </div>
+              <div class="d-flex gap-2">
+                <!-- <form-payment-custom
+                  [readonly]="readonly"
+                  class="flex-1"
+                  [name]="'qttg_phi_quet_the'"
+                  [label]="'Phí quẹt thẻ'"
+                  [align]="'end'"
+                  dataType="number"
+                  format="moneyInputFormat"
+                  [value]="data.quet_the_tra_gop.phi_quetthe"
+                  [invalid]="data.quet_the_tra_gop.selected && invalid ? true : false"
+                  (handleChangeValue)="
+                    data.quet_the_tra_gop.phi_quetthe = $event; onChange()
+                  " /> -->
+                <form-payment-custom
+                  [readonly]="readonly"
+                  class="flex-1"
+                  [name]="'qttg_phi_bao_hiem'"
+                  [label]="'Phí bảo hiểm'"
+                  [align]="'end'"
+                  dataType="number"
+                  format="moneyInputFormat"
+                  [value]="data.quet_the_tra_gop.phi_bao_hiem"
+                  [invalid]="data.quet_the_tra_gop.selected && invalid ? true : false"
+                  (handleChangeValue)="
+                    data.quet_the_tra_gop.phi_bao_hiem = $event; onChange()
+                  " />
+                <form-payment-custom
+                  [readonly]="readonly"
+                  class="flex-1"
+                  [name]="'qttg_phi_chuyen_doi'"
+                  [label]="'Phí chuyển đổi'"
+                  [align]="'end'"
+                  dataType="number"
+                  format="moneyInputFormat"
+                  [value]="data.quet_the_tra_gop.phi_chuyendoi"
+                  [invalid]="data.quet_the_tra_gop.selected && invalid ? true : false"
+                  (handleChangeValue)="
+                    data.quet_the_tra_gop.phi_chuyendoi = $event; onChange()
+                  " />
+              </div>
+          </dropdown-custom>
+          <!-- END: quẹt thẻ trả góp -->
+          
+        </div>
+
+        <div class="box">
+          <!-- CHUYỂN KHOẢN -->
+          <dropdown-custom
+            *ngIf="!(pay_hidden && pay_hidden.includes('chuyen_khoan'))"
+            [disabled]="readonly"
+            name="chuyen_khoan"
+            label="Chuyển khoản"
+            [selected]="data.chuyen_khoan.selected"
+            (handleChangeValue)="
+              data.chuyen_khoan.selected = $event; onChange()
+            ">
+            <div>
+              <form-payment-custom
+                [readonly]="true"
+                label="Số tiền"
+                [value]="data.chuyen_khoan.tien"
+                [align]="'end'"
+                dataType="number"
+                format="moneyViewFormat"
+                [invalid]="data.chuyen_khoan.selected && invalid ? true : false"
+                (handleChangeValue)="
+                  data.chuyen_khoan.tien = $event; onChange()
+                " />
+            </div>
+            <div class="deposit_payment pt-2">
+              <button
+                class="flex-1 btn act-deposit-btn text-nowrap"
+                (click)="openTransferCardDialog()">
+                Chuyển khoản
+              </button>
+            </div>
+          </dropdown-custom>
+
+          <dropdown-custom
+            *ngIf="isPaymentHH"
+            [disabled]="readonly"
+            name="chuyen_khoan"
+            label="Chuyển khoản"
+            [selected]="data.chuyen_khoan.selected"
+            (handleChangeValue)="
+              data.chuyen_khoan.selected = $event; onChange()
+            ">
+            <div>
+              <form-payment-custom
+                [readonly]="readonly"
+                label="Số tiền"
+                [value]="data.chuyen_khoan.detail[0].tien"
+                [align]="'end'"
+                dataType="number"
+                format="moneyViewFormat"
+                [invalid]="data.chuyen_khoan.selected && invalid ? true : false"
+                (handleChangeValue)="
+                  data.chuyen_khoan.detail[0].tien = $event;
+                  data.chuyen_khoan.tien = $event;
+                  onChange()
+                " />
+              <form-payment-custom
+                [readonly]="readonly"
+                label="Tên người nhận"
+                [value]="data.chuyen_khoan.detail[0].ten_nguoi_nhan"
+                [invalid]="data.chuyen_khoan.selected && invalid ? true : false"
+                (handleChangeValue)="
+                  data.chuyen_khoan.detail[0].ten_nguoi_nhan = $event;
+                  onChange()
+                " />
+              <form-payment-custom
+                [readonly]="readonly"
+                label="Số tài khoản"
+                [value]="data.chuyen_khoan.detail[0].tk_nh_nhan"
+                [invalid]="data.chuyen_khoan.selected && invalid ? true : false"
+                (handleChangeValue)="
+                  data.chuyen_khoan.detail[0].tk_nh_nhan = $event; onChange()
+                " />
+              <form-payment-custom
+                [readonly]="readonly"
+                label="Tên ngân hàng"
+                [value]="data.chuyen_khoan.detail[0].ten_ngan_hang"
+                [invalid]="data.chuyen_khoan.selected && invalid ? true : false"
+                (handleChangeValue)="
+                  data.chuyen_khoan.detail[0].ten_ngan_hang = $event; onChange()
+                " />
+            </div>
+          </dropdown-custom>
+
+          <!-- VÍ ĐIỆN TỬ -->
+          <dropdown-custom
+            [disabled]="readonly"
+            *ngIf="!(pay_hidden && pay_hidden.includes('vi_dien_tu'))"
+            name="vi_dien_tu"
+            label="Ví điện tử"
+            [selected]="data.vi_dien_tu.selected"
+            (handleChangeValue)="data.vi_dien_tu.selected = $event; onChange()">
+            <div class="d-flex gap-2">
+              <form-payment-custom
+                [readonly]="true"
+                class="flex-1"
+                label="Số tiền"
+                [value]="data.vi_dien_tu.tien"
+                dataType="number"
+                format="moneyViewFormat"
+                [align]="'right'"
+                [invalid]="data.vi_dien_tu.selected && invalid ? true : false"
+                (handleChangeValue)="
+                  data.vi_dien_tu.tien = $event; onChange()
+                " />
+            </div>
+            <div class="deposit_payment pt-2">
+              <button
+                class="flex-1 btn act-deposit-btn text-nowrap"
+                (click)="openEWalletDialog()">
+                Ví điện tử
+              </button>
+            </div>
+          </dropdown-custom>
+          <!-- END: Ví điện tử -->
+
+          <!-- VNPAY -->
+          <dropdown-custom
+            [disabled]="readonly"
+            *ngIf="!(pay_hidden && pay_hidden.includes('vnpay'))"
+            name="vnpay"
+            label="VNPay"
+            [selected]="data.vnpay.selected"
+            (handleChangeValue)="data.vnpay.selected = $event; onChange()">
+            <div class="deposit_payment">
+              <form-payment-custom
+                class="flex-1"
+                [readonly]="readonly"
+                label="Số tiền"
+                [value]="data.vnpay.tien"
+                [align]="'end'"
+                dataType="number"
+                [disabled]="true"
+                format="moneyViewFormat"
+                [invalid]="data.vnpay.selected && invalid ? true : false"
+                (handleChangeValue)="data.vnpay.tien = $event; onChange()" />
+              <button
+                class="flex-1 btn act-deposit-btn text-nowrap"
+                (click)="openVNPayDialog()">
+                Nhập thanh toán
+              </button>
+            </div>
+            
+            <!--
+            <div class="d-flex gap-2">
+              <form-payment-custom
+                [readonly]="readonly"
+                class="flex-1"
+                label="Số tiền"
+                [value]="data.vnpay.tien"
+                [align]="'end'"
+                dataType="number"
+                format="moneyInputFormat"
+                [invalid]="data.vnpay.selected && invalid ? true : false"
+                (handleChangeValue)="data.vnpay.tien = $event; onChange()" />
+              <form-payment-custom
+                class="flex-1"
+                [name]="'so_hd_vnpay'"
+                [label]="'Số hóa đơn'"
+                [readonly]="readonly"
+                [value]="data.vnpay.so_hd_vnpay"
+                [invalid]="data.vnpay.selected && invalid ? true : false"
+                [highlightBox]="data.vnpay.tien > 0 && (!data.vnpay.so_hd_vnpay || data.vnpay.so_hd_vnpay === '')"
+                (handleChangeValue)="
+                  data.vnpay.so_hd_vnpay = $event; onChange()
+                " />
+            </div>
+            -->
+            <!-- <div *ngIf="data.vnpay.tien > 0 && (!data.vnpay.so_hd_vnpay || data.vnpay.so_hd_vnpay === '')" class="err-message-box">
+              (*) Chưa nhập thông tin số hóa đơn VNPAY
+            </div> -->
+          </dropdown-custom>
+          <!-- END: vnpay -->
+
+          <!-- GIẢM GIÁ VOUCHER HHM -->
+          <dropdown-custom
+            [disabled]="readonly"
+            *ngIf="!(pay_hidden && pay_hidden.includes('ma_giam_gia'))"
+            name="ma_giam_gia"
+            label="Mã giảm giá"
+            [selected]="data.ma_giam_gia.selected"
+            (handleChangeValue)="data.ma_giam_gia.selected = $event; onChange()">
+            <div class="d-flex gap-2" *ngIf="!(pay_hidden && pay_hidden.includes('ma_giam_gia'))">
+              <!-- <div class="title">Mã giảm giá</div> -->
+              <div class="deposit_payment">
+                <form-payment-custom
+                  class="flex-1"
+                  [readonly]="readonly"
+                  label="Code"
+                  [value]="ma_gg"
+                  (keyup.enter)="onClickGetDiscountCode()"
+                  (handleChangeValue)="ma_gg = $event" />
+                <div class="flex-1">
+                  <button class="btn act-deposit-btn text-nowrap" (click)="!readonly && onClickGetDiscountCode()">
+                    Nhập mã
+                  </button>
+                </div>
+                
+              </div>
+              <div
+                class="discount flex items-center"
+                *ngIf="data.ma_giam_gia.tien > 0">
+                Mã giảm giá: {{ data.ma_giam_gia.ma_gg }} / Tiền giảm giá:&nbsp;
+                <span>
+                  {{
+                    data.ma_giam_gia.tien | formatData : 'number' : 'normalPrice'
+                  }}</span
+                >
+                <span
+                  class="pl-2 text-red-500 cursor-pointer text-xs"
+                  (click)="!readonly && onClickCancelDiscountCode()">
+                  <mat-icon>cancel</mat-icon>
+                </span>
+              </div>
+            </div>
+          </dropdown-custom>
+           <!-- END: Giảm giá voucher HHM -->
+
+        </div>
+
+        <div class="box">
+          <!-- TRẢ GÓP -->
+          <dropdown-custom
+            [disabled]="readonly"
+            *ngIf="!(pay_hidden && pay_hidden.includes('tra_gop'))"
+            name="tra_gop"
+            label="Trả góp"
+            [selected]="data.tra_gop.selected"
+            (handleChangeValue)="data.tra_gop.selected = $event; onChange()">
+            <form-payment-custom
+              [readonly]="readonly"
+              label="Số tiền"
+              [value]="data.tra_gop.tien"
+              [align]="'end'"
+              dataType="number"
+              format="moneyInputFormat"
+              [invalid]="data.tra_gop.selected && invalid ? true : false"
+              (handleChangeValue)="data.tra_gop.tien = $event; onChange()" />
+            <div class="d-flex gap-2">
+              <form-payment-custom
+                [readonly]="readonly"
+                class="flex-1"
+                [name]="'so_hd_tragop'"
+                [label]="'Mã hợp đồng'"
+                [value]="data.tra_gop.so_hd_tragop"
+                [invalid]="data.tra_gop.selected && invalid ? true : false"
+                [highlightBox]="data.tra_gop.tien > 0 && (!data.tra_gop.so_hd_tragop || data.tra_gop.so_hd_tragop === '')"
+                (handleChangeValue)="
+                  data.tra_gop.so_hd_tragop = $event; onChange()
+                " />
+              <form-payment-custom
+                [readonly]="readonly"
+                class="flex-1"
+                [name]="'phi_bao_hiem'"
+                [label]="'Phí bảo hiểm'"
+                [align]="'end'"
+                dataType="number"
+                format="moneyInputFormat"
+                [value]="data.tra_gop.phi_bao_hiem"
+                [invalid]="data.tra_gop.selected && invalid ? true : false"
+                (handleChangeValue)="
+                  data.tra_gop.phi_bao_hiem = $event; onChange()
+                " />
+            </div>
+            <div class="d-flex gap-2">
+              <form-payment-custom
+                [readonly]="readonly"
+                [disabled]="true"
+                class="flex-1"
+                [name]="'ma_dv_tragop'"
+                [label]="'Đơn vị trả góp'"
+                [value]="data.tra_gop.ma_dv_tragop"
+                [invalid]="data.tra_gop.selected && invalid ? true : false"
+                [highlightBox]="data.tra_gop.tien > 0 && (!data.tra_gop.ma_dv_tragop || data.tra_gop.ma_dv_tragop === '')"
+                (handleChangeValue)="
+                  data.tra_gop.ma_dv_tragop = $event; onChange()
+                "
+                (handleClickOpenDialog)="onOpenSearchInstallmentUnit()" />
+              
+              <form-payment-custom
+                [readonly]="readonly"
+                class="flex-1"
+                [name]="'phi_cd_tragop'"
+                [label]="'Phí chuyển đổi'"
+                [align]="'end'"
+                dataType="number"
+                format="moneyInputFormat"
+                [value]="data.tra_gop.phi_cd_tragop"
+                [invalid]="data.tra_gop.selected && invalid ? true : false"
+                (handleChangeValue)="
+                  data.tra_gop.phi_cd_tragop = $event; onChange()
+                " />
+            </div>
+            
+            <div *ngIf="data.tra_gop.tien > 0 && (!data.tra_gop.so_hd_tragop || data.tra_gop.so_hd_tragop === '')" class="err-message-box">
+              (*) Chưa nhập hợp đồng trả góp
+            </div>
+            <div *ngIf="data.tra_gop.tien > 0 && (!data.tra_gop.ma_dv_tragop || data.tra_gop.ma_dv_tragop === '')" class="err-message-box" style="margin-top:5px;">
+              (*) Chưa nhập đơn vị trả góp
+            </div>
+          </dropdown-custom>
+          <!-- END: Trả góp -->
+
+          <!-- SỬ DỤNG ĐIỂM -->
+          <dropdown-custom
+            [disabled]="readonly"
+            *ngIf="!(pay_hidden && pay_hidden.includes('sd_diem'))"
+            name="sd_diem"
+            label="Sử dụng điểm"
+            [selected]="data.sd_diem.selected"
+            (handleChangeValue)="data.sd_diem.selected = $event; onChange()">
+            <div class="d-flex gap-2">
+              <form-payment-custom
+                [readonly]="readonly"
+                class="flex-1"
+                label="Số điểm"
+                [value]="data.sd_diem.diem_qd"
+                [align]="'end'"
+                dataType="number"
+                format="moneyViewFormat"
+                [max]="diem_qd_max"
+                [invalid]="data.sd_diem.selected && invalid ? true : false"
+                (handleChangeValue)="
+                  data.sd_diem.diem_qd = $event; onChange()
+                " />
+              <form-payment-custom
+                [readonly]="readonly || true"
+                class="flex-1"
+                label="Tiền quy đổi"
+                [value]="data.sd_diem.tien"
+                [align]="'end'"
+                dataType="number"
+                format="moneyViewFormat"
+                [invalid]="data.sd_diem.selected && invalid ? true : false"
+                (handleChangeValue)="data.sd_diem.tien = $event; onChange()" />
+            </div>
+          </dropdown-custom>
+          <!-- END: Sử dụng điểm -->
+
+          <!-- GIẢM GIÁ CỦA HÃNG (CRM) -->
+          <dropdown-custom
+            [disabled]="readonly"
+            *ngIf="!(pay_hidden && pay_hidden.includes('giam_gia_crm'))"
+            name="giam_gia_crm"
+            label="Giảm giá của hãng"
+            [selected]="data.giam_gia_crm.selected"
+            (handleChangeValue)="
+              data.giam_gia_crm.selected = $event; onChange()
+            ">
+            <div class="deposit_payment">
+              <!-- <form-payment-custom
+                class="flex-1"
+                [readonly]="readonly"
+                label="Mã giảm giá"
+                [value]="ma_gg"
+                (keyup.enter)="onClickGetDiscountCode()"
+                (handleChangeValue)="ma_gg = $event" /> -->
+              <button
+                class="flex-1 btn act-deposit-btn text-nowrap"
+                (click)="!readonly && onClickViewDiscountProgramCRM()">
+                Xem/cập nhật code
+              </button>
+              <button
+                class="flex-1 btn act-deposit-btn text-nowrap"
+                (click)="!readonly && onClickGetDiscountProgramCRM()">
+                Lấy chương trình
+              </button>
+            </div>
+            <div
+              class="discount flex items-center"
+              *ngFor="let item of data.giam_gia_crm.detail; let index = index">
+              Mã code: {{ item.ma_gg }} / Tiền giảm giá:&nbsp;
+              <span>
+                {{
+                  item.tien_giam | formatData : 'number' : 'normalPrice'
+                }}</span
+              >
+              <span
+                class="pl-2 text-red-500 cursor-pointer text-xs"
+                (click)="!readonly && onClickCancelDiscountProgramCRM(index)">
+                <mat-icon>cancel</mat-icon>
+              </span>
+            </div>
+          </dropdown-custom>
+          <!-- END: Giảm giá của hãng -->
+          
+          <!-- VOUCHER CỦA ĐỐI TÁC -->
+          <dropdown-custom
+            [disabled]="readonly"
+            *ngIf="!(pay_hidden && pay_hidden.includes('voucher_doi_tac'))"
+            name="voucher_doi_tac"
+            label="Voucher của đối tác"
+            [selected]="data.voucher_doi_tac.selected"
+            (handleChangeValue)="data.voucher_doi_tac.selected = $event; onChange()">
+              <form-payment-custom
+              [readonly]="readonly"
+              label="Số tiền"
+              [value]="data.voucher_doi_tac.tien"
+              [align]="'end'"
+              dataType="number"
+              format="moneyInputFormat"
+              [invalid]="data.voucher_doi_tac.selected && invalid ? true : false"
+              (handleChangeValue)="data.voucher_doi_tac.tien = $event; onChange()" />
+
+              <div class="d-flex gap-2">
+                <form-payment-custom
+                  [readonly]="readonly"
+                  class="flex-1"
+                  [name]="'ma_voucher'"
+                  [label]="'Mã voucher'"
+                  [value]="data.voucher_doi_tac.ma_gg"
+                  [invalid]="data.voucher_doi_tac.selected && invalid ? true : false"
+                  [highlightBox]="data.voucher_doi_tac.tien > 0 && (!data.voucher_doi_tac.ma_gg || data.voucher_doi_tac.ma_gg === '')"
+                  (handleChangeValue)="
+                    data.voucher_doi_tac.ma_gg = $event; onChange()
+                  " />
+                <form-payment-custom
+                  [readonly]="readonly"
+                  [disabled]="true"
+                  class="flex-1"
+                  [name]="'ma_parner'"
+                  [label]="'Đơn vị phát hành'"
+                  [value]="data.voucher_doi_tac.ma_ctr"
+                  [invalid]="data.voucher_doi_tac.selected && invalid ? true : false"
+                  [highlightBox]="data.voucher_doi_tac.tien > 0 && (!data.voucher_doi_tac.ma_ctr || data.voucher_doi_tac.ma_ctr === '')"
+                  (handleChangeValue)="
+                    data.voucher_doi_tac.ma_ctr = $event; onChange()
+                  "
+                  (handleClickOpenDialog)="onOpenSearchVoucherParner()" />
+              </div>
+          </dropdown-custom>
+           <!-- END: voucher của đối tác -->
+
+        </div>
+      </div>
+      <div class="box-container pt-3">
+        <div class="box">
+          <div>
+            <div class="title">Tổng tiền các hình thức thanh toán</div>
+            <form-payment-custom
+              label="Số tiền"
+              [disabled]="true"
+              [align]="'end'"
+              [value]="t_da_tra"
+              dataType="number"
+              format="moneyViewFormat" />
+          </div>
+        </div>
+        <div class="box">
+          <div>
+            <div class="title">Tổng tiền phí</div>
+            <form-payment-custom
+              label="Số tiền"
+              [disabled]="true"
+              [align]="'end'"
+              [value]="t_tien_phi"
+              dataType="number"
+              format="moneyViewFormat" />
+          </div>
+        </div>
+        
+        <!-- <div
+          class="box"
+          *ngIf="!(pay_hidden && pay_hidden.includes('chiet_khau'))">
+          <div class="title">Chiết khấu ngoại giao</div>
+          <form-payment-custom
+            [readonly]="readonly"
+            [disabled]="true"
+            [name]="'approveDiscount'"
+            [label]="'Người duyệt'"
+            [value]="approveDiscount"
+            [invalid]="invalid"
+            (handleChangeValue)="
+              approveDiscount = $event; onChangeApproveDiscount()
+            "
+            (handleClickOpenDialog)="onOpenSearchApproverDirector()" />
+        </div> -->
+      </div>
+
+      <div class="box-container pt-3">
+        <div class="box">
+          <div class="title">Tổng tiền còn nợ</div>
+          <form-payment-custom
+            label="Số tiền"
+            [disabled]="true"
+            [align]="'end'"
+            [value]="t_con_no"
+            [highlightText]="t_con_no < 0"
+            dataType="number"
+            format="moneyViewFormat3" />
+        </div>
+        <div class="box">&nbsp;</div>
+      </div>
+
+      <div class="box-container pt-3" style="margin-top: 20px; margin-bottom: 10px;">
+        <div class="box deposit_payment">
+          <div style="display: flex; flex-direction: column;">
+            <button style="width:150px; align-self: flex-start;"
+              class="flex-1 btn act-deposit-btn text-nowrap"
+              (click)="onCancel()">
+              Nhận
+            </button>
+          </div>
+        </div>
+        <div class="box">&nbsp;</div>
+      </div>
+
+    </div>
+  </div>
+</div>

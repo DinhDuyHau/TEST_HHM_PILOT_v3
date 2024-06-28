@@ -1,0 +1,11 @@
+<label class="col-form-label">{{ label }}</label>
+<select
+  class="form-select"
+  [disabled]="isDisable"
+  [ngModel]="value"
+  name="select-status"
+  (change)="onChangeValue($event)">
+  <option *ngFor="let option of options" [value]="option[optionValue]">
+    {{ option[optionDes] }}
+  </option>
+</select>

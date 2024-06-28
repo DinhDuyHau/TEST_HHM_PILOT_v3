@@ -1,0 +1,71 @@
+[
+  {
+    "name": "line_nbr",
+    "title": "STT",
+    "isLockingColumn": true,
+    "align": "center",
+    "width": 40
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã hàng",
+    "isLockingColumn": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên hàng",
+    "isLockingColumn": true,
+    "width": 400,
+    "allowSorting": true,
+    "allowFilter": true
+  },
+  {
+    "name": "dvt",
+    "title": "Đvt",
+    "isLockingColumn": false,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 100
+  },
+  {
+    "name": "so_luong",
+    "title": "Số lượng",
+    "type": "number",
+    "align": "center",
+    "dataFormatString": "normalQuantity",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140
+  },
+  {
+    "name": "ma_imei",
+    "title": "Imei",
+    "width": 400,
+    "multipleLine": true
+  },
+  {
+    "name": "gia_nt",
+    "title": "Đơn giá",
+    "width": 200,
+    "type": "number",
+    "dataFormatString": "normalQuantity",
+    "align": "right"
+  },
+  {
+    "name": "tien_nt",
+    "title": "Thành tiền",
+    "width": 200,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "ghi_chu",
+    "title": "Ghi chú",
+    "width": 200
+  }
+]

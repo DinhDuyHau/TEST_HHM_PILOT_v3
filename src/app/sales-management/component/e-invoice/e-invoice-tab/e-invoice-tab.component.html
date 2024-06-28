@@ -1,0 +1,52 @@
+<div
+  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-1 lg:gap-x-10 gap-y-1 lg:gap-y-3 pt-0.5 md:pt-1 lg:pt-2">
+  <form-input-custom
+    class="flex-1"
+    [label]="'Mã NCC'"
+    [value]="data.hddt_ma_ncc"
+    [disabled]="true"></form-input-custom>
+  <form-input-custom
+    class="flex-1"
+    [label]="'Mẫu hóa đơn'"
+    [value]="data.hddt_mau_hd"
+    [disabled]="true"></form-input-custom>
+  <form-input-custom
+    class="flex-1"
+    [label]="'Số seri'"
+    [value]="data.hddt_so_seri"
+    [disabled]="true"></form-input-custom>
+  <form-input-custom
+    class="flex-1"
+    [label]="'Ngày hđ'"
+    format="datetimeFormat"
+    dataType="date"
+    [value]="data.hddt_ngay_hd"
+    [disabled]="true"></form-input-custom>
+  <form-input-custom
+    class="flex-1"
+    [label]="'Ngày ký'"
+    format="datetimeFormat"
+    dataType="date"
+    [value]="data.hddt_ngay_ky"
+    [disabled]="true"></form-input-custom>
+  <form-input-custom
+    class="flex-1"
+    [label]="'Số hóa đơn'"
+    [value]="data.hddt_so_hd"
+    [disabled]="true"></form-input-custom>
+  <form-input-custom
+    class="flex-1"
+    [label]="'Trạng thái'"
+    [value]="data.hddt_status"
+    [disabled]="true"></form-input-custom>
+  <form-input-custom
+    class="flex-1"
+    [label]="'Mã số thuế'"
+    [value]="data.hddt_ma_so_thue"
+    [disabled]="true"></form-input-custom>
+  <form-input-custom
+    class="flex-1"
+    [label]="'Mã số bí mật'"
+    [value]="data.hddt_ma_tra_cuu"
+    [disabled]="true"></form-input-custom>
+</div>

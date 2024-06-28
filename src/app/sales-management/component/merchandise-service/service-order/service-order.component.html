@@ -1,0 +1,37 @@
+<div class="service-for-imei-container">
+  <div class="title">{{ title }}</div>
+  <div>
+    <div>
+      <div class="box-container">
+        <form-input-custom
+          class="box"
+          label="Khách hàng"
+          [value]="ma_kh"
+          #ref
+          (handleEnterInput)="onSearch($event)"
+          (handleChangeValue)="onEnterCustomerCode($event)"
+          (handleClickOpenDialog)="openDialogSearch()" />
+        <div class="box flex pt-2 items-end justify-end md:justify-start">
+          <div
+            class="flex-1 md:flex-none btn-responsive btn-add text-center"
+            (click)="filterOrder()">
+            Tìm đơn hàng
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+    <table-custom
+      [dataSource]="dataSource"
+      [columns]="columns"
+      (handleSelect)="onSelectItem($event)" />
+  </div>
+  <div mat-dialog-actions class="d-flex justify-end gap-2 m-2">
+    <div class="btn-responsive btn-cancel" (click)="onCancel()">Hủy bỏ</div>
+    <div class="btn-responsive btn-add" (click)="onSelect()">Chọn</div>
+  </div>
+  <div class="close-btn" (click)="onCancel()">
+    <i class="fas fa-times"></i>
+  </div>
+</div>

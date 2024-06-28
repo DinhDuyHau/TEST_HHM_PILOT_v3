@@ -1,0 +1,38 @@
+$border-radius: 0.3rem;
+$primary_color: #20830f;
+
+@mixin search-button-base {
+  $button-height: 32px;
+  $button-width: 32px;
+
+  .search-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $button-height;
+    width: $button-width;
+    border-radius: 50%;
+    border: none;
+    color: var(--primary_color);
+  }
+}
+
+@mixin button-base {
+  $button-height: 32px;
+  $button-width: 32px;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $button-height;
+    border-radius: $border-radius;
+    border: var(--border_style);
+    border-color: var(--border_color);
+    padding-right: 6px;
+    padding-left: 6px;
+  }
+}
+
+@include button-base;
+@include search-button-base;

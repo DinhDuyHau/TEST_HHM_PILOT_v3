@@ -1,0 +1,34 @@
+[ 
+    {
+        "name": "ma_ck",
+        "title": "Mã chiết khấu",
+        "isLockingColumn": true,
+        "isPrimaryKey": true,
+        "width": 160,
+        "allowSorting": true,
+        "allowFilter": true,
+        "dataFormatString": "upperCaseFormat"
+    },
+    {
+        "name": "ten_ck",
+        "title": "Tên chiết khấu",
+        "isLockingColumn": true,
+        "allowSorting": true,
+        "allowFilter": true,
+        "width": 400
+    },
+    {
+        "name": "ngay_bg",
+        "title": "Ngày bắt đầu",
+        "allowSorting": true,
+        "allowFilter": true,
+        "width": 400
+    },
+    {
+        "name": "ngay_kt",
+        "title": "Ngày kết thúc",
+        "allowSorting": true,
+        "allowFilter": true,
+        "width": 400
+    }
+]

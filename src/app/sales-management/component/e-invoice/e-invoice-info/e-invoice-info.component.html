@@ -1,0 +1,38 @@
+<div
+  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-1 lg:gap-x-10 gap-y-1 lg:gap-y-3 pt-0.5 md:pt-1 lg:pt-2">
+  <form-input-custom
+    class="flex-1"
+    [label]="'Mã số thuế'"
+    [value]="data.hd_mst && data.hd_mst.trim()"
+    [disabled]="disabled"
+    (handleChangeValue)="
+      data.hd_mst = $event; handleChangeTaxCode($event)
+    "></form-input-custom>
+  <form-input-custom
+    class="flex-1"
+    [label]="'Email'"
+    [value]="data.hd_email"
+    [disabled]="disabled"
+    (handleChangeValue)="data.hd_email = $event"></form-input-custom>
+  <select-custom
+    class="flex-1"
+    label="Hình thức thanh toán"
+    [options]="payment"
+    optionDes="ten_httt"
+    optionValue="ma_httt"
+    [isDisable]="disabled"
+    [value]="data.hd_httt"
+    (handleChangeValue)="data.hd_httt = $event" />
+  <form-input-custom
+    class="flex-1"
+    [label]="'Tên khách hàng'"
+    [value]="data.hd_ten_kh"
+    [disabled]="disabled"
+    (handleChangeValue)="data.hd_ten_kh = $event"></form-input-custom>
+  <form-input-custom
+    class="flex-1"
+    [label]="'Địa chỉ'"
+    [value]="data.hd_dia_chi"
+    [disabled]="disabled"
+    (handleChangeValue)="data.hd_dia_chi = $event"></form-input-custom>
+</div>

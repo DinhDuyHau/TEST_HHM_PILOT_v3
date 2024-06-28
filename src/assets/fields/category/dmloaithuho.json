@@ -1,0 +1,20 @@
+[
+  {
+    "name": "ma_loai",
+    "title": "Mã loại",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_loai",
+    "title": "Tên loại",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  }
+]

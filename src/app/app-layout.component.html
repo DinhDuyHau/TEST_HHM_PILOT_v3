@@ -1,0 +1,28 @@
+<div class="flex" style="background-color: #d2d2d2">
+  <div class="hidden lg:block">
+    <app-sidebar (onClickMenu)="showFullMenu($event)"></app-sidebar>
+  </div>
+  <div
+    class="flex flex-1 w-1 flex-col bg-neutrals09_color"
+    [ngClass]="{
+      'flex flex-1 w-1 flex-col bg-neutrals09_color': true,
+      'lg:pl-sidebar': isMenuFull,
+      'lg:pl-sidebarSmall': !isMenuFull,
+    }">
+    <div class="w-full">
+      <app-header (onShowMenu)="showMenu()"></app-header>
+    </div>
+    <div class="w-full">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+<!-- footer -->
+<!-- <div class="app-footer h-footer_height absolute bottom-0 left-0 right-0">
+  <div class="col-sm">
+    <span style="display: block; text-align: center"
+      ><a href="#" target="_blank">Genbyte Core-ERP</a> &copy;
+      {{ current_year }} Genbyte. All rights reserved.
+    </span>
+  </div>
+</div> -->

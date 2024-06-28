@@ -1,0 +1,294 @@
+<div
+  class="px-1 md:px-2 lg:px-4 flex-1 bg-white position-relative ticket-container">
+  <div class="d-flex flex-column gap-2 mt-5 flex-1">
+    <div class="title-page pb-2 flex justify-between items-center">
+      <h5 class="">{{ title }}</h5>
+      <app-voucher-info
+        *ngIf="this.mode != 0"
+        [entity]="entity"
+        class="text-base"
+        [voucherId]="ticket.masterInfo.stt_rec" />
+    </div>
+    <div class="title-content">{{ getLabel('tlt_content') }}</div>
+    <div class="box-container mb-3">
+      <div class="d-flex gap-2 box">
+        <form-input-custom
+          class="flex-1"
+          [name]="'so_ct'"
+          [label]="getLabel('lbl_so_ct')"
+          [value]="ticket.masterInfo.so_ct"
+          [disabled]="true" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ngay_ct'"
+          [label]="getLabel('lbl_ngay_ct')"
+          [value]="ticket.masterInfo.ngay_ct"
+          format="datetimeFormat"
+          dataType="date"
+          [disabled]="true" />
+      </div>
+
+      <form-input-custom
+        class="box"
+        [name]="'so_dh'"
+        [label]="getLabel('lbl_so_dh_ban')"
+        [value]="ticket.masterInfo.so_dh"
+        [tabIndex]="tabIndex.so_dh"
+        [readonly]="readonly || true"
+        [invalid]="invalid"
+        (handleChangeValue)="onEnterSalesOrderNumber($event)"
+        (handleClickOpenDialog)="openSearchOrderDialog()" />
+
+      <form-select-custom
+        class="box"
+        [isDisable]="readonly || disableSelectStatus"
+        [label]="getLabel('lbl_trang_thai')"
+        [options]="statusList"
+        optionDes="statusname"
+        optionValue="status"
+        [value]="ticket.masterInfo.status"
+        (handleChangeValue)="ticket.masterInfo.status = $event" />
+
+      <form-input-custom
+        class="box"
+        [name]="'ma_kh'"
+        [label]="getLabel('lbl_ma_kh')"
+        [value]="ticket.masterInfo.ma_kh"
+        [readonly]="readonly"
+        [invalid]="invalid"
+        [disabled]="true"
+        (handleChangeValue)="onEnterCustomerCode($event)"
+        (handleUploadImage)="openUploadImage()"
+        (handleUViewPhoto)="openImage()" />
+      <form-input-custom
+        class="box"
+        [name]="'ten_kh'"
+        [label]="getLabel('lbl_ten_kh')"
+        [value]="ticket.masterInfo.ten_kh"
+        [disabled]="true"
+        (handleClickUploadImage)="openUploadImage()" />
+      <form-input-custom
+        class="box"
+        [name]="'dia_chi'"
+        [label]="getLabel('lbl_dia_chi')"
+        [value]="ticket.masterInfo.dia_chi"
+        [disabled]="true" />
+      <form-input-custom
+        class="box"
+        [name]="'dien_giai'"
+        [label]="getLabel('lbl_dien_giai')"
+        [value]="ticket.masterInfo.dien_giai"
+        (handleChangeValue)="ticket.masterInfo.dien_giai = $event"
+        [readonly]="readonly" />
+    </div>
+
+    <tabs-custom title="Thông tin hàng hóa">
+      <tab-custom label="Hàng hoá" class="w-100">
+        <table-custom
+          [readonly]="readonly"
+          [dataSource]="ticket.service"
+          [columns]="serviceColumns"
+          (handleDelete)="onRemoveService($event)"
+          (handleChangeCheckbox)="(null)" />
+      </tab-custom>
+      <tab-custom label="HĐĐT Bán hàng" class="w-100">
+        <div class="box-container">
+          <div class="box-2">
+            <form-input-custom
+              [readonly]="readonly"
+              [name]="'bh_mau_hd'"
+              [label]="getLabel('lbl_hddt_mau_hd')"
+              [value]="ticket.electronic_bill.bh_mau_hd"
+              [disabled]="true" />
+            <form-input-custom
+              [name]="'bh_ngay_hd'"
+              [label]="getLabel('lbl_hddt_ngay_hd')"
+              [value]="ticket.electronic_bill.bh_ngay_hd"
+              dataType="date"
+              type="date"
+              [disabled]="true" />
+            <form-input-custom
+              [readonly]="readonly"
+              [name]="'bh_so_hd'"
+              [label]="getLabel('lbl_hddt_so_hd')"
+              [value]="ticket.electronic_bill.bh_so_hd"
+              [disabled]="true" />
+            <form-input-custom
+              [readonly]="readonly"
+              [name]="'bh_ma_so_thue'"
+              [label]="getLabel('lbl_hddt_ma_so_thue')"
+              [value]="ticket.electronic_bill.bh_ma_so_thue"
+              [disabled]="true" />
+            <form-input-custom
+              [readonly]="readonly"
+              [name]="'bh_ma_tra_cuu'"
+              [label]="getLabel('lbl_hddt_ma_tra_cuu')"
+              [value]="ticket.electronic_bill.bh_ma_tra_cuu"
+              [disabled]="true" />
+          </div>
+          <div class="box-2">
+            <form-input-custom
+              [readonly]="readonly"
+              [name]="'bh_so_seri'"
+              [label]="getLabel('lbl_hddt_so_seri')"
+              [value]="ticket.electronic_bill.bh_so_seri"
+              [disabled]="true" />
+            <form-input-custom
+              [name]="'bh_ngay_ky'"
+              [label]="getLabel('lbl_hddt_ngay_ky')"
+              [value]="ticket.electronic_bill.bh_ngay_ky"
+              dataType="date"
+              type="date"
+              [disabled]="true" />
+            <form-input-custom
+              [readonly]="readonly"
+              [name]="'bh_status'"
+              [label]="getLabel('lbl_hddt_status')"
+              [value]="ticket.electronic_bill.bh_status"
+              [disabled]="true" />
+          </div>
+        </div>
+      </tab-custom>
+      <tab-custom label="HĐĐT Nhập trả lại" class="w-100">
+        <div class="box-container">
+          <div class="box-2">
+            <form-input-custom
+              [readonly]="readonly"
+              [name]="'bh_mau_hd'"
+              [label]="getLabel('lbl_hddt_mau_hd')"
+              [value]="ticket.electronic_bill.tl_mau_hd"
+              [disabled]="true" />
+            <form-input-custom
+              [name]="'bh_ngay_hd'"
+              [label]="getLabel('lbl_hddt_ngay_hd')"
+              [value]="ticket.electronic_bill.tl_ngay_hd"
+              dataType="date"
+              type="date"
+              [disabled]="true" />
+            <form-input-custom
+              [readonly]="readonly"
+              [name]="'bh_so_hd'"
+              [label]="getLabel('lbl_hddt_so_hd')"
+              [value]="ticket.electronic_bill.tl_so_hd"
+              [disabled]="true" />
+            <form-input-custom
+              [readonly]="readonly"
+              [name]="'bh_ma_so_thue'"
+              [label]="getLabel('lbl_hddt_ma_so_thue')"
+              [value]="ticket.electronic_bill.tl_ma_so_thue"
+              [disabled]="true" />
+            <form-input-custom
+              [readonly]="readonly"
+              [name]="'bh_ma_tra_cuu'"
+              [label]="getLabel('lbl_hddt_ma_tra_cuu')"
+              [value]="ticket.electronic_bill.tl_ma_tra_cuu"
+              [disabled]="true" />
+          </div>
+          <div class="box-2">
+            <form-input-custom
+              [readonly]="readonly"
+              [name]="'bh_so_seri'"
+              [label]="getLabel('lbl_hddt_so_seri')"
+              [value]="ticket.electronic_bill.tl_so_seri"
+              [disabled]="true" />
+            <form-input-custom
+              [name]="'bh_ngay_ky'"
+              [label]="getLabel('lbl_hddt_ngay_ky')"
+              [value]="ticket.electronic_bill.tl_ngay_ky"
+              dataType="date"
+              type="date"
+              [disabled]="true" />
+            <form-input-custom
+              [readonly]="readonly"
+              [name]="'bh_status'"
+              [label]="getLabel('lbl_hddt_status')"
+              [value]="ticket.electronic_bill.tl_status"
+              [disabled]="true" />
+          </div>
+        </div>
+      </tab-custom>
+    </tabs-custom>
+
+    <div>
+      <div class="title-content p-2">{{ getLabel('lbl_tc_don_hang') }}</div>
+      <div class="box-container">
+        <div class="box d-flex gap-2">
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_so_luong')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.t_so_luong" />
+
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [align]="'end'"
+            [label]="getLabel('lbl_thanh_tien')"
+            [value]="ticket.masterInfo.t_tien_nt2"
+            format="moneyViewFormat"
+            dataType="number" />
+        </div>
+        <form-input-custom
+          class="box"
+          [disabled]="true"
+          [label]="getLabel('lbl_thue')"
+          [align]="'end'"
+          [value]="ticket.masterInfo.t_thue_nt"
+          format="moneyViewFormat"
+          dataType="number" />
+        <form-input-custom
+          class="box"
+          [disabled]="true"
+          [label]="getLabel('lbl_t_tt')"
+          [align]="'end'"
+          [value]="ticket.masterInfo.t_tt_nt"
+          format="moneyViewFormat"
+          dataType="number" />
+        <div class="w-100 order-10 d-flex justify-content-end">
+          <form-input-custom
+            class="box"
+            [disabled]="true"
+            [label]="getLabel('lbl_diem_qd')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.diem_qd"
+            format="moneyViewFormat"
+            dataType="number" />
+        </div>
+      </div>
+      <div class="d-flex justify-end gap-2 m-3">
+        <app-voucher-info
+          *ngIf="this.mode != 0"
+          [entity]="entity"
+          class="text-base"
+          [voucherId]="ticket.masterInfo.stt_rec" />
+        <div class="btn-responsive btn-in-file">
+          <span>{{ getLabel('btnPrint') }}</span>
+        </div>
+        <div class="btn-responsive btn-cancel" (click)="onCancel()">
+          {{ cancelButtonTitle }}
+        </div>
+        <div
+          class="btn-responsive btn-add"
+          (click)="onSave()"
+          *ngIf="!readonly">
+          {{ submitButtonTitle }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="isSaving"
+    class="position-absolute start-0 top-0 opacity-50"
+    style="width: 100%; height: 100%; background-color: rgb(193, 193, 193)">
+    <div class="position-absolute top-50 start-50 translate-middle">
+      <div class="d-flex flex-column">
+        <div class="spinner-border text-dark align-self-center" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Đang lưu</p>
+      </div>
+    </div>
+  </div>
+</div>

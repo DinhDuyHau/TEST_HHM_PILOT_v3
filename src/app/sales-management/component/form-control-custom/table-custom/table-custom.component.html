@@ -1,0 +1,220 @@
+<div class="position-relative">
+  <div class="table-container">
+    <table
+      [ngClass]="{'table-main': type && type == 'main'}"
+      [ngClass]="{'table-search': type && type == 'search-dialog'}">
+      <tr class="table-header">
+        <th *ngIf="selectByCheckbox">Chọn</th>
+        <th class="table-title text-nowrap" *ngFor="let column of columns">
+          <div>
+            <div class="title-content">
+              {{ column['title'] }}
+            </div>
+            <form-input-custom
+              *ngIf="handleFilter.observers.length"
+              [name]="column.name"
+              (handleChangeValue)="onChangeFilter($event, column.name)"
+              (handleEnterInput)="onClickSearch()"
+              (handleClickSearch)="onClickSearch()" />
+          </div>
+        </th>
+        <th
+          *ngIf="
+            (handleDelete.observers.length ||
+              handleSwap.observers.length ||
+              handleAdd.observers.length) &&
+            !readonly
+          "
+          class="table-title text-nowrap">
+          Thao tác
+        </th>
+      </tr>
+      <tr
+        id="record"
+        #ref
+        class="record"
+        *ngFor="let record of dataSource; index as i">
+        <td *ngIf="selectByCheckbox" class="text-center">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [(ngModel)]="record.selected"
+            (change)="onChangeSelectCheckbox(record)" />
+        </td>
+        <td
+          *ngFor="let column of columns"
+          class="justify-content-center"
+          (click)="type && type == 'main' && onSelectItem(record, ref)">
+          <div
+            *ngIf="column['type'] === 'text'"
+            [ngClass]="{
+              'text-center': column.align === 'center',
+              'text-end': column.align === 'end',
+              'text-right': column.align === 'right',
+              'text-left': column.align === 'left',
+              'cursor-pointer': column.isPrimaryKey === true,
+              underline: column.isPrimaryKey,
+              'hover:text-green-600': column.isPrimaryKey
+            }"
+            (click)="column.isPrimaryKey && onSelectItem(record, ref)">
+            {{
+              column.format
+                ? (record[column['name']]
+                  | formatData : column.dataType : column.format)
+                : record[column['name']]
+            }}
+          </div>
+          <input
+            [ngClass]="{
+              'w-full bg-transparent outline-none': true,
+          'text-center': column.align === 'center',
+          'text-end': column.align === 'end',
+          'text-right': column.align === 'right',
+          'text-left': column.align === 'left',
+        }"
+            #texbox
+            (change)="onChangeInput(record, i, texbox.value, column.name)"
+            (input)="
+              onInput(
+                texbox,
+                record[column.name + '_max'],
+                record,
+                i,
+                column.name
+              )
+            "
+            disabled="readonly"
+            *ngIf="column['type'] === 'texbox'"
+            [value]="
+              column.format
+                ? (record[column['name']]
+                  | formatData : column.dataType : column.format)
+                : record[column['name']]
+            " />
+
+          <div
+            [ngClass]="{
+        'text-center': column.align === 'center',
+        'text-end': column.align === 'end',
+        'text-right': column.align === 'right',
+        'text-left': column.align === 'left',
+      }">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              [ngModel]="record[column['name']]"
+              *ngIf="column['type'] === 'checkbox'"
+              [disabled]="!(record.km_yn || record.giam_gia_yn)"
+              (change)="
+                (record.km_yn || record.giam_gia_yn) &&
+                  onChangeCheckbox(record, i, $event, column.name)
+              " />
+          </div>
+        </td>
+        <td
+          *ngIf="
+            handleDelete.observers.length ||
+            handleSwap.observers.length ||
+            handleAdd.observers.length ||
+            handleUpdate.observers.length
+          ">
+          <div class="d-flex align-center justify-content-center gap-2">
+            <button title="Thêm chiết khấu ngoại giao"
+              (click)="onAddDiscountNG(record)"
+              *ngIf="handleAdd.observers.length && !record.km_yn && !readonly && isShowDiscountNG">
+              <i class="fas fa-star icon-table"></i>
+            </button>
+            <button title="Thêm dịch vụ"
+              (click)="onAddForItem(record)"
+              *ngIf="handleAdd.observers.length && !record.km_yn && !readonly">
+              <i class="fas fa-plus icon-table"></i>
+            </button>
+            <button title="Thay đổi hàng khuyến mại"
+              (click)="onSwapItem(record)"
+              *ngIf="handleSwap.observers.length && record.km_yn && !readonly">
+              <i class="fas fa-exchange icon-table"></i>
+            </button>
+            <button
+              (click)="onActionItem(record)"
+              *ngIf="
+                handleAction.observers.length && entityName === 'SVTran_DXA'
+              ">
+              <span class="icon-table">Lập phiếu bán buôn</span>
+            </button>
+            <button
+              (click)="onViewItem(record)"
+              *ngIf="
+                handleView.observers.length &&
+                (entityName === 'SVTran_DXA' || record.status !== '0')
+              ">
+              <i class="fas fa-eye icon-table text-primary"></i>
+            </button>
+            <button title="Sửa"
+              (click)="onUpdateItem(record)"
+              *ngIf="
+                handleUpdate.observers.length &&
+                entityName !== 'SVTran_DXA' &&
+                !readonly &&
+                (isTicket ? record.status === '0' : true)
+              ">
+              <i class="fas fa-edit icon-table text-primary"></i>
+            </button>
+            <button title="Xóa"
+              (click)="onDeleteItem(record)"
+              *ngIf="
+                handleDelete.observers.length &&
+                !readonly &&
+                entityName !== 'SVTran_DXA'
+              ">
+              <i class="fas fa-trash-alt icon-table text-danger"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div
+    class="table-footer"
+    [ngClass]="{'table-search-footer': type && type == 'search-dialog'}"
+    *ngIf="handleChangePage.observers.length && !hiddenPagination">
+    <div class="count-page" *ngIf="totalItem">
+      <span>Số dòng trên trang:&nbsp;</span>
+      <select name="" id="" (change)="onChangePageSize($event)">
+        <option
+          [selected]="value == size"
+          [value]="value"
+          *ngFor="let value of pageSizeOptions">
+          {{ value }}
+        </option>
+      </select>
+    </div>
+    <div *ngIf="page_index && size">
+      {{ (page_index - 1) * size + 1 }} -
+      {{ page_index * size <= totalItem ? page_index * size : totalItem }} của
+      tổng số
+      {{ totalItem }}
+    </div>
+    <div class="pagination">
+      <i
+        class="fas fa-angle-left btn-pagination"
+        (click)="onClickChangePage('prev')"></i>
+      <i
+        class="fas fa-angle-right btn-pagination"
+        (click)="onClickChangePage('next')"></i>
+    </div>
+  </div>
+
+  <div
+    *ngIf="isLoading"
+    class="position-absolute start-0 top-0 opacity-50"
+    style="width: 100%; height: 100%; background-color: rgb(193, 193, 193)">
+    <div class="position-absolute top-50 start-50 translate-middle">
+      <div class="d-flex flex-column">
+        <div class="spinner-border text-dark align-self-center" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Đang tải</p>
+      </div>
+    </div>
+  </div>
+</div>

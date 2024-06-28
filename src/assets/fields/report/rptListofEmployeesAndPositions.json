@@ -1,0 +1,53 @@
+[
+  {
+    "name": "ma_nvbh",
+    "title": "Mã NVBH",
+    "allowFilter": true,
+    "width": 160,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_nvbh",
+    "title": "Tên NVBH",
+    "allowFilter": true,
+    "width": 160,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_bp",
+    "title": "Mã bộ phận",
+    "allowFilter": true,
+    "width": 200,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_bp",
+    "title": "Tên bộ phận",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 100
+  },
+  {
+    "name": "ma_cuahang",
+    "title": "Mã cửa hàng",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 140
+  },
+  {
+    "name": "ten_cuahang",
+    "title": "Tên cửa hàng",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 100
+  },
+  {
+    "name": "ngay_bd",
+    "title": "Ngày bắt đầu",
+    "allowFilter": true,
+    "type": "date",
+    "dataFormatString": "datetimeFormat",
+    "width": 100
+  }
+]

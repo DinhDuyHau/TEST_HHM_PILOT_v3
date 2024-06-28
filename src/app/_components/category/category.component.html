@@ -1,0 +1,44 @@
+<div *ngIf="type == 1" class="p-0 lg:mx-5 lg:my-4 lg:px-9 bg-white">
+  <app-grid-v2
+    [titleGrid]="title"
+    [fields]="fields"
+    [gridType]="gridType"
+    [dataSource]="dataSource"
+    [totalItems]="totalItems"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageCount]="pageCount"
+    [pageSizeOptions]="pageSizeOptions"
+    [isLockingColumn]="isLockingColumn"
+    [buttons]="buttons"
+    (handlePaging)="onPageChange($event)"
+    (handleChangeCheckbox)="onCheckboxListChanged($event)"
+    (handleSelectColumn)="onSelectColumn($event)"
+    (handleSortColumn)="onSortColumn($event)"
+    (handleSearch)="onSearch()"
+    (handleButton)="onClickButton($event)"
+    class="flex-1">
+  </app-grid-v2>
+</div>
+<ng-container *ngIf="type == 2">
+  <app-grid-v2
+    [titleGrid]="title"
+    [fields]="fields"
+    [gridType]="gridType"
+    [dataSource]="dataSource"
+    [totalItems]="totalItems"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageCount]="pageCount"
+    [pageSizeOptions]="pageSizeOptions"
+    [isLockingColumn]="isLockingColumn"
+    [buttons]="buttons"
+    (handlePaging)="onPageChange($event)"
+    (handleChangeCheckbox)="onCheckboxListChanged($event)"
+    (handleSelectColumn)="onSelectColumn($event)"
+    (handleSortColumn)="onSortColumn($event)"
+    (handleSearch)="onSearch()"
+    (handleButton)="onClickButton($event)"
+    class="h-full">
+  </app-grid-v2>
+</ng-container>
