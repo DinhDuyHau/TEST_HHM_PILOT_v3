@@ -59,13 +59,14 @@ export class SelectSearchComponent implements ControlValueAccessor, OnChanges, O
 
   ngOnChanges(changes: SimpleChanges): void {
     if ((changes as any).data) {
-      this.stores = (changes as any).currentValue;
+      this.stores = this.data;
       this.filteredStores = this.stores;
     }
   }
 
   filterItems(): void {
-    this.filteredStores = this.stores.filter(store =>
+    // console.log('filter', this.data)
+    this.filteredStores = this.stores.filter((store: any) =>
       store.label.toLowerCase().includes(this.searchText.toLowerCase())
     );
   }

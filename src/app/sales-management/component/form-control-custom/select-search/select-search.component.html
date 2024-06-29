@@ -6,10 +6,10 @@
     </div>
     <div class="dropdown-options" [hidden]="!dropdownOpen">
         <div class="search-container">
-            <input class="search" type="text" [(ngModel)]="searchText" (input)="filterItems()">
             <i class="fas fa-search"></i>
+            <input class="search" type="text" [(ngModel)]="searchText" (input)="filterItems()">
         </div>
-        <div class="store" *ngFor="let store of data" (click)="selectStore(store)">
+        <div class="store" *ngFor="let store of filteredStores" (click)="selectStore(store)">
             {{ store?.label }}
         </div>
     </div>
