@@ -1,22 +1,22 @@
-<div class="custom-dropdown"  #selectSearch>
-  <div class="dropdown-header" (click)="toggleDropdown()" >
-      <i class="fa-solid fa-bars"></i>
-      <span>{{ selectedStore?.label || '' }}</span>
-      <i class="fa fa-angle-down" [ngClass]="{'open': dropdownOpen}"></i>
-  </div>
-  <div class="dropdown-options" [hidden]="!dropdownOpen">
-      <div class="search-container">
-          <i class="fas fa-search"></i>
-          <input class="search" type="text" [(ngModel)]="searchText" (input)="filterItems()" placeholder="Search...">
-      </div>
-      <div class="store" *ngFor="let store of filteredStores" (click)="selectStore(store)">
-          {{ store?.label }}
-      </div>
-  </div>
+<div class="custom-dropdown" #selectSearch>
+    <div class="dropdown-header" (click)="toggleDropdown()">
+        <fa-icon class="store-icon" [icon]="['fas', 'shop']" size="lg"></fa-icon>
+        <!-- <i class="fa-solid fa-bars"></i> -->
+        <span>{{ selectedStore?.label || '' }}</span>
+        <i class="fa fa-angle-down" [ngClass]="{'open': dropdownOpen}"></i>
+    </div>
+    <div class="dropdown-options" [hidden]="!dropdownOpen">
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input class="search" type="text" [(ngModel)]="searchText" (input)="filterItems()">
+        </div>
+        <div class="store" *ngFor="let store of filteredStores" (click)="selectStore(store)">
+            {{ store?.label }}
+        </div>
+    </div>
 </div>
 
 
 <!-- <input type="text" [(ngModel)]="value" (change)="onInputChange($event)" placeholder="Search..."> -->
 
 <!-- <button (click)="showSelectedStore()">Show id Store</button> -->
-

@@ -172,7 +172,18 @@
                   (handleChangeValue)="
                     data.quet_the_tra_gop.so_hd_tragop = $event; onChange()
                   " />
-                
+                  <form-payment-custom
+                  [readonly]="readonly"
+                  [disabled]="true"
+                  [name]="'ten_ngan_hang'"
+                  [label]="'Ngân hàng phát hành thẻ'"
+                  class="flex-1"
+                  [align]="'left'"
+                  [value]="chuyen_khoan.ten_ngan_hang"
+                  [invalid]="invalid"
+                  [disabled]="readonly"
+                  (handleChangeValue)="chuyen_khoan.tk_nh_nhan = $event"
+                  (handleClickOpenDialog)="onOpenSearchBankAccount()" />
               </div>
               <div class="d-flex gap-2">
                 <!-- <form-payment-custom

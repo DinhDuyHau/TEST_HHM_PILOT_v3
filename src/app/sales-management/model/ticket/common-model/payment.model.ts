@@ -113,6 +113,7 @@ export class InstallmentCard extends BaseModelPayment {
     phi_bao_hiem = 0;
     phi_quetthe = 0;
     phi_chuyendoi = 0;
+    tk_nh_nhan = '';
 }
 
 export class Transfer extends BaseModelPayment {
