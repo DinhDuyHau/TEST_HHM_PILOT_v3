@@ -2,7 +2,8 @@
   position: relative;
   width: calc(100% - 28px);
   font-size: 14px;
-  margin: 15px;
+  background-color: #f8f9fb;
+  width: 100%;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, "Arial", sans-serif;
   box-shadow: 0px 1px 1px 0px rgba(129, 126, 126, 0.2);
 }
@@ -11,6 +12,10 @@
   cursor: pointer;
   padding: 10px 12px;
   border: 1px solid #ccc;
+  .store-icon{
+    color: #768597;
+    padding-right: 5px;
+  }
 }
 
 .dropdown-options {

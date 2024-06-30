@@ -1,6 +1,7 @@
 <div class="custom-dropdown" #selectSearch>
     <div class="dropdown-header" (click)="toggleDropdown()">
-        <i class="fa-solid fa-bars"></i>
+        <fa-icon class="store-icon" [icon]="['fas', 'shop']" size="lg"></fa-icon>
+        <!-- <i class="fa-solid fa-bars"></i> -->
         <span>{{ selectedStore?.label || '' }}</span>
         <i class="fa fa-angle-down" [ngClass]="{'open': dropdownOpen}"></i>
     </div>
