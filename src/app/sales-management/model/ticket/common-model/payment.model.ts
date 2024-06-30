@@ -165,6 +165,7 @@ export class CardDetail extends BaseModelPayment {
     so_the = '';
     ma_chuan_chi = '';
     ma_may_pos = '';
+    tk_nh_nhan = '';
 }
 export class TransferDetail extends BaseModelPayment {
     tk_nh_nhan = '';

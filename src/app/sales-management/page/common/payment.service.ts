@@ -45,8 +45,10 @@ export class PaymentService {
                     cardDetail.ma_chuan_chi = e.ma_chuan_chi;
                     cardDetail.ma_may_pos = e.ma_may_pos;
                     cardDetail.tien = e.tien;
+                    cardDetail.tk_nh_nhan = e.tk_nh_nhan;
                     des.quet_the.detail.push(cardDetail);
                     des.quet_the.selected = true;
+
                     break;
                 case PAYMENT_CODE.TRANSFER:
                     des.chuyen_khoan.tien += e.tien;
@@ -187,7 +189,8 @@ export class PaymentService {
                         tien_nt: element.tien_nt2,
                         so_the_nh: element.so_the,
                         ma_chuan_chi: element.ma_chuan_chi,
-                        ma_may_pos: element.ma_may_pos
+                        ma_may_pos: element.ma_may_pos,
+                        tk_nh_nhan: element.tk_nh_nhan
                     }),
                 ];
             });
