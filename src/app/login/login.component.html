@@ -1,12 +1,7 @@
 ﻿<div class="overflow-hidden flex flex-col md:flex-row">
-  <div
-    class="hidden 2xl:basis-1/2 lg:basis-2/5 lg:flex md:hidden sm:hidden content_left z-10">
+  <div class="hidden 2xl:basis-1/2 lg:basis-2/5 lg:flex md:hidden sm:hidden content_left z-10">
     <div class="flex flex-1 justify-center items-center relative z-10">
-      <img
-        src="/assets/images/logo_login.png"
-        alt="Ảnh logo"
-        srcset=""
-        class="h-16 z-10 2xl:h-40 lg:h-24" />
+      <img src="/assets/images/logo_login.png" alt="Ảnh logo" srcset="" class="h-16 z-10 2xl:h-40 lg:h-24" />
       <div class="absolute top-0 left-0 z-0">
         <div class="content_left_line1 my-5 absolute"></div>
         <div class="content_left_line2 my-5 absolute"></div>
@@ -16,13 +11,8 @@
     </div>
   </div>
   <div class="block md:hidden">
-    <div
-      class="flex flex-1 justify-center items-center relative z-10 h-40 container_logo_mobile">
-      <img
-        src="/assets/images/logo_login_mobile.png"
-        alt="Ảnh logo"
-        srcset=""
-        class="h-20 z-10" />
+    <div class="flex flex-1 justify-center items-center relative z-10 h-40 container_logo_mobile">
+      <img src="/assets/images/logo_login_mobile.png" alt="Ảnh logo" srcset="" class="h-20 z-10" />
     </div>
   </div>
   <div class="flex flex-1 justify-center z-10 bg-white md:mx-0 mx-8">
@@ -40,25 +30,15 @@
           </div>
         </div> -->
         <div class="flex flex-1">
-          <form
-            [formGroup]="loginForm"
-            (ngSubmit)="onSubmit(txtUser)"
-            class="flex flex-1">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit(txtUser)" class="flex flex-1">
             <div class="form flex flex-1 flex-col mt-5 md:mt-0">
               <h3 class="text-3xl text-primary02_color font-medium">
                 Đăng nhập
               </h3>
-              <div
-                *ngIf="error"
-                class="alert alert-danger mt-3 mb-0 login-alert">
+              <div *ngIf="error" class="alert alert-danger mt-3 mb-0 login-alert">
                 {{ error }}
-                <span *ngIf="showTranCancel" class="tran-cancel"
-                  >&nbsp;<a
-                    href="javascript:void(0);"
-                    (click)="onSubmit(txtUser, true)"
-                    >Hủy phiên làm việc trước</a
-                  ></span
-                >
+                <span *ngIf="showTranCancel" class="tran-cancel">&nbsp;<a href="javascript:void(0);"
+                    (click)="onSubmit(txtUser, true)">Hủy phiên làm việc trước</a></span>
               </div>
               <div *ngIf="!error" class="h-0 md:h-16"></div>
               <div class="form-group">
@@ -75,96 +55,58 @@
                 </div> -->
               </div>
               <div class="form-group">
-                <label
-                  class="text-sm text-neutrals03_color font-normal pb-1"
-                  for="txtUser"
-                  >Tên đăng nhập</label
-                >
+                <label class="text-sm text-neutrals03_color font-normal pb-1" for="txtUser">Tên đăng nhập</label>
                 <div class="input-icon">
                   <fa-icon [icon]="['fas', 'user']" size="lg"></fa-icon>
                 </div>
-                <input
-                  id="txtUser"
-                  #txtUser
-                  type="text"
-                  formControlName="username"
-                  class="form-control bg-neutrals09_color"
-                  placeholder="Tên đăng nhập"
+                <input id="txtUser" #txtUser type="text" formControlName="username"
+                  class="form-control bg-neutrals09_color" placeholder="Tên đăng nhập"
                   [ngClass]="{'is-invalid': submitted && f['username'].errors}"
-                  (keydown)="moveToNext(txtPassword, $event)"
-                  (change)="changeUser(txtUser.value)" />
-                <div
-                  *ngIf="submitted && f['username'].errors"
-                  class="invalid-feedback">
+                  (keydown)="moveToNext(txtPassword, $event)" (change)="changeUser(txtUser.value)" />
+                <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
                   <div *ngIf="f['username'].errors['required']">
                     Chưa nhập tên đăng nhập
                   </div>
                 </div>
               </div>
               <div class="form-group">
-                <label
-                  class="text-sm text-neutrals03_color font-normal pb-1"
-                  for="txtPassword"
-                  >Mật khẩu</label
-                >
+                <label class="text-sm text-neutrals03_color font-normal pb-1" for="txtPassword">Mật khẩu</label>
                 <div class="input-icon">
                   <fa-icon [icon]="['fas', 'lock']" size="lg"></fa-icon>
                 </div>
-                <input
-                  id="txtPassword"
-                  #txtPassword
-                  type="password"
-                  formControlName="password"
-                  class="form-control bg-neutrals09_color"
-                  placeholder="Mật khẩu"
+                <input id="txtPassword" #txtPassword type="password" formControlName="password"
+                  class="form-control bg-neutrals09_color" placeholder="Mật khẩu"
                   [ngClass]="{'is-invalid': submitted && f['password'].errors}"
                   (keydown)="moveToNext(cboUnit, $event)" />
-                <div
-                  *ngIf="submitted && f['password'].errors"
-                  class="invalid-feedback">
+                <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
                   <div *ngIf="f['password'].errors['required']">
                     Chưa nhập mật khẩu
                   </div>
                 </div>
               </div>
               <div class="form-group">
-                <label
-                  class="text-sm text-neutrals03_color font-normal pb-1"
-                  for="cboUnit"
-                  >Đơn vị cơ sở</label
-                >
+                <label class="text-sm text-neutrals03_color font-normal pb-1" for="cboUnit">Đơn vị cơ sở</label>
                 <div class="input-icon">
                   <fa-icon [icon]="['fas', 'city']" size="lg"></fa-icon>
                 </div>
                 <!-- (keydown)="moveToNext(cboShop, $event)" -->
-                <select
-                  id="cboUnit"
-                  #cboUnit
-                  class="form-select bg-neutrals09_color"
-                  aria-label=""
-                  id="cboUnit"
-                  formControlName="unit"
-                  (blur)="changeUnit(txtUser.value, cboUnit.value)"
+                <select id="cboUnit" #cboUnit class="form-select bg-neutrals09_color" aria-label="" id="cboUnit"
+                  formControlName="unit" (blur)="changeUnit(txtUser.value, cboUnit.value)"
                   (keydown)="moveToNext(cbshop, $event)">
                   <option *ngFor="let unit of unit_data" [value]="unit.value">
                     {{ unit.label }}
                   </option>
                 </select>
-                <div
-                  *ngIf="submitted && f['unit'].errors"
-                  class="invalid-feedback frm-show-error">
+                <div *ngIf="submitted && f['unit'].errors" class="invalid-feedback frm-show-error">
                   <div *ngIf="f['unit'].errors['required']">
                     Chưa chọn đơn vị
                   </div>
                 </div>
               </div>
               <div class="form-group">
-                <label
-                  class="text-sm text-neutrals03_color font-normal pb-1"
-                  for="cbshop"
-                  >Cửa hàng</label
-                >
-                <div class="select-search-container" #focusableDiv tabindex="0" #cbshop (keydown)="moveToNext(cboShift, $event)">
+                <label class="text-sm text-neutrals03_color font-normal pb-1" for="cbshop">Cửa hàng</label>
+                <div class="select-search-container" #focusableDiv tabindex="0" #cbshop
+                  (keydown)="moveToNext(cboShift, $event)">
                   <select-search formControlName="shop" [data]="shop_data"></select-search>
                 </div>
                 <!-- <label
@@ -196,44 +138,26 @@
                 </div> -->
               </div>
               <div class="form-group">
-                <label
-                  class="text-sm text-neutrals03_color font-normal pb-1"
-                  for="cboShift"
-                  >Ca bán hàng</label
-                >
+                <label class="text-sm text-neutrals03_color font-normal pb-1" for="cboShift">Ca bán hàng</label>
                 <div class="input-icon input-icon__large">
                   <fa-icon [icon]="['fas', 'clock']" size="lg"></fa-icon>
                 </div>
-                <select
-                  id="cboShift"
-                  #cboShift
-                  class="form-select bg-neutrals09_color"
-                  aria-label=""
-                  id="cboShift"
-                  formControlName="shift"
-                  (keydown)="moveToNext(btnLogin, $event)">
-                  <option
-                    *ngFor="let shift of shift_data"
-                    [value]="shift.value">
+                <select id="cboShift" #cboShift class="form-select bg-neutrals09_color" aria-label="" id="cboShift"
+                  formControlName="shift" (keydown)="moveToNext(btnLogin, $event)">
+                  <option *ngFor="let shift of shift_data" [value]="shift.value">
                     {{ shift.label }}
                   </option>
                 </select>
-                <div
-                  *ngIf="submitted && f['shift'].errors"
-                  class="invalid-feedback frm-show-error">
+                <div *ngIf="submitted && f['shift'].errors" class="invalid-feedback frm-show-error">
                   <div *ngIf="f['shift'].errors['required']">
                     Chưa chọn ca bán hàng
                   </div>
                 </div>
               </div>
               <div class="form-group pt-8 lg:pt-16 2xl:pt-20">
-                <button
-                  class="submit py-2 bg-primary02_color pull-right w-full flex justify-center items-center"
-                  #btnLogin
-                  [disabled]="loading || isLogin">
-                  <span
-                    *ngIf="loading"
-                    class="spinner-border spinner-border-sm mr-1 text-white text-base"></span>
+                <button class="submit py-2 bg-primary02_color pull-right w-full flex justify-center items-center"
+                  #btnLogin [disabled]="loading || isLogin">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1 text-white text-base"></span>
                   <div class="text-white text-base">Đăng nhập &nbsp;</div>
                   <!-- <fa-icon
                     class="submit-icon"
@@ -302,11 +226,7 @@
   <div class="flex flex-col self-center w-80">
     <span class="text-white pb-1 loading-text"></span>
     <div>
-      <mat-progress-bar
-        [style.height]="6"
-        class="example-margin"
-        [mode]="'determinate'"
-        [value]="progressValue">
+      <mat-progress-bar [style.height]="6" class="example-margin" [mode]="'determinate'" [value]="progressValue">
       </mat-progress-bar>
     </div>
   </div>
