@@ -14,6 +14,7 @@ import { SwipeCardComponent } from '../../swipe-card/swipe-card.component';
 import { EWalletComponent } from '../../e-wallet/e-wallet.component';
 import { TransferComponent } from '../../transfer/transfer.component';
 import { VNPayComponent } from '../../vnpay/vnpay.component';
+import { TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 
 @Component({
   selector: 'app-payment-tab-dialog',
@@ -36,6 +37,11 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   @Input() merchandise: any[] = [];
   @Input() isPaymentHH = false;
   @Input() approveDiscount = '';
+
+  chuyen_khoan = new TransferDetail;
+
+  show = [TICKET_ENTITY.RETAIL, TICKET_ENTITY.ONLINE, TICKET_ENTITY.AFFILIATE, TICKET_ENTITY.WHOLE];
+
 
   @Output() handleChangeValue = new EventEmitter<{ t_con_no: number; t_da_tra: number; t_gg: number; nguoi_duyet_ck: string }>();
 
@@ -220,12 +226,20 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     this.handleChangeValue.emit({ t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, nguoi_duyet_ck: this.approveDiscount });
   }
 
+  // onOpenSearchBankAccount() {
+  //   const dialogRef = this.dialog.open(SearchDialogComponent, { data: { keyword: '', componentName: SEARCH_COMPONENT_NAME.BANK_ACCOUNT }, disableClose: true });
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     this.data.chuyen_khoan.detail[0].tk_nh_nhan = result.tknh;
+  //     this.data.chuyen_khoan.detail[0].ten_ngan_hang = result.ten_nh;
+  //     this.onChange();
+  //   });
+  // }
+
   onOpenSearchBankAccount() {
-    const dialogRef = this.dialog.open(SearchDialogComponent, { data: { keyword: '', componentName: SEARCH_COMPONENT_NAME.BANK_ACCOUNT }, disableClose: true });
+    const dialogRef = this.commonService.openDialog(SearchDialogComponent, { keyword: "CHUYENKHOAN", componentName: SEARCH_COMPONENT_NAME.BANK_ACCOUNT, title: 'Danh sách ngân hàng' }, 'search-style-dialog');
     dialogRef.afterClosed().subscribe(result => {
-      this.data.chuyen_khoan.detail[0].tk_nh_nhan = result.tknh;
-      this.data.chuyen_khoan.detail[0].ten_ngan_hang = result.ten_nh;
-      this.onChange();
+      this.chuyen_khoan.tk_nh_nhan = result.tknh;
+      this.chuyen_khoan.ten_ngan_hang = result.ten_nh;
     });
   }
 

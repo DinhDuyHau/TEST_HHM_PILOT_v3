@@ -38,6 +38,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SettingModule } from './pages/setting/setting.module';
 import { SettingChangeModule } from './pages/setting/setting-change/setting-change.module';
 import { RouteReuseStrategy } from '@angular/router';
+import { SelectSearchComponent } from './sales-management/component/form-control-custom/select-search/select-search.component';
 // import { CustomRouteReuseStrategy } from './custom-route-reuse';
 
 @NgModule({
@@ -75,7 +76,9 @@ import { RouteReuseStrategy } from '@angular/router';
   declarations: [AppComponent, LoginComponent, AppLayoutComponent, LookupV2Component, Home2Component,
     ScanComponent,
     ScanSingleComponent,
-    ChangepassComponent],
+    ChangepassComponent,
+    SelectSearchComponent
+  ],
   providers: [
     MessagingService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
