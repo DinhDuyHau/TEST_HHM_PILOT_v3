@@ -10,8 +10,10 @@
             <i class="fas fa-search"></i>
             <input class="search" type="text" [(ngModel)]="searchText" (input)="filterItems()">
         </div>
-        <div class="store" *ngFor="let store of filteredStores" (click)="selectStore(store)">
-            {{ store?.label }}
+        <div class="store-wrapper">
+            <div class="store" *ngFor="let store of filteredStores" (click)="selectStore(store)">
+                {{ store?.label }}
+            </div>
         </div>
     </div>
 </div>

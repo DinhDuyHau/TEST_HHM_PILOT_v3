@@ -144,7 +144,8 @@
                   aria-label=""
                   id="cboUnit"
                   formControlName="unit"
-                  (blur)="changeUnit(txtUser.value, cboUnit.value)">
+                  (blur)="changeUnit(txtUser.value, cboUnit.value)"
+                  (keydown)="moveToNext(cbshop, $event)">
                   <option *ngFor="let unit of unit_data" [value]="unit.value">
                     {{ unit.label }}
                   </option>
@@ -158,7 +159,14 @@
                 </div>
               </div>
               <div class="form-group">
-                <select-search #cbshop  formControlName="shop" [data]="shop_data"></select-search>
+                <label
+                  class="text-sm text-neutrals03_color font-normal pb-1"
+                  for="cbshop"
+                  >Cửa hàng</label
+                >
+                <div class="select-search-container" #focusableDiv tabindex="0" #cbshop (keydown)="moveToNext(cboShift, $event)">
+                  <select-search formControlName="shop" [data]="shop_data"></select-search>
+                </div>
                 <!-- <label
                   class="text-sm text-neutrals03_color font-normal pb-1"
                   for="cboShop"
