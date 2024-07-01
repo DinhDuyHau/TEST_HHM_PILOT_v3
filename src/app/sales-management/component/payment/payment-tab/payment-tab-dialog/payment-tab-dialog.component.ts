@@ -38,11 +38,6 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   @Input() isPaymentHH = false;
   @Input() approveDiscount = '';
 
-  chuyen_khoan = new TransferDetail;
-
-  show = [TICKET_ENTITY.RETAIL, TICKET_ENTITY.ONLINE, TICKET_ENTITY.AFFILIATE, TICKET_ENTITY.WHOLE];
-
-
   @Output() handleChangeValue = new EventEmitter<{ t_con_no: number; t_da_tra: number; t_gg: number; nguoi_duyet_ck: string }>();
 
   t_tien_phi = 0;
@@ -238,8 +233,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   onOpenSearchBankAccount() {
     const dialogRef = this.commonService.openDialog(SearchDialogComponent, { keyword: "CHUYENKHOAN", componentName: SEARCH_COMPONENT_NAME.BANK_ACCOUNT, title: 'Danh sách ngân hàng' }, 'search-style-dialog');
     dialogRef.afterClosed().subscribe(result => {
-      this.chuyen_khoan.tk_nh_nhan = result.tknh;
-      this.chuyen_khoan.ten_ngan_hang = result.ten_nh;
+      this.data.quet_the_tra_gop.tk_nh_nhan = result.ten_nh;
     });
   }
 

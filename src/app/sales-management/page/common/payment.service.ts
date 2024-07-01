@@ -210,7 +210,8 @@ export class PaymentService {
                     phi_quetthe: src.quet_the_tra_gop.phi_quetthe,
                     ma_may_pos: src.quet_the_tra_gop.ma_may_pos,
                     so_the_nh: src.quet_the_tra_gop.so_the,
-                    ma_chuan_chi: src.quet_the_tra_gop.ma_chuan_chi
+                    ma_chuan_chi: src.quet_the_tra_gop.ma_chuan_chi,
+                    tk_nh_nhan: src.quet_the_tra_gop.tk_nh_nhan
                 })
             ];
         }

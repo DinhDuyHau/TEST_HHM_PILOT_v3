@@ -134,6 +134,7 @@ export class Installment extends BaseModelPayment {
     phi_bao_hiem = 0;
     ma_dv_tragop = '';
     phi_cd_tragop = 0;
+    tk_nh_nhan = '';
 }
 
 
