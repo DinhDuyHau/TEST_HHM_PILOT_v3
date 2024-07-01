@@ -37,6 +37,7 @@ export class SelectSearchComponent implements ControlValueAccessor, OnChanges, O
 
   writeValue(value: any): void {
     this.value = value
+    this.selectedStore = this.data[0]
   }
 
   registerOnChange(fn: any): void {
@@ -65,7 +66,6 @@ export class SelectSearchComponent implements ControlValueAccessor, OnChanges, O
   }
 
   filterItems(): void {
-    // console.log('filter', this.data)
     this.filteredStores = this.stores.filter((store: any) =>
       store.label.toLowerCase().includes(this.searchText.toLowerCase())
     );

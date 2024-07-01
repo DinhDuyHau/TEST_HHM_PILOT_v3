@@ -56,6 +56,8 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
   extend: Extend = {};
   statusList: StatusTicket[] = [];
   voucherCode = 'PNA';
+  voucher_date = '';
+
   submitted = false;
   loading = false;
   disabled = false;
@@ -172,12 +174,13 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
   initData(stt_rec: string) {
     this.receiptService.getItem(stt_rec).subscribe((item => {
       item.masterInfo.ngay_ct = item.masterInfo.ngay_ct?.substring(0, 10);
-      console.log(item.masterInfo.ngay_ct);
+      this.voucher_date = item.masterInfo.ngay_ct!;
 
       this.data = item;
       this.voucherForm = this.formBuilder.group({
         so_ct: [this.data.masterInfo.so_ct, Validators.required],
         ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
+        ngay_lct: [this.data.masterInfo.ngay_lct, Validators.required],
         status: [this.data.masterInfo.status, Validators.required],
         ma_cuahang: [this.data.masterInfo.ma_cuahang, Validators.required],
         ten_cuahang: [this.ten_cuahang],
@@ -247,6 +250,7 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
         ma_ct: 'PR1',
         so_ct: '0004',
         ngay_ct: getDateFormat(new Date()),
+        ngay_lct: getDateFormat(new Date()),
         ma_dvcs: '001',
         ma_ca: '01',
         status: '0',
@@ -285,6 +289,7 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
     this.voucherForm = this.formBuilder.group({
       so_ct: [this.data.masterInfo.so_ct, Validators.required],
       ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
+      ngay_lct: [this.data.masterInfo.ngay_lct, Validators.required],
       status: [this.data.masterInfo.status, Validators.required],
       ma_cuahang: [this.data.masterInfo.ma_cuahang, Validators.required],
       ten_cuahang: [this.ten_cuahang],
@@ -604,5 +609,16 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);
+  }
+
+  onStatusChange($event: any) {
+    this.data.masterInfo.status = $event;
+    if (this.data.masterInfo.status === '2') {
+      this.data.masterInfo.ngay_ct = this.data.masterInfo.ngay_ht?.substring(0, 10);
+      this.f['ngay_ct'].setValue(this.data.masterInfo.ngay_ct);
+    }
+    else {
+      this.f['ngay_ct'].setValue(this.voucher_date);
+    }
   }
 }
