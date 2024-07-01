@@ -1,3 +1,4 @@
+<label class="text-sm text-neutrals03_color font-normal pb-1" for="cboShop">Cửa hàng</label>
 <div class="custom-dropdown" #selectSearch>
     <div class="dropdown-header" (click)="toggleDropdown()">
         <fa-icon class="store-icon" [icon]="['fas', 'shop']" size="lg"></fa-icon>
@@ -10,7 +11,7 @@
             <i class="fas fa-search"></i>
             <input class="search" type="text" [(ngModel)]="searchText" (input)="filterItems()">
         </div>
-        <div class="store" *ngFor="let store of filteredStores" (click)="selectStore(store)">
+        <div class="store overflow-auto" *ngFor="let store of filteredStores" (click)="selectStore(store)">
             {{ store?.label }}
         </div>
     </div>
