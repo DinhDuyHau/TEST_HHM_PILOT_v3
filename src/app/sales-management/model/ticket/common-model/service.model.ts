@@ -23,6 +23,10 @@ export class Service {
     ad_key = false;
     gia_vat = 0;
 
+    //sale return
+    tien_giam = 0;
+    gia_tra_lai = 0;
+
     constructor(obj?: any) {
         Object.assign(this, obj);
     }
@@ -50,6 +54,7 @@ export class ServiceRequest extends BaseEntity {
     tien_kmqd = 0;
     line_nbr = 0;
     gia_vat = 0;
+    tien_giam = 0;
 
     constructor(obj?: any) {
         super();

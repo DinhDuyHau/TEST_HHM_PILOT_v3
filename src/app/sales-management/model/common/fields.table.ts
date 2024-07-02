@@ -999,6 +999,97 @@ export const SERVICE_LIST = [
     }
 ];
 
+export const SERVICE_LIST_SALE_RETURN = [
+    {
+        name: 'ma_dv',
+        title: 'Mã dịch vụ',
+    },
+    {
+        name: 'ten_dv',
+        title: 'Tên dịch vụ',
+    },
+    {
+        name: 'km_yn',
+        title: 'Khuyễn mãi',
+        type: 'checkbox',
+        align: 'center',
+    },
+    {
+        name: 'ma_imei',
+        title: 'Mã imei',
+    },
+    {
+        name: 'vt_ton_kho',
+        title: 'Theo dõi kho',
+        type: 'checkbox',
+        align: 'center',
+    },
+    {
+        name: 'dvt',
+        title: 'Đơn vị tính',
+        align: 'center'
+    },
+    {
+        name: 'gia_ban',
+        title: 'Đơn giá',
+        format: 'moneyViewFormat',
+        dataType: 'number',
+        align: 'right'
+    },
+    {
+        name: 'tien_giam',
+        title: 'Tiền giảm',
+        format: 'moneyViewFormat',
+        align: 'right',
+        dataType: 'number'
+    },
+    {
+        name: 'gia_tra_lai',
+        title: 'Giá trả lại',
+        format: 'moneyViewFormat',
+        dataType: 'number',
+        align: 'right'
+    },
+    {
+        name: 'tien_ck',
+        title: 'Tiền chiết khấu',
+        format: 'moneyViewFormat',
+        align: 'right',
+        dataType: 'number'
+    },
+    {
+        name: 'so_luong',
+        title: 'Số lượng',
+        align: 'center'
+    },
+    {
+        name: 'thanh_tien',
+        title: 'Thành tiền',
+        format: 'moneyViewFormat',
+        dataType: 'number',
+        align: 'right'
+    },
+    {
+        name: 'thue_suat',
+        title: 'Thuế suất(%)',
+        align: 'center'
+    },
+    {
+        name: 'tien_thue',
+        title: 'Tiền thuế',
+        format: 'moneyViewFormat',
+        dataType: 'number',
+        align: 'right'
+    },
+    {
+        name: 'tong_tien',
+        title: 'Tổng tiền',
+        format: 'moneyViewFormat',
+        dataType: 'number',
+        align: 'right'
+    }
+];
+
 export const SERVICE_CHANGE_LIST = [
     {
         name: 'ma_dv',

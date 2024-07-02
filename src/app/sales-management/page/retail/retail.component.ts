@@ -592,7 +592,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   onSave() {
     console.log(this.retailService.prepareVoucher())
 
-
+    return
     const message = this.retailService.validateTicket(this.ticket);
     this.invalid = this.commonService.isInValidPayment(this.ticket.payment) || this.retailService.isInvalidForm(this.ticket.masterInfo);
 

@@ -12,7 +12,7 @@ import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
-import { MERCHANDISE_RETURN_LIST } from '@app/sales-management/model/common/fields.table';
+import { MERCHANDISE_RETURN_LIST, SERVICE_LIST, SERVICE_LIST_SALE_RETURN } from '@app/sales-management/model/common/fields.table';
 import { MODE, STATUS_LIST } from '@app/sales-management/enum/ticket.enum';
 import { CommonService } from '../common/common.service';
 import { MerchandiseService } from '../common/merchandise.service';
@@ -22,6 +22,9 @@ import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '@app/sales-managem
 import { IMEIService } from '@app/_services/imei.service';
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
+import { Service } from '@app/sales-management/model/ticket/common-model/service.model';
+import { ServiceOfMerchandiseService } from '../common/service.service';
+import { PaymentService } from '../common/payment.service';
 
 
 @Component({
@@ -32,6 +35,7 @@ import { Option } from '@app/sales-management/model/ticket/common-model/option.m
 
 export class SaleReturnComponent implements OnInit, AfterViewInit {
   ticket: ReturnSaleTicketCreate = new ReturnSaleTicketCreate;
+  serviceColumns = SERVICE_LIST_SALE_RETURN;
   statusList: StatusTicket[] = [];
   disableSelectStatus = true;
   dataFormat = dataFormat;
@@ -74,7 +78,9 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
     private ticketApiService: TicketApiService,
     private commonService: CommonService,
     private merchandiseService: MerchandiseService,
-    private imeiService: IMEIService
+    private imeiService: IMEIService,
+    private serviceOfMerchandiseService: ServiceOfMerchandiseService,
+    private paymentService: PaymentService,
   ) {
     localStorage.setItem('useGridCached', '1');
     this.saleReturnService.setTicket(this.ticket);
@@ -232,7 +238,25 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
               // merchandise[0].ty_le_giam = Number.parseFloat(this.rate);
               // merchandise[0].tien_giam = this.tien_giam;
               merchandise[0].giam_gia_yn = this.isSaleDown;
+
               this.merchandiseService.convertFromVoucher(merchandise, this.ticket.merchandise, Merchandise);
+
+              result.result.details.map((detail: any) => {
+                switch (detail.name.toLocaleLowerCase()) {
+                  case 'services':
+                    this.serviceOfMerchandiseService.convertFromVoucher(detail.data, this.ticket.service);
+                    break;
+                  case 'electric_biill':
+                    this.ticket.electronic_bill = this.commonService.convertDateOfModelFromVoucher(detail.data[0]);
+                    break;
+                  case 'payments':
+                    this.paymentService.convertPaymentFromVoucher(detail.data, this.ticket.payment);
+                    break;
+                  default:
+                    break;
+                }
+              })
+
               this.saleReturnService.calcMoney();
 
               //tính số tiền còn nợ
@@ -279,6 +303,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
     });
   }
   // #endregion merchandise
+
 
   // Submit
   onSave() {

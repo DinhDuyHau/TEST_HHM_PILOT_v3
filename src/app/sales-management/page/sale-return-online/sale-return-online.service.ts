@@ -13,6 +13,10 @@ import { MerchandiseRequest, MasterInfoRequest } from '@app/sales-management/mod
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { PaymentService } from '../common/payment.service';
 import { Language } from '../common/language';
+import { ServiceOfMerchandiseService } from '../common/service.service';
+import { ServiceForImeiComponent } from '@app/sales-management/component/merchandise-service/service-for-imei/service-for-imei.component';
+import { Service, ServiceRequest } from '@app/sales-management/model/ticket/common-model/service.model';
+
 
 @Injectable({
     providedIn: 'root'
@@ -28,6 +32,7 @@ export class SaleReturnOnlineService {
         private commonService: CommonService,
         private paymentService: PaymentService,
         private merchandiseService: MerchandiseService,
+        private serviceOfMerchandiseService: ServiceOfMerchandiseService,
     ) {
     }
 
@@ -224,6 +229,7 @@ export class SaleReturnOnlineService {
         return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.RETAIL);
     }
     // #endregion other
+
     getListImeiInfo(ma_imei: string[]) {
         return this.imeiApiService.getImeisState(ma_imei);
     }

@@ -1,9 +1,11 @@
 import { BaseMasterInfo, BaseMerchandise, BaseTicket } from '../common-model/base-entity.model';
 import { Payment } from '../common-model/payment.model';
+import { Service } from '../common-model/service.model';
 
 export class ReturnSaleOnlineTicketCreate {
   masterInfo: MasterInfo = new MasterInfo;
   merchandise: Merchandise[] = [];
+  service: Service[] = [];
   payment: Payment = new Payment;
   electronic_bill: electronic_bill = new electronic_bill;
 }
@@ -12,6 +14,7 @@ export type ReturnSaleOnlineTicketCreateList = BaseTicket
 
 export const TAB_NAME = {
   MERCHANDISE: 'd579',
+  SERVICE: 'd579dv',
   ELECTRONIC_BILL: 'm579ext',
   PAYMENT: 'd579tt',
 };
@@ -20,6 +23,7 @@ export class MasterInfo extends BaseMasterInfo {
   dien_giai = '';
   t_ck = 0;
   t_tien_tnk = 0;   // Thu nhập khác
+  email_nhan_key = '';
 
   t_con_no = 0;
   t_da_tra = 0;

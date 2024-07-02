@@ -13,6 +13,10 @@ import { MerchandiseRequest, MasterInfoRequest } from '@app/sales-management/mod
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { PaymentService } from '../common/payment.service';
 import { Language } from '../common/language';
+import { Service, ServiceRequest } from '@app/sales-management/model/ticket/common-model/service.model';
+import { ServiceForImeiComponent } from '@app/sales-management/component/merchandise-service/service-for-imei/service-for-imei.component';
+import { ServiceOfMerchandiseService } from '../common/service.service';
+
 
 @Injectable({
     providedIn: 'root'
@@ -28,6 +32,7 @@ export class SaleReturnService {
         private commonService: CommonService,
         private paymentService: PaymentService,
         private merchandiseService: MerchandiseService,
+        private serviceOfMerchandiseService: ServiceOfMerchandiseService,
     ) {
     }
 
@@ -48,9 +53,12 @@ export class SaleReturnService {
         });
 
         data.details.forEach(e => {
-            switch (e.name) {
+            switch (e.name.toLocaleLowerCase()) {
                 case TAB_NAME.MERCHANDISE:
                     this.merchandiseService.convertFromVoucher(e.data, this.ticket.merchandise, Merchandise);
+                    break;
+                case TAB_NAME.SERVICE:
+                    this.serviceOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
                     break;
                 case TAB_NAME.ELECTRONIC_BILL:
                     this.ticket.electronic_bill = this.commonService.convertDateOfModelFromVoucher(e.data[0]);
@@ -78,6 +86,7 @@ export class SaleReturnService {
         // voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.ELECTRONIC_BILL, data: [] }];
         voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.ELECTRONIC_BILL, data: [this.commonService.convertDateOfModelToRequest(this.ticket.electronic_bill, voucherDto.masterInfo)] }];
         voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
+        voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.SERVICE, data: this.serviceOfMerchandiseService.convertServiceToRequest(this.ticket.service, voucherDto.masterInfo, ServiceRequest) }];
         return voucherDto;
     }
 
@@ -165,6 +174,35 @@ export class SaleReturnService {
     }
 
     // #endregion merchandise
+
+    // #region service
+    addServiceForMerchandise(item: Merchandise, ticket: ReturnSaleTicketCreate) {
+        this.commonService.openDialog(ServiceForImeiComponent, { ma_imei: item.ma_imei, gia_ban: item.gia_ban, ma_vt: item.ma_vt, gia_vat: item.gia_vat }, 'service-imei-style')
+            .afterClosed().subscribe(result => {
+                if (result) {
+                    this.serviceOfMerchandiseService.addNew(item.ma_imei, result, ticket.service);
+                    // this.discountService.resetDiscount(this.ticket.discount);
+                    // this.setIsNeedCalcDiscount(true);
+                    // Thêm dịch vụ thì phải tính lại chiết khấu
+                    this.calcMoney();
+                }
+            });
+    }
+
+    // Remove service
+    removeService(item: Service, ticket: ReturnSaleTicketCreate) {
+        this.serviceOfMerchandiseService.removeService(item, ticket.service);
+        this.calcMoney();
+        this.commonService.showMessageByNameAdvance('lblSuccessDeleteService', { name: '%ma_dv', value: item.ma_dv });
+    }
+
+    //Remove service
+    removeServiceAfterRemoveMerchandise(merchandise: Merchandise) {
+        this.serviceOfMerchandiseService.removeServiceAfterRemoveMerchandise(merchandise, this.ticket.service);
+        this.calcMoney();
+    }
+    // #endregion service
+
 
     //#region other
     calcMoney() {

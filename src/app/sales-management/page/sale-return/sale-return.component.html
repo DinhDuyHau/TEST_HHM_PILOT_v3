@@ -62,7 +62,7 @@
         [label]="getLabel('lbl_ten_kh')"
         [value]="ticket.masterInfo.ten_kh"
         [disabled]="true" />
-      
+
       <form-select-custom
         class="box"
         [isDisable]="false"
@@ -72,7 +72,7 @@
         optionValue="ma_loai"
         [value]="ticket.masterInfo.fcode1"
         (handleChangeValue)="onSaleReturnTypeChange($event)" />
-        <!-- ticket.masterInfo.fcode1 = $event -->
+      <!-- ticket.masterInfo.fcode1 = $event -->
       <form-input-custom
         class="box"
         [name]="'dien_giai'"
@@ -87,7 +87,7 @@
         [label]="getLabel('lbl_dia_chi')"
         [value]="ticket.masterInfo.dia_chi"
         [disabled]="true" />
-      
+
       <div class="d-flex gap-2 box">
         <mat-checkbox
           class="box flex items-end flex-1 justify-end"
@@ -98,7 +98,6 @@
       <div class="d-flex gap-2 box">&nbsp;</div>
       <div class="d-flex gap-2 box">&nbsp;</div>
 
-      
       <div class="d-flex gap-2 box">
         <form-input-custom
           *ngIf="isSaleDown"
@@ -155,6 +154,26 @@
           [dataSource]="ticket.merchandise"
           [columns]="merchandiseColumns"
           (handleDelete)="onRemoveMerchandise($event)" />
+      </tab-custom>
+      <tab-custom label="Dịch vụ" class="w-100">
+        <table-custom
+          [dataSource]="ticket.service"
+          [columns]="serviceColumns"
+          [readonly]="readonly" />
+        <div class="flex gap-0 md:gap-4 lg:gap-8">
+          <div class="flex-1 hidden lg:block"></div>
+          <div class="flex-1 hidden md:block"></div>
+          <div class="flex flex-1">
+            <form-input-custom
+              class="flex-1"
+              name="email"
+              [label]="getLabel('lbl_email_key')"
+              *ngIf="!readonly"
+              [value]="ticket.masterInfo.email_nhan_key"
+              [invalid]="invalid"
+              (handleChangeValue)="ticket.masterInfo.email_nhan_key = $event" />
+          </div>
+        </div>
       </tab-custom>
       <tab-custom label="HĐĐT Bán hàng" class="w-100">
         <div class="box-container">

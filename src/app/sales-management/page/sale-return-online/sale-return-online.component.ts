@@ -12,7 +12,7 @@ import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
-import { MERCHANDISE_RETURN_LIST } from '@app/sales-management/model/common/fields.table';
+import { MERCHANDISE_RETURN_LIST, SERVICE_LIST, SERVICE_LIST_SALE_RETURN } from '@app/sales-management/model/common/fields.table';
 import { MODE, STATUS_LIST } from '@app/sales-management/enum/ticket.enum';
 import { CommonService } from '../common/common.service';
 import { MerchandiseService } from '../common/merchandise.service';
@@ -21,6 +21,9 @@ import { Language } from '../common/language';
 import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '@app/sales-management/component/search/serach-dialog.component';
 import { IMEIService } from '@app/_services/imei.service';
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
+import { Service } from '@app/sales-management/model/ticket/common-model/service.model';
+import { ServiceOfMerchandiseService } from '../common/service.service';
+import { PaymentService } from '../common/payment.service';
 
 
 @Component({
@@ -31,6 +34,7 @@ import { CustomerCreateDialogComponent } from '@app/sales-management/component/c
 
 export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
   ticket: ReturnSaleOnlineTicketCreate = new ReturnSaleOnlineTicketCreate;
+  serviceColumns = SERVICE_LIST_SALE_RETURN;
   statusList: StatusTicket[] = [];
   disableSelectStatus = true;
   dataFormat = dataFormat;
@@ -68,6 +72,8 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
     private ticketApiService: TicketApiService,
     private commonService: CommonService,
     private merchandiseService: MerchandiseService,
+    private serviceOfMerchandiseService: ServiceOfMerchandiseService,
+    private paymentService: PaymentService,
     private imeiService: IMEIService
   ) {
     localStorage.setItem('useGridCached', '1');
@@ -211,10 +217,10 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
           if (result && result.success && result.result && result.result.details) {
             this.loadCustomerInfo(result.result.masterInfo.ma_kh);
             const merchandise = result.result.details[0].data;
+            const details = result.result.details
             this.imeiApiService.updateImeiState([ma_imei], true, 1).subscribe(result => {
               if (result.success && result.result[0].dat_hang_yn) {
                 if (!this.ticket.merchandise.find(mer => mer.ma_imei === merchandise[0].ma_imei)) {
-
                   merchandise[0].stt_rec_hd1 = merchandise[0].stt_rec;
                   merchandise[0].ma_asm_duyet = this.ma_asm;
                   merchandise[0].ten_asm_duyet = this.ten_asm;
@@ -223,6 +229,23 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
                   merchandise[0].giam_gia_yn = this.isSaleDown;
 
                   this.merchandiseService.convertFromVoucher(merchandise, this.ticket.merchandise, Merchandise);
+
+                  details.map((detail: any) => {
+                    switch (detail.name.toLocaleLowerCase()) {
+                      case 'services':
+                        this.serviceOfMerchandiseService.convertFromVoucher(detail.data, this.ticket.service);
+                        break;
+                      case 'electric_biill':
+                        this.ticket.electronic_bill = this.commonService.convertDateOfModelFromVoucher(detail.data[0]);
+                        break;
+                      case 'payments':
+                        this.paymentService.convertPaymentFromVoucher(detail.data, this.ticket.payment);
+                        break;
+                      default:
+                        break;
+                    }
+                  })
+
                   this.saleReturnOnlineService.calcMoney();
                   this.commonService.clearText([this.tabIndex.imei]);
                   this.commonService.addImeiToStorage(ma_imei);
