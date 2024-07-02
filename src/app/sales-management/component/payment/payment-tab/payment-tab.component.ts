@@ -122,6 +122,7 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
             note: `ĐVTG: ${item.ma_dv_tragop} <br> 
               Mã máy POS: ${item.ma_may_pos} <br>
               Số thẻ: ${item.so_the_nh} <br>
+              Ngân hàng phát hành: ${item.tk_nh_nhan} <br>
               Mã chuẩn chi: ${item.ma_chuan_chi} <br>
               Số HĐ: ${item.so_hd_tragop} <br> 
               Phí bảo hiểm: &nbsp;&nbsp; <strong>${formatNumber(item.tien_phi_bh, 'en-US')}</strong> <br> 

@@ -422,7 +422,30 @@ export class StockTranferInCreateComponent extends Grid<ReceiptDetail> implement
         return false;
       }
       const imei_info = res.result[0];
-      const item = this.data.details[0].data.find((item) => { return item.ma_vt.trim() == imei_info.ma_vt.trim(); });
+
+      //Lần lượt thực hiện add imei cho từng item, item nào đã được add full imei tương ứng với số lượng => chuyển sang item tiếp theo
+      //Tất cả item cần add imei đã được add theo full số lượng khai báo => hiện thông báo
+      const list_item = this.data.details[0].data.filter((item) => { return item.ma_vt.trim() == imei_info.ma_vt.trim(); });
+      let is_full_quantity: boolean = true;
+      let ma_vt_full_qty = '';
+      for (const item_vt of list_item) {
+        ma_vt_full_qty = item_vt.ma_vt;
+        const sl_imei: number = item_vt.ma_imei ? (item_vt.ma_imei.toString().split(',').length) : 0;
+        if (sl_imei < item_vt.so_luong) {
+          is_full_quantity = false;
+          break;
+        }
+      }
+      if (is_full_quantity) {
+        this.commonService.showMessageByNameAdvance('lblWarningEnoughImei', { name: '%ma_vt', value: ma_vt_full_qty });
+        return false;
+      }
+
+      //lấy item của grid tương ứng với vật tư được quét imei và chưa full số lượng (theo imei nhập vào)
+      const item = this.data.details[0].data.find((item) => {
+        return item.ma_vt.trim() == imei_info.ma_vt.trim() && (!item.ma_imei || item.ma_imei.toString().split(',').length < item.so_luong)
+      });
+
       if (!item) {
         this.commonService.showMessageByName('lblWarningNotValidItem');
         return false;

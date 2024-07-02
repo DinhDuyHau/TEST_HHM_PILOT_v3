@@ -233,7 +233,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   onOpenSearchBankAccount() {
     const dialogRef = this.commonService.openDialog(SearchDialogComponent, { keyword: "CHUYENKHOAN", componentName: SEARCH_COMPONENT_NAME.BANK_ACCOUNT, title: 'Danh sách ngân hàng' }, 'search-style-dialog');
     dialogRef.afterClosed().subscribe(result => {
-      this.data.quet_the_tra_gop.tk_nh_nhan = result.ten_nh;
+      this.data.quet_the_tra_gop.tk_nh_nhan = result.tknh;
     });
   }
 
