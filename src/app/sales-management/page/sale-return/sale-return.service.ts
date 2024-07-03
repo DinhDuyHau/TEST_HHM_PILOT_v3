@@ -159,54 +159,24 @@ export class SaleReturnService {
     removeMerchandise(merchandise: Merchandise) {
         this.merchandiseService.removeMerchandise(merchandise, this.ticket.merchandise);
         this.merchandiseService.removePromotionMerchandiseByOrderImei(merchandise.ma_imei, this.ticket.merchandise);
+        this.removeServiceAfterRemoveMerchandise(merchandise)
         this.calcMoney();
         this.commonService.removeImeiFromStorage(merchandise.ma_imei);
         this.commonService.showMessage(Language.content.Delete_Completed);
-        // this.imeiApiService.updateImeiState([merchandise.ma_imei], false, 1).subscribe((result) => {
-        //     if (!result.result[0].dat_hang_yn) {
-        //         this.merchandiseService.removeMerchandise(merchandise, this.ticket.merchandise);
-        //         this.merchandiseService.removePromotionMerchandiseByOrderImei(merchandise.ma_imei, this.ticket.merchandise);
-        //         this.calcMoney();
-        //         this.commonService.removeImeiFromStorage(merchandise.ma_imei);
-        //         this.commonService.showMessage(Language.content.Delete_Completed);
-        //     }
-        // });
     }
 
     // #endregion merchandise
 
-    // #region service
-    addServiceForMerchandise(item: Merchandise, ticket: ReturnSaleTicketCreate) {
-        this.commonService.openDialog(ServiceForImeiComponent, { ma_imei: item.ma_imei, gia_ban: item.gia_ban, ma_vt: item.ma_vt, gia_vat: item.gia_vat }, 'service-imei-style')
-            .afterClosed().subscribe(result => {
-                if (result) {
-                    this.serviceOfMerchandiseService.addNew(item.ma_imei, result, ticket.service);
-                    // this.discountService.resetDiscount(this.ticket.discount);
-                    // this.setIsNeedCalcDiscount(true);
-                    // Thêm dịch vụ thì phải tính lại chiết khấu
-                    this.calcMoney();
-                }
-            });
-    }
-
-    // Remove service
-    removeService(item: Service, ticket: ReturnSaleTicketCreate) {
-        this.serviceOfMerchandiseService.removeService(item, ticket.service);
-        this.calcMoney();
-        this.commonService.showMessageByNameAdvance('lblSuccessDeleteService', { name: '%ma_dv', value: item.ma_dv });
-    }
-
-    //Remove service
+    //#region 
     removeServiceAfterRemoveMerchandise(merchandise: Merchandise) {
         this.serviceOfMerchandiseService.removeServiceAfterRemoveMerchandise(merchandise, this.ticket.service);
         this.calcMoney();
     }
-    // #endregion service
-
+    //#endregion
 
     //#region other
     calcMoney() {
-        this.ticket.masterInfo.t_so_luong = this.ticket.merchandise.length;
+        this.ticket.masterInfo.t_so_luong = this.ticket.merchandise.length + this.ticket.service.length;
 
         const merchandiseMoney = this.ticket.merchandise
             .filter(e => !e.km_yn)
@@ -231,11 +201,18 @@ export class SaleReturnService {
             .map(e => e.thanh_toan)
             .reduce((pre, cur) => pre + cur, 0);
 
-        this.ticket.masterInfo.t_tien_tnk = incomeMoney;
-        this.ticket.masterInfo.t_ck = discountMoney;
-        this.ticket.masterInfo.t_thue_nt = merchandiseTax;
-        this.ticket.masterInfo.t_tien_nt2 = merchandiseMoney;
-        this.ticket.masterInfo.t_tt_nt = totalMoney;
+        //service
+        const serviceMoney = this.ticket.service.map(e => e.thanh_tien).reduce((pre, cur) => pre + cur, 0);
+        const serviceIncomMoney = this.ticket.service.map(e => e.tien_giam).reduce((pre, cur) => pre + cur, 0);
+        const seviceDiscountMoney = this.ticket.service.map(e => e.ck_nt).reduce((pre, cur) => pre + cur, 0);
+        const serviceTaxMoney = this.ticket.service.map(e => e.tien_thue).reduce((pre, cur) => pre + cur, 0);
+        const serviceTotalMoney = this.ticket.service.map(e => e.tong_tien).reduce((pre, cur) => pre + cur, 0);
+
+        this.ticket.masterInfo.t_tien_tnk = incomeMoney + serviceIncomMoney;
+        this.ticket.masterInfo.t_ck = discountMoney + seviceDiscountMoney;
+        this.ticket.masterInfo.t_thue_nt = merchandiseTax + serviceTaxMoney;
+        this.ticket.masterInfo.t_tien_nt2 = merchandiseMoney + serviceMoney;
+        this.ticket.masterInfo.t_tt_nt = totalMoney + serviceTotalMoney;
         this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt);
 
         this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);

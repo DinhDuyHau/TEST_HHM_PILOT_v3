@@ -245,6 +245,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
                 switch (detail.name.toLocaleLowerCase()) {
                   case 'services':
                     this.serviceOfMerchandiseService.convertFromVoucher(detail.data, this.ticket.service);
+                    console.log('this.ticket.service', this.ticket.service)
                     break;
                   case 'electric_biill':
                     this.ticket.electronic_bill = this.commonService.convertDateOfModelFromVoucher(detail.data[0]);
@@ -303,7 +304,6 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
     });
   }
   // #endregion merchandise
-
 
   // Submit
   onSave() {

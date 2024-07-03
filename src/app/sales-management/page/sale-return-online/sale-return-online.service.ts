@@ -149,6 +149,7 @@ export class SaleReturnOnlineService {
     removeMerchandise(merchandise: Merchandise) {
         this.merchandiseService.removeMerchandise(merchandise, this.ticket.merchandise);
         this.merchandiseService.removePromotionMerchandiseByOrderImei(merchandise.ma_imei, this.ticket.merchandise);
+        this.removeServiceAfterRemoveMerchandise(merchandise)
         this.calcMoney();
         this.commonService.removeImeiFromStorage(merchandise.ma_imei);
         this.commonService.showMessage(Language.content.Delete_Completed);
@@ -165,6 +166,13 @@ export class SaleReturnOnlineService {
 
     // #endregion merchandise
 
+    //#region 
+    removeServiceAfterRemoveMerchandise(merchandise: Merchandise) {
+        this.serviceOfMerchandiseService.removeServiceAfterRemoveMerchandise(merchandise, this.ticket.service);
+        this.calcMoney();
+    }
+    //#endregion
+
     //#region other
     calcMoney() {
         this.ticket.masterInfo.t_so_luong = this.ticket.merchandise.length;
@@ -179,15 +187,31 @@ export class SaleReturnOnlineService {
             .map(e => e.tien_thue)
             .reduce((pre, cur) => pre + cur, 0);
 
+        const incomeMoney = this.ticket.merchandise
+            .map(e => e.tien_giam!)
+            .reduce((pre, cur) => pre + cur, 0);
+
         const discountMoney = this.ticket.merchandise
             .filter(e => !e.km_yn)
             .map(e => e.tien_ck)
             .reduce((pre, cur) => pre + cur, 0);
 
-        this.ticket.masterInfo.t_ck = discountMoney;
-        this.ticket.masterInfo.t_thue_nt = this.commonService.rouding(merchandiseTax);
-        this.ticket.masterInfo.t_tien_nt2 = merchandiseMoney;
-        this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt - this.ticket.masterInfo.t_tien_tnk;
+        const totalMoney = this.ticket.merchandise
+            .map(e => e.thanh_toan)
+            .reduce((pre, cur) => pre + cur, 0);
+
+        //service
+        const serviceMoney = this.ticket.service.map(e => e.thanh_tien).reduce((pre, cur) => pre + cur, 0);
+        const serviceIncomMoney = this.ticket.service.map(e => e.tien_giam).reduce((pre, cur) => pre + cur, 0);
+        const seviceDiscountMoney = this.ticket.service.map(e => e.ck_nt).reduce((pre, cur) => pre + cur, 0);
+        const serviceTaxMoney = this.ticket.service.map(e => e.tien_thue).reduce((pre, cur) => pre + cur, 0);
+        const serviceTotalMoney = this.ticket.service.map(e => e.tong_tien).reduce((pre, cur) => pre + cur, 0);
+
+        this.ticket.masterInfo.t_tien_tnk = incomeMoney + serviceIncomMoney;
+        this.ticket.masterInfo.t_tien_nt2 = merchandiseMoney + serviceMoney;
+        this.ticket.masterInfo.t_ck = discountMoney + seviceDiscountMoney;
+        this.ticket.masterInfo.t_thue_nt = this.commonService.rouding(merchandiseTax) + serviceTaxMoney;
+        this.ticket.masterInfo.t_tt_nt = totalMoney + serviceTotalMoney;
         this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt);
 
         this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);

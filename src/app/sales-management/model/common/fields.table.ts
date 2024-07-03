@@ -1051,9 +1051,9 @@ export const SERVICE_LIST_SALE_RETURN = [
         align: 'right'
     },
     {
-        name: 'tien_ck',
+        name: 'ck_nt',
         title: 'Tiền chiết khấu',
-        format: 'moneyViewFormat',
+        format: 'moneyViewFormat2',
         align: 'right',
         dataType: 'number'
     },
