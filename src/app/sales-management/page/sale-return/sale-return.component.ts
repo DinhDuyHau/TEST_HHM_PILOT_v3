@@ -245,7 +245,6 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
                 switch (detail.name.toLocaleLowerCase()) {
                   case 'services':
                     this.serviceOfMerchandiseService.convertFromVoucher(detail.data, this.ticket.service);
-                    console.log('this.ticket.service', this.ticket.service)
                     break;
                   case 'electric_biill':
                     this.ticket.electronic_bill = this.commonService.convertDateOfModelFromVoucher(detail.data[0]);
@@ -257,8 +256,6 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
                     break;
                 }
               })
-
-              this.saleReturnService.calcMoney();
 
               //tính số tiền còn nợ
               this.ticket.masterInfo.t_con_no = Math.abs(this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra);

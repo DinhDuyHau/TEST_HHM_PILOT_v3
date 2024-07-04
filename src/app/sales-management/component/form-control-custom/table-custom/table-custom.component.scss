@@ -10,7 +10,7 @@ table {
   color: #333333;
 }
 
-table > tr:nth-of-type(odd):not(:first-child) {
+table>tr:nth-of-type(odd):not(:first-child) {
   background-color: #f8f9fb;
 }
 
@@ -23,6 +23,8 @@ td {
   text-align: left;
   padding: 5px 12px;
   line-height: 24px;
+
+  border: 1px solid #333333;
 }
 
 td {
@@ -59,17 +61,20 @@ td {
 
   .count-page {
     display: flex;
+
     input {
       outline: none;
       width: 35px;
     }
   }
+
   .pagination {
     width: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-left: 30px;
+
     .btn-pagination {
       cursor: pointer;
     }
@@ -77,9 +82,10 @@ td {
 }
 
 .table-main {
-  table > tr:nth-of-type(even):not(:first-child) > * {
+  table>tr:nth-of-type(even):not(:first-child)>* {
     background-color: #f8f9fb;
   }
+
   .table-header th {
     background-color: #005447;
     border-right: 1px solid #3e8076;
@@ -120,6 +126,7 @@ input.form-check-input {
   width: 17px;
   height: 17px;
   box-shadow: none;
+
   :checked {
     background-color: #006b85;
   }

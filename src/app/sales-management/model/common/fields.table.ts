@@ -1032,21 +1032,21 @@ export const SERVICE_LIST_SALE_RETURN = [
     {
         name: 'gia_ban',
         title: 'Đơn giá',
-        format: 'moneyViewFormat',
+        format: 'moneyViewFormat2',
         dataType: 'number',
         align: 'right'
     },
     {
         name: 'tien_giam',
-        title: 'Tiền giảm',
-        format: 'moneyViewFormat',
+        title: 'Tiền phí',
+        format: 'moneyViewFormat2',
         align: 'right',
         dataType: 'number'
     },
     {
         name: 'gia_tra_lai',
         title: 'Giá trả lại',
-        format: 'moneyViewFormat',
+        format: 'moneyViewFormat2',
         dataType: 'number',
         align: 'right'
     },
@@ -1065,7 +1065,7 @@ export const SERVICE_LIST_SALE_RETURN = [
     {
         name: 'thanh_tien',
         title: 'Thành tiền',
-        format: 'moneyViewFormat',
+        format: 'moneyViewFormat2',
         dataType: 'number',
         align: 'right'
     },
@@ -1077,14 +1077,21 @@ export const SERVICE_LIST_SALE_RETURN = [
     {
         name: 'tien_thue',
         title: 'Tiền thuế',
-        format: 'moneyViewFormat',
+        format: 'moneyViewFormat2',
         dataType: 'number',
         align: 'right'
     },
     {
         name: 'tong_tien',
         title: 'Tổng tiền',
-        format: 'moneyViewFormat',
+        format: 'moneyViewFormat2',
+        dataType: 'number',
+        align: 'right'
+    },
+    {
+        name: 'ti_le_giam',
+        title: 'Tỷ lệ giảm',
+        format: 'moneyViewFormat2',
         dataType: 'number',
         align: 'right'
     }

@@ -27,6 +27,7 @@ export class Service {
     tien_giam = 0;
     gia_tra_lai = 0;
     ck_nt = 0;
+    ti_le_giam = 0;
 
     constructor(obj?: any) {
         Object.assign(this, obj);
@@ -59,6 +60,7 @@ export class ServiceRequest extends BaseEntity {
 
     //sale return 
     ck_nt = 0;
+    ti_le_giam = 0;
 
     constructor(obj?: any) {
         super();
