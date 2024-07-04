@@ -60,6 +60,7 @@ export class PaymentRequest extends BaseEntity {
 
     phi_quetthe = 0;
     phi_chuyendoi = 0;
+    phi_cd_tragop = 0;
 
     constructor(obj?: any) {
         super();

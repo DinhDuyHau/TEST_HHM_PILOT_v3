@@ -69,11 +69,20 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
   cancelButtonTitle = '';
   payment: Payment = new Payment;
   entity = VOUCHER_TYPE.DEPOSIST_RECEIPT.sysid;
-  [key: string]: any
+  [key: string]: any;
 
   override gridType = GridType.GridDetail;
   actionButtons = [button.EditQuantityButton, button.DeleteButton];
   buttonsInput = [button.ProgramerButton];
+
+  tran_type: any[] = [
+    { ma_loai: '1', ten_loai: '1 - Đặt cọc theo chương trình' },
+    { ma_loai: '2', ten_loai: '2 - Khách đặt trước tiền hàng' }
+  ];
+  ma_vt_coc = '';
+  ten_vt_coc = '';
+  tien_dat_coc = 0;
+
   constructor(
     private formBuilder: FormBuilder,
     public DeposistReceiptDetailService: DeposistReceiptDetailService,
@@ -121,7 +130,7 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
         break;
       case button.EditPriceButton.id:
         this.DeposistReceiptDetailService.openDialogEditPrice({
-          label: this.commonService.showMessageByName('lbl_tien_coc'), value: event.data.so_luong
+          label: this.commonService.showMessageByName('lbl_so_luong'), value: event.data.so_luong
         }).subscribe((res) => {
           if (res) {
             if (res < 1) {
@@ -129,7 +138,8 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
               return;
             }
             const item = this.data.details[0].data[event.index];
-            item.tien_nt = res;
+            item.so_luong = res;
+            item.tien_nt = item.so_luong * item.tien_coc;
             item.tt_nt = item.tien_nt;
             this.calcTotal();
           }
@@ -143,37 +153,42 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
     const temp = 0;
     switch (id) {
       case button.ProgramerButton.id:
-        this.DeposistReceiptDetailService.openLookup(this.openSaleService, true).subscribe((res) => {
-          if (res && res.length > 0) {
-            const temp = res.filter((item: any) => {
-              return !this.data.details[0].data.find((detail: any) => item.ma_vt == detail.ma_vt && item.ma_ctr == detail.ma_ctr);
-            });
-            let index = this.data.details[0].data.length;
-            this.data.details[0].data = this.data.details[0].data.concat(temp.map((item: any) => {
-              index++;
-              return {
-                stt_rec0: '',
-                line_nbr: index,
-                ma_vt: item.ma_vt,
-                ten_vt: item.ten_vt,
-                tien_coc: item.tien_coc,
-                so_luong: 1,
-                tien_nt: item.tien_coc,
-                tt_nt: item.tien_coc,
-                ngay_tra: item.ngay_tra,
-                ma_ctr: item.ma_ctr,
-                ten_ctr: item.ten_ctr
-              };
-            }));
-            this.dataSource.data = this.data.details[0].data;
-            this.calcTotal();
-          }
-        });
+        this.getDeposistProduct();
         break;
       default:
         break;
     }
   }
+
+  getDeposistProduct() {
+    this.DeposistReceiptDetailService.openLookup(this.openSaleService, true).subscribe((res) => {
+      if (res && res.length > 0) {
+        const temp = res.filter((item: any) => {
+          return !this.data.details[0].data.find((detail: any) => item.ma_vt == detail.ma_vt && item.ma_ctr == detail.ma_ctr);
+        });
+        let index = this.data.details[0].data.length;
+        this.data.details[0].data = this.data.details[0].data.concat(temp.map((item: any) => {
+          index++;
+          return {
+            stt_rec0: '',
+            line_nbr: index,
+            ma_vt: item.ma_vt,
+            ten_vt: item.ten_vt,
+            tien_coc: item.tien_coc,
+            so_luong: 1,
+            tien_nt: item.tien_coc,
+            tt_nt: item.tien_coc,
+            ngay_tra: item.ngay_tra,
+            ma_ctr: item.ma_ctr,
+            ten_ctr: item.ten_ctr
+          };
+        }));
+        this.dataSource.data = this.data.details[0].data;
+        this.calcTotal();
+      }
+    });
+  }
+
   ngAfterViewInit(): void {
     const inputs = this.form.nativeElement.querySelectorAll('input:not([readonly])');
     inputs[0].focus();
@@ -186,6 +201,7 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
         so_ct: [this.data.masterInfo.so_ct, Validators.required],
         ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
         status: [this.data.masterInfo.status, Validators.required],
+        fnote3: [this.data.masterInfo.fnote3, Validators.required],
         ma_cuahang: [this.data.masterInfo.ma_cuahang, Validators.required],
         ten_cuahang: [this.ten_cuahang],
         ma_kh: [this.data.masterInfo.ma_kh, Validators.required],
@@ -244,7 +260,9 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
         ma_cuahang: userObj['shop'],
         status: '0',
         t_tien_nt: 0,
-        t_tt_nt: 0
+        t_tt_nt: 0,
+        //set loại giao dịch mặc định
+        fnote3: '1'
       },
       details: [
         {
@@ -269,12 +287,14 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
           }
         }
       });
+
       this.ticketApiService.getVoucherNumber('PTCTran').subscribe(result => {
         this.data.masterInfo.so_ct = result.result as any;
         this.voucherForm = this.formBuilder.group({
           so_ct: [this.data.masterInfo.so_ct, Validators.required],
           ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
           status: [this.data.masterInfo.status, Validators.required],
+          fnote3: [this.data.masterInfo.fnote3, Validators.required],
           ma_cuahang: [this.data.masterInfo.ma_cuahang, Validators.required],
           ten_cuahang: [this.ten_cuahang],
           ma_kh: [this.data.masterInfo.ma_kh, Validators.required],
@@ -309,6 +329,7 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
       so_ct: [this.data.masterInfo.so_ct, Validators.required],
       ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
       status: [this.data.masterInfo.status, Validators.required],
+      fnote3: [this.data.masterInfo.fnote3, Validators.required],
       ma_cuahang: [this.data.masterInfo.ma_cuahang, Validators.required],
       ten_cuahang: [this.ten_cuahang],
       ma_kh: [this.data.masterInfo.ma_kh, Validators.required],
@@ -347,6 +368,7 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
       this.commonService.showMessageByName('lblWarningLackInformation');
       return;
     }
+
     if (this.data.details.length == 0 || this.data.details[0].data.length == 0) {
       this.commonService.showMessageByName('lblWarningLackDetail');
       return;
@@ -453,5 +475,30 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);
+  }
+
+  addDeposistType02(ma_vt: string, ten_vt: string, tien_coc: number) {
+    const line = this.dataSource.data.length + 1;
+    const new_data: any = {
+      stt_rec0: '',
+      line_nbr: line,
+      ma_vt: ma_vt,
+      ten_vt: ten_vt,
+      tien_coc: tien_coc,
+      so_luong: 1,
+      tien_nt: tien_coc,
+      tt_nt: tien_coc,
+      ngay_tra: null,
+      ma_ctr: '',
+      ten_ctr: ''
+    };
+    this.data.details[0].data.push(new_data);
+    this.dataSource.data = this.data.details[0].data;
+    this.calcTotal();
+
+    //reset
+    this.ma_vt_coc = '';
+    this.ten_vt_coc = '';
+    this.tien_dat_coc = 0;
   }
 }

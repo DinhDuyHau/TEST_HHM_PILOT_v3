@@ -82,6 +82,7 @@ export class PaymentService {
                     des.tra_gop.so_hd_tragop = e.so_hd_tragop;
                     des.tra_gop.phi_bao_hiem = e.tien_phi_bh;
                     des.tra_gop.ma_dv_tragop = e.ma_dv_tragop;
+                    des.tra_gop.phi_cd_tragop = e.phi_cd_tragop;
                     des.tra_gop.selected = true;
                     break;
                 case PAYMENT_CODE.CONVERSION:
@@ -116,6 +117,7 @@ export class PaymentService {
                     des.quet_the_tra_gop.ma_may_pos = e.ma_may_pos;
                     des.quet_the_tra_gop.ma_chuan_chi = e.ma_chuan_chi;
                     des.quet_the_tra_gop.so_the = e.so_the_nh;
+                    des.quet_the_tra_gop.tk_nh_nhan = e.tk_nh_nhan;
                     des.quet_the_tra_gop.selected = true;
                     break;
                 case PAYMENT_CODE.VOUCHERPARNER:
@@ -256,7 +258,8 @@ export class PaymentService {
                     tien_nt: src.tra_gop.tien_nt2,
                     so_hd_tragop: src.tra_gop.so_hd_tragop,
                     ma_dv_tragop: src.tra_gop.ma_dv_tragop,
-                    tien_phi_bh: src.tra_gop.phi_bao_hiem
+                    tien_phi_bh: src.tra_gop.phi_bao_hiem,
+                    phi_cd_tragop: src.tra_gop.phi_cd_tragop
                 })
             ];
         }
