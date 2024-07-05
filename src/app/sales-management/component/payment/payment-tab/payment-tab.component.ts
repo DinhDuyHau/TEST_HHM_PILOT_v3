@@ -107,7 +107,7 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
         case PAYMENT_CODE.VNPAY:
           return { payment: item.ten_thanhtoan, note: `Số HĐ: ${item.so_hd_vnpay}`, money: item.tien };
         case PAYMENT_CODE.INSTALLMENT:
-          return { payment: item.ten_thanhtoan, note: `Số HĐ: ${item.so_hd_tragop} <br> Phí: ${item.tien_phi_bh} <br> ĐVTG: ${item.ma_dv_tragop}`, money: item.tien };
+          return { payment: item.ten_thanhtoan, note: `Số HĐ: ${item.so_hd_tragop} <br> Phí bảo hiểm: <strong>${formatNumber(item.tien_phi_bh, 'en-US')}</strong> <br> ĐVTG: ${item.ma_dv_tragop} <br> Phí chuyển đổi: <strong>${formatNumber(item.phi_cd_tragop, 'en-US')}</strong>`, money: item.tien };
         case PAYMENT_CODE.CONVERSION:
           return { payment: item.ten_thanhtoan, note: '', money: item.tien };
         case PAYMENT_CODE.DEPOSIT:
