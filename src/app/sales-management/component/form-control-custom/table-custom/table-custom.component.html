@@ -4,9 +4,14 @@
       [ngClass]="{'table-main': type && type == 'main'}"
       [ngClass]="{'table-search': type && type == 'search-dialog'}">
       <tr class="table-header">
-        <th *ngIf="selectByCheckbox">Chọn</th>
-        <th class="table-title text-nowrap" *ngFor="let column of columns">
-          <div>
+        <th *ngIf="selectByCheckbox">
+          Chọn
+          <div class="cell-boder-right"></div>
+        </th>
+        <th
+          class="table-title text-nowrap"
+          *ngFor="let column of columns; index as i">
+          <div [ngStyle]="{width: column.width}">
             <div class="title-content">
               {{ column['title'] }}
             </div>
@@ -17,6 +22,9 @@
               (handleEnterInput)="onClickSearch()"
               (handleClickSearch)="onClickSearch()" />
           </div>
+          <div
+            class="cell-boder-right"
+            (mousedown)="startResize($event, i)"></div>
         </th>
         <th
           *ngIf="
@@ -40,6 +48,7 @@
             type="checkbox"
             [(ngModel)]="record.selected"
             (change)="onChangeSelectCheckbox(record)" />
+          <div class="cell-boder-right"></div>
         </td>
         <td
           *ngFor="let column of columns"
@@ -110,6 +119,7 @@
                   onChangeCheckbox(record, i, $event, column.name)
               " />
           </div>
+          <div class="cell-boder-right"></div>
         </td>
         <td
           *ngIf="
@@ -119,17 +129,25 @@
             handleUpdate.observers.length
           ">
           <div class="d-flex align-center justify-content-center gap-2">
-            <button title="Thêm chiết khấu ngoại giao"
+            <button
+              title="Thêm chiết khấu ngoại giao"
               (click)="onAddDiscountNG(record)"
-              *ngIf="handleAdd.observers.length && !record.km_yn && !readonly && isShowDiscountNG">
+              *ngIf="
+                handleAdd.observers.length &&
+                !record.km_yn &&
+                !readonly &&
+                isShowDiscountNG
+              ">
               <i class="fas fa-star icon-table"></i>
             </button>
-            <button title="Thêm dịch vụ"
+            <button
+              title="Thêm dịch vụ"
               (click)="onAddForItem(record)"
               *ngIf="handleAdd.observers.length && !record.km_yn && !readonly">
               <i class="fas fa-plus icon-table"></i>
             </button>
-            <button title="Thay đổi hàng khuyến mại"
+            <button
+              title="Thay đổi hàng khuyến mại"
               (click)="onSwapItem(record)"
               *ngIf="handleSwap.observers.length && record.km_yn && !readonly">
               <i class="fas fa-exchange icon-table"></i>
@@ -149,7 +167,8 @@
               ">
               <i class="fas fa-eye icon-table text-primary"></i>
             </button>
-            <button title="Sửa"
+            <button
+              title="Sửa"
               (click)="onUpdateItem(record)"
               *ngIf="
                 handleUpdate.observers.length &&
@@ -159,7 +178,8 @@
               ">
               <i class="fas fa-edit icon-table text-primary"></i>
             </button>
-            <button title="Xóa"
+            <button
+              title="Xóa"
               (click)="onDeleteItem(record)"
               *ngIf="
                 handleDelete.observers.length &&
@@ -169,6 +189,7 @@
               <i class="fas fa-trash-alt icon-table text-danger"></i>
             </button>
           </div>
+          <div class="cell-boder-right"></div>
         </td>
       </tr>
     </table>

@@ -23,7 +23,6 @@ td {
   text-align: left;
   padding: 5px 12px;
   line-height: 24px;
-
   border: 1px solid #333333;
 }
 
@@ -129,5 +128,30 @@ input.form-check-input {
 
   :checked {
     background-color: #006b85;
+  }
+}
+
+
+//resize table
+th {
+  position: relative;
+}
+
+tr>:first-child>:first-child {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.cell-boder-right {
+  width: 10px;
+  height: 100%;
+  z-index: 100;
+  position: absolute;
+  right: -5px;
+  top: 0;
+
+  &:hover {
+    cursor: col-resize;
   }
 }
