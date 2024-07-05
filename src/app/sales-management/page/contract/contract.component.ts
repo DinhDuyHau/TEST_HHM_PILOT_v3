@@ -6,12 +6,12 @@ import { ContractTicketCreate } from '@app/sales-management/model/ticket/contrac
 import { ContractService } from './contract.service';
 import { ActivatedRoute } from '@angular/router';
 import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
-import { MERCHANDISE_CONTRACT } from '@app/sales-management/model/common/fields.table';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { CommonService } from '../common/common.service';
 import { MODE } from '@app/sales-management/enum/ticket.enum';
 import { Language } from '../common/language';
 
+const { MERCHANDISE_CONTRACT } = require('@assets/fields/grid/sales-fields-table.json')
 @Component({
   selector: 'app-contract',
   templateUrl: './contract.component.html',

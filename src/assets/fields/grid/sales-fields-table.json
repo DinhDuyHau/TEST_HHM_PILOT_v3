@@ -1,101 +1,4 @@
 {
-    "SERVICE_LIST_SALE_RETURN": [
-        {
-            "name": "ma_dv",
-            "title": "Mã dịch vụ"
-        },
-        {
-            "name": "ten_dv",
-            "title": "Tên dịch vụ"
-        },
-        {
-            "name": "km_yn",
-            "title": "Khuyễn mãi",
-            "type": "checkbox",
-            "align": "center"
-        },
-        {
-            "name": "ma_imei",
-            "title": "Mã imei"
-        },
-        {
-            "name": "vt_ton_kho",
-            "title": "Theo dõi kho",
-            "type": "checkbox",
-            "align": "center"
-        },
-        {
-            "name": "dvt",
-            "title": "Đơn vị tính",
-            "align": "center"
-        },
-        {
-            "name": "gia_ban",
-            "title": "Đơn giá",
-            "format": "moneyViewformat2",
-            "datatype": "number",
-            "align": "right"
-        },
-        {
-            "name": "tien_giam",
-            "title": "Tiền phí",
-            "format": "moneyViewformat2",
-            "align": "right",
-            "datatype": "number"
-        },
-        {
-            "name": "gia_tra_lai",
-            "title": "Giá trả lại",
-            "format": "moneyViewformat2",
-            "datatype": "number",
-            "align": "right"
-        },
-        {
-            "name": "ck_nt",
-            "title": "Tiền chiết khấu",
-            "format": "moneyViewformat2",
-            "align": "right",
-            "datatype": "number"
-        },
-        {
-            "name": "so_luong",
-            "title": "Số lượng",
-            "align": "center"
-        },
-        {
-            "name": "thanh_tien",
-            "title": "Thành tiền",
-            "format": "moneyViewformat2",
-            "datatype": "number",
-            "align": "right"
-        },
-        {
-            "name": "thue_suat",
-            "title": "Thuế suất(%)",
-            "align": "center"
-        },
-        {
-            "name": "tien_thue",
-            "title": "Tiền thuế",
-            "format": "moneyViewformat2",
-            "datatype": "number",
-            "align": "right"
-        },
-        {
-            "name": "tong_tien",
-            "title": "Tổng tiền",
-            "format": "moneyViewformat2",
-            "datatype": "number",
-            "align": "right"
-        },
-        {
-            "name": "ti_le_giam",
-            "title": "Tỷ lệ giảm",
-            "format": "moneyViewformat2",
-            "datatype": "number",
-            "align": "right"
-        }
-    ],
     "CUSTOMER_SEARCH": [
         {
             "name": "ma_kh",
@@ -105,15 +8,15 @@
         },
         {
             "name": "ten_kh",
-            "title": "Tên khách hàng",
+            "title": "Tên khách hàng"
         },
         {
             "name": "dia_chi",
-            "title": "Địa chỉ",
+            "title": "Địa chỉ"
         },
         {
             "name": "ma_so_thue",
-            "title": "Mã số thuế",
+            "title": "Mã số thuế"
         }
     ],
     "DELIVERY_EMPLOYEE_SEACH": [
@@ -126,7 +29,6 @@
             "title": "Tên nhân viên"
         }
     ],
-    // #region discount
     "DISCOUNT_LIST": [
         {
             "name": "ma_ck",
@@ -159,7 +61,7 @@
         },
         {
             "name": "ten_loai",
-            "title": "Tên loại chiết khấu",
+            "title": "Tên loại chiết khấu"
         },
         {
             "name": "tien_ck",
@@ -179,11 +81,11 @@
     "DISCOUNT_SELECT": [
         {
             "name": "ma_ck",
-            "title": "Mã chiết khấu",
+            "title": "Mã chiết khấu"
         },
         {
             "name": "ten_ck",
-            "title": "Tên chiết khấu",
+            "title": "Tên chiết khấu"
         },
         {
             "name": "ngay_bd",
@@ -218,7 +120,7 @@
     "MERCHANDISE_REPURCHASE_LIST": [
         {
             "name": "ma_vt",
-            "title": "Mã vật tư",
+            "title": "Mã vật tư"
         },
         {
             "name": "ma_loai",
@@ -227,7 +129,7 @@
         },
         {
             "name": "ten_vt",
-            "title": "Tên vật tư",
+            "title": "Tên vật tư"
         },
         {
             "name": "ma_imei",
@@ -571,7 +473,7 @@
             "format": "moneyViewNoDigit",
             "align": "right",
             "datatype": "number"
-        },
+        }
     ],
     "MERCHANDISE_CHANGE": [
         {
@@ -635,7 +537,7 @@
             "format": "moneyViewformat",
             "align": "right",
             "datatype": "number"
-        },
+        }
     ],
     "MERCHANDISE_SEARCH": [
         {
@@ -769,11 +671,11 @@
     "MERCHANDISE_RETURN_LIST": [
         {
             "name": "ma_vt",
-            "title": "Mã vật tư",
+            "title": "Mã vật tư"
         },
         {
             "name": "ten_vt",
-            "title": "Tên vật tư",
+            "title": "Tên vật tư"
         },
         {
             "name": "ma_imei",
@@ -891,7 +793,7 @@
             "title": "Đơn vị tính"
         }
     ],
-    "MERCHANDISE_LIST_IN_GIFT_REPAY": [ // ::::::::::::::::::::::::::::::::::::: MERCHANDISE_LIST_IN_GIFT_REPAY ::::::::::::::::::::::::
+    "MERCHANDISE_LIST_IN_GIFT_REPAY": [
         {
             "name": "so_ct",
             "title": "Số hóa đơn"
@@ -920,14 +822,7 @@
             "align": "center"
         }
     ],
-    // #endregion MERCHANDISE
-    // #region payment
     "BANK_ACCOUNT_SEARCH": [
-        // {
-        //     "name": "tknh",
-        //     "title": "Số tài khoản",
-        //     isPrimaryKey: true,
-        // },
         {
             "name": "ten_nh",
             "title": "Tên ngân hàng",
@@ -951,16 +846,16 @@
         {
             "name": "ten_dv",
             "title": "Tên đơn vị"
-        },
+        }
     ],
     "DEPOSIT_SELECT": [
         {
             "name": "ma_vt",
-            "title": "Mã vật tư",
+            "title": "Mã vật tư"
         },
         {
             "name": "ten_vt",
-            "title": "Tên vật tư",
+            "title": "Tên vật tư"
         },
         {
             "name": "ngay_ct",
@@ -988,10 +883,8 @@
         {
             "name": "ten_ctr",
             "title": "Tên chương trình"
-        },
+        }
     ],
-    // #endregion payment
-    // #region service
     "SERVICE_LIST": [
         {
             "name": "ma_dv",
@@ -1068,31 +961,30 @@
             "align": "right"
         }
     ],
-
-     SERVICE_LIST_SALE_RETURN : [
+    "SERVICE_LIST_SALE_RETURN": [
         {
             "name": "ma_dv",
-            "title": "Mã dịch vụ",
+            "title": "Mã dịch vụ"
         },
         {
             "name": "ten_dv",
-            "title": "Tên dịch vụ",
+            "title": "Tên dịch vụ"
         },
         {
             "name": "km_yn",
             "title": "Khuyễn mãi",
             "type": "checkbox",
-            "align": "center",
+            "align": "center"
         },
         {
             "name": "ma_imei",
-            "title": "Mã imei",
+            "title": "Mã imei"
         },
         {
             "name": "vt_ton_kho",
             "title": "Theo dõi kho",
             "type": "checkbox",
-            "align": "center",
+            "align": "center"
         },
         {
             "name": "dvt",
@@ -1166,23 +1058,22 @@
             "align": "right"
         }
     ],
-
-     SERVICE_CHANGE_LIST : [
+    "SERVICE_CHANGE_LIST": [
         {
             "name": "ma_dv",
-            "title": "Mã dịch vụ",
+            "title": "Mã dịch vụ"
         },
         {
             "name": "ten_dv",
-            "title": "Tên dịch vụ",
+            "title": "Tên dịch vụ"
         },
         {
             "name": "ma_imei_tra",
-            "title": "Mã imei trả",
+            "title": "Mã imei trả"
         },
         {
             "name": "ma_imei_doi",
-            "title": "Mã imei đổi",
+            "title": "Mã imei đổi"
         },
         {
             "name": "dvt",
@@ -1235,21 +1126,20 @@
             "align": "right"
         }
     ],
-
-     SALE_SERVICE_LIST : [
+    "SALE_SERVICE_LIST": [
         {
             "name": "ma_dv",
-            "title": "Mã dịch vụ",
+            "title": "Mã dịch vụ"
         },
         {
             "name": "ten_dv",
-            "title": "Tên dịch vụ",
+            "title": "Tên dịch vụ"
         },
         {
             "name": "vt_ton_kho",
             "title": "Theo dõi kho",
             "align": "center",
-            "type": "checkbox",
+            "type": "checkbox"
         },
         {
             "name": "dvt",
@@ -1302,34 +1192,33 @@
             "align": "right"
         }
     ],
-
-     SERVICE_ORDER : [
+    "SERVICE_ORDER": [
         {
             "name": "so_ct",
             "title": "Số phiếu",
-            isPrimaryKey: true
+            "isPrimaryKey": true
         },
         {
             "name": "ngay_ct",
             "title": "Ngày chứng từ",
             "datatype": "date",
-            "format": "datetime"format"",
+            "format": "datetimeformat"
         },
         {
             "name": "ma_dvcs",
-            "title": "Mã đơn vị",
+            "title": "Mã đơn vị"
         },
         {
             "name": "ma_kh",
-            "title": "Mã khách",
+            "title": "Mã khách"
         },
         {
             "name": "ten_kh",
-            "title": "Tên khách hàng",
+            "title": "Tên khách hàng"
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải",
+            "title": "Diễn giải"
         },
         {
             "name": "t_tien_nt",
@@ -1358,22 +1247,22 @@
             "align": "right",
             "format": "moneyViewformat",
             "datatype": "number"
-        },
+        }
     ],
-     SERVICE_SELECT_LIST : [
+    "SERVICE_SELECT_LIST": [
         {
             "name": "ma_dv",
-            "title": "Mã dịch vụ",
+            "title": "Mã dịch vụ"
         },
         {
             "name": "ten_dv",
-            "title": "Tên dịch vụ",
+            "title": "Tên dịch vụ"
         },
         {
             "name": "vt_ton_kho",
             "title": "Theo dõi kho",
             "align": "center",
-            "type": "checkbox",
+            "type": "checkbox"
         },
         {
             "name": "dvt",
@@ -1418,24 +1307,23 @@
             "format": "moneyViewNoDigit",
             "datatype": "number",
             "align": "right"
-        },
+        }
     ],
-
-     SERVICE_SEARCH : [
+    "SERVICE_SEARCH": [
         {
             "name": "ma_dv",
             "title": "Mã dịch vụ",
-            isPrimaryKey: true
+            "isPrimaryKey": true
         },
         {
             "name": "ten_dv",
-            "title": "Tên dịch vụ",
+            "title": "Tên dịch vụ"
         },
         {
             "name": "vt_ton_kho",
             "title": "Theo dõi kho",
             "align": "center",
-            "type": "checkbox",
+            "type": "checkbox"
         },
         {
             "name": "dvt",
@@ -1448,12 +1336,10 @@
             "align": "center"
         }
     ],
-    // #endregion service
-    // #region package
-     PACKAGE_SELECT_LIST : [
+    "PACKAGE_SELECT_LIST": [
         {
             "name": "ten_dv",
-            "title": "Danh sách gói cước",
+            "title": "Danh sách gói cước"
         },
         {
             "name": "dvt",
@@ -1471,109 +1357,108 @@
             "name": "so_luong",
             "title": "Số lượng",
             "align": "center"
-        },
+        }
     ],
-    // #endregion package
-     PROJECT_SEARCH : [
+    "PROJECT_SEARCH": [
         {
             "name": "ma_vv",
             "title": "Mã dự án",
-            isPrimaryKey: true,
+            "isPrimaryKey": true
         },
         {
             "name": "ten_vv",
-            "title": "Tên dự án",
+            "title": "Tên dự án"
         },
         {
             "name": "dia_diem",
-            "title": "Địa điểm",
+            "title": "Địa điểm"
         }
     ],
-    "type"_INVENTORY : [
+    "TYPE_INVENTORY": [
         {
             "name": "ma_loai",
             "title": "Mã loại",
-            isPrimaryKey: true,
+            "isPrimaryKey": true
         },
         {
             "name": "ten_loai",
-            "title": "Tên loại",
+            "title": "Tên loại"
         }
     ],
-     LIST_ASM : [
+    "LIST_ASM": [
         {
             "name": "ma_nvbh",
             "title": "Mã ASM",
-            isPrimaryKey: true,
+            "isPrimaryKey": true
         },
         {
             "name": "ten_nvbh",
-            "title": "Tên ASM",
+            "title": "Tên ASM"
         },
         {
             "name": "ma_bp",
-            "title": "Mã bộ phận",
+            "title": "Mã bộ phận"
         },
         {
             "name": "ma_cuahang",
-            "title": "Mã cửa hàng",
+            "title": "Mã cửa hàng"
         }
     ],
-     LIST_BGD : [
+    "LIST_BGD": [
         {
-            "name": ""name"",
+            "name": "name",
             "title": "Mã người duyệt",
-            isPrimaryKey: true,
+            "isPrimaryKey": true
         },
         {
             "name": "comment",
-            "title": "Tên người duyệt",
+            "title": "Tên người duyệt"
         },
         {
             "name": "comment2",
-            "title": "Tên người duyệt 2",
+            "title": "Tên người duyệt 2"
         }
     ],
-     LIST_POS : [
+    "LIST_POS": [
         {
             "name": "ma_pos",
             "title": "Mã máy pos",
-            isPrimaryKey: true,
+            "isPrimaryKey": true
         },
         {
             "name": "ten_pos",
-            "title": "Tên máy pos",
+            "title": "Tên máy pos"
         },
         {
             "name": "tk_nganhang",
-            "title": "Số tài khoản",
+            "title": "Số tài khoản"
         }
     ],
-     LIST_PRICE_RENEW : [
+    "LIST_PRICE_RENEW": [
         {
             "name": "ma_vt",
             "title": "Mã hàng",
-            isPrimaryKey: true,
+            "isPrimaryKey": true
         },
         {
             "name": "ten_vt",
-            "title": "Tên hàng",
+            "title": "Tên hàng"
         },
         {
             "name": "ma_loai",
-            "title": "Mã loại",
+            "title": "Mã loại"
         },
         {
             "name": "ten_loai",
-            "title": "Tên loại",
+            "title": "Tên loại"
         },
         {
             "name": "ma_kh",
-            "title": "Mã NCC",
+            "title": "Mã NCC"
         },
         {
             "name": "ten_kh",
-            "title": "Tên NCC",
+            "title": "Tên NCC"
         },
         {
             "name": "gia_nt",
@@ -1581,13 +1466,13 @@
             "format": "moneyViewformat",
             "datatype": "number",
             "align": "center"
-        },
+        }
     ],
-     GUARANTEE_LIST : [
+    "GUARANTEE_LIST": [
         {
             "name": "ma_vt",
             "title": "Mã hàng hóa",
-            ""format": moneyViewformat"
+            "format": "moneyViewformat"
         },
         {
             "name": "ma_imei",
@@ -1596,7 +1481,7 @@
         },
         {
             "name": "hang_sx",
-            "title": "Hãng sản xuất",
+            "title": "Hãng sản xuất"
         },
         {
             "name": "ma_ttbh",
@@ -1605,91 +1490,86 @@
         },
         {
             "name": "ten_ttbh",
-            "title": "Tên trung tâm bảo hành",
+            "title": "Tên trung tâm bảo hành"
         },
         {
             "name": "dia_chi",
-            "title": "Địa chỉ",
+            "title": "Địa chỉ"
         }
     ],
-
-     PLANS_SELECT_COLUMN : [
+    "PLANS_SELECT_COLUMN": [
         {
             "name": "ma_gc",
             "title": "Mã gói cước",
-            isPrimaryKey: true
+            "isPrimaryKey": true
         }
     ],
-
-     IMEI_SEARCH : [
+    "IMEI_SEARCH": [
         {
             "name": "ma_imei",
             "title": "Mã imei",
-            isPrimaryKey: true
+            "isPrimaryKey": true
         },
         {
             "name": "ma_vt",
-            "title": "Mã vật tư",
+            "title": "Mã vật tư"
         },
         {
             "name": "ten_vt",
-            "title": "Tên vật tư",
+            "title": "Tên vật tư"
         },
         {
             "name": "dvt",
-            "title": "Đvt",
+            "title": "Đvt"
         },
         {
             "name": "don_gia",
             "title": "Đơn giá"
-        },
+        }
     ],
-    //::::::::::::::::::::::::::::::::::::::::::::::::::::::
-     CONTRACT_SEARCH : [
+    "CONTRACT_SEARCH": [
         {
             "name": "so_ct",
             "title": "Số chứng từ",
-            isPrimaryKey: true
+            "isPrimaryKey": true
         },
         {
             "name": "ma_kh",
-            "title": "Mã khách",
+            "title": "Mã khách"
         },
         {
             "name": "ten_kh",
-            "title": "Tên khách hàng",
-        },
-    ]
-
-     WAREHOUSE_LIST : [
+            "title": "Tên khách hàng"
+        }
+    ],
+    "WAREHOUSE_LIST": [
         {
             "name": "ma_kho",
             "title": "Mã kho",
-            isPrimaryKey: true,
+            "isPrimaryKey": true
         },
         {
             "name": "ten_kho",
-            "title": "Tên kho",
+            "title": "Tên kho"
         }
-    ]
-
-    INVOICE_LIST : [
+    ],
+    "INVOICE_LIST": [
         {
             "name": "so_ct",
             "title": "Số chứng từ",
-            isPrimaryKey: true,
+            "isPrimaryKey": true
         },
         {
             "name": "ten_vt",
-            "title": "Tên vật tư",
+            "title": "Tên vật tư"
         },
         {
             "name": "dvt",
-            "title": "Đơn vị tính",
+            "title": "Đơn vị tính"
         },
         {
             "name": "ten_ct",
-            "title": "Tên chứng từ",
-        },
-    ],
+            "title": "Tên chứng từ"
+        }
+    ]
 }

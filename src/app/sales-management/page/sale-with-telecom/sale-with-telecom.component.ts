@@ -15,7 +15,6 @@ import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
-import { DISCOUNT_LIST, GUARANTEE_LIST, MERCHANDISE_TELECOM_LIST, SERVICE_LIST } from '@app/sales-management/model/common/fields.table';
 import { Service } from '@app/sales-management/model/ticket/common-model/service.model';
 import { DiscountSelectComponent } from '@app/sales-management/component/discount/select/discount-select.component';
 import { CommonService } from '../common/common.service';
@@ -31,6 +30,7 @@ import { EInvoiceInfo, EInvoiceInfoOutput } from '@app/sales-management/model/dt
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { environment } from '@environments/environment';
 
+const { DISCOUNT_LIST, GUARANTEE_LIST, MERCHANDISE_TELECOM_LIST, SERVICE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-sale-online',

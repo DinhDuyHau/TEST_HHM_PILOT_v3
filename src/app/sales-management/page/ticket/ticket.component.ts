@@ -10,7 +10,8 @@ import { AdvancedSearchDialogComponent } from '@app/sales-management/component/a
 import { GridService } from '@app/_components/gridV2/grid.service';
 import { MenuReport } from '@app/_models';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
-import * as TICKET_FIELDS from "@assets/fields/grid/sales-ticket.json"
+
+const TICKET_FIELDS = require('@assets/fields/grid/sales-ticket.json')
 
 @Component({
   selector: 'app-ticket',
@@ -144,6 +145,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         break;
       case TICKET_TYPE.SALE_RETURN:
         this.columns = TICKET_FIELDS.SALE_RETURN as Cell[];
+        console.log('this.columns', this.columns)
         this.title = 'Ticket nhập hàng trả lại';
         // this.service.setEntityname(TICKET_ENTITY.RETURN);
         this.primaryKey = 'stt_rec';

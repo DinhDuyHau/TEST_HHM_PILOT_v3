@@ -12,7 +12,6 @@ import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
-import { MERCHANDISE_RETURN_LIST, SERVICE_LIST, SERVICE_LIST_SALE_RETURN } from '@app/sales-management/model/common/fields.table';
 import { MODE, STATUS_LIST } from '@app/sales-management/enum/ticket.enum';
 import { CommonService } from '../common/common.service';
 import { MerchandiseService } from '../common/merchandise.service';
@@ -22,10 +21,10 @@ import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '@app/sales-managem
 import { IMEIService } from '@app/_services/imei.service';
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
-import { Service } from '@app/sales-management/model/ticket/common-model/service.model';
 import { ServiceOfMerchandiseService } from '../common/service.service';
 import { PaymentService } from '../common/payment.service';
 
+const { SERVICE_LIST_SALE_RETURN, MERCHANDISE_RETURN_LIST } = require('@assets/fields/grid/sales-fields-table.json')
 
 @Component({
   selector: 'app-sale-return',

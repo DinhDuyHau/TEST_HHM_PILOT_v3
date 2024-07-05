@@ -12,7 +12,6 @@ import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
-import { GUARANTEE_LIST, MERCHANDISE_LIST_WHOLESALE, SERVICE_LIST } from '@app/sales-management/model/common/fields.table';
 import { CommonService } from '../common/common.service';
 import { MerchandiseService } from '../common/merchandise.service';
 import { MODE } from '@app/sales-management/enum/ticket.enum';
@@ -20,6 +19,7 @@ import { ScanQrcodeComponent } from '@app/_components/scan-qrcode/scan-qrcode.co
 import { Language } from '../common/language';
 import { EInvoiceInfo, EInvoiceInfoOutput } from '@app/sales-management/model/dto/einvoice.dto';
 
+const { GUARANTEE_LIST, MERCHANDISE_LIST_WHOLESALE, SERVICE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-sale-whole',
