@@ -124,6 +124,20 @@
       </div>
     </div>
 
+    <div class="deposit" *ngIf="depositMerchandise.length">
+      {{ getLabel('lbl_hh_co_tien_coc') }}
+      <span>{{ depositNameList }}</span
+      >. {{ getLabel('lbl_t_tien_dat_coc') }}
+      {{ depositTotalPrice | formatData : 'number' : 'normalPrice' }} VNĐ
+    </div>
+
+    <div class="conversion" *ngIf="ticket.masterInfo.ma_kh" style="margin-bottom: 10px;">
+      {{ getLabel('lbl_t_diem_quy_doi') }}
+      <span>{{
+        conversionPoints | formatData : 'number' : 'normalPrice'
+      }}</span>
+    </div>
+
     <tabs-custom title="Thông tin hàng hóa">
       <tab-custom label="Hàng hoá" class="w-100">
         <table-custom 
@@ -133,6 +147,7 @@
           [readonly]="readonly"
           [isChangeColorWhenSelected]="true"
           [isShowDiscountNG]="true"
+          (handleSwap)="onSwapPromotionMerchandise($event)"
           (handleAddDiscountNG)="openCalcDiscountDialog(true, $event, '04')"
           (handleDelete)="onRemoveMerchandise($event)"
           (handleAdd)="onAddService($event)"
@@ -188,20 +203,6 @@
         <e-invoice-tab [data]="eInvoiceInfo"></e-invoice-tab>
       </tab-custom>
     </tabs-custom>
-
-    <div class="deposit" *ngIf="depositMerchandise.length">
-      {{ getLabel('lbl_hh_co_tien_coc') }}
-      <span>{{ depositNameList }}</span
-      >. {{ getLabel('lbl_t_tien_dat_coc') }}
-      {{ depositTotalPrice | formatData : 'number' : 'normalPrice' }} VNĐ
-    </div>
-
-    <div class="conversion" *ngIf="ticket.masterInfo.ma_kh">
-      {{ getLabel('lbl_t_diem_quy_doi') }}
-      <span>{{
-        conversionPoints | formatData : 'number' : 'normalPrice'
-      }}</span>
-    </div>
 
     <div style="padding-bottom: 35px; border-bottom: 1px dashed #cbd5e0;">
       <div class="title-content p-2">{{ getLabel('lbl_tc_don_hang') }}</div>
