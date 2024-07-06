@@ -201,7 +201,7 @@ export class TableCustomComponent implements
 
         td.forEach((el: ElementRef) => {
           console.log(td)
-          this.renderer.setStyle(td[index].children[0], 'width', `${newWidth}px`);
+          // this.renderer.setStyle(td[index].children[0], 'width', `${newWidth}px`);
         })
       }
     })
