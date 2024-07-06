@@ -137,7 +137,8 @@ th {
   position: relative;
 }
 
-tr>* {
+tr td>*,
+th>* {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

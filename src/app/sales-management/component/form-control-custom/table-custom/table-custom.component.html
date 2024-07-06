@@ -58,6 +58,10 @@
           class="justify-content-center"
           (click)="type && type == 'main' && onSelectItem(record, ref)">
           <div
+            [ngStyle]="{
+              width: column.width && column.width,
+              minWidth: column.minWidth && column.minWidth
+            }"
             *ngIf="column['type'] === 'text'"
             [ngClass]="{
               'text-center': column.align === 'center',

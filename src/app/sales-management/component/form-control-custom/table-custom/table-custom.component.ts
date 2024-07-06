@@ -184,8 +184,7 @@ export class TableCustomComponent implements
     let currentX = event.clientX;
     const thElement =
       this.elementRef.nativeElement.querySelectorAll('th')[index].children[0];
-
-    const td = this.elementRef.nativeElement.querySelectorAll(`tr>td:nth-child(${index})`);
+    const tdElement = this.elementRef.nativeElement.querySelectorAll(`tr td:nth-child(${index + 1})`);
 
     this.resizeSubscription = fromEvent(document, 'mousemove').pipe(
       map((e: any) => e.clientX),
@@ -199,9 +198,8 @@ export class TableCustomComponent implements
         currentX = posX
         this.renderer.setStyle(thElement, 'width', `${newWidth}px`);
 
-        td.forEach((el: ElementRef) => {
-          console.log(td)
-          // this.renderer.setStyle(td[index].children[0], 'width', `${newWidth}px`);
+        tdElement.forEach((el: any) => {
+          this.renderer.setStyle(el.children[0], 'width', `${newWidth}px`);
         })
       }
     })
