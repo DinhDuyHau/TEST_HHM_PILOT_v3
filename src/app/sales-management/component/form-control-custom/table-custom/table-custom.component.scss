@@ -137,7 +137,7 @@ th {
   position: relative;
 }
 
-tr>:first-child>:first-child {
+tr>* {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

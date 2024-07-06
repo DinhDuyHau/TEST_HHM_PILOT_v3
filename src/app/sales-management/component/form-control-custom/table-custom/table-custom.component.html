@@ -11,7 +11,11 @@
         <th
           class="table-title text-nowrap"
           *ngFor="let column of columns; index as i">
-          <div [ngStyle]="{width: column.width}">
+          <div
+            [ngStyle]="{
+              width: column.width && column.width,
+              minWidth: column.minWidth && column.minWidth
+            }">
             <div class="title-content">
               {{ column['title'] }}
             </div>
@@ -48,7 +52,6 @@
             type="checkbox"
             [(ngModel)]="record.selected"
             (change)="onChangeSelectCheckbox(record)" />
-          <div class="cell-boder-right"></div>
         </td>
         <td
           *ngFor="let column of columns"
@@ -119,7 +122,6 @@
                   onChangeCheckbox(record, i, $event, column.name)
               " />
           </div>
-          <div class="cell-boder-right"></div>
         </td>
         <td
           *ngIf="
@@ -189,7 +191,6 @@
               <i class="fas fa-trash-alt icon-table text-danger"></i>
             </button>
           </div>
-          <div class="cell-boder-right"></div>
         </td>
       </tr>
     </table>
