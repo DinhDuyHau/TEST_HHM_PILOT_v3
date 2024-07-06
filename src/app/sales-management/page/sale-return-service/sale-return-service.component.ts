@@ -12,7 +12,6 @@ import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
-import { SALE_SERVICE_LIST } from '@app/sales-management/model/common/fields.table';
 import { MODE, STATUS_LIST } from '@app/sales-management/enum/ticket.enum';
 import { CommonService } from '../common/common.service';
 import { CameraComponent } from '@app/sales-management/component/webcam/webcam.component';
@@ -22,6 +21,7 @@ import { ServiceOfMerchandiseService } from '../common/service.service';
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { ServiceOrderComponent } from '@app/sales-management/component/merchandise-service/service-order/service-order.component';
 
+const { SALE_SERVICE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-sale-return-service',

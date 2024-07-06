@@ -12,7 +12,6 @@ import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
-import { GUARANTEE_LIST, MERCHANDISE_CHANGE, SERVICE_CHANGE_LIST } from '@app/sales-management/model/common/fields.table';
 import { MODE, STATUS_LIST } from '@app/sales-management/enum/ticket.enum';
 import { CommonService } from '../common/common.service';
 import { MerchandiseService } from '../common/merchandise.service';
@@ -27,6 +26,7 @@ import { EInvoiceInfo } from '@app/sales-management/model/dto/einvoice.dto';
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { ServiceOfMerchandiseService } from '../common/service.service';
 
+const { GUARANTEE_LIST, MERCHANDISE_CHANGE, SERVICE_CHANGE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-sale-change',

@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, AfterViewInit, Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, Renderer2, SimpleChanges } from '@angular/core';
 import dataFormat from '@app/_common/dataFormat';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 import { ItemFilter } from '@app/_components/gridV2/grid.model';
 import { DataFormatPipe } from '@app/_pipe/dataFormat/data-format.pipe';
 import { CommonService } from '@app/sales-management/page/common/common.service';
+import { Observable, Subscription, fromEvent, map, mergeMap, takeUntil, tap } from 'rxjs';
 
 export class Cell {
   title = '';
@@ -20,7 +21,9 @@ export class Cell {
   templateUrl: './table-custom.component.html',
   styleUrls: ['./table-custom.component.scss'],
 })
-export class TableCustomComponent implements OnInit, AfterViewInit {
+export class TableCustomComponent implements
+  OnInit,
+  OnDestroy {
   @Input() entityName!: string;
   @Input() dataSource: any[] = [];
   @Input() tableType!: number;
@@ -59,17 +62,17 @@ export class TableCustomComponent implements OnInit, AfterViewInit {
 
   dataFormat = dataFormat;
 
+  isAddCellBoder = false
+
   constructor(
     public commonService: CommonService,
+    private renderer: Renderer2, private elementRef: ElementRef
   ) { }
 
   ngOnInit(): void {
     this.columns = this.columns.map(column => {
       return { ...new Cell(), ...column, format: (dataFormat as any)[column.format ? column.format : ''] };
     });
-  }
-
-  ngAfterViewInit(): void {
   }
 
   onDeleteItem(item: any) {
@@ -167,6 +170,41 @@ export class TableCustomComponent implements OnInit, AfterViewInit {
 
   onAddDiscountNG(item: any) {
     this.handleAddDiscountNG.emit({ item });
+  }
+
+
+  //#region resize table
+  private resizeInProgress = false;
+  private resizeSubscription: Subscription | undefined;
+  startResize(event: MouseEvent, index: number): void {
+    event.preventDefault();
+    this.resizeInProgress = true;
+    let currentX = event.clientX;
+    const thElement =
+      this.elementRef.nativeElement.querySelectorAll('th')[index].children[0];
+
+    this.resizeSubscription = fromEvent(document, 'mousemove').pipe(
+      map((e: any) => e.clientX),
+      takeUntil(fromEvent(document, 'mouseup'))
+    ).subscribe((posX) => {
+      if (this.resizeInProgress) {
+        let newWidth = 0
+        const deltaX = posX - currentX;
+        const currentWidth = thElement.offsetWidth;
+        newWidth = currentWidth + deltaX;
+        console.log('delta', deltaX)
+        currentX = posX
+        this.renderer.setStyle(thElement, 'width', `${newWidth}px`);
+      }
+    })
+
+  }
+  //#endregion
+
+  ngOnDestroy(): void {
+    if (this.resizeSubscription) {
+      this.resizeSubscription.unsubscribe();
+    }
   }
 
 }

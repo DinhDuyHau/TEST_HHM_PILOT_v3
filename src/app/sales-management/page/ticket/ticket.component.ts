@@ -2,7 +2,6 @@ import { AfterViewInit, Component, OnChanges, OnInit, SimpleChanges } from '@ang
 import { Button } from '@app/_components/grid/grid.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TICKET_TYPE } from '@app/sales-management/enum/ticket.enum';
-import { TICKET_FIELDS } from './ticket-fields';
 import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { Cell } from '@app/sales-management/component/form-control-custom/table-custom/table-custom.component';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
@@ -11,6 +10,9 @@ import { AdvancedSearchDialogComponent } from '@app/sales-management/component/a
 import { GridService } from '@app/_components/gridV2/grid.service';
 import { MenuReport } from '@app/_models';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
+
+const TICKET_FIELDS = require('@assets/fields/grid/sales-ticket.json')
+
 @Component({
   selector: 'app-ticket',
   templateUrl: './ticket.component.html',
@@ -143,6 +145,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         break;
       case TICKET_TYPE.SALE_RETURN:
         this.columns = TICKET_FIELDS.SALE_RETURN as Cell[];
+        console.log('this.columns', this.columns)
         this.title = 'Ticket nhập hàng trả lại';
         // this.service.setEntityname(TICKET_ENTITY.RETURN);
         this.primaryKey = 'stt_rec';
