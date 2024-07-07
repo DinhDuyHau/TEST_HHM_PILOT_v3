@@ -332,7 +332,7 @@ export class SaleOnlineService {
         return;
     }
     updateDiscount(discounts: Discount[], isGridItem: boolean = false, row_item: Merchandise | null = null) {
-        this.discountService.resetDiscount(this.ticket.discount, isGridItem);
+        this.discountService.resetDiscount(this.ticket.discount, isGridItem, row_item);
         discounts.forEach(discount => {
             if (discount.loai_ck === DISCOUNT_TYPE.REDUTION_BY_MERCHANDISE_CODE ||
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||

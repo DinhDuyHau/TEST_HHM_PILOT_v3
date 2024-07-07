@@ -455,7 +455,12 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                 });
         };
 
-        const discountCurrent = this.discountService.getDiscountCurrent(this.ticket.discount);
+        let discountCurrent = this.discountService.getDiscountCurrent(this.ticket.discount);
+        if (loai_ck === '04' && event && event!.item.ma_imei !== '') {
+            //đối với loại ck 04 (ngoại giao) xử lý lọc selected item theo imei đã chọn áp ck
+            discountCurrent = discountCurrent.filter(x => x.ma_imei && x.ma_imei.trim() === event!.item.ma_imei.trim());
+        }
+
         const rs = this.saleOnlineService.calcDiscount(loai_ck);
         if (rs) {
             rs.subscribe(result => {

@@ -32,6 +32,7 @@ import { EInvoiceInfo, EInvoiceInfoOutput } from '@app/sales-management/model/dt
 import { environment } from '@environments/environment';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { Item } from '@app/sales-management/model/common/mobifone.model';
+import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
 
 const { DISCOUNT_LIST, GUARANTEE_LIST, MERCHANDISE_LIST, SERVICE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
@@ -462,7 +463,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
     }
   }
   onSwapPromotionMerchandise(event: { item: Merchandise }) {
-    this.retailService.changePromotionMerchandise(event.item);
+    // this.retailService.changePromotionMerchandise(event.item);
+
+    this.openPromotionDialog(event);
+
   }
 
   onChangePromotionalDebt(event: { item: Merchandise, index: number, checked: boolean, columnName: string }) {
@@ -484,7 +488,12 @@ export class RetailComponent implements OnInit, AfterViewInit {
         });
     };
 
-    const discountCurrent = this.discountService.getDiscountCurrent(this.ticket.discount);
+    let discountCurrent = this.discountService.getDiscountCurrent(this.ticket.discount);
+    if (loai_ck === '04' && event && event!.item.ma_imei !== '') {
+      //đối với loại ck 04 (ngoại giao) xử lý lọc selected item theo imei đã chọn áp ck
+      discountCurrent = discountCurrent.filter(x => x.ma_imei && x.ma_imei.trim() === event!.item.ma_imei.trim());
+    }
+
     const rs = this.retailService.calcDiscount(loai_ck);
     if (rs) {
       rs.subscribe(result => {
@@ -501,7 +510,27 @@ export class RetailComponent implements OnInit, AfterViewInit {
     } else {
       openDialog(this.discountCanApply, discountCurrent, isGridItem, event);
     }
+  }
 
+  openPromotionDialog(event: { item: Merchandise } | null = null) {
+    /* 
+    console.log(event!.item);
+
+    const openDialog = (dataSource: Discount[], currentItem: Discount[]) => {
+      this.commonService.openDialog(PromotionSelectComponent, { dataSource: dataSource, currentItem: currentItem })
+        .afterClosed().subscribe(selected => {
+          console.log(selected);
+        });
+    };
+
+    const current_imei = event!.item.imei_mua;
+    const current_discount = this.ticket.discount.filter(x => x.ma_imei === current_imei);
+
+    console.log(current_discount);
+    const discountCurrent = this.discountService.getDiscountCurrent(this.ticket.discount);
+
+    openDialog(this.discountCanApply, discountCurrent);
+ */
   }
 
   onRemoveDiscount(event: { item: Discount }) {

@@ -40,6 +40,8 @@ import { SettingChangeModule } from './pages/setting/setting-change/setting-chan
 import { RouteReuseStrategy } from '@angular/router';
 import { SelectSearchComponent } from './sales-management/component/form-control-custom/select-search/select-search.component';
 // import { CustomRouteReuseStrategy } from './custom-route-reuse';
+import { PromotionSelectModule } from './sales-management/component/promotion/promotion-select.module';
+
 
 @NgModule({
   imports: [
@@ -71,7 +73,8 @@ import { SelectSearchComponent } from './sales-management/component/form-control
     DragDropModule,
     MatDialogModule,
     SettingModule,
-    SettingChangeModule
+    SettingChangeModule,
+    PromotionSelectModule
   ],
   declarations: [AppComponent, LoginComponent, AppLayoutComponent, LookupV2Component, Home2Component,
     ScanComponent,

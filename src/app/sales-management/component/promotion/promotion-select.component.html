@@ -1,0 +1,28 @@
+<div class="bg-white">
+    <div
+      mat-dialog-title
+      cdkDrag
+      cdkDragRootElement=".cdk-overlay-pane"
+      cdkDragHandle
+      *ngIf="!isMobile">
+      {{ title }}
+    </div>
+    <div mat-dialog-title *ngIf="isMobile">
+      {{ title }}
+    </div>
+    <div mat-dialog-content>
+      <table-custom
+        [dataSource]="dataSource"
+        [columns]="columns"
+        [selectByCheckbox]="true"
+        (handleChangeSelectCheckbox)="handleChangeSelect($event)" />
+    </div>
+  
+    <div mat-dialog-actions class="gap-3 justify-end ml-5">
+      <div class="d-flex justify-end gap-2 m-2">
+        <div class="btn-responsive btn-cancel" (click)="onCancel()">Hủy bỏ</div>
+        <div class="btn-responsive btn-add" (click)="onSelect()">Chọn</div>
+      </div>
+    </div>
+  </div>
+  
