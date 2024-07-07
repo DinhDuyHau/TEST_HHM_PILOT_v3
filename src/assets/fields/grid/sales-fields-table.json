@@ -304,7 +304,8 @@
         },
         {
             "name": "ten_vt",
-            "title": "Tên vật tư"
+            "title": "Tên vật tư",
+            "width": "300px"
         },
         {
             "name": "ma_imei",
