@@ -41,14 +41,14 @@
         {
             "name": "ngay_bd",
             "title": "Ngày bắt đầu",
-            "format": "datetimeformat",
+            "format": "datetimeFormat",
             "dataType": "date",
             "align": "center"
         },
         {
             "name": "ngay_kt",
             "title": "Ngày kết thúc",
-            "format": "datetimeformat",
+            "format": "datetimeFormat",
             "dataType": "date",
             "align": "center"
         },
@@ -88,14 +88,14 @@
         {
             "name": "ngay_bd",
             "title": "Ngày bắt đầu",
-            "format": "datetimeformat",
+            "format": "datetimeFormat",
             "dataType": "date",
             "align": "center"
         },
         {
             "name": "ngay_kt",
             "title": "Ngày kết thúc",
-            "format": "datetimeformat",
+            "format": "datetimeFormat",
             "dataType": "date",
             "align": "center"
         },
@@ -877,7 +877,7 @@
         {
             "name": "ngay_ct",
             "title": "Ngày chứng từ",
-            "format": "datetimeformat",
+            "format": "datetimeFormat",
             "dataType": "date",
             "align": "center"
         },
@@ -1233,7 +1233,7 @@
             "name": "ngay_ct",
             "title": "Ngày chứng từ",
             "dataType": "date",
-            "format": "datetimeformat"
+            "format": "datetimeFormat"
         },
         {
             "name": "ma_dvcs",
