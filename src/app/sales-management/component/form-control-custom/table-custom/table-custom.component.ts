@@ -14,6 +14,8 @@ export class Cell {
   dataType = 'string';
   type = 'text';
   isPrimaryKey = false;
+  width?: string;
+  minWidth?: string;
 }
 
 @Component({
@@ -182,6 +184,7 @@ export class TableCustomComponent implements
     let currentX = event.clientX;
     const thElement =
       this.elementRef.nativeElement.querySelectorAll('th')[index].children[0];
+    const tdElement = this.elementRef.nativeElement.querySelectorAll(`tr td:nth-child(${index + 1})`);
 
     this.resizeSubscription = fromEvent(document, 'mousemove').pipe(
       map((e: any) => e.clientX),
@@ -192,9 +195,12 @@ export class TableCustomComponent implements
         const deltaX = posX - currentX;
         const currentWidth = thElement.offsetWidth;
         newWidth = currentWidth + deltaX;
-        console.log('delta', deltaX)
         currentX = posX
         this.renderer.setStyle(thElement, 'width', `${newWidth}px`);
+
+        tdElement.forEach((el: any) => {
+          this.renderer.setStyle(el.children[0], 'width', `${newWidth}px`);
+        })
       }
     })
 

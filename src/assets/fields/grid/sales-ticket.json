@@ -16,7 +16,9 @@
             "name": "ngay_ct",
             "title": "Ngày chứng từ",
             "dataType": "date",
-            "format": "datetimeformat"
+            "format": "datetimeformat",
+            "width": "100px",
+            "minWidth": "100px"
         },
         {
             "name": "so_ct",
@@ -490,7 +492,9 @@
     "SALE_RETURN": [
         {
             "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "title": "Mã đơn vị",
+            "width": "200px",
+            "minWidth": "50px"
         },
         {
             "name": "statusname",
