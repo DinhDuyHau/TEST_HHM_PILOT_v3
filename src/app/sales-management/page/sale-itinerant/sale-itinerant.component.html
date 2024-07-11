@@ -201,29 +201,8 @@
         conversionPoints | formatData : 'number' : 'normalPrice'
       }}</span>
     </div>
-    <ng-container>
-      <payment-tab
-        [invalid]="invalid"
-        [readonly]="readonly"
-        [t_tong_tien]="ticket.masterInfo.t_tt_nt"
-        [data]="ticket.payment"
-        [t_con_no]="ticket.masterInfo.t_con_no"
-        [t_da_tra]="ticket.masterInfo.t_da_tra"
-        [t_dat_coc_max]="depositTotalPrice"
-        [he_so_qd]="ticket.masterInfo.he_so_qd_tien"
-        [diem_qd_max]="conversionPoints"
-        [depositSource]="depositMerchandise"
-        [t_gg]="ticket.masterInfo.t_gg"
-        [merchandise]="ticket.merchandise"
-        (handleChangeValue)="
-          ticket.masterInfo.t_con_no = $event.t_con_no;
-          ticket.masterInfo.t_da_tra = $event.t_da_tra;
-          ticket.masterInfo.t_gg = $event.t_gg;
-          ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck
-        " />
-    </ng-container>
 
-    <div>
+    <div style="margin-bottom: 20px; border-bottom: 1px dashed #cbd5e0;">
       <div class="title-content p-2">{{ getLabel('lbl_tc_don_hang') }}</div>
       <div class="box-container">
         <div class="box d-flex gap-2">
@@ -261,23 +240,43 @@
             format="moneyViewFormat"
             dataType="number" />
         </div>
-        <form-input-custom
-          class="box"
-          [disabled]="true"
-          [label]="getLabel('lbl_t_tt')"
-          [align]="'end'"
-          [value]="ticket.masterInfo.t_tt_nt"
-          format="moneyViewFormat"
-          dataType="number" />
+        <div class="box d-flex gap-2">
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_t_tien_hang')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.t_tt_nt"
+            format="moneyViewFormat"
+            dataType="number" />
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_t_tt')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.fqty1"
+            format="moneyViewFormat"
+            dataType="number" />
+        </div>
         <div class="box hidden md:flex"></div>
-        <form-input-custom
-          class="box"
-          [disabled]="true"
-          [label]="getLabel('lbl_t_gg')"
-          [align]="'end'"
-          [value]="ticket.masterInfo.t_gg"
-          format="moneyViewFormat"
-          dataType="number" />
+        <div class="box d-flex gap-2">
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_t_gg')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.t_gg"
+            format="moneyViewFormat"
+            dataType="number" />
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_t_tien_phi')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.t_cp_khac"
+            format="moneyViewFormat"
+            dataType="number" />
+        </div>
         <form-input-custom
           class="box"
           [disabled]="true"
@@ -287,6 +286,26 @@
           format="moneyViewFormat"
           dataType="number" />
       </div>
+    </div>
+    
+    <ng-container>
+      <payment-tab
+        [invalid]="invalid"
+        [readonly]="readonly"
+        [t_tong_tien]="ticket.masterInfo.t_tt_nt"
+        [data]="ticket.payment"
+        [t_con_no]="ticket.masterInfo.t_con_no"
+        [t_da_tra]="ticket.masterInfo.t_da_tra"
+        [t_dat_coc_max]="depositTotalPrice"
+        [he_so_qd]="ticket.masterInfo.he_so_qd_tien"
+        [diem_qd_max]="conversionPoints"
+        [depositSource]="depositMerchandise"
+        [t_gg]="ticket.masterInfo.t_gg"
+        [merchandise]="ticket.merchandise"
+        (handleChangeValue)="onPaymentChange($event)" />
+    </ng-container>
+
+    <div>
       <div class="d-flex justify-end gap-2 m-3">
         <app-voucher-info
           *ngIf="this.mode != 0"

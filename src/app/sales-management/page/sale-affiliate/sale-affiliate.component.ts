@@ -649,6 +649,17 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
   getLabel(label: string) {
     return this.commonService.getMessage(label);
   }
+
+  onPaymentChange($event: any) {
+    this.ticket.masterInfo.t_con_no = $event.t_con_no;
+    this.ticket.masterInfo.t_da_tra = $event.t_da_tra;
+    this.ticket.masterInfo.t_gg = $event.t_gg;
+    this.ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck;
+    this.ticket.masterInfo.t_cp_khac = $event.t_chi_phi;
+
+    this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
+  }
+
 }
 
 

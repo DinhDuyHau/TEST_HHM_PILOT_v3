@@ -37,6 +37,7 @@ import { PaymentService as PaymentServiceShop } from '@app/sales-management/page
 import { CommonService } from '@app/sales-management/page/common/common.service';
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { Customer } from '@app/_components/category/customer/customer.model';
+import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
 
 @Component({
   selector: 'app-create',
@@ -109,7 +110,8 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
     private openSaleService: OpenSaleProgramService,
     private paymentServiceShop: PaymentServiceShop,
     private el: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private customerApiService: CustomerApiService
   ) {
     localStorage.setItem('useGridCached', '1');
     super(DeposistReceiptDetailService);
@@ -154,9 +156,9 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
   onClickButtonInput(id: string) {
     const temp = 0;
     switch (id) {
-      case button.ProgramerButton.id:
-        this.getDeposistProduct();
-        break;
+      // case button.ProgramerButton.id:
+      //   this.getDeposistProduct();
+      //   break;
       default:
         break;
     }
@@ -505,6 +507,17 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
     this.ma_vt_coc = '';
     this.ten_vt_coc = '';
     this.tien_dat_coc = 0;
+  }
+
+  onEnterCustomerCode(event: any, ma_kh: string) {
+    event.preventDefault();
+
+    //kiểm tra nếu không tồn tại khách hàng theo value input => hiên thị popup thêm khách hàng
+    this.customerApiService.getOneById(ma_kh).subscribe(result => {
+      if (!(result.success && result.result)) {
+        this.openAddCustomerDialog(ma_kh);
+      }
+    });
   }
 
   // click button thêm khách hàng

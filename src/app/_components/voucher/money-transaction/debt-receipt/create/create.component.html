@@ -57,7 +57,7 @@
             [value]="f['ma_kh'].value"
             [invalid]="submitted && f['ma_kh'].errors != null"
             (handleChangeLookup)="handleInputLookupChange($event); resetDebt()"
-            (handleEnter)="onEnter($event)"
+            (handleEnter)="onEnter($event);onEnterCustomerCode($event, ma_kh.value);"
             [control]="customerService"
             [lookup]="true || disabled"
             [reference]="[ma_kh, ten_kh, dia_chi]"></app-input-custom-v2>
