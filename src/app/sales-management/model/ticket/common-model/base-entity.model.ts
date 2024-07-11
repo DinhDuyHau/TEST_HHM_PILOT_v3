@@ -43,6 +43,8 @@ export class BaseMasterInfo extends BaseEntity {
     he_so_qd_tien = 0;
     status = '';
     t_gg = 0;
+    t_cp_khac = 0;
+    fqty1 = 0;
 
     hd_mst = '';
     hd_ten_kh = '';
@@ -85,6 +87,9 @@ export class BaseMasterInfoRequest extends BaseEntity {
 
     t_gg = 0;
     t_gg_nt = 0;
+    t_cp_khac = 0;
+    t_cp_khac_nt = 0;
+    fqty1 = 0;
 }
 
 export class BaseMerchandiseRequest extends BaseEntity {

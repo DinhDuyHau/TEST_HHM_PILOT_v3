@@ -458,7 +458,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   }
 
   onCancel() {
-    this.dialogRef.close({ t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, nguoi_duyet_ck: this.approveDiscount });
+    this.dialogRef.close({ t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, nguoi_duyet_ck: this.approveDiscount, t_chi_phi: this.t_tien_phi });
     //
   }
 }

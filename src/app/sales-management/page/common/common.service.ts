@@ -230,6 +230,7 @@ export class CommonService {
         masterInfoNew.t_thue = masterInfoNew.t_thue_nt;
         masterInfoNew.t_tt = masterInfoNew.t_tt_nt;
         masterInfoNew.t_gg_nt = masterInfoNew.t_gg;
+        masterInfoNew.t_cp_khac_nt = masterInfoNew.t_cp_khac;
         masterInfoNew.ngay_ct = getDateFormat(new Date(masterInfoNew.ngay_ct));
         masterInfoNew.ngay_lct = masterInfoNew.ngay_ct;
         Object.keys(masterInfoNew).forEach(key => {

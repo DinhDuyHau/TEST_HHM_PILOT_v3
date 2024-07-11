@@ -242,23 +242,45 @@
             format="moneyViewFormat"
             dataType="number" />
         </div>
-        <form-input-custom
-          class="box"
-          [disabled]="true"
-          [label]="getLabel('lbl_t_tt')"
-          [align]="'end'"
-          [value]="ticket.masterInfo.t_tt_nt"
-          format="moneyViewFormat"
-          dataType="number" />
+        <div class="box d-flex gap-2">
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_t_tien_hang')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.t_tt_nt"
+            format="moneyViewFormat"
+            dataType="number" />
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_t_tt')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.fqty1"
+            format="moneyViewFormat"
+            dataType="number" />
+        </div>
+        
         <div class="box hidden md:flex"></div>
-        <form-input-custom
-          class="box"
-          [disabled]="true"
-          [label]="getLabel('lbl_t_gg')"
-          [align]="'end'"
-          [value]="ticket.masterInfo.t_gg"
-          format="moneyViewFormat"
-          dataType="number" />
+        <div class="box d-flex gap-2">
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_t_gg')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.t_gg"
+            format="moneyViewFormat"
+            dataType="number" />
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_t_tien_phi')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.t_cp_khac"
+            format="moneyViewFormat"
+            dataType="number" />
+        </div>
+        
         <form-input-custom
           class="box"
           [disabled]="true"
@@ -285,12 +307,7 @@
         [t_gg]="ticket.masterInfo.t_gg"
         [merchandise]="ticket.merchandise"
         [approveDiscount]="ticket.masterInfo.nguoi_duyet_ck"
-        (handleChangeValue)="
-          ticket.masterInfo.t_con_no = $event.t_con_no;
-          ticket.masterInfo.t_da_tra = $event.t_da_tra;
-          ticket.masterInfo.t_gg = $event.t_gg;
-          ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck
-        " />
+        (handleChangeValue)="onPaymentChange($event)" />
     </ng-container>
 
     <div>

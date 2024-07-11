@@ -109,6 +109,7 @@ export class RetailService {
     prepareVoucher(): VoucherDto {
         const voucherDto: VoucherDto = new VoucherDto;
         voucherDto.details = [];
+        console.log(this.ticket.masterInfo);
         voucherDto.masterInfo = this.commonService.convertMasterInfo(this.ticket.masterInfo, MasterInfoRequest);
         voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.MERCHANDISE, data: this.merchandiseService.convertMerchandiseToRequest(this.ticket.merchandise, voucherDto.masterInfo, MerchandiseRequest) }];
         voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.SERVICE, data: this.serviceOfMerchandiseService.convertServiceToRequest(this.ticket.service, voucherDto.masterInfo, ServiceRequest) }];
@@ -582,6 +583,7 @@ export class RetailService {
         this.ticket.masterInfo.t_ck = this.ticket.discount.map(e => e.tien_ck).reduce((pre, cur) => pre + cur, 0);
         this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt;
         this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt, this.option);
+        this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
 
         this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra - this.ticket.masterInfo.tien_coc;
         this.ticket.masterInfo.t_con_no = this.commonService.rouding(this.ticket.masterInfo.t_con_no, this.option);

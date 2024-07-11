@@ -63,5 +63,7 @@ export interface MasterInfo {
     t_thue_nt?: number,
     t_tt_nt?: number,
     fnote3?: string,
+    t_ck?: number,
+    t_ck_nt?: number,
     [key: string]: any
 }

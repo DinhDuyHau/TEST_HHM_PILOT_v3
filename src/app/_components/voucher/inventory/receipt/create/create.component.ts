@@ -257,6 +257,7 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
         t_tien_nt: 0,
         t_tt_nt: 0,
         t_thue_nt: 0,
+        t_ck_nt: 0,
       },
       details: [
         {
@@ -602,7 +603,10 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
       t_tien_nt += item.tien_nt || 0;
     });
     t_thue_nt = this.extend.t_thue_nt || 0;
-    this.data.masterInfo = { ...this.data.masterInfo, t_tien_nt: t_tien_nt, t_thue_nt: t_thue_nt, t_tt_nt: t_tien_nt + t_thue_nt };
+    this.data.masterInfo = {
+      ...this.data.masterInfo, t_tien_nt: t_tien_nt, t_tien: t_tien_nt, t_thue_nt: t_thue_nt, t_thue: t_thue_nt,
+      t_tt_nt: t_tien_nt + t_thue_nt - this.data.masterInfo.t_ck_nt!, t_tt: t_tien_nt + t_thue_nt - this.data.masterInfo.t_ck_nt!
+    };
   }
   calcTax() {
     this.extend.t_thue_nt = (this.extend.t_tien_nt || 0) * (this.extend.thue_suat || 0) / 100;
@@ -621,4 +625,15 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
       this.f['ngay_ct'].setValue(this.voucher_date);
     }
   }
+
+  onDiscountChange($event: any) {
+    this.data.masterInfo.t_ck_nt = $event;
+    this.data.masterInfo.t_ck = $event;
+  }
+
+  onEnterDiscount(event: any) {
+    event.preventDefault(); // Ngăn chặn hành động mặc định của nút Enter (submit form)
+    this.calcTotal();
+  }
+
 }

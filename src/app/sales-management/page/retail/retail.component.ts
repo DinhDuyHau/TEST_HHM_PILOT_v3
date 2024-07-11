@@ -465,7 +465,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   onSwapPromotionMerchandise(event: { item: Merchandise }) {
     // this.retailService.changePromotionMerchandise(event.item);
 
-    this.openPromotionDialog(event);
+    // this.openPromotionDialog(event);
 
   }
 
@@ -513,10 +513,9 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
 
   openPromotionDialog(event: { item: Merchandise } | null = null) {
-    /* 
-    console.log(event!.item);
-
     const openDialog = (dataSource: Discount[], currentItem: Discount[]) => {
+      console.log(currentItem);
+      console.log(dataSource);
       this.commonService.openDialog(PromotionSelectComponent, { dataSource: dataSource, currentItem: currentItem })
         .afterClosed().subscribe(selected => {
           console.log(selected);
@@ -524,13 +523,12 @@ export class RetailComponent implements OnInit, AfterViewInit {
     };
 
     const current_imei = event!.item.imei_mua;
-    const current_discount = this.ticket.discount.filter(x => x.ma_imei === current_imei);
+    const current_discount = this.ticket.discount.filter(x => x.ma_imei === current_imei && x.loai_ck === DISCOUNT_TYPE.GIFT);
 
-    console.log(current_discount);
-    const discountCurrent = this.discountService.getDiscountCurrent(this.ticket.discount);
+    //lấy data source từ thông tin chiết khấu (loại 03) đã áp dụng cho imei
 
-    openDialog(this.discountCanApply, discountCurrent);
- */
+    openDialog(this.discountCanApply, current_discount);
+
   }
 
   onRemoveDiscount(event: { item: Discount }) {
@@ -705,6 +703,16 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);
+  }
+
+  onPaymentChange($event: any) {
+    this.ticket.masterInfo.t_con_no = $event.t_con_no;
+    this.ticket.masterInfo.t_da_tra = $event.t_da_tra;
+    this.ticket.masterInfo.t_gg = $event.t_gg;
+    this.ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck;
+    this.ticket.masterInfo.t_cp_khac = $event.t_chi_phi;
+
+    this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
   }
 
 }

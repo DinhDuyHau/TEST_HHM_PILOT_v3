@@ -57,6 +57,11 @@ export class StockTranferCreateComponent extends Grid<ReceiptDetail> implements 
   cancelButtonTitle = '';
   entity = VOUCHER_TYPE.STOCK_TRANFER.sysid;
 
+  tran_type: any[] = [
+    { ma_loai: '1', ten_loai: '1 - Luân chuyển kho tại cửa hàng' },
+    { ma_loai: '2', ten_loai: '2 - Điều chuyển hàng lỗi về kho tổng' }
+  ];
+
   override gridType = GridType.GridDetail;
   constructor(
     private formBuilder: FormBuilder,

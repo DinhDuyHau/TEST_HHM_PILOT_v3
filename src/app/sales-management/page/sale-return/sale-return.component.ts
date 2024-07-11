@@ -248,9 +248,6 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
                   case 'electric_biill':
                     this.ticket.electronic_bill = this.commonService.convertDateOfModelFromVoucher(detail.data[0]);
                     break;
-                  case 'payments':
-                    this.paymentService.convertPaymentFromVoucher(detail.data, this.ticket.payment);
-                    break;
                   default:
                     break;
                 }
@@ -408,11 +405,31 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
       if (this.ticket.masterInfo.fcode1 === '01') {
         const ty_le_giam = item.ty_le_giam ? item.ty_le_giam : 0;
         item.tien_giam = item.gia_ban * ty_le_giam / 100;
+
+        //set kho nhập trả lại cho các item trong grid hàng hóa
+        this.ticketApiService.getStockRenew(this.ticket.masterInfo.ma_cuahang, 'TL').subscribe(result => {
+          if (result && result.success && result.result.items && result.result.items[0]) {
+            const ma_kho = result.result.items[0].ma_kho;
+            for (let item of this.ticket.merchandise) {
+              item.ma_kho = ma_kho;
+            }
+          }
+        });
       }
 
       //nhập trả lại do hàng lỗi
       if (this.ticket.masterInfo.fcode1 === '02') {
         item.tien_giam = 0;
+
+        //set kho hàng lỗi cho các item trong grid hàng hóa
+        this.ticketApiService.getStockRenew(this.ticket.masterInfo.ma_cuahang, 'HL').subscribe(result => {
+          if (result && result.success && result.result.items && result.result.items[0]) {
+            const ma_kho = result.result.items[0].ma_kho;
+            for (let item of this.ticket.merchandise) {
+              item.ma_kho = ma_kho;
+            }
+          }
+        });
       }
 
       //tính lại các trường giá trả lại, thành tiền, thuế, thanh toán

@@ -2,8 +2,12 @@ export const environment = {
     production: true,
 
     /* URL HỆ THỐNG TEST */
-    apiUrl: 'https://test-hhm-ketnoi.genbyte.net',
-    accountingUrl: 'http://test-hhm-ketoan.genbyte.net',
+    // apiUrl: 'https://test-hhm-ketnoi.genbyte.net',
+    // accountingUrl: 'http://test-hhm-ketoan.genbyte.net',
+
+    /* URL CHÍNH THỨC */
+    apiUrl: 'https://hhm-pilot-api.genbyte.net', // link demo HHM
+    accountingUrl: 'http://hhm-qt.genbyte.net', // link 115
 
 
     receiverPublicKey: `-----BEGIN PUBLIC KEY-----

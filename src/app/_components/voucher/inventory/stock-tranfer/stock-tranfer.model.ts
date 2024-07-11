@@ -44,5 +44,6 @@ export interface MasterInfo {
     ong_ba?: string,
     dien_giai?: string,
     t_so_luong?: number,
+    fnote2?: string,
     [key: string]: any
 }

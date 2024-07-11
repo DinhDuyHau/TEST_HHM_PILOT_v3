@@ -2,11 +2,22 @@
   class="px-1 lg:px-5 lg:mx-5 lg:my-4 lg:py-1 content bg-white ticket-container">
   <div class="title-page pb-2 flex justify-between items-center">
     <h5 class="">{{ title }}</h5>
-    <app-voucher-info
-      *ngIf="this.mode != 0"
-      [entity]="entity"
-      class="text-base"
-      [voucherId]="data.masterInfo.stt_rec || ''" />
+    <div class="flex">
+      <button
+        *ngIf="this.mode === 0 || this.mode === 1"
+        class="flex-1 btn act-input-data-btn text-nowrap"
+        style="height:36px;"
+        (click)="openAddCustomerDialog()"
+      >
+        {{ getLabel('lbl_add_customer') }}
+      </button>
+      &nbsp;
+      <app-voucher-info
+        *ngIf="this.mode != 0"
+        [entity]="entity"
+        class="text-base"
+        [voucherId]="data.masterInfo.stt_rec || ''" />
+    </div>
   </div>
   <form action="" [formGroup]="voucherForm" #form>
     <div

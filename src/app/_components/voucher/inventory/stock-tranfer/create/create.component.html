@@ -50,7 +50,7 @@
             (handleChange)="handleInputChange('ma_cuahang', $event)"
             [control]="shopService"
             [lookup]="true"
-            [disabled]="true || disabled"
+            [disabled]="true || disabled || (mode === 0 || data.masterInfo.fnote2 === '1' || data.masterInfo.fnote2 === '2')"
             [reference]="[ma_cuahang, ten_cuahang]"></app-input-custom-v2>
         </div>
         <div class="flex-1">
@@ -76,7 +76,7 @@
             (handleEnter)="onEnter($event)"
             [control]="stockService"
             [lookup]="true"
-            [disabled]="true || disabled"
+            [disabled]="disabled || !(mode === 0 || data.masterInfo.fnote2 === '1' || data.masterInfo.fnote2 === '2')"
             [reference]="[ma_kho, ten_kho]"></app-input-custom-v2>
         </div>
         <div class="flex-1">
@@ -113,7 +113,7 @@
             (handleChange)="handleInputChange('ma_cuahang_n', $event)"
             [control]="shopService"
             [lookup]="true"
-            [disabled]="true || disabled"
+            [disabled]="true || disabled || (mode === 0 || data.masterInfo.fnote2 === '1' || data.masterInfo.fnote2 === '2')"
             [reference]="[ma_cuahang_n, ten_cuahang_n]"></app-input-custom-v2>
         </div>
         <div class="flex-1">
@@ -139,7 +139,7 @@
             [control]="stockService"
             [invalid]="submitted && f['ma_khon'].errors != null"
             [lookup]="true"
-            [disabled]="true || disabled"
+            [disabled]="disabled || !(mode === 0 || data.masterInfo.fnote2 === '1' || data.masterInfo.fnote2 === '2')"
             [reference]="[ma_khon, ten_khon]"></app-input-custom-v2>
         </div>
         <div class="flex-1">
@@ -176,20 +176,20 @@
             [disabled]="true || disabled"></app-input-custom-v2>
         </div>
       </div> -->
-      <div class="flex gap-2">
-        <app-input-custom-v2
-          [label]="getLabel('lbl_dien_giai')"
+      <!-- LOẠI GIAO DỊCH -->
+      <div *ngIf="mode === 0 || data.masterInfo.fnote2 === '1' || data.masterInfo.fnote2 === '2'" class="flex gap-2">
+        <select-custom
           class="flex-1"
-          #input2
-          (handleEnter)="onEnter($event)"
-          name="dien_giai"
-          [disabled]="disabled"
-          (handleChange)="handleInputChange('dien_giai', $event)"
-          [value]="f['dien_giai'].value"
-          [invalid]="
-            submitted && f['dien_giai'].errors != null
-          "></app-input-custom-v2>
+          [label]="'Loại giao dịch'"
+          [options]="tran_type"
+          optionDes="ten_loai"
+          optionValue="ma_loai"
+          [isDisable]="disabled"
+          [value]="data.masterInfo.fnote2"
+          (handleChangeValue)="data.masterInfo.fnote2 = $event" />
       </div>
+      <div *ngIf="!(mode === 0 || data.masterInfo.fnote2 === '1' || data.masterInfo.fnote2 === '2')" class="flex gap-2">&nbsp;</div>
+
       <div class="flex gap-2">
         <div class="flex flex-1">
           <app-input-custom-v2
@@ -205,6 +205,22 @@
             (handleEnter)="onEnterIMEI($event)"></app-input-custom-v2>
         </div>
       </div>
+
+      <div class="flex gap-2">
+        <app-input-custom-v2
+          [label]="getLabel('lbl_dien_giai')"
+          class="flex-1"
+          #input2
+          (handleEnter)="onEnter($event)"
+          name="dien_giai"
+          [disabled]="disabled"
+          (handleChange)="handleInputChange('dien_giai', $event)"
+          [value]="f['dien_giai'].value"
+          [invalid]="
+            submitted && f['dien_giai'].errors != null
+          "></app-input-custom-v2>
+      </div>
+
     </div>
     <tabs-custom>
       <tab-custom label="Chi tiết" class="h-96 w-full">

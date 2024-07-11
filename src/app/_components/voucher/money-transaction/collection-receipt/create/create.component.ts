@@ -39,6 +39,8 @@ import { getDateFormat } from '@app/_common/commonFunction';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { DvThuHoService } from '@app/_components/lookup/dv_thuho/dvthuho.service';
+import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
+import { Customer } from '@app/_components/category/customer/customer.model';
 
 @Component({
   selector: 'app-create',
@@ -592,4 +594,20 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
   getLabel(label: string) {
     return this.commonService.getMessage(label);
   }
+
+  // click button thêm khách hàng
+  openAddCustomerDialog(ma_kh = ''): void {
+    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh }, 'fullscreen-dialog')
+      .afterClosed()
+      .subscribe((customer: Customer) => {
+        customer && ((customer: Customer) => {
+          this.f['ma_kh'].setValue(customer.ma_kh);
+          this.f['ten_kh'].setValue(customer.ten_kh);
+          this.f['dia_chi'].setValue(customer.dia_chi);
+
+        });
+      });
+  }
+  //#endregion
+
 }

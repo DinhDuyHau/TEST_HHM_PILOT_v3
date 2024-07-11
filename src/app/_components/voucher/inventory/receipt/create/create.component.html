@@ -342,7 +342,20 @@
     </tabs-custom>
     <div
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-1 lg:gap-x-10 gap-y-1 lg:gap-y-3">
-      <div class="hidden lg:flex"></div>
+      <!-- <div class="hidden lg:flex"></div> -->
+      <div class="flex">
+        <app-input-custom-v2
+          [label]="getLabel('lbl_chiet_khau')"
+          class="flex-1 discount-wrap"
+          name="t_ck_nt"
+          [dataFormatString]="'normalQuantity'"
+          type="number"
+          [align]="'right'"
+          [value]="data.masterInfo.t_ck_nt"
+          (handleEnter)="onEnterDiscount($event)"
+          (handleChange)="onDiscountChange($event);"
+        ></app-input-custom-v2>
+      </div>
       <div class="flex">
         <app-input-custom-v2
           [label]="getLabel('lbl_t_tien')"

@@ -231,8 +231,32 @@ export class SaleReturnService {
             message = this.commonService.getMessage('lbl_invalid_tt');
         } else if (ticket.masterInfo.t_tien_nt2 < 0) {
             message = this.commonService.getMessage('lbl_invalid_t_tien');
+        } else if (ticket.masterInfo.t_da_tra < 0 || ticket.masterInfo.t_con_no) {
+            message = this.commonService.getMessage('lbl_error_negative_number');
         }
+
+        if (ticket.merchandise && ticket.merchandise.length > 0 && !this.isInvalidMerchandise(ticket.merchandise))
+            return this.commonService.getMessage('lbl_error_negative_number');
+        if (ticket.service && ticket.service.length > 0 && !this.isInvalidService(ticket.service))
+            return this.commonService.getMessage('lbl_error_negative_number');
+
         return message;
+    }
+
+    isInvalidMerchandise(items: Merchandise[]): boolean {
+        for (const item of items) {
+            if (item.so_luong < 0 || item.gia_ban < 0 || item.gia_ck < 0 || item.thanh_tien < 0 || item.tien_thue < 0 || item.thanh_toan < 0)
+                return false;
+        }
+        return true;
+    }
+
+    isInvalidService(items: Service[]): boolean {
+        for (const item of items) {
+            if (item.so_luong < 0 || item.gia_ban < 0 || item.gia_ck < 0 || item.thanh_tien < 0 || item.tien_thue < 0 || item.tong_tien < 0)
+                return false;
+        }
+        return true;
     }
 
     validatePayment(payment: Payment): boolean {

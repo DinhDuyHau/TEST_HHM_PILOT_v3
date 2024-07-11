@@ -118,12 +118,14 @@ export class PaymentService {
                     des.quet_the_tra_gop.ma_chuan_chi = e.ma_chuan_chi;
                     des.quet_the_tra_gop.so_the = e.so_the_nh;
                     des.quet_the_tra_gop.tk_nh_nhan = e.tk_nh_nhan;
+                    // des.quet_the_tra_gop.so_hd_vnpay = e.so_hd_vnpay;
                     des.quet_the_tra_gop.selected = true;
                     break;
                 case PAYMENT_CODE.VOUCHERPARNER:
                     des.voucher_doi_tac.tien = e.tien;
                     des.voucher_doi_tac.ma_ctr = e.ma_ctr;
                     des.voucher_doi_tac.ma_gg = e.ma_gg;
+                    des.voucher_doi_tac.ma_chuan_chi = e.ma_chuan_chi;
                     des.voucher_doi_tac.selected = true;
                     break;
                 default:
@@ -213,7 +215,8 @@ export class PaymentService {
                     ma_may_pos: src.quet_the_tra_gop.ma_may_pos,
                     so_the_nh: src.quet_the_tra_gop.so_the,
                     ma_chuan_chi: src.quet_the_tra_gop.ma_chuan_chi,
-                    tk_nh_nhan: src.quet_the_tra_gop.tk_nh_nhan
+                    tk_nh_nhan: src.quet_the_tra_gop.tk_nh_nhan,
+                    so_hd_vnpay: src.quet_the_tra_gop.so_hd_vnpay
                 })
             ];
         }
@@ -314,7 +317,8 @@ export class PaymentService {
                     tien: src.voucher_doi_tac.tien,
                     tien_nt: src.voucher_doi_tac.tien_nt2,
                     ma_gg: src.voucher_doi_tac.ma_gg,
-                    ma_ctr: src.voucher_doi_tac.ma_ctr
+                    ma_ctr: src.voucher_doi_tac.ma_ctr,
+                    ma_chuan_chi: src.voucher_doi_tac.ma_chuan_chi
                 })
             ];
         }

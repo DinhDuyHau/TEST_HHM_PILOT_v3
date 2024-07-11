@@ -35,6 +35,8 @@ import { OpenSaleProgramService } from '@app/_components/lookup/open_sale_progra
 import { Payment } from '@app/sales-management/model/ticket/common-model/payment.model';
 import { PaymentService as PaymentServiceShop } from '@app/sales-management/page/common/payment.service';
 import { CommonService } from '@app/sales-management/page/common/common.service';
+import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
+import { Customer } from '@app/_components/category/customer/customer.model';
 
 @Component({
   selector: 'app-create',
@@ -77,7 +79,7 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
 
   tran_type: any[] = [
     { ma_loai: '1', ten_loai: '1 - Đặt cọc theo chương trình' },
-    { ma_loai: '2', ten_loai: '2 - Khách đặt trước tiền hàng' }
+    { ma_loai: '2', ten_loai: '2 - Khách hàng ứng trước tiền' }
   ];
   ma_vt_coc = '';
   ten_vt_coc = '';
@@ -466,13 +468,16 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
     this.tien = '';
     this.ghi_chu = '';
   }
+
   calcTotal() {
     let t_tien_nt = 0;
     this.data.details[0].data.forEach((item) => {
       t_tien_nt += item.tien_nt || 0;
     });
-    this.data.masterInfo = { ...this.data.masterInfo, t_tien_nt: t_tien_nt, t_tt_nt: t_tien_nt };
+    this.data.masterInfo = { ...this.data.masterInfo, t_tien_nt: t_tien_nt, t_tt_nt: t_tien_nt, t_tien: t_tien_nt, t_tt: t_tien_nt };
+    this.data.masterInfo.t_con_no = this.data.masterInfo.t_tt_nt! - this.data.masterInfo.t_da_tra!;
   }
+
   getLabel(label: string) {
     return this.commonService.getMessage(label);
   }
@@ -501,4 +506,20 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
     this.ten_vt_coc = '';
     this.tien_dat_coc = 0;
   }
+
+  // click button thêm khách hàng
+  openAddCustomerDialog(ma_kh = ''): void {
+    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh }, 'fullscreen-dialog')
+      .afterClosed()
+      .subscribe((customer: Customer) => {
+        customer && ((customer: Customer) => {
+          this.f['ma_kh'].setValue(customer.ma_kh);
+          this.f['ten_kh'].setValue(customer.ten_kh);
+          this.f['dia_chi'].setValue(customer.dia_chi);
+
+        });
+      });
+  }
+  //#endregion
+
 }

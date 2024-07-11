@@ -115,6 +115,7 @@ export class InstallmentCard extends BaseModelPayment {
     phi_quetthe = 0;
     phi_chuyendoi = 0;
     tk_nh_nhan = '';
+    so_hd_vnpay = '';
 }
 
 export class Transfer extends BaseModelPayment {
@@ -150,6 +151,7 @@ export class DiscountCode extends BaseModelPayment {
 export class VoucherParner extends BaseModelPayment {
     ma_gg = '';
     ma_ctr = '';
+    ma_chuan_chi = '';
 }
 
 export class DiscountCodeCRM extends BaseModelPayment {

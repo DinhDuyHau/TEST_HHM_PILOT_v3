@@ -36,6 +36,8 @@ import { BankingService } from '@app/_components/lookup/banking/banking.service'
 import { Payment } from '@app/sales-management/model/ticket/common-model/payment.model';
 import { PaymentService as PaymentServiceShop } from '@app/sales-management/page/common/payment.service';
 import { CommonService } from '@app/sales-management/page/common/common.service';
+import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
+import { Customer } from '@app/_components/category/customer/customer.model';
 
 @Component({
   selector: 'app-create',
@@ -507,4 +509,20 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
   getLabel(label: string) {
     return this.commonService.getMessage(label);
   }
+
+  // click button thêm khách hàng
+  openAddCustomerDialog(ma_kh = ''): void {
+    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh }, 'fullscreen-dialog')
+      .afterClosed()
+      .subscribe((customer: Customer) => {
+        customer && ((customer: Customer) => {
+          this.f['ma_kh'].setValue(customer.ma_kh);
+          this.f['ten_kh'].setValue(customer.ten_kh);
+          this.f['dia_chi'].setValue(customer.dia_chi);
+
+        });
+      });
+  }
+  //#endregion
+
 }
