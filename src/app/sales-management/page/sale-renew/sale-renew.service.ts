@@ -437,7 +437,8 @@ export class SaleRenewService {
     }
 
     removePackage(item: Package, ticket: RenewSaleTicketCreate) {
-
+        this.packageOfMerchandiseService.removePackage(item, ticket.packages);
+        this.calcMoney();
     }
     //#endregion package
 

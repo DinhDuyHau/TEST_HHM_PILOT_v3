@@ -428,7 +428,8 @@ export class SaleItinerantService {
     }
 
     removePackage(item: Package, ticket: ItinerantSaleTicket) {
-
+        this.packageOfMerchandiseService.removePackage(item, ticket.packages);
+        this.calcMoney();
     }
     //#endregion package
 

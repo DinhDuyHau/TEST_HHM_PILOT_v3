@@ -428,7 +428,8 @@ export class SaleAffiliateService {
     }
 
     removePackage(item: Package, ticket: SaleAffiliateceTicket) {
-
+        this.packageOfMerchandiseService.removePackage(item, ticket.packages);
+        this.calcMoney();
     }
     //#endregion package
 

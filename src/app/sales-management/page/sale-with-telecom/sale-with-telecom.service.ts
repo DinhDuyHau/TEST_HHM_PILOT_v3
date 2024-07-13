@@ -422,7 +422,8 @@ export class SaleWithTelecomService {
   }
 
   removePackage(item: Package, ticket: TelecomSaleTicket) {
-
+    this.packageOfMerchandiseService.removePackage(item, ticket.packages);
+    this.calcMoney();
   }
   //#endregion package
 

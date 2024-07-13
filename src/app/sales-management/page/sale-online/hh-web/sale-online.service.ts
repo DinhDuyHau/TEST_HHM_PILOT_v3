@@ -434,7 +434,8 @@ export class SaleOnlineService {
     }
 
     removePackage(item: Package, ticket: SaleOnlineTicket) {
-
+        this.packageOfMerchandiseService.removePackage(item, ticket.packages);
+        this.calcMoney();
     }
     //#endregion package
 

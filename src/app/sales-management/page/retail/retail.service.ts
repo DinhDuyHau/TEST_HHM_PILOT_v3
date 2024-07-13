@@ -563,7 +563,8 @@ export class RetailService {
     }
 
     removePackage(item: Package, ticket: RetailSaleTicket) {
-
+        this.packageOfMerchandiseService.removePackage(item, ticket.packages);
+        this.calcMoney();
     }
     //#endregion package
 
