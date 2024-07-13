@@ -31,6 +31,7 @@ import { EInvoiceInfo, EInvoiceInfoOutput } from '@app/sales-management/model/dt
 import { environment } from '@environments/environment';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
+import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
 
 const {
   DISCOUNT_LIST,
@@ -586,6 +587,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
   // #region package
   onAddPackage(event: { item: Merchandise }) {
     this.retailService.addPackageForMerchandise(event.item, this.ticket)
+  }
+
+  onRemovePackage(event: { item: Package }) {
+    this.retailService.removePackage(event.item, this.ticket)
   }
   // #endregion package
 

@@ -27,7 +27,7 @@ import { Option } from '@app/sales-management/model/ticket/common-model/option.m
 import { ServiceApiService } from '@app/sales-management/api/service-api.service';
 import { PackageForImeiComponent } from '@app/sales-management/component/merchandise-service/package-for-imei/package-for-imei.component';
 import { PackageOfMerchandiseService } from '../common/package.service';
-import { PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
+import { Package, PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
 
 @Injectable({
     providedIn: 'root'
@@ -560,6 +560,10 @@ export class RetailService {
                     this.calcMoney();
                 }
             });
+    }
+
+    removePackage(item: Package, ticket: RetailSaleTicket) {
+
     }
     //#endregion package
 

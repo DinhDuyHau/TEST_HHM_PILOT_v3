@@ -3,10 +3,12 @@ import { Guarantee } from '../common-model/guarantee.model';
 import { Service } from '../common-model/service.model';
 import { Payment } from '../common-model/payment.model';
 import { BaseMasterInfo, BaseMerchandise, BaseTicket } from '../common-model/base-entity.model';
+import { Package } from '../common-model/package.model';
 
 export class SaleAffiliateceTicket {
   masterInfo: MasterInfo = new MasterInfo;
   merchandise: Merchandise[] = [];
+  packages: Package[] = [];
   service: Service[] = [];
   discount: Discount[] = [];
   guarantee: Guarantee[] = [];
@@ -18,8 +20,9 @@ export type AffiliateTicketList = BaseTicket
 export const TAB_NAME = {
   MERCHANDISE: 'd594',
   SERVICE: 'd594dv',
+  PACKAGE: 'd594bh',
   DISCOUNT: 'd594ck',
-  GUARANTEE: 'd594bh',
+  GUARANTEE: 'ddd',
   PAYMENT: 'd594tt'
 };
 

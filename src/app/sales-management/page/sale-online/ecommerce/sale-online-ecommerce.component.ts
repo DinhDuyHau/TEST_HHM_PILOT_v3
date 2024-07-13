@@ -28,6 +28,7 @@ import { Language } from '../../common/language';
 import { EInvoiceInfo, EInvoiceInfoOutput } from '@app/sales-management/model/dto/einvoice.dto';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { environment } from '@environments/environment';
+import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
 
 const { DISCOUNT_LIST,
   GUARANTEE_LIST,
@@ -509,6 +510,10 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   // #region package
   onAddPackage(event: { item: Merchandise }) {
     this.saleOnlineEcommerceService.addPackageForMerchandise(event.item, this.ticket)
+  }
+
+  onRemovePackage(event: { item: Package }) {
+    this.saleOnlineEcommerceService.removePackage(event.item, this.ticket)
   }
   // #endregion package
 

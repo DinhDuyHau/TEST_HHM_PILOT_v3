@@ -113,7 +113,8 @@
           [columns]="merchandiseColumns"
           (handleDelete)="onRemoveMerchandise($event)"
           (handleAdd)="onAddService($event)"
-          (handleChangeCheckbox)="onChangePromotionalDebt($event)" />
+          (handleChangeCheckbox)="onChangePromotionalDebt($event)"
+          (handleAddPackage)="onAddPackage($event)" />
       </tab-custom>
       <tab-custom label="Dịch vụ" class="w-100">
         <table-custom
@@ -140,7 +141,7 @@
           [dataSource]="ticket.packages"
           [columns]="packageColumns"
           [readonly]="readonly"
-          (handleDelete)="onRemoveService($event)" />
+          (handleDelete)="onRemovePackage($event)" />
         <div class="flex gap-0 md:gap-4 lg:gap-8">
           <div class="flex-1 hidden lg:block"></div>
           <div class="flex-1 hidden md:block"></div>

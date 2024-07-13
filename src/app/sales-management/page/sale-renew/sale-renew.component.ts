@@ -33,8 +33,14 @@ import { Option } from '@app/sales-management/model/ticket/common-model/option.m
 import { environment } from '@environments/environment';
 import { LookupApiService } from '@app/sales-management/api/lookup-api.service';
 import { async } from 'rxjs';
+import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
 
-const { DISCOUNT_LIST, GUARANTEE_LIST, MERCHANDISE_LIST_RENEW, MERCHANDISE_THU_CU_LIST, SERVICE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
+const { DISCOUNT_LIST,
+  GUARANTEE_LIST,
+  MERCHANDISE_LIST_RENEW,
+  MERCHANDISE_THU_CU_LIST,
+  SERVICE_LIST,
+  PACKAGE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-sale-renew',
@@ -64,6 +70,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   uploading = true;
   merchandiseColumns = MERCHANDISE_LIST_RENEW;
   serviceColumns = SERVICE_LIST;
+  packageColumns = PACKAGE_LIST;
   discountColumns = DISCOUNT_LIST;
   guaranteeColumns = GUARANTEE_LIST;
   merchandiseUsedColumns = MERCHANDISE_THU_CU_LIST;
@@ -771,6 +778,15 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   }
   // #endregion service
 
+  // #region package
+  onAddPackage(event: { item: Merchandise }) {
+    this.saleRenewService.addPackageForMerchandise(event.item, this.ticket)
+  }
+
+  onRemovePackage(event: { item: Package }) {
+    this.saleRenewService.removePackage(event.item, this.ticket)
+  }
+  // #endregion package
 
   //Upload image
   openUploadImage() {

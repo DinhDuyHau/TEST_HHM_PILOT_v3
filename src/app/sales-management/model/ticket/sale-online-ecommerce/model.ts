@@ -22,8 +22,9 @@ export type SaleOnlineEcommerceTicketList = BaseTicket
 export const TAB_NAME = {
   MERCHANDISE: 'd593',
   SERVICE: 'd593dv',
+  PACKAGE: 'd593bh',
   DISCOUNT: 'd593ck',
-  GUARANTEE: 'd593bh',
+  GUARANTEE: 'ddd',
   PAYMENT: 'd593tt',
   ECOMMERCE: 'm593ext',
 };

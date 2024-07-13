@@ -27,6 +27,9 @@ import { VoucherDto } from '@app/sales-management/model/ticket/common-model/vouc
 import { Language } from '../common/language';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { ServiceApiService } from '@app/sales-management/api/service-api.service';
+import { PackageOfMerchandiseService } from '../common/package.service';
+import { PackageForImeiComponent } from '@app/sales-management/component/merchandise-service/package-for-imei/package-for-imei.component';
+import { Package, PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
 
 @Injectable({
     providedIn: 'root'
@@ -48,7 +51,8 @@ export class SaleItinerantService {
         private merchandiseService: MerchandiseService,
         private serviceOfMerchandiseService: ServiceOfMerchandiseService,
         private paymentService: PaymentService,
-        private guanranteeService: GuanranteeService
+        private guanranteeService: GuanranteeService,
+        private packageOfMerchandiseService: PackageOfMerchandiseService,
     ) {
 
     }
@@ -87,6 +91,9 @@ export class SaleItinerantService {
                 case TAB_NAME.SERVICE:
                     this.serviceOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
                     break;
+                case TAB_NAME.PACKAGE:
+                    this.packageOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
+                    break;
                 case TAB_NAME.DISCOUNT:
                     this.discountService.convertDiscountFromVoucher(e.data, this.ticket.discount);
                     break;
@@ -112,6 +119,7 @@ export class SaleItinerantService {
         voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.DISCOUNT, data: this.discountService.convertDiscountToRequest(this.ticket.discount, voucherDto.masterInfo) }];
         voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
         voucherDto.details = [...voucherDto.details, { id: 5, name: TAB_NAME.GUARANTEE, data: this.guanranteeService.convertGuanranteeToRequest(this.ticket.guarantee, voucherDto.masterInfo) }];
+        voucherDto.details = [...voucherDto.details, { id: 6, name: TAB_NAME.PACKAGE, data: this.packageOfMerchandiseService.convertPackageToRequest(this.ticket.packages, voucherDto.masterInfo, PackageRequest) }];
 
         return voucherDto;
     }
@@ -407,6 +415,22 @@ export class SaleItinerantService {
         }
     }
     // #endregion service
+
+    //#region package
+    addPackageForMerchandise(item: Merchandise, ticket: ItinerantSaleTicket) {
+        this.commonService.openDialog(PackageForImeiComponent, { ma_imei: item.ma_imei, ma_vt: item.ma_vt, gia_vat: item.gia_vat }, 'service-imei-style')
+            .afterClosed().subscribe(result => {
+                if (result) {
+                    this.packageOfMerchandiseService.addNew(item.ma_imei, result, ticket.packages);
+                    this.calcMoney();
+                }
+            });
+    }
+
+    removePackage(item: Package, ticket: ItinerantSaleTicket) {
+
+    }
+    //#endregion package
 
     //#region other
     calcMoney(type = 0) {

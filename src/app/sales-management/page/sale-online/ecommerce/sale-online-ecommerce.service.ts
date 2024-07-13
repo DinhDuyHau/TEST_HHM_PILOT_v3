@@ -27,6 +27,7 @@ import { Option } from '@app/sales-management/model/ticket/common-model/option.m
 import { ServiceApiService } from '@app/sales-management/api/service-api.service';
 import { PackageOfMerchandiseService } from '../../common/package.service';
 import { PackageForImeiComponent } from '@app/sales-management/component/merchandise-service/package-for-imei/package-for-imei.component';
+import { Package, PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
 
 @Injectable({
     providedIn: 'root'
@@ -83,6 +84,9 @@ export class SaleOnlineEcommerceService {
                 case TAB_NAME.SERVICE:
                     this.serviceOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
                     break;
+                case TAB_NAME.PACKAGE:
+                    this.packageOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
+                    break;
                 case TAB_NAME.DISCOUNT:
                     this.discountService.convertDiscountFromVoucher(e.data, this.ticket.discount);
                     break;
@@ -112,6 +116,7 @@ export class SaleOnlineEcommerceService {
         voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
         voucherDto.details = [...voucherDto.details, { id: 5, name: TAB_NAME.GUARANTEE, data: this.guanranteeService.convertGuanranteeToRequest(this.ticket.guarantee, voucherDto.masterInfo) }];
         voucherDto.details = [...voucherDto.details, { id: 6, name: TAB_NAME.ECOMMERCE, data: [this.commonService.convertDateOfModelToRequest(this.ticket.ecommerce, voucherDto.masterInfo)] }];
+        voucherDto.details = [...voucherDto.details, { id: 7, name: TAB_NAME.PACKAGE, data: this.packageOfMerchandiseService.convertPackageToRequest(this.ticket.packages, voucherDto.masterInfo, PackageRequest) }];
 
         return voucherDto;
     }
@@ -410,6 +415,10 @@ export class SaleOnlineEcommerceService {
                     this.calcMoney();
                 }
             });
+    }
+
+    removePackage(item: Package, ticket: SaleOnlineEcommerceTicket) {
+
     }
     //#endregion package
 

@@ -137,7 +137,8 @@
           (handleDelete)="onRemoveMerchandise($event)"
           (handleAdd)="onAddService($event)"
           (handleChangeCheckbox)="onChangePromotionalDebt($event)"
-          (handleSelect)="onSelectMerchandise($event)" />
+          (handleSelect)="onSelectMerchandise($event)"
+          (handleAddPackage)="onAddPackage($event)" />
       </tab-custom>
       <tab-custom label="Dịch vụ" class="w-100">
         <table-custom
@@ -155,6 +156,27 @@
               [label]="getLabel('lbl_email_key')"
               *ngIf="!readonly"
               [value]="ticket.masterInfo.email_nhan_key"
+              (handleChangeValue)="ticket.masterInfo.email_nhan_key = $event" />
+          </div>
+        </div>
+      </tab-custom>
+      <tab-custom label="Gói cước" class="w-100">
+        <table-custom
+          [dataSource]="ticket.packages"
+          [columns]="packageColumns"
+          [readonly]="readonly"
+          (handleDelete)="onRemovePackage($event)" />
+        <div class="flex gap-0 md:gap-4 lg:gap-8">
+          <div class="flex-1 hidden lg:block"></div>
+          <div class="flex-1 hidden md:block"></div>
+          <div class="flex flex-1">
+            <form-input-custom
+              class="flex-1"
+              name="email"
+              [label]="getLabel('lbl_email_key')"
+              *ngIf="!readonly"
+              [value]="ticket.masterInfo.email_nhan_key"
+              [invalid]="invalid"
               (handleChangeValue)="ticket.masterInfo.email_nhan_key = $event" />
           </div>
         </div>
@@ -202,7 +224,7 @@
       }}</span>
     </div>
 
-    <div style="margin-bottom: 20px; border-bottom: 1px dashed #cbd5e0;">
+    <div style="margin-bottom: 20px; border-bottom: 1px dashed #cbd5e0">
       <div class="title-content p-2">{{ getLabel('lbl_tc_don_hang') }}</div>
       <div class="box-container">
         <div class="box d-flex gap-2">
@@ -287,7 +309,7 @@
           dataType="number" />
       </div>
     </div>
-    
+
     <ng-container>
       <payment-tab
         [invalid]="invalid"
