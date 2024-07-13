@@ -20,7 +20,9 @@ const {
   BANK_ACCOUNT_SEARCH,
   TYPE_MERCHANDISE,
   TYPE_INVENTORY,
-  LIST_ASM, SERVICE_SEARCH,
+  LIST_ASM,
+  SERVICE_SEARCH,
+  PACKAGE_SEARCH,
   PROJECT_SEARCH,
   CONTRACT_SEARCH,
   WAREHOUSE_LIST,
@@ -186,6 +188,13 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.operator = "=";
         this.filters = [filter];
         break;
+      case SEARCH_COMPONENT_NAME.PACKAGE:
+        this.columns = PACKAGE_SEARCH as any;
+        filter.name = 'loai_vt';
+        filter.operator = "=";
+        filter.value = `03`;
+        this.filters = [filter];
+        break;
       default:
         break;
     }
@@ -247,6 +256,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return this.ticketApiService.getRenewPrice(this.filters.find(x => x.name == 'ma_vt')?.value, this.filters.find(x => x.name == 'ma_cuahang')?.value, this.filters.find(x => x.name == 'ma_ncc')?.value);
       case SEARCH_COMPONENT_NAME.OLD_RECEIVER_SUPPLIER:
         return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
+      case SEARCH_COMPONENT_NAME.PACKAGE:
+        return this.merchandiseServiceApiService.findById(this.filters, this.page_index, this.page_size);
       default:
         return of();
     }
@@ -360,5 +371,6 @@ export const SEARCH_COMPONENT_NAME = {
   OLD_RECEIVER_SUPPLIER: 17,
   APPROVER_DIRECTOR: 18,
   E_COMMERCIAL: 19,
+  PACKAGE: 20,
 };
 

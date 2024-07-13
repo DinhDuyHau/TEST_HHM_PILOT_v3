@@ -36,7 +36,8 @@ const {
   DISCOUNT_LIST,
   GUARANTEE_LIST,
   MERCHANDISE_LIST,
-  SERVICE_LIST
+  SERVICE_LIST,
+  PACKAGE_LIST
 } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
@@ -54,6 +55,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   uploading = true;
   merchandiseColumns = MERCHANDISE_LIST;
   serviceColumns = SERVICE_LIST;
+  packageColumns = PACKAGE_LIST;
   discountColumns = DISCOUNT_LIST;
   guaranteeColumns = GUARANTEE_LIST;
   mode!: number;
@@ -579,6 +581,13 @@ export class RetailComponent implements OnInit, AfterViewInit {
     }
   }
   // #endregion service
+
+
+  // #region package
+  onAddPackage(event: { item: Merchandise }) {
+    this.retailService.addPackageForMerchandise(event.item, this.ticket)
+  }
+  // #endregion package
 
   // #region upload image
   openUploadImage() {

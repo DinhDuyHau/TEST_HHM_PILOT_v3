@@ -740,7 +740,7 @@
         {
             "name": "so_luong",
             "title": "Số lượng",
-            "format":"moneyViewNoDigit",
+            "format": "moneyViewNoDigit",
             "align": "center"
         },
         {
@@ -753,7 +753,7 @@
         {
             "name": "thue_suat",
             "title": "Thuế suất(%)",
-            "format":"moneyViewNoDigit",
+            "format": "moneyViewNoDigit",
             "align": "center"
         },
         {
@@ -779,8 +779,8 @@
         {
             "name": "ty_le_giam",
             "title": "Tỷ lệ giảm",
-            "dataType":"number",
-            "format":"moneyView2Digit",
+            "dataType": "number",
+            "format": "moneyView2Digit",
             "align": "right"
         },
         {
@@ -834,8 +834,8 @@
         {
             "name": "so_luong",
             "title": "Số lượng",
-            "dataType":"number",
-            "format":"moneyViewNoDigit",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
             "align": "center"
         }
     ],
@@ -1041,8 +1041,8 @@
         {
             "name": "so_luong",
             "title": "Số lượng",
-            "dataType":"number",
-            "format":"moneyViewNoDigit",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
             "align": "center"
         },
         {
@@ -1055,8 +1055,8 @@
         {
             "name": "thue_suat",
             "title": "Thuế suất(%)",
-            "dataType":"number",
-            "format":"moneyViewNoDigit",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
             "align": "center"
         },
         {
@@ -1120,8 +1120,8 @@
         {
             "name": "so_luong",
             "title": "Số lượng",
-            "dataType":"number",
-            "format":"moneyViewNoDigit",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
             "align": "center"
         },
         {
@@ -1134,8 +1134,8 @@
         {
             "name": "thue_suat",
             "title": "Thuế suất(%)",
-            "dataType":"number",
-            "format":"moneyViewNoDigit",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
             "align": "center"
         },
         {
@@ -1190,8 +1190,8 @@
         {
             "name": "so_luong",
             "title": "Số lượng",
-            "dataType":"number",
-            "format":"moneyViewNoDigit",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
             "align": "center"
         },
         {
@@ -1204,8 +1204,8 @@
         {
             "name": "thue_suat",
             "title": "Thuế suất(%)",
-            "dataType":"number",
-            "format":"moneyViewNoDigit",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
             "align": "center"
         },
         {
@@ -1323,8 +1323,8 @@
         {
             "name": "thue_suat",
             "title": "Thuế suất(%)",
-            "dataType":"number",
-            "format":"moneyViewNoDigit",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
             "align": "center"
         },
         {
@@ -1366,32 +1366,166 @@
         {
             "name": "thue_suat",
             "title": "Thuế suất (%)",
-            "dataType":"number",
-            "format":"moneyViewNoDigit",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
             "align": "center"
         }
     ],
-    "PACKAGE_SELECT_LIST": [
+    "PACKAGE_LIST": [
+        {
+            "name": "ma_dv",
+            "title": "Mã dịch vụ",
+            "isPrimaryKey": true
+        },
         {
             "name": "ten_dv",
-            "title": "Danh sách gói cước"
+            "title": "Tên dịch vụ"
+        },
+        {
+            "name": "ma_imei",
+            "title": "Mã imei"
+        },
+        {
+            "name": "naptien_hh_yn",
+            "title": "Nạp tiền tại HHM",
+            "align": "center",
+            "type": "checkbox"
         },
         {
             "name": "dvt",
-            "title": "ĐVT",
-            "align": "left"
+            "title": "Đơn vị tính",
+            "align": "center"
         },
         {
             "name": "gia_ban",
             "title": "Đơn giá",
             "format": "moneyView2Digit",
             "dataType": "number",
-            "align": "left"
+            "align": "right"
         },
         {
             "name": "so_luong",
             "title": "Số lượng",
-            "dataType":"number",
+            "align": "center",
+            "type": "texbox"
+        },
+        {
+            "name": "thanh_tien",
+            "title": "Thành tiền",
+            "format": "moneyView2Digit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "thue_suat",
+            "title": "Thuế suất(%)",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
+            "align": "center"
+        },
+        {
+            "name": "tien_thue",
+            "title": "Tiền thuế",
+            "format": "moneyView2Digit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "tong_tien",
+            "title": "Tổng tiền",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        }
+    ],
+    "PACKAGE_SELECT_LIST": [
+        {
+            "name": "ma_dv",
+            "title": "Mã dịch vụ"
+        },
+        {
+            "name": "ten_dv",
+            "title": "Tên dịch vụ"
+        },
+        {
+            "name": "naptien_hh_yn",
+            "title": "Nạp tiền tại HHM",
+            "align": "center",
+            "type": "checkbox"
+        },
+        {
+            "name": "dvt",
+            "title": "Đơn vị tính",
+            "align": "center"
+        },
+        {
+            "name": "gia_ban",
+            "title": "Đơn giá",
+            "format": "moneyView2Digit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "so_luong",
+            "title": "Số lượng",
+            "align": "center",
+            "type": "texbox"
+        },
+        {
+            "name": "thanh_tien",
+            "title": "Thành tiền",
+            "format": "moneyView2Digit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "thue_suat",
+            "title": "Thuế suất(%)",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
+            "align": "center"
+        },
+        {
+            "name": "tien_thue",
+            "title": "Tiền thuế",
+            "format": "moneyView2Digit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "tong_tien",
+            "title": "Tổng tiền",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        }
+    ],
+    "PACKAGE_SEARCH": [
+        {
+            "name": "ma_dv",
+            "title": "Mã dịch vụ",
+            "isPrimaryKey": true
+        },
+        {
+            "name": "ten_dv",
+            "title": "Tên dịch vụ"
+        },
+        {
+            "name": "naptien_hh_yn",
+            "title": "Nạp tiền tại HHM",
+            "align": "center",
+            "type": "checkbox"
+        },
+        {
+            "name": "dvt",
+            "title": "Đơn vị tính",
+            "align": "center"
+        },
+        {
+            "name": "thue_suat",
+            "title": "Thuế suất(%)",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
             "align": "center"
         }
     ],
@@ -1560,7 +1694,7 @@
         {
             "name": "don_gia",
             "title": "Đơn giá",
-            "dataType":"number"
+            "dataType": "number"
         }
     ],
     "CONTRACT_SEARCH": [

@@ -25,6 +25,9 @@ import { Language } from '../common/language';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { ServiceApiService } from '@app/sales-management/api/service-api.service';
+import { PackageForImeiComponent } from '@app/sales-management/component/merchandise-service/package-for-imei/package-for-imei.component';
+import { PackageOfMerchandiseService } from '../common/package.service';
+import { PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
 
 @Injectable({
     providedIn: 'root'
@@ -47,7 +50,8 @@ export class RetailService {
         private merchandiseService: MerchandiseService,
         private serviceOfMerchandiseService: ServiceOfMerchandiseService,
         private paymentService: PaymentService,
-        private guanranteeService: GuanranteeService
+        private guanranteeService: GuanranteeService,
+        private packageOfMerchandiseService: PackageOfMerchandiseService,
     ) {
 
     }
@@ -89,14 +93,14 @@ export class RetailService {
                 case TAB_NAME.SERVICE:
                     this.serviceOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
                     break;
+                case TAB_NAME.PACKAGE:
+                    this.packageOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
+                    break;
                 case TAB_NAME.DISCOUNT:
                     this.discountService.convertDiscountFromVoucher(e.data, this.ticket.discount);
                     break;
                 case TAB_NAME.PAYMENT:
                     this.paymentService.convertPaymentFromVoucher(e.data, this.ticket.payment);
-                    break;
-                case TAB_NAME.GUARANTEE:
-                    this.ticket.guarantee = e.data;
                     break;
                 default:
                     break;
@@ -113,10 +117,9 @@ export class RetailService {
         voucherDto.masterInfo = this.commonService.convertMasterInfo(this.ticket.masterInfo, MasterInfoRequest);
         voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.MERCHANDISE, data: this.merchandiseService.convertMerchandiseToRequest(this.ticket.merchandise, voucherDto.masterInfo, MerchandiseRequest) }];
         voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.SERVICE, data: this.serviceOfMerchandiseService.convertServiceToRequest(this.ticket.service, voucherDto.masterInfo, ServiceRequest) }];
-        voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.DISCOUNT, data: this.discountService.convertDiscountToRequest(this.ticket.discount, voucherDto.masterInfo) }];
-        voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
-        voucherDto.details = [...voucherDto.details, { id: 5, name: TAB_NAME.GUARANTEE, data: this.guanranteeService.convertGuanranteeToRequest(this.ticket.guarantee, voucherDto.masterInfo) }];
-
+        voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.PACKAGE, data: this.packageOfMerchandiseService.convertPackageToRequest(this.ticket.packages, voucherDto.masterInfo, PackageRequest) }];
+        voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.DISCOUNT, data: this.discountService.convertDiscountToRequest(this.ticket.discount, voucherDto.masterInfo) }];
+        voucherDto.details = [...voucherDto.details, { id: 5, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
         return voucherDto;
     }
 
@@ -547,6 +550,18 @@ export class RetailService {
         }
     }
     // #endregion service
+
+    //#region package
+    addPackageForMerchandise(item: Merchandise, ticket: RetailSaleTicket) {
+        this.commonService.openDialog(PackageForImeiComponent, { ma_imei: item.ma_imei, ma_vt: item.ma_vt, gia_vat: item.gia_vat }, 'service-imei-style')
+            .afterClosed().subscribe(result => {
+                if (result) {
+                    this.packageOfMerchandiseService.addNew(item.ma_imei, result, ticket.packages);
+                    this.calcMoney();
+                }
+            });
+    }
+    //#endregion package
 
     //#region other
     // + Nếu type = 0 thì sẽ tính lại chiết khấu và thực hiện cập nhật lại giá, tiền cho tất cả các vật tư trong chi tiết

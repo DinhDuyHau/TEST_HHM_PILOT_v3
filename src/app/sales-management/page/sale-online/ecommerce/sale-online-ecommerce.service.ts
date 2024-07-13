@@ -25,6 +25,8 @@ import { VoucherDto } from '@app/sales-management/model/ticket/common-model/vouc
 import { Language } from '../../common/language';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { ServiceApiService } from '@app/sales-management/api/service-api.service';
+import { PackageOfMerchandiseService } from '../../common/package.service';
+import { PackageForImeiComponent } from '@app/sales-management/component/merchandise-service/package-for-imei/package-for-imei.component';
 
 @Injectable({
     providedIn: 'root'
@@ -47,7 +49,8 @@ export class SaleOnlineEcommerceService {
         private merchandiseService: MerchandiseService,
         private serviceOfMerchandiseService: ServiceOfMerchandiseService,
         private paymentService: PaymentService,
-        private guanranteeService: GuanranteeService
+        private guanranteeService: GuanranteeService,
+        private packageOfMerchandiseService: PackageOfMerchandiseService,
     ) {
 
     }
@@ -397,6 +400,18 @@ export class SaleOnlineEcommerceService {
         }
     }
     // #endregion service
+
+    //#region package
+    addPackageForMerchandise(item: Merchandise, ticket: SaleOnlineEcommerceTicket) {
+        this.commonService.openDialog(PackageForImeiComponent, { ma_imei: item.ma_imei, ma_vt: item.ma_vt, gia_vat: item.gia_vat }, 'service-imei-style')
+            .afterClosed().subscribe(result => {
+                if (result) {
+                    this.packageOfMerchandiseService.addNew(item.ma_imei, result, ticket.packages);
+                    this.calcMoney();
+                }
+            });
+    }
+    //#endregion package
 
     //#region other
     // + Nếu type = 0 thì sẽ tính lại chiết khấu và thực hiện cập nhật lại giá, tiền cho tất cả các vật tư trong chi tiết
