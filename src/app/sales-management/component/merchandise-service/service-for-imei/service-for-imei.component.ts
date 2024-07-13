@@ -2,11 +2,12 @@ import { AfterViewInit, Component, Inject, OnChanges, OnInit, ViewEncapsulation,
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MerchandiseServiceApiService } from '@app/sales-management/api/merchandiseService-api.service';
 import { Cell } from '../../form-control-custom/table-custom/table-custom.component';
-import { SERVICE_SELECT_LIST } from '@app/sales-management/model/common/fields.table';
 import { Service } from '@app/sales-management/model/ticket/common-model/service.model';
 import { CommonService } from '@app/sales-management/page/common/common.service';
 import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '../../search/serach-dialog.component';
 import { ServiceOfMerchandiseService } from '@app/sales-management/page/common/service.service';
+
+const { SERVICE_SELECT_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'service-for-imei',

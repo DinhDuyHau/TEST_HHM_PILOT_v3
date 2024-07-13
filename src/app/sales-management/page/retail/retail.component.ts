@@ -26,15 +26,18 @@ import { GuaranteeApiService } from '@app/sales-management/api/guarantee-api.ser
 import { CameraComponent } from '@app/sales-management/component/webcam/webcam.component';
 import { ViewImageComponent } from '@app/sales-management/component/view-image/view-image.component';
 import { Language } from '../common/language';
-import { Observable, Subject } from 'rxjs';
 import { FileService } from '@app/_services';
 import { EInvoiceInfo, EInvoiceInfoOutput } from '@app/sales-management/model/dto/einvoice.dto';
 import { environment } from '@environments/environment';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
-import { Item } from '@app/sales-management/model/common/mobifone.model';
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
 
-const { DISCOUNT_LIST, GUARANTEE_LIST, MERCHANDISE_LIST, SERVICE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
+const {
+  DISCOUNT_LIST,
+  GUARANTEE_LIST,
+  MERCHANDISE_LIST,
+  SERVICE_LIST
+} = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-retail',

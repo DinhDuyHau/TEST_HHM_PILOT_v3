@@ -12,7 +12,6 @@ import { Discount } from '@app/sales-management/model/ticket/common-model/discou
 import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
-import { MERCHANDISE_REPURCHASE_LIST } from '@app/sales-management/model/common/fields.table';
 import { MerchandiseService } from '../common/merchandise.service';
 import { CommonService } from '../common/common.service';
 import { MODE, STATUS_LIST } from '@app/sales-management/enum/ticket.enum';
@@ -23,7 +22,7 @@ import { EInvoiceInfo } from '@app/sales-management/model/dto/einvoice.dto';
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { IMEIService } from '@app/_services/imei.service';
 
-const { TICKET_CODE, TICKET_ENTITY } = require('@assets/fields/grid/sales-fields-table.json');
+const { TICKET_CODE, TICKET_ENTITY, MERCHANDISE_REPURCHASE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-sale-repurchase',
