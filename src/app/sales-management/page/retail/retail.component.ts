@@ -471,7 +471,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   onSwapPromotionMerchandise(event: { item: Merchandise }) {
     // this.retailService.changePromotionMerchandise(event.item);
 
-    // this.openPromotionDialog(event);
+    this.openPromotionDialog(event);
 
   }
 
@@ -519,21 +519,31 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
 
   openPromotionDialog(event: { item: Merchandise } | null = null) {
-    const openDialog = (dataSource: Discount[], currentItem: Discount[]) => {
-      console.log(currentItem);
-      console.log(dataSource);
-      this.commonService.openDialog(PromotionSelectComponent, { dataSource: dataSource, currentItem: currentItem })
-        .afterClosed().subscribe(selected => {
-          console.log(selected);
-        });
-    };
+    // const openDialog = (dataSource: Discount[], currentItem: Discount[]) => {
+    //   this.commonService.openDialog(PromotionSelectComponent, { dataSource: dataSource, currentItem: currentItem })
+    //     .afterClosed().subscribe(selected => {
+    //       console.log(selected);
+    //     });
+    // };
 
     const current_imei = event!.item.imei_mua;
-    const current_discount = this.ticket.discount.filter(x => x.ma_imei === current_imei && x.loai_ck === DISCOUNT_TYPE.GIFT);
+    const current_discount = this.ticket.discount.filter(x => x.ma_imei === current_imei && x.loai_ck === DISCOUNT_TYPE.GIFT) as any;
+    if (current_discount && current_discount.length > 0) {
+      const ma_ck = current_discount[0].ma_ck.trim();
+      const rec = current_discount[0].rec;
 
-    //lấy data source từ thông tin chiết khấu (loại 03) đã áp dụng cho imei
+      //call api lấy data source hàng thay thế từ param ma_imei, ma_ck, rec
 
-    openDialog(this.discountCanApply, current_discount);
+      console.log(current_imei);
+      console.log(ma_ck);
+      console.log(rec);
+
+      const src: any = null;
+
+      //hiển thị dialog cho phép người dùng chọn hàng thay thế
+      // openDialog(src, current_discount);
+
+    }
 
   }
 
