@@ -1,37 +1,35 @@
 import { AfterViewInit, Component, Inject, OnChanges, OnInit } from '@angular/core';
-import { DISCOUNT_TYPE, Discount } from '@app/sales-management/model/ticket/common-model/discount.model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Cell } from '../form-control-custom/table-custom/table-custom.component';
-import { CdkDrag } from '@angular/cdk/drag-drop';
 import { Platform } from '@angular/cdk/platform';
+import { ImeiApiService } from '@app/sales-management/api/imei-api.service';
+import { Merchandise } from '@app/sales-management/model/ticket/retail/model';
 
-const { DISCOUNT_SELECT } = require('@assets/fields/grid/sales-fields-table.json');
+const { MERCHANDISE_PROMOTION_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 @Component({
     selector: 'promotion-select',
     templateUrl: './promotion-select.component.html',
     styleUrls: ['./promotion-select.component.scss'],
 })
 export class PromotionSelectComponent implements OnInit, OnChanges, AfterViewInit {
-    itemsSelected: Discount[] = [];
-    dataSource!: Discount[];
+    dataSource!: Merchandise[];
     columns!: Cell[];
     title!: string;
     isMobile = false;
+    itemSelected!: Merchandise;
     constructor(
         public dialogRef: MatDialogRef<PromotionSelectComponent>,
         private platform: Platform,
-        @Inject(MAT_DIALOG_DATA) public data: { dataSource: Discount[], currentItem: Discount[] },
+        @Inject(MAT_DIALOG_DATA) public data: { ma_imei: string, ma_ck: string, rec: number },
+        private imeiApiService: ImeiApiService
     ) {
     }
 
     ngOnInit(): void {
-        console.log('promotion select');
-
         this.isMobile = this.platform.IOS || this.platform.ANDROID;
-        this.columns = DISCOUNT_SELECT as any;
-        this.dataSource = this.data.dataSource;
+        this.columns = MERCHANDISE_PROMOTION_LIST as any;
         this.title = 'Danh sách hàng khuyến mại';
-        this.loadDiscountSelected();
+        this.loadData();
     }
 
     ngOnChanges(): void {
@@ -42,27 +40,23 @@ export class PromotionSelectComponent implements OnInit, OnChanges, AfterViewIni
 
     }
 
-    loadDiscountSelected() {
-        this.itemsSelected = this.data.currentItem;
-        const discountCodeSelected = this.itemsSelected.map(e => e.ma_ck?.trim());
-        this.dataSource.map((e: any) => {
-            if (discountCodeSelected.includes(e.ma_ck?.trim())) {
-                e.selected = true;
-            }
-        });
+    loadData() {
+        this.imeiApiService.getImeiChangeGiftPromotions(this.data.ma_imei, this.data.ma_ck, this.data.rec)
+            .subscribe(result => {
+                this.dataSource = result?.result as any;
+            })
+    }
+
+    handleSelectRow(event: { item: any }) {
+        this.itemSelected = event.item;
     }
 
     onSelect(): void {
-        const items = this.dataSource.filter((e: any) => e.selected);
-        this.dialogRef.close(items);
+        this.dialogRef.close(this.itemSelected);
     }
 
     onCancel() {
         this.dialogRef.close();
-    }
-
-    handleChangeSelect(discount: any) {
-
     }
 
 }

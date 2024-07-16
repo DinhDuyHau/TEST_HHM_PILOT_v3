@@ -789,6 +789,21 @@
             "align": "center"
         }
     ],
+    "MERCHANDISE_PROMOTION_LIST": [
+        {
+            "name": "ma_vt",
+            "title": "Mã vật tư"
+        },
+        {
+            "name": "ten_vt",
+            "title": "Tên vật tư"
+        },
+        {
+            "name": "dvt",
+            "title": "Đvt",
+            "align": "center"
+        }
+    ],
     "TYPE_MERCHANDISE": [
         {
             "name": "ma_vt",

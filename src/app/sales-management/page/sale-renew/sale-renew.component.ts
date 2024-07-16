@@ -34,6 +34,7 @@ import { environment } from '@environments/environment';
 import { LookupApiService } from '@app/sales-management/api/lookup-api.service';
 import { async } from 'rxjs';
 import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
+import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
 
 const { DISCOUNT_LIST,
   GUARANTEE_LIST,
@@ -698,7 +699,22 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     }
   }
   onSwapPromotionMerchandise(event: { item: Merchandise }) {
-    this.saleRenewService.changePromotionMerchandise(event.item);
+    const current_imei = event!.item.imei_mua;
+    const current_discount = this.ticket.discount.filter(x => x.ma_imei === current_imei && x.loai_ck === DISCOUNT_TYPE.GIFT) as any;
+    if (current_discount && current_discount.length > 0) {
+      const ma_ck = current_discount[0].ma_ck.trim();
+      const rec = current_discount[0].rec;
+
+      this.commonService.openDialog(PromotionSelectComponent, { ma_imei: current_imei, ma_ck: ma_ck, rec: rec })
+        .afterClosed().subscribe((selected: Merchandise) => {
+          const merchandise = this.ticket.merchandise_new_sale.find(e => e.ma_imei === event.item.ma_imei)
+          if (merchandise) {
+            merchandise.ma_vt = selected.ma_vt
+            merchandise.ten_vt = selected.ten_vt
+            merchandise.dvt = selected.dvt
+          }
+        });
+    }
   }
 
   onChangePromotionalDebt(event: { item: Merchandise, index: number, checked: boolean, columnName: string }) {

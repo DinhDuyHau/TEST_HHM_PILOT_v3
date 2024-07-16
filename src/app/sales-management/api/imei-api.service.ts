@@ -15,7 +15,7 @@ const UPDATE_STATE_IMEI_URL = `${environment.apiUrl}/imei/upsaleorder`;
 const GET_IMEI_STATE_URL = `${environment.apiUrl}/imei/getstate`;
 const GET_IMEI_STATE_AND_ITEM_URL = `${environment.apiUrl}/imei/get_state_and_item`;
 const GET_SOLD_INFO_IMEI_URL = `${environment.apiUrl}/imei/soldinfo`;
-const GET_IMEI_PROMOTIONS_URL = `${environment.apiUrl}/imei/gift-promotions`;
+const GET_IMEI_PROMOTIONS_URL = `${environment.apiUrl}/imei/change-gift-promotions`;
 
 @Injectable({
     providedIn: 'root'
@@ -83,5 +83,9 @@ export class ImeiApiService extends ApiService {
 
     getGiftPromotionsForImei(ma_imei: string, ma_ck: string) {
         return this.get<ResultNoPaging<Imei>>(GET_ONE_URL, { ma_imei, ma_ck });
+    }
+
+    getImeiChangeGiftPromotions(ma_imei: string, ma_ck: string, rec: number) {
+        return this.get<ResultNoPaging<Imei>>(GET_IMEI_PROMOTIONS_URL, { ma_imei, ma_ck, rec });
     }
 }   

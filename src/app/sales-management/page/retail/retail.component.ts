@@ -468,11 +468,24 @@ export class RetailComponent implements OnInit, AfterViewInit {
       }
     }
   }
+
   onSwapPromotionMerchandise(event: { item: Merchandise }) {
-    // this.retailService.changePromotionMerchandise(event.item);
+    const current_imei = event!.item.imei_mua;
+    const current_discount = this.ticket.discount.filter(x => x.ma_imei === current_imei && x.loai_ck === DISCOUNT_TYPE.GIFT) as any;
+    if (current_discount && current_discount.length > 0) {
+      const ma_ck = current_discount[0].ma_ck.trim();
+      const rec = current_discount[0].rec;
 
-    this.openPromotionDialog(event);
-
+      this.commonService.openDialog(PromotionSelectComponent, { ma_imei: current_imei, ma_ck: ma_ck, rec: rec })
+        .afterClosed().subscribe((selected: Merchandise) => {
+          const merchandise = this.ticket.merchandise.find(e => e.ma_imei === event.item.ma_imei)
+          if (merchandise) {
+            merchandise.ma_vt = selected.ma_vt
+            merchandise.ten_vt = selected.ten_vt
+            merchandise.dvt = selected.dvt
+          }
+        });
+    }
   }
 
   onChangePromotionalDebt(event: { item: Merchandise, index: number, checked: boolean, columnName: string }) {
@@ -516,35 +529,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
     } else {
       openDialog(this.discountCanApply, discountCurrent, isGridItem, event);
     }
-  }
-
-  openPromotionDialog(event: { item: Merchandise } | null = null) {
-    // const openDialog = (dataSource: Discount[], currentItem: Discount[]) => {
-    //   this.commonService.openDialog(PromotionSelectComponent, { dataSource: dataSource, currentItem: currentItem })
-    //     .afterClosed().subscribe(selected => {
-    //       console.log(selected);
-    //     });
-    // };
-
-    const current_imei = event!.item.imei_mua;
-    const current_discount = this.ticket.discount.filter(x => x.ma_imei === current_imei && x.loai_ck === DISCOUNT_TYPE.GIFT) as any;
-    if (current_discount && current_discount.length > 0) {
-      const ma_ck = current_discount[0].ma_ck.trim();
-      const rec = current_discount[0].rec;
-
-      //call api lấy data source hàng thay thế từ param ma_imei, ma_ck, rec
-
-      console.log(current_imei);
-      console.log(ma_ck);
-      console.log(rec);
-
-      const src: any = null;
-
-      //hiển thị dialog cho phép người dùng chọn hàng thay thế
-      // openDialog(src, current_discount);
-
-    }
-
   }
 
   onRemoveDiscount(event: { item: Discount }) {

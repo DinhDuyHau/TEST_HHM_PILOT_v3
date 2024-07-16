@@ -28,6 +28,7 @@ import { ServiceApiService } from '@app/sales-management/api/service-api.service
 import { PackageForImeiComponent } from '@app/sales-management/component/merchandise-service/package-for-imei/package-for-imei.component';
 import { PackageOfMerchandiseService } from '../common/package.service';
 import { Package, PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
+import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
 
 @Injectable({
     providedIn: 'root'
@@ -363,33 +364,37 @@ export class RetailService {
     }
 
     changePromotionMerchandise(merchandise: Merchandise) {
-        const changeMerchandise = (ma_vt: string) => {
-            ma_vt && this.getMerchandiseInfo(ma_vt).subscribe(result => {
-                if (result.success && result.result) {
-                    const merchandiseAlt = this.merchandiseService.createNewMerchandise(result.result, Merchandise);
-                    this.merchandiseService.swapMerchandise(merchandise, merchandiseAlt, this.ticket.merchandise);
-                    this.guanranteeService.removeGuarantee(merchandise.ma_imei, this.ticket);
-                    // this.commonService.showMessage("Đổi thành công hàng khuyến mãi");
-                    this.commonService.showMessage(Language.content.Successful_Change_Promotion);
-                } else {
-                    // this.commonService.showMessage("Đổi hàng khuyến mãi thất bại");
-                    this.commonService.showMessage(Language.content.Failed_Change_Promotion);
-                }
-            });
-        };
-        const ma_vt = this.discountService.getMerchandiseCodeOfPMAlter(merchandise, this.ticket.discount);
-        if (ma_vt && merchandise.ma_imei) {
-            changeMerchandise(ma_vt);
-            // this.imeiApiService.updateImeiState([merchandise.ma_imei], false)
-            //     .subscribe(result => {
-            //         changeMerchandise(ma_vt);
-            //         if (result.success && !result.result[0].dat_hang_yn) {
-            //             // this.commonService.removeImeiFromStorage(merchandise.ma_imei);
-            //         }
-            //     });
-        } else if (ma_vt) {
-            changeMerchandise(ma_vt);
-        }
+
+
+
+
+        // const changeMerchandise = (ma_vt: string) => {
+        //     ma_vt && this.getMerchandiseInfo(ma_vt).subscribe(result => {
+        //         if (result.success && result.result) {
+        //             const merchandiseAlt = this.merchandiseService.createNewMerchandise(result.result, Merchandise);
+        //             this.merchandiseService.swapMerchandise(merchandise, merchandiseAlt, this.ticket.merchandise);
+        //             this.guanranteeService.removeGuarantee(merchandise.ma_imei, this.ticket);
+        //             // this.commonService.showMessage("Đổi thành công hàng khuyến mãi");
+        //             this.commonService.showMessage(Language.content.Successful_Change_Promotion);
+        //         } else {
+        //             // this.commonService.showMessage("Đổi hàng khuyến mãi thất bại");
+        //             this.commonService.showMessage(Language.content.Failed_Change_Promotion);
+        //         }
+        //     });
+        // };
+        // const ma_vt = this.discountService.getMerchandiseCodeOfPMAlter(merchandise, this.ticket.discount);
+        // if (ma_vt && merchandise.ma_imei) {
+        //     changeMerchandise(ma_vt);
+        //     // this.imeiApiService.updateImeiState([merchandise.ma_imei], false)
+        //     //     .subscribe(result => {
+        //     //         changeMerchandise(ma_vt);
+        //     //         if (result.success && !result.result[0].dat_hang_yn) {
+        //     //             // this.commonService.removeImeiFromStorage(merchandise.ma_imei);
+        //     //         }
+        //     //     });
+        // } else if (ma_vt) {
+        //     changeMerchandise(ma_vt);
+        // }
     }
 
     // handle select no_km
