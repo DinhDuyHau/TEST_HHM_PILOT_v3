@@ -51,6 +51,7 @@ export class TableCustomComponent implements
   @Output() handleAction = new EventEmitter<{ item: any }>();
   @Output() handleSwap = new EventEmitter<{ item: any }>();
   @Output() handleAdd = new EventEmitter<{ item: any }>();
+  @Output() handleAddPackage = new EventEmitter<{ item: any }>();
   @Output() handleUpdate = new EventEmitter<{ item: any }>();
   @Output() handleFilter = new EventEmitter<any>();
   @Output() handleChangePage = new EventEmitter<string>();
@@ -95,6 +96,10 @@ export class TableCustomComponent implements
 
   onAddForItem(item: any) {
     this.handleAdd.emit({ item });
+  }
+
+  onAddPackageForItem(item: any) {
+    this.handleAddPackage.emit({ item });
   }
 
   onChangeCheckbox(item: any, index: number, event: any, columnName: string) {
@@ -173,6 +178,21 @@ export class TableCustomComponent implements
   onAddDiscountNG(item: any) {
     this.handleAddDiscountNG.emit({ item });
   }
+
+  // #region enable checkbox
+  isEnableCheckbox(columnName: string, record: any) {
+    switch (columnName) {
+      case 'km_yn':
+        return record.km_yn === true
+      case 'giam_gia_yn':
+        return record.giam_gia_yn === true
+      case 'naptien_hh_yn':
+        return true;
+      default:
+        return false;
+    }
+  }
+  // #endregion enable checkbox
 
 
   //#region resize table

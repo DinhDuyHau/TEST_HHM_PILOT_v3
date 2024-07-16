@@ -4,14 +4,33 @@ import { Cell } from '../form-control-custom/table-custom/table-custom.component
 import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
 import { Observable, of } from 'rxjs';
 import { ImeiApiService } from '@app/sales-management/api/imei-api.service';
-import { CUSTOMER_SEARCH, MERCHANDISE_SEARCH, IMEI_SEARCH, BANK_ACCOUNT_SEARCH, TYPE_MERCHANDISE, TYPE_INVENTORY, LIST_ASM, SERVICE_SEARCH, PROJECT_SEARCH, CONTRACT_SEARCH, WAREHOUSE_LIST, INVOICE_LIST, LIST_POS, LIST_PRICE_RENEW, LIST_BGD } from '@app/sales-management/model/common/fields.table';
-import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { PaymentApiService } from '@app/sales-management/api/payment-api.service';
 import { MerchandiseServiceApiService } from '@app/sales-management/api/merchandiseService-api.service';
 import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { MerchandiseApiService } from '@app/sales-management/api/merchandise-api.service';
 import { POSService } from '@app/sales-management/api/pos-api.service';
 import { AuthenticationService } from '@app/_services';
+
+const {
+  TICKET_CODE,
+  TICKET_ENTITY,
+  CUSTOMER_SEARCH,
+  MERCHANDISE_SEARCH,
+  IMEI_SEARCH,
+  BANK_ACCOUNT_SEARCH,
+  TYPE_MERCHANDISE,
+  TYPE_INVENTORY,
+  LIST_ASM,
+  SERVICE_SEARCH,
+  PACKAGE_SEARCH,
+  PROJECT_SEARCH,
+  CONTRACT_SEARCH,
+  WAREHOUSE_LIST,
+  INVOICE_LIST,
+  LIST_POS,
+  LIST_PRICE_RENEW,
+  LIST_BGD
+} = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'search-dialog',
@@ -169,6 +188,13 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.operator = "=";
         this.filters = [filter];
         break;
+      case SEARCH_COMPONENT_NAME.PACKAGE:
+        this.columns = PACKAGE_SEARCH as any;
+        filter.name = 'loai_vt';
+        filter.operator = "=";
+        filter.value = `03`;
+        this.filters = [filter];
+        break;
       default:
         break;
     }
@@ -230,6 +256,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return this.ticketApiService.getRenewPrice(this.filters.find(x => x.name == 'ma_vt')?.value, this.filters.find(x => x.name == 'ma_cuahang')?.value, this.filters.find(x => x.name == 'ma_ncc')?.value);
       case SEARCH_COMPONENT_NAME.OLD_RECEIVER_SUPPLIER:
         return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
+      case SEARCH_COMPONENT_NAME.PACKAGE:
+        return this.merchandiseServiceApiService.findById(this.filters, this.page_index, this.page_size);
       default:
         return of();
     }
@@ -343,5 +371,6 @@ export const SEARCH_COMPONENT_NAME = {
   OLD_RECEIVER_SUPPLIER: 17,
   APPROVER_DIRECTOR: 18,
   E_COMMERCIAL: 19,
+  PACKAGE: 20,
 };
 

@@ -22,12 +22,7 @@ import { EInvoiceInfo } from '@app/sales-management/model/dto/einvoice.dto';
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { IMEIService } from '@app/_services/imei.service';
 
-// import { MERCHANDISE_REPURCHASE_LIST } from '@app/sales-management/model/common/fields.table';
-// const { TICKET_CODE, TICKET_ENTITY } = require('@assets/fields/grid/sales-fields-table.json');
-
-import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
-const { MERCHANDISE_REPURCHASE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
-
+const { TICKET_CODE, TICKET_ENTITY, MERCHANDISE_REPURCHASE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-sale-repurchase',

@@ -90,7 +90,8 @@
         [value]="ticket.masterInfo.status"
         (handleChangeValue)="ticket.masterInfo.status = $event" />
 
-      <form-input-custom #txtImei
+      <form-input-custom
+        #txtImei
         class="box order-dynamic-2"
         [name]="'imei'"
         [label]="getLabel('lbl_imei')"
@@ -100,13 +101,15 @@
         (handleClickCodeScanner)="onClickCodeScanner()"
         [uploadImage]="true" />
 
-      <form-input-custom #txt_dien_giai
+      <form-input-custom
+        #txt_dien_giai
         class="box order-dynamic-2"
         [name]="'dien_giai'"
         [label]="getLabel('lbl_dien_giai')"
         [value]="ticket.masterInfo.dien_giai"
-        (handleChangeValue)="ticket.masterInfo.dien_giai = txt_dien_giai.value"
-         />
+        (handleChangeValue)="
+          ticket.masterInfo.dien_giai = txt_dien_giai.value
+        " />
 
       <div class="d-flex box align-items-end gap-3 mt-3 align-self-end">
         <button
@@ -131,7 +134,10 @@
       {{ depositTotalPrice | formatData : 'number' : 'normalPrice' }} VNĐ
     </div>
 
-    <div class="conversion" *ngIf="ticket.masterInfo.ma_kh" style="margin-bottom: 10px;">
+    <div
+      class="conversion"
+      *ngIf="ticket.masterInfo.ma_kh"
+      style="margin-bottom: 10px">
       {{ getLabel('lbl_t_diem_quy_doi') }}
       <span>{{
         conversionPoints | formatData : 'number' : 'normalPrice'
@@ -140,7 +146,7 @@
 
     <tabs-custom title="Thông tin hàng hóa">
       <tab-custom label="Hàng hoá" class="w-100">
-        <table-custom 
+        <table-custom
           [type]="'main'"
           [dataSource]="ticket.merchandise"
           [columns]="merchandiseColumns"
@@ -151,7 +157,8 @@
           (handleAddDiscountNG)="openCalcDiscountDialog(true, $event, '04')"
           (handleDelete)="onRemoveMerchandise($event)"
           (handleAdd)="onAddService($event)"
-          (handleChangeCheckbox)="onChangePromotionalDebt($event)" />
+          (handleChangeCheckbox)="onChangePromotionalDebt($event)"
+          (handleAddPackage)="onAddPackage($event)" />
       </tab-custom>
       <!-- (handleSwap)="onSwapPromotionMerchandise($event)" -->
       <tab-custom label="Dịch vụ" class="w-100">
@@ -160,6 +167,27 @@
           [columns]="serviceColumns"
           [readonly]="readonly"
           (handleDelete)="onRemoveService($event)" />
+        <div class="flex gap-0 md:gap-4 lg:gap-8">
+          <div class="flex-1 hidden lg:block"></div>
+          <div class="flex-1 hidden md:block"></div>
+          <div class="flex flex-1">
+            <form-input-custom
+              class="flex-1"
+              name="email"
+              [label]="getLabel('lbl_email_key')"
+              *ngIf="!readonly"
+              [value]="ticket.masterInfo.email_nhan_key"
+              [invalid]="invalid"
+              (handleChangeValue)="ticket.masterInfo.email_nhan_key = $event" />
+          </div>
+        </div>
+      </tab-custom>
+      <tab-custom label="Gói cước" class="w-100">
+        <table-custom
+          [dataSource]="ticket.packages"
+          [columns]="packageColumns"
+          [readonly]="readonly"
+          (handleDelete)="onRemovePackage($event)" />
         <div class="flex gap-0 md:gap-4 lg:gap-8">
           <div class="flex-1 hidden lg:block"></div>
           <div class="flex-1 hidden md:block"></div>
@@ -204,7 +232,7 @@
       </tab-custom>
     </tabs-custom>
 
-    <div style="padding-bottom: 35px; border-bottom: 1px dashed #cbd5e0;">
+    <div style="padding-bottom: 35px; border-bottom: 1px dashed #cbd5e0">
       <div class="title-content p-2">{{ getLabel('lbl_tc_don_hang') }}</div>
       <div class="box-container">
         <div class="box d-flex gap-2">
@@ -260,7 +288,7 @@
             format="moneyViewFormat"
             dataType="number" />
         </div>
-        
+
         <div class="box hidden md:flex"></div>
         <div class="box d-flex gap-2">
           <form-input-custom
@@ -280,7 +308,7 @@
             format="moneyViewFormat"
             dataType="number" />
         </div>
-        
+
         <form-input-custom
           class="box"
           [disabled]="true"
@@ -311,7 +339,6 @@
     </ng-container>
 
     <div>
-      
       <div class="d-flex justify-end gap-2 m-3">
         <app-voucher-info
           *ngIf="this.mode != 0"
@@ -332,8 +359,6 @@
         </div>
       </div>
     </div>
-
-    
   </div>
 
   <div

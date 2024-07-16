@@ -3,12 +3,14 @@ import { Guarantee } from '../common-model/guarantee.model';
 import { Service } from '../common-model/service.model';
 import { Payment } from '../common-model/payment.model';
 import { BaseMasterInfo, BaseMerchandise, BaseTicket } from '../common-model/base-entity.model';
+import { Package } from '../common-model/package.model';
 
 
 export class ItinerantSaleTicket {
   masterInfo: MasterInfo = new MasterInfo;
   merchandise: Merchandise[] = [];
   service: Service[] = [];
+  packages: Package[] = [];
   discount: Discount[] = [];
   guarantee: Guarantee[] = [];
   payment: Payment = new Payment;
@@ -19,8 +21,9 @@ export type ItinerantSaleTicketList = BaseTicket
 export const TAB_NAME = {
   MERCHANDISE: 'd596',
   SERVICE: 'd596dv',
+  PACKAGE: 'd596bh',
   DISCOUNT: 'd596ck',
-  GUARANTEE: 'd596bh',
+  GUARANTEE: 'ddd',
   PAYMENT: 'd596tt'
 };
 

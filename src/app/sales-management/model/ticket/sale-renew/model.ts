@@ -3,6 +3,7 @@ import { Guarantee } from '../common-model/guarantee.model';
 import { Service } from '../common-model/service.model';
 import { Payment } from '../common-model/payment.model';
 import { BaseMasterInfo, BaseMerchandise, BaseTicket } from '../common-model/base-entity.model';
+import { Package } from '../common-model/package.model';
 
 
 export class RenewSaleTicketCreate {
@@ -10,6 +11,7 @@ export class RenewSaleTicketCreate {
   merchandise_new_sale: Merchandise[] = [];
   merchandise_used: MerchandiseUsed[] = [];
   service: Service[] = [];
+  packages: Package[] = [];
   discount: Discount[] = [];
   guarantee: Guarantee[] = [];
   payment: Payment = new Payment;
@@ -21,8 +23,9 @@ export const TAB_NAME = {
   MERCHANDISE_NEW_SALE: 'd589',
   MERCHANDISE_USED: 'd589htc',
   SERVICE: 'd589dv',
+  PACKAGE: 'd589bh',
   DISCOUNT: 'd589ck',
-  GUARANTEE: 'd589bh',
+  GUARANTEE: 'ddd',
   PAYMENT: 'd589tt'
 };
 

@@ -361,6 +361,15 @@ export class CommonService {
     // #endregion convert
 
     // #region validate
+    hasNegativeValue(data: any) {
+        for (const key in data) {
+            if (typeof data[key] === 'number' && data[key] < 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     isInValidPayment(payment: Payment) {
         return false;
         // if (payment.tien_mat.selected &&

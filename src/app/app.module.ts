@@ -74,7 +74,7 @@ import { PromotionSelectModule } from './sales-management/component/promotion/pr
     MatDialogModule,
     SettingModule,
     SettingChangeModule,
-    PromotionSelectModule
+    PromotionSelectModule,
   ],
   declarations: [AppComponent, LoginComponent, AppLayoutComponent, LookupV2Component, Home2Component,
     ScanComponent,

@@ -28,8 +28,14 @@ import { Language } from '../../common/language';
 import { EInvoiceInfo, EInvoiceInfoOutput } from '@app/sales-management/model/dto/einvoice.dto';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { environment } from '@environments/environment';
+import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
 
-const { DISCOUNT_LIST, GUARANTEE_LIST, MERCHANDISE_LIST, SERVICE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
+const { DISCOUNT_LIST,
+  GUARANTEE_LIST,
+  MERCHANDISE_LIST,
+  SERVICE_LIST,
+  PACKAGE_LIST
+} = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-sale-online',
@@ -47,6 +53,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   merchandiseColumns = MERCHANDISE_LIST;
   serviceColumns = SERVICE_LIST;
   discountColumns = DISCOUNT_LIST;
+  packageColumns = PACKAGE_LIST;
   guaranteeColumns = GUARANTEE_LIST;
   mode!: number;
   submitButtonTitle!: string;
@@ -500,6 +507,15 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   }
   // #endregion service
 
+  // #region package
+  onAddPackage(event: { item: Merchandise }) {
+    this.saleOnlineEcommerceService.addPackageForMerchandise(event.item, this.ticket)
+  }
+
+  onRemovePackage(event: { item: Package }) {
+    this.saleOnlineEcommerceService.removePackage(event.item, this.ticket)
+  }
+  // #endregion package
 
   //Upload image
   openUploadImage() {

@@ -3,9 +3,10 @@ import { DISCOUNT_TYPE, Discount } from '@app/sales-management/model/ticket/comm
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DiscountApiService } from '@app/sales-management/api/discount-api.service';
 import { Cell } from '../../form-control-custom/table-custom/table-custom.component';
-import { DISCOUNT_SELECT } from '@app/sales-management/model/common/fields.table';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { Platform } from '@angular/cdk/platform';
+
+const { DISCOUNT_SELECT } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'discount-select',

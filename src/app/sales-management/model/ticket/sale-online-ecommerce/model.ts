@@ -3,11 +3,13 @@ import { Guarantee } from '../common-model/guarantee.model';
 import { Service } from '../common-model/service.model';
 import { Payment } from '../common-model/payment.model';
 import { BaseMasterInfo, BaseMerchandise, BaseTicket } from '../common-model/base-entity.model';
+import { Package } from '../common-model/package.model';
 
 export class SaleOnlineEcommerceTicket {
   masterInfo: MasterInfo = new MasterInfo;
   merchandise: Merchandise[] = [];
   service: Service[] = [];
+  packages: Package[] = [];
   discount: Discount[] = [];
   guarantee: Guarantee[] = [];
   payment: Payment = new Payment;
@@ -20,8 +22,9 @@ export type SaleOnlineEcommerceTicketList = BaseTicket
 export const TAB_NAME = {
   MERCHANDISE: 'd593',
   SERVICE: 'd593dv',
+  PACKAGE: 'd593bh',
   DISCOUNT: 'd593ck',
-  GUARANTEE: 'd593bh',
+  GUARANTEE: 'ddd',
   PAYMENT: 'd593tt',
   ECOMMERCE: 'm593ext',
 };

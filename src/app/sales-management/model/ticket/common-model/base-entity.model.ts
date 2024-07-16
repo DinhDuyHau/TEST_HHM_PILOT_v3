@@ -25,6 +25,8 @@ export class BaseMerchandise {
     ma_thue = '';
     line_nbr = 0;
     gia_vat = 0;
+
+    nh_vt1 = '';
 }
 
 

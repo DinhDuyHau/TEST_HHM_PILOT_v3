@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, Inject, OnChanges, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Cell } from '../form-control-custom/table-custom/table-custom.component';
-import { DEPOSIT_SELECT } from '@app/sales-management/model/common/fields.table';
+
+const { DEPOSIT_SELECT } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'deposit-select',

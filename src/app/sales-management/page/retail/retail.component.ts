@@ -26,15 +26,20 @@ import { GuaranteeApiService } from '@app/sales-management/api/guarantee-api.ser
 import { CameraComponent } from '@app/sales-management/component/webcam/webcam.component';
 import { ViewImageComponent } from '@app/sales-management/component/view-image/view-image.component';
 import { Language } from '../common/language';
-import { Observable, Subject } from 'rxjs';
 import { FileService } from '@app/_services';
 import { EInvoiceInfo, EInvoiceInfoOutput } from '@app/sales-management/model/dto/einvoice.dto';
 import { environment } from '@environments/environment';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
-import { Item } from '@app/sales-management/model/common/mobifone.model';
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
+import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
 
-const { DISCOUNT_LIST, GUARANTEE_LIST, MERCHANDISE_LIST, SERVICE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
+const {
+  DISCOUNT_LIST,
+  GUARANTEE_LIST,
+  MERCHANDISE_LIST,
+  SERVICE_LIST,
+  PACKAGE_LIST
+} = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-retail',
@@ -51,6 +56,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   uploading = true;
   merchandiseColumns = MERCHANDISE_LIST;
   serviceColumns = SERVICE_LIST;
+  packageColumns = PACKAGE_LIST;
   discountColumns = DISCOUNT_LIST;
   guaranteeColumns = GUARANTEE_LIST;
   mode!: number;
@@ -576,6 +582,17 @@ export class RetailComponent implements OnInit, AfterViewInit {
     }
   }
   // #endregion service
+
+
+  // #region package
+  onAddPackage(event: { item: Merchandise }) {
+    this.retailService.addPackageForMerchandise(event.item, this.ticket)
+  }
+
+  onRemovePackage(event: { item: Package }) {
+    this.retailService.removePackage(event.item, this.ticket)
+  }
+  // #endregion package
 
   // #region upload image
   openUploadImage() {

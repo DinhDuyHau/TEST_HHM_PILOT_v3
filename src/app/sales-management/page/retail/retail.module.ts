@@ -13,11 +13,11 @@ import { FormSelectCustomModule } from '@app/sales-management/component/form-con
 import { TableCustomModule } from '@app/sales-management/component/form-control-custom/table-custom/table-custom.module';
 import { TabsCustomModule } from '@app/sales-management/component/form-control-custom/tabs/tabs.module';
 import { ScanQrcodeModule } from '@app/_components/scan-qrcode/scan-qrcode.module';
-import { CommonService } from '../common/common.service';
 import { CameraModule } from '@app/sales-management/component/webcam/webcam.module';
 import { EInvoiceTabModule } from '@app/sales-management/component/e-invoice/e-invoice-tab/e-invoice-tab.module';
 import { EInvoiceInfoModule } from '@app/sales-management/component/e-invoice/e-invoice-info/e-invoice-info.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
+import { PackageForImeiModule } from '@app/sales-management/component/merchandise-service/package-for-imei/package-for-imei.module';
 
 @NgModule({
     imports: [
@@ -37,7 +37,8 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
         CameraModule,
         EInvoiceTabModule,
         EInvoiceInfoModule,
-        VoucherInfoModule
+        VoucherInfoModule,
+        PackageForImeiModule,
     ],
     declarations: [
         RetailComponent

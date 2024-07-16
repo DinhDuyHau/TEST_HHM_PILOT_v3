@@ -34,7 +34,8 @@
           *ngIf="
             (handleDelete.observers.length ||
               handleSwap.observers.length ||
-              handleAdd.observers.length) &&
+              handleAdd.observers.length ||
+              handleAddPackage.observers.length) &&
             !readonly
           "
           class="table-title text-nowrap">
@@ -120,9 +121,9 @@
               type="checkbox"
               [ngModel]="record[column['name']]"
               *ngIf="column['type'] === 'checkbox'"
-              [disabled]="!(record.km_yn || record.giam_gia_yn)"
+              [disabled]="!isEnableCheckbox(column['name'], record)"
               (change)="
-                (record.km_yn || record.giam_gia_yn) &&
+                isEnableCheckbox(column['name'], record) &&
                   onChangeCheckbox(record, i, $event, column.name)
               " />
           </div>
@@ -132,7 +133,8 @@
             handleDelete.observers.length ||
             handleSwap.observers.length ||
             handleAdd.observers.length ||
-            handleUpdate.observers.length
+            handleUpdate.observers.length ||
+            handleAddPackage.observers.length
           ">
           <div class="d-flex align-center justify-content-center gap-2">
             <button
@@ -149,8 +151,23 @@
             <button
               title="Thêm dịch vụ"
               (click)="onAddForItem(record)"
-              *ngIf="handleAdd.observers.length && !record.km_yn && !readonly">
+              *ngIf="
+                handleAdd.observers.length &&
+                !record.km_yn &&
+                record.nh_vt1 !== 'SIMTHE' &&
+                !readonly
+              ">
               <i class="fas fa-plus icon-table"></i>
+            </button>
+            <button
+              title="Thêm gói cước"
+              (click)="onAddPackageForItem(record)"
+              *ngIf="
+                handleAddPackage.observers.length &&
+                record.nh_vt1 === 'SIMTHE' &&
+                !readonly
+              ">
+              <i class="fa-solid fa-sim-card icon-table"></i>
             </button>
             <button
               title="Thay đổi hàng khuyến mại"

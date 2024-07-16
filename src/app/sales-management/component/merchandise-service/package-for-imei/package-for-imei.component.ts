@@ -2,24 +2,25 @@ import { AfterViewInit, Component, Inject, OnChanges, OnInit, ViewEncapsulation,
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MerchandiseServiceApiService } from '@app/sales-management/api/merchandiseService-api.service';
 import { Cell } from '../../form-control-custom/table-custom/table-custom.component';
-import { Service } from '@app/sales-management/model/ticket/common-model/service.model';
 import { CommonService } from '@app/sales-management/page/common/common.service';
 import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '../../search/serach-dialog.component';
 import { ServiceOfMerchandiseService } from '@app/sales-management/page/common/service.service';
+import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
+import { PackageOfMerchandiseService } from '@app/sales-management/page/common/package.service';
 
-const { SERVICE_SELECT_LIST } = require('@assets/fields/grid/sales-fields-table.json');
+const { PACKAGE_SELECT_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'service-for-imei',
-  templateUrl: './service-for-imei.component.html',
-  styleUrls: ['./service-for-imei.component.scss'],
+  templateUrl: './package-for-imei.component.html',
+  styleUrls: ['./package-for-imei.component.scss'],
 })
-export class ServiceForImeiComponent implements OnInit, OnChanges, AfterViewInit {
+export class PackageForImeiComponent implements OnInit, OnChanges, AfterViewInit {
   ma_imei = '';
   gia_ban = 0;
   ma_vt = '';
   columns!: Cell[];
-  dataSource: Service[] = [];
+  dataSource: Package[] = [];
   title!: string;
   value!: string;
   ma_cuahang!: string;
@@ -28,11 +29,11 @@ export class ServiceForImeiComponent implements OnInit, OnChanges, AfterViewInit
   preious_quantity: number[] = [];
 
   constructor(
-    public dialogRef: MatDialogRef<ServiceForImeiComponent>,
+    public dialogRef: MatDialogRef<PackageForImeiComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { ma_imei: string, gia_ban: number, ma_vt: string, gia_vat: number },
     private merchandiseServiceApiService: MerchandiseServiceApiService,
     private commonService: CommonService,
-    private serviceOfMerchandiseService: ServiceOfMerchandiseService,
+    private packageOfMerchandiseService: PackageOfMerchandiseService,
 
   ) {
     this.ma_imei = this.data.ma_imei;
@@ -42,8 +43,8 @@ export class ServiceForImeiComponent implements OnInit, OnChanges, AfterViewInit
   }
 
   ngOnInit(): void {
-    this.columns = SERVICE_SELECT_LIST as any as Cell[];
-    this.title = 'Thêm dịch vụ';
+    this.columns = PACKAGE_SELECT_LIST as any as Cell[];
+    this.title = 'Thêm gói cước';
     const userJson = localStorage.getItem('user');
     const userObj = userJson !== null && JSON.parse(userJson);
     this.ma_cuahang = userObj['shop'];
@@ -56,55 +57,56 @@ export class ServiceForImeiComponent implements OnInit, OnChanges, AfterViewInit
   }
 
   onSearch(value: string): void {
-    this.commonService.openDialog(SearchDialogComponent, { keyword: value, componentName: SEARCH_COMPONENT_NAME.SERVICE })
+    this.commonService.openDialog(SearchDialogComponent, { keyword: value, componentName: SEARCH_COMPONENT_NAME.PACKAGE })
       .afterClosed().subscribe(result => {
         if (result) {
-          this.handleAddService(result);
+          this.handleAddPackage(result);
         }
       });
   }
 
   openDialogSearch() {
-    this.commonService.openDialog(SearchDialogComponent, { keyword: '', componentName: SEARCH_COMPONENT_NAME.SERVICE })
+    this.commonService.openDialog(SearchDialogComponent, { keyword: '', componentName: SEARCH_COMPONENT_NAME.PACKAGE })
       .afterClosed().subscribe(result => {
         if (result) {
-          this.handleAddService(result);
+          this.handleAddPackage(result);
         }
       });
   }
 
-  handleAddService(service: Service) {
-    const isExist = this.dataSource.find(e => e.ma_dv === service.ma_dv);
+  handleAddPackage(_package: Package) {
+    const isExist = this.dataSource.find(e => e.ma_dv === _package.ma_dv);
     if (isExist) {
-      this.commonService.showMessage('Dịch vụ đã được thêm');
+      this.commonService.showMessage('Gói cước đã được thêm');
     }
     else {
-      if (service.ad_key) {
-        this.merchandiseServiceApiService.getKeyOfService(service.ma_dv).subscribe((result_key) => {
+      if (_package.ad_key) {
+        this.merchandiseServiceApiService.getKeyOfService(_package.ma_dv).subscribe((result_key) => {
           if (result_key.success && result_key.result) {
-            this.merchandiseServiceApiService.getServicePrice(this.ma_vt, service.ma_dv, this.ma_cuahang, this.gia_vat).subscribe((result) => {
+            this.merchandiseServiceApiService.getServicePrice(this.ma_vt, _package.ma_dv, this.ma_cuahang, this.gia_vat).subscribe((result) => {
               if (result.success) {
-                const serviceNew = new Service(service);
-                serviceNew.ma_thue = (result.result as any).ma_thue;
-                serviceNew.gia_ban = (result.result as any).gia_ban;
-                serviceNew.gia_vat = (result.result as any).gia_vat;
+                const packageNew = new Package(_package);
+                packageNew.ma_thue = (result.result as any).ma_thue;
+                packageNew.gia_ban = (result.result as any).gia_ban;
+                packageNew.gia_vat = (result.result as any).gia_vat;
+                packageNew.naptien_hh_yn = false;
 
-                serviceNew.thue_suat = (result.result as any).thue_suat;
-                serviceNew.thanh_tien = serviceNew.gia_ban * serviceNew.so_luong;
+                packageNew.thue_suat = (result.result as any).thue_suat;
+                packageNew.thanh_tien = packageNew.gia_ban * packageNew.so_luong;
 
                 // serviceNew.tien_thue = serviceNew.gia_ban * serviceNew.so_luong * serviceNew.thue_suat / 100;
                 // serviceNew.tong_tien = serviceNew.gia_ban + serviceNew.tien_thue;
 
                 //2024-05-15: begin
-                serviceNew.tong_tien = serviceNew.gia_vat * serviceNew.so_luong;
-                serviceNew.tien_thue = serviceNew.tong_tien - serviceNew.thanh_tien;
+                packageNew.tong_tien = packageNew.gia_vat * packageNew.so_luong;
+                packageNew.tien_thue = packageNew.tong_tien - packageNew.thanh_tien;
                 //2024-05-15: end
 
-                this.serviceOfMerchandiseService.addNew(this.data.ma_imei, [serviceNew], this.dataSource);
+                this.packageOfMerchandiseService.addNew(this.data.ma_imei, [packageNew], this.dataSource);
                 this.preious_quantity.push(1);
               }
               else {
-                this.commonService.showMessage('Không tìm thấy thông tin của dịch vụ');
+                this.commonService.showMessage('Không tìm thấy thông tin của gói cước');
               }
             });
           }
@@ -115,29 +117,30 @@ export class ServiceForImeiComponent implements OnInit, OnChanges, AfterViewInit
 
       }
       else {
-        this.merchandiseServiceApiService.getServicePrice(this.ma_vt, service.ma_dv, this.ma_cuahang, this.gia_vat).subscribe((result) => {
+        this.merchandiseServiceApiService.getServicePrice(this.ma_vt, _package.ma_dv, this.ma_cuahang, this.gia_vat).subscribe((result) => {
           if (result.success) {
-            const serviceNew = new Service(service);
-            serviceNew.ma_thue = (result.result as any).ma_thue;
-            serviceNew.gia_ban = (result.result as any).gia_ban;
-            serviceNew.gia_vat = (result.result as any).gia_vat;
+            const packageNew = new Package(_package);
+            packageNew.ma_thue = (result.result as any).ma_thue;
+            packageNew.gia_ban = (result.result as any).gia_ban;
+            packageNew.gia_vat = (result.result as any).gia_vat;
+            packageNew.naptien_hh_yn = false;
 
-            serviceNew.thue_suat = (result.result as any).thue_suat;
-            serviceNew.thanh_tien = serviceNew.gia_ban * serviceNew.so_luong;
+            packageNew.thue_suat = (result.result as any).thue_suat;
+            packageNew.thanh_tien = packageNew.gia_ban * packageNew.so_luong;
 
             // serviceNew.tien_thue = serviceNew.gia_ban * serviceNew.so_luong * serviceNew.thue_suat / 100;
             // serviceNew.tong_tien = serviceNew.gia_ban + serviceNew.tien_thue;
 
             //2024-05-15: begin
-            serviceNew.tong_tien = serviceNew.gia_vat * serviceNew.so_luong;
-            serviceNew.tien_thue = serviceNew.tong_tien - serviceNew.thanh_tien;
+            packageNew.tong_tien = packageNew.gia_vat * packageNew.so_luong;
+            packageNew.tien_thue = packageNew.tong_tien - packageNew.thanh_tien;
             //2024-05-15: end
 
-            this.serviceOfMerchandiseService.addNew(this.data.ma_imei, [serviceNew], this.dataSource);
+            this.packageOfMerchandiseService.addNew(this.data.ma_imei, [packageNew], this.dataSource);
             this.preious_quantity.push(1);
           }
           else {
-            this.commonService.showMessage('Không tìm thấy thông tin của dịch vụ');
+            this.commonService.showMessage('Không tìm thấy thông tin của gói cước');
           }
         });
       }
@@ -178,7 +181,11 @@ export class ServiceForImeiComponent implements OnInit, OnChanges, AfterViewInit
 
   }
 
-  onRemoveItem(event: { item: Service }) {
+  onChangeCheckBox(event: { item: any, index: number, checked: boolean, columnName: string }) {
+    this.dataSource[event.index].naptien_hh_yn = event.checked;
+  }
+
+  onRemoveItem(event: { item: Package }) {
     this.dataSource = this.dataSource.filter((e, i) => {
       if (e.ma_dv !== event.item.ma_dv) {
         this.preious_quantity.splice(i, 1);
@@ -189,12 +196,23 @@ export class ServiceForImeiComponent implements OnInit, OnChanges, AfterViewInit
 
   }
 
+  isValidData(dataSource: Package[]) {
+    const isInvalid = this.commonService.hasNegativeValue(dataSource);
+    if (isInvalid) {
+      this.commonService.showMessage('Danh sách chọn gói cước có giá trị âm');
+      return false;
+    }
+    return true;
+  }
+
   onCancel() {
     this.dialogRef.close();
   }
 
   onSelect() {
-    this.dialogRef.close(this.dataSource);
+    if (this.isValidData(this.dataSource)) {
+      this.dialogRef.close(this.dataSource);
+    }
   }
 
 }
