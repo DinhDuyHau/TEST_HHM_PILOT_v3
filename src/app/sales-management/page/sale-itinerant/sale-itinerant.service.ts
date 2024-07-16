@@ -92,7 +92,7 @@ export class SaleItinerantService {
                     this.serviceOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
                     break;
                 case TAB_NAME.PACKAGE:
-                    this.packageOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
+                    this.packageOfMerchandiseService.convertFromVoucher(e.data, this.ticket.packages);
                     break;
                 case TAB_NAME.DISCOUNT:
                     this.discountService.convertDiscountFromVoucher(e.data, this.ticket.discount);
