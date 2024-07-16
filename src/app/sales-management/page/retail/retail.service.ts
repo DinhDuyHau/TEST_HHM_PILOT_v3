@@ -117,9 +117,9 @@ export class RetailService {
         voucherDto.masterInfo = this.commonService.convertMasterInfo(this.ticket.masterInfo, MasterInfoRequest);
         voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.MERCHANDISE, data: this.merchandiseService.convertMerchandiseToRequest(this.ticket.merchandise, voucherDto.masterInfo, MerchandiseRequest) }];
         voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.SERVICE, data: this.serviceOfMerchandiseService.convertServiceToRequest(this.ticket.service, voucherDto.masterInfo, ServiceRequest) }];
-        voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.PACKAGE, data: this.packageOfMerchandiseService.convertPackageToRequest(this.ticket.packages, voucherDto.masterInfo, PackageRequest) }];
-        voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.DISCOUNT, data: this.discountService.convertDiscountToRequest(this.ticket.discount, voucherDto.masterInfo) }];
-        voucherDto.details = [...voucherDto.details, { id: 5, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
+        voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.DISCOUNT, data: this.discountService.convertDiscountToRequest(this.ticket.discount, voucherDto.masterInfo) }];
+        voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
+        voucherDto.details = [...voucherDto.details, { id: 5, name: TAB_NAME.PACKAGE, data: this.packageOfMerchandiseService.convertPackageToRequest(this.ticket.packages, voucherDto.masterInfo, PackageRequest) }];
         return voucherDto;
     }
 
@@ -407,7 +407,7 @@ export class RetailService {
 
     // #region discount
 
-    calcDiscount(loai_ck: string = ""): Observable<ResultNoPaging<Discount>> | undefined {
+    calcDiscount(loai_ck = ''): Observable<ResultNoPaging<Discount>> | undefined {
         const ma_cuahang = this.ticket.masterInfo.ma_cuahang;
         const ma_kh = this.ticket.masterInfo.ma_kh;
         const ngay_lap = formatDate(this.ticket.masterInfo.ngay_ct, 'yyyy/MM/dd', 'en_US');
@@ -421,13 +421,13 @@ export class RetailService {
     }
 
     getAllGiftPromotionsForImei(ma_imei: string, ma_ck: string) {
-        return this.discountApiService
+        return this.discountApiService;
     }
 
     // Hàm này sẽ xử lý chung cho cả 2 trường hợp là thêm chiết khấu và xoá chiết khấu
     // --> Do không lưu chi tiết giá trị từng chiết khấu được hưởng với loại chiết khấu giảm giá hàng và chiết khấu bán kèm
     //      --> Cho nên khi thực hiện xoá hay thêm mới call lại api tính chiết khấu và lấy lại những loại chiết khấu đã chọn và thực hiện tính lại chiết khấu từ đầu
-    updateDiscount(discounts: Discount[], isGridItem: boolean = false, row_item: Merchandise | null = null) {
+    updateDiscount(discounts: Discount[], isGridItem = false, row_item: Merchandise | null = null) {
         this.discountService.resetDiscount(this.ticket.discount, isGridItem, row_item);
         discounts.forEach(discount => {
             if (discount.loai_ck === DISCOUNT_TYPE.REDUTION_BY_MERCHANDISE_CODE ||
