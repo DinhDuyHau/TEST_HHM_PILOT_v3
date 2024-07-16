@@ -77,14 +77,14 @@
                 <input id="txtPassword" #txtPassword type="password" formControlName="password"
                   class="form-control bg-neutrals09_color" placeholder="Mật khẩu"
                   [ngClass]="{'is-invalid': submitted && f['password'].errors}"
-                  (keydown)="moveToNext(cboUnit, $event)" />
+                  (keydown)="moveToNext(cbshop, $event)" />
                 <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
                   <div *ngIf="f['password'].errors['required']">
                     Chưa nhập mật khẩu
                   </div>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display: none;">
                 <label class="text-sm text-neutrals03_color font-normal pb-1" for="cboUnit">Đơn vị cơ sở</label>
                 <div class="input-icon">
                   <fa-icon [icon]="['fas', 'city']" size="lg"></fa-icon>
@@ -107,7 +107,7 @@
                 <label class="text-sm text-neutrals03_color font-normal pb-1" for="cbshop">Cửa hàng</label>
                 <div class="select-search-container" #focusableDiv tabindex="0" #cbshop
                   (keydown)="moveToNext(cboShift, $event)">
-                  <select-search formControlName="shop" [data]="shop_data"></select-search>
+                  <select-search formControlName="shop" [data]="shop_data" (handleSelected)="onChangeShop($event)"></select-search>
                 </div>
                 <!-- <label
                   class="text-sm text-neutrals03_color font-normal pb-1"

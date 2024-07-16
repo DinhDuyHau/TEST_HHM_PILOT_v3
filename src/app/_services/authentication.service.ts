@@ -122,6 +122,13 @@ export class AuthenticationService {
         return this.http.get<Shop[]>(apiUri, { params });
     }
 
+    getAllShopRightByUser(username: string) {
+        const apiUri = `${environment.apiUrl}/users/all-shops-right`;
+        const params = new HttpParams()
+            .set('userName', username);
+        return this.http.get<Shop[]>(apiUri, { params });
+    }
+
     getShiftList() {
         const apiUri = `${environment.apiUrl}/users/shift`;
         return this.http.get<Shift[]>(apiUri).pipe(map(res => {

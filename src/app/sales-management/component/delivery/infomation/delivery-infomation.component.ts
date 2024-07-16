@@ -45,7 +45,7 @@ export class DeliveryInfomationComponent implements OnInit, AfterViewInit, OnCha
 
   onOpenDialog() {
     this.commonService.openDialog(SearchDialogComponent,
-      { keyword: '', componentName: SEARCH_COMPONENT_NAME.CUSTOMER, title: 'Danh sách nhân viêc giao hàng' }, 'search-style-dialog')
+      { keyword: '', componentName: SEARCH_COMPONENT_NAME.DELIVERY_EMP, title: 'Danh sách nhân viêc giao hàng' }, 'search-style-dialog')
       .afterClosed()
       .subscribe((customer: Customer) => {
         if (customer) {

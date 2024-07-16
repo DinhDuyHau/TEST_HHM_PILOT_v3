@@ -93,31 +93,31 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     }
 
     testData() {
-        this.onEnterCustomerCode('001098025044');
-        this.onEnterImeiCode('11SC662VNA00009');
-        this.onEnterImeiCode('11SC664VNA001');
-        this.onEnterImeiCode('0100270081A00015');
-        this.onEnterImeiCode('0100270080A00004');
-        // this.onEnterImeiCode('IPV11128B2308016');
-        this.onEnterImeiCode('1030VNA00008');
+        // this.onEnterCustomerCode('001098025044');
+        // this.onEnterImeiCode('11SC662VNA00009');
+        // this.onEnterImeiCode('11SC664VNA001');
+        // this.onEnterImeiCode('0100270081A00015');
+        // this.onEnterImeiCode('0100270080A00004');
+        // // this.onEnterImeiCode('IPV11128B2308016');
+        // this.onEnterImeiCode('1030VNA00008');
 
-        this.onEnterImeiCode('CLFP12MA0001');
-        this.onEnterImeiCode('CSXMA0001');
-        this.onEnterImeiCode('G4S22AA0001');
-        this.onEnterImeiCode('MTIP12NA0001 ');
-        this.onEnterImeiCode('SBAG20A0001');
-        this.onEnterImeiCode('ZEE15CL1A0001');
+        // this.onEnterImeiCode('CLFP12MA0001');
+        // this.onEnterImeiCode('CSXMA0001');
+        // this.onEnterImeiCode('G4S22AA0001');
+        // this.onEnterImeiCode('MTIP12NA0001 ');
+        // this.onEnterImeiCode('SBAG20A0001');
+        // this.onEnterImeiCode('ZEE15CL1A0001');
 
-        this.onEnterImeiCode('CLFP12MA0002');
-        this.onEnterImeiCode('CSXMA0002');
-        this.onEnterImeiCode('G4S22AA0002');
-        this.onEnterImeiCode('MTIP12NA0002 ');
-        this.onEnterImeiCode('SBAG20A0002');
-        this.onEnterImeiCode('ZEE15CL1A0002');
+        // this.onEnterImeiCode('CLFP12MA0002');
+        // this.onEnterImeiCode('CSXMA0002');
+        // this.onEnterImeiCode('G4S22AA0002');
+        // this.onEnterImeiCode('MTIP12NA0002 ');
+        // this.onEnterImeiCode('SBAG20A0002');
+        // this.onEnterImeiCode('ZEE15CL1A0002');
 
-        this.onEnterImeiCode('CLFP12MA0003');
-        this.onEnterImeiCode('MTIP12NA0003 ');
-        this.onEnterImeiCode('SBAG20A0003');
+        // this.onEnterImeiCode('CLFP12MA0003');
+        // this.onEnterImeiCode('MTIP12NA0003 ');
+        // this.onEnterImeiCode('SBAG20A0003');
 
     }
     ngAfterViewInit(): void {

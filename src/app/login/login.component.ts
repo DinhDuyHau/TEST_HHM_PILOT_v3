@@ -42,8 +42,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   unit_data: { value: string; label: string; selected: boolean }[] = [
     { value: '', label: 'Đơn vị', selected: true },
   ];
-  shop_data: { value: string; label: string; selected: boolean }[] = [
-    { value: '', label: 'Cửa hàng', selected: true },
+  shop_data: { value: string; label: string; selected: boolean, unit: string }[] = [
+    { value: '', label: 'Cửa hàng', selected: true, unit: '' },
   ];
   shift_data: { value: string; label: string; selected: boolean }[] = [
     { value: '', label: 'Ca bán hàng', selected: true },
@@ -106,6 +106,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   changeUser(user_name: string) {
     if (!user_name || user_name === '') return;
+
     this.authenticationService
       .getUnitRightOfUser(user_name)
       .pipe(first())
@@ -121,7 +122,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
               });
             }
             this.f['unit'].setValue(this.unit_data[0].value);
-            this.getShopInfo(this.f['username'].value, this.f['unit'].value);
+            this.getShopInfo(this.f['username'].value);
             // this.getAllShift();
           }
         },
@@ -129,17 +130,19 @@ export class LoginComponent implements OnInit, AfterViewInit {
           this.convertToErrorMessage(err);
         },
       });
+
   }
   changeUnit(user_name: string, unit: string) {
     if (!user_name || user_name === '' || !unit || unit === '') return;
     this.getShopInfo(user_name, unit);
   }
 
-  getShopInfo(user_name: string, unit: string) {
+  getShopInfo(user_name: string, unit?: string) {
     this.shop_data = [];
-    if (!user_name || user_name === '' || !unit || unit === '') return;
+    if (!user_name || user_name === '') return;
     this.authenticationService
-      .getShopRightOfUser(user_name, unit)
+      // .getShopRightOfUser(user_name, unit)
+      .getAllShopRightByUser(user_name)
       .pipe(first())
       .subscribe({
         next: (x: Shop[]) => {
@@ -149,9 +152,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
                 value: item.ma_cuahang!,
                 label: item.ten_cuahang!,
                 selected: false,
+                unit: item.ma_dvcs!
               });
             }
-            this.f['shop'].setValue(this.shop_data[0].value);
+            //this.f['shop'].setValue(this.shop_data[0].value);
+
+            this.f['shop'].setValue(x[0].ma_cuahang);
+            this.f['unit'].setValue(x[0].ma_dvcs);
           }
         },
         error: (err: any) => {
@@ -260,4 +267,15 @@ export class LoginComponent implements OnInit, AfterViewInit {
         },
       });
   }
+
+  onChangeShop(event: any) {
+    if (!event || !event.unit)
+      return;
+
+    const unit = this.unit_data.find(x => x.value === event.unit.toString());
+    if (unit) {
+      this.f['unit'].setValue(unit.value);
+    }
+  }
+
 }

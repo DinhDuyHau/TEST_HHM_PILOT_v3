@@ -53,7 +53,7 @@ export const VOUCHER_TYPE = {
         title: 'Phiếu xuất điều chuyển',
         field: 'stock-tranfer',
         field_detail: 'stock-tranfer_detail',
-        button: [button.AddButton, button.ViewButton, button.EditButton, button.DeleteButton, button.PrintButton, button.RefreshButton]
+        button: [button.ViewButton, button.EditButton, button.DeleteButton, button.PrintButton, button.RefreshButton]
     },
     STOCK_TRANFER_IN: {
         reuse: true,

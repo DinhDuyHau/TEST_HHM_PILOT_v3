@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, forwardRef, Input, OnChanges, OnInit, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export interface IStore {
@@ -27,6 +27,8 @@ export class SelectSearchComponent implements ControlValueAccessor, OnChanges, O
   public value: string = '';
 
   @Input() data: any = []
+
+  @Output() handleSelected = new EventEmitter<any>();
 
   public isDisabled: boolean = false;
 
@@ -79,6 +81,8 @@ export class SelectSearchComponent implements ControlValueAccessor, OnChanges, O
     this.onChange(store.value)
     this.selectedStore = store
     this.dropdownOpen = false;
+
+    this.handleSelected.emit(store);
   }
 
   onInputChange($event: any) {
