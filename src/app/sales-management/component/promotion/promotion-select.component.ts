@@ -20,7 +20,7 @@ export class PromotionSelectComponent implements OnInit, OnChanges, AfterViewIni
     constructor(
         public dialogRef: MatDialogRef<PromotionSelectComponent>,
         private platform: Platform,
-        @Inject(MAT_DIALOG_DATA) public data: { ma_imei: string, ma_ck: string, rec: number },
+        @Inject(MAT_DIALOG_DATA) public data: { ma_vt: string, ma_imei: string, ma_ck: string, rec: number },
         private imeiApiService: ImeiApiService
     ) {
     }
@@ -43,7 +43,8 @@ export class PromotionSelectComponent implements OnInit, OnChanges, AfterViewIni
     loadData() {
         this.imeiApiService.getImeiChangeGiftPromotions(this.data.ma_imei, this.data.ma_ck, this.data.rec)
             .subscribe(result => {
-                this.dataSource = result?.result as any;
+                const data = result?.result.filter(e => e.ma_vt !== this.data.ma_vt)
+                this.dataSource = data as any || [];
             })
     }
 
