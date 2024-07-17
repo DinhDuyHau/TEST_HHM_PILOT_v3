@@ -428,19 +428,9 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
     this.router.navigate([this.router.url + '/view'], { queryParams });
   }
 
-  onChangePage(event: string) {
-    let isChangePage = false;
-    if (event === 'next') {
-      const maxPage = Math.floor(this.recordCount / this.page_size);
-      if (this.page_index <= maxPage) {
-        this.page_index += 1;
-        isChangePage = true;
-      }
-    } else if (event === 'prev' && this.page_index > 1) {
-      this.page_index -= 1;
-      isChangePage = true;
-    }
-    if (isChangePage) {
+  onChangePage(event: number) {
+    if (event !== this.page_index) {
+      this.page_index = event
       if (this.isAdvanceSearch) {
         this.advanceSearch(this.params);
       } else {

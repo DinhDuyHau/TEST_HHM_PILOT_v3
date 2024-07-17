@@ -298,16 +298,9 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
     this.handleLoadata();
   }
 
-  onChangePage(event: string) {
-    let isChangePage = false;
-    if (event === 'next') {
-      this.page_index += 1;
-      isChangePage = true;
-    } else if (event === 'prev' && this.page_index > 1) {
-      this.page_index -= 1;
-      isChangePage = true;
-    }
-    if (isChangePage) {
+  onChangePage(event: number) {
+    if (this.page_index !== event) {
+      this.page_index = event
       this.handleLoadata();
     }
   }
