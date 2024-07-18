@@ -8,6 +8,7 @@
         />
     <input class="date-pickup"
         type="date"
+        (blur)="onBlurDatePickup($event)"
         (change)="onDatePickupChange($event)"
     />
 </div>

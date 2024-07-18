@@ -869,6 +869,17 @@
             "title": "phone"
         }
     ],
+    "BANK_PUBLISH_CARD_SEARCH": [
+        {
+            "name": "ma_nh",
+            "title": "Mã ngân hàng",
+            "isPrimaryKey": true
+        },
+        {
+            "name": "ten_nh",
+            "title": "Tên ngân hàng"
+        }
+    ],
     "INSTALLMENT_UNIT_SEARCH": [
         {
             "name": "ma_dvtg",

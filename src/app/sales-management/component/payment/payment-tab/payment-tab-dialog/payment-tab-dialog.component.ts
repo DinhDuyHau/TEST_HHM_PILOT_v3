@@ -237,6 +237,13 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     });
   }
 
+  onOpenSearchBankPublishCard() {
+    const dialogRef = this.commonService.openDialog(SearchDialogComponent, { keyword: "", componentName: SEARCH_COMPONENT_NAME.BANK_PUBLISH_CARD, title: 'Danh sách ngân hàng' }, 'search-style-dialog');
+    dialogRef.afterClosed().subscribe(result => {
+      this.data.quet_the_tra_gop.tk_nh_nhan = result.ma_nh;
+    });
+  }
+
   onOpenSearchInstallmentUnit() {
     const dialogRef = this.dialog.open(SearchDialogComponent, { data: { keyword: '', componentName: SEARCH_COMPONENT_NAME.INSTALLMENT_UNIT }, disableClose: true });
     dialogRef.afterClosed().subscribe(result => {

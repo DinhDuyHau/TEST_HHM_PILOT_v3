@@ -195,4 +195,8 @@ export class InputDateComponent implements OnChanges, OnInit, AfterViewInit {
         this.handleChangeValue.emit(this.date_value);
     }
 
+    onBlurDatePickup(event: any) {
+        this.handleBlur.emit(event);
+    }
+
 }
