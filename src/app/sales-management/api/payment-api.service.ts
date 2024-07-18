@@ -3,11 +3,12 @@ import { ApiService } from "./api.service"
 import { Injectable } from "@angular/core"
 import { Result, ResultNoPaging } from "@app/_models/Result"
 import { Observable } from "rxjs"
-import { BankAccount } from "../model/dto/bank-account-info.dto"
+import { BankAccount, BankPublishCard } from "../model/dto/bank-account-info.dto"
 
 const GET_BANK_ACCOUNT_URL = `${environment.apiUrl}/Category/find/dmtknh`;
 const GET_INSTALLMENT_UNIT_URL = `${environment.apiUrl}/Category/find/dmdvtragop`;
 const GET_ALL_BANK_ACCOUNT_URL = `${environment.apiUrl}/category/listall/dmtknh`;
+const GET_ALL_BANK_PUBLISH_CARD_URL = `${environment.apiUrl}/Category/find/dmnganhangpht`;
 
 @Injectable({
     providedIn: 'root'
@@ -44,6 +45,19 @@ export class PaymentApiService extends ApiService {
         }];
         body.push(...filters.filter(x => x.name !== 'tknh'));
         return this.post<Result<BankAccount>>(GET_BANK_ACCOUNT_URL, body);
+    }
+
+    findBankPublishCard(bank_code: string, filters: any[], page_index: number, page_size: number): Observable<Result<BankPublishCard>> {
+        let body: any[] = [];
+        if (bank_code && bank_code !== '') {
+            body.push({
+                name: 'ky_hieu',
+                operator: '=',
+                value: bank_code
+            });
+        }
+        if (filters && filters.length > 0) body.push(...filters);
+        return this.post<Result<BankPublishCard>>(GET_ALL_BANK_PUBLISH_CARD_URL, body);
     }
 
 }

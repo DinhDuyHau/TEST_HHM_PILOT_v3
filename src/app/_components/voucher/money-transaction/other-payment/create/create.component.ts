@@ -70,6 +70,10 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
   [key: string]: any;
   entity = VOUCHER_TYPE.OTHER_PAYMENT.sysid;
 
+  sale_ma_kh = '';
+  sale_so_ct = '';
+  sale_ngay_ct?: Date;
+
   override gridType = GridType.GridDetail;
   actionButtons = [button.DeleteButton];
   constructor(
@@ -151,6 +155,11 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
       if (this.data.details.length >= 2 && this.data.details[1].data) {
         this.extend = this.data.details[1].data[0];
       }
+
+      this.sale_so_ct = this.data.masterInfo.fcode1!;
+      this.sale_ma_kh = this.data.masterInfo.fcode2!;
+      this.sale_ngay_ct = this.data.masterInfo.s7;
+
     }));
   }
   ngOnInit() {

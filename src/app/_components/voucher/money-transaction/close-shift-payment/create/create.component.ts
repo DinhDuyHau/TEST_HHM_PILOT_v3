@@ -336,7 +336,6 @@ export class CloseShiftPaymentDetailComponent extends Grid<ReceiptDetail> implem
     let input_error: any;
 
     //Xử lý convert ngày chứng từ từ định dạng dd/MM/yyyy
-    console.log(this.data.masterInfo.ngay_ct);
     if (this.data.masterInfo.ngay_ct!.indexOf('/') >= 0) {
       const arr_date = this.data.masterInfo.ngay_ct!.split('/');
       if (arr_date && arr_date.length === 3) {
@@ -478,4 +477,21 @@ export class CloseShiftPaymentDetailComponent extends Grid<ReceiptDetail> implem
   getLabel(label: string) {
     return this.commonService.getMessage(label);
   }
+
+  onBlurVoucherDate(event: any, ref: any) {
+    this.f['ngay_ct'].setValue(ref.isoDateString.toString());
+    this.data.masterInfo.ngay_ct = ref.isoDateString.toString();
+  }
+
+  onKeyupEnter(event: any, next_control: any) {
+    if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13) {
+      if (next_control)
+        if (next_control.input)
+          next_control.input.nativeElement.focus();
+        else
+          next_control.focus();
+    }
+
+  }
+
 }

@@ -29,7 +29,8 @@ const {
   INVOICE_LIST,
   LIST_POS,
   LIST_PRICE_RENEW,
-  LIST_BGD
+  LIST_BGD,
+  BANK_PUBLISH_CARD_SEARCH
 } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
@@ -102,6 +103,12 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.BANK_ACCOUNT:
         this.columns = BANK_ACCOUNT_SEARCH as any;
         filter.name = 'tknh';
+        filter.value = `%${this.data.keyword}%`;
+        this.filters = [filter];
+        break;
+      case SEARCH_COMPONENT_NAME.BANK_PUBLISH_CARD:
+        this.columns = BANK_PUBLISH_CARD_SEARCH as any;
+        filter.name = 'ma_nh';
         filter.value = `%${this.data.keyword}%`;
         this.filters = [filter];
         break;
@@ -228,6 +235,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.BANK_ACCOUNT:
         // return this.paymentApiService.getAllBankAccount();
         return this.paymentApiService.findBankAccountByPaymentMethod(this.data.keyword, this.filters, this.page_index, this.page_size);
+      case SEARCH_COMPONENT_NAME.BANK_PUBLISH_CARD:
+        return this.paymentApiService.findBankPublishCard(this.data.keyword, this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.INSTALLMENT_UNIT:
         return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.WALLET:
@@ -372,5 +381,6 @@ export const SEARCH_COMPONENT_NAME = {
   APPROVER_DIRECTOR: 18,
   E_COMMERCIAL: 19,
   PACKAGE: 20,
+  BANK_PUBLISH_CARD: 21,
 };
 
