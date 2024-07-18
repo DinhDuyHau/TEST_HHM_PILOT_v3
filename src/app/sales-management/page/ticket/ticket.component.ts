@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Button } from '@app/_components/grid/grid.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { TICKET_TYPE } from '@app/sales-management/enum/ticket.enum';
 import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { Cell } from '@app/sales-management/component/form-control-custom/table-custom/table-custom.component';
@@ -10,6 +10,7 @@ import { AdvancedSearchDialogComponent } from '@app/sales-management/component/a
 import { GridService } from '@app/_components/gridV2/grid.service';
 import { MenuReport } from '@app/_models';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
+import { filter } from 'rxjs';
 
 const TICKET_FIELDS = require('@assets/fields/grid/sales-ticket.json')
 
@@ -72,6 +73,15 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         }
       });
     }
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      filter((event: any) => {
+        return (this.route?.snapshot as any)['_routerState']?.url === event.url;
+      })
+    ).subscribe((event) => {
+      this.onReload()
+    });
   }
 
   ngOnChanges(change: SimpleChanges): void {
