@@ -79,12 +79,19 @@ td {
     gap: 8px;
 
     & > button.pre,
-    button.next {
+    button.next,
+    button.pre-range,
+    button.next-range {
       border: 2px solid #ffffff;
       padding: 2px 6px 2px 6px;
-      &:hover {
+
+      &:not(.disabled):hover {
         border: 2px solid #006b85;
         border-radius: 8px;
+      }
+
+      &.disabled i {
+        opacity: 50%;
       }
     }
 

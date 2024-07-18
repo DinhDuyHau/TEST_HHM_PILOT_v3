@@ -25,6 +25,7 @@ export class Cell {
 })
 export class TableCustomComponent implements
   OnInit,
+  OnChanges,
   OnDestroy {
   @Input() entityName!: string;
   @Input() dataSource: any[] = [];
@@ -78,10 +79,31 @@ export class TableCustomComponent implements
     this.columns = this.columns.map(column => {
       return { ...new Cell(), ...column, format: (dataFormat as any)[column.format ? column.format : ''] };
     });
+  }
 
-    this.pageIndexTotal = (this.totalItem / this.size + 1);
-    for (let i = 1; i <= 10; i++) {
-      this.pageIndexRange.push(i)
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes["dataSource"]?.currentValue.length > 0) {
+      this.pageIndexTotal = Math.trunc(this.totalItem / this.size) + 1
+
+      const range = {
+        start: 0,
+        end: 0
+      }
+
+      if (this.page_index % 10 === 0) {
+        range.start = this.page_index - 10 + 1
+        range.end = this.page_index
+      } else {
+        range.start = this.page_index - this.page_index % 10 + 1
+        range.end = this.page_index - this.page_index % 10 + 10
+      }
+
+      range.end = this.pageIndexTotal > range.end ? range.end : this.pageIndexTotal;
+
+      this.pageIndexRange = []
+      for (let i = range.start; i <= range.end; i++) {
+        this.pageIndexRange.push(i)
+      }
     }
   }
 
@@ -134,12 +156,25 @@ export class TableCustomComponent implements
   onClickChangePage(action: string | number) {
     let pageIndexSelected = 0;
     if (action === 'prev') {
-      const minIndexCurrent = this.pageIndexRange[0]
-      pageIndexSelected = minIndexCurrent === 1 ? 1 : minIndexCurrent - 1;
+      if (this.page_index !== 1) {
+        pageIndexSelected = this.page_index - 1;
+      }
+      else {
+        return
+      }
     }
     else if (action === 'next') {
-      const maxIndexCurrent = this.pageIndexRange.slice(-1)[0]
-      pageIndexSelected = this.pageIndexTotal > maxIndexCurrent ? maxIndexCurrent + 1 : maxIndexCurrent;
+      if (this.page_index !== this.pageIndexTotal) {
+        pageIndexSelected = this.page_index + 1;
+      }
+      else {
+        return
+      }
+    }
+    else if (action === 'prev-range') {
+      pageIndexSelected = this.pageIndexRange[0] - 10;
+    } else if (action === 'next-range') {
+      pageIndexSelected = this.pageIndexRange.slice(-1)[0] + 1;
     }
     else {
       pageIndexSelected = action as number

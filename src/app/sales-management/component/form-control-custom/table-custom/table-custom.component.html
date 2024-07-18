@@ -221,8 +221,18 @@
     [ngClass]="{'table-search-footer': type && type == 'search-dialog'}"
     *ngIf="handleChangePage.observers.length && !hiddenPagination">
     <div class="pagination">
-      <button class="pre" (click)="onClickChangePage('prev')">
+      <button
+        class="pre"
+        [ngClass]="page_index === 1 ? 'disabled' : ''"
+        [disabled]="page_index === 1"
+        (click)="onClickChangePage('prev')">
         <i class="fas fa-angle-left"></i>
+      </button>
+      <button
+        (click)="onClickChangePage('prev-range')"
+        class="pre-range"
+        [ngClass]="1 <= page_index && page_index <= 10 ? 'd-none' : ''">
+        ...
       </button>
       <div class="page-index-wrapper">
         <button
@@ -233,7 +243,21 @@
           {{ pageIndex }}
         </button>
       </div>
-      <button class="next" (click)="onClickChangePage('next')">
+      <button
+        (click)="onClickChangePage('next-range')"
+        class="next-range"
+        [ngClass]="
+          pageIndexRange[pageIndexRange.length - 1] === pageIndexTotal
+            ? 'd-none'
+            : ''
+        ">
+        ...
+      </button>
+      <button
+        class="next"
+        (click)="onClickChangePage('next')"
+        [ngClass]="page_index === pageIndexTotal ? 'disabled' : ''"
+        [disabled]="page_index === pageIndexTotal">
         <i class="fas fa-angle-right"></i>
       </button>
     </div>
