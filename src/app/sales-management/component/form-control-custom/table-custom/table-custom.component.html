@@ -220,33 +220,43 @@
     class="table-footer"
     [ngClass]="{'table-search-footer': type && type == 'search-dialog'}"
     *ngIf="handleChangePage.observers.length && !hiddenPagination">
-    <div class="count-page" *ngIf="totalItem">
-      <span>Số dòng trên trang:&nbsp;</span>
-      <select name="" id="" (change)="onChangePageSize($event)">
-        <option
-          [selected]="value == size"
-          [value]="value"
-          *ngFor="let value of pageSizeOptions">
-          {{ value }}
-        </option>
-      </select>
-    </div>
-    <div *ngIf="page_index && size">
-      {{ (page_index - 1) * size + 1 }} -
-      {{ page_index * size <= totalItem ? page_index * size : totalItem }} của
-      tổng số
-      {{ totalItem }}
-    </div>
     <div class="pagination">
-      <i
-        class="fas fa-angle-left btn-pagination"
-        (click)="onClickChangePage('prev')"></i>
-      <i
-        class="fas fa-angle-right btn-pagination"
-        (click)="onClickChangePage('next')"></i>
+      <button class="pre" (click)="onClickChangePage('prev')">
+        <i class="fas fa-angle-left"></i>
+      </button>
+      <div class="page-index-wrapper">
+        <button
+          (click)="onClickChangePage(pageIndex)"
+          class="page-index"
+          [ngClass]="page_index === pageIndex ? 'active' : ''"
+          *ngFor="let pageIndex of pageIndexRange">
+          {{ pageIndex }}
+        </button>
+      </div>
+      <button class="next" (click)="onClickChangePage('next')">
+        <i class="fas fa-angle-right"></i>
+      </button>
+    </div>
+    <div class="info-wrapper">
+      <div *ngIf="page_index && size">
+        {{ (page_index - 1) * size + 1 }} -
+        {{ page_index * size <= totalItem ? page_index * size : totalItem }} của
+        tổng số
+        {{ totalItem }}
+      </div>
+      <div class="count-page" *ngIf="totalItem">
+        <select name="" id="" (change)="onChangePageSize($event)">
+          <option
+            [selected]="value == size"
+            [value]="value"
+            *ngFor="let value of pageSizeOptions">
+            {{ value }}
+          </option>
+        </select>
+        <span>&nbsp;Bản ghi trên trang</span>
+      </div>
     </div>
   </div>
-
   <div
     *ngIf="isLoading"
     class="position-absolute start-0 top-0 opacity-50"

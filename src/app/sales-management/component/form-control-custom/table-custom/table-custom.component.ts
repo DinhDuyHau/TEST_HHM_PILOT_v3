@@ -54,7 +54,7 @@ export class TableCustomComponent implements
   @Output() handleAddPackage = new EventEmitter<{ item: any }>();
   @Output() handleUpdate = new EventEmitter<{ item: any }>();
   @Output() handleFilter = new EventEmitter<any>();
-  @Output() handleChangePage = new EventEmitter<string>();
+  @Output() handleChangePage = new EventEmitter<number>();
   @Output() handleChangePageSize = new EventEmitter<string>();
   @Output() handleSelect = new EventEmitter<{ item: any }>();  //handle when select item by click to primary key.
   @Output() handleChangeCheckbox = new EventEmitter<{ item: any, index: number, checked: boolean, columnName: string }>();
@@ -66,6 +66,8 @@ export class TableCustomComponent implements
   dataFormat = dataFormat;
 
   isAddCellBoder = false
+  pageIndexRange: number[] = []
+  pageIndexTotal!: number
 
   constructor(
     public commonService: CommonService,
@@ -76,6 +78,11 @@ export class TableCustomComponent implements
     this.columns = this.columns.map(column => {
       return { ...new Cell(), ...column, format: (dataFormat as any)[column.format ? column.format : ''] };
     });
+
+    this.pageIndexTotal = (this.totalItem / this.size + 1);
+    for (let i = 1; i <= 10; i++) {
+      this.pageIndexRange.push(i)
+    }
   }
 
   onDeleteItem(item: any) {
@@ -124,8 +131,20 @@ export class TableCustomComponent implements
     this.handleUpdate.emit({ item });
   }
 
-  onClickChangePage(action: string) {
-    this.handleChangePage.emit(action);
+  onClickChangePage(action: string | number) {
+    let pageIndexSelected = 0;
+    if (action === 'prev') {
+      const minIndexCurrent = this.pageIndexRange[0]
+      pageIndexSelected = minIndexCurrent === 1 ? 1 : minIndexCurrent - 1;
+    }
+    else if (action === 'next') {
+      const maxIndexCurrent = this.pageIndexRange.slice(-1)[0]
+      pageIndexSelected = this.pageIndexTotal > maxIndexCurrent ? maxIndexCurrent + 1 : maxIndexCurrent;
+    }
+    else {
+      pageIndexSelected = action as number
+    }
+    this.handleChangePage.emit(pageIndexSelected);
   }
 
   onChangePageSize(event: any) {

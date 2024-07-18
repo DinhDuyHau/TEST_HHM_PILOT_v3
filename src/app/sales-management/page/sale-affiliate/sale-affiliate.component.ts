@@ -426,7 +426,7 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
       const ma_ck = current_discount[0].ma_ck.trim();
       const rec = current_discount[0].rec;
 
-      this.commonService.openDialog(PromotionSelectComponent, { ma_imei: current_imei, ma_ck: ma_ck, rec: rec })
+      this.commonService.openDialog(PromotionSelectComponent, { ma_vt: event.item.ma_vt, ma_imei: current_imei, ma_ck: ma_ck, rec: rec })
         .afterClosed().subscribe((selected: Merchandise) => {
           const merchandise = this.ticket.merchandise.find(e => e.ma_imei === event.item.ma_imei)
           if (merchandise) {

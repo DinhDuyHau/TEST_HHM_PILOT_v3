@@ -13,7 +13,7 @@ import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 @Injectable({
   providedIn: 'root'
 })
-export class TicketService implements IGridService<any>{
+export class TicketService implements IGridService<any> {
   entityName!: string;
   name?: string;
   constructor(private http: HttpClient, public dialog: MatDialog,
@@ -40,7 +40,11 @@ export class TicketService implements IGridService<any>{
 
   getItems(page: { pageIndex: number, pageSize: number }, filter?: ItemFilter[], sort?: ItemSort): Observable<Result<any>> {
     return this.http.get<Result<any>>(environment.apiUrl +
-      `/voucher/gettop/${this.entityName}`);
+      `/voucher/gettop/${this.entityName}`, {
+      params: {
+        ...page
+      }
+    });
   }
 
   getItem(id: string): Observable<any> {
