@@ -19,9 +19,9 @@ interface IFilter {
   status: string;
   voucherCode: string;
   ten_kh: string;
-  ten_kho_nhap: string;
-  ma_kho_x: string;
-  ten_kho_xuat: string;
+  ten_kho: string;
+  ma_kho2: string;
+  ten_kho2: string;
   ten_vt: string;
 }
 
@@ -46,9 +46,9 @@ export class AdvancedSearchDialogComponent implements OnInit {
     status: '',
     voucherCode: '',
     ten_kh: '',
-    ten_kho_nhap: '',
-    ma_kho_x: '',
-    ten_kho_xuat: '',
+    ten_kho: '',
+    ma_kho2: '',
+    ten_kho2: '',
     ten_vt: ''
   };
 
@@ -69,6 +69,10 @@ export class AdvancedSearchDialogComponent implements OnInit {
 
   voucherCode = '';
   date_from: Date | null = new Date();
+  lbl_ma_kho = 'Mã kho';
+  lbl_ten_kho = 'Tên kho';
+  lbl_ma_kho2 = 'Mã kho 2';
+  lbl_ten_kho2 = 'Tên kho 2';
 
   constructor(
     public dialogRef: MatDialogRef<AdvancedSearchDialogComponent>,
@@ -102,6 +106,19 @@ export class AdvancedSearchDialogComponent implements OnInit {
     if (!convert.status || convert.status === '') convert.status = this.statusList[0].status;
     if (!convert.ngay_bd || convert.ngay_bd === '') convert.ngay_bd = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
     if (!convert.ngay_kt || convert.ngay_kt === '') convert.ngay_kt = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
+
+    if (this.voucherCode === 'PXB' || this.voucherCode === 'pxb') {
+      this.lbl_ma_kho = 'Mã kho xuất';
+      this.lbl_ten_kho = 'Tên kho xuất';
+      this.lbl_ma_kho2 = 'Mã kho nhập';
+      this.lbl_ten_kho2 = 'Tên kho nhập';
+    }
+    if (this.voucherCode === 'PNF' || this.voucherCode === 'pnf') {
+      this.lbl_ma_kho = 'Mã kho nhập';
+      this.lbl_ten_kho = 'Tên kho nhập';
+      this.lbl_ma_kho2 = 'Mã kho xuất';
+      this.lbl_ten_kho2 = 'Tên kho xuất';
+    }
 
     Object.assign(this.filters, convert);
   }
@@ -212,5 +229,6 @@ export class AdvancedSearchDialogComponent implements OnInit {
   onCancel() {
     this.dialogRef.close();
   }
+
 }
 

@@ -67,35 +67,35 @@
           [readonly]="true" />
       </div>
 
-      <!-- <div class="d-flex gap-2 box">
-        <form-input-custom
-          class="flex-1"
-          [name]="'ma_kho_x'"
-          [label]="'Mã kho xuất'"
-          [value]="filters.ma_kho_x"
-          (handleChangeValue)="filters.ma_kho_x = $event"
-          (handleClickOpenDialog)="openWarehouseDialog('ma_kho_x', 'ten_kho_xuat')" />
-        <form-input-custom
-          class="flex-1"
-          [name]="'ten_kho_xuat'"
-          [label]="'Tên kho xuất'"
-          [value]="filters.ten_kho_xuat"
-          [readonly]="true" />
-      </div> -->
-
       <div class="d-flex gap-2 box">
         <form-input-custom
           class="flex-1"
           [name]="'ma_kho'"
-          [label]="'Mã kho'"
+          [label]="lbl_ma_kho"
           [value]="filters.ma_kho"
           (handleChangeValue)="filters.ma_kho = $event"
-          (handleClickOpenDialog)="openWarehouseDialog('ma_kho', 'ten_kho_nhap')" />
+          (handleClickOpenDialog)="openWarehouseDialog('ma_kho', 'ten_kho')" />
         <form-input-custom
           class="flex-1"
-          [name]="'ten_kho_nhap'"
-          [label]="'Tên kho'"
-          [value]="filters.ten_kho_nhap"
+          [name]="'ten_kho'"
+          [label]="lbl_ten_kho"
+          [value]="filters.ten_kho"
+          [readonly]="true" />
+      </div>
+
+      <div *ngIf="voucherCode === 'PXB' || voucherCode === 'pxb' || voucherCode === 'PNF' || voucherCode === 'pnf'" class="d-flex gap-2 box">
+        <form-input-custom
+          class="flex-1"
+          [name]="'ma_kho2'"
+          [label]="lbl_ma_kho2"
+          [value]="filters.ma_kho2"
+          (handleChangeValue)="filters.ma_kho2 = $event"
+          (handleClickOpenDialog)="openWarehouseDialog('ma_kho2', 'ten_kho2')" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ten_kho2'"
+          [label]="lbl_ten_kho2"
+          [value]="filters.ten_kho2"
           [readonly]="true" />
       </div>
 
