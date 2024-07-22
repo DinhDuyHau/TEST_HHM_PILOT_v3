@@ -131,6 +131,8 @@ export class FormPaymentCustomComponent implements OnChanges, OnInit {
       return dataFormatPipe.transform(value, this.dataType, format);
     } else if (this.dataType === 'number') {
       return value.toString().replace(/\D/g, '') || '0';
+    } else if (this.dataType === 'text-number') {
+      return value.toString().replace(/\D/g, '')
     }
     else {
       return value;

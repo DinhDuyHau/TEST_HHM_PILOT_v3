@@ -123,6 +123,21 @@ input:focus {
   color: #fff;
 }
 
+.btn-otp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: border-radius;
+  font-weight: 500;
+  height: 32px;
+  color: #005447;
+  border: 1px solid #005447;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
 .search-dialog-container {
   height: 100%;
   overflow: auto;

@@ -40,6 +40,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
 
   @Output() handleChangeValue = new EventEmitter<{ t_con_no: number; t_da_tra: number; t_gg: number; nguoi_duyet_ck: string }>();
 
+  otp = '';
   t_tien_phi = 0;
   tong_no = 0;
   ma_gg = '';
@@ -458,6 +459,14 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
         this.data.quet_the_tra_gop.ma_may_pos = '';
       }
     });
+  }
+
+  onSendOtp() {
+    console.log('send otp')
+  }
+
+  onVerifyOtp() {
+    console.log('verify otp', this.otp)
   }
 
   handleAddPOS(pos: POSModel) {
