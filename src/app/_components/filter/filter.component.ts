@@ -25,9 +25,12 @@ export class FilterComponent implements OnInit {
   externalKey: string[] = [];
   submit = false;
   isMobile = false;
+  formControlName: any = [];
+
   constructor(public dialogRef: MatDialogRef<FilterComponent>,
     private platform: Platform,
     @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient, private snackBar: MatSnackBar, private authenticate: AuthenticationService) {
+    let i = 0;
     this.controls = data.controls;
     this.controls.forEach(control => {
       control.forEach(item => {
@@ -49,6 +52,9 @@ export class FilterComponent implements OnInit {
         }
         if (item.isExternalField)
           this.externalKey.push(item.name || '');
+
+        this.formControlName?.push({ id: i, name: item.name, type: item.type });
+        i++;
       });
     });
 
@@ -103,4 +109,14 @@ export class FilterComponent implements OnInit {
       }
     });
   }
+
+  onBlurDateStart(event: any, ref: any, controlName: string) {
+    this.filter[controlName] = ref.isoDateString.toString();
+  }
+
+  onEnterDate(event: any, controlName: string) {
+    if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13)
+      this.onEnter(event);
+  }
+
 }

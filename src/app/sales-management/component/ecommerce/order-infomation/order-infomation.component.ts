@@ -49,7 +49,7 @@ export class OrderInfomationComponent implements OnInit, AfterViewInit {
   }
 
   openSearchDEDialog() {
-    this.commonService.openDialog(SearchDialogComponent, { keyword: '', componentName: SEARCH_COMPONENT_NAME.DELIVERY_EMP }, 'search-style-dialog')
+    this.commonService.openDialog(SearchDialogComponent, { keyword: '', componentName: SEARCH_COMPONENT_NAME.DELIVERY_PARNER }, 'search-style-dialog')
       .afterClosed()
       .subscribe((empl: Customer) => {
         if (empl && empl.ma_kh) {

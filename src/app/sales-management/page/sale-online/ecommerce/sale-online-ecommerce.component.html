@@ -103,6 +103,15 @@
           {{ getLabel('lbl_add_customer') }}
         </button>
       </div>
+
+      <form-input-custom
+        class="box"
+        [name]="'dien_giai'"
+        [label]="getLabel('lbl_dien_giai')"
+        [value]="ticket.masterInfo.dien_giai"
+        (handleChangeValue)="onChange_dien_giai($event)"
+      />
+
     </div>
 
     <tabs-custom title="Thông tin hàng hóa">

@@ -21,9 +21,10 @@
             (item.class ? item.class : 'flex-1') +
             (item.hidden ? ' hidden' : '')
           ">
-          <app-input-custom-v2
+          <app-input-custom-v2 *ngIf="item.type !== 'date'"
             [label]="item.label"
             class="flex-1"
+            [id]="item.name"
             [name]="item.name"
             [type]="item.type || 'text'"
             [value]="item.isExternalField ? this[item.name] : filter[item.name]"
@@ -40,6 +41,17 @@
             (handleChange)="handleInputChange(item.name, $event)"
             (handleChangeLookup)="handleInputLookupChange($event)"
             (handleEnter)="onEnter($event)"></app-input-custom-v2>
+
+          <div class="flex-1 form-type-date" *ngIf="item.type === 'date' ">
+            <label class="col-form-label">{{ item.label }}</label>
+            <app-input-date #rpt_date
+              [id]="item.name"
+              [text]="filter[item.name]"
+              (handleBlur)="onBlurDateStart($event, rpt_date, item.name)"
+              (handleKeyUp)="onEnterDate($event, item.name)"
+            ></app-input-date>
+          </div>
+
         </div>
       </ng-container>
     </div>

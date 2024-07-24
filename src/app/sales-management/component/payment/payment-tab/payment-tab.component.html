@@ -3,7 +3,7 @@
     <div class="flex-1 md:basis-2/3 md:flex-none">
       <div class="flex w-full md:justify-normal justify-between items-center">
         <div class="title-content p-2">Hình thức thanh toán</div>
-        <div
+        <div *ngIf="!hiddenChooseButton"
           class="btn-choose-payment px-8 md:ml-16 rounded mr-2"
           (click)="onClickPaymentDialog()">
           Chọn

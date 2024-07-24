@@ -589,11 +589,11 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                                     if (res.success) {
                                         this.commonService.showMessageByName(res.message);
                                     }
-                                    this.router.navigate(['sales/retail']);
+                                    this.router.navigate(['sales/web-order']);
                                 });
                             }
                             else {
-                                this.router.navigate(['sales/retail']);
+                                this.router.navigate(['sales/web-order']);
                             }
                         } else {
                             if (result.result && result.result.length > 0) {
@@ -645,6 +645,11 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     getLabel(label: string) {
         return this.commonService.getMessage(label);
     }
+
+    onChange_dien_giai(event: any) {
+        this.ticket.masterInfo.dien_giai = event;
+    }
+
 }
 
 

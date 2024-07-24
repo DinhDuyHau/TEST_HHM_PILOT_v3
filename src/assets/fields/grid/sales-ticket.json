@@ -5,8 +5,8 @@
             "title": "Mã đơn vị"
         },
         {
-            "name": "ma_ca",
-            "title": "Mã ca"
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "statusname",
@@ -71,6 +71,10 @@
             "title": "Mã đơn vị"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "statusname",
             "title": "Trạng thái"
         },
@@ -129,6 +133,10 @@
         {
             "name": "ma_dvcs",
             "title": "Mã đơn vị"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "statusname",
@@ -249,6 +257,10 @@
         {
             "name": "ma_dvcs",
             "title": "Mã đơn vị"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "statusname",
@@ -493,8 +505,12 @@
         {
             "name": "ma_dvcs",
             "title": "Mã đơn vị",
-            "width": "200px",
+            "width": "100px",
             "minWidth": "50px"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "statusname",
@@ -555,6 +571,10 @@
         {
             "name": "ma_dvcs",
             "title": "Mã đơn vị"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "statusname",
@@ -795,6 +815,10 @@
         {
             "name": "ma_dvcs",
             "title": "Mã đơn vị"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "statusname",
