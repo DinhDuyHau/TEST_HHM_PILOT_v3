@@ -55,7 +55,6 @@ export class BaseMasterInfo extends BaseEntity {
     hd_email = '';
 
     nguoi_duyet_ck = '';
-
 }
 
 

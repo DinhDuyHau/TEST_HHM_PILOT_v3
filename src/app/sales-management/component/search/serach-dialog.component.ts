@@ -100,6 +100,14 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.operator = "=";
         this.filters = [filter];
         break;
+      case SEARCH_COMPONENT_NAME.DELIVERY_PARNER:
+        this.columns = CUSTOMER_SEARCH as any;
+        filter.name = 'nh_kh9';
+        // filter.value = `%${this.data.keyword}%`;
+        filter.value = 'NGKH21';
+        filter.operator = "=";
+        this.filters = [filter];
+        break;
       case SEARCH_COMPONENT_NAME.BANK_ACCOUNT:
         this.columns = BANK_ACCOUNT_SEARCH as any;
         filter.name = 'tknh';
@@ -229,6 +237,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.IMEI:
         return this.imeiApiService.getImeisById(this.data.keyword);
       case SEARCH_COMPONENT_NAME.DELIVERY_EMP:
+        return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
+      case SEARCH_COMPONENT_NAME.DELIVERY_PARNER:
         return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.E_COMMERCIAL:
         return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
@@ -375,5 +385,6 @@ export const SEARCH_COMPONENT_NAME = {
   E_COMMERCIAL: 19,
   PACKAGE: 20,
   BANK_PUBLISH_CARD: 21,
+  DELIVERY_PARNER: 22,
 };
 

@@ -41,6 +41,9 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() isPaymentHH = false;
   @Input() buttons: Button[] = [];
   @Input() approveDiscount = '';
+  @Input() disableChooseButton = false;
+  @Input() hiddenChooseButton = false;
+
 
   @Output() handleChangeValue = new EventEmitter<{ t_con_no: number; t_da_tra: number; t_gg: number; nguoi_duyet_ck: string; t_chi_phi: number }>();
   @Output() handleButton = new EventEmitter<string>();
@@ -78,6 +81,9 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   onClickPaymentDialog() {
+    if (this.disableChooseButton || this.hiddenChooseButton)
+      return;
+
     this.commonService.openDialog(PaymentTabDialogComponent,
       { data: this.data, t_tong_tien: this.t_tong_tien, t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, t_dat_coc_max: this.t_dat_coc_max, he_so_qd: this.he_so_qd, diem_qd_max: this.diem_qd_max, depositSource: this.depositSource, pay_hidden: this.pay_hidden, readonly: this.readonly, invalid: this.invalid, merchandise: this.merchandise, isPaymentHH: this.isPaymentHH, approveDiscount: this.approveDiscount }, 'search-style-dialog')
       .afterClosed()
@@ -103,7 +109,7 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
         case PAYMENT_CODE.TRANSFER:
           return { payment: item.ten_thanhtoan, note: `${item.ten_ngan_hang}`, money: item.tien };
         case PAYMENT_CODE.ATM:
-          return { payment: item.ten_thanhtoan, note: `${item.ma_may_pos}, Số thẻ: ${item.so_the_nh}`, money: item.tien };
+          return { payment: `Quẹt thẻ tại Công ty - post ${item.ma_may_pos}`, note: `Mã chuẩn chi: ${item.ma_chuan_chi}, Số thẻ: ${item.so_the_nh}`, money: item.tien };
         case PAYMENT_CODE.EWALLET:
           return { payment: item.ten_thanhtoan, note: `${item.vi_dien_tu}, Số HĐ: ${item.so_hd_vnpay}`, money: item.tien };
         case PAYMENT_CODE.VNPAY:

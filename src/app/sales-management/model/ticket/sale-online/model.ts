@@ -37,6 +37,8 @@ export class MasterInfo extends BaseMasterInfo {
   t_con_no = 0;
   t_da_tra = 0;
   email_nhan_key = '';
+  dien_giai = '';
+
   constructor(obj?: any) {
     super();
     Object.assign(this, obj);
