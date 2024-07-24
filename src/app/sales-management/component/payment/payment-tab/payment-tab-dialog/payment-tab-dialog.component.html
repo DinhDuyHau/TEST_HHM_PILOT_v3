@@ -636,8 +636,7 @@
                 label="Otp"
                 [value]="otp"
                 [align]="'left'"
-                (handleChangeValue)="otp = $event; onChange()"
-                dataType="text-number" />
+                (handleChangeValue)="otp = $event; onChange()" />
               <div class="flex-1 d-flex justify-content-around gap-2">
                 <button
                   (click)="onSendOtp()"
