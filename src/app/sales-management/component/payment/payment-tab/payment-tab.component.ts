@@ -41,6 +41,8 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() isPaymentHH = false;
   @Input() buttons: Button[] = [];
   @Input() approveDiscount = '';
+  @Input() ma_kh: string = '';
+  @Input() ngay_ct: string = '';
 
   @Output() handleChangeValue = new EventEmitter<{ t_con_no: number; t_da_tra: number; t_gg: number; nguoi_duyet_ck: string; t_chi_phi: number }>();
   @Output() handleButton = new EventEmitter<string>();
@@ -79,7 +81,24 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
 
   onClickPaymentDialog() {
     this.commonService.openDialog(PaymentTabDialogComponent,
-      { data: this.data, t_tong_tien: this.t_tong_tien, t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, t_dat_coc_max: this.t_dat_coc_max, he_so_qd: this.he_so_qd, diem_qd_max: this.diem_qd_max, depositSource: this.depositSource, pay_hidden: this.pay_hidden, readonly: this.readonly, invalid: this.invalid, merchandise: this.merchandise, isPaymentHH: this.isPaymentHH, approveDiscount: this.approveDiscount }, 'search-style-dialog')
+      {
+        data: this.data,
+        t_tong_tien: this.t_tong_tien,
+        t_con_no: this.t_con_no,
+        t_da_tra: this.t_da_tra,
+        t_gg: this.t_gg,
+        t_dat_coc_max: this.t_dat_coc_max,
+        he_so_qd: this.he_so_qd,
+        diem_qd_max: this.diem_qd_max,
+        depositSource: this.depositSource,
+        pay_hidden: this.pay_hidden,
+        readonly: this.readonly,
+        invalid: this.invalid, merchandise: this.merchandise,
+        isPaymentHH: this.isPaymentHH,
+        approveDiscount: this.approveDiscount,
+        ma_kh: this.ma_kh,
+        ngay_ct: this.ngay_ct
+      }, 'search-style-dialog')
       .afterClosed()
       .subscribe((data) => {
         if (data) {
