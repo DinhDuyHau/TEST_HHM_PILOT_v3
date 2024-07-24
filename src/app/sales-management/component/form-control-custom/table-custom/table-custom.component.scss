@@ -54,10 +54,11 @@ td {
   margin-top: 10px;
   font-size: 14px;
   color: #333333;
+  width: 100%;
 
-  &.table-search-footer {
-    justify-content: left;
-  }
+  // &.table-search-footer {
+  //   justify-content: left;
+  // }
 
   .count-page {
     display: flex;
@@ -69,13 +70,11 @@ td {
   }
 
   .pagination {
-    width: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-left: 30px;
     padding: 8px;
-    // height: 30px;
     gap: 8px;
 
     & > button.pre,
