@@ -504,6 +504,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       .subscribe(result => {
         if (result.success) {
           this.data.sd_diem.tien = result?.result?.so_tien;
+          this.data.sd_diem.diem_qd = result?.result?.so_diem;
           this.commonService.showMessage("Mã otp hợp lệ")
         }
         else {

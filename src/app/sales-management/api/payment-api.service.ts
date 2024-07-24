@@ -66,8 +66,8 @@ export class PaymentApiService extends ApiService {
         return this.get<ResultNoPaging<null>>(SEND_OTP_URL, { ma_kh, ngay_ct, so_diem });
     }
 
-    verifyOtp(ma_kh: string, ma_otp: string): Observable<ResultNoPagingCategory<{ so_tien: number }>> {
-        return this.get<ResultNoPagingCategory<{ so_tien: number }>>(VERIFY_OTP_URL, { ma_kh, ma_otp });
+    verifyOtp(ma_kh: string, ma_otp: string): Observable<ResultNoPagingCategory<{ so_diem: number, so_tien: number }>> {
+        return this.get<ResultNoPagingCategory<{ so_diem: number, so_tien: number }>>(VERIFY_OTP_URL, { ma_kh, ma_otp });
     }
 
 }
