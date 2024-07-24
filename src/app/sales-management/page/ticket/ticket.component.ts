@@ -155,7 +155,6 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         break;
       case TICKET_TYPE.SALE_RETURN:
         this.columns = TICKET_FIELDS.SALE_RETURN as Cell[];
-        console.log('this.columns', this.columns)
         this.title = 'Ticket nhập hàng trả lại';
         // this.service.setEntityname(TICKET_ENTITY.RETURN);
         this.primaryKey = 'stt_rec';

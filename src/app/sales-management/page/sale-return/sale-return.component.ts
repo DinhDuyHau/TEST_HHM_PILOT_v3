@@ -23,6 +23,7 @@ import { CustomerCreateDialogComponent } from '@app/sales-management/component/c
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { ServiceOfMerchandiseService } from '../common/service.service';
 import { PaymentService } from '../common/payment.service';
+import { Service } from '@app/sales-management/model/ticket/sale-return-service/model';
 
 const { SERVICE_LIST_SALE_RETURN, MERCHANDISE_RETURN_LIST } = require('@assets/fields/grid/sales-fields-table.json')
 
@@ -297,6 +298,13 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
     });
   }
   // #endregion merchandise
+
+  // #region service
+  onRemoveService(event: { item: Service }) {
+    this.serviceOfMerchandiseService.removeService(event.item, this.ticket.service)
+    this.saleReturnService.calcMoney();
+  }
+  // #endregion service
 
   // Submit
   onSave() {

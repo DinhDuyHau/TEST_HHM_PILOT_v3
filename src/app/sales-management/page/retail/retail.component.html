@@ -160,7 +160,7 @@
           (handleChangeCheckbox)="onChangePromotionalDebt($event)"
           (handleAddPackage)="onAddPackage($event)" />
       </tab-custom>
-      
+
       <tab-custom label="Dịch vụ" class="w-100">
         <table-custom
           [dataSource]="ticket.service"
@@ -335,6 +335,8 @@
         [t_gg]="ticket.masterInfo.t_gg"
         [merchandise]="ticket.merchandise"
         [approveDiscount]="ticket.masterInfo.nguoi_duyet_ck"
+        [ma_kh]="ticket.masterInfo.ma_kh"
+        [ngay_ct]="ticket.masterInfo.ngay_ct"
         (handleChangeValue)="onPaymentChange($event)" />
     </ng-container>
 

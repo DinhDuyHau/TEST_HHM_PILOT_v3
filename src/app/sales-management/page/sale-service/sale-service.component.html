@@ -127,7 +127,7 @@
       }}</span>
     </div>
 
-    <div style="border-bottom: 1px dashed #cbd5e0; margin-bottom: 20px;">
+    <div style="border-bottom: 1px dashed #cbd5e0; margin-bottom: 20px">
       <div class="title-content p-2">{{ getLabel('lbl_tc_don_hang') }}</div>
       <div class="box-container">
         <div class="box d-flex gap-2">
@@ -174,7 +174,6 @@
             dataType="number" />
         </div>
       </div>
-      
     </div>
 
     <ng-container>
@@ -188,12 +187,14 @@
         [t_da_tra]="ticket.masterInfo.t_da_tra"
         [he_so_qd]="ticket.masterInfo.he_so_qd_tien"
         [diem_qd_max]="conversionPoints"
+        [ma_kh]="ticket.masterInfo.ma_kh"
+        [ngay_ct]="ticket.masterInfo.ngay_ct"
         (handleChangeValue)="
           ticket.masterInfo.t_con_no = $event.t_con_no;
           ticket.masterInfo.t_da_tra = $event.t_da_tra;
           ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck
         " />
-    </ng-container>    
+    </ng-container>
     <div>
       <div class="d-flex justify-end gap-2 m-3">
         <app-voucher-info
@@ -215,7 +216,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <div

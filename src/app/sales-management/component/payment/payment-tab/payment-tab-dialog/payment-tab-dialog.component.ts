@@ -15,6 +15,8 @@ import { EWalletComponent } from '../../e-wallet/e-wallet.component';
 import { TransferComponent } from '../../transfer/transfer.component';
 import { VNPayComponent } from '../../vnpay/vnpay.component';
 import { TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
+import { PaymentApiService } from '@app/sales-management/api/payment-api.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-payment-tab-dialog',
@@ -40,6 +42,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
 
   @Output() handleChangeValue = new EventEmitter<{ t_con_no: number; t_da_tra: number; t_gg: number; nguoi_duyet_ck: string }>();
 
+  otp = '';
   t_tien_phi = 0;
   tong_no = 0;
   ma_gg = '';
@@ -48,12 +51,32 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
 
   constructor(
     public dialogRef: MatDialogRef<PaymentTabDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public dataPayment: { data: Payment, t_tong_tien: number, t_con_no: number, t_da_tra: number, t_gg: number, t_dat_coc_max: number, he_so_qd: number, diem_qd_max: number, depositSource: any[], pay_hidden: any, readonly: boolean, invalid: boolean, merchandise: any[], isPaymentHH: boolean, approveDiscount: string },
+    @Inject(MAT_DIALOG_DATA) public dataPayment: {
+      data: Payment,
+      t_tong_tien: number,
+      t_con_no: number,
+      t_da_tra: number,
+      t_gg: number,
+      t_dat_coc_max: number,
+      he_so_qd: number,
+      diem_qd_max: number,
+      depositSource: any[],
+      pay_hidden: any,
+      readonly: boolean,
+      invalid: boolean,
+      merchandise: any[],
+      isPaymentHH: boolean,
+      approveDiscount: string,
+      ma_kh: string,
+      ngay_ct: string
+    },
     private dialog: MatDialog,
     private commonService: CommonService,
     private posService: POSService,
     private discountProgramService: DiscountProgramService,
-    private viewDiscountProgramService: ViewDiscountProgramService
+    private viewDiscountProgramService: ViewDiscountProgramService,
+    private paymentApiService: PaymentApiService
+
   ) {
     this.data = dataPayment.data;
     this.t_tong_tien = dataPayment.t_tong_tien;
@@ -458,6 +481,36 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
         this.data.quet_the_tra_gop.ma_may_pos = '';
       }
     });
+  }
+
+  onSendOtp() {
+    this.paymentApiService.sendOtp(
+      this.dataPayment.ma_kh,
+      formatDate(this.dataPayment.ngay_ct, 'yyyy/MM/dd', 'en_US'),
+      this.data.sd_diem.diem_qd)
+      .subscribe(result => {
+        if (result.success) {
+          this.commonService.showMessage("Gửi otp thành công")
+        } else {
+          this.commonService.showMessage("Gửi otp không thành công")
+        }
+      })
+  }
+
+  onVerifyOtp() {
+    this.paymentApiService.verifyOtp(
+      this.dataPayment.ma_kh,
+      this.otp)
+      .subscribe(result => {
+        if (result.success) {
+          this.data.sd_diem.tien = result?.result?.so_tien;
+          this.data.sd_diem.diem_qd = result?.result?.so_diem;
+          this.commonService.showMessage("Mã otp hợp lệ")
+        }
+        else {
+          this.commonService.showMessage("Mã otp không hợp lệ")
+        }
+      })
   }
 
   handleAddPOS(pos: POSModel) {

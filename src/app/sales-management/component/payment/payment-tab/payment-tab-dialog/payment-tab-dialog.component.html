@@ -99,21 +99,20 @@
             [selected]="data.quet_the_tra_gop.selected"
             (handleChangeValue)="
               data.quet_the_tra_gop.selected = $event; onChange()
-            "
-            >
+            ">
             <form-payment-custom
-                [readonly]="readonly"
-                label="Số tiền"
-                [value]="data.quet_the_tra_gop.tien"
-                [align]="'end'"
-                dataType="number"
-                format="moneyInputFormat"
-                [invalid]="
-                  data.quet_the_tra_gop.selected && invalid ? true : false
-                "
-                (handleChangeValue)="
-                  data.quet_the_tra_gop.tien = $event; onChange()
-                " />          
+              [readonly]="readonly"
+              label="Số tiền"
+              [value]="data.quet_the_tra_gop.tien"
+              [align]="'end'"
+              dataType="number"
+              format="moneyInputFormat"
+              [invalid]="
+                data.quet_the_tra_gop.selected && invalid ? true : false
+              "
+              (handleChangeValue)="
+                data.quet_the_tra_gop.tien = $event; onChange()
+              " />
             <div class="d-flex gap-2">
               <form-payment-custom
                 [readonly]="readonly"
@@ -630,6 +629,29 @@
                 [invalid]="data.sd_diem.selected && invalid ? true : false"
                 (handleChangeValue)="data.sd_diem.tien = $event; onChange()" />
             </div>
+            <div class="d-flex gap-3">
+              <form-payment-custom
+                [readonly]="readonly"
+                class="flex-1"
+                label="Otp"
+                [value]="otp"
+                [align]="'left'"
+                (handleChangeValue)="otp = $event; onChange()" />
+              <div class="flex-1 d-flex justify-content-around gap-2">
+                <button
+                  (click)="onSendOtp()"
+                  style="align-self: flex-start"
+                  class="flex-1 btn btn-otp align-self-end text-nowrap">
+                  Lấy Otp
+                </button>
+                <button
+                  (click)="onVerifyOtp()"
+                  style="align-self: flex-start"
+                  class="flex-1 btn btn-otp align-self-end text-nowrap">
+                  Xác thực
+                </button>
+              </div>
+            </div>
           </dropdown-custom>
           <!-- END: Sử dụng điểm -->
 
@@ -706,23 +728,23 @@
                   data.voucher_doi_tac.tien = $event; onChange()
                 " />
               <form-payment-custom
-                  [readonly]="readonly"
-                  class="flex-1"
-                  [name]="'qttg_so_hd'"
-                  [label]="'Mã giao dịch'"
-                  [value]="data.voucher_doi_tac.ma_chuan_chi"
-                  [disabled]="readonly"
-                  [invalid]="
-                    data.voucher_doi_tac.selected && invalid ? true : false
-                  "
-                  [highlightBox]="
-                    data.voucher_doi_tac.tien > 0 &&
-                    (!data.voucher_doi_tac.ma_chuan_chi ||
-                      data.voucher_doi_tac.ma_chuan_chi === '')
-                  "
-                  (handleChangeValue)="
-                    data.voucher_doi_tac.ma_chuan_chi = $event; onChange()
-                  " />
+                [readonly]="readonly"
+                class="flex-1"
+                [name]="'qttg_so_hd'"
+                [label]="'Mã giao dịch'"
+                [value]="data.voucher_doi_tac.ma_chuan_chi"
+                [disabled]="readonly"
+                [invalid]="
+                  data.voucher_doi_tac.selected && invalid ? true : false
+                "
+                [highlightBox]="
+                  data.voucher_doi_tac.tien > 0 &&
+                  (!data.voucher_doi_tac.ma_chuan_chi ||
+                    data.voucher_doi_tac.ma_chuan_chi === '')
+                "
+                (handleChangeValue)="
+                  data.voucher_doi_tac.ma_chuan_chi = $event; onChange()
+                " />
             </div>
             <div class="d-flex gap-2">
               <form-payment-custom
