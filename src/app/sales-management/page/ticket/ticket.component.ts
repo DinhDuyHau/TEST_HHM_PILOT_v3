@@ -14,6 +14,8 @@ import { filter } from 'rxjs';
 
 const TICKET_FIELDS = require('@assets/fields/grid/sales-ticket.json')
 
+const VOUCHER_STOCK_TRANSFER_FROM_SHOP_FIELDS = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
+
 @Component({
   selector: 'app-ticket',
   templateUrl: './ticket.component.html',
@@ -212,6 +214,13 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.primaryKey = 'stt_rec';
         this.entityName = 'SVTran_HDR';
         this.codeName = 'HDR';
+        break;
+      case TICKET_TYPE.VOUCHER_STOCK_TRANSFER_FROM_SHOP:
+        this.columns = VOUCHER_STOCK_TRANSFER_FROM_SHOP_FIELDS as Cell[];
+        this.title = 'Phiếu điều chuyền từ cửa hàng';
+        this.primaryKey = 'stt_rec';
+        this.entityName = 'ITTran';
+        this.codeName = 'PXB';
         break;
     }
   }

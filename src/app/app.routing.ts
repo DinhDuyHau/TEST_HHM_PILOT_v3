@@ -58,6 +58,7 @@ import { Home2Component } from './test/home/home.component';
 import { ScanComponent } from './test/scan/scan.component';
 import { ScanSingleComponent } from './test/scan-single/scan-single.component';
 import { SettingComponent } from './pages/setting/setting.component';
+import { StockTransferComponent } from './_components/voucher/stock-transfer/stock-transfer.component';
 // import { TicketComponent } from './_components/ticket/ticket.component';
 
 const homeModule = () => import('./home/home.module').then(x => x.HomeModule);
@@ -83,6 +84,7 @@ const saleRenewModule = () => import('./sales-management/page/sale-renew/sale-re
 const serivceForImeiModule = () => import('./sales-management/component/merchandise-service/service-for-imei/service-for-imei.module').then(x => x.ServiceForImeiModule);
 const serivceOrderModule = () => import('./sales-management/component/merchandise-service/service-order/service-order.module').then(x => x.ServiceOrderModule);
 const advancedSearchModule = () => import('./sales-management/component/advanced-search/advanced-search-dialog.module').then(x => x.AdvancedSearchDialogModule);
+const stockTransferlModule = () => import('@app/_components/voucher/stock-transfer/stock-transfer.module');
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -293,6 +295,15 @@ const routes: Routes = [
       { path: 'create', component: DeposistReturnReceiptDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: DeposistReturnReceiptDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: DeposistReturnReceiptDetailComponent, canActivate: [AuthGuard] },
+    ]
+  },
+  {
+    path: 'voucher/stock-tranfer-from-shop', component: AppLayoutComponent, canActivate: [AuthGuard],
+    children: [
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.VOUCHER_STOCK_TRANSFER_FROM_SHOP, reuse: true } },
+      { path: 'create', component: StockTransferComponent, canActivate: [AuthGuard] },
+      { path: 'update', component: StockTransferComponent, canActivate: [AuthGuard] },
+      { path: 'view', component: StockTransferComponent, canActivate: [AuthGuard] },
     ]
   },
   {

@@ -1,0 +1,50 @@
+[
+    {
+        "name": "ma_dvcs",
+        "title": "Mã đơn vị"
+    },
+    {
+        "name": "ngay_ct",
+        "title": "Ngày lập",
+        "dataType": "date",
+        "format": "datetimeFormat"
+    },
+    {
+        "name": "so_ct",
+        "title": "Số phiếu"
+    },
+    {
+        "name": "statusname",
+        "title": "Trạng thái PX"
+    },
+    {
+        "name": "statusname_pnf",
+        "title": "Trạng thái PN"
+    },
+    {
+        "name": "ma_kho",
+        "title": "Mã kho xuất"
+    },
+    {
+        "name": "ma_khon",
+        "title": "Mã kho nhập"
+    },
+    {
+        "name": "t_so_luong",
+        "title": "Số lượng",
+        "dataType": "number",
+        "align": "center"
+    },
+    {
+        "name": "dien_giai",
+        "title": "Diễn giải"
+    },
+    {
+        "name": "comment",
+        "title": "Người lập"
+    },
+    {
+        "name": "cocomment2mment",
+        "title": "Người sửa"
+    }
+]
