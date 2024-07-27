@@ -14,7 +14,7 @@ import { filter } from 'rxjs';
 
 const TICKET_FIELDS = require('@assets/fields/grid/sales-ticket.json')
 
-const VOUCHER_STOCK_TRANSFER_FROM_SHOP_FIELDS = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
+const { TICKET } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
 
 @Component({
   selector: 'app-ticket',
@@ -216,7 +216,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.codeName = 'HDR';
         break;
       case TICKET_TYPE.VOUCHER_STOCK_TRANSFER_FROM_SHOP:
-        this.columns = VOUCHER_STOCK_TRANSFER_FROM_SHOP_FIELDS as Cell[];
+        this.columns = TICKET as Cell[];
         this.title = 'Phiếu điều chuyền từ cửa hàng';
         this.primaryKey = 'stt_rec';
         this.entityName = 'ITTran';
@@ -375,7 +375,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   openAdvancedSearchDialog() {
-    this.commonService.openDialog(AdvancedSearchDialogComponent, this.advanceSearchParams, 'advanced-search-style-dialog', false, '850px')
+    this.commonService.openDialog(AdvancedSearchDialogComponent, { voucherCode: this.codeName, ...this.advanceSearchParams }, 'advanced-search-style-dialog', false, '850px')
       .afterClosed()
       .subscribe(result => {
         if (result) {

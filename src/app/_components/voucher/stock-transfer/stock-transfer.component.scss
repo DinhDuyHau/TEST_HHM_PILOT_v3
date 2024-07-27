@@ -274,3 +274,15 @@ input {
     width: 49%;
   }
 }
+
+.btn-input-imei {
+  background-color: #fff;
+  border-radius: border-radius;
+  font-weight: 500;
+  height: 32px;
+  color: #005447;
+  border: 1px solid #005447;
+  &:hover {
+    opacity: 0.7;
+  }
+}
