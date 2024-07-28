@@ -18,6 +18,7 @@ import { EInvoiceTabModule } from '@app/sales-management/component/e-invoice/e-i
 import { EInvoiceInfoModule } from '@app/sales-management/component/e-invoice/e-invoice-info/e-invoice-info.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
 import { PackageForImeiModule } from '@app/sales-management/component/merchandise-service/package-for-imei/package-for-imei.module';
+import { ImportImeiComponent } from './import-imei/import-imei/import-imei.component';
 
 @NgModule({
     imports: [
@@ -41,7 +42,8 @@ import { PackageForImeiModule } from '@app/sales-management/component/merchandis
         PackageForImeiModule,
     ],
     declarations: [
-        StockTransferComponent
+        StockTransferComponent,
+        ImportImeiComponent
     ],
     exports: [
         StockTransferComponent

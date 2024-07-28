@@ -39,8 +39,6 @@
           [name]="'ngay_ct'"
           [label]="'Tên cửa hàng xuất'"
           [value]="ticket.masterInfo.ten_cuahang"
-          format="datetimeFormat"
-          dataType="date"
           [disabled]="true" />
       </div>
       <div class="box order-dynamic-1 d-flex gap-3">
@@ -49,14 +47,13 @@
           [name]="'so_ct'"
           [label]="'Mã kho xuất'"
           [value]="ticket.masterInfo.ma_kho"
-          [disabled]="true" />
+          (handleClickSearch)="openExportInventorySearchDialog()"
+          [disabled]="false" />
         <form-input-custom
           class="flex-4"
           [name]="'ngay_ct'"
           [label]="'Tên kho xuất'"
           [value]="ticket.masterInfo.ten_kho"
-          format="datetimeFormat"
-          dataType="date"
           [disabled]="true" />
       </div>
       <form-select-custom
@@ -74,30 +71,31 @@
           [name]="'so_ct'"
           [label]="'Cửa hàng nhập'"
           [value]="ticket.masterInfo.ma_cuahang_n"
-          [disabled]="true" />
+          (handleChangeValue)="onChangeImportStore($event)"
+          [disabled]="ticket.masterInfo.transactionType === '1'" />
         <form-input-custom
           class="flex-4"
           [name]="'ngay_ct'"
           [label]="'Tên cửa hàng nhập'"
           [value]="ticket.masterInfo.ten_cuahang_n"
-          format="datetimeFormat"
-          dataType="date"
           [disabled]="true" />
       </div>
       <div class="box order-dynamic-1 d-flex gap-3">
         <form-input-custom
           class="flex-1"
           [name]="'so_ct'"
-          [label]="'Mã kho xuất'"
+          [label]="'Mã kho nhập'"
           [value]="ticket.masterInfo.ma_khon"
-          [disabled]="true" />
+          (handleClickSearch)="openImportInventorySearchDialog()"
+          [disabled]="
+            ticket.masterInfo.transactionType === '1' &&
+            !ticket.masterInfo.ma_kh
+          " />
         <form-input-custom
           class="flex-4"
           [name]="'ngay_ct'"
-          [label]="'Tên kho xuất'"
+          [label]="'Tên kho nhập'"
           [value]="ticket.masterInfo.ten_khon"
-          format="datetimeFormat"
-          dataType="date"
           [disabled]="true" />
       </div>
       <form-select-custom
@@ -133,7 +131,11 @@
     </div>
 
     <div class="d-flex justify-content-end">
-      <button class="btn-input-imei text-nowrap">Nhập danh sách imei</button>
+      <button
+        class="btn-input-imei text-nowrap"
+        (click)="onOpenInputImeiModal()">
+        Nhập danh sách imei
+      </button>
     </div>
 
     <tabs-custom title="Thông tin hàng hóa">
@@ -145,6 +147,7 @@
           [readonly]="readonly"
           [isChangeColorWhenSelected]="true"
           [isShowDiscountNG]="true"
+          (handleSelect)="onSelectRecord($event)"
           (handleDelete)="onRemoveMerchandise($event)" />
       </tab-custom>
     </tabs-custom>

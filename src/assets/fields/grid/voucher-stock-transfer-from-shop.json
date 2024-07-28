@@ -78,5 +78,47 @@
             "name": "ghi_chu",
             "title": "Ghi chú"
         }
+    ],
+    "STOCK_LIST": [
+        {
+            "name": "ma_kho",
+            "title": "Mã kho",
+            "isPrimaryKey": true
+        },
+        {
+            "name": "ma_dvcs",
+            "title": "Đơn vị",
+            "dataFormatString": "upperCaseFormat"
+        },
+        {
+            "name": "ten_kho",
+            "title": "Tên kho"
+        },
+        {
+            "name": "ten_kho2",
+            "title": "Tên kho 2"
+        },
+        {
+            "name": "ma_loai",
+            "title": "Mã loại"
+        },
+        {
+            "name": "ma_cuahang",
+            "title": "Mã cửa hàng"
+        },
+        {
+            "name": "ghi_chu",
+            "title": "Ghi chú"
+        }
+    ],
+    "IMPORT_IMEI_LIST": [
+        {
+            "name": "line_br",
+            "title": "Stt"
+        },
+        {
+            "name": "ma_imei",
+            "title": "Imei"
+        }
     ]
 }

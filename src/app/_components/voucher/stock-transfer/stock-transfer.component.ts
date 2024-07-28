@@ -16,6 +16,7 @@ import { DialogIMEIComponent } from '@app/_components/dialog/dialog-imei/dialog-
 import { Merchandise, StockTransferTicket } from './model/model';
 import { StockTransferService } from './stock-transfer.service';
 import { STATUS, STOCK_TRANSFER_TICKET_CODE, STOCK_TRANSFER_TICKET_ENTITY } from './model/constants';
+import { ImportImeiComponent } from './import-imei/import-imei/import-imei.component';
 
 const {
   MERCHANDISE_LIST
@@ -58,6 +59,10 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
       value: 2
     }
   ]
+  kho_nhap_datasource = [];
+  kho_xuat_datasource = [];
+  ma_loai = "";
+  stock: any[] = JSON.parse(localStorage.getItem('stock') || "[]");
 
   constructor(
     private router: Router,
@@ -134,7 +139,50 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
     });
   }
 
+  // #region master info
+  onChangeImportStore(event: any) {
+    if (this.ticket.masterInfo.transactionType === '2') {
+      this.ticket.masterInfo.ma_cuahang_n = event;
+    }
+  }
+
+  openImportInventorySearchDialog() {
+    let data = this.stock.filter(e => e.ma_cuahang === this.ticket.masterInfo.ma_cuahang_n);
+
+    if (this.ma_loai === "HH") {
+      data = data.filter(e => e.ma_loai === "HD");
+    }
+    else if (this.ma_loai === "HL") {
+      data = data.filter(e => e.ma_loai === "BH");
+    }
+    else if (this.ma_loai === "BH") {
+      data = data.filter(e => e.ma_loai === "HL");
+    }
+
+    this.commonService.openDialog(SearchDialogComponent, { dataSource: data, componentName: SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP })
+      .afterClosed().subscribe(result => {
+        this.ticket.masterInfo.ma_khon = result?.ma_kho;
+        this.ticket.masterInfo.ten_khon = result?.ten_kho;
+      });
+  }
+
+  openExportInventorySearchDialog() {
+    const data = this.stock.filter(e => e.ma_cuahang === this.ticket.masterInfo.ma_cuahang);
+    this.commonService.openDialog(SearchDialogComponent,
+      { dataSource: data, componentName: SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP })
+      .afterClosed().subscribe(result => {
+        this.ticket.masterInfo.ma_kho = result?.ma_kho;
+        this.ticket.masterInfo.ten_kho = result?.ten_kho;
+        this.ma_loai = result.ma_loai;
+      });
+  }
+  // #endregion master info
+
   // #region imei
+  onSelectRecord(event: any) {
+    console.log(event)
+  }
+
   handleAddImei(merchandiseResponse: any) {
     const merchandise = this.merchandiseService.getMerchandiseNotHaveImei(merchandiseResponse.ma_vt, this.ticket.merchandise);
     merchandise && (merchandise.ma_imei = merchandiseResponse.ma_imei) && (merchandise.ma_kho = merchandiseResponse.ma_kho);
@@ -172,11 +220,12 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '800px';
     dialogConfig.height = '650px';
+    dialogConfig.data = ""
     //Nhập điều chuyển type = 2
     // data.type = 3;
     // dialogConfig.data = data;
     // dialogConfig.disableClose = true;
-    const dialogRef = this.dialog.open(DialogIMEIComponent, dialogConfig);
+    const dialogRef = this.dialog.open(ImportImeiComponent, dialogConfig);
     return dialogRef.afterClosed();
   }
 

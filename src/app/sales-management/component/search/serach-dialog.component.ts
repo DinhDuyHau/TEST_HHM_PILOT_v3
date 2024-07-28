@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Cell } from '../form-control-custom/table-custom/table-custom.component';
 import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
-import { Observable, of } from 'rxjs';
+import { from, map, Observable, of, skip, take, tap, toArray } from 'rxjs';
 import { ImeiApiService } from '@app/sales-management/api/imei-api.service';
 import { PaymentApiService } from '@app/sales-management/api/payment-api.service';
 import { MerchandiseServiceApiService } from '@app/sales-management/api/merchandiseService-api.service';
@@ -33,6 +33,8 @@ const {
   BANK_PUBLISH_CARD_SEARCH
 } = require('@assets/fields/grid/sales-fields-table.json');
 
+const { STOCK_LIST } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
+
 @Component({
   selector: 'search-dialog',
   templateUrl: './serach-dialog.component.html',
@@ -45,6 +47,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   page_size = 10;
   recordCount = 0;
   filters!: ItemFilter[];
+  defaultFilters: ItemFilter[] = [];
   sort!: ItemSort[];
   getData!: any;
   keyword = '';
@@ -53,7 +56,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
 
   constructor(
     public dialogRef: MatDialogRef<SearchDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { keyword: string, componentName: number, title: string, ma_ct?: string, filter?: ItemFilter[] },
+    @Inject(MAT_DIALOG_DATA) public data: { keyword: string, componentName: number, title: string, ma_ct?: string, filter?: ItemFilter[], dataSource: any },
     private customerApiService: CustomerApiService,
     private imeiApiService: ImeiApiService,
     private merchandiseServiceApiService: MerchandiseServiceApiService,
@@ -61,7 +64,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
     private ticketApiService: TicketApiService,
     private posService: POSService,
     private merchandiseApiService: MerchandiseApiService,
-    private authenticateService: AuthenticationService
+    private authenticateService: AuthenticationService,
+    private cdr: ChangeDetectorRef
   ) {
   }
 
@@ -78,19 +82,19 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         this.columns = CUSTOMER_SEARCH as any;
         filter.name = 'ma_kh';
         filter.value = `%${this.data.keyword}%`;
-        this.filters = [filter];
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.MERCHANDISE:
         this.columns = MERCHANDISE_SEARCH as any;
         filter.name = 'ma_vt';
         filter.value = `%${this.data.keyword}%`;
-        this.filters = [filter];
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.IMEI:
         this.columns = IMEI_SEARCH as any;
         filter.name = 'ma_vt';
         filter.value = `%${this.data.keyword}%`;
-        this.filters = [filter];
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.DELIVERY_EMP:
         this.columns = CUSTOMER_SEARCH as any;
@@ -98,7 +102,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         // filter.value = `%${this.data.keyword}%`;
         filter.value = 'NGKH20';
         filter.operator = "=";
-        this.filters = [filter];
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.DELIVERY_PARNER:
         this.columns = CUSTOMER_SEARCH as any;
@@ -106,37 +110,37 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         // filter.value = `%${this.data.keyword}%`;
         filter.value = 'NGKH21';
         filter.operator = "=";
-        this.filters = [filter];
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.BANK_ACCOUNT:
         this.columns = BANK_ACCOUNT_SEARCH as any;
         filter.name = 'tknh';
         filter.value = `%${this.data.keyword}%`;
-        this.filters = [filter];
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.BANK_PUBLISH_CARD:
         this.columns = BANK_PUBLISH_CARD_SEARCH as any;
         filter.name = 'ma_nh';
         filter.value = `%${this.data.keyword}%`;
-        this.filters = [filter];
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.INSTALLMENT_UNIT:
         this.columns = CUSTOMER_SEARCH as any;
         filter.name = 'ma_kh';
         filter.value = `%${this.data.keyword}%`;
-        this.filters = [filter, { name: 'nh_kh9', operator: '=', value: 'NGKH88' }];
+        this.defaultFilters = [filter, { name: 'nh_kh9', operator: '=', value: 'NGKH88' }];
         break;
       case SEARCH_COMPONENT_NAME.WALLET:
         this.columns = CUSTOMER_SEARCH as any;
         filter.name = 'ma_kh';
         filter.value = `%${this.data.keyword}%`;
-        this.filters = [filter, { name: 'vdt_yn', operator: '=', value: true }];
+        this.defaultFilters = [filter, { name: 'vdt_yn', operator: '=', value: true }];
         break;
       case SEARCH_COMPONENT_NAME.SERVICE:
         this.columns = SERVICE_SEARCH as any;
         filter.name = 'ma_dv';
         filter.value = `%${this.data.keyword}%`;
-        this.filters = [filter];
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.CONTRACT:
         this.columns = CONTRACT_SEARCH as any;
@@ -145,25 +149,25 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         this.columns = PROJECT_SEARCH as any;
         filter.name = 'ma_vv';
         filter.value = `%${this.data.keyword}%`;
-        this.filters = [filter];
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE:
         this.columns = TYPE_MERCHANDISE as any;
         filter.name = 'ma_vt';
         filter.value = `%${this.data.keyword}%`;
-        this.filters = [filter];
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.TYPE_INVENTORY:
         this.columns = TYPE_INVENTORY as any;
         filter.name = 'ma_vt';
         filter.value = `%${this.data.keyword}%`;
-        this.filters = [filter];
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.WAREHOUSE:
         this.columns = WAREHOUSE_LIST as any;
         filter.name = 'ma_vt';
         filter.value = `%${this.data.keyword}%`;
-        this.filters = [filter];
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.INVOICE:
         this.columns = INVOICE_LIST as any;
@@ -177,7 +181,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         this.columns = LIST_POS as any;
         filter.name = 'ma_pos';
         filter.value = `%${this.data.keyword}%`;
-        this.filters = [filter, { name: 'ma_cuahang', operator: '=', value: this.authenticateService.userValue?.shop }];
+        this.defaultFilters = [filter, { name: 'ma_cuahang', operator: '=', value: this.authenticateService.userValue?.shop }];
         break;
       case SEARCH_COMPONENT_NAME.TYPE_RENEW:
         this.columns = LIST_PRICE_RENEW as any;
@@ -190,7 +194,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.name = 'nh_kh9';
         filter.operator = '=';
         filter.value = 'NGKH99'
-        this.filters = [filter];
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.APPROVER_DIRECTOR:
         this.columns = LIST_BGD as any;
@@ -201,14 +205,17 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.name = 'nh_kh9';
         filter.value = 'NGKH77';
         filter.operator = "=";
-        this.filters = [filter];
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.PACKAGE:
         this.columns = PACKAGE_SEARCH as any;
         filter.name = 'loai_vt';
         filter.operator = "=";
         filter.value = `03`;
-        this.filters = [filter];
+        this.defaultFilters = [filter];
+        break;
+      case SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP:
+        this.columns = STOCK_LIST as any;
         break;
       default:
         break;
@@ -217,15 +224,15 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.columns) {
-      this.loadData().subscribe(result => {
-        if (result && result.result && result.result?.items) {
-          this.dataSource = result.result.items;
-          this.recordCount = result.result.recordCount;
-        } else {
-          this.dataSource = result.result as any;
-        }
-      });
+      this.handleLoadata();
+      this.cdr.detectChanges();
     }
+  }
+
+  ngAfterViewChecked() {
+    // if (this.columns) {
+    //   this.handleLoadata();
+    // }
   }
 
   loadData(): Observable<any> {
@@ -277,9 +284,43 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.PACKAGE:
         return this.merchandiseServiceApiService.findById(this.filters, this.page_index, this.page_size);
+      case SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP:
+        return this.findDataSourceLocal(this.filters, this.page_index, this.page_size);
       default:
         return of();
     }
+  }
+
+  findDataSourceLocal(filters: any[], page_index: number, page_size: number) {
+    let res = this.data.dataSource.filter((e: any) => {
+      let isMatch = true;
+      filters.every(filter => {
+        if (e.hasOwnProperty(filter.name)) {
+          const value = filter.value.replace(/%/g, "");
+          if (!e[filter.name].includes(value)) {
+            isMatch = false;
+            return false;
+          }
+        }
+        return true;
+      })
+
+      return isMatch;
+    })
+
+    const _skip = page_size * (page_index - 1);
+
+    return from(res).pipe(
+      skip(_skip),
+      take(page_size),
+      toArray(),
+      map(items => ({
+        result: {
+          items: items,
+          recordCount: res.length
+        }
+      }))
+    )
   }
 
   handleLoadata() {
@@ -287,6 +328,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       next: (result: any) => {
         if (result.result?.items) {
           this.dataSource = result.result.items;
+          this.recordCount = result.result.recordCount;
         } else {
           this.dataSource = result.result as any;
         }
@@ -306,14 +348,12 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   }
 
   onClickSearchFilter(filters: any) {
-
     this.filters = this.filters.filter((item) => {
       return !filters.find((item2: any) => {
         return item2.name == item.name;
       });
     });
-
-    this.filters = [...this.filters, ...filters];
+    this.filters = [...this.defaultFilters, ...filters];
     this.handleLoadata();
   }
 
@@ -386,5 +426,6 @@ export const SEARCH_COMPONENT_NAME = {
   PACKAGE: 20,
   BANK_PUBLISH_CARD: 21,
   DELIVERY_PARNER: 22,
+  STOCK_TRANSFER_FROM_SHOP: 23,
 };
 

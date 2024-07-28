@@ -65,10 +65,12 @@ export class StockTransferService {
     initTicket(ticket: StockTransferTicket) {
         const userJson = localStorage.getItem('user');
         const userObj = userJson !== null && JSON.parse(userJson);
-
+        ticket.masterInfo.transactionType = '1';
         ticket.masterInfo.ma_ct = TICKET_CODE.RETAIL;
         ticket.masterInfo.ma_cuahang = userObj['shop'];
-        console.log(userObj['shop'])
+        if (ticket.masterInfo.transactionType === '1') {
+            ticket.masterInfo.ma_cuahang_n = ticket.masterInfo.ma_cuahang;
+        }
         ticket.masterInfo.status = '0';
         ticket.masterInfo.ma_ca = userObj['shift'];
         ticket.masterInfo.ngay_ct = Date();
