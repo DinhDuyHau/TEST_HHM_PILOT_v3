@@ -10,7 +10,7 @@ export class StockTransferTicket {
 export type TicketList = BaseTicket;
 
 export const TAB_NAME = {
-    MERCHANDISE: 'd581',
+    MERCHANDISE: 'd585',
 };
 
 export class MasterInfo extends BaseMasterInfo {

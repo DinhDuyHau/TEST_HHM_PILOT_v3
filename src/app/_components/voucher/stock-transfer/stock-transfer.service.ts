@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { ImeiApiService } from '@app/sales-management/api/imei-api.service';
 import { MerchandiseApiService } from '@app/sales-management/api/merchandise-api.service';
 import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
-import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { CommonService } from '@app/sales-management/page/common/common.service';
 import { MerchandiseService } from '@app/sales-management/page/common/merchandise.service';
-import { MerchandiseRequest, MasterInfoRequest } from '@app/sales-management/model/ticket/retail/request.model';
 import { Language } from '@app/sales-management/page/common/language';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { MasterInfo, Merchandise, StockTransferTicket, TAB_NAME } from './model/model';
+import { STOCK_TRANSFER_TICKET_CODE, STOCK_TRANSFER_TICKET_ENTITY } from './model/constants';
+import { MasterInfoRequest, MerchandiseRequest } from './model/request.model';
 
 @Injectable({
     providedIn: 'root'
@@ -66,7 +66,7 @@ export class StockTransferService {
         const userJson = localStorage.getItem('user');
         const userObj = userJson !== null && JSON.parse(userJson);
         ticket.masterInfo.transactionType = '1';
-        ticket.masterInfo.ma_ct = TICKET_CODE.RETAIL;
+        ticket.masterInfo.ma_ct = STOCK_TRANSFER_TICKET_CODE;
         ticket.masterInfo.ma_cuahang = userObj['shop'];
         if (ticket.masterInfo.transactionType === '1') {
             ticket.masterInfo.ma_cuahang_n = ticket.masterInfo.ma_cuahang;
@@ -76,7 +76,7 @@ export class StockTransferService {
         ticket.masterInfo.ngay_ct = Date();
         ticket.masterInfo.ma_nvbh = userObj['username'];
         ticket.masterInfo.ma_dvcs = userObj['unit'];
-        this.ticketApiService.getVoucherNumber(TICKET_ENTITY.RETAIL).subscribe(result => {
+        this.ticketApiService.getVoucherNumber(STOCK_TRANSFER_TICKET_ENTITY).subscribe(result => {
             ticket.masterInfo.so_ct = result.result as any;
         });
     }
@@ -85,7 +85,7 @@ export class StockTransferService {
 
     // #region imei
     getImeiInStore(imei: string) {
-        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.RETAIL);
+        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, STOCK_TRANSFER_TICKET_CODE);
     }
 
     getMerchandiseInfo(ma_vt: string) {
@@ -113,18 +113,12 @@ export class StockTransferService {
             message = this.commonService.getMessage('lbl_invalid_ngay_ct');
         } else if (!ticket.masterInfo.ma_dvcs) {
             message = this.commonService.getMessage('lbl_invalid_ma_dvcs');
-        } else if (ticket.masterInfo.t_tt_nt < 0) {
-            message = this.commonService.getMessage('lbl_invalid_tt');
-        } else if (ticket.masterInfo.t_tien_nt2 < 0) {
-            message = this.commonService.getMessage('lbl_invalid_t_tien');
-        } else if (ticket.masterInfo.t_da_tra < 0) {
-            message = this.commonService.getMessage('lbl_invalid_t_da_tra');
         }
         return message;
     }
 
     isInvalidForm(masterInfo: MasterInfo) {
-        if (!masterInfo.ma_kh) {
+        if (!masterInfo.ma_kho || !masterInfo.ma_khon || !masterInfo.ma_cuahang || !masterInfo.ma_cuahang_n) {
             return true;
         }
         return false;
@@ -134,7 +128,7 @@ export class StockTransferService {
 
     isInvalidMerchandise(items: Merchandise[]): boolean {
         for (const item of items) {
-            if (item.so_luong < 0 || item.gia_ban < 0 || item.gia_ck < 0 || item.thanh_tien < 0 || item.tien_thue < 0 || item.thanh_toan < 0)
+            if (item.so_luong < 0)
                 return false;
         }
         return true;

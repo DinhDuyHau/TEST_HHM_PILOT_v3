@@ -1,4 +1,5 @@
-import { BaseMasterInfoRequest, BaseMerchandiseRequest } from '../common-model/base-entity.model';
+import { BaseMasterInfoRequest, BaseMerchandiseRequest } from "@app/sales-management/model/ticket/common-model/base-entity.model";
+
 
 export class MerchandiseRequest extends BaseMerchandiseRequest {
     gia_ck = 0;

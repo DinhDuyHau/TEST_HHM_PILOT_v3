@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogIMEIComponent } from '@app/_components/dialog/dialog-imei/dialog-imei.component';
 import { IMEIService } from '@app/_services/imei.service';
 import { CommonService } from '@app/sales-management/page/common/common.service';
+import { MerchandiseService } from '@app/sales-management/page/common/merchandise.service';
 
 const {
   IMPORT_IMEI_LIST
@@ -16,48 +17,56 @@ const {
 })
 export class ImportImeiComponent {
   ma_imei = '';
-  imeiOld: string[] = [];
-  type = 1;
-  current_grid_imeis: string[] = [];
-  imei_data: string[] = [];
   columns = IMPORT_IMEI_LIST;
   dataSource: any[] = [];
+  ma_vt = '';
+  merchandise = {} as any;
 
   constructor(
     public dialogRef: MatDialogRef<DialogIMEIComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private snackBar: MatSnackBar,
     private imeiService: IMEIService,
-    private commonService: CommonService
+    private commonService: CommonService,
   ) {
-    if (data.ma_imei) {
-      this.ma_imei = data.ma_imei.join('\n');
-      this.splitImeiText(this.ma_imei);
+    this.merchandise = this.data.item;
+    if (this.merchandise) {
+      this.ma_vt = this.merchandise.ma_vt;
+      console.log(this.ma_vt)
+      this.handleAddImei(this.merchandise.ma_imei);
     }
-    if (data.type) {
-      this.type = data.type;
-    }
-    if (data.imeiOld) {
-      this.imeiOld = data.imeiOld;
-    }
+  }
 
-    if (data.gridImeis && data.gridImeis !== '') {
-      this.current_grid_imeis = data.gridImeis.split(',');
-      for (let i = 0; i < this.current_grid_imeis.length; i++)
-        this.current_grid_imeis[i] = this.current_grid_imeis[i].trim();
-    }
-
+  handleAddImei(imeis: string) {
+    const imei_data = this.splitImeiText(imeis);
+    this.imeiService.getListImeiInfo(imei_data).subscribe((result) => {
+      if (result.success && result.result.length) {
+        result.result.map(item => {
+          if (item.ma_vt) {
+            const rs = this.dataSource.find((e: any) => e.ma_imei === item.ma_imei);
+            if (!rs) {
+              this.dataSource = [...this.dataSource, item];
+              this.dataSource.map((e, index: number) => { e.line_nbr = index + 1 });
+            }
+          }
+          else {
+            this.commonService.showMessage(`Không tìm thấy imei ${item.ma_imei}`);
+          }
+        });
+      }
+      else {
+        this.commonService.showMessage("Không tìm thấy thông tin imei");
+      }
+    })
+    this.ma_imei = '';
   }
 
   handleImeiInputKeyup(event: any, value: string) {
     if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13) {
-      this.splitImeiText(value);
-      this.dataSource = this.imei_data.map((e: any, index: number) => ({ line_br: index + 1, ma_imei: e }))
+      this.handleAddImei(value);
     }
   }
 
   splitImeiText(text: string) {
-    let arr_imei: string[] = [...this.imei_data];
     let new_imeis: string[] = [];
 
     //split imei với seperator là dấy phảy (,)
@@ -70,30 +79,20 @@ export class ImportImeiComponent {
       new_imeis = text.split('\n');
     }
 
-    //add vào danh sách
-    if (new_imeis && new_imeis.length > 0) {
-      arr_imei.push(...new_imeis);
-      for (let i = 0; i < arr_imei.length; i++) {
-        arr_imei[i] = arr_imei[i].trim();
-      }
-    }
-
-    this.ma_imei = '';
-    this.imei_data = [];
-    this.imei_data = arr_imei.filter(x => x && x !== '');
+    return new_imeis.filter(e => e).map(e => e.trim());
   }
 
-  onDeleteItem(event: any) {
-    this.dataSource = this.dataSource.filter((e: any) => e.line_br === event.line_br);
+  onDeleteItem(event: { item: any }) {
+    this.dataSource = this.dataSource.filter((e: any) => e.line_nbr !== event.item.line_nbr);
   }
 
   onClearAll() {
     this.ma_imei = '';
-    this.imei_data = [];
     this.dataSource = [];
   }
 
   onClickSave() {
+    this.dialogRef.close(this.dataSource);
   }
 
   onClickClose() {

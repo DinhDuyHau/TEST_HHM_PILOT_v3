@@ -17,6 +17,7 @@ import { Merchandise, StockTransferTicket } from './model/model';
 import { StockTransferService } from './stock-transfer.service';
 import { STATUS, STOCK_TRANSFER_TICKET_CODE, STOCK_TRANSFER_TICKET_ENTITY } from './model/constants';
 import { ImportImeiComponent } from './import-imei/import-imei/import-imei.component';
+import { IMEIService } from '@app/_services/imei.service';
 
 const {
   MERCHANDISE_LIST
@@ -72,6 +73,7 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
     private ticketApiService: TicketApiService,
     private commonService: CommonService,
     private merchandiseService: MerchandiseService,
+    private imeiService: IMEIService
   ) {
     localStorage.setItem('useGridCached', '1');
     this.stockTransferService.setTicket(this.ticket, this.option);
@@ -179,35 +181,34 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
   // #endregion master info
 
   // #region imei
-  onSelectRecord(event: any) {
-    console.log(event)
-  }
-
   handleAddImei(merchandiseResponse: any) {
-    const merchandise = this.merchandiseService.getMerchandiseNotHaveImei(merchandiseResponse.ma_vt, this.ticket.merchandise);
-    merchandise && (merchandise.ma_imei = merchandiseResponse.ma_imei) && (merchandise.ma_kho = merchandiseResponse.ma_kho);
+    const isExistImei = this.ticket.merchandise.find(e => e.ma_imei.includes(merchandiseResponse.ma_imei))
+    if (isExistImei) {
+      this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: merchandiseResponse.ma_imei });
+      return;
+    }
 
-    if (!merchandise) {
+    const merchandise = this.ticket.merchandise.find(e => e.ma_vt === merchandiseResponse.ma_vt);
+    if (merchandise) {
+      merchandise.ma_imei += `,${merchandiseResponse.ma_imei}`;
+      merchandise.so_luong = merchandise.ma_imei.split(",").length;
+    }
+    else {
       this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise, Merchandise);
-      // this.commonService.clearText([this.tabIndex.imei, this.tabIndex.ma_hh]);
     }
   }
 
   onEnterImeiCode(ma_imei: string) {
-    this.stockTransferService.getImeiInStore(ma_imei).subscribe(result => {
+    this.imeiService.getListImeiInfo([ma_imei]).subscribe((result) => {
       if (result.success && result.result.length) {
-        if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise)) {
-          this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: ma_imei });
-          return;
-        }
-        const merchandise = result.result[0];
-        this.handleAddImei(merchandise);
-        document.getElementById('imei')?.focus();
-
-      } else {
+        result.result.map(merchandise => {
+          this.handleAddImei(merchandise);
+        })
+      }
+      else {
         this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: ma_imei });
       }
-    });
+    })
   }
 
   onClickCodeScanner() {
@@ -216,17 +217,18 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onOpenInputImeiModal() {
+  onOpenInputImeiModal(event?: { item: any }) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '800px';
     dialogConfig.height = '650px';
-    dialogConfig.data = ""
-    //Nhập điều chuyển type = 2
-    // data.type = 3;
-    // dialogConfig.data = data;
-    // dialogConfig.disableClose = true;
+    dialogConfig.data = { item: event?.item }
     const dialogRef = this.dialog.open(ImportImeiComponent, dialogConfig);
-    return dialogRef.afterClosed();
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        result.map((item: any) => {
+          this.handleAddImei(item)
+        })
+      });
   }
 
   // #endregion imei
@@ -271,7 +273,6 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
       return;
     }
 
-
     this.invalid && this.commonService.showMessage(Language.content.Missing_information);
     if (message) {
       this.commonService.showMessage(message);
@@ -283,7 +284,6 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
           this.ticketApiService.updateVoucher(STOCK_TRANSFER_TICKET_ENTITY, voucherDto).subscribe(result => {
             this.isSaving = false;
             if (result.success) {
-              // this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Update_Completed);
               if (this.ticket.masterInfo.status == '2') {
                 this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
@@ -310,7 +310,6 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
           this.ticketApiService.addNewVoucher(STOCK_TRANSFER_TICKET_ENTITY, voucherDto).subscribe(result => {
             this.isSaving = false;
             if (result.success) {
-              // this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Successful_Create);
               this.router.navigate(['voucher/stock-tranfer-from-shop']);
             } else {

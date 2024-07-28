@@ -193,12 +193,7 @@
             <button
               title="Sửa"
               (click)="onUpdateItem(record)"
-              *ngIf="
-                handleUpdate.observers.length &&
-                entityName !== 'SVTran_DXA' &&
-                !readonly &&
-                (isTicket ? record.status === '0' : true)
-              ">
+              *ngIf="showEditButton(record)">
               <i class="fas fa-edit icon-table text-primary"></i>
             </button>
             <button
