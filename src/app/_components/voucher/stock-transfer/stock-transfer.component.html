@@ -47,6 +47,7 @@
           [name]="'so_ct'"
           [label]="'Mã kho xuất'"
           [value]="ticket.masterInfo.ma_kho"
+          (handleChangeValue)="onChangeValueExportInventoryCode($event)"
           (handleClickSearch)="openExportInventorySearchDialog()"
           [disabled]="false" />
         <form-input-custom
@@ -89,6 +90,7 @@
           [name]="'so_ct'"
           [label]="'Mã kho nhập'"
           [value]="ticket.masterInfo.ma_khon"
+          (handleChangeValue)="onChangeValueImportInventoryCode($event)"
           (handleClickSearch)="openImportInventorySearchDialog()"
           [disabled]="
             ticket.masterInfo.fnote2 === '1' && !ticket.masterInfo.ma_kh

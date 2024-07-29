@@ -62,7 +62,8 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
   kho_nhap_datasource = [];
   kho_xuat_datasource = [];
   ma_loai = "";
-  stock: any[] = JSON.parse(localStorage.getItem('stock') || "[]");
+  stocks: any[] = JSON.parse(localStorage.getItem('stock') || "[]");
+  shops = JSON.parse(localStorage.getItem('shop') || "[]");
 
   constructor(
     private router: Router,
@@ -143,12 +144,16 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
   // #region master info
   onChangeImportStore(event: any) {
     if (this.ticket.masterInfo.fnote2 === '2') {
-      this.ticket.masterInfo.ma_cuahang_n = event;
+      this.ticket.masterInfo.ma_cuahang_n = event.trim();
+      const shop = this.shops.find((e: any) => e.ma_cuahang === event.trim())
+      if (shop) {
+        this.ticket.masterInfo.ten_cuahang_n = shop.ten_cuahang;
+      }
     }
   }
 
   openSearchShopDialog() {
-    const data = JSON.parse(localStorage.getItem('shop') || "[]");
+    const data = this.shops;
     this.commonService.openDialog(SearchDialogComponent, { dataSource: data, componentName: SEARCH_COMPONENT_NAME.SHOP_INFO })
       .afterClosed().subscribe(result => {
         this.ticket.masterInfo.ma_cuahang_n = result?.ma_cuahang;
@@ -157,7 +162,7 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
   }
 
   openImportInventorySearchDialog() {
-    let data = this.stock.filter(e => e.ma_cuahang === this.ticket.masterInfo.ma_cuahang_n);
+    let data = this.stocks.filter(e => e.ma_cuahang === this.ticket.masterInfo.ma_cuahang_n);
 
     if (this.ma_loai === "HH") {
       data = data.filter(e => e.ma_loai === "HD");
@@ -176,8 +181,16 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
       });
   }
 
+  onChangeValueImportInventoryCode(event: any) {
+    const _stock = this.stocks.find(e => e.ma_kho === event.trim()) as any;
+    if (_stock) {
+      this.ticket.masterInfo.ma_khon = _stock.ma_kho;
+      this.ticket.masterInfo.ten_khon = _stock.ten_kho;
+    }
+  }
+
   openExportInventorySearchDialog() {
-    const data = this.stock.filter(e => e.ma_cuahang === this.ticket.masterInfo.ma_cuahang);
+    const data = this.stocks.filter(e => e.ma_cuahang === this.ticket.masterInfo.ma_cuahang);
     this.commonService.openDialog(SearchDialogComponent,
       { dataSource: data, componentName: SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP })
       .afterClosed().subscribe(result => {
@@ -186,6 +199,15 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
         this.ma_loai = result.ma_loai;
       });
   }
+
+  onChangeValueExportInventoryCode(event: any) {
+    const _stock = this.stocks.find(e => e.ma_kho === event.trim()) as any;
+    if (_stock) {
+      this.ticket.masterInfo.ma_kho = _stock.ma_kho;
+      this.ticket.masterInfo.ten_kho = _stock.ten_kho;
+    }
+  }
+
   // #endregion master info
 
   // #region imei
