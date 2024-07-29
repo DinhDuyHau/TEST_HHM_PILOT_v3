@@ -277,6 +277,7 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
     if (message) {
       this.commonService.showMessage(message);
     } else if (!this.invalid && !message) {
+      this.ticket.masterInfo.fnote2 = this.ticket.masterInfo.transactionType;
       const voucherDto = this.stockTransferService.prepareVoucher();
       this.route.queryParams.subscribe((data: any) => {
         if (this.mode === MODE.UPDATE && !this.isSaving) {
