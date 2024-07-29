@@ -35,8 +35,6 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     ma_cuahang_n = '';
     fnote2 = '';
 
-    fnote2 = '';
-
     constructor(obj?: any) {
         super();
         Object.assign(this, obj);
