@@ -41,7 +41,12 @@ export class ImportImeiComponent {
     this.imeiService.getListImeiInfo(imei_data).subscribe((result) => {
       if (result.success && result.result.length) {
         result.result.map(item => {
-          if (item.ma_vt) {
+          if (item.in_store_yn &&
+            item.exists_yn &&
+            !item.dieu_chuyen_yn &&
+            !item.dat_hang_yn &&
+            !item.ban_hang_yn &&
+            !item.bao_hanh_yn) {
             const rs = this.dataSource.find((e: any) => e.ma_imei === item.ma_imei);
             if (!rs) {
               this.dataSource = [...this.dataSource, item];
@@ -49,7 +54,7 @@ export class ImportImeiComponent {
             }
           }
           else {
-            this.commonService.showMessage(`Không tìm thấy imei ${item.ma_imei}`);
+            this.commonService.showMessage("Trạng thái của imei không hợp lệ");
           }
         });
       }

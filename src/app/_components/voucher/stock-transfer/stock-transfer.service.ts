@@ -68,8 +68,10 @@ export class StockTransferService {
         ticket.masterInfo.transactionType = '1';
         ticket.masterInfo.ma_ct = STOCK_TRANSFER_TICKET_CODE;
         ticket.masterInfo.ma_cuahang = userObj['shop'];
+        ticket.masterInfo.ten_cuahang = this.getShopName(ticket.masterInfo.ma_cuahang);
         if (ticket.masterInfo.transactionType === '1') {
             ticket.masterInfo.ma_cuahang_n = ticket.masterInfo.ma_cuahang;
+            ticket.masterInfo.ten_cuahang = this.getShopName(ticket.masterInfo.ma_cuahang_n);
         }
         ticket.masterInfo.status = '0';
         ticket.masterInfo.ma_ca = userObj['shift'];
@@ -79,6 +81,11 @@ export class StockTransferService {
         this.ticketApiService.getVoucherNumber(STOCK_TRANSFER_TICKET_ENTITY).subscribe(result => {
             ticket.masterInfo.so_ct = result.result as any;
         });
+    }
+
+    getShopName(ma_cuahang: string) {
+        const shopsInfo = JSON.parse(localStorage.getItem('shop') || "[]");
+        return shopsInfo.find((e: any) => e.ma_cuahang === ma_cuahang)?.ten_cuahang || "";
     }
 
     //#endregion init

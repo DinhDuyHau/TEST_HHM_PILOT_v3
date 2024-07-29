@@ -8,6 +8,7 @@ import { VoucherDto } from '../model/ticket/common-model/voucher.dto.model';
 import { ItemFilter } from '../component/search/serach-dialog.component';
 
 const GET_TOP_URL = `${environment.apiUrl}/voucher/gettop/`;
+const GET_TOP_EXT_URL = `${environment.apiUrl}/voucher/gettopext/`;
 const GET_MANY_URL = `${environment.apiUrl}/voucher/gettop/`;
 const GET_VOUCHER_BY_ID_URL = `${environment.apiUrl}/voucher/getbyid/`;
 const DELETE_ONE_URL = `${environment.apiUrl}/voucher/delete/`;
@@ -82,7 +83,10 @@ export class TicketApiService extends ApiService {
     }
 
     getTop(entity: string): Observable<ResultNoPaging<any>> {
-        const url = GET_TOP_URL + entity;
+        let url = GET_TOP_URL + entity;
+        if (entity === "ITTran_PXB2") {
+            url = GET_TOP_EXT_URL + entity
+        }
         return this.get<ResultNoPaging<any>>(url);
     }
 
@@ -145,7 +149,7 @@ export class TicketApiService extends ApiService {
     }
 
     getTicketByQuery(entity: string, params: {}, page_index: number, page_size: number): Observable<Result<any>> {
-        const url = GET_TICKET_QUERY_URL + entity;
+        let url = GET_TICKET_QUERY_URL + entity;
         return this.post<Result<any>>(url, {}, { ...params, page_index, page_size });
     }
 

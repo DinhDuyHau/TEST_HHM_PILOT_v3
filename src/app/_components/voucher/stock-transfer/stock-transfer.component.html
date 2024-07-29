@@ -72,6 +72,9 @@
           [label]="'Cửa hàng nhập'"
           [value]="ticket.masterInfo.ma_cuahang_n"
           (handleChangeValue)="onChangeImportStore($event)"
+          (handleClickOpenDialog)="
+            ticket.masterInfo.transactionType === '2' && openSearchShopDialog()
+          "
           [disabled]="ticket.masterInfo.transactionType === '1'" />
         <form-input-custom
           class="flex-4"
