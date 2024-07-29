@@ -57,7 +57,7 @@
         class="box"
         [name]="'han_tt'"
         [label]="getLabel('lbl_han_tt')"
-        [value]="contract.masterInfo.han_tt"
+        [value]="contract.masterInfo.ma_tt"
         [disabled]="true" />
 
       <form-select-custom
@@ -77,7 +77,47 @@
           [columns]="merchandiseColumns" />
       </tab-custom>
       <tab-custom label="Thông tin giao hàng" class="w-100">
-        <h3>Thông tin giao hàng</h3>
+        <table border="0" cellPadding="0" cellSpacing="0" class="contact-delivery-box">
+          <tr>
+            <td width="200">{{ getLabel('lbl_ht_tt') }}</td>
+            <td width="100">
+              <form-input-custom
+                class="box"
+                [name]="'ht_tt'"
+                [value]="contract.masterInfo.ht_tt"
+                [disabled]="true" />
+            </td>
+            <td>
+              <span>0 - Tiền mặt, 1 - Chuyển khoản, 2 - Bù trừ công nợ</span>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ getLabel('lbl_tt_tt') }}</td>
+            <td>
+              <form-input-custom
+                class="box"
+                [name]="'tt_tt'"
+                [value]="contract.masterInfo.tt_tt"
+                [disabled]="true" />
+            </td>
+            <td>
+              <span>0 - Chưa thanh toán, 1 - Đã thanh toán</span>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ getLabel('lbl_ht_ban') }}</td>
+            <td>
+              <form-input-custom
+                class="box"
+                [name]="'ht_ban'"
+                [value]="contract.masterInfo.ht_ban"
+                [disabled]="true" />
+            </td>
+            <td>
+              <span>1 - Bán ký gủi, 2 - Bán lô thanh toán ngay, 3 - Ghi nợ</span>
+            </td>
+          </tr>
+        </table>
       </tab-custom>
     </tabs-custom>
 

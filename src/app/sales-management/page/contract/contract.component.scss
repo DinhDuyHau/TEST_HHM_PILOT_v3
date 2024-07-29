@@ -231,3 +231,18 @@ input {
     width: 49%;
   }
 }
+
+table.contact-delivery-box {
+  width: 700px;
+}
+table.contact-delivery-box tr {
+  border: 0 !important;
+}
+table.contact-delivery-box td {
+  padding-top: 10px;
+  border: 0 !important;
+}
+table.contact-delivery-box td .box {
+  width: 100%;
+  flex: none;
+}

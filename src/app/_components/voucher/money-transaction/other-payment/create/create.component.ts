@@ -133,10 +133,12 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
   initData(stt_rec: string) {
     this.OtherPayment.getItem(stt_rec).subscribe((item => {
       item.masterInfo.ngay_ct = item.masterInfo.ngay_ct?.substring(0, 10);
+      item.masterInfo.ngay_lct = item.masterInfo.ngay_lct?.substring(0, 10);
       this.data = item;
       this.voucherForm = this.formBuilder.group({
         so_ct: [this.data.masterInfo.so_ct, Validators.required],
         ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
+        ngay_lct: [this.data.masterInfo.ngay_lct, Validators.required],
         status: [this.data.masterInfo.status, Validators.required],
         ma_cuahang: [this.data.masterInfo.ma_cuahang, Validators.required],
         ten_cuahang: [this.ten_cuahang],
@@ -201,6 +203,7 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
         ma_ct: this.voucherCode,
         so_ct: '',
         ngay_ct: getDateFormat(new Date()),
+        ngay_lct: getDateFormat(new Date()),
         ma_dvcs: userObj['unit'],
         ma_ca: userObj['shift'],
         ma_cuahang: userObj['shop'],
@@ -246,6 +249,7 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
         this.voucherForm = this.formBuilder.group({
           so_ct: [this.data.masterInfo.so_ct, Validators.required],
           ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
+          ngay_lct: [this.data.masterInfo.ngay_lct, Validators.required],
           status: [this.data.masterInfo.status, Validators.required],
           ma_cuahang: [this.data.masterInfo.ma_cuahang, Validators.required],
           ten_cuahang: [this.ten_cuahang],
@@ -290,6 +294,7 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
     this.voucherForm = this.formBuilder.group({
       so_ct: [this.data.masterInfo.so_ct, Validators.required],
       ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
+      ngay_lct: [this.data.masterInfo.ngay_lct, Validators.required],
       status: [this.data.masterInfo.status, Validators.required],
       ma_cuahang: [this.data.masterInfo.ma_cuahang, Validators.required],
       ten_cuahang: [this.ten_cuahang],

@@ -43,7 +43,7 @@ export class ContractComponent implements AfterViewInit, OnInit, OnChanges {
 
 
   ngAfterViewInit(): void {
-    throw new Error('Method not implemented.');
+    // throw new Error('Method not implemented.');
   }
 
   ngOnInit(): void {
@@ -83,7 +83,6 @@ export class ContractComponent implements AfterViewInit, OnInit, OnChanges {
       if (data.key) {
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.CONTRACT, data.key).subscribe((result) => {
           if (result.result) {
-            console.log(result.result);
             this.contractService.loadData(result.result as any as VoucherDto);
             getStatusList();
           }

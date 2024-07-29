@@ -50,7 +50,7 @@
     "dataFormatString": "normalPrice"
   },
   {
-    "name": "Dien_giai",
+    "name": "dien_giai",
     "title": "Diễn giải",
     "allowSorting": true,
     "allowFilter": true,
