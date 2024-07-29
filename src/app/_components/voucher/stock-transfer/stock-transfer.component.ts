@@ -149,7 +149,6 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
 
   openSearchShopDialog() {
     const data = JSON.parse(localStorage.getItem('shop') || "[]");
-    console.log(data[0])
     this.commonService.openDialog(SearchDialogComponent, { dataSource: data, componentName: SEARCH_COMPONENT_NAME.SHOP_INFO })
       .afterClosed().subscribe(result => {
         this.ticket.masterInfo.ma_cuahang_n = result?.ma_cuahang;
