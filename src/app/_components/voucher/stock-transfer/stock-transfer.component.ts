@@ -229,11 +229,12 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
   }
 
   onEnterImeiCode(ma_imei: string) {
-    this.imeiService.getListImeiInfo([ma_imei]).subscribe((result) => {
+    this.imeiService.getListImeiInfo([ma_imei], this.ticket.masterInfo.ma_kho).subscribe((result) => {
       if (result.success && result.result.length) {
         result.result.map(merchandise => {
           if (merchandise.in_store_yn &&
             merchandise.exists_yn &&
+            merchandise.in_stock_yn &&
             !merchandise.dieu_chuyen_yn &&
             !merchandise.dat_hang_yn &&
             !merchandise.ban_hang_yn &&
@@ -262,7 +263,7 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '800px';
     dialogConfig.height = '650px';
-    dialogConfig.data = { item: event?.item }
+    dialogConfig.data = { item: event?.item, ma_kho: this.ticket.masterInfo.ma_kho }
     const dialogRef = this.dialog.open(ImportImeiComponent, dialogConfig);
     dialogRef.afterClosed()
       .subscribe(result => {

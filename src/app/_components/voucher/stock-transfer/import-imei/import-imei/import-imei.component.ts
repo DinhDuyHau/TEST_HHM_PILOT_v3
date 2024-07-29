@@ -38,11 +38,12 @@ export class ImportImeiComponent {
 
   handleAddImei(imeis: string) {
     const imei_data = this.splitImeiText(imeis);
-    this.imeiService.getListImeiInfo(imei_data).subscribe((result) => {
+    this.imeiService.getListImeiInfo(imei_data, this.data.ma_kho).subscribe((result) => {
       if (result.success && result.result.length) {
         result.result.map(item => {
           if (item.in_store_yn &&
             item.exists_yn &&
+            item.in_stock_yn &&
             !item.dieu_chuyen_yn &&
             !item.dat_hang_yn &&
             !item.ban_hang_yn &&

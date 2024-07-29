@@ -31,9 +31,9 @@ export class IMEIService {
             ma_imei
         );
     }
-    getListImeiInfo(ma_imei: string[]) {
+    getListImeiInfo(ma_imei: string[], ma_kho?: string) {
         return this.http.post<ResultNoPaging<ImeiInfo>>(`${environment.apiUrl}/imei/get_state_and_item`,
-            ma_imei
+            { ma_imei, ma_kho }
         );
     }
     getSoldInfo(ma_imei: string, ma_cuahang: string) {

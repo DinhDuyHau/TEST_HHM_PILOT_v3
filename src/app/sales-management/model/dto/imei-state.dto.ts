@@ -19,6 +19,7 @@ export interface ImeiInfo {
     dieu_chuyen_yn: boolean,
     bao_hanh_yn: boolean,
     ban_hang_yn: boolean,
+    in_stock_yn: boolean,
     ma_vt: string,
     ten_vt: string,
     dvt: string,
