@@ -120,5 +120,28 @@
             "name": "ma_imei",
             "title": "Imei"
         }
+    ],
+    "SHOP_INFO": [
+        {
+            "name": "ma_cuahang",
+            "title": "Mã cửa hàng",
+            "isPrimaryKey": true
+        },
+        {
+            "name": "ten_cuahang",
+            "title": "Tên cửa hàng"
+        },
+        {
+            "name": "dia_chi",
+            "title": "Địa chỉ"
+        },
+        {
+            "name": "dien_thoai",
+            "title": "Điện thoại"
+        },
+        {
+            "name": "ma_tinh",
+            "title": "Mã tỉnh"
+        }
     ]
 }

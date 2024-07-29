@@ -12,7 +12,6 @@ import { MODE } from '@app/sales-management/enum/ticket.enum';
 import { ScanQrcodeComponent } from '@app/_components/scan-qrcode/scan-qrcode.component';
 import { Language } from '@app/sales-management/page/common/language';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
-import { DialogIMEIComponent } from '@app/_components/dialog/dialog-imei/dialog-imei.component';
 import { Merchandise, StockTransferTicket } from './model/model';
 import { StockTransferService } from './stock-transfer.service';
 import { STATUS, STOCK_TRANSFER_TICKET_CODE, STOCK_TRANSFER_TICKET_ENTITY } from './model/constants';
@@ -148,6 +147,16 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
     }
   }
 
+  openSearchShopDialog() {
+    const data = JSON.parse(localStorage.getItem('shop') || "[]");
+    console.log(data[0])
+    this.commonService.openDialog(SearchDialogComponent, { dataSource: data, componentName: SEARCH_COMPONENT_NAME.SHOP_INFO })
+      .afterClosed().subscribe(result => {
+        this.ticket.masterInfo.ma_cuahang_n = result?.ma_cuahang;
+        this.ticket.masterInfo.ten_cuahang_n = result?.ten_cuahang;
+      });
+  }
+
   openImportInventorySearchDialog() {
     let data = this.stock.filter(e => e.ma_cuahang === this.ticket.masterInfo.ma_cuahang_n);
 
@@ -209,6 +218,7 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
         this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: ma_imei });
       }
     })
+    this.commonService.focusControl(this.tabIndex.imei);
   }
 
   onClickCodeScanner() {

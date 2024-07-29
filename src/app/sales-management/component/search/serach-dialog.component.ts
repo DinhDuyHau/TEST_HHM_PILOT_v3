@@ -33,7 +33,7 @@ const {
   BANK_PUBLISH_CARD_SEARCH
 } = require('@assets/fields/grid/sales-fields-table.json');
 
-const { STOCK_LIST } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
+const { STOCK_LIST, SHOP_INFO } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
 
 @Component({
   selector: 'search-dialog',
@@ -217,6 +217,9 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP:
         this.columns = STOCK_LIST as any;
         break;
+      case SEARCH_COMPONENT_NAME.SHOP_INFO:
+        this.columns = SHOP_INFO as any;
+        break;
       default:
         break;
     }
@@ -285,6 +288,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.PACKAGE:
         return this.merchandiseServiceApiService.findById(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP:
+        return this.findDataSourceLocal(this.filters, this.page_index, this.page_size);
+      case SEARCH_COMPONENT_NAME.SHOP_INFO:
         return this.findDataSourceLocal(this.filters, this.page_index, this.page_size);
       default:
         return of();
@@ -427,5 +432,6 @@ export const SEARCH_COMPONENT_NAME = {
   BANK_PUBLISH_CARD: 21,
   DELIVERY_PARNER: 22,
   STOCK_TRANSFER_FROM_SHOP: 23,
+  SHOP_INFO: 24,
 };
 

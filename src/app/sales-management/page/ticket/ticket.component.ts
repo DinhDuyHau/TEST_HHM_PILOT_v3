@@ -219,7 +219,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.columns = TICKET as Cell[];
         this.title = 'Phiếu điều chuyền từ cửa hàng';
         this.primaryKey = 'stt_rec';
-        this.entityName = 'ITTran';
+        this.entityName = 'ITTran_PXB2';
         this.codeName = 'PXB';
         break;
     }
