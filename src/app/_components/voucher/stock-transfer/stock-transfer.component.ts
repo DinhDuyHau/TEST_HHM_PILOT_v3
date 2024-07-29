@@ -116,7 +116,7 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
       });
     };
 
-    this.ticket.masterInfo.transactionType = this.transactionTypeOptions as any;
+    this.ticket.masterInfo.fnote2 = this.transactionTypeOptions as any;
 
     this.route.queryParams.pipe().subscribe((data: any) => {
       if (data.key) {
@@ -142,7 +142,7 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
 
   // #region master info
   onChangeImportStore(event: any) {
-    if (this.ticket.masterInfo.transactionType === '2') {
+    if (this.ticket.masterInfo.fnote2 === '2') {
       this.ticket.masterInfo.ma_cuahang_n = event;
     }
   }

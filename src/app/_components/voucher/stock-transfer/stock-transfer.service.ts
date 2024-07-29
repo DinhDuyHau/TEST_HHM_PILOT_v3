@@ -65,11 +65,11 @@ export class StockTransferService {
     initTicket(ticket: StockTransferTicket) {
         const userJson = localStorage.getItem('user');
         const userObj = userJson !== null && JSON.parse(userJson);
-        ticket.masterInfo.transactionType = '1';
+        ticket.masterInfo.fnote2 = '1';
         ticket.masterInfo.ma_ct = STOCK_TRANSFER_TICKET_CODE;
         ticket.masterInfo.ma_cuahang = userObj['shop'];
         ticket.masterInfo.ten_cuahang = this.getShopName(ticket.masterInfo.ma_cuahang);
-        if (ticket.masterInfo.transactionType === '1') {
+        if (ticket.masterInfo.fnote2 === '1') {
             ticket.masterInfo.ma_cuahang_n = ticket.masterInfo.ma_cuahang;
             ticket.masterInfo.ten_cuahang = this.getShopName(ticket.masterInfo.ma_cuahang_n);
         }

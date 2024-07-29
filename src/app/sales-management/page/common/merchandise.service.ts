@@ -564,7 +564,7 @@ export class MerchandiseService {
             });
             return rs;
         });
-        result.map((e, i) => { e.line_nbr = i; });
+        result.map((e, i) => { e.line_nbr = i + 1; });
         des.push(...result);
     }
 

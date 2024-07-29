@@ -30,7 +30,6 @@ export class MasterInfo extends BaseMasterInfo {
     ma_khon = '';
     ten_khon = '';
     fnote2 = '';
-    transactionType = '';
 
     constructor(obj?: any) {
         super();

@@ -73,9 +73,9 @@
           [value]="ticket.masterInfo.ma_cuahang_n"
           (handleChangeValue)="onChangeImportStore($event)"
           (handleClickOpenDialog)="
-            ticket.masterInfo.transactionType === '2' && openSearchShopDialog()
+            ticket.masterInfo.fnote2 === '2' && openSearchShopDialog()
           "
-          [disabled]="ticket.masterInfo.transactionType === '1'" />
+          [disabled]="ticket.masterInfo.fnote2 === '1'" />
         <form-input-custom
           class="flex-4"
           [name]="'ngay_ct'"
@@ -91,8 +91,7 @@
           [value]="ticket.masterInfo.ma_khon"
           (handleClickSearch)="openImportInventorySearchDialog()"
           [disabled]="
-            ticket.masterInfo.transactionType === '1' &&
-            !ticket.masterInfo.ma_kh
+            ticket.masterInfo.fnote2 === '1' && !ticket.masterInfo.ma_kh
           " />
         <form-input-custom
           class="flex-4"
@@ -108,8 +107,8 @@
         [options]="transactionTypeOptions"
         optionDes="label"
         optionValue="value"
-        [value]="ticket.masterInfo.transactionType"
-        (handleChangeValue)="ticket.masterInfo.transactionType = $event" />
+        [value]="ticket.masterInfo.fnote2"
+        (handleChangeValue)="ticket.masterInfo.fnote2 = $event" />
 
       <form-input-custom
         #txtImei

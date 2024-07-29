@@ -255,7 +255,7 @@ export class TableCustomComponent implements
       !this.readonly &&
       (this.isTicket ? record.status === '0' : true)) {
       return true;
-    } else if (this.handleUpdate.observers.length && !this.isTicket) {
+    } else if (this.handleUpdate.observers.length && !this.isTicket && !this.readonly && record.status === '0') {
       return true;
     }
     else {

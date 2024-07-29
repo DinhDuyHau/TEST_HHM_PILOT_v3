@@ -12,6 +12,8 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     imei_mua = '';
     gia_vat = 0;
 
+    fnote2 = '';
+
     constructor(obj?: any) {
         super();
         Object.assign(this, obj);
@@ -28,6 +30,8 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     tien_dat_coc = 0;
     email_nhan_key = '';
     dien_giai = '';
+
+    fnote2 = '';
 
     constructor(obj?: any) {
         super();
