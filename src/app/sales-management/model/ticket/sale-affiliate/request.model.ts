@@ -26,6 +26,7 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     ma_nvvc = '';
     lap_dh_lk = 0;
     email_nhan_key = '';
+    dien_giai = '';
 
     constructor(obj?: any) {
         super();
