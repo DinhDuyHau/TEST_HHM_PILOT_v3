@@ -30,6 +30,10 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     tien_dat_coc = 0;
     email_nhan_key = '';
     dien_giai = '';
+    ma_kho = '';
+    ma_khon = '';
+    ma_cuahang_n = '';
+    fnote2 = '';
 
     fnote2 = '';
 
