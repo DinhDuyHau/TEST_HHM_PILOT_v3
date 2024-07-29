@@ -18,6 +18,7 @@ export interface ImeiInfo {
     dat_hang_yn: boolean,
     dieu_chuyen_yn: boolean,
     bao_hanh_yn: boolean,
+    ban_hang_yn: boolean,
     ma_vt: string,
     ten_vt: string,
     dvt: string,

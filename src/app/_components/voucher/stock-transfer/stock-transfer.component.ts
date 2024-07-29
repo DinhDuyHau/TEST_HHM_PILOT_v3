@@ -210,7 +210,17 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
     this.imeiService.getListImeiInfo([ma_imei]).subscribe((result) => {
       if (result.success && result.result.length) {
         result.result.map(merchandise => {
-          this.handleAddImei(merchandise);
+          if (merchandise.in_store_yn &&
+            merchandise.exists_yn &&
+            !merchandise.dieu_chuyen_yn &&
+            !merchandise.dat_hang_yn &&
+            !merchandise.ban_hang_yn &&
+            !merchandise.bao_hanh_yn) {
+            this.handleAddImei(merchandise);
+          }
+          else {
+            this.commonService.showMessage("Trạng thái của imei không hợp lệ");
+          }
         })
       }
       else {
