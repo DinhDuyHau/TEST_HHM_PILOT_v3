@@ -44,7 +44,7 @@ export class MerchandiseService {
     addNew(merchandise: any, merchandises: any[], TCreator: { new(): any; }) {
         const merchandiseNew = this.createNewMerchandise(merchandise, TCreator);
         merchandiseNew.gia_ck = merchandiseNew.gia_ban;
-        merchandiseNew.line_nbr = merchandises.length;
+        merchandiseNew.line_nbr = merchandises.length + 1;
         //giá niêm yết (s4)
         merchandiseNew.s4 = merchandise.s4;
         //imei xuất bán
@@ -54,7 +54,7 @@ export class MerchandiseService {
 
     removeMerchandise(item: any, merchandises: any[]) {
         merchandises.splice(item.line_nbr, 1);
-        merchandises.map((e, i) => e.line_nbr = i);
+        merchandises.map((e, i) => e.line_nbr = i + 1);
     }
 
     removePromotionMechandise(merchandise: Merchandise, merchandises: Merchandise[], discounts: Discount[], option: Option) {
@@ -92,7 +92,7 @@ export class MerchandiseService {
             const line_nbr = item.line_nbr;
             if (line_nbr !== undefined) {
                 merchandises.splice(line_nbr, 1);
-                merchandises.map((e, i) => e.line_nbr = i);
+                merchandises.map((e, i) => e.line_nbr = i + 1);
             }
         });
     }

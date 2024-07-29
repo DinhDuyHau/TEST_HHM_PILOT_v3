@@ -1,0 +1,77 @@
+.imei-dialog-container {
+  font-size: 0.9rem;
+}
+.imei-dialog-container .imei-table-wrap {
+  overflow-y: scroll;
+  width: 100%;
+  max-height: 400px;
+}
+.imei-dialog-container table.body-wrap {
+  width: 100%;
+  /* border-collapse: collapse; */
+}
+.imei-dialog-container table.body-wrap thead {
+  position: sticky; /* Important */
+  top: 0;
+  z-index: 10;
+}
+.imei-dialog-container table.body-wrap thead tr {
+  background-color: #ececec;
+}
+.imei-dialog-container table.body-wrap thead tr th div {
+  height: 30px;
+  border-width: 1px 1px 1px 0;
+  border-style: solid;
+  border-color: #999;
+  text-align: center;
+  font-weight: 600;
+  color: #333;
+}
+.imei-dialog-container table.body-wrap thead tr th:first-child div {
+  border-left-width: 1px;
+}
+.imei-dialog-container table.body-wrap tbody tr {
+  height: 28px;
+  max-height: 28px;
+}
+.imei-dialog-container table.body-wrap tbody tr td {
+  border: 1px solid #ccc;
+  vertical-align: middle;
+  /* padding: 2px; */
+}
+.imei-dialog-container table.body-wrap tbody tr td span {
+  display: block;
+  margin-left: 5px;
+}
+.imei-dialog-container table.body-wrap tbody tr:first-child td {
+  border-top-width: 0;
+}
+.imei-dialog-container table.body-wrap tbody td:first-child,
+.imei-dialog-container table.body-wrap tbody td:last-child {
+  text-align: center;
+}
+.imei-dialog-container table.body-wrap tbody tr.odd td {
+  background-color: #f3f3f3;
+}
+
+.btn-responsive {
+  font-size: 14px;
+  padding: 7px 27px;
+  border-radius: 5px;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.btn-cancel {
+  background-color: #ebedf2;
+  color: #262f3d;
+}
+
+.btn-add {
+  background-color: #005447;
+  color: #fff;
+}

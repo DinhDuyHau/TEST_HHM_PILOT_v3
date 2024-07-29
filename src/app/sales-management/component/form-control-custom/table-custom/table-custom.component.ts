@@ -248,6 +248,22 @@ export class TableCustomComponent implements
   }
   // #endregion enable checkbox
 
+  // #region show edit button
+  showEditButton(record: any) {
+    if (this.handleUpdate.observers.length &&
+      this.entityName !== 'SVTran_DXA' &&
+      !this.readonly &&
+      (this.isTicket ? record.status === '0' : true)) {
+      return true;
+    } else if (this.handleUpdate.observers.length && !this.isTicket) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  // #endregion show edit button
+
 
   //#region resize table
   private resizeInProgress = false;
