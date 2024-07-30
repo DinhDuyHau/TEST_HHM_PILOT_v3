@@ -31,7 +31,6 @@ export class ImportImeiComponent {
     this.merchandise = this.data.item;
     if (this.merchandise) {
       this.ma_vt = this.merchandise.ma_vt;
-      console.log(this.ma_vt)
       this.handleAddImei(this.merchandise.ma_imei);
     }
   }

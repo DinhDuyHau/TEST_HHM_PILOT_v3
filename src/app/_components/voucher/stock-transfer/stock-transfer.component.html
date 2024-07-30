@@ -48,8 +48,8 @@
           [label]="'Mã kho xuất'"
           [value]="ticket.masterInfo.ma_kho"
           (handleChangeValue)="onChangeValueExportInventoryCode($event)"
-          (handleClickSearch)="openExportInventorySearchDialog()"
-          [disabled]="false" />
+          (handleClickOpenDialog)="openExportInventorySearchDialog()"
+          [disabled]="ticket.merchandise.length > 0" />
         <form-input-custom
           class="flex-4"
           [name]="'ngay_ct'"
@@ -76,7 +76,9 @@
           (handleClickOpenDialog)="
             ticket.masterInfo.fnote2 === '2' && openSearchShopDialog()
           "
-          [disabled]="ticket.masterInfo.fnote2 === '1'" />
+          [disabled]="
+            ticket.masterInfo.fnote2 === '1' || ticket.merchandise.length > 0
+          " />
         <form-input-custom
           class="flex-4"
           [name]="'ngay_ct'"
@@ -91,9 +93,10 @@
           [label]="'Mã kho nhập'"
           [value]="ticket.masterInfo.ma_khon"
           (handleChangeValue)="onChangeValueImportInventoryCode($event)"
-          (handleClickSearch)="openImportInventorySearchDialog()"
+          (handleClickOpenDialog)="openImportInventorySearchDialog()"
           [disabled]="
-            ticket.masterInfo.fnote2 === '1' && !ticket.masterInfo.ma_kh
+            (ticket.masterInfo.fnote2 === '1' && !ticket.masterInfo.ma_kh) ||
+            ticket.merchandise.length > 0
           " />
         <form-input-custom
           class="flex-4"
@@ -110,7 +113,7 @@
         optionDes="label"
         optionValue="value"
         [value]="ticket.masterInfo.fnote2"
-        (handleChangeValue)="ticket.masterInfo.fnote2 = $event" />
+        (handleChangeValue)="onChangeTransactionType($event)" />
 
       <form-input-custom
         #txtImei

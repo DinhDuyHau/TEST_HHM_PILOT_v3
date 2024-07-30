@@ -142,6 +142,16 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
   }
 
   // #region master info
+  onChangeTransactionType(event: any) {
+    this.ticket.masterInfo.fnote2 = event
+    if (event === "1") {
+      this.ticket.masterInfo.ma_cuahang_n = this.ticket.masterInfo.ma_cuahang;
+      this.ticket.masterInfo.ten_cuahang_n = this.ticket.masterInfo.ten_cuahang;
+      this.ticket.masterInfo.ma_khon = '';
+      this.ticket.masterInfo.ten_khon = '';
+    }
+  }
+
   onChangeImportStore(event: any) {
     if (this.ticket.masterInfo.fnote2 === '2') {
       this.ticket.masterInfo.ma_cuahang_n = event.trim();
@@ -149,6 +159,9 @@ export class StockTransferComponent implements OnInit, AfterViewInit {
       if (shop) {
         this.ticket.masterInfo.ten_cuahang_n = shop.ten_cuahang;
       }
+    }
+    else if (this.ticket.masterInfo.fnote2 === '1') {
+
     }
   }
 

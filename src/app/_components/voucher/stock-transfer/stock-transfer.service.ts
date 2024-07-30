@@ -71,7 +71,7 @@ export class StockTransferService {
         ticket.masterInfo.ten_cuahang = this.getShopName(ticket.masterInfo.ma_cuahang);
         if (ticket.masterInfo.fnote2 === '1') {
             ticket.masterInfo.ma_cuahang_n = ticket.masterInfo.ma_cuahang;
-            ticket.masterInfo.ten_cuahang = this.getShopName(ticket.masterInfo.ma_cuahang_n);
+            ticket.masterInfo.ten_cuahang_n = this.getShopName(ticket.masterInfo.ma_cuahang_n);
         }
         ticket.masterInfo.status = '0';
         ticket.masterInfo.ma_ca = userObj['shift'];
