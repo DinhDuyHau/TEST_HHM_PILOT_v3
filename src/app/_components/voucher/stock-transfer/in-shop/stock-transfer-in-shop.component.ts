@@ -153,7 +153,8 @@ export class StockTransferInShopComponent implements OnInit, AfterViewInit {
 
   // #region imei
   handleAddImei(merchandiseResponse: any) {
-    const isExistImei = this.ticket.merchandise.find(e => e.ma_imei.includes(merchandiseResponse.ma_imei))
+    const isExistImei = this.ticket.merchandise.find(e => e.ma_imei?.includes(merchandiseResponse.ma_imei))
+    console.log('ok')
     if (isExistImei) {
       this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: merchandiseResponse.ma_imei });
       return;
