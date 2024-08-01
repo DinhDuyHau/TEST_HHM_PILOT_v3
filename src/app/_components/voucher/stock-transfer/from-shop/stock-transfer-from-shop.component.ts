@@ -13,9 +13,9 @@ import { ScanQrcodeComponent } from '@app/_components/scan-qrcode/scan-qrcode.co
 import { Language } from '@app/sales-management/page/common/language';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { Merchandise, StockTransferTicket } from './model/model';
-import { StockTransferService } from './stock-transfer.service';
+import { StockTransferService } from './stock-transfer-from-shop.service';
 import { STATUS, STOCK_TRANSFER_TICKET_CODE, STOCK_TRANSFER_TICKET_ENTITY } from './model/constants';
-import { ImportImeiComponent } from './import-imei/import-imei/import-imei.component';
+import { ImportImeiComponent } from '../import-imei/import-imei.component';
 import { IMEIService } from '@app/_services/imei.service';
 
 const {
@@ -24,10 +24,10 @@ const {
 
 @Component({
   selector: 'app-retail',
-  templateUrl: './stock-transfer.component.html',
-  styleUrls: ['./stock-transfer.component.scss'],
+  templateUrl: './stock-transfer-from-shop.component.html',
+  styleUrls: ['./stock-transfer-from-shop.component.scss'],
 })
-export class StockTransferComponent implements OnInit, AfterViewInit {
+export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   ticket: StockTransferTicket = new StockTransferTicket;
   statusList: StatusTicket[] = [];
   dataFormat = dataFormat;

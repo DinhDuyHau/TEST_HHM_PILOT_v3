@@ -1,0 +1,147 @@
+{
+    "TICKET": [
+        {
+            "name": "ma_dvcs",
+            "title": "Mã đơn vị"
+        },
+        {
+            "name": "ngay_ct",
+            "title": "Ngày lập",
+            "dataType": "date",
+            "format": "datetimeFormat"
+        },
+        {
+            "name": "so_ct",
+            "title": "Số phiếu"
+        },
+        {
+            "name": "statusname",
+            "title": "Trạng thái PX"
+        },
+        {
+            "name": "statusname_pnf",
+            "title": "Trạng thái PN"
+        },
+        {
+            "name": "ma_kho",
+            "title": "Mã kho xuất"
+        },
+        {
+            "name": "ma_khon",
+            "title": "Mã kho nhập"
+        },
+        {
+            "name": "t_so_luong",
+            "title": "Số lượng",
+            "dataType": "number",
+            "align": "center"
+        },
+        {
+            "name": "dien_giai",
+            "title": "Diễn giải"
+        },
+        {
+            "name": "comment",
+            "title": "Người lập"
+        },
+        {
+            "name": "cocomment2mment",
+            "title": "Người sửa"
+        }
+    ],
+    "MERCHANDISE_LIST": [
+        {
+            "name": "line_nbr",
+            "title": "Stt"
+        },
+        {
+            "name": "ma_vt",
+            "title": "Mã vật tư"
+        },
+        {
+            "name": "ten_vt",
+            "title": "Tên vật tư"
+        },
+        {
+            "name": "dvt",
+            "title": "Đơn vị tính"
+        },
+        {
+            "name": "so_luong",
+            "title": "Số lượng"
+        },
+        {
+            "name": "ma_imei",
+            "title": "Mã imei"
+        },
+        {
+            "name": "ghi_chu",
+            "title": "Ghi chú"
+        }
+    ],
+    "STOCK_LIST": [
+        {
+            "name": "ma_kho",
+            "title": "Mã kho",
+            "isPrimaryKey": true
+        },
+        {
+            "name": "ma_dvcs",
+            "title": "Đơn vị",
+            "dataFormatString": "upperCaseFormat"
+        },
+        {
+            "name": "ten_kho",
+            "title": "Tên kho"
+        },
+        {
+            "name": "ten_kho2",
+            "title": "Tên kho 2"
+        },
+        {
+            "name": "ma_loai",
+            "title": "Mã loại"
+        },
+        {
+            "name": "ma_cuahang",
+            "title": "Mã cửa hàng"
+        },
+        {
+            "name": "ghi_chu",
+            "title": "Ghi chú"
+        }
+    ],
+    "IMPORT_IMEI_LIST": [
+        {
+            "name": "line_nbr",
+            "title": "Stt"
+        },
+        {
+            "name": "ma_imei",
+            "title": "Imei"
+        }
+    ],
+    "SHOP_INFO": [
+        {
+            "name": "ma_cuahang",
+            "title": "Mã cửa hàng",
+            "isPrimaryKey": true
+        },
+        {
+            "name": "ten_cuahang",
+            "title": "Tên cửa hàng"
+        },
+        {
+            "name": "dia_chi",
+            "title": "Địa chỉ"
+        },
+        {
+            "name": "dien_thoai",
+            "title": "Điện thoại"
+        },
+        {
+            "name": "ma_tinh",
+            "title": "Mã tỉnh"
+        }
+    ]
+}
