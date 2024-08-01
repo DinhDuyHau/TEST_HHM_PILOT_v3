@@ -1,10 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogIMEIComponent } from '@app/_components/dialog/dialog-imei/dialog-imei.component';
 import { IMEIService } from '@app/_services/imei.service';
 import { CommonService } from '@app/sales-management/page/common/common.service';
-import { MerchandiseService } from '@app/sales-management/page/common/merchandise.service';
 
 const {
   IMPORT_IMEI_LIST
