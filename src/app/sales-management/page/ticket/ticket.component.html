@@ -17,16 +17,26 @@
         </div>
       </div>
       <div class="list-actions">
-        <!-- <button class="btn-responsive btn-lock" (click)="onFreeze()">Khóa cột</button> -->        
+        <!-- <button class="btn-responsive btn-lock" (click)="onFreeze()">Khóa cột</button> -->
         <button
           class="btn-responsive btn-add"
           (click)="onCreate()"
-          *ngIf="entityName !== 'SVTran_DXA'">
+          *ngIf="entityName !== 'SVTran_DXA' && entityName !== 'IPTran_PNF2'">
           Thêm
         </button>
-        <button class="btn-responsive btn-view" (click)="btnViewClickHandle()">Xem</button>
-        <button class="btn-responsive btn-edit" (click)="btnUpdateClickHandle()">Sửa</button>
-        <button class="btn-responsive btn-delete" (click)="btnDeleteClickHandle()">Xóa</button>
+        <button class="btn-responsive btn-view" (click)="btnViewClickHandle()">
+          Xem
+        </button>
+        <button
+          class="btn-responsive btn-edit"
+          (click)="btnUpdateClickHandle()">
+          Sửa
+        </button>
+        <button
+          class="btn-responsive btn-delete"
+          (click)="btnDeleteClickHandle()">
+          Xóa
+        </button>
         <div
           tabindex="0"
           class="btn-responsive btn-in-file"
@@ -44,12 +54,10 @@
         <div
           *ngIf="isOnpenInFile"
           class="fixed z-50 top-0 left-0 right-0 bottom-0"
-          (click)="isOnpenInFile = false">
-        </div>
+          (click)="isOnpenInFile = false"></div>
         <button class="btn-responsive btn-refresh" (click)="onReload()">
           Làm mới
         </button>
-
       </div>
     </div>
     <div class="table-container">

@@ -393,8 +393,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           const params = { ...result };
           params.ma_ct = this.codeName;
           params.ma_cuahang = userObj['shop'];
-          params.voucherCode =
-            this.advanceSearchParams = params;
+          this.advanceSearchParams = params;
           this.page_index = 1;
           this.params = params;
           this.advanceSearch(params);

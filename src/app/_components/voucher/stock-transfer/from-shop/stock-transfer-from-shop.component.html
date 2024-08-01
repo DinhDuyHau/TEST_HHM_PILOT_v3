@@ -30,13 +30,13 @@
       <div class="box order-dynamic-1 d-flex gap-3">
         <form-input-custom
           class="flex-1"
-          [name]="'so_ct'"
+          [name]="'ma_cuahang'"
           [label]="'Cửa hàng xuất'"
           [value]="ticket.masterInfo.ma_cuahang"
           [disabled]="true" />
         <form-input-custom
           class="flex-4"
-          [name]="'ngay_ct'"
+          [name]="'ten_cuahang'"
           [label]="'Tên cửa hàng xuất'"
           [value]="ticket.masterInfo.ten_cuahang"
           [disabled]="true" />
@@ -44,7 +44,7 @@
       <div class="box order-dynamic-1 d-flex gap-3">
         <form-input-custom
           class="flex-1"
-          [name]="'so_ct'"
+          [name]="'ma_kho'"
           [label]="'Mã kho xuất'"
           [value]="ticket.masterInfo.ma_kho"
           (handleChangeValue)="onChangeValueExportInventoryCode($event)"
@@ -52,7 +52,7 @@
           [disabled]="ticket.merchandise.length > 0" />
         <form-input-custom
           class="flex-4"
-          [name]="'ngay_ct'"
+          [name]="'ten_kho'"
           [label]="'Tên kho xuất'"
           [value]="ticket.masterInfo.ten_kho"
           [disabled]="true" />
@@ -69,7 +69,7 @@
       <div class="box order-dynamic-1 d-flex gap-3">
         <form-input-custom
           class="flex-1"
-          [name]="'so_ct'"
+          [name]="'ma_cuahang_n'"
           [label]="'Cửa hàng nhập'"
           [value]="ticket.masterInfo.ma_cuahang_n"
           (handleChangeValue)="onChangeImportStore($event)"
@@ -81,7 +81,7 @@
           " />
         <form-input-custom
           class="flex-4"
-          [name]="'ngay_ct'"
+          [name]="'ten_cuahang_n'"
           [label]="'Tên cửa hàng nhập'"
           [value]="ticket.masterInfo.ten_cuahang_n"
           [disabled]="true" />
@@ -95,12 +95,12 @@
           (handleChangeValue)="onChangeValueImportInventoryCode($event)"
           (handleClickOpenDialog)="openImportInventorySearchDialog()"
           [disabled]="
-            (ticket.masterInfo.fnote2 === '1' && !ticket.masterInfo.ma_kh) ||
+            (ticket.masterInfo.fnote2 === '1' && !ticket.masterInfo.ma_kho) ||
             ticket.merchandise.length > 0
           " />
         <form-input-custom
           class="flex-4"
-          [name]="'ngay_ct'"
+          [name]="'ten_khon'"
           [label]="'Tên kho nhập'"
           [value]="ticket.masterInfo.ten_khon"
           [disabled]="true" />

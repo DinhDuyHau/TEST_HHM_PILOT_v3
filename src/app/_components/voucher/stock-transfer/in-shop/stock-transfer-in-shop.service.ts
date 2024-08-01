@@ -8,7 +8,7 @@ import { MerchandiseService } from '@app/sales-management/page/common/merchandis
 import { Language } from '@app/sales-management/page/common/language';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
-import { MasterInfo, Merchandise, StockTransferTicket, TAB_NAME } from './model/model';
+import { MasterInfo, Merchandise, StockTransferInShopTicket, TAB_NAME } from './model/model';
 import { STOCK_TRANSFER_IN_SHOP_TICKET_CODE, STOCK_TRANSFER_IN_SHOP_TICKET_ENTITY } from './model/constants';
 import { MasterInfoRequest, MerchandiseRequest } from './model/request.model';
 
@@ -16,7 +16,7 @@ import { MasterInfoRequest, MerchandiseRequest } from './model/request.model';
     providedIn: 'root'
 })
 export class StockTransferInShopService {
-    ticket!: StockTransferTicket;
+    ticket!: StockTransferInShopTicket;
     option!: Option;
 
     constructor(
@@ -30,7 +30,7 @@ export class StockTransferInShopService {
     }
 
     //#region setter
-    setTicket(ticket: StockTransferTicket, option: Option) {
+    setTicket(ticket: StockTransferInShopTicket, option: Option) {
         this.ticket = ticket;
         this.option = option;
     }
@@ -62,7 +62,7 @@ export class StockTransferInShopService {
         return voucherDto;
     }
 
-    initTicket(ticket: StockTransferTicket) {
+    initTicket(ticket: StockTransferInShopTicket) {
         const userJson = localStorage.getItem('user');
         const userObj = userJson !== null && JSON.parse(userJson);
         ticket.masterInfo.fnote2 = '1';
@@ -70,8 +70,8 @@ export class StockTransferInShopService {
         ticket.masterInfo.ma_cuahang = userObj['shop'];
         ticket.masterInfo.ten_cuahang = this.getShopName(ticket.masterInfo.ma_cuahang);
         if (ticket.masterInfo.fnote2 === '1') {
-            ticket.masterInfo.ma_cuahang_n = ticket.masterInfo.ma_cuahang;
-            ticket.masterInfo.ten_cuahang_n = this.getShopName(ticket.masterInfo.ma_cuahang_n);
+            ticket.masterInfo.ma_cuahang_x = ticket.masterInfo.ma_cuahang;
+            ticket.masterInfo.ten_cuahang_x = this.getShopName(ticket.masterInfo.ma_cuahang_x);
         }
         ticket.masterInfo.status = '0';
         ticket.masterInfo.ma_ca = userObj['shift'];
@@ -112,7 +112,7 @@ export class StockTransferInShopService {
     //#region other
 
     // validate ticket before create or update
-    validateTicket(ticket: StockTransferTicket): string {
+    validateTicket(ticket: StockTransferInShopTicket): string {
         let message = '';
         if (!ticket.masterInfo.so_ct) {
             message = this.commonService.getMessage('lbl_invalid_so_ct');
@@ -125,7 +125,7 @@ export class StockTransferInShopService {
     }
 
     isInvalidForm(masterInfo: MasterInfo) {
-        if (!masterInfo.ma_kho || !masterInfo.ma_khon || !masterInfo.ma_cuahang || !masterInfo.ma_cuahang_n) {
+        if (!masterInfo.ma_kho || !masterInfo.ma_khox || !masterInfo.ma_cuahang || !masterInfo.ma_cuahang_x) {
             return true;
         }
         return false;

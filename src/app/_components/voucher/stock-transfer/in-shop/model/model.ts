@@ -2,7 +2,7 @@
 import { BaseMasterInfo, BaseMerchandise, BaseTicket } from '@app/sales-management/model/ticket/common-model/base-entity.model';
 
 
-export class StockTransferTicket {
+export class StockTransferInShopTicket {
     masterInfo: MasterInfo = new MasterInfo;
     merchandise: Merchandise[] = [];
 }
@@ -10,7 +10,7 @@ export class StockTransferTicket {
 export type TicketList = BaseTicket;
 
 export const TAB_NAME = {
-    MERCHANDISE: 'd585',
+    MERCHANDISE: 'd575',
 };
 
 export class MasterInfo extends BaseMasterInfo {
@@ -25,11 +25,12 @@ export class MasterInfo extends BaseMasterInfo {
     ten_cuahang = '';
     ma_kho = '';
     ten_kho = '';
-    ma_cuahang_n = '';
-    ten_cuahang_n = '';
-    ma_khon = '';
-    ten_khon = '';
+    ma_cuahang_x = '';
+    ten_cuahang_x = '';
+    ma_khox = '';
+    ten_khox = '';
     fnote2 = '';
+    ngay_lct = '';
 
     constructor(obj?: any) {
         super();

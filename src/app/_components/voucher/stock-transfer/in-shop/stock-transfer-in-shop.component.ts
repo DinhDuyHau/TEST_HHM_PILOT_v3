@@ -12,7 +12,7 @@ import { MODE } from '@app/sales-management/enum/ticket.enum';
 import { ScanQrcodeComponent } from '@app/_components/scan-qrcode/scan-qrcode.component';
 import { Language } from '@app/sales-management/page/common/language';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
-import { Merchandise, StockTransferTicket } from './model/model';
+import { Merchandise, StockTransferInShopTicket } from './model/model';
 import { StockTransferInShopService } from './stock-transfer-in-shop.service';
 import { STOCK_TRANSFER_IN_SHOP_TICKET_CODE, STOCK_TRANSFER_IN_SHOP_TICKET_ENTITY, STATUS } from './model/constants';
 import { ImportImeiComponent } from '../import-imei/import-imei.component';
@@ -28,7 +28,7 @@ const {
   styleUrls: ['./stock-transfer-in-shop.component.scss'],
 })
 export class StockTransferInShopComponent implements OnInit, AfterViewInit {
-  ticket: StockTransferTicket = new StockTransferTicket;
+  ticket: StockTransferInShopTicket = new StockTransferInShopTicket;
   statusList: StatusTicket[] = [];
   dataFormat = dataFormat;
   title = '';
@@ -122,6 +122,8 @@ export class StockTransferInShopComponent implements OnInit, AfterViewInit {
     this.route.queryParams.pipe().subscribe((data: any) => {
       if (data.key) {
         this.ticketApiService.getVoucherByid(STOCK_TRANSFER_IN_SHOP_TICKET_ENTITY, data.key).subscribe((result) => {
+          console.log('data', result)
+
           if (result.result) {
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS.CREATE) {
               this.router.navigate(['/404']);
@@ -145,19 +147,19 @@ export class StockTransferInShopComponent implements OnInit, AfterViewInit {
   onChangeTransactionType(event: any) {
     this.ticket.masterInfo.fnote2 = event
     if (event === "1") {
-      this.ticket.masterInfo.ma_cuahang_n = this.ticket.masterInfo.ma_cuahang;
-      this.ticket.masterInfo.ten_cuahang_n = this.ticket.masterInfo.ten_cuahang;
-      this.ticket.masterInfo.ma_khon = '';
-      this.ticket.masterInfo.ten_khon = '';
+      this.ticket.masterInfo.ma_cuahang_x = this.ticket.masterInfo.ma_cuahang;
+      this.ticket.masterInfo.ten_cuahang_x = this.ticket.masterInfo.ten_cuahang;
+      this.ticket.masterInfo.ma_khox = '';
+      this.ticket.masterInfo.ten_khox = '';
     }
   }
 
   onChangeImportStore(event: any) {
     if (this.ticket.masterInfo.fnote2 === '2') {
-      this.ticket.masterInfo.ma_cuahang_n = event.trim();
+      this.ticket.masterInfo.ma_cuahang_x = event.trim();
       const shop = this.shops.find((e: any) => e.ma_cuahang === event.trim())
       if (shop) {
-        this.ticket.masterInfo.ten_cuahang_n = shop.ten_cuahang;
+        this.ticket.masterInfo.ten_cuahang_x = shop.ten_cuahang;
       }
     }
     else if (this.ticket.masterInfo.fnote2 === '1') {
@@ -169,13 +171,13 @@ export class StockTransferInShopComponent implements OnInit, AfterViewInit {
     const data = this.shops;
     this.commonService.openDialog(SearchDialogComponent, { dataSource: data, componentName: SEARCH_COMPONENT_NAME.SHOP_INFO })
       .afterClosed().subscribe(result => {
-        this.ticket.masterInfo.ma_cuahang_n = result?.ma_cuahang;
-        this.ticket.masterInfo.ten_cuahang_n = result?.ten_cuahang;
+        this.ticket.masterInfo.ma_cuahang_x = result?.ma_cuahang;
+        this.ticket.masterInfo.ten_cuahang_x = result?.ten_cuahang;
       });
   }
 
   openImportInventorySearchDialog() {
-    let data = this.stocks.filter(e => e.ma_cuahang === this.ticket.masterInfo.ma_cuahang_n);
+    let data = this.stocks.filter(e => e.ma_cuahang === this.ticket.masterInfo.ma_cuahang_x);
 
     if (this.ma_loai === "HH") {
       data = data.filter(e => e.ma_loai === "HD");
@@ -189,16 +191,16 @@ export class StockTransferInShopComponent implements OnInit, AfterViewInit {
 
     this.commonService.openDialog(SearchDialogComponent, { dataSource: data, componentName: SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP })
       .afterClosed().subscribe(result => {
-        this.ticket.masterInfo.ma_khon = result?.ma_kho;
-        this.ticket.masterInfo.ten_khon = result?.ten_kho;
+        this.ticket.masterInfo.ma_khox = result?.ma_kho;
+        this.ticket.masterInfo.ten_khox = result?.ten_kho;
       });
   }
 
   onChangeValueImportInventoryCode(event: any) {
     const _stock = this.stocks.find(e => e.ma_kho === event.trim()) as any;
     if (_stock) {
-      this.ticket.masterInfo.ma_khon = _stock.ma_kho;
-      this.ticket.masterInfo.ten_khon = _stock.ten_kho;
+      this.ticket.masterInfo.ma_khox = _stock.ma_kho;
+      this.ticket.masterInfo.ten_khox = _stock.ten_kho;
     }
   }
 

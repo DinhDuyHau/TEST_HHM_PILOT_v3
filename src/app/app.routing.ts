@@ -312,7 +312,6 @@ const routes: Routes = [
     path: 'voucher/stock-tranfer-in-shop', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
       { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.VOUCHER_STOCK_TRANSFER_IN_SHOP, reuse: true } },
-      { path: 'create', component: StockTransferInShopComponent, canActivate: [AuthGuard] },
       { path: 'update', component: StockTransferInShopComponent, canActivate: [AuthGuard] },
       { path: 'view', component: StockTransferInShopComponent, canActivate: [AuthGuard] },
     ]

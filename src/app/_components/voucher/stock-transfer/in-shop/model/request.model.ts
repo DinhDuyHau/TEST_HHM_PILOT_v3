@@ -13,6 +13,7 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     gia_vat = 0;
 
     fnote2 = '';
+    ngay_lct = '';
 
     constructor(obj?: any) {
         super();
@@ -31,8 +32,8 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     email_nhan_key = '';
     dien_giai = '';
     ma_kho = '';
-    ma_khon = '';
-    ma_cuahang_n = '';
+    ma_khox = '';
+    ma_cuahang_x = '';
     fnote2 = '';
 
     constructor(obj?: any) {
