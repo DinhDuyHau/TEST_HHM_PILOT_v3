@@ -33,10 +33,6 @@
           [name]="'ma_cuahang_n'"
           [label]="'Cửa hàng nhập'"
           [value]="ticket.masterInfo.ma_cuahang"
-          (handleChangeValue)="onChangeImportStore($event)"
-          (handleClickOpenDialog)="
-            ticket.masterInfo.fnote2 === '2' && openSearchShopDialog()
-          "
           [disabled]="
             ticket.masterInfo.fnote2 === '1' || ticket.merchandise.length > 0
           " />
@@ -53,8 +49,6 @@
           [name]="'so_ct'"
           [label]="'Mã kho nhập'"
           [value]="ticket.masterInfo.ma_kho"
-          (handleChangeValue)="onChangeValueImportInventoryCode($event)"
-          (handleClickOpenDialog)="openImportInventorySearchDialog()"
           [disabled]="
             ticket.masterInfo.fnote2 === '1' || ticket.merchandise.length > 0
           " />
@@ -105,8 +99,6 @@
           [name]="'ma_kho'"
           [label]="'Mã kho xuất'"
           [value]="ticket.masterInfo.ma_khox"
-          (handleChangeValue)="onChangeValueExportInventoryCode($event)"
-          (handleClickOpenDialog)="openExportInventorySearchDialog()"
           [disabled]="ticket.merchandise.length > 0" />
         <form-input-custom
           class="flex-1"
