@@ -46,6 +46,7 @@
           class="flex-1"
           [name]="'so_ct'"
           [label]="'Mã kho xuất'"
+          [tabIndex]="tabIndex.ma_kho"
           [value]="ticket.masterInfo.ma_kho"
           (handleChangeValue)="onChangeValueExportInventoryCode($event)"
           (handleClickOpenDialog)="openExportInventorySearchDialog()"
@@ -91,11 +92,12 @@
           class="flex-1"
           [name]="'so_ct'"
           [label]="'Mã kho nhập'"
+          [tabIndex]="tabIndex.ma_khon"
           [value]="ticket.masterInfo.ma_khon"
           (handleChangeValue)="onChangeValueImportInventoryCode($event)"
           (handleClickOpenDialog)="openImportInventorySearchDialog()"
           [disabled]="
-            (ticket.masterInfo.fnote2 === '1' && !ticket.masterInfo.ma_kh) ||
+            (ticket.masterInfo.fnote2 === '1' && !ticket.masterInfo.ma_kho) ||
             ticket.merchandise.length > 0
           " />
         <form-input-custom
@@ -107,7 +109,7 @@
       </div>
       <form-select-custom
         class="box order-dynamic-1 width-full"
-        [isDisable]="readonly"
+        [isDisable]="readonly || this.mode !== 0"
         [label]="'Loại giao dịch'"
         [options]="transactionTypeOptions"
         optionDes="label"
