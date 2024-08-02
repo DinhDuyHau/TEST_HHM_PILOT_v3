@@ -41,6 +41,8 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   isSaving = false;
   tabIndex = {
     imei: 1,
+    ma_kho: 2,
+    ma_khon: 3,
   };
   disableSelectStatus = false;
   imageCutomerFile?: File;
@@ -242,13 +244,32 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   }
 
   onEnterImeiCode(ma_imei: string) {
+    if (!this.ticket.masterInfo.ma_kho || this.ticket.masterInfo.ma_kho === '') {
+      this.commonService.showMessage("Chưa nhập mã kho xuất");
+      this.commonService.focusControl(this.tabIndex.ma_kho);
+      return;
+    }
+    if (!this.ticket.masterInfo.ma_khon || this.ticket.masterInfo.ma_khon === '') {
+      this.commonService.showMessage("Chưa nhập mã kho nhập");
+      this.commonService.focusControl(this.tabIndex.ma_khon);
+      return;
+    }
+
     this.imeiService.getListImeiInfo([ma_imei], this.ticket.masterInfo.ma_kho).subscribe((result) => {
       if (result.success && result.result.length) {
         result.result.map(merchandise => {
-          if (merchandise.in_store_yn &&
-            merchandise.exists_yn &&
-            merchandise.in_stock_yn &&
-            !merchandise.dieu_chuyen_yn &&
+          if (!merchandise.exists_yn) {
+            this.commonService.showMessage("Mã imei không tồn tại trong hệ thống");
+            this.commonService.focusControl(this.tabIndex.imei);
+            return;
+          }
+          if (!merchandise.in_store_yn || !merchandise.in_stock_yn) {
+            this.commonService.showMessage("Mã imei không tồn kho tại kho xuất hoặc không có trong cửa hàng");
+            this.commonService.focusControl(this.tabIndex.imei);
+            return;
+          }
+
+          if (!merchandise.dieu_chuyen_yn &&
             !merchandise.dat_hang_yn &&
             !merchandise.ban_hang_yn &&
             !merchandise.bao_hanh_yn) {
@@ -332,7 +353,11 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
     if (message) {
       this.commonService.showMessage(message);
     } else if (!this.invalid && !message) {
-      this.ticket.masterInfo.fnote2 = this.ticket.masterInfo.fnote2;
+      //cập nhật tổng số lượng
+      this.ticket.masterInfo.t_so_luong = this.ticket.merchandise.reduce((total, currentValue) => {
+        return total + currentValue.so_luong;
+      }, 0);
+
       const voucherDto = this.stockTransferService.prepareVoucher();
       this.route.queryParams.subscribe((data: any) => {
         if (this.mode === MODE.UPDATE && !this.isSaving) {
@@ -383,7 +408,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   }
 
   onCancel() {
-    this.router.navigate(['sales/retail']);
+    this.router.navigate(['voucher/stock-tranfer-from-shop']);
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);
