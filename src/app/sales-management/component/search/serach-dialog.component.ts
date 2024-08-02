@@ -302,7 +302,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       filters.every(filter => {
         if (e.hasOwnProperty(filter.name)) {
           const value = filter.value.replace(/%/g, "");
-          if (!e[filter.name].includes(value)) {
+          if (!e[filter.name].toLocaleLowerCase().includes(value.toLocaleLowerCase())) {
             isMatch = false;
             return false;
           }
