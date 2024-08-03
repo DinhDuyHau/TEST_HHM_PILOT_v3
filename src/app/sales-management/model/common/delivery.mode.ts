@@ -15,6 +15,9 @@ export class COD {
     so_dh_vc: string = '';
     ma_van_don: string = '';
     tien_phi_cod: number = 0;
+    ma_nv_giao: string = '';
+    ten_nv: string = '';
+    ghi_chu_gh: string = '';
 }
 
 export class HHDelivery {

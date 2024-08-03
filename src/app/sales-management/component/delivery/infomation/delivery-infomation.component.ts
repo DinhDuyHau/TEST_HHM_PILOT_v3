@@ -51,6 +51,9 @@ export class DeliveryInfomationComponent implements OnInit, AfterViewInit, OnCha
         if (customer) {
           this.data.hhDelivery.ma_nv_giao = customer.ma_kh;
           this.data.hhDelivery.ten_nv = customer.ten_kh;
+
+          this.data.cod.ma_nv_giao = customer.ma_kh;
+          this.data.cod.ten_nv = customer.ten_kh;
         }
       })
   }
@@ -70,6 +73,7 @@ export class DeliveryInfomationComponent implements OnInit, AfterViewInit, OnCha
 
   handleAddDeliveryEmpl(empl: any) {
     this.data.hhDelivery.ten_nv = empl.ten_kh;
+    this.data.cod.ten_nv = empl.ten_kh;
   }
 
 }
