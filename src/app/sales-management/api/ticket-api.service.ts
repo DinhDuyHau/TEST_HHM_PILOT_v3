@@ -84,7 +84,7 @@ export class TicketApiService extends ApiService {
 
     getTop(entity: string): Observable<ResultNoPaging<any>> {
         let url = GET_TOP_URL + entity;
-        if (entity === "ITTran_PXB2" || entity === "IPTran_PNF2") {
+        if (["ITTran_PXB2", "IPTran_PNF2", "KKTran"].includes(entity)) {
             url = GET_TOP_EXT_URL + entity
         }
         return this.get<ResultNoPaging<any>>(url);

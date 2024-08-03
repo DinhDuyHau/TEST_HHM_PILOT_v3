@@ -30,7 +30,8 @@ const {
   LIST_POS,
   LIST_PRICE_RENEW,
   LIST_BGD,
-  BANK_PUBLISH_CARD_SEARCH
+  BANK_PUBLISH_CARD_SEARCH,
+  EMPLOYEE_SEARCH
 } = require('@assets/fields/grid/sales-fields-table.json');
 
 const { STOCK_LIST, SHOP_INFO } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
@@ -220,6 +221,16 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.SHOP_INFO:
         this.columns = SHOP_INFO as any;
         break;
+      case SEARCH_COMPONENT_NAME.SHOP_INFO:
+        this.columns = SHOP_INFO as any;
+        break;
+      case SEARCH_COMPONENT_NAME.EMPLOYEE:
+        this.columns = EMPLOYEE_SEARCH as any;
+        filter.name = 'ma_kh';
+        filter.operator = "like";
+        filter.value = `%${this.data.keyword}%`;
+        this.defaultFilters = [filter];
+        break;
       default:
         break;
     }
@@ -291,6 +302,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return this.findDataSourceLocal(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.SHOP_INFO:
         return this.findDataSourceLocal(this.filters, this.page_index, this.page_size);
+      case SEARCH_COMPONENT_NAME.EMPLOYEE:
+        return this.customerApiService.findById(this.filters, this.page_index, this.page_size)
       default:
         return of();
     }
@@ -433,5 +446,6 @@ export const SEARCH_COMPONENT_NAME = {
   DELIVERY_PARNER: 22,
   STOCK_TRANSFER_FROM_SHOP: 23,
   SHOP_INFO: 24,
+  EMPLOYEE: 25
 };
 

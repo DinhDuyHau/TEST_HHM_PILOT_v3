@@ -18,10 +18,22 @@
             "title": "Mã số thuế"
         }
     ],
-    "DELIVERY_EMPLOYEE_SEACH": [
+    "DELIVERY_EMPLOYEE_SEARCH": [
         {
             "name": "ma_kh",
-            "title": "Mã nhân viên"
+            "title": "Mã nhân viên",
+            "isPrimaryKey": true
+        },
+        {
+            "name": "ten_kh",
+            "title": "Tên nhân viên"
+        }
+    ],
+    "EMPLOYEE_SEARCH": [
+        {
+            "name": "ma_kh",
+            "title": "Mã nhân viên",
+            "isPrimaryKey": true
         },
         {
             "name": "ten_kh",
