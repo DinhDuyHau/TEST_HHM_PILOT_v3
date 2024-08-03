@@ -371,7 +371,14 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return item2.name == item.name;
       });
     });
-    this.filters = [...this.defaultFilters, ...filters];
+
+    const _defaultFilters = this.defaultFilters.filter((item) => {
+      return !filters.find((item2: any) => {
+        return item2.name == item.name;
+      });
+    });
+
+    this.filters = [..._defaultFilters, ...filters];
     this.handleLoadata();
   }
 
