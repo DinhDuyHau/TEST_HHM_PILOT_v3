@@ -18,7 +18,10 @@ export class TransportService {
             result.cod = {
                 ma_van_don: src.ma_van_don,
                 so_dh_vc: src.so_dh_vc,
-                tien_phi_cod: src.tien_phi_cod
+                tien_phi_cod: src.tien_phi_cod,
+                ma_nv_giao: src.ma_nv_giao,
+                ghi_chu_gh: src.ghi_chu_gh,
+                ten_nv: ''
             };
             result.hhDelivery = {
                 ma_nv_giao: src.ma_nv_giao,

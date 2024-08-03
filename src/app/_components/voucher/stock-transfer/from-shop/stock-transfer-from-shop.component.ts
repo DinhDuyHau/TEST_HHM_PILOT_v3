@@ -157,8 +157,9 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   onChangeImportStore(event: any) {
     if (this.ticket.masterInfo.fnote2 === '2') {
       this.ticket.masterInfo.ma_cuahang_n = event.trim();
-      const shop = this.shops.find((e: any) => e.ma_cuahang === event.trim())
+      const shop = this.shops.find((e: any) => (e.ma_cuahang as string).toUpperCase() === (event as string).trim().toUpperCase())
       if (shop) {
+        this.ticket.masterInfo.ma_cuahang_n = shop.ma_cuahang;
         this.ticket.masterInfo.ten_cuahang_n = shop.ten_cuahang;
       }
     }
@@ -197,8 +198,44 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   }
 
   onChangeValueImportInventoryCode(event: any) {
-    const _stock = this.stocks.find(e => e.ma_kho === event.trim()) as any;
+    //Lấy thông tin kho xuất
+    const ma_kho_xuat = this.ticket.masterInfo.ma_kho;
+    const _stock_out = this.stocks.find(e => (e.ma_kho as string).toUpperCase() === ma_kho_xuat.trim().toUpperCase()) as any;
+    if (!_stock_out) {
+      this.commonService.showMessage("Chưa nhập mã kho xuất");
+      this.commonService.focusControl(this.tabIndex.ma_kho);
+      return;
+    }
+
+    const _stock = this.stocks.find(e => (e.ma_kho as string).toUpperCase() === (event as string).trim().toUpperCase()) as any;
     if (_stock) {
+      const ma_loai_out = _stock_out.ma_loai.trim().toUpperCase();
+      const ma_loai_in = _stock.ma_loai.trim().toUpperCase();
+
+      //loại kho xuất là HH -> loại kho nhận phải là HD
+      if (ma_loai_out === 'HH' && ma_loai_in !== 'HD') {
+        this.commonService.showMessage("Mã kho xuất loại HH thì mã kho nhận phải là loại HD");
+        this.ticket.masterInfo.ma_khon = '';
+        this.ticket.masterInfo.ten_khon = '';
+        return;
+      }
+
+      //loại kho xuất là BH -> loại kho nhận phải là HL
+      if (ma_loai_out === 'BH' && ma_loai_in !== 'HL') {
+        this.commonService.showMessage("Mã kho xuất loại BH thì mã kho nhận phải là loại HL");
+        this.ticket.masterInfo.ma_khon = '';
+        this.ticket.masterInfo.ten_khon = '';
+        return;
+      }
+
+      //loại kho xuất là HL -> loại kho nhận phải là BH
+      if (ma_loai_out === 'HL' && ma_loai_in !== 'BH') {
+        this.commonService.showMessage("Mã kho xuất loại HL thì mã kho nhận phải là loại BH");
+        this.ticket.masterInfo.ma_khon = '';
+        this.ticket.masterInfo.ten_khon = '';
+        return;
+      }
+
       this.ticket.masterInfo.ma_khon = _stock.ma_kho;
       this.ticket.masterInfo.ten_khon = _stock.ten_kho;
     }
@@ -216,7 +253,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   }
 
   onChangeValueExportInventoryCode(event: any) {
-    const _stock = this.stocks.find(e => e.ma_kho === event.trim()) as any;
+    const _stock = this.stocks.find(e => (e.ma_kho as string).toUpperCase() === (event as string).trim().toUpperCase()) as any;
     if (_stock) {
       this.ticket.masterInfo.ma_kho = _stock.ma_kho;
       this.ticket.masterInfo.ten_kho = _stock.ten_kho;

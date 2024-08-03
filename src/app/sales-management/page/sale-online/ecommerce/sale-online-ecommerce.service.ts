@@ -98,6 +98,7 @@ export class SaleOnlineEcommerceService {
                     break;
                 case TAB_NAME.ECOMMERCE:
                     this.ticket.ecommerce = this.commonService.convertDateOfModelFromVoucher(e.data[0]);
+                    this.ticket.masterInfo.ma_kh_tmdt = this.ticket.ecommerce.ma_kh_tmdt;
                     break;
                 default:
                     break;
