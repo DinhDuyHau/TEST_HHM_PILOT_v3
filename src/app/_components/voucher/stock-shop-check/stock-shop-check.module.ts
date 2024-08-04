@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { StockTransferInShopComponent } from './stock-transfer-in-shop.component';
 import { MatIconModule } from '@angular/material/icon';
 import { SearchDialogModule } from '@app/sales-management/component/search/serach-dialog.module';
 import { DataFormatPipeModule } from '@app/_pipe/dataFormat/data-format.pipe';
@@ -13,8 +12,8 @@ import { TableCustomModule } from '@app/sales-management/component/form-control-
 import { TabsCustomModule } from '@app/sales-management/component/form-control-custom/tabs/tabs.module';
 import { ScanQrcodeModule } from '@app/_components/scan-qrcode/scan-qrcode.module';
 import { CameraModule } from '@app/sales-management/component/webcam/webcam.module';
-import { ImportImeiModule } from '../import-imei/import-imei.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
+import { StockShopCheckComponent } from './stock-shop-check.component';
 
 @NgModule({
     imports: [
@@ -32,13 +31,12 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
         ScanQrcodeModule,
         CameraModule,
         VoucherInfoModule,
-        ImportImeiModule
     ],
     declarations: [
-        StockTransferInShopComponent,
+        StockShopCheckComponent,
     ],
     exports: [
-        StockTransferInShopComponent
+        StockShopCheckComponent
     ],
 })
-export class StockTransferInShopModule { }
+export class StockShopCheckModule { }

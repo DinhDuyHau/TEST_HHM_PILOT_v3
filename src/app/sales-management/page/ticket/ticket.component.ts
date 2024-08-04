@@ -18,6 +18,8 @@ const { TICKET: STOCK_TRANSFER_FROM_SHOP } = require('@assets/fields/grid/vouche
 
 const { TICKET: STOCK_TRANSFER_IN_SHOP } = require('@assets/fields/grid/voucher-stock-transfer-in-shop.json')
 
+const { TICKET: STOCK_SHOP_CHECK } = require('@assets/fields/grid/voucher-stock-shop-check.json')
+
 @Component({
   selector: 'app-ticket',
   templateUrl: './ticket.component.html',
@@ -230,6 +232,13 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.primaryKey = 'stt_rec';
         this.entityName = 'IPTran_PNF2';
         this.codeName = 'PNF';
+        break;
+      case TICKET_TYPE.VOUCHER_STOCK_SHOP_CHECK:
+        this.columns = STOCK_SHOP_CHECK as Cell[];
+        this.title = 'Phiếu kiểm kê';
+        this.primaryKey = 'stt_rec';
+        this.entityName = 'KKTran';
+        this.codeName = 'KK1';
         break;
     }
   }

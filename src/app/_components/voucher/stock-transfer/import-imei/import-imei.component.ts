@@ -8,6 +8,12 @@ const {
   IMPORT_IMEI_LIST
 } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json');
 
+export const enum ImportImeiTypeEnum {
+  STOCK_TRANSFER = 'stock transfer',
+  STOCK_CHECK = 'stock check'
+}
+
+
 @Component({
   selector: 'app-import-imei',
   templateUrl: './import-imei.component.html',
@@ -33,22 +39,35 @@ export class ImportImeiComponent {
     }
   }
 
+  isCanAdd(item: any) {
+    if (!this.data.type || this.data.type === ImportImeiTypeEnum.STOCK_TRANSFER) {
+      if (item.in_store_yn &&
+        item.exists_yn &&
+        item.in_stock_yn &&
+        !item.dieu_chuyen_yn &&
+        !item.dat_hang_yn &&
+        !item.ban_hang_yn &&
+        !item.bao_hanh_yn) {
+        return true;
+      }
+    } else if (this.data.type === ImportImeiTypeEnum.STOCK_CHECK) {
+      return true;
+    }
+    return false;
+  }
+
   handleAddImei(imeis: string) {
     const imei_data = this.splitImeiText(imeis);
     this.imeiService.getListImeiInfo(imei_data, this.data.ma_kho).subscribe((result) => {
       if (result.success && result.result.length) {
         result.result.map(item => {
-          if (item.in_store_yn &&
-            item.exists_yn &&
-            item.in_stock_yn &&
-            !item.dieu_chuyen_yn &&
-            !item.dat_hang_yn &&
-            !item.ban_hang_yn &&
-            !item.bao_hanh_yn) {
+          if (this.isCanAdd(item)) {
             const rs = this.dataSource.find((e: any) => e.ma_imei === item.ma_imei);
             if (!rs) {
               this.dataSource = [...this.dataSource, item];
               this.dataSource.map((e, index: number) => { e.line_nbr = index + 1 });
+            } else {
+              this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: item.ma_imei });
             }
           }
           else {

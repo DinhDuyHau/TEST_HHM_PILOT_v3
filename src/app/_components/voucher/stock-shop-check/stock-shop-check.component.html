@@ -1,0 +1,181 @@
+<div
+  class="px-1 md:px-2 lg:px-4 flex-1 bg-white position-relative ticket-container">
+  <div class="d-flex flex-column gap-2 mt-5 flex-1">
+    <div class="title-page pb-2 flex justify-between items-center">
+      <h5 class="">{{ title }}</h5>
+      <app-voucher-info
+        *ngIf="this.mode != 0"
+        [entity]="entity"
+        class="text-base"
+        [voucherId]="ticket.masterInfo.stt_rec" />
+    </div>
+    <div class="title-content">{{ getLabel('tlt_content') }}</div>
+    <div class="box-container mb-3">
+      <div class="box order-dynamic-1 d-flex gap-3">
+        <form-input-custom
+          class="flex-1"
+          [name]="'so_ct'"
+          [label]="getLabel('lbl_so_ct')"
+          [value]="ticket.masterInfo.so_ct"
+          [disabled]="true" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ngay_ct'"
+          [label]="'Ngày lập'"
+          [value]="ticket.masterInfo.ngay_ct"
+          format="datetimeFormat"
+          dataType="date"
+          [disabled]="true" />
+      </div>
+      <div class="box order-dynamic-1 d-flex gap-3">
+        <form-input-custom
+          class="flex-1"
+          [name]="'ma_kho'"
+          [label]="'Mã kho'"
+          [value]="ticket.masterInfo.ma_kho"
+          (handleClickOpenDialog)="openInventorySearchDialog()"
+          [disabled]="false" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ten_kho'"
+          [label]="'Tên kho'"
+          [value]="ticket.masterInfo.ten_kho"
+          [disabled]="true" />
+      </div>
+      <div class="box order-dynamic-1 d-flex gap-3">
+        <form-input-custom
+          class="flex-1"
+          [name]="'ma_nvkk01'"
+          [label]="'Mã nhân viên 1'"
+          [value]="ticket.masterInfo.ma_nvkk01"
+          [disabled]="true" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ten_nvkk01'"
+          [label]="'Tên nhân viên 1'"
+          [value]="ticket.masterInfo.ten_nvkk01"
+          [disabled]="true" />
+      </div>
+      <div class="box order-dynamic-1 d-flex gap-3">
+        <form-select-custom
+          class="flex-1"
+          [isDisable]="readonly || disableSelectStatus"
+          [label]="getLabel('lbl_trang_thai')"
+          [options]="statusList"
+          optionDes="statusname"
+          optionValue="status"
+          [value]="ticket.masterInfo.status"
+          (handleChangeValue)="ticket.masterInfo.status = $event" />
+      </div>
+      <form-input-custom
+        #txt_dien_giai
+        class="box order-dynamic-2"
+        [name]="'dien_giai'"
+        [label]="getLabel('lbl_dien_giai')"
+        [value]="ticket.masterInfo.dien_giai"
+        (handleChangeValue)="
+          ticket.masterInfo.dien_giai = txt_dien_giai.value
+        " />
+      <div class="box order-dynamic-1 d-flex gap-3">
+        <form-input-custom
+          class="flex-1"
+          [name]="'ma_nvkk02'"
+          [label]="'Mã nhân viên 2'"
+          (handleClickOpenDialog)="openEmployeeSearchDialog('2')"
+          [value]="ticket.masterInfo.ma_nvkk02"
+          [disabled]="false" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ten_nvkk02'"
+          [label]="'Tên nhân viên 2'"
+          [value]="ticket.masterInfo.ten_nvkk02"
+          [disabled]="true" />
+      </div>
+      <div class="box order-dynamic-1 d-flex">
+        <form-input-custom
+          #txtImei
+          [name]="'imei'"
+          [label]="getLabel('lbl_imei')"
+          [tabIndex]="tabIndex.imei"
+          *ngIf="!readonly"
+          (handleEnterInput)="onEnterImeiCode($event); txtImei.value = ''"
+          (handleClickCodeScanner)="onClickCodeScanner()"
+          [uploadImage]="true" />
+      </div>
+      <div class="box order-dynamic-3 d-flex gap-3">
+        <form-input-custom
+          class="flex-1"
+          [name]="'ma_nvkk03'"
+          [label]="'Mã nhân viên 3'"
+          (handleClickOpenDialog)="openEmployeeSearchDialog('3')"
+          [value]="ticket.masterInfo.ma_nvkk03"
+          [disabled]="false" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ten_nvkk03'"
+          [label]="'Tên nhân viên 3'"
+          [value]="ticket.masterInfo.ten_nvkk03"
+          [disabled]="true" />
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button
+        class="btn-input-imei text-nowrap"
+        (click)="onOpenInputImeiModal()">
+        Nhập danh sách imei
+      </button>
+    </div>
+
+    <tabs-custom title="Thông tin hàng hóa">
+      <tab-custom label="Hàng hoá" class="w-100">
+        <table-custom
+          [type]="'main'"
+          [dataSource]="ticket.merchandise"
+          [columns]="merchandiseColumns"
+          [readonly]="readonly"
+          [isChangeColorWhenSelected]="true"
+          [isShowDiscountNG]="true"
+          [isTicket]="false"
+          (handleUpdate)="onOpenInputImeiModal($event)"
+          (handleDelete)="onRemoveMerchandise($event)" />
+      </tab-custom>
+    </tabs-custom>
+
+    <div>
+      <div class="d-flex justify-end gap-2 m-3">
+        <app-voucher-info
+          *ngIf="this.mode != 0"
+          [entity]="entity"
+          class="text-base"
+          [voucherId]="ticket.masterInfo.stt_rec" />
+        <div class="btn-responsive btn-in-file">
+          <span>{{ getLabel('btnPrint') }}</span>
+        </div>
+        <div class="btn-responsive btn-cancel" (click)="onCancel()">
+          {{ cancelButtonTitle }}
+        </div>
+        <div
+          class="btn-responsive btn-add"
+          (click)="onSave()"
+          *ngIf="!readonly">
+          {{ submitButtonTitle }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="isSaving"
+    class="position-absolute start-0 top-0 opacity-50"
+    style="width: 100%; height: 100%; background-color: rgb(193, 193, 193)">
+    <div class="position-absolute top-50 start-50 translate-middle">
+      <div class="d-flex flex-column">
+        <div class="spinner-border text-dark align-self-center" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Đang lưu</p>
+      </div>
+    </div>
+  </div>
+</div>
