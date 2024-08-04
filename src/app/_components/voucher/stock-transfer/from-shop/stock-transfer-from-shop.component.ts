@@ -178,7 +178,6 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   }
 
   openImportInventorySearchDialog() {
-    let data = this.stocks.filter(e => e.ma_cuahang === this.ticket.masterInfo.ma_cuahang_n);
     let ma_loai = this.ticket.masterInfo.ma_cuahang_n;
     if (this.ma_loai === "HH") {
       ma_loai = "HD";
@@ -210,10 +209,6 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   }
 
   onChangeValueImportInventoryCode(event: any) {
-    //Lấy thông tin kho xuất
-    const ma_kho_xuat = this.ticket.masterInfo.ma_kho;
-    const _stock_out = this.stocks.find(e => (e.ma_kho as string).toUpperCase() === ma_kho_xuat.trim().toUpperCase()) as any;
-
     const stockOutFilter = [{
       name: 'ma_kho',
       operator: "=",
@@ -328,7 +323,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       value: this.ticket.masterInfo.ma_cuahang
     }
     ]
-    this.ticketApiService.findStocks(filter, 1, 10).subscribe(result => {
+    this.ticketApiService.findStocks(filter, 1, 1).subscribe(result => {
       if (result.success && result.result.items) {
         this.ticket.masterInfo.ma_kho = result?.result.items[0]?.ma_kho;
         this.ticket.masterInfo.ten_kho = result?.result.items[0]?.ten_kho;
@@ -338,10 +333,6 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
         this.commonService.showMessage(`Không tìm thấy kho ${event.trim()}`);
       }
     });
-    // if (_stock) {
-    //   this.ticket.masterInfo.ma_kho = _stock.ma_kho;
-    //   this.ticket.masterInfo.ten_kho = _stock.ten_kho;
-    // }
   }
 
   // #endregion master info
