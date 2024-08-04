@@ -1,7 +1,7 @@
 [
   {
     "name": "ma_cuahang",
-    "title": "Mã cửa hàng",
+    "title": "Cửa hàng",
     "isLockingColumn": true,
     "width": 160,
     "allowSorting": true,

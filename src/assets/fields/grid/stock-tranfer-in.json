@@ -1,9 +1,9 @@
 [
   {
-    "name": "ma_dvcs",
-    "title": "Đơn vị",
+    "name": "ma_cuahang",
+    "title": "Cửa hàng",
     "isLockingColumn": true,
-    "width": 80,
+    "width": 100,
     "allowSorting": true,
     "allowFilter": true,
     "dataFormatString": "upperCaseFormat"
