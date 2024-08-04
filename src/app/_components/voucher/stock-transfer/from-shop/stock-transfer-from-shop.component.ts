@@ -226,39 +226,22 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
         else {
           const _stock_out = result?.result.items[0];
 
-          let ma_loai = "";
-          if (this.ma_loai === "HH") {
-            ma_loai = "HD";
-          }
-          else if (this.ma_loai === "HL") {
-            ma_loai = "BH";
-          }
-          else if (this.ma_loai === "BH") {
-            ma_loai = "HL";
-          }
-
-          const stockInFilter = [{
-            name: 'ma_loai',
-            operator: "=",
-            value: ma_loai
-          },
-          {
-            name: 'ma_kho',
-            operator: "=",
-            value: (event as string).trim()
-          },
-          {
-            name: 'ma_cuahang',
-            operator: "=",
-            value: this.ticket.masterInfo.ma_cuahang_n
-          }
+          const stockInFilter = [
+            {
+              name: 'ma_kho',
+              operator: "=",
+              value: (event as string).trim()
+            },
+            {
+              name: 'ma_cuahang',
+              operator: "=",
+              value: this.ticket.masterInfo.ma_cuahang_n
+            }
           ]
 
           this.ticketApiService.findStocks(stockInFilter, 1, 1).subscribe(result => {
             if (result.success && result.result?.items[0]) {
               const _stock = result?.result.items[0];
-              this.ticket.masterInfo.ma_khon = _stock.ma_kho;
-              this.ticket.masterInfo.ten_khon = _stock.ten_kho;
 
               const ma_loai_out = _stock_out.ma_loai.trim().toUpperCase();
               const ma_loai_in = _stock.ma_loai.trim().toUpperCase();
@@ -286,6 +269,9 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
                 this.ticket.masterInfo.ten_khon = '';
                 return;
               }
+
+              this.ticket.masterInfo.ma_khon = _stock.ma_kho;
+              this.ticket.masterInfo.ten_khon = _stock.ten_kho;
             }
             else {
               this.commonService.showMessage("Không tìm thấy kho " + event)
