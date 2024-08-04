@@ -215,7 +215,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.value = `03`;
         this.defaultFilters = [filter];
         break;
-      case SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP:
+      case SEARCH_COMPONENT_NAME.STOCK_INFO:
         this.columns = STOCK_LIST as any;
         this.defaultFilters = this.data.filter || [];
         break;
@@ -299,7 +299,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.PACKAGE:
         return this.merchandiseServiceApiService.findById(this.filters, this.page_index, this.page_size);
-      case SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP:
+      case SEARCH_COMPONENT_NAME.STOCK_INFO:
         return this.ticketApiService.findStocks(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.SHOP_INFO:
         return this.findDataSourceLocal(this.filters, this.page_index, this.page_size);
@@ -452,7 +452,7 @@ export const SEARCH_COMPONENT_NAME = {
   PACKAGE: 20,
   BANK_PUBLISH_CARD: 21,
   DELIVERY_PARNER: 22,
-  STOCK_TRANSFER_FROM_SHOP: 23,
+  STOCK_INFO: 23,
   SHOP_INFO: 24,
   EMPLOYEE: 25
 };

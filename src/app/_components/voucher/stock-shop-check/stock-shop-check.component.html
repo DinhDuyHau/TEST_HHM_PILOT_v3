@@ -33,6 +33,7 @@
           [name]="'ma_kho'"
           [label]="'Mã kho'"
           [value]="ticket.masterInfo.ma_kho"
+          (handleChangeValue)="onChangeValueInventoryCode($event)"
           (handleClickOpenDialog)="openInventorySearchDialog()"
           [disabled]="false" />
         <form-input-custom

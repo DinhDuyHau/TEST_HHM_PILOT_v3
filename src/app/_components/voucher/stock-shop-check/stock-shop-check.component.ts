@@ -142,22 +142,60 @@ export class StockShopCheckComponent {
   // #region master info
   openInventorySearchDialog() {
     let data = this.stocks.filter(e => e.ma_cuahang === this.ticket.masterInfo.ma_cuahang);
-
+    let ma_loai = this.ma_loai;
     if (this.ma_loai === "HH") {
-      data = data.filter(e => e.ma_loai === "HD");
+      ma_loai === "HD";
     }
     else if (this.ma_loai === "HL") {
-      data = data.filter(e => e.ma_loai === "BH");
+      ma_loai === "BH";
     }
     else if (this.ma_loai === "BH") {
-      data = data.filter(e => e.ma_loai === "HL");
+      ma_loai === "HL";
     }
 
-    this.commonService.openDialog(SearchDialogComponent, { dataSource: data, componentName: SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP })
+    const filter = [{
+      name: 'ma_loai',
+      operator: "=",
+      value: ma_loai
+    },
+    {
+      name: 'ma_cuahang',
+      operator: "=",
+      value: this.ticket.masterInfo.ma_cuahang
+    }
+    ]
+
+    this.commonService.openDialog(SearchDialogComponent, { filter, componentName: SEARCH_COMPONENT_NAME.STOCK_INFO })
       .afterClosed().subscribe(result => {
         this.ticket.masterInfo.ma_kho = result?.ma_kho;
         this.ticket.masterInfo.ten_kho = result?.ten_kho;
       });
+  }
+
+  onChangeValueInventoryCode(event: any) {
+    const stockInFilter = [
+      {
+        name: 'ma_kho',
+        operator: "=",
+        value: (event as string).trim()
+      },
+      {
+        name: 'ma_cuahang',
+        operator: "=",
+        value: this.ticket.masterInfo.ma_cuahang
+      }
+    ]
+
+    this.ticketApiService.findStocks(stockInFilter, 1, 1).subscribe(result => {
+      if (result.success && result.result?.items[0]) {
+        const _stock = result?.result?.items[0];
+        this.ticket.masterInfo.ma_kho = _stock?.ma_kho;
+        this.ticket.masterInfo.ten_kho = _stock?.ten_kho;
+      }
+      else {
+        this.commonService.showMessage("Không tìm thấy kho " + event)
+      }
+    })
   }
 
   openEmployeeSearchDialog(type: string) {

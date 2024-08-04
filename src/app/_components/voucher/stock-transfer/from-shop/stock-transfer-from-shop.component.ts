@@ -178,7 +178,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   }
 
   openImportInventorySearchDialog() {
-    let ma_loai = this.ticket.masterInfo.ma_cuahang_n;
+    let ma_loai = this.ma_loai;
     if (this.ma_loai === "HH") {
       ma_loai = "HD";
     }
@@ -201,7 +201,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
     }
     ]
 
-    this.commonService.openDialog(SearchDialogComponent, { filter, componentName: SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP })
+    this.commonService.openDialog(SearchDialogComponent, { filter, componentName: SEARCH_COMPONENT_NAME.STOCK_INFO })
       .afterClosed().subscribe(result => {
         this.ticket.masterInfo.ma_khon = result?.ma_kho;
         this.ticket.masterInfo.ten_khon = result?.ten_kho;
@@ -289,7 +289,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       value: this.ticket.masterInfo.ma_cuahang
     }]
     this.commonService.openDialog(SearchDialogComponent,
-      { filter, componentName: SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP })
+      { filter, componentName: SEARCH_COMPONENT_NAME.STOCK_INFO })
       .afterClosed().subscribe(result => {
         this.ticket.masterInfo.ma_kho = result?.ma_kho;
         this.ticket.masterInfo.ten_kho = result?.ten_kho;
