@@ -1,8 +1,8 @@
 {
     "RETAIL": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
         },
         {
             "name": "ten_ca",
@@ -17,8 +17,8 @@
             "title": "Ngày chứng từ",
             "dataType": "date",
             "format": "datetimeFormat",
-            "width": "100px",
-            "minWidth": "100px"
+            "width": "110px",
+            "minWidth": "110px"
         },
         {
             "name": "so_ct",
@@ -67,8 +67,8 @@
     ],
     "SALE_ONLINE": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
         },
         {
             "name": "ten_ca",
@@ -131,8 +131,8 @@
     ],
     "SALE_ONLINE_ECOMMERCE": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
         },
         {
             "name": "ten_ca",
@@ -195,8 +195,8 @@
     ],
     "SALE_WHOLE": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
         },
         {
             "name": "statusname",
@@ -255,8 +255,8 @@
     ],
     "SALE_AFFILIATE": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
         },
         {
             "name": "ten_ca",
@@ -319,8 +319,8 @@
     ],
     "SALE_TELECOM": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
         },
         {
             "name": "statusname",
@@ -383,8 +383,8 @@
     ],
     "SALE_ITINERANT": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
         },
         {
             "name": "statusname",
@@ -443,8 +443,8 @@
     ],
     "SALE_SERVICE": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
         },
         {
             "name": "statusname",
@@ -503,8 +503,8 @@
     ],
     "SALE_RETURN": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị",
+            "name": "ma_cuahang",
+            "title": "Cửa hàng",
             "width": "100px",
             "minWidth": "50px"
         },
@@ -569,8 +569,8 @@
     ],
     "SALE_RETURN_ONLINE": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
         },
         {
             "name": "ten_ca",
@@ -633,8 +633,8 @@
     ],
     "SALE_RETURN_SERVICE": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
         },
         {
             "name": "statusname",
@@ -693,8 +693,8 @@
     ],
     "SALE_CHANGE": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
         },
         {
             "name": "statusname",
@@ -753,8 +753,8 @@
     ],
     "SALE_GIFT_REPAY": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
         },
         {
             "name": "statusname",
@@ -813,8 +813,8 @@
     ],
     "SALE_REPURCHASE": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
         },
         {
             "name": "ten_ca",
@@ -877,8 +877,8 @@
     ],
     "SALE_RENEW": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
         },
         {
             "name": "statusname",
@@ -937,8 +937,8 @@
     ],
     "SALE_CONTRACT": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
         },
         {
             "name": "statusname",
