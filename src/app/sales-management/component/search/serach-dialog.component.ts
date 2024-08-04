@@ -217,6 +217,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         break;
       case SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP:
         this.columns = STOCK_LIST as any;
+        this.defaultFilters = this.data.filter || [];
         break;
       case SEARCH_COMPONENT_NAME.SHOP_INFO:
         this.columns = SHOP_INFO as any;
@@ -299,7 +300,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.PACKAGE:
         return this.merchandiseServiceApiService.findById(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP:
-        return this.findDataSourceLocal(this.filters, this.page_index, this.page_size);
+        return this.ticketApiService.findStocks(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.SHOP_INFO:
         return this.findDataSourceLocal(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.EMPLOYEE:

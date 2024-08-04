@@ -179,18 +179,30 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
 
   openImportInventorySearchDialog() {
     let data = this.stocks.filter(e => e.ma_cuahang === this.ticket.masterInfo.ma_cuahang_n);
-
+    let ma_loai = this.ticket.masterInfo.ma_cuahang_n;
     if (this.ma_loai === "HH") {
-      data = data.filter(e => e.ma_loai === "HD");
+      ma_loai = "HD";
     }
     else if (this.ma_loai === "HL") {
-      data = data.filter(e => e.ma_loai === "BH");
+      ma_loai = "BH";
     }
     else if (this.ma_loai === "BH") {
-      data = data.filter(e => e.ma_loai === "HL");
+      ma_loai = "HL";
     }
 
-    this.commonService.openDialog(SearchDialogComponent, { dataSource: data, componentName: SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP })
+    const filter = [{
+      name: 'ma_loai',
+      operator: "=",
+      value: ma_loai
+    },
+    {
+      name: 'ma_cuahang',
+      operator: "=",
+      value: this.ticket.masterInfo.ma_cuahang_n
+    }
+    ]
+
+    this.commonService.openDialog(SearchDialogComponent, { filter, componentName: SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP })
       .afterClosed().subscribe(result => {
         this.ticket.masterInfo.ma_khon = result?.ma_kho;
         this.ticket.masterInfo.ten_khon = result?.ten_kho;
@@ -201,50 +213,102 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
     //Lấy thông tin kho xuất
     const ma_kho_xuat = this.ticket.masterInfo.ma_kho;
     const _stock_out = this.stocks.find(e => (e.ma_kho as string).toUpperCase() === ma_kho_xuat.trim().toUpperCase()) as any;
-    if (!_stock_out) {
-      this.commonService.showMessage("Chưa nhập mã kho xuất");
-      this.commonService.focusControl(this.tabIndex.ma_kho);
-      return;
+
+    const stockOutFilter = [{
+      name: 'ma_kho',
+      operator: "=",
+      value: this.ticket.masterInfo.ma_kho
     }
+    ]
 
-    const _stock = this.stocks.find(e => (e.ma_kho as string).toUpperCase() === (event as string).trim().toUpperCase()) as any;
-    if (_stock) {
-      const ma_loai_out = _stock_out.ma_loai.trim().toUpperCase();
-      const ma_loai_in = _stock.ma_loai.trim().toUpperCase();
+    this.ticketApiService.findStocks(stockOutFilter, 1, 1).subscribe(result => {
+      if (result.success && result.result.items) {
+        if (!result?.result.items[0]) {
+          this.commonService.showMessage("Chưa nhập mã kho xuất");
+          this.commonService.focusControl(this.tabIndex.ma_kho);
+          return;
+        }
+        else {
+          const _stock_out = result?.result.items[0];
 
-      //loại kho xuất là HH -> loại kho nhận phải là HD
-      if (ma_loai_out === 'HH' && ma_loai_in !== 'HD') {
-        this.commonService.showMessage("Mã kho xuất loại HH thì mã kho nhận phải là loại HD");
-        this.ticket.masterInfo.ma_khon = '';
-        this.ticket.masterInfo.ten_khon = '';
-        return;
+          let ma_loai = "";
+          if (this.ma_loai === "HH") {
+            ma_loai = "HD";
+          }
+          else if (this.ma_loai === "HL") {
+            ma_loai = "BH";
+          }
+          else if (this.ma_loai === "BH") {
+            ma_loai = "HL";
+          }
+
+          const stockInFilter = [{
+            name: 'ma_loai',
+            operator: "=",
+            value: ma_loai
+          },
+          {
+            name: 'ma_kho',
+            operator: "=",
+            value: (event as string).trim()
+          },
+          {
+            name: 'ma_cuahang',
+            operator: "=",
+            value: this.ticket.masterInfo.ma_cuahang_n
+          }
+          ]
+
+          this.ticketApiService.findStocks(stockInFilter, 1, 1).subscribe(result => {
+            if (result.success && result.result?.items[0]) {
+              const _stock = result?.result.items[0];
+              this.ticket.masterInfo.ma_khon = _stock.ma_kho;
+              this.ticket.masterInfo.ten_khon = _stock.ten_kho;
+
+              const ma_loai_out = _stock_out.ma_loai.trim().toUpperCase();
+              const ma_loai_in = _stock.ma_loai.trim().toUpperCase();
+
+              //loại kho xuất là HH -> loại kho nhận phải là HD
+              if (ma_loai_out === 'HH' && ma_loai_in !== 'HD') {
+                this.commonService.showMessage("Mã kho xuất loại HH thì mã kho nhận phải là loại HD");
+                this.ticket.masterInfo.ma_khon = '';
+                this.ticket.masterInfo.ten_khon = '';
+                return;
+              }
+
+              //loại kho xuất là BH -> loại kho nhận phải là HL
+              if (ma_loai_out === 'BH' && ma_loai_in !== 'HL') {
+                this.commonService.showMessage("Mã kho xuất loại BH thì mã kho nhận phải là loại HL");
+                this.ticket.masterInfo.ma_khon = '';
+                this.ticket.masterInfo.ten_khon = '';
+                return;
+              }
+
+              //loại kho xuất là HL -> loại kho nhận phải là BH
+              if (ma_loai_out === 'HL' && ma_loai_in !== 'BH') {
+                this.commonService.showMessage("Mã kho xuất loại HL thì mã kho nhận phải là loại BH");
+                this.ticket.masterInfo.ma_khon = '';
+                this.ticket.masterInfo.ten_khon = '';
+                return;
+              }
+            }
+            else {
+              this.commonService.showMessage("Không tìm thấy kho " + event)
+            }
+          })
+        }
       }
-
-      //loại kho xuất là BH -> loại kho nhận phải là HL
-      if (ma_loai_out === 'BH' && ma_loai_in !== 'HL') {
-        this.commonService.showMessage("Mã kho xuất loại BH thì mã kho nhận phải là loại HL");
-        this.ticket.masterInfo.ma_khon = '';
-        this.ticket.masterInfo.ten_khon = '';
-        return;
-      }
-
-      //loại kho xuất là HL -> loại kho nhận phải là BH
-      if (ma_loai_out === 'HL' && ma_loai_in !== 'BH') {
-        this.commonService.showMessage("Mã kho xuất loại HL thì mã kho nhận phải là loại BH");
-        this.ticket.masterInfo.ma_khon = '';
-        this.ticket.masterInfo.ten_khon = '';
-        return;
-      }
-
-      this.ticket.masterInfo.ma_khon = _stock.ma_kho;
-      this.ticket.masterInfo.ten_khon = _stock.ten_kho;
-    }
+    });
   }
 
   openExportInventorySearchDialog() {
-    const data = this.stocks.filter(e => e.ma_cuahang === this.ticket.masterInfo.ma_cuahang);
+    const filter = [{
+      name: 'ma_cuahang',
+      operator: "=",
+      value: this.ticket.masterInfo.ma_cuahang
+    }]
     this.commonService.openDialog(SearchDialogComponent,
-      { dataSource: data, componentName: SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP })
+      { filter, componentName: SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP })
       .afterClosed().subscribe(result => {
         this.ticket.masterInfo.ma_kho = result?.ma_kho;
         this.ticket.masterInfo.ten_kho = result?.ten_kho;
@@ -253,11 +317,31 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   }
 
   onChangeValueExportInventoryCode(event: any) {
-    const _stock = this.stocks.find(e => (e.ma_kho as string).toUpperCase() === (event as string).trim().toUpperCase()) as any;
-    if (_stock) {
-      this.ticket.masterInfo.ma_kho = _stock.ma_kho;
-      this.ticket.masterInfo.ten_kho = _stock.ten_kho;
+    const filter = [{
+      name: 'ma_kho',
+      operator: "=",
+      value: (event as string).trim()
+    },
+    {
+      name: 'ma_cuahang',
+      operator: "=",
+      value: this.ticket.masterInfo.ma_cuahang
     }
+    ]
+    this.ticketApiService.findStocks(filter, 1, 10).subscribe(result => {
+      if (result.success && result.result.items) {
+        this.ticket.masterInfo.ma_kho = result?.result.items[0]?.ma_kho;
+        this.ticket.masterInfo.ten_kho = result?.result.items[0]?.ten_kho;
+      }
+      else {
+        this.ticket.masterInfo.ten_kho = '';
+        this.commonService.showMessage(`Không tìm thấy kho ${event.trim()}`);
+      }
+    });
+    // if (_stock) {
+    //   this.ticket.masterInfo.ma_kho = _stock.ma_kho;
+    //   this.ticket.masterInfo.ten_kho = _stock.ten_kho;
+    // }
   }
 
   // #endregion master info

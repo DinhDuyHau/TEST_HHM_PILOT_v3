@@ -251,4 +251,8 @@ export class TicketApiService extends ApiService {
     getStockRenew(ma_cuahang: string, ma_loai: string): Observable<Result<any>> {
         return this.post<Result<any>>(GET_STOCK_BY_SHOP, [{ name: 'ma_cuahang', operator: '=', value: ma_cuahang }, { name: 'ma_loai', operator: '=', value: ma_loai }]);
     }
+
+    findStocks(body: any, page_index: number, page_size: number): Observable<Result<any>> {
+        return this.post<Result<any>>(GET_STOCK_BY_SHOP, body, { page_index, page_size });
+    }
 }
