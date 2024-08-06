@@ -37,6 +37,7 @@ export class VoucherComponent extends Grid<Model> implements OnInit, OnChanges {
     });
     document.title = voucherService.getTitle();
   }
+
   ngOnInit(): void {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
@@ -44,7 +45,10 @@ export class VoucherComponent extends Grid<Model> implements OnInit, OnChanges {
         return (this.route?.snapshot as any)['_routerState']?.url === event.url;
       })
     ).subscribe((event) => {
-      this.loadData({ pageIndex: this.pageIndex, pageSize: this.pageSize });
+      this.loadData({
+        pageIndex: event.pageIndex,
+        pageSize: event.pageSize
+      }, this.sort, this.filter);
     });
   }
 
