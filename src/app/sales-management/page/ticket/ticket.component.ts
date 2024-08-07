@@ -14,6 +14,8 @@ import { filter } from 'rxjs';
 
 const TICKET_FIELDS = require('@assets/fields/grid/sales-ticket.json')
 
+const STOCK_FIELDS = require('@assets/fields/grid/voucher-stock-fields.json')
+
 const { TICKET: STOCK_TRANSFER_FROM_SHOP } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
 
 const { TICKET: STOCK_TRANSFER_IN_SHOP } = require('@assets/fields/grid/voucher-stock-transfer-in-shop.json')
@@ -239,6 +241,42 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.primaryKey = 'stt_rec';
         this.entityName = 'KKTran';
         this.codeName = 'KK1';
+        break;
+
+      case TICKET_TYPE.STOCK_PROPOSEDPURCHASE:
+        this.columns = STOCK_FIELDS.STOCK_PROPOSEDPURCHASE as Cell[];
+        this.title = 'Phiếu đề nghị xin hàng';
+        this.primaryKey = 'stt_rec';
+        this.entityName = 'PR3Tran';
+        this.codeName = 'PR3';
+        break;
+      case TICKET_TYPE.STOCK_TRANFER:
+        this.columns = STOCK_FIELDS.STOCK_TRANFER as Cell[];
+        this.title = 'Phiếu xuất điều chuyển';
+        this.primaryKey = 'stt_rec';
+        this.entityName = 'ITTran';
+        this.codeName = 'PXB';
+        break;
+      case TICKET_TYPE.STOCK_TRANFER_IN:
+        this.columns = STOCK_FIELDS.STOCK_TRANFER_IN as Cell[];
+        this.title = 'Phiếu nhập điều chuyển';
+        this.primaryKey = 'stt_rec';
+        this.entityName = 'IPTran';
+        this.codeName = 'PNF';
+        break;
+      case TICKET_TYPE.STOCK_INTERNAL_SALE:
+        this.columns = STOCK_FIELDS.STOCK_INTERNAL_SALE as Cell[];
+        this.title = 'Phiếu xuất bán nội bộ';
+        this.primaryKey = 'stt_rec';
+        this.entityName = 'ITNTran';
+        this.codeName = 'PXN';
+        break;
+      case TICKET_TYPE.STOCK_INTERNAL_PURCHASE:
+        this.columns = STOCK_FIELDS.STOCK_INTERNAL_PURCHASE as Cell[];
+        this.title = 'Phiếu nhập mua nội bộ';
+        this.primaryKey = 'stt_rec';
+        this.entityName = 'IPNTran';
+        this.codeName = 'PNN';
         break;
     }
   }
