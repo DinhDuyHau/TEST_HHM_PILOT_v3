@@ -115,7 +115,8 @@ const routes: Routes = [
   {
     path: 'voucher/proposed-purchase', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.PROPOSEDPURCHASE },
+      //{ path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.PROPOSEDPURCHASE },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_PROPOSEDPURCHASE, reuse: true } },
       { path: 'create', component: ProposedPurchaseCreateComponent, canActivate: [AuthGuard] },
       { path: 'update', component: ProposedPurchaseCreateComponent, canActivate: [AuthGuard] },
       { path: 'view', component: ProposedPurchaseCreateComponent, canActivate: [AuthGuard] },
@@ -142,7 +143,8 @@ const routes: Routes = [
   {
     path: 'voucher/stock-tranfer', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.STOCK_TRANFER },
+      //{ path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.STOCK_TRANFER },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_TRANFER, reuse: true } },
       { path: 'create', component: StockTranferCreateComponent, canActivate: [AuthGuard] },
       { path: 'update', component: StockTranferCreateComponent, canActivate: [AuthGuard] },
       { path: 'view', component: StockTranferCreateComponent, canActivate: [AuthGuard] },
@@ -151,7 +153,8 @@ const routes: Routes = [
   {
     path: 'voucher/stock-tranfer-in', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.STOCK_TRANFER_IN },
+      //{ path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.STOCK_TRANFER_IN },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_TRANFER_IN, reuse: true } },
       { path: 'create', component: StockTranferInCreateComponent, canActivate: [AuthGuard] },
       { path: 'update', component: StockTranferInCreateComponent, canActivate: [AuthGuard] },
       { path: 'view', component: StockTranferInCreateComponent, canActivate: [AuthGuard] },
@@ -160,7 +163,8 @@ const routes: Routes = [
   {
     path: 'voucher/internal-sale', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.INTERNAL_SALE },
+      //{ path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.INTERNAL_SALE },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.VOUCHER_STOCK_TRANSFER_FROM_SHOP, reuse: true } },
       { path: 'create', component: InternalSaleCreateComponent, canActivate: [AuthGuard] },
       { path: 'update', component: InternalSaleCreateComponent, canActivate: [AuthGuard] },
       { path: 'view', component: InternalSaleCreateComponent, canActivate: [AuthGuard] },
@@ -169,7 +173,8 @@ const routes: Routes = [
   {
     path: 'voucher/internal-purchase', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.INTERNAL_PURCHASE },
+      //{ path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.INTERNAL_PURCHASE },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.VOUCHER_STOCK_TRANSFER_FROM_SHOP, reuse: true } },
       { path: 'create', component: InternalPurchaseCreateComponent, canActivate: [AuthGuard] },
       { path: 'update', component: InternalPurchaseCreateComponent, canActivate: [AuthGuard] },
       { path: 'view', component: InternalPurchaseCreateComponent, canActivate: [AuthGuard] },
