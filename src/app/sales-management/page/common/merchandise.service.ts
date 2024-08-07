@@ -53,7 +53,7 @@ export class MerchandiseService {
     }
 
     removeMerchandise(item: any, merchandises: any[]) {
-        merchandises.splice(item.line_nbr, 1);
+        merchandises.splice(item.line_nbr - 1, 1);
         merchandises.map((e, i) => e.line_nbr = i + 1);
     }
 
@@ -91,7 +91,7 @@ export class MerchandiseService {
         merchandises.filter(e => this.compareMerchandiseCode(e.imei_mua, imei_mua)).forEach(item => {
             const line_nbr = item.line_nbr;
             if (line_nbr !== undefined) {
-                merchandises.splice(line_nbr, 1);
+                merchandises.splice(line_nbr - 1, 1);
                 merchandises.map((e, i) => e.line_nbr = i + 1);
             }
         });
