@@ -82,7 +82,7 @@ export class FormInputCustomComponent implements OnChanges, OnInit {
         }
       });
     } else {
-      this.handleBlur.emit(value);
+      this.onChangeValue();
     }
   }
 
