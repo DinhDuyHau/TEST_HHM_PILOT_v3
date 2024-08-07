@@ -289,11 +289,12 @@ export class StockTranferInCreateComponent extends Grid<ReceiptDetail> implement
       });
       // const inputs = this.form.nativeElement.querySelectorAll('input:not([readonly])');
       // inputs[0].focus();
+      console.log(input_error);
       if (input_error) {
         this.renderer.selectRootElement(input_error).focus();
+        this.commonService.showMessageByName('lblWarningLackInfomation');
+        return;
       }
-      this.commonService.showMessageByName('lblWarningLackInfomation');
-      return;
     }
     let all_imei: string[] = [];
     this.data.details[0].data.forEach((detail) => {

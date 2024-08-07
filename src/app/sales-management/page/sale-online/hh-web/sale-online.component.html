@@ -31,7 +31,7 @@
         (handleUploadImage)="openUploadImage()"
         (handleUViewPhoto)="openImage()" />
 
-      <form-input-custom
+      <!-- <form-input-custom
         class="box order-dynamic-3"
         [name]="'ma_nvvc'"
         [label]="getLabel('lbl_ma_nvvc')"
@@ -39,7 +39,14 @@
         [readonly]="readonly"
         [value]="ticket.masterInfo.ma_nvvc"
         (handleChangeValue)="onEnterDECode($event)"
-        (handleClickOpenDialog)="openSearchDEDialog()" />
+        (handleClickOpenDialog)="openSearchDEDialog()" /> -->
+
+      <form-input-custom
+        class="box order-dynamic-2"
+        [name]="'ten_kh'"
+        [label]="getLabel('lbl_ten_kh')"
+        [value]="ticket.masterInfo.ten_kh"
+        [disabled]="true" />
 
       <form-input-custom
         class="box order-dynamic-1"
@@ -50,26 +57,12 @@
         dataType="date"
         [disabled]="true" />
 
-      <form-input-custom
-        class="box order-dynamic-2"
-        [name]="'ten_kh'"
-        [label]="getLabel('lbl_ten_kh')"
-        [value]="ticket.masterInfo.ten_kh"
-        [disabled]="true" />
-
-      <form-input-custom
+      <!-- <form-input-custom
         class="box order-dynamic-3"
         [name]="'ten_nvvc'"
         [label]="getLabel('lbl_ten_nvvc')"
         [value]="ticket.masterInfo.ten_nvvc"
-        [disabled]="true" />
-
-      <form-input-custom
-        class="box order-dynamic-2"
-        [name]="'dia_chi'"
-        [label]="getLabel('lbl_dia_chi')"
-        [value]="ticket.masterInfo.dia_chi"
-        [disabled]="true" />
+        [disabled]="true" /> -->
 
       <form-input-custom
         class="box"
@@ -79,6 +72,13 @@
         *ngIf="!readonly"
         (handleEnterInput)="onEnterMerchandiseCode($event)"
         (handleClickOpenDialog)="openMerchandiseDialog()" />
+
+      <form-input-custom
+        class="box order-dynamic-2"
+        [name]="'dia_chi'"
+        [label]="getLabel('lbl_dia_chi')"
+        [value]="ticket.masterInfo.dia_chi"
+        [disabled]="true" />
 
       <form-select-custom
         class="box order-dynamic-1 width-full"
@@ -108,6 +108,8 @@
         (handleChangeValue)="onChange_dien_giai($event)"
       />
 
+      <div class="box order-dynamic-2">&nbsp;</div>
+      <div class="box order-dynamic-2">&nbsp;</div>
       <div
         class="d-flex box align-items-end gap-1 mt-3 align-self-end"
         *ngIf="!readonly">

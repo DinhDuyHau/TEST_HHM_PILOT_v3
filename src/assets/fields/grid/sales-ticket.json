@@ -536,7 +536,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "300px",
+            "minWidth": "50px"
         },
         {
             "name": "t_tien_nt",

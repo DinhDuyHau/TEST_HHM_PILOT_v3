@@ -263,14 +263,14 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.DELIVERY_PARNER:
         return this.customerApiService.findById(this.defaultFilters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.E_COMMERCIAL:
-        return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
+        return this.customerApiService.findById(this.defaultFilters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.BANK_ACCOUNT:
         // return this.paymentApiService.getAllBankAccount();
         return this.paymentApiService.findBankAccountByPaymentMethod(this.data.keyword, this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.BANK_PUBLISH_CARD:
         return this.paymentApiService.findBankPublishCard(this.data.keyword, this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.INSTALLMENT_UNIT:
-        return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
+        return this.customerApiService.findById(this.defaultFilters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.WALLET:
         return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.SERVICE:
@@ -292,7 +292,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.APPROVER_DIRECTOR:
         return this.ticketApiService.getBGD(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.POS:
-        return this.posService.findById(this.filters, this.page_index, this.page_size);
+        return this.posService.findById(this.defaultFilters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.TYPE_RENEW:
         return this.ticketApiService.getRenewPrice(this.filters.find(x => x.name == 'ma_vt')?.value, this.filters.find(x => x.name == 'ma_cuahang')?.value, this.filters.find(x => x.name == 'ma_ncc')?.value);
       case SEARCH_COMPONENT_NAME.OLD_RECEIVER_SUPPLIER:
