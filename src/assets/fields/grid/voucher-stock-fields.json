@@ -33,6 +33,10 @@
             "title": "Diễn giải"
         },
         {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
             "name": "comment",
             "title": "Người lập"
         },
