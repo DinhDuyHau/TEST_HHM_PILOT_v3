@@ -104,6 +104,7 @@
           class="flex-1"
           [name]="'rate'"
           [label]="getLabel('lbl_ti_le_giam')"
+          [disabled]="disable_tl_giam"
           [value]="rate"
           [align]="'end'"
           [invalid]="isSaleDown && invalid ? true : false"
@@ -115,12 +116,13 @@
           class="flex-1"
           [name]="'tien_giam'"
           [label]="getLabel('lbl_tien_giam')"
+          [disabled]="disable_tien_giam"
           [value]="tien_giam"
           [align]="'end'"
           [dataType]="'number'"
           [format]="'moneyViewFormat3'"
           [invalid]="isSaleDown && invalid ? true : false"
-          (handleChangeValue)="tien_giam = $event"
+          (handleChangeValue)="handleChangeTienGiam($event)"
           [readonly]="readonly" />
       </div>
       <div class="none md:flex md:gap-2 md:box md:w-1/4"></div>

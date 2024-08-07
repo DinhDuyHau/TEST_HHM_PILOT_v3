@@ -63,6 +63,9 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
   ten_asm = '';
   entity = TICKET_ENTITY.RETURN;
 
+  disable_tl_giam = false;
+  disable_tien_giam = false;
+
   saleReturnType: any[] = [
     { ma_loai: '01', ten_loai: 'Nhập trả lại áp dụng chính sách' },
     { ma_loai: '02', ten_loai: 'Nhập trả lại do hàng lỗi' }
@@ -392,12 +395,22 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
   handleChangeRate($event: any) {
     try {
       this.rate = Number.parseFloat($event) > 100 ? 100 + '' : Number.parseFloat($event).toFixed(2) + '';
+      if (isNaN(Number.parseFloat(this.rate)))
+        this.rate = '';
     }
     catch {
       const t = this.rate;
       this.rate = t;
       //
     }
+
+    const rate_num = Number.parseFloat(this.rate);
+    this.disable_tien_giam = (this.rate !== '' && !isNaN(rate_num) && rate_num !== 0);
+  }
+
+  handleChangeTienGiam($event: any) {
+    this.tien_giam = $event;
+    this.disable_tl_giam = (!isNaN(this.tien_giam) && this.tien_giam !== 0);
   }
 
   getLabel(label: string) {
