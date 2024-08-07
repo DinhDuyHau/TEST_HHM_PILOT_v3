@@ -10,12 +10,12 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import dataFormat from '@app/_common/dataFormat';
-import {DataFormatPipe} from '@app/_pipe/dataFormat/data-format.pipe';
-import {CustomerApiService} from '@app/sales-management/api/customer-api.service';
-import {LookupApiService} from '@app/sales-management/api/lookup-api.service';
-import {CommonService} from '@app/sales-management/page/common/common.service';
+import { DataFormatPipe } from '@app/_pipe/dataFormat/data-format.pipe';
+import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
+import { LookupApiService } from '@app/sales-management/api/lookup-api.service';
+import { CommonService } from '@app/sales-management/page/common/common.service';
 
 @Component({
   selector: 'form-input-custom',
@@ -61,15 +61,16 @@ export class FormInputCustomComponent implements OnChanges, OnInit {
     private renderer: Renderer2,
     private commonService: CommonService,
     private lookupService: LookupApiService,
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.value = this.formatValue(this.value);
   }
 
   async onBlur(value: string) {
+    this.onChangeValue();
     let item: any = null;
     if (this.isLookup && this.controller && this.controller !== '') {
       this.lookupService.controller = this.controller;
@@ -81,8 +82,6 @@ export class FormInputCustomComponent implements OnChanges, OnInit {
           this.commonService.showMessage('Mã không tồn tại trong danh mục');
         }
       });
-    } else {
-      this.onChangeValue();
     }
   }
 
@@ -115,7 +114,7 @@ export class FormInputCustomComponent implements OnChanges, OnInit {
     if (this.dataType === 'number') {
       value =
         (this.value.toString().includes('-') ? '-' : '') +
-          this.value.toString().replace(/\D/g, '') || '0';
+        this.value.toString().replace(/\D/g, '') || '0';
       value = parseInt(value);
     }
     this.handleChangeValue.emit(value);
@@ -131,7 +130,7 @@ export class FormInputCustomComponent implements OnChanges, OnInit {
       if (this.dataType === 'number') {
         value =
           (this.value.toString().includes('-') ? '-' : '') +
-            this.value.toString().replace(/\D/g, '') || '0';
+          this.value.toString().replace(/\D/g, '') || '0';
         value = parseInt(value);
       }
       this.focusNext(event.target);
@@ -161,8 +160,8 @@ export class FormInputCustomComponent implements OnChanges, OnInit {
     const inputs = container
       ? container.querySelectorAll('input')
       : filter_container
-      ? filter_container.querySelectorAll('input')
-      : null;
+        ? filter_container.querySelectorAll('input')
+        : null;
     if (!inputs) return;
 
     let foundCurrentInput = false;
@@ -197,7 +196,7 @@ export class FormInputCustomComponent implements OnChanges, OnInit {
     } else if (this.dataType === 'number') {
       return (
         (this.value.toString().includes('-') ? '-' : '') +
-          value.toString().replace(/\D/g, '') || '0'
+        value.toString().replace(/\D/g, '') || '0'
       );
     } else {
       return value;
