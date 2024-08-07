@@ -21,7 +21,7 @@
         <form-input-custom
           class="flex-1"
           [name]="'ngay_ct'"
-          [label]="getLabel('lbl_ngay_ct')"
+          [label]="'Ngày lập'"
           [value]="ticket.masterInfo.ngay_ct"
           format="datetimeFormat"
           dataType="date"
@@ -30,99 +30,44 @@
       <div class="box order-dynamic-1 d-flex gap-3">
         <form-input-custom
           class="flex-1"
-          [name]="'so_ct'"
-          [label]="'Cửa hàng xuất'"
-          [value]="ticket.masterInfo.ma_cuahang"
-          [disabled]="true" />
-        <form-input-custom
-          class="flex-4"
-          [name]="'ngay_ct'"
-          [label]="'Tên cửa hàng xuất'"
-          [value]="ticket.masterInfo.ten_cuahang"
-          [disabled]="true" />
-      </div>
-      <div class="box order-dynamic-1 d-flex gap-3">
-        <form-input-custom
-          class="flex-1"
-          [name]="'so_ct'"
-          [label]="'Mã kho xuất'"
+          [name]="'ma_kho'"
+          [label]="'Mã kho'"
           [value]="ticket.masterInfo.ma_kho"
-          (handleChangeValue)="onChangeValueExportInventoryCode($event)"
-          (handleClickSearch)="openExportInventorySearchDialog()"
+          (handleChangeValue)="onChangeValueInventoryCode($event)"
+          (handleClickOpenDialog)="openInventorySearchDialog()"
           [disabled]="false" />
         <form-input-custom
-          class="flex-4"
-          [name]="'ngay_ct'"
-          [label]="'Tên kho xuất'"
+          class="flex-1"
+          [name]="'ten_kho'"
+          [label]="'Tên kho'"
           [value]="ticket.masterInfo.ten_kho"
           [disabled]="true" />
       </div>
-      <form-select-custom
-        class="box order-dynamic-1 width-full"
-        [isDisable]="readonly || disableSelectStatus"
-        [label]="getLabel('lbl_trang_thai')"
-        [options]="statusList"
-        optionDes="statusname"
-        optionValue="status"
-        [value]="ticket.masterInfo.status"
-        (handleChangeValue)="ticket.masterInfo.status = $event" />
       <div class="box order-dynamic-1 d-flex gap-3">
         <form-input-custom
           class="flex-1"
-          [name]="'so_ct'"
-          [label]="'Cửa hàng nhập'"
-          [value]="ticket.masterInfo.ma_cuahang_n"
-          (handleChangeValue)="onChangeImportStore($event)"
-          (handleClickOpenDialog)="
-            ticket.masterInfo.fnote2 === '2' && openSearchShopDialog()
-          "
-          [disabled]="ticket.masterInfo.fnote2 === '1'" />
+          [name]="'ma_nvkk01'"
+          [label]="'Mã nhân viên 1'"
+          [value]="ticket.masterInfo.ma_nvkk01"
+          [disabled]="true" />
         <form-input-custom
-          class="flex-4"
-          [name]="'ngay_ct'"
-          [label]="'Tên cửa hàng nhập'"
-          [value]="ticket.masterInfo.ten_cuahang_n"
+          class="flex-1"
+          [name]="'ten_nvkk01'"
+          [label]="'Tên nhân viên 1'"
+          [value]="ticket.masterInfo.ten_nvkk01"
           [disabled]="true" />
       </div>
       <div class="box order-dynamic-1 d-flex gap-3">
-        <form-input-custom
+        <form-select-custom
           class="flex-1"
-          [name]="'so_ct'"
-          [label]="'Mã kho nhập'"
-          [value]="ticket.masterInfo.ma_khon"
-          (handleChangeValue)="onChangeValueImportInventoryCode($event)"
-          (handleClickSearch)="openImportInventorySearchDialog()"
-          [disabled]="
-            ticket.masterInfo.fnote2 === '1' && !ticket.masterInfo.ma_kh
-          " />
-        <form-input-custom
-          class="flex-4"
-          [name]="'ngay_ct'"
-          [label]="'Tên kho nhập'"
-          [value]="ticket.masterInfo.ten_khon"
-          [disabled]="true" />
+          [isDisable]="readonly || disableSelectStatus"
+          [label]="getLabel('lbl_trang_thai')"
+          [options]="statusList"
+          optionDes="statusname"
+          optionValue="status"
+          [value]="ticket.masterInfo.status"
+          (handleChangeValue)="ticket.masterInfo.status = $event" />
       </div>
-      <form-select-custom
-        class="box order-dynamic-1 width-full"
-        [isDisable]="readonly"
-        [label]="'Loại giao dịch'"
-        [options]="transactionTypeOptions"
-        optionDes="label"
-        optionValue="value"
-        [value]="ticket.masterInfo.fnote2"
-        (handleChangeValue)="ticket.masterInfo.fnote2 = $event" />
-
-      <form-input-custom
-        #txtImei
-        class="box order-dynamic-2"
-        [name]="'imei'"
-        [label]="getLabel('lbl_imei')"
-        [tabIndex]="tabIndex.imei"
-        *ngIf="!readonly"
-        (handleEnterInput)="onEnterImeiCode($event); txtImei.value = ''"
-        (handleClickCodeScanner)="onClickCodeScanner()"
-        [uploadImage]="true" />
-
       <form-input-custom
         #txt_dien_giai
         class="box order-dynamic-2"
@@ -132,6 +77,47 @@
         (handleChangeValue)="
           ticket.masterInfo.dien_giai = txt_dien_giai.value
         " />
+      <div class="box order-dynamic-1 d-flex gap-3">
+        <form-input-custom
+          class="flex-1"
+          [name]="'ma_nvkk02'"
+          [label]="'Mã nhân viên 2'"
+          (handleClickOpenDialog)="openEmployeeSearchDialog('2')"
+          [value]="ticket.masterInfo.ma_nvkk02"
+          [disabled]="false" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ten_nvkk02'"
+          [label]="'Tên nhân viên 2'"
+          [value]="ticket.masterInfo.ten_nvkk02"
+          [disabled]="true" />
+      </div>
+      <div class="box order-dynamic-1 d-flex">
+        <form-input-custom
+          #txtImei
+          [name]="'imei'"
+          [label]="getLabel('lbl_imei')"
+          [tabIndex]="tabIndex.imei"
+          *ngIf="!readonly"
+          (handleEnterInput)="onEnterImeiCode($event); txtImei.value = ''"
+          (handleClickCodeScanner)="onClickCodeScanner()"
+          [uploadImage]="true" />
+      </div>
+      <div class="box order-dynamic-3 d-flex gap-3">
+        <form-input-custom
+          class="flex-1"
+          [name]="'ma_nvkk03'"
+          [label]="'Mã nhân viên 3'"
+          (handleClickOpenDialog)="openEmployeeSearchDialog('3')"
+          [value]="ticket.masterInfo.ma_nvkk03"
+          [disabled]="false" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ten_nvkk03'"
+          [label]="'Tên nhân viên 3'"
+          [value]="ticket.masterInfo.ten_nvkk03"
+          [disabled]="true" />
+      </div>
     </div>
 
     <div class="d-flex justify-content-end">

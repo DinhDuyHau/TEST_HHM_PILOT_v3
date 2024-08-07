@@ -1,14 +1,18 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogIMEIComponent } from '@app/_components/dialog/dialog-imei/dialog-imei.component';
 import { IMEIService } from '@app/_services/imei.service';
 import { CommonService } from '@app/sales-management/page/common/common.service';
-import { MerchandiseService } from '@app/sales-management/page/common/merchandise.service';
 
 const {
   IMPORT_IMEI_LIST
 } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json');
+
+export const enum ImportImeiTypeEnum {
+  STOCK_TRANSFER = 'stock transfer',
+  STOCK_CHECK = 'stock check'
+}
+
 
 @Component({
   selector: 'app-import-imei',
@@ -31,9 +35,25 @@ export class ImportImeiComponent {
     this.merchandise = this.data.item;
     if (this.merchandise) {
       this.ma_vt = this.merchandise.ma_vt;
-      console.log(this.ma_vt)
       this.handleAddImei(this.merchandise.ma_imei);
     }
+  }
+
+  isCanAdd(item: any) {
+    if (!this.data.type || this.data.type === ImportImeiTypeEnum.STOCK_TRANSFER) {
+      if (item.in_store_yn &&
+        item.exists_yn &&
+        item.in_stock_yn &&
+        !item.dieu_chuyen_yn &&
+        !item.dat_hang_yn &&
+        !item.ban_hang_yn &&
+        !item.bao_hanh_yn) {
+        return true;
+      }
+    } else if (this.data.type === ImportImeiTypeEnum.STOCK_CHECK) {
+      return true;
+    }
+    return false;
   }
 
   handleAddImei(imeis: string) {
@@ -41,17 +61,13 @@ export class ImportImeiComponent {
     this.imeiService.getListImeiInfo(imei_data, this.data.ma_kho).subscribe((result) => {
       if (result.success && result.result.length) {
         result.result.map(item => {
-          if (item.in_store_yn &&
-            item.exists_yn &&
-            item.in_stock_yn &&
-            !item.dieu_chuyen_yn &&
-            !item.dat_hang_yn &&
-            !item.ban_hang_yn &&
-            !item.bao_hanh_yn) {
+          if (this.isCanAdd(item)) {
             const rs = this.dataSource.find((e: any) => e.ma_imei === item.ma_imei);
             if (!rs) {
               this.dataSource = [...this.dataSource, item];
               this.dataSource.map((e, index: number) => { e.line_nbr = index + 1 });
+            } else {
+              this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: item.ma_imei });
             }
           }
           else {

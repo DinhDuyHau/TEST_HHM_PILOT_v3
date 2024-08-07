@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { StockTransferComponent } from './stock-transfer.component';
+import { StockTransferInShopComponent } from './stock-transfer-in-shop.component';
 import { MatIconModule } from '@angular/material/icon';
 import { SearchDialogModule } from '@app/sales-management/component/search/serach-dialog.module';
-import { PaymentTabModule } from '@app/sales-management/component/payment/payment-tab/payment-tab.module';
 import { DataFormatPipeModule } from '@app/_pipe/dataFormat/data-format.pipe';
 import { TabCustomModule } from '@app/sales-management/component/form-control-custom/tab/tab.module';
 import { FormInputCustomModule } from '@app/sales-management/component/form-control-custom/form-input-custom/form-input-custom.module';
@@ -14,11 +13,8 @@ import { TableCustomModule } from '@app/sales-management/component/form-control-
 import { TabsCustomModule } from '@app/sales-management/component/form-control-custom/tabs/tabs.module';
 import { ScanQrcodeModule } from '@app/_components/scan-qrcode/scan-qrcode.module';
 import { CameraModule } from '@app/sales-management/component/webcam/webcam.module';
-import { EInvoiceTabModule } from '@app/sales-management/component/e-invoice/e-invoice-tab/e-invoice-tab.module';
-import { EInvoiceInfoModule } from '@app/sales-management/component/e-invoice/e-invoice-info/e-invoice-info.module';
+import { ImportImeiModule } from '../import-imei/import-imei.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
-import { PackageForImeiModule } from '@app/sales-management/component/merchandise-service/package-for-imei/package-for-imei.module';
-import { ImportImeiComponent } from './import-imei/import-imei/import-imei.component';
 
 @NgModule({
     imports: [
@@ -33,20 +29,16 @@ import { ImportImeiComponent } from './import-imei/import-imei/import-imei.compo
         FormCheckboxCustomModule,
         FormSelectCustomModule,
         TableCustomModule,
-        PaymentTabModule,
         ScanQrcodeModule,
         CameraModule,
-        EInvoiceTabModule,
-        EInvoiceInfoModule,
         VoucherInfoModule,
-        PackageForImeiModule,
+        ImportImeiModule
     ],
     declarations: [
-        StockTransferComponent,
-        ImportImeiComponent
+        StockTransferInShopComponent,
     ],
     exports: [
-        StockTransferComponent
+        StockTransferInShopComponent
     ],
 })
-export class StockTransferlModule { }
+export class StockTransferInShopModule { }

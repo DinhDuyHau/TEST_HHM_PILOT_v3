@@ -104,6 +104,9 @@ export class TableCustomComponent implements
       for (let i = range.start; i <= range.end; i++) {
         this.pageIndexRange.push(i)
       }
+    } else {
+      this.pageIndexRange = [1];
+      this.pageIndexTotal = 1;
     }
   }
 

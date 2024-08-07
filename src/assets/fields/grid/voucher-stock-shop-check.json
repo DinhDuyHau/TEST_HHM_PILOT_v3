@@ -1,0 +1,69 @@
+{
+    "TICKET": [
+        {
+            "name": "ma_dvcs",
+            "title": "Mã đơn vị"
+        },
+        {
+            "name": "ngay_ct",
+            "title": "Ngày lập",
+            "dataType": "date",
+            "format": "datetimeFormat"
+        },
+        {
+            "name": "so_ct",
+            "title": "Số phiếu"
+        },
+        {
+            "name": "statusname",
+            "title": "Trạng thái PN"
+        },
+        {
+            "name": "t_so_luong",
+            "title": "Số lượng",
+            "dataType": "number",
+            "align": "center"
+        },
+        {
+            "name": "dien_giai",
+            "title": "Diễn giải"
+        },
+        {
+            "name": "comment",
+            "title": "Người lập"
+        }
+    ],
+    "MERCHANDISE_LIST": [
+        {
+            "name": "line_nbr",
+            "title": "Stt",
+            "align": "center"
+        },
+        {
+            "name": "ma_vt",
+            "title": "Mã vật tư"
+        },
+        {
+            "name": "ten_vt",
+            "title": "Tên vật tư"
+        },
+        {
+            "name": "dvt",
+            "title": "Đơn vị tính",
+            "align": "center"
+        },
+        {
+            "name": "so_luong",
+            "title": "Số lượng",
+            "align": "center"
+        },
+        {
+            "name": "ma_imei",
+            "title": "Mã imei"
+        },
+        {
+            "name": "ghi_chu",
+            "title": "Ghi chú"
+        }
+    ]
+}

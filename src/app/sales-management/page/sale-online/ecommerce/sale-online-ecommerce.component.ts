@@ -246,6 +246,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
       if (result.success && result.result) {
         const customer: any = result.result;
         this.ticket.masterInfo.ma_kh_tmdt = customer.ma_kh;
+        this.ticket.ecommerce.ma_kh_tmdt = customer.ma_kh;
       } else {
         this.commonService.showMessageByContent(Language.content.exists_customer_yn_no, ma_kh);
         this.saleOnlineEcommerceService.resetCustomerInfo(this.ticket);
@@ -264,7 +265,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
     this.commonService.openDialog(SearchDialogComponent,
       { keyword: '', componentName: SEARCH_COMPONENT_NAME.E_COMMERCIAL, title: this.getLabel('tlt_customer_list') }, 'search-style-dialog')
       .afterClosed()
-      .subscribe((customer: Customer) => customer && (this.ticket.masterInfo.ma_kh_tmdt = customer.ma_kh));
+      .subscribe((customer: Customer) => customer && (this.ticket.masterInfo.ma_kh_tmdt = customer.ma_kh) && (this.ticket.ecommerce.ma_kh_tmdt = customer.ma_kh));
   }
   // click button thêm khách hàng
   openAddCustomerDialog(ma_kh = ''): void {

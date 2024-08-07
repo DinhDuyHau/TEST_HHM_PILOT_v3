@@ -32,8 +32,10 @@ export class IMEIService {
         );
     }
     getListImeiInfo(ma_imei: string[], ma_kho?: string) {
-        return this.http.post<ResultNoPaging<ImeiInfo>>(`${environment.apiUrl}/imei/get_state_and_item`,
-            { ma_imei, ma_kho }
+        let url = `${environment.apiUrl}/imei/get_state_and_item`;
+        if (ma_kho && ma_kho !== '') url += `?ma_kho=${ma_kho}`
+        return this.http.post<ResultNoPaging<ImeiInfo>>(url,
+            ma_imei
         );
     }
     getSoldInfo(ma_imei: string, ma_cuahang: string) {

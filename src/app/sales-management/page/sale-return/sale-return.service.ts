@@ -215,6 +215,8 @@ export class SaleReturnService {
         this.ticket.masterInfo.t_tt_nt = totalMoney + serviceTotalMoney;
         this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt);
 
+        this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra;
+
         this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);
     }
 
@@ -231,14 +233,16 @@ export class SaleReturnService {
             message = this.commonService.getMessage('lbl_invalid_tt');
         } else if (ticket.masterInfo.t_tien_nt2 < 0) {
             message = this.commonService.getMessage('lbl_invalid_t_tien');
-        } else if (ticket.masterInfo.t_da_tra < 0 || ticket.masterInfo.t_con_no) {
+        } else if (ticket.masterInfo.t_da_tra < 0 || ticket.masterInfo.t_con_no < 0) {
             message = this.commonService.getMessage('lbl_error_negative_number');
         }
 
-        if (ticket.merchandise && ticket.merchandise.length > 0 && !this.isInvalidMerchandise(ticket.merchandise))
+        if (ticket.merchandise && ticket.merchandise.length > 0 && !this.isInvalidMerchandise(ticket.merchandise)) {
             return this.commonService.getMessage('lbl_error_negative_number');
-        if (ticket.service && ticket.service.length > 0 && !this.isInvalidService(ticket.service))
+        }
+        if (ticket.service && ticket.service.length > 0 && !this.isInvalidService(ticket.service)) {
             return this.commonService.getMessage('lbl_error_negative_number');
+        }
 
         return message;
     }

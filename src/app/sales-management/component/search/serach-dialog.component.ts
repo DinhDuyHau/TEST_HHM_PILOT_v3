@@ -30,7 +30,8 @@ const {
   LIST_POS,
   LIST_PRICE_RENEW,
   LIST_BGD,
-  BANK_PUBLISH_CARD_SEARCH
+  BANK_PUBLISH_CARD_SEARCH,
+  EMPLOYEE_SEARCH
 } = require('@assets/fields/grid/sales-fields-table.json');
 
 const { STOCK_LIST, SHOP_INFO } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
@@ -214,11 +215,22 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.value = `03`;
         this.defaultFilters = [filter];
         break;
-      case SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP:
+      case SEARCH_COMPONENT_NAME.STOCK_INFO:
         this.columns = STOCK_LIST as any;
+        this.defaultFilters = this.data.filter || [];
         break;
       case SEARCH_COMPONENT_NAME.SHOP_INFO:
         this.columns = SHOP_INFO as any;
+        break;
+      case SEARCH_COMPONENT_NAME.SHOP_INFO:
+        this.columns = SHOP_INFO as any;
+        break;
+      case SEARCH_COMPONENT_NAME.EMPLOYEE:
+        this.columns = EMPLOYEE_SEARCH as any;
+        filter.name = 'ma_kh';
+        filter.operator = "like";
+        filter.value = `%${this.data.keyword}%`;
+        this.defaultFilters = [filter];
         break;
       default:
         break;
@@ -247,9 +259,9 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.IMEI:
         return this.imeiApiService.getImeisById(this.data.keyword);
       case SEARCH_COMPONENT_NAME.DELIVERY_EMP:
-        return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
+        return this.customerApiService.findById(this.defaultFilters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.DELIVERY_PARNER:
-        return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
+        return this.customerApiService.findById(this.defaultFilters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.E_COMMERCIAL:
         return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.BANK_ACCOUNT:
@@ -287,10 +299,12 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.PACKAGE:
         return this.merchandiseServiceApiService.findById(this.filters, this.page_index, this.page_size);
-      case SEARCH_COMPONENT_NAME.STOCK_TRANSFER_FROM_SHOP:
-        return this.findDataSourceLocal(this.filters, this.page_index, this.page_size);
+      case SEARCH_COMPONENT_NAME.STOCK_INFO:
+        return this.ticketApiService.findStocks(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.SHOP_INFO:
         return this.findDataSourceLocal(this.filters, this.page_index, this.page_size);
+      case SEARCH_COMPONENT_NAME.EMPLOYEE:
+        return this.customerApiService.findById(this.filters, this.page_index, this.page_size)
       default:
         return of();
     }
@@ -302,7 +316,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       filters.every(filter => {
         if (e.hasOwnProperty(filter.name)) {
           const value = filter.value.replace(/%/g, "");
-          if (!e[filter.name].includes(value)) {
+          if (!e[filter.name].toLocaleLowerCase().includes(value.toLocaleLowerCase())) {
             isMatch = false;
             return false;
           }
@@ -358,7 +372,14 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return item2.name == item.name;
       });
     });
-    this.filters = [...this.defaultFilters, ...filters];
+
+    const _defaultFilters = this.defaultFilters.filter((item) => {
+      return !filters.find((item2: any) => {
+        return item2.name == item.name;
+      });
+    });
+
+    this.filters = [..._defaultFilters, ...filters];
     this.handleLoadata();
   }
 
@@ -431,7 +452,8 @@ export const SEARCH_COMPONENT_NAME = {
   PACKAGE: 20,
   BANK_PUBLISH_CARD: 21,
   DELIVERY_PARNER: 22,
-  STOCK_TRANSFER_FROM_SHOP: 23,
+  STOCK_INFO: 23,
   SHOP_INFO: 24,
+  EMPLOYEE: 25
 };
 

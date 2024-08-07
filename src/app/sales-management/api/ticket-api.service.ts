@@ -25,6 +25,7 @@ const GET_STOCKS_URL = `${environment.apiUrl}/voucher/getstocks/`;
 const GET_OTHERINFOS_URL = `${environment.apiUrl}/voucher/getOtherInfos/`;
 const GET_DEBIT_BY_CUSTOMER_URL = `${environment.apiUrl}/Voucher/getDebitByCustomer/`;
 const GET_TICKET_QUERY_URL = `${environment.apiUrl}/Voucher/find/`;
+const GET_TICKET_QUERY_EXT_URL = `${environment.apiUrl}/Voucher/findext/`;
 const GET_TICKET_QUICK_SEARCH_URL = `${environment.apiUrl}/Voucher/quicksearch/`;
 const UPDATE_FORM_URL = `${environment.apiUrl}/Voucher/updateform/`;
 const GET_MENU_REPORT_URL = `${environment.apiUrl}/report/get_menu_report/`;
@@ -84,7 +85,7 @@ export class TicketApiService extends ApiService {
 
     getTop(entity: string): Observable<ResultNoPaging<any>> {
         let url = GET_TOP_URL + entity;
-        if (entity === "ITTran_PXB2") {
+        if (["ITTran_PXB2", "IPTran_PNF2", "KKTran"].includes(entity)) {
             url = GET_TOP_EXT_URL + entity
         }
         return this.get<ResultNoPaging<any>>(url);
@@ -150,6 +151,10 @@ export class TicketApiService extends ApiService {
 
     getTicketByQuery(entity: string, params: {}, page_index: number, page_size: number): Observable<Result<any>> {
         let url = GET_TICKET_QUERY_URL + entity;
+
+        if (["ITTran_PXB2", "IPTran_PNF2"].includes(entity)) {
+            url = GET_TICKET_QUERY_EXT_URL + entity;
+        }
         return this.post<Result<any>>(url, {}, { ...params, page_index, page_size });
     }
 
@@ -245,5 +250,9 @@ export class TicketApiService extends ApiService {
 
     getStockRenew(ma_cuahang: string, ma_loai: string): Observable<Result<any>> {
         return this.post<Result<any>>(GET_STOCK_BY_SHOP, [{ name: 'ma_cuahang', operator: '=', value: ma_cuahang }, { name: 'ma_loai', operator: '=', value: ma_loai }]);
+    }
+
+    findStocks(body: any, page_index: number, page_size: number): Observable<Result<any>> {
+        return this.post<Result<any>>(GET_STOCK_BY_SHOP, body, { page_index, page_size });
     }
 }

@@ -58,7 +58,9 @@ import { Home2Component } from './test/home/home.component';
 import { ScanComponent } from './test/scan/scan.component';
 import { ScanSingleComponent } from './test/scan-single/scan-single.component';
 import { SettingComponent } from './pages/setting/setting.component';
-import { StockTransferComponent } from './_components/voucher/stock-transfer/stock-transfer.component';
+import { StockTransferFromShopComponent } from './_components/voucher/stock-transfer/from-shop/stock-transfer-from-shop.component';
+import { StockTransferInShopComponent } from './_components/voucher/stock-transfer/in-shop/stock-transfer-in-shop.component';
+import { StockShopCheckComponent } from './_components/voucher/stock-shop-check/stock-shop-check.component';
 // import { TicketComponent } from './_components/ticket/ticket.component';
 
 const homeModule = () => import('./home/home.module').then(x => x.HomeModule);
@@ -84,7 +86,9 @@ const saleRenewModule = () => import('./sales-management/page/sale-renew/sale-re
 const serivceForImeiModule = () => import('./sales-management/component/merchandise-service/service-for-imei/service-for-imei.module').then(x => x.ServiceForImeiModule);
 const serivceOrderModule = () => import('./sales-management/component/merchandise-service/service-order/service-order.module').then(x => x.ServiceOrderModule);
 const advancedSearchModule = () => import('./sales-management/component/advanced-search/advanced-search-dialog.module').then(x => x.AdvancedSearchDialogModule);
-const stockTransferlModule = () => import('@app/_components/voucher/stock-transfer/stock-transfer.module');
+const StockTransferFromShopModule = () => import('@app/_components/voucher/stock-transfer/from-shop/stock-transfer-from-shop.module');
+const stockTransferInShopModule = () => import('@app/_components/voucher/stock-transfer/in-shop/stock-transfer-in-shop.module');
+const stockShopCheckModule = () => import('@app/_components/voucher/stock-shop-check/stock-shop-check.module');
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -301,9 +305,26 @@ const routes: Routes = [
     path: 'voucher/stock-tranfer-from-shop', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
       { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.VOUCHER_STOCK_TRANSFER_FROM_SHOP, reuse: true } },
-      { path: 'create', component: StockTransferComponent, canActivate: [AuthGuard] },
-      { path: 'update', component: StockTransferComponent, canActivate: [AuthGuard] },
-      { path: 'view', component: StockTransferComponent, canActivate: [AuthGuard] },
+      { path: 'create', component: StockTransferFromShopComponent, canActivate: [AuthGuard] },
+      { path: 'update', component: StockTransferFromShopComponent, canActivate: [AuthGuard] },
+      { path: 'view', component: StockTransferFromShopComponent, canActivate: [AuthGuard] },
+    ]
+  },
+  {
+    path: 'voucher/stock-tranfer-in-shop', component: AppLayoutComponent, canActivate: [AuthGuard],
+    children: [
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.VOUCHER_STOCK_TRANSFER_IN_SHOP, reuse: true } },
+      { path: 'update', component: StockTransferInShopComponent, canActivate: [AuthGuard] },
+      { path: 'view', component: StockTransferInShopComponent, canActivate: [AuthGuard] },
+    ]
+  },
+  {
+    path: 'voucher/stock-shop-check', component: AppLayoutComponent, canActivate: [AuthGuard],
+    children: [
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.VOUCHER_STOCK_SHOP_CHECK, reuse: true } },
+      { path: 'create', component: StockShopCheckComponent, canActivate: [AuthGuard] },
+      { path: 'update', component: StockShopCheckComponent, canActivate: [AuthGuard] },
+      { path: 'view', component: StockShopCheckComponent, canActivate: [AuthGuard] },
     ]
   },
   {
