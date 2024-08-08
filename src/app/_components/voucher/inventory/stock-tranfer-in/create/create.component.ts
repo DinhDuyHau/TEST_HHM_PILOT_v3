@@ -244,10 +244,16 @@ export class StockTranferInCreateComponent extends Grid<ReceiptDetail> implement
         }
       ]
     };
+
     this.route.queryParams.subscribe((params: any) => {
-      if (params['stt_rec']) {
-        this.initData(params['stt_rec']);
+      // if (params['stt_rec']) {
+      //   this.initData(params['stt_rec']);
+      // }
+
+      if (params['key']) {
+        this.initData(params['key']);
       }
+
       // console.log(Object.keys(params).map(key => ({ key, value: params[key] })));
     });
 
@@ -289,7 +295,6 @@ export class StockTranferInCreateComponent extends Grid<ReceiptDetail> implement
       });
       // const inputs = this.form.nativeElement.querySelectorAll('input:not([readonly])');
       // inputs[0].focus();
-      console.log(input_error);
       if (input_error) {
         this.renderer.selectRootElement(input_error).focus();
         this.commonService.showMessageByName('lblWarningLackInfomation');
@@ -362,7 +367,7 @@ export class StockTranferInCreateComponent extends Grid<ReceiptDetail> implement
     this.f[controlName].setValue($event);
   }
   onDelete() {
-    console.log('onDelete');
+    // console.log('onDelete');
   }
 
   onCancel() {
