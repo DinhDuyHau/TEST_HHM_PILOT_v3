@@ -478,11 +478,14 @@ export class RetailComponent implements OnInit, AfterViewInit {
 
       this.commonService.openDialog(PromotionSelectComponent, { ma_vt: event.item.ma_vt, ma_imei: current_imei, ma_ck: ma_ck, rec: rec })
         .afterClosed().subscribe((selected: Merchandise) => {
-          const merchandise = this.ticket.merchandise.find(e => e.ma_imei === event.item.ma_imei)
+          const merchandise = this.ticket.merchandise.find(e => e.ma_imei === event.item.ma_imei);
           if (merchandise) {
-            merchandise.ma_vt = selected.ma_vt
-            merchandise.ten_vt = selected.ten_vt
-            merchandise.dvt = selected.dvt
+            merchandise.ma_vt = selected.ma_vt;
+            merchandise.ten_vt = selected.ten_vt;
+            merchandise.dvt = selected.dvt;
+
+            //clear mã imei của vật tư khuyến mại => người dùng sẽ phải nhập lại imei KM sau khi đổi quà
+            merchandise.ma_imei = '';
           }
         });
     }
