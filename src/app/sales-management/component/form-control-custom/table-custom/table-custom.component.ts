@@ -294,8 +294,8 @@ export class TableCustomComponent implements
     if (record.status === '0') {
       return false;
     }
-    if (this.entityName !== TICKET_ENTITY.CONTRACT) {
-      return false;
+    if (this.entityName === TICKET_ENTITY.CONTRACT) {
+      return true;
     }
     return true;
   }
