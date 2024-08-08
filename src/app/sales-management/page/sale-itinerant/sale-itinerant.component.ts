@@ -473,6 +473,7 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
 
             //clear mã imei của vật tư khuyến mại => người dùng sẽ phải nhập lại imei KM sau khi đổi quà
             merchandise.ma_imei = '';
+            merchandise.ma_kho = '';
           }
         });
     }
