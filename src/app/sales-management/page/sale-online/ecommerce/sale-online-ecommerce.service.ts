@@ -475,6 +475,10 @@ export class SaleOnlineEcommerceService {
             message = this.commonService.getMessage('lbl_invalid_ngay_ct');
         } else if (!ticket.masterInfo.ma_dvcs) {
             message = this.commonService.getMessage('lbl_invalid_ma_dvcs');
+        } else if (!ticket.masterInfo.ma_kh) {
+            message = this.commonService.getMessage('lbl_invalid_ma_kh');
+        } else if (!ticket.masterInfo.ma_kh_tmdt) {
+            message = this.commonService.getMessage('lbl_invalid_ma_kh_tmdt') || this.commonService.showMessage("Chưa nhập sàn TMĐT");
         } else if (this.validatePayment(ticket.payment)) {
             message = this.commonService.getMessage('lbl_invalid_payment');
         } else if (ticket.merchandise.filter(e => !e.km_yn).length === 0) {
