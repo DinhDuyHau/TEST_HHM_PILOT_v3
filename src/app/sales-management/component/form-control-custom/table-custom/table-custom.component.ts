@@ -3,6 +3,7 @@ import dataFormat from '@app/_common/dataFormat';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 import { ItemFilter } from '@app/_components/gridV2/grid.model';
 import { DataFormatPipe } from '@app/_pipe/dataFormat/data-format.pipe';
+import { TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { CommonService } from '@app/sales-management/page/common/common.service';
 import { Observable, Subscription, fromEvent, map, mergeMap, takeUntil, tap } from 'rxjs';
 
@@ -44,6 +45,7 @@ export class TableCustomComponent implements
   @Input() isLoading = false;
   @Input() isTicket = true;
   @Input() isShowDiscountNG = false;
+  @Input() hasButton = { create: true, delete: true, view: true, edit: true };
 
   pageSizeOptions: number[] = [10, 20, 50, 100, 150, 200];
 
@@ -82,7 +84,7 @@ export class TableCustomComponent implements
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes["dataSource"]?.currentValue.length > 0) {
+    if (changes["dataSource"]?.currentValue?.length > 0) {
       this.pageIndexTotal = Math.trunc(this.totalItem / this.size) + 1
 
       const range = {
@@ -111,6 +113,7 @@ export class TableCustomComponent implements
   }
 
   onDeleteItem(item: any) {
+    console.log(this.handleDelete)
     this.commonService.openDialog(DialogConfirmComponent).afterClosed().subscribe(result => {
       if (result) {
         this.handleDelete.emit({ item });
@@ -253,16 +256,69 @@ export class TableCustomComponent implements
 
   // #region show edit button
   showEditButton(record: any) {
-    if (this.handleUpdate.observers.length &&
-      this.entityName !== 'SVTran_DXA' &&
-      !this.readonly &&
-      (this.isTicket ? record.status === '0' : true)) {
-      return true;
-    } else if (this.handleUpdate.observers.length && !this.isTicket && !this.readonly && record.status === '0') {
+    // if (this.handleUpdate.observers.length &&
+    //   this.entityName !== 'SVTran_DXA' &&
+    //   !this.readonly &&
+    //   (this.isTicket ? record.status === '0' : true)) {
+    //   return true;
+    // } else if (this.handleUpdate.observers.length && !this.isTicket && !this.readonly && record.status === '0') {
+    //   return true;
+    // }
+    // else {
+    //   return false;
+    // }
+
+    if (this.handleUpdate.observers.length === 0) {
+      return false;
+    }
+    if (this.entityName === TICKET_ENTITY.CONTRACT) {
+      return false;
+    }
+    if (this.readonly) {
+      return false
+    }
+    if (this.isTicket && record.status !== '0') {
+      return false;
+    }
+    if (!this.isTicket && !this.readonly && record.status === '0') {
       return true;
     }
-    else {
+
+    return true;
+  }
+
+  showVieweButton(record: any) {
+    if (this.handleDelete.observers.length === 0) {
       return false;
+    }
+    if (record.status === '0') {
+      return false;
+    }
+    if (this.entityName !== TICKET_ENTITY.CONTRACT) {
+      return false;
+    }
+    return true;
+  }
+
+  showDeleteButton(record: any) {
+    if (this.handleDelete.observers.length === 0) {
+      return false;
+    }
+
+    if (this.readonly) {
+      return false;
+    }
+
+    switch (this.entityName) {
+      case TICKET_ENTITY.CONTRACT:
+        return false;
+      case TICKET_ENTITY.STOCK_TRANFER_IN:
+        return false;
+      case TICKET_ENTITY.STOCK_INTERNAL_PURCHASE:
+        return false;
+
+      default:
+        return true;
     }
   }
   // #endregion show edit button

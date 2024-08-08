@@ -55,6 +55,12 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   isAdvanceSearch = false;
   params: any;
+  hasButton = {
+    create: true,
+    view: true,
+    edit: true,
+    delete: true
+  }
 
   constructor(
     private router: Router,
@@ -211,72 +217,78 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.columns = TICKET_FIELDS.SALE_CONTRACT as Cell[];
         this.title = 'Hợp đồng';
         this.primaryKey = 'stt_rec';
-        this.entityName = 'SVTran_DXA';
-        this.codeName = 'DXA';
+        this.entityName = TICKET_CODE.CONTRACT;
+        this.codeName = TICKET_CODE.CONTRACT;
+        this.hasButton.create = false;
         break;
       case TICKET_TYPE.SALE_RETURN_ONLINE:
         this.columns = TICKET_FIELDS.SALE_RETURN_ONLINE as Cell[];
         this.title = 'Phiếu nhập hàng bán trả lại Online';
         this.primaryKey = 'stt_rec';
-        this.entityName = 'SVTran_HDR';
-        this.codeName = 'HDR';
+        this.entityName = TICKET_ENTITY.RETURN_ONLINE;
+        this.codeName = TICKET_CODE.RETURN_ONLINE;
         break;
       case TICKET_TYPE.VOUCHER_STOCK_TRANSFER_FROM_SHOP:
         this.columns = STOCK_TRANSFER_FROM_SHOP as Cell[];
         this.title = 'Phiếu xuất điều chuyển';
         this.primaryKey = 'stt_rec';
-        this.entityName = 'ITTran_PXB2';
-        this.codeName = 'PXB';
+        this.entityName = TICKET_ENTITY.STOCK_TRANSFER_FROM_SHOP;
+        this.codeName = TICKET_CODE.STOCK_TRANSFER_FROM_SHOP;
         break;
       case TICKET_TYPE.VOUCHER_STOCK_TRANSFER_IN_SHOP:
         this.columns = STOCK_TRANSFER_IN_SHOP as Cell[];
         this.title = 'Phiếu nhập điều chuyển';
         this.primaryKey = 'stt_rec';
-        this.entityName = 'IPTran_PNF2';
-        this.codeName = 'PNF';
+        this.entityName = TICKET_ENTITY.STOCK_TRANSFER_IN_SHOP;
+        this.codeName = TICKET_CODE.STOCK_TRANSFER_IN_SHOP;
+        this.hasButton.create = false;
         break;
       case TICKET_TYPE.VOUCHER_STOCK_SHOP_CHECK:
         this.columns = STOCK_SHOP_CHECK as Cell[];
         this.title = 'Phiếu kiểm kê';
         this.primaryKey = 'stt_rec';
-        this.entityName = 'KKTran';
-        this.codeName = 'KK1';
+        this.entityName = TICKET_ENTITY.STOCK_SHOP_CHECK;
+        this.codeName = TICKET_CODE.STOCK_SHOP_CHECK;
         break;
 
       case TICKET_TYPE.STOCK_PROPOSEDPURCHASE:
         this.columns = STOCK_FIELDS.STOCK_PROPOSEDPURCHASE as Cell[];
         this.title = 'Phiếu đề nghị xin hàng';
         this.primaryKey = 'stt_rec';
-        this.entityName = 'PR3Tran';
-        this.codeName = 'PR3';
+        this.entityName = TICKET_ENTITY.STOCK_PROPOSEDPURCHASE;
+        this.codeName = TICKET_CODE.STOCK_PROPOSEDPURCHASE;
         break;
       case TICKET_TYPE.STOCK_TRANFER:
         this.columns = STOCK_FIELDS.STOCK_TRANFER as Cell[];
         this.title = 'Phiếu xuất điều chuyển';
         this.primaryKey = 'stt_rec';
-        this.entityName = 'ITTran';
-        this.codeName = 'PXB';
+        this.entityName = TICKET_ENTITY.STOCK_TRANFER;
+        this.codeName = TICKET_CODE.STOCK_TRANFER;
         break;
       case TICKET_TYPE.STOCK_TRANFER_IN:
         this.columns = STOCK_FIELDS.STOCK_TRANFER_IN as Cell[];
         this.title = 'Phiếu nhập điều chuyển';
         this.primaryKey = 'stt_rec';
-        this.entityName = 'IPTran';
-        this.codeName = 'PNF';
+        this.entityName = TICKET_ENTITY.STOCK_TRANFER_IN;
+        this.codeName = TICKET_CODE.STOCK_TRANFER_IN;
+        this.hasButton.create = false;
+        this.hasButton.delete = false;
         break;
       case TICKET_TYPE.STOCK_INTERNAL_SALE:
         this.columns = STOCK_FIELDS.STOCK_INTERNAL_SALE as Cell[];
         this.title = 'Phiếu xuất bán nội bộ';
         this.primaryKey = 'stt_rec';
-        this.entityName = 'ITNTran';
-        this.codeName = 'PXN';
+        this.entityName = TICKET_ENTITY.STOCK_INTERNAL_SALE;
+        this.codeName = TICKET_CODE.STOCK_INTERNAL_SALE;
         break;
       case TICKET_TYPE.STOCK_INTERNAL_PURCHASE:
         this.columns = STOCK_FIELDS.STOCK_INTERNAL_PURCHASE as Cell[];
         this.title = 'Phiếu nhập mua nội bộ';
         this.primaryKey = 'stt_rec';
-        this.entityName = 'IPNTran';
-        this.codeName = 'PNN';
+        this.entityName = TICKET_ENTITY.STOCK_INTERNAL_PURCHASE;
+        this.codeName = TICKET_CODE.STOCK_INTERNAL_PURCHASE;
+        this.hasButton.create = false;
+        this.hasButton.delete = false;
         break;
     }
   }

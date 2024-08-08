@@ -21,20 +21,25 @@
         <button
           class="btn-responsive btn-add"
           (click)="onCreate()"
-          *ngIf="entityName !== 'SVTran_DXA' && entityName !== 'IPTran_PNF2'">
+          *ngIf="hasButton.create">
           Thêm
         </button>
-        <button class="btn-responsive btn-view" (click)="btnViewClickHandle()">
+        <button
+          class="btn-responsive btn-view"
+          (click)="btnViewClickHandle()"
+          *ngIf="hasButton.view">
           Xem
         </button>
         <button
           class="btn-responsive btn-edit"
-          (click)="btnUpdateClickHandle()">
+          (click)="btnUpdateClickHandle()"
+          *ngIf="hasButton.edit">
           Sửa
         </button>
         <button
           class="btn-responsive btn-delete"
-          (click)="btnDeleteClickHandle()">
+          (click)="btnDeleteClickHandle()"
+          *ngIf="hasButton.delete">
           Xóa
         </button>
         <div

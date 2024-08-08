@@ -164,7 +164,7 @@ const routes: Routes = [
     path: 'voucher/internal-sale', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
       //{ path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.INTERNAL_SALE },
-      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.VOUCHER_STOCK_TRANSFER_FROM_SHOP, reuse: true } },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_INTERNAL_SALE, reuse: true } },
       { path: 'create', component: InternalSaleCreateComponent, canActivate: [AuthGuard] },
       { path: 'update', component: InternalSaleCreateComponent, canActivate: [AuthGuard] },
       { path: 'view', component: InternalSaleCreateComponent, canActivate: [AuthGuard] },
@@ -174,7 +174,7 @@ const routes: Routes = [
     path: 'voucher/internal-purchase', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
       //{ path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.INTERNAL_PURCHASE },
-      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.VOUCHER_STOCK_TRANSFER_FROM_SHOP, reuse: true } },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_INTERNAL_PURCHASE, reuse: true } },
       { path: 'create', component: InternalPurchaseCreateComponent, canActivate: [AuthGuard] },
       { path: 'update', component: InternalPurchaseCreateComponent, canActivate: [AuthGuard] },
       { path: 'view', component: InternalPurchaseCreateComponent, canActivate: [AuthGuard] },

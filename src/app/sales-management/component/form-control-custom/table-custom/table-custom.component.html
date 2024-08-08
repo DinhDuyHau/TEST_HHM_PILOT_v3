@@ -184,10 +184,7 @@
             </button>
             <button
               (click)="onViewItem(record)"
-              *ngIf="
-                handleView.observers.length &&
-                (entityName === 'SVTran_DXA' || record.status !== '0')
-              ">
+              *ngIf="showVieweButton(record)">
               <i class="fas fa-eye icon-table text-primary"></i>
             </button>
             <button
@@ -199,11 +196,7 @@
             <button
               title="Xóa"
               (click)="onDeleteItem(record)"
-              *ngIf="
-                handleDelete.observers.length &&
-                !readonly &&
-                entityName !== 'SVTran_DXA'
-              ">
+              *ngIf="showDeleteButton(record)">
               <i class="fas fa-trash-alt icon-table text-danger"></i>
             </button>
           </div>
