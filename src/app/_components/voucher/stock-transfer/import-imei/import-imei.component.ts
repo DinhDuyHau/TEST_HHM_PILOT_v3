@@ -57,6 +57,7 @@ export class ImportImeiComponent {
   }
 
   handleAddImei(imeis: string) {
+    if (!imeis) return;
     const imei_data = this.splitImeiText(imeis);
     this.imeiService.getListImeiInfo(imei_data, this.data.ma_kho).subscribe((result) => {
       if (result.success && result.result.length) {
@@ -65,7 +66,7 @@ export class ImportImeiComponent {
             const rs = this.dataSource.find((e: any) => e.ma_imei === item.ma_imei);
             if (!rs) {
               this.dataSource = [...this.dataSource, item];
-              this.dataSource.map((e, index: number) => { e.line_nbr = index + 1 });
+              this.dataSource.map((e, index: number) => { e.line_nbr = index });
             } else {
               this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: item.ma_imei });
             }
