@@ -125,7 +125,8 @@ const routes: Routes = [
   {
     path: 'voucher/receipt', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.RECEIPT },
+      // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.RECEIPT },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_RECEIPT, reuse: true } },
       { path: 'create', component: CreateReceiptComponent, canActivate: [AuthGuard] },
       { path: 'update', component: CreateReceiptComponent, canActivate: [AuthGuard] },
       { path: 'view', component: CreateReceiptComponent, canActivate: [AuthGuard] },
@@ -183,7 +184,8 @@ const routes: Routes = [
   {
     path: 'voucher/return-supplier', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.RETURN_SUPPILER },
+      // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.RETURN_SUPPILER },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_RETURN_SUPPILER, reuse: true } },
       { path: 'create', component: ReturnSupplierDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: ReturnSupplierDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: ReturnSupplierDetailComponent, canActivate: [AuthGuard] },
@@ -192,7 +194,8 @@ const routes: Routes = [
   {
     path: 'voucher/other-receipt', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.OTHER_RECEIPT },
+      // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.OTHER_RECEIPT },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_OTHER_RECEIPT, reuse: true } },
       { path: 'create', component: OtherReceiptDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: OtherReceiptDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: OtherReceiptDetailComponent, canActivate: [AuthGuard] },
@@ -201,8 +204,8 @@ const routes: Routes = [
   {
     path: 'voucher/debt-receipt', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.DEBT_RECEIPT },
-      { path: 'create', component: DebtReceiptDetailComponent, canActivate: [AuthGuard] },
+      // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.DEBT_RECEIPT },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_DEBT_RECEIPT, reuse: true } }, { path: 'create', component: DebtReceiptDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: DebtReceiptDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: DebtReceiptDetailComponent, canActivate: [AuthGuard] },
     ]
@@ -210,7 +213,8 @@ const routes: Routes = [
   {
     path: 'voucher/other-payment', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.OTHER_PAYMENT },
+      // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.OTHER_PAYMENT },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.OTHER_PAYMENT, reuse: true } },
       { path: 'create', component: OtherPaymentDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: OtherPaymentDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: OtherPaymentDetailComponent, canActivate: [AuthGuard] },
@@ -219,7 +223,8 @@ const routes: Routes = [
   {
     path: 'voucher/deposist-receipt', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.DEPOSIST_RECEIPT },
+      // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.DEPOSIST_RECEIPT },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_DEPOSIST_RECEIPT, reuse: true } },
       { path: 'create', component: DeposistReceiptDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: DeposistReceiptDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: DeposistReceiptDetailComponent, canActivate: [AuthGuard] },
@@ -228,7 +233,8 @@ const routes: Routes = [
   {
     path: 'voucher/recomment-to-use', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.RECOMMENT_TO_USE },
+      // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.RECOMMENT_TO_USE },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_RECOMMENT_TO_USE, reuse: true } },
       { path: 'create', component: RecommentToUseDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: RecommentToUseDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: RecommentToUseDetailComponent, canActivate: [AuthGuard] },
@@ -237,7 +243,8 @@ const routes: Routes = [
   {
     path: 'voucher/event-gift', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.EVENT_GIFT },
+      // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.EVENT_GIFT },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_EVENT_GIFT, reuse: true } },
       { path: 'create', component: EventGiftDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: EventGiftDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: EventGiftDetailComponent, canActivate: [AuthGuard] },
@@ -246,7 +253,8 @@ const routes: Routes = [
   {
     path: 'voucher/loan-out', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.LOAN_OUT },
+      // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.LOAN_OUT },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_LOAN_OUT, reuse: true } },
       { path: 'create', component: LoanOutDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: LoanOutDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: LoanOutDetailComponent, canActivate: [AuthGuard] },
@@ -255,7 +263,8 @@ const routes: Routes = [
   {
     path: 'voucher/loan-recovery', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.LOAN_RECOVERY },
+      // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.LOAN_RECOVERY },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_LOAN_RECOVERY, reuse: true } },
       { path: 'create', component: LoanRecoveryDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: LoanRecoveryDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: LoanRecoveryDetailComponent, canActivate: [AuthGuard] },
@@ -264,7 +273,8 @@ const routes: Routes = [
   {
     path: 'voucher/warranty-out', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.WARRANTY_OUT },
+      // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.WARRANTY_OUT },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_WARRANTY_OUT, reuse: true } },
       { path: 'create', component: WarrantyOutDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: WarrantyOutDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: WarrantyOutDetailComponent, canActivate: [AuthGuard] },
@@ -273,7 +283,8 @@ const routes: Routes = [
   {
     path: 'voucher/warranty-in', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.WARRANTY_IN },
+      // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.WARRANTY_IN },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_WARRANTY_IN, reuse: true } },
       { path: 'create', component: WarrantyInDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: WarrantyInDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: WarrantyInDetailComponent, canActivate: [AuthGuard] },
@@ -282,7 +293,8 @@ const routes: Routes = [
   {
     path: 'voucher/close-shift-payment', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.CLOSE_SHIFT_PAYMENT },
+      // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.CLOSE_SHIFT_PAYMENT },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.CLOSE_SHIFT_PAYMENT, reuse: true } },
       { path: 'create', component: CloseShiftPaymentDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: CloseShiftPaymentDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: CloseShiftPaymentDetailComponent, canActivate: [AuthGuard] },
@@ -291,7 +303,8 @@ const routes: Routes = [
   {
     path: 'voucher/collection-receipt', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.COLLECTION_RECEIPT },
+      // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.COLLECTION_RECEIPT },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_COLLECTION_RECEIPT, reuse: true } },
       { path: 'create', component: CollectionReceiptDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: CollectionReceiptDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: CollectionReceiptDetailComponent, canActivate: [AuthGuard] },
@@ -300,7 +313,8 @@ const routes: Routes = [
   {
     path: 'voucher/deposit-return-payment', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.DEPOSIST_RETURN_PAYMENT },
+      // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.DEPOSIST_RETURN_PAYMENT },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.DEPOSIST_RETURN_PAYMENT, reuse: true } },
       { path: 'create', component: DeposistReturnReceiptDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: DeposistReturnReceiptDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: DeposistReturnReceiptDetailComponent, canActivate: [AuthGuard] },
