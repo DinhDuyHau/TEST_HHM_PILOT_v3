@@ -58,6 +58,7 @@
           *ngFor="let column of columns"
           class="justify-content-center"
           (click)="type && type == 'main' && onSelectItem(record, ref)">
+          <div *ngIf="column.name === 'stt'">{{ i + 1 }}</div>
           <div
             [ngStyle]="{
               width: column.width && column.width,

@@ -113,7 +113,6 @@ export class TableCustomComponent implements
   }
 
   onDeleteItem(item: any) {
-    console.log(this.handleDelete)
     this.commonService.openDialog(DialogConfirmComponent).afterClosed().subscribe(result => {
       if (result) {
         this.handleDelete.emit({ item });

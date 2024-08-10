@@ -290,6 +290,111 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.hasButton.create = false;
         this.hasButton.delete = false;
         break;
+      case TICKET_TYPE.STOCK_RECOMMENT_TO_USE:
+        this.columns = STOCK_FIELDS.STOCK_RECOMMENT_TO_USE as Cell[];
+        this.title = 'Đề nghị xuất dùng';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.STOCK_RECOMMENT_TO_USE;
+        this.codeName = TICKET_CODE.STOCK_RECOMMENT_TO_USE;
+        break;
+      case TICKET_TYPE.STOCK_EVENT_GIFT:
+        this.columns = STOCK_FIELDS.STOCK_EVENT_GIFT as Cell[];
+        this.title = 'Xuất tặng hàng theo sự kiện';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.STOCK_EVENT_GIFT;
+        this.codeName = TICKET_CODE.STOCK_EVENT_GIFT;
+        break;
+      case TICKET_TYPE.STOCK_LOAN_OUT:
+        this.columns = STOCK_FIELDS.STOCK_LOAN_OUT as Cell[];
+        this.title = 'Phiếu xuất cho mượn';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.STOCK_LOAN_OUT;
+        this.codeName = TICKET_CODE.STOCK_LOAN_OUT;
+        break;
+      case TICKET_TYPE.STOCK_WARRANTY_OUT:
+        this.columns = STOCK_FIELDS.STOCK_WARRANTY_OUT as Cell[];
+        this.title = 'Phiếu xuất đi bảo hành';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.STOCK_WARRANTY_OUT;
+        this.codeName = TICKET_CODE.STOCK_WARRANTY_OUT;
+        break;
+      case TICKET_TYPE.STOCK_LOAN_RECOVERY:
+        this.columns = STOCK_FIELDS.STOCK_LOAN_RECOVERY as Cell[];
+        this.title = 'Nhập thu hổi hàng cho mượn';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.STOCK_LOAN_RECOVERY;
+        this.codeName = TICKET_CODE.STOCK_LOAN_RECOVERY;
+        break;
+      case TICKET_TYPE.STOCK_WARRANTY_IN:
+        this.columns = STOCK_FIELDS.STOCK_WARRANTY_IN as Cell[];
+        this.title = 'Nhập bảo hành';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.STOCK_WARRANTY_IN;
+        this.codeName = TICKET_CODE.STOCK_WARRANTY_IN;
+        break;
+      case TICKET_TYPE.STOCK_RECEIPT:
+        this.columns = STOCK_FIELDS.STOCK_RECEIPT as Cell[];
+        this.title = 'Phiếu nhập mua hàng NCC';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.STOCK_RECEIPT;
+        this.codeName = TICKET_CODE.STOCK_RECEIPT;
+        break;
+      case TICKET_TYPE.STOCK_RETURN_SUPPILER:
+        this.columns = STOCK_FIELDS.STOCK_RETURN_SUPPILER as Cell[];
+        this.title = 'Đề nghị xuất trả NCC';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.STOCK_RETURN_SUPPILER;
+        this.codeName = TICKET_CODE.STOCK_RETURN_SUPPILER;
+        break;
+      case TICKET_TYPE.STOCK_DEBT_RECEIPT:
+        this.columns = STOCK_FIELDS.STOCK_DEBT_RECEIPT as Cell[];
+        this.title = 'Phiếu thu công nợ';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.STOCK_DEBT_RECEIPT;
+        this.codeName = TICKET_CODE.STOCK_DEBT_RECEIPT;
+        break;
+      case TICKET_TYPE.STOCK_DEPOSIST_RECEIPT:
+        this.columns = STOCK_FIELDS.STOCK_DEPOSIST_RECEIPT as Cell[];
+        this.title = 'Phiếu thu tiền đặt cọc';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.STOCK_DEPOSIST_RECEIPT;
+        this.codeName = TICKET_CODE.STOCK_DEPOSIST_RECEIPT;
+        break;
+      case TICKET_TYPE.STOCK_COLLECTION_RECEIPT:
+        this.columns = STOCK_FIELDS.STOCK_COLLECTION_RECEIPT as Cell[];
+        this.title = 'Phiếu thu hộ';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.STOCK_COLLECTION_RECEIPT;
+        this.codeName = TICKET_CODE.STOCK_COLLECTION_RECEIPT;
+        break;
+      case TICKET_TYPE.STOCK_OTHER_RECEIPT:
+        this.columns = STOCK_FIELDS.STOCK_OTHER_RECEIPT as Cell[];
+        this.title = 'Phiếu thu hộ khác';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.STOCK_OTHER_RECEIPT;
+        this.codeName = TICKET_CODE.STOCK_OTHER_RECEIPT;
+        break;
+      case TICKET_TYPE.DEPOSIST_RETURN_PAYMENT:
+        this.columns = STOCK_FIELDS.DEPOSIST_RETURN_PAYMENT as Cell[];
+        this.title = 'Phiếu chi hoàn cọc';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.DEPOSIST_RETURN_PAYMENT;
+        this.codeName = TICKET_CODE.DEPOSIST_RETURN_PAYMENT;
+        break;
+      case TICKET_TYPE.CLOSE_SHIFT_PAYMENT:
+        this.columns = STOCK_FIELDS.CLOSE_SHIFT_PAYMENT as Cell[];
+        this.title = 'Phiếu chi chốt ca';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.CLOSE_SHIFT_PAYMENT;
+        this.codeName = TICKET_CODE.CLOSE_SHIFT_PAYMENT;
+        break;
+      case TICKET_TYPE.OTHER_PAYMENT:
+        this.columns = STOCK_FIELDS.OTHER_PAYMENT as Cell[];
+        this.title = 'Phiếu chi khác';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.OTHER_PAYMENT;
+        this.codeName = TICKET_CODE.OTHER_PAYMENT;
+        break;
     }
   }
 
@@ -439,7 +544,6 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         });
       }
     });
-
   }
 
   openAdvancedSearchDialog() {
@@ -447,11 +551,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       .afterClosed()
       .subscribe(result => {
         if (result) {
-          const userJson = localStorage.getItem('user');
-          const userObj = userJson !== null && JSON.parse(userJson);
           const params = { ...result };
-          params.ma_ct = this.codeName;
-          params.ma_cuahang = userObj['shop'];
           this.advanceSearchParams = params;
           this.page_index = 1;
           this.params = params;

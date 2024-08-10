@@ -6,6 +6,7 @@ import { CommonService } from '@app/sales-management/page/common/common.service'
 import { StatusTicket } from '@app/sales-management/model/common/status.model';
 import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '../search/serach-dialog.component';
 import { formatDate } from '@angular/common';
+import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 
 interface IFilter {
   ngay_bd: string;
@@ -23,6 +24,8 @@ interface IFilter {
   ma_kho2: string;
   ten_kho2: string;
   ten_vt: string;
+  ma_cuahang: string;
+  ma_ct: string;
 }
 
 @Component({
@@ -34,6 +37,9 @@ export class AdvancedSearchDialogComponent implements OnInit {
   title = 'Thêm khách hàng';
   dataFormat = dataFormat;
   invalid = false;
+  shop = JSON.parse(localStorage.getItem('shop') || '');
+  ten_cuahang = '';
+
   filters: IFilter = {
     ngay_bd: '',
     ngay_kt: '',
@@ -49,7 +55,9 @@ export class AdvancedSearchDialogComponent implements OnInit {
     ten_kho: '',
     ma_kho2: '',
     ten_kho2: '',
-    ten_vt: ''
+    ten_vt: '',
+    ma_cuahang: '',
+    ma_ct: ''
   };
 
   statusList: StatusTicket[] = [
@@ -73,6 +81,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
   lbl_ten_kho = 'Tên kho';
   lbl_ma_kho2 = 'Mã kho 2';
   lbl_ten_kho2 = 'Tên kho 2';
+
 
   constructor(
     public dialogRef: MatDialogRef<AdvancedSearchDialogComponent>,
@@ -120,8 +129,87 @@ export class AdvancedSearchDialogComponent implements OnInit {
       this.lbl_ten_kho2 = 'Tên kho xuất';
     }
 
+    const userInfo = JSON.parse(localStorage.getItem('user') || '');
+    if (userInfo) {
+      convert.ma_cuahang = userInfo.shop;
+      if (this.isShowShop()) {
+        if (this.shop?.length) {
+          this.ten_cuahang = this.shop.find((e: any) => e.ma_cuahang === userInfo.shop)?.ten_cuahang;
+          if (!this.ten_cuahang) {
+            this.commonService.showMessage("Không tìm thấy thông tin cửa hàng");
+          }
+        } else {
+          this.commonService.showMessage("Không có danh sách cửa hàng");
+        }
+      }
+    } else {
+      this.commonService.showMessage("Không tìm thấy thông tin người dùng");
+    }
+
     Object.assign(this.filters, convert);
   }
+
+  // #region config form
+  isShowShop() {
+    if ([TICKET_CODE.STOCK_PROPOSEDPURCHASE,
+    TICKET_CODE.STOCK_TRANFER,
+    TICKET_CODE.STOCK_TRANFER_IN,
+    TICKET_CODE.STOCK_INTERNAL_SALE,
+    TICKET_CODE.STOCK_INTERNAL_PURCHASE,
+    TICKET_CODE.STOCK_RECOMMENT_TO_USE,
+    TICKET_CODE.STOCK_EVENT_GIFT,
+    TICKET_CODE.STOCK_LOAN_OUT,
+    TICKET_CODE.STOCK_WARRANTY_OUT,
+    TICKET_CODE.STOCK_LOAN_RECOVERY,
+    TICKET_CODE.STOCK_WARRANTY_IN,
+    TICKET_CODE.STOCK_RECEIPT,
+    TICKET_CODE.STOCK_RETURN_SUPPILER,
+    TICKET_CODE.STOCK_DEBT_RECEIPT,
+    TICKET_CODE.STOCK_DEPOSIST_RECEIPT,
+    TICKET_CODE.STOCK_COLLECTION_RECEIPT,
+    TICKET_CODE.STOCK_OTHER_RECEIPT,
+    TICKET_CODE.DEPOSIST_RETURN_PAYMENT,
+    TICKET_CODE.CLOSE_SHIFT_PAYMENT,
+    TICKET_CODE.OTHER_PAYMENT
+    ].includes(this.voucherCode)
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  isShowImei() {
+    if ([
+      TICKET_CODE.STOCK_DEBT_RECEIPT,
+      TICKET_CODE.STOCK_DEPOSIST_RECEIPT,
+      TICKET_CODE.STOCK_COLLECTION_RECEIPT,
+      TICKET_CODE.STOCK_OTHER_RECEIPT,
+      TICKET_CODE.DEPOSIST_RETURN_PAYMENT,
+      TICKET_CODE.CLOSE_SHIFT_PAYMENT,
+      TICKET_CODE.OTHER_PAYMENT
+    ].includes(this.voucherCode)
+    ) {
+      return false;
+    }
+    return true;
+  }
+
+  isShowInventory() {
+    if ([
+      TICKET_CODE.STOCK_DEBT_RECEIPT,
+      TICKET_CODE.STOCK_DEPOSIST_RECEIPT,
+      TICKET_CODE.STOCK_COLLECTION_RECEIPT,
+      TICKET_CODE.STOCK_OTHER_RECEIPT,
+      TICKET_CODE.DEPOSIST_RETURN_PAYMENT,
+      TICKET_CODE.CLOSE_SHIFT_PAYMENT,
+      TICKET_CODE.OTHER_PAYMENT
+    ].includes(this.voucherCode)
+    ) {
+      return false;
+    }
+    return true;
+  }
+  // #region config form
 
   // #region customer
   onEnterCustomerCode(ma_kh: string) {
@@ -175,13 +263,13 @@ export class AdvancedSearchDialogComponent implements OnInit {
 
   // #endregion merchandise
 
-  /*   onChangeDateStart(event: any) {
-      this.filters.ngay_bd = (event.target as HTMLInputElement).value;
-    }
-  
-    onChangeDateEnd(event: any) {
-      this.filters.ngay_kt = (event.target as HTMLInputElement).value;
-    } */
+  openSearchShopDialog() {
+    this.commonService.openDialog(SearchDialogComponent, { dataSource: this.shop, componentName: SEARCH_COMPONENT_NAME.SHOP_INFO })
+      .afterClosed().subscribe(result => {
+        this.filters.ma_cuahang = result?.ma_cuahang;
+        this.ten_cuahang = result?.ten_cuahang;
+      });
+  }
 
   onBlurDateStart(event: any, ref: any) {
     this.filters.ngay_bd = ref.isoDateString.toString();
