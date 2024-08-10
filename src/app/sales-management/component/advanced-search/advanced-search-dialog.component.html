@@ -41,7 +41,7 @@
           [name]="'ma_cuahang'"
           [label]="'Mã cửa hàng'"
           [value]="filters.ma_cuahang"
-          [disabled]="true" />
+          (handleClickOpenDialog)="openSearchShopDialog()" />
         <form-input-custom
           class="flex-1"
           [name]="'ten_cuahang'"

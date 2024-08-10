@@ -37,6 +37,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
   title = 'Thêm khách hàng';
   dataFormat = dataFormat;
   invalid = false;
+  shop = JSON.parse(localStorage.getItem('shop') || '');
   ten_cuahang = '';
 
   filters: IFilter = {
@@ -132,9 +133,8 @@ export class AdvancedSearchDialogComponent implements OnInit {
     if (userInfo) {
       convert.ma_cuahang = userInfo.shop;
       if (this.isShowShop()) {
-        const shop = JSON.parse(localStorage.getItem('shop') || '');
-        if (shop?.length) {
-          this.ten_cuahang = shop.find((e: any) => e.ma_cuahang === userInfo.shop)?.ten_cuahang;
+        if (this.shop?.length) {
+          this.ten_cuahang = this.shop.find((e: any) => e.ma_cuahang === userInfo.shop)?.ten_cuahang;
           if (!this.ten_cuahang) {
             this.commonService.showMessage("Không tìm thấy thông tin cửa hàng");
           }
@@ -263,13 +263,13 @@ export class AdvancedSearchDialogComponent implements OnInit {
 
   // #endregion merchandise
 
-  /*   onChangeDateStart(event: any) {
-      this.filters.ngay_bd = (event.target as HTMLInputElement).value;
-    }
-  
-    onChangeDateEnd(event: any) {
-      this.filters.ngay_kt = (event.target as HTMLInputElement).value;
-    } */
+  openSearchShopDialog() {
+    this.commonService.openDialog(SearchDialogComponent, { dataSource: this.shop, componentName: SEARCH_COMPONENT_NAME.SHOP_INFO })
+      .afterClosed().subscribe(result => {
+        this.filters.ma_cuahang = result?.ma_cuahang;
+        this.ten_cuahang = result?.ten_cuahang;
+      });
+  }
 
   onBlurDateStart(event: any, ref: any) {
     this.filters.ngay_bd = ref.isoDateString.toString();
