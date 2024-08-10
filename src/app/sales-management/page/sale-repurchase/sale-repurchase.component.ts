@@ -205,10 +205,14 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
   }
 
   onEnterImeiCode(ma_imei: string) {
-    if (!(this.ticket.masterInfo.gia_nhap_mua && this.repurchase.loai_hh && this.ticket.masterInfo.ma_kh)) {
+    //2024-08-10: bỏ qua check giá nhập (cho phép nhập giá 0đ)
+    if (!(/*this.ticket.masterInfo.gia_nhap_mua && */
+      this.repurchase.loai_hh && this.ticket.masterInfo.ma_kh)) {
       this.invalidMerchandiseInput.ma_kh = true;
-      this.invalidMerchandiseInput.gia_nhap_mua = true;
       this.invalidMerchandiseInput.loai_hh = true;
+      /*
+      this.invalidMerchandiseInput.gia_nhap_mua = true;
+      */
       return;
     }
     this.invalidMerchandiseInput.ma_vt = false;

@@ -114,7 +114,7 @@ export class RetailService {
     prepareVoucher(): VoucherDto {
         const voucherDto: VoucherDto = new VoucherDto;
         voucherDto.details = [];
-        console.log(this.ticket.masterInfo);
+        //console.log(this.ticket.masterInfo);
         voucherDto.masterInfo = this.commonService.convertMasterInfo(this.ticket.masterInfo, MasterInfoRequest);
         voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.MERCHANDISE, data: this.merchandiseService.convertMerchandiseToRequest(this.ticket.merchandise, voucherDto.masterInfo, MerchandiseRequest) }];
         voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.SERVICE, data: this.serviceOfMerchandiseService.convertServiceToRequest(this.ticket.service, voucherDto.masterInfo, ServiceRequest) }];

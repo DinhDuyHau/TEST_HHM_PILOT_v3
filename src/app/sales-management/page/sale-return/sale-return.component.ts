@@ -234,6 +234,17 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
           if (result && result.success && result.result && result.result.details) {
             this.loadCustomerInfo(result.result.masterInfo.ma_kh);
             const merchandise = result.result.details[0].data;
+
+            //xử lý set các trường giá & tiền = 0 cho hàng khuyến mại
+            const promotion_items = merchandise.filter((x: { km_yn: number; }) => x.km_yn === 1);
+            if (promotion_items && promotion_items.length > 0) for (let item of promotion_items) {
+              item.tien_giam = 0;
+              item.gia_tra_lai = 0;
+              item.tt = 0;
+              item.tt_nt = 0;
+              item.ty_le_giam = 0;
+            }
+
             if (!this.ticket.merchandise.find(mer => mer.ma_imei === merchandise[0].ma_imei)) {
               merchandise[0].stt_rec_hd1 = merchandise[0].stt_rec;
               merchandise[0].ma_asm_duyet = this.ma_asm;

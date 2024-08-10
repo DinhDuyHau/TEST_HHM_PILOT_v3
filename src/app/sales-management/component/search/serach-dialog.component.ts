@@ -272,7 +272,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.INSTALLMENT_UNIT:
         return this.customerApiService.findById(this.defaultFilters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.WALLET:
-        return this.customerApiService.findById(this.filters, this.page_index, this.page_size);
+        return this.customerApiService.findById(this.defaultFilters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.SERVICE:
         return this.merchandiseServiceApiService.findById(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.CONTRACT:

@@ -481,7 +481,9 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   btnUpdateClickHandle() {
     if (this.select_item_current && this.select_item_current !== '') {
       this.ticketApiService.getVoucherStatus(this.entityName, this.select_item_current).subscribe((result: any) => {
-        if (result && result.status === '0') {
+        // cho phép sửa đối với trạng thái 0 (lập chứng từ)
+        // hoặc status = 1 & mã chứng từ PXN (phiếu xuất bán nội bộ chờ duyệt)
+        if (result && (result.status === '0' || (this.codeName === 'PXN' && result.status === '1'))) {
           const queryParams = {} as any;
           queryParams.key = this.select_item_current;
           this.router.navigate([this.router.url + '/update'], { queryParams });
