@@ -266,8 +266,8 @@ export class LoanOutDetailComponent extends Grid<ReceiptDetail> implements OnIni
       this.transactionService.setItemFilter([{ name: 'ma_ct', value: this.voucherCode }]);
       this.levelService.setItemFilter([{ name: 'ma_ct', value: this.voucherCode }]);
       this.route.queryParams.subscribe((params: any) => {
-        if (params['stt_rec']) {
-          this.initData(params['stt_rec']);
+        if (params['key']) {
+          this.initData(params['key']);
           this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
             this.statusList = result;
             if (!this.data.masterInfo.status) {

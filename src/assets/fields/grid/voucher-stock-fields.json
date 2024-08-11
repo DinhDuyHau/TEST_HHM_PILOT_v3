@@ -269,6 +269,10 @@
             "title": "Số phiếu"
         },
         {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
@@ -305,7 +309,8 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "300px"
         },
         {
             "name": "comment",
@@ -332,6 +337,10 @@
             "title": "Số phiếu"
         },
         {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
@@ -354,11 +363,8 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
-        },
-        {
-            "name": "statusname",
-            "title": "Trạng thái"
+            "title": "Diễn giải",
+            "width": "300px"
         },
         {
             "name": "comment",
@@ -385,6 +391,10 @@
             "title": "Số phiếu"
         },
         {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
@@ -407,11 +417,8 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
-        },
-        {
-            "name": "statusname",
-            "title": "Trạng thái"
+            "title": "Diễn giải",
+            "width": "300px"
         },
         {
             "name": "comment",
@@ -438,6 +445,10 @@
             "title": "Số phiếu"
         },
         {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã ĐV bảo hành"
         },
@@ -453,11 +464,8 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
-        },
-        {
-            "name": "statusname",
-            "title": "Trạng thái"
+            "title": "Diễn giải",
+            "width": "300px"
         },
         {
             "name": "comment",
@@ -484,6 +492,10 @@
             "title": "Số phiếu"
         },
         {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
@@ -506,11 +518,8 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
-        },
-        {
-            "name": "statusname",
-            "title": "Trạng thái"
+            "title": "Diễn giải",
+            "width": "300px"
         },
         {
             "name": "comment",
