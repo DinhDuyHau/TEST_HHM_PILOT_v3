@@ -247,8 +247,8 @@ export class StockTranferCreateComponent extends Grid<ReceiptDetail> implements 
       ]
     };
     this.route.queryParams.subscribe((params: any) => {
-      if (params['stt_rec']) {
-        this.initData(params['stt_rec']);
+      if (params['key']) {
+        this.initData(params['key']);
       }
       // console.log(Object.keys(params).map(key => ({ key, value: params[key] })));
     });

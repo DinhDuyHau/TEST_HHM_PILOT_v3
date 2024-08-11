@@ -280,8 +280,8 @@ export class ProposedPurchaseCreateComponent extends Grid<ReceiptDetail> impleme
     }
     else {
       this.route.queryParams.subscribe((params: any) => {
-        if (params['stt_rec']) {
-          this.initData(params['stt_rec']);
+        if (params['key']) {
+          this.initData(params['key']);
           this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
             this.statusList = result;
             if (!this.data.masterInfo.status) {

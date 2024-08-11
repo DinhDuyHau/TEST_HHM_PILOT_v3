@@ -182,24 +182,52 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
     if (this.ma_loai === "HH") {
       ma_loai = "HD";
     }
+    else if (this.ma_loai === "HD") {
+      ma_loai = "HH";
+    }
     else if (this.ma_loai === "HL") {
       ma_loai = "BH";
     }
     else if (this.ma_loai === "BH") {
       ma_loai = "HL";
     }
-
-    const filter = [{
-      name: 'ma_loai',
-      operator: "=",
-      value: ma_loai
-    },
-    {
-      name: 'ma_cuahang',
-      operator: "=",
-      value: this.ticket.masterInfo.ma_cuahang_n
+    else {
+      ma_loai = '';
     }
-    ]
+
+    let filter: any[] = [];
+    if (ma_loai !== '') {
+      filter = [{
+        name: 'ma_loai',
+        operator: "=",
+        value: ma_loai
+      },
+      {
+        name: 'ma_cuahang',
+        operator: "=",
+        value: this.ticket.masterInfo.ma_cuahang_n
+      }
+      ]
+    }
+    else {
+      filter = [
+        {
+          name: 'ma_cuahang',
+          operator: "=",
+          value: this.ticket.masterInfo.ma_cuahang_n
+        },
+        {
+          name: 'ma_loai',
+          operator: "<>",
+          value: 'HH'
+        },
+        {
+          name: 'ma_loai',
+          operator: "<>",
+          value: 'HD'
+        }
+      ]
+    }
 
     this.commonService.openDialog(SearchDialogComponent, { filter, componentName: SEARCH_COMPONENT_NAME.STOCK_INFO })
       .afterClosed().subscribe(result => {

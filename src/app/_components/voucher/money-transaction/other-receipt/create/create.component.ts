@@ -385,7 +385,7 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
       line_nbr: this.data.details[0].data.length + 1,
       tien_nt: Number.parseInt(this.tien),
       tt_nt: Number.parseInt(this.tien),
-      dien_giai: this.ghi_chu
+      dien_giai: this.data.masterInfo.dien_giai
     });
     this.calcTotal();
     this.dataSource.data = this.data.details[0].data;
@@ -398,6 +398,9 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
       t_tien_nt += item.tien_nt || 0;
     });
     this.data.masterInfo = { ...this.data.masterInfo, t_tien_nt: t_tien_nt, t_tt_nt: t_tien_nt };
+
+    const t_da_tra = this.data.masterInfo.t_da_tra && this.data.masterInfo.t_da_tra > 0 ? this.data.masterInfo.t_da_tra : 0;
+    this.data.masterInfo.t_con_no = this.data.masterInfo.t_tien_nt! - t_da_tra;
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);
