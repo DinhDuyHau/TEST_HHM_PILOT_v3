@@ -34,21 +34,6 @@
           >
         </div>
       </div>
-      <div class="d-flex gap-2 box" *ngIf="isShowShop()">
-        <form-input-custom
-          class="flex-1"
-          #ma_cuahang
-          [name]="'ma_cuahang'"
-          [label]="'Mã cửa hàng'"
-          [value]="filters.ma_cuahang"
-          (handleClickOpenDialog)="openSearchShopDialog()" />
-        <form-input-custom
-          class="flex-1"
-          [name]="'ten_cuahang'"
-          [label]="'Tên cửa hàng'"
-          [value]="ten_cuahang"
-          [disabled]="true" />
-      </div>
       <div class="d-flex gap-2 box">
         <form-input-custom
           class="flex-1"
@@ -64,7 +49,22 @@
           [value]="filters.so_ct_kt"
           (handleChangeValue)="filters.so_ct_kt = $event" />
       </div>
-
+      <div class="d-flex gap-2 box" *ngIf="isShowShop()">
+        <form-input-custom
+          class="flex-1"
+          #ma_cuahang
+          [name]="'ma_cuahang'"
+          [label]="'Mã cửa hàng'"
+          [value]="filters.ma_cuahang"
+          (handleClickOpenDialog)="openSearchShopDialog()"
+          (handleEnterInput)="handleEnterShop($event)" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ten_cuahang'"
+          [label]="'Tên cửa hàng'"
+          [value]="ten_cuahang"
+          [disabled]="true" />
+      </div>
       <div class="d-flex gap-2 box">
         <form-input-custom
           class="flex-1"

@@ -261,6 +261,16 @@ export class AdvancedSearchDialogComponent implements OnInit {
     this.openMerchandiseDialog(ma_vt);
   }
 
+  handleEnterShop(ma_cuahang: string) {
+    const shop = this.shop.find((e: any) => e.ma_cuahang === ma_cuahang.trim());
+    if (shop) {
+      this.filters.ma_cuahang = shop.ma_cuahang;
+      this.ten_cuahang = shop?.ten_cuahang;
+    } else {
+      this.ten_cuahang = ''
+    }
+  }
+
   // #endregion merchandise
 
   openSearchShopDialog() {
