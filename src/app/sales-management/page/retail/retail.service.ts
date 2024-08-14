@@ -432,8 +432,8 @@ export class RetailService {
     // Hàm này sẽ xử lý chung cho cả 2 trường hợp là thêm chiết khấu và xoá chiết khấu
     // --> Do không lưu chi tiết giá trị từng chiết khấu được hưởng với loại chiết khấu giảm giá hàng và chiết khấu bán kèm
     //      --> Cho nên khi thực hiện xoá hay thêm mới call lại api tính chiết khấu và lấy lại những loại chiết khấu đã chọn và thực hiện tính lại chiết khấu từ đầu
-    updateDiscount(discounts: Discount[], isGridItem = false, row_item: Merchandise | null = null) {
-        this.discountService.resetDiscount(this.ticket.discount, isGridItem, row_item);
+    updateDiscount(discounts: Discount[], isGridItem = false, row_item: Merchandise | null = null, isGridDiscount = false) {
+        this.discountService.resetDiscount(this.ticket.discount, isGridItem, row_item, isGridDiscount);
         discounts.forEach(discount => {
             if (discount.loai_ck === DISCOUNT_TYPE.REDUTION_BY_MERCHANDISE_CODE ||
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||

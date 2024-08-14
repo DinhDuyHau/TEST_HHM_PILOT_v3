@@ -273,8 +273,8 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
       ]
     };
     this.route.queryParams.subscribe((params: any) => {
-      if (params['stt_rec']) {
-        this.initData(params['stt_rec']);
+      if (params['key']) {
+        this.initData(params['key']);
       }
       else {
         this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {

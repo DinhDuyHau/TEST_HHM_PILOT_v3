@@ -370,7 +370,7 @@ export class SaleOnlineEcommerceService {
 
     // #region service
     addServiceForMerchandise(item: Merchandise, ticket: SaleOnlineEcommerceTicket) {
-        this.commonService.openDialog(ServiceForImeiComponent, { ma_imei: item.ma_imei, gia_ban: item.gia_ban, ma_vt: item.ma_vt }, 'service-imei-style')
+        this.commonService.openDialog(ServiceForImeiComponent, { ma_imei: item.ma_imei, gia_ban: item.gia_ban, ma_vt: item.ma_vt, gia_vat: item.gia_vat }, 'service-imei-style')
             .afterClosed().subscribe(result => {
                 if (result) {
                     this.serviceOfMerchandiseService.addNew(item.ma_imei, result, ticket.service);

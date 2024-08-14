@@ -109,22 +109,25 @@ export class DiscountService {
         discounts.map((e, i) => e.line_nbr = i);
     }
 
-    resetDiscount(discounts: any[], isGridItem: boolean = false, currentRowitem: Merchandise | null = null) {
+    //isGridDiscount: method được gọi từ grid "chiết khấu"
+    resetDiscount(discounts: any[], isGridItem: boolean = false, currentRowitem: Merchandise | null = null, isGridDiscount: boolean = false) {
         let discountKeep = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.GIFT);
 
-        if (isGridItem && currentRowitem && currentRowitem.ma_imei) {
-            //Thực hiện gọi tính ck từ item trong grid => loại bỏ ck ngoại giao để thực hiện tính lại 
-            //đối với các mã ck trong tab chiết khấu có imei áp dụng trùng với imei của dòng đang chọn => giữ lại ck
-            let discount_keep_adv = discounts.filter(e => e.loai_ck !== DISCOUNT_TYPE.GIFT);
-            discount_keep_adv = discount_keep_adv.filter(e => e.loai_ck !== DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||
-                (e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && e.ma_imei && e.ma_imei.trim() !== currentRowitem.ma_imei.trim())
-            );
-            discountKeep.push(...discount_keep_adv);
-        }
-        else {
-            //Thực hiện gọi tính ck từ button trên form master => giữ lại chiết khấu ngoại giao, tính lại các ck khác
-            const discount_keep_adv = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER);
-            discountKeep.push(...discount_keep_adv);
+        if (!isGridDiscount) {
+            if (isGridItem && currentRowitem && currentRowitem.ma_imei) {
+                //Thực hiện gọi tính ck từ item trong grid => loại bỏ ck ngoại giao để thực hiện tính lại 
+                //đối với các mã ck trong tab chiết khấu có imei áp dụng trùng với imei của dòng đang chọn => giữ lại ck
+                let discount_keep_adv = discounts.filter(e => e.loai_ck !== DISCOUNT_TYPE.GIFT);
+                discount_keep_adv = discount_keep_adv.filter(e => e.loai_ck !== DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||
+                    (e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && e.ma_imei && e.ma_imei.trim() !== currentRowitem.ma_imei.trim())
+                );
+                discountKeep.push(...discount_keep_adv);
+            }
+            else {
+                //Thực hiện gọi tính ck từ button trên form master => giữ lại chiết khấu ngoại giao, tính lại các ck khác
+                const discount_keep_adv = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER);
+                discountKeep.push(...discount_keep_adv);
+            }
         }
 
         discounts.splice(0, discounts.length);

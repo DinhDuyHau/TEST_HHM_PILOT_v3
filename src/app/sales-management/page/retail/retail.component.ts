@@ -549,7 +549,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
           const discountsInvalid = this.discountService.getDiscountsInValid(this.discountCanApply, this.ticket.discount);
           // this.retailService.removeDiscount(discountsInvalid);
           const discountAfterRemove = this.discountCanApply.filter((item) => discountCurrent.find(x => x.ma_ck == item.ma_ck));
-          this.retailService.updateDiscount(discountAfterRemove);
+          this.retailService.updateDiscount(discountAfterRemove, false, null, true);
         }
         else {
           this.commonService.showMessageByName(result.message);

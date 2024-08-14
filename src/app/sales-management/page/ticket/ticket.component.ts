@@ -551,6 +551,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       .afterClosed()
       .subscribe(result => {
         if (result) {
+          console.log(result);
           const params = { ...result };
           this.advanceSearchParams = params;
           this.page_index = 1;
