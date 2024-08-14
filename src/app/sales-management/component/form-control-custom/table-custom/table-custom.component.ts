@@ -29,6 +29,7 @@ export class TableCustomComponent implements
   OnDestroy {
   @Input() entityName!: string;
   @Input() dataSource: any[] = [];
+  @Input() dataSourceAll: any[] = [];
   @Input() tableType!: number;
   @Input() columns: any[] = [];
   @Input() totalItem!: number;
@@ -37,6 +38,7 @@ export class TableCustomComponent implements
   @Input() select = false;
   @Input() type!: string;
   @Input() selectByCheckbox = false;
+  @Input() selectByCheckboxAll = false;
   @Input() readonly = false;
   @Input() isChangeColorWhenSelected = false;
   @Input() filters: ItemFilter[] = [];
@@ -285,6 +287,19 @@ export class TableCustomComponent implements
     if (this.resizeSubscription) {
       this.resizeSubscription.unsubscribe();
     }
+  }
+
+  // Xử lý chọn tất cả checkbox
+  onToggleAllCheckboxes(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const checked = target.checked;
+    this.dataSourceAll.forEach(record => record.selected = checked);
+    this.handleChangeSelectCheckbox.emit(this.dataSourceAll);
+  }
+
+  // Kiểm tra xem tất cả các bản ghi có được chọn không
+  isAllSelected(): boolean {
+    return this.dataSourceAll.every(record => record.selected);
   }
 
 }
