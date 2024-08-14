@@ -1,4 +1,3 @@
-
 import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Receipt, ReceiptDetail } from '../debt-receipt.model';
 import { Button, Grid, GridType } from '@app/_components/gridV2/grid.model';
@@ -39,6 +38,8 @@ import { CommonService } from '@app/sales-management/page/common/common.service'
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { Customer } from '@app/_components/category/customer/customer.model';
 import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
+import { DebtListComponent } from './debt-list/debt-list.component';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-create',
@@ -141,7 +142,6 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
             item.tien_nt = tien_nt_new;
             item.tt_nt = tien_nt_new;
             item.con_lai = (item.tien_cl == undefined ? 0 : item.tien_cl) - (item.tt_nt == undefined ? 0 : item.tt_nt);
-
             this.data.masterInfo.s4 = (this.data.masterInfo.s4 == undefined ? 0 : this.data.masterInfo.s4) - tien_nt_old + tien_nt_new;
             this.calcTotal();
           }
@@ -166,7 +166,6 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
               return;
             }
             let index = 0;
-            let t_tien = 0;
             this.data.details[0].data = [];
             res.result.forEach((item: any) => {
               index += 1;
@@ -175,7 +174,7 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
                 line_nbr: index,
                 stt_rec_tt: item.stt_rec,
                 so_hd_tt: item.so_ct,
-                ngay_hd_tt: item.ngay_ct,
+                ngay_hd_tt: formatDate(item.ngay_ct, 'yyyy/MM/dd', 'en_US'),
                 tien_hd: item.t_tt_nt,
                 da_tt: item.da_tt_nt,
                 tien_cl: item.cl_nt,
@@ -184,15 +183,9 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
                 con_lai: item.cl_nt,
                 dien_giai: item.dien_giai
               });
-              t_tien += item.cl_nt;
             });
-            this.data.masterInfo.t_tien_nt = 0;
-            this.data.masterInfo.t_tt_nt = 0;
-            this.data.masterInfo.s4 = t_tien;
-            this.data.masterInfo.t_con_no = t_tien;
-            this.data.masterInfo.s5 = 0;
-            this.calcTotal();
-            this.dataSource.data = this.data.details[0].data;
+            this.openDialogDebtList(this.data.details[0].data);
+
           } else {
             this.commonService.showMessageByName('lblWarningNotGetDept');
           }
@@ -536,6 +529,33 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
         });
       });
   }
+
+  openDialogDebtList(dataSource: any[]): void {
+    const openDialog = (dataSource: any[]) => {
+      this.commonService.openDialog(DebtListComponent, { dataSource: dataSource, currentItem: this.dataSource.data }, 'fullscreen-dialog')
+        .afterClosed()
+        .subscribe((item) => {
+          let t_tien = 0;
+          let index = 1;
+          item.forEach((item: any) => {
+            item.line_nbr = index++;
+            t_tien += item.tien_cl;
+          })
+          this.dataSource.data = item;
+          this.data.details[0].data = item;
+          this.data.masterInfo.t_tien_nt = 0;
+          this.data.masterInfo.t_tt_nt = 0;
+          this.data.masterInfo.s4 = t_tien;
+          this.data.masterInfo.t_con_no = t_tien;
+          this.data.masterInfo.s5 = 0;
+          this.calcTotal();
+        });
+    };
+    openDialog(dataSource);
+  }
+
+
+
   //#endregion
 
 }
