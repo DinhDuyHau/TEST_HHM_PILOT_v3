@@ -454,7 +454,8 @@
         },
         {
             "name": "ten_kh",
-            "title": "Tên ĐV bảo hành"
+            "title": "Tên ĐV bảo hành",
+            "width": "300px"
         },
         {
             "name": "t_so_luong",
@@ -551,7 +552,8 @@
         },
         {
             "name": "ten_kh",
-            "title": "Tên ĐV bảo hành"
+            "title": "Tên ĐV bảo hành",
+            "width": "300px"
         },
         {
             "name": "t_so_luong",
@@ -561,7 +563,8 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "300px"
         },
         {
             "name": "statusname",
@@ -605,7 +608,8 @@
         },
         {
             "name": "ten_kh",
-            "title": "Tên khách"
+            "title": "Tên khách",
+            "width": "300px"
         },
         {
             "name": "t_so_luong",
@@ -636,7 +640,8 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "300px"
         },
         {
             "name": "comment",
@@ -663,6 +668,10 @@
             "title": "Số phiếu"
         },
         {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
@@ -685,11 +694,8 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
-        },
-        {
-            "name": "statusname",
-            "title": "Trạng thái"
+            "title": "Diễn giải",
+            "width": "300px"
         },
         {
             "name": "comment",
@@ -716,6 +722,10 @@
             "title": "Số phiếu"
         },
         {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
@@ -732,11 +742,8 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
-        },
-        {
-            "name": "statusname",
-            "title": "Trạng thái"
+            "title": "Diễn giải",
+            "width": "300px"
         },
         {
             "name": "comment",
@@ -763,6 +770,10 @@
             "title": "Số phiếu"
         },
         {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
@@ -779,11 +790,8 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
-        },
-        {
-            "name": "statusname",
-            "title": "Trạng thái"
+            "title": "Diễn giải",
+            "width": "300px"
         },
         {
             "name": "comment",
@@ -810,6 +818,10 @@
             "title": "Số phiếu"
         },
         {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
@@ -826,11 +838,8 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
-        },
-        {
-            "name": "statusname",
-            "title": "Trạng thái"
+            "title": "Diễn giải",
+            "width": "300px"
         },
         {
             "name": "comment",
@@ -857,6 +866,10 @@
             "title": "Số phiếu"
         },
         {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
@@ -873,11 +886,8 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
-        },
-        {
-            "name": "statusname",
-            "title": "Trạng thái"
+            "title": "Diễn giải",
+            "width": "300px"
         },
         {
             "name": "comment",
@@ -904,6 +914,10 @@
             "title": "Số phiếu"
         },
         {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
@@ -920,11 +934,8 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
-        },
-        {
-            "name": "statusname",
-            "title": "Trạng thái"
+            "title": "Diễn giải",
+            "width": "300px"
         },
         {
             "name": "comment",
@@ -951,6 +962,10 @@
             "title": "Số phiếu"
         },
         {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
@@ -966,12 +981,9 @@
             "dataType": "number"
         },
         {
-            "name": "dien_giai",
-            "title": "Diễn giải"
-        },
-        {
-            "name": "statusname",
-            "title": "Trạng thái"
+            "name": "Dien_giai",
+            "title": "Diễn giải",
+            "width": "300px"
         },
         {
             "name": "comment",
@@ -998,6 +1010,10 @@
             "title": "Số phiếu"
         },
         {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
@@ -1015,10 +1031,6 @@
         {
             "name": "dien_giai",
             "title": "Diễn giải"
-        },
-        {
-            "name": "statusname",
-            "title": "Trạng thái"
         },
         {
             "name": "comment",

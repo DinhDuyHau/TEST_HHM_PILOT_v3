@@ -309,6 +309,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
 
     this.filters.ngay_bd = new Date(this.filters.ngay_bd).toISOString();
     this.filters.ngay_kt = new Date(this.filters.ngay_kt).toISOString();
+    this.filters.ma_ct = this.filters.voucherCode;
 
     const keyValueArray = Object.entries(this.filters);
     for (const [key, value] of keyValueArray) {
