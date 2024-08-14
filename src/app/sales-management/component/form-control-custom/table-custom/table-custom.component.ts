@@ -255,18 +255,6 @@ export class TableCustomComponent implements
 
   // #region show edit button
   showEditButton(record: any) {
-    // if (this.handleUpdate.observers.length &&
-    //   this.entityName !== 'SVTran_DXA' &&
-    //   !this.readonly &&
-    //   (this.isTicket ? record.status === '0' : true)) {
-    //   return true;
-    // } else if (this.handleUpdate.observers.length && !this.isTicket && !this.readonly && record.status === '0') {
-    //   return true;
-    // }
-    // else {
-    //   return false;
-    // }
-
     if (this.handleUpdate.observers.length === 0) {
       return false;
     }
@@ -287,7 +275,7 @@ export class TableCustomComponent implements
   }
 
   showVieweButton(record: any) {
-    if (this.handleDelete.observers.length === 0) {
+    if (this.handleView.observers.length === 0) {
       return false;
     }
     if (record.status === '0') {

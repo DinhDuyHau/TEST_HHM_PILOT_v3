@@ -35,7 +35,6 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   @Input() depositSource: any[] = [];
   @Input() pay_hidden!: any;
   @Input() readonly = false;
-  @Input() invalid = false;
   @Input() merchandise: any[] = [];
   @Input() isPaymentHH = false;
   @Input() approveDiscount = '';
@@ -48,6 +47,18 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   ma_gg = '';
   dataFormat = dataFormat;
   depositSelected = [];
+  invalid = {
+    quet_the_tra_gop: {
+      ma_may_pos: false,
+      ma_dv_tragop: false
+    },
+    tra_gop: {
+      ma_dv_tragop: false
+    },
+    voucher_doi_tac: {
+      ma_ctr: false
+    }
+  }
 
   constructor(
     public dialogRef: MatDialogRef<PaymentTabDialogComponent>,
@@ -63,7 +74,6 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       depositSource: any[],
       pay_hidden: any,
       readonly: boolean,
-      invalid: boolean,
       merchandise: any[],
       isPaymentHH: boolean,
       approveDiscount: string,
@@ -89,7 +99,6 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     this.depositSource = dataPayment.depositSource;
     this.pay_hidden = dataPayment.pay_hidden;
     this.readonly = dataPayment.readonly;
-    this.invalid = dataPayment.invalid;
     this.merchandise = dataPayment.merchandise;
     this.isPaymentHH = dataPayment.isPaymentHH;
     this.approveDiscount = dataPayment.approveDiscount;
@@ -517,9 +526,31 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     this.data.quet_the_tra_gop.ma_may_pos = pos.ma_pos;
   }
 
-  onCancel() {
-    this.dialogRef.close({ t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, nguoi_duyet_ck: this.approveDiscount, t_chi_phi: this.t_tien_phi });
-    //
+  validate() {
+    if (this.data.quet_the_tra_gop.selected && !this.data.quet_the_tra_gop.ma_may_pos.trim() && !this.data.quet_the_tra_gop.ma_dv_tragop.trim()) {
+      this.invalid.quet_the_tra_gop.ma_may_pos = true;
+      this.invalid.quet_the_tra_gop.ma_dv_tragop = true;
+      return true;
+    }
+    if (this.data.tra_gop.selected && !this.data.tra_gop.ma_dv_tragop.trim()) {
+      this.invalid.tra_gop.ma_dv_tragop = true;
+      return true;
+    }
+    if (this.data.voucher_doi_tac.selected && !this.data.voucher_doi_tac.ma_ctr.trim()) {
+      this.invalid.voucher_doi_tac.ma_ctr = true;
+      return true;
+    }
+    return false;
   }
+
+  onCancel() {
+    if (this.validate()) {
+      return;
+    } else {
+      this.dialogRef.close({ t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, nguoi_duyet_ck: this.approveDiscount, t_chi_phi: this.t_tien_phi });
+    }
+  }
+
+
 }
 

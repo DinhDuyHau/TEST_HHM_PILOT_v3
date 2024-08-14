@@ -58,11 +58,15 @@ export class TransferComponent implements OnInit {
       this.invalid = true;
       return;
     }
-    this.data.transfer.detail.push(this.chuyen_khoan);
-    this.data.transfer.tien += this.chuyen_khoan.tien;
-    this.dataSource = this.data.transfer.detail;
-    this.chuyen_khoan = new TransferDetail;
-    this.invalid = false;
+    if (this.chuyen_khoan.ten_ngan_hang.trim() !== '' && this.chuyen_khoan.tien) {
+      this.data.transfer.detail = [...this.data.transfer.detail, this.chuyen_khoan];
+      this.data.transfer.tien += this.chuyen_khoan.tien;
+      this.dataSource = this.data.transfer.detail;
+      this.chuyen_khoan = new TransferDetail;
+      this.invalid = false;
+    } else {
+      this.commonService.showMessage("Ngân hàng chuyển khoản và số tiền không được để trống")
+    }
   }
   onDeleteItem(event: { item: any }) {
     this.data.transfer.detail = this.data.transfer.detail.filter((x => x.tk_nh_nhan != event.item.tk_nh_nhan && x.ten_ngan_hang != event.item.ten_ngan_hang));

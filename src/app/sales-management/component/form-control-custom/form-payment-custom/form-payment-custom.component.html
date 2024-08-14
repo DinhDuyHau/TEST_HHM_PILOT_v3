@@ -2,7 +2,11 @@
   <label class="title" for="{{ name }}">{{ label }}</label>
   <div class="position-relative">
     <input
-      [class]="'form-control text-end' + (highlightText ? ' input-highlight-text' : '') + (highlightBox ? ' input-highlight-box' : '')"
+      [class]="
+        'form-control text-end' +
+        (highlightText ? ' input-highlight-text' : '') +
+        (highlightBox ? ' input-highlight-box' : '')
+      "
       [ngClass]="{
           'text-center': align === 'center',
               'text-end': align === 'end',
@@ -18,7 +22,7 @@
       (focus)="onFocus(ref)"
       (blur)="onChange()"
       (keyup)="onEnter($event)" />
-    <span class="text-danger" *ngIf="invalid && !value"
+    <span class="text-danger error" *ngIf="invalid && !value"
       >Nhập thiếu thông tin {{ label.toLowerCase() }}</span
     >
     <div

@@ -54,10 +54,14 @@ export class SwipeCardComponent implements OnInit {
     this.dataSource = this.data.card.detail;
   }
   addDetail() {
-    this.data.card.detail.push(this.quet_the);
-    this.data.card.tien += this.quet_the.tien;
-    this.dataSource = this.data.card.detail;
-    this.quet_the = new CardDetail;
+    if (this.quet_the.ma_chuan_chi.trim() !== '' && this.quet_the.ma_may_pos.trim() !== '' && this.quet_the.so_the.trim() !== '' && this.quet_the.tien) {
+      this.data.card.detail = [...this.data.card.detail, this.quet_the];
+      this.data.card.tien += this.quet_the.tien;
+      this.dataSource = this.data.card.detail;
+      this.quet_the = new CardDetail;
+    } else {
+      this.commonService.showMessage("Cần nhập đầy đủ thông tin")
+    }
   }
   onDeleteItem(event: { item: any }) {
     this.data.card.detail = this.data.card.detail.filter((
