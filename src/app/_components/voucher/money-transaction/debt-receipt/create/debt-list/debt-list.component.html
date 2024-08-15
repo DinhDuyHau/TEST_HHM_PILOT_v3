@@ -1,0 +1,82 @@
+<div class="bg-white">
+  <div
+    mat-dialog-title
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragHandle
+    *ngIf="!isMobile">
+    {{ title }}
+  </div>
+  <div mat-dialog-title *ngIf="isMobile">
+    {{ title }}
+  </div>
+  <div mat-dialog-content>
+     <!-- Thêm các trường tìm kiếm -->
+    <div class="search-container">
+      <div class="search-input flex">
+          <div class="inp-search">
+          <app-input-custom-v2
+          class="flex-1"
+          [label]="'Từ số'"
+          [value]="tu_so"
+          name="tu_so"
+          type="text"
+          [disabled]="disabled"
+          (handleChange)="onNumberChange('tu_so', $event)"/>
+        </div>
+        <div class="inp-search">
+          <app-input-custom-v2
+          class="flex-1"
+          [label]="'Đến số'"
+          [value]="den_so"
+          name="den_so"
+          type="text"
+          [disabled]="disabled"
+          (handleChange)="onNumberChange('den_so', $event)"/>
+        </div> 
+
+        <div class="inp-search">
+          <label class="col-form-label">Từ ngày</label>
+          <app-input-date
+          #startDate
+          [text]="'tu_ngay'"
+          (handleBlur)="onBlurDateStart($event, startDate, 'tu_ngay')"
+          (handleKeyUp)="onEnterDate($event)"/>
+        </div>
+        <div class="inp-search">
+          <label class="col-form-label">Đến ngày</label>
+          <app-input-date 
+          #endDate
+          [text]="'den_ngay'"
+          (handleBlur)="onBlurDateStart($event, endDate, 'den_ngay')"
+          (handleKeyUp)="onEnterDate($event)"/>
+        </div>
+      </div>
+          
+      <div class="search-btn">
+        <div class="btn-responsive btn-search" (click)="onSearch()" >Tìm kiếm</div>
+      </div>   
+    </div>
+
+    <table-custom
+      [dataSource]="dataSource"
+      [dataSourceAll]="data.dataSource"
+      [columns]="columns"
+      [selectByCheckbox]="true"
+      [selectByCheckboxAll]="true"
+      [totalItem]="recordCount"
+      [page_index]="page_index"
+      [size]="page_size"
+      [hiddenPagination]="false"
+      (handleChangePage)="onChangePage($event)"
+      (handleChangePageSize)="onChangePageSize($event)"
+       />
+  </div>
+
+  <div mat-dialog-actions class="gap-3 justify-end ml-5">
+    <div class="d-flex justify-end gap-2 m-2">
+      <div class="btn-responsive btn-cancel" (click)="onCancel()">Hủy bỏ</div>
+      <div class="btn-responsive btn-add" (click)="onSelect()">Chọn</div>
+    </div>
+  </div>
+</div>
