@@ -264,6 +264,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.primaryKey = 'stt_rec';
         this.entityName = TICKET_ENTITY.STOCK_TRANFER;
         this.codeName = TICKET_CODE.STOCK_TRANFER;
+        this.hasButton.create = false;
         break;
       case TICKET_TYPE.STOCK_TRANFER_IN:
         this.columns = STOCK_FIELDS.STOCK_TRANFER_IN as Cell[];
@@ -280,6 +281,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.primaryKey = 'stt_rec';
         this.entityName = TICKET_ENTITY.STOCK_INTERNAL_SALE;
         this.codeName = TICKET_CODE.STOCK_INTERNAL_SALE;
+        this.hasButton.create = false;
         break;
       case TICKET_TYPE.STOCK_INTERNAL_PURCHASE:
         this.columns = STOCK_FIELDS.STOCK_INTERNAL_PURCHASE as Cell[];
@@ -338,6 +340,8 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.primaryKey = 'stt_rec';
         this.entityName = TICKET_ENTITY.STOCK_RECEIPT;
         this.codeName = TICKET_CODE.STOCK_RECEIPT;
+        this.hasButton.create = false;
+        this.hasButton.delete = false;
         break;
       case TICKET_TYPE.STOCK_RETURN_SUPPILER:
         this.columns = STOCK_FIELDS.STOCK_RETURN_SUPPILER as Cell[];
@@ -551,7 +555,6 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       .afterClosed()
       .subscribe(result => {
         if (result) {
-          console.log(result);
           const params = { ...result };
           this.advanceSearchParams = params;
           this.page_index = 1;

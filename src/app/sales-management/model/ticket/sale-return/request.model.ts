@@ -10,6 +10,7 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     no_km_yn = false;
     tien_kmqd = 0;
     imei_mua = '';
+    gia_vat = 0;
 
     ma_asm_duyet?: string = '';
     ten_asm_duyet?: string = '';

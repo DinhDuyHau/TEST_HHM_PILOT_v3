@@ -46,6 +46,7 @@ export interface MasterInfo {
     ngay_ct?: string,
     ngay_lct?: string,
     ngay_ht?: string,
+    ngay_ct0?: string,
 
     ma_dvcs: string,
     ma_ca?: string,

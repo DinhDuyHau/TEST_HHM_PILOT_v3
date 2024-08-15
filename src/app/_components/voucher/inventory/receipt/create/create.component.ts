@@ -57,6 +57,7 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
   statusList: StatusTicket[] = [];
   voucherCode = 'PNA';
   voucher_date = '';
+  receipt_invoice_date = '';
 
   submitted = false;
   loading = false;
@@ -175,6 +176,7 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
     this.receiptService.getItem(stt_rec).subscribe((item => {
       item.masterInfo.ngay_ct = item.masterInfo.ngay_ct?.substring(0, 10);
       this.voucher_date = item.masterInfo.ngay_ct!;
+      this.receipt_invoice_date = item.masterInfo.ngay_ct0?.substring(0, 10)!;
 
       this.data = item;
       this.voucherForm = this.formBuilder.group({
@@ -205,6 +207,7 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
       });
       if (this.data.details.length >= 2 && this.data.details[1].data) {
         this.extend = this.data.details[1].data[0] || {};
+        this.extend.ngay_ct0 = this.receipt_invoice_date;
       }
       this.statusVoucher.getStatus(this.voucherCode, this.data.masterInfo.fnote3).subscribe(result => {
         this.statusList = result;
@@ -381,11 +384,15 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         }
         else {
-          console.log(item.result.length);
           if (item.result && item.result.length > 0) {
             // this.commonService.showMessageByNameAdvance(item.message, ...item.result);
-            const msg = this.commonService.getMessage('lblDatabaseWarningMessage', [item.message]);
-            this.commonService.showMessage(msg);
+            if (item.message === 'exists_yn_yes' || item.message === 'dat_hang_yn_yes') {
+              this.commonService.showMessageByNameAdvance(item.message, ...item.result);
+            }
+            else {
+              const msg = this.commonService.getMessage('lblDatabaseWarningMessage', [item.message]);
+              this.commonService.showMessage(msg);
+            }
           }
           else {
             this.commonService.showMessageByName(item.message);
