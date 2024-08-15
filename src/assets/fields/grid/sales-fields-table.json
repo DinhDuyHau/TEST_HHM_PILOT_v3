@@ -1779,5 +1779,43 @@
             "name": "ten_ct",
             "title": "Tên chứng từ"
         }
-    ]
+    ],
+    "DEBT_LIST": [
+    {
+      "name": "line_nbr",
+      "title": "STT"
+    },
+    {
+      "name": "so_hd_tt",
+      "title": "Số hóa đơn"
+    },
+    {
+      "name": "ngay_hd_tt",
+      "title": "Ngày hóa đơn"
+    },
+    {
+      "name": "tien_hd",
+      "title": "Tiền hóa đơn"
+    },
+    {
+      "name": "da_tt",
+      "title": "Đã thanh toán"
+    },
+    {
+      "name": "tien_cl",
+      "title": "Phải thanh toán"
+    },
+    {
+      "name": "dien_giai",
+      "title": "Ghi chú"
+    },
+    {
+      "name": "tien_nt",
+      "title": "Tiền"
+    },
+    {
+      "name": "con_lai",
+      "title": "Còn lại"
+    }
+  ]
 }
