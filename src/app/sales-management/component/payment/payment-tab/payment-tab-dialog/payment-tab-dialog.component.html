@@ -30,7 +30,6 @@
                 dataType="number"
                 [disabled]="true"
                 format="moneyViewFormat"
-                [invalid]="data.tien_dat_coc.selected && invalid ? true : false"
                 (handleChangeValue)="
                   data.tien_dat_coc.tien = $event; onChange()
                 " />
@@ -58,7 +57,6 @@
               [align]="'end'"
               dataType="number"
               format="moneyInputFormat"
-              [invalid]="data.tien_mat.selected && invalid ? true : false"
               (handleChangeValue)="data.tien_mat.tien = $event; onChange()" />
           </dropdown-custom>
           <!-- END: Tiền mặt -->
@@ -78,7 +76,6 @@
               [align]="'end'"
               dataType="number"
               format="moneyViewFormat"
-              [invalid]="data.quet_the.selected && invalid ? true : false"
               (handleChangeValue)="data.quet_the.tien = $event; onChange()" />
             <div class="deposit_payment pt-2">
               <button
@@ -107,9 +104,6 @@
               [align]="'end'"
               dataType="number"
               format="moneyInputFormat"
-              [invalid]="
-                data.quet_the_tra_gop.selected && invalid ? true : false
-              "
               (handleChangeValue)="
                 data.quet_the_tra_gop.tien = $event; onChange()
               " />
@@ -122,7 +116,8 @@
                 [label]="'Mã máy POS'"
                 [value]="data.quet_the_tra_gop.ma_may_pos"
                 [invalid]="
-                  data.quet_the_tra_gop.selected && invalid ? true : false
+                  data.quet_the_tra_gop.selected &&
+                  invalid.quet_the_tra_gop.ma_may_pos
                 "
                 [highlightBox]="
                   data.quet_the_tra_gop.tien > 0 &&
@@ -138,9 +133,6 @@
                 [label]="'Số thẻ'"
                 [value]="data.quet_the_tra_gop.so_the"
                 [disabled]="readonly"
-                [invalid]="
-                  data.quet_the_tra_gop.selected && invalid ? true : false
-                "
                 [highlightBox]="
                   data.quet_the_tra_gop.tien > 0 &&
                   (!data.quet_the_tra_gop.so_the ||
@@ -159,7 +151,8 @@
                 [label]="'Đơn vị trả góp'"
                 [value]="data.quet_the_tra_gop.ma_dv_tragop"
                 [invalid]="
-                  data.quet_the_tra_gop.selected && invalid ? true : false
+                  data.quet_the_tra_gop.selected &&
+                  invalid.quet_the_tra_gop.ma_dv_tragop
                 "
                 [highlightBox]="
                   data.quet_the_tra_gop.tien > 0 &&
@@ -177,9 +170,6 @@
                 [label]="'Mã chuẩn chi'"
                 [value]="data.quet_the_tra_gop.ma_chuan_chi"
                 [disabled]="readonly"
-                [invalid]="
-                  data.quet_the_tra_gop.selected && invalid ? true : false
-                "
                 [highlightBox]="
                   data.quet_the_tra_gop.tien > 0 &&
                   (!data.quet_the_tra_gop.ma_chuan_chi ||
@@ -196,9 +186,6 @@
                 [name]="'qttg_so_hd_tragop'"
                 [label]="'Mã hợp đồng'"
                 [value]="data.quet_the_tra_gop.so_hd_tragop"
-                [invalid]="
-                  data.quet_the_tra_gop.selected && invalid ? true : false
-                "
                 [highlightBox]="
                   data.quet_the_tra_gop.tien > 0 &&
                   (!data.quet_the_tra_gop.so_hd_tragop ||
@@ -215,7 +202,6 @@
                 class="flex-1"
                 [align]="'left'"
                 [value]="this.data.quet_the_tra_gop.tk_nh_nhan"
-                [invalid]="invalid"
                 [disabled]="readonly"
                 (handleChangeValue)="data.quet_the_tra_gop.tk_nh_nhan = $event"
                 (handleClickOpenDialog)="onOpenSearchBankPublishCard()" />
@@ -243,9 +229,6 @@
                 dataType="number"
                 format="moneyInputFormat"
                 [value]="data.quet_the_tra_gop.phi_bao_hiem"
-                [invalid]="
-                  data.quet_the_tra_gop.selected && invalid ? true : false
-                "
                 (handleChangeValue)="
                   data.quet_the_tra_gop.phi_bao_hiem = $event; onChange()
                 " />
@@ -258,9 +241,6 @@
                 dataType="number"
                 format="moneyInputFormat"
                 [value]="data.quet_the_tra_gop.phi_chuyendoi"
-                [invalid]="
-                  data.quet_the_tra_gop.selected && invalid ? true : false
-                "
                 (handleChangeValue)="
                   data.quet_the_tra_gop.phi_chuyendoi = $event; onChange()
                 " />
@@ -288,7 +268,6 @@
                 [align]="'end'"
                 dataType="number"
                 format="moneyViewFormat"
-                [invalid]="data.chuyen_khoan.selected && invalid ? true : false"
                 (handleChangeValue)="
                   data.chuyen_khoan.tien = $event; onChange()
                 " />
@@ -319,7 +298,6 @@
                 [align]="'end'"
                 dataType="number"
                 format="moneyViewFormat"
-                [invalid]="data.chuyen_khoan.selected && invalid ? true : false"
                 (handleChangeValue)="
                   data.chuyen_khoan.detail[0].tien = $event;
                   data.chuyen_khoan.tien = $event;
@@ -329,7 +307,6 @@
                 [readonly]="readonly"
                 label="Tên người nhận"
                 [value]="data.chuyen_khoan.detail[0].ten_nguoi_nhan"
-                [invalid]="data.chuyen_khoan.selected && invalid ? true : false"
                 (handleChangeValue)="
                   data.chuyen_khoan.detail[0].ten_nguoi_nhan = $event;
                   onChange()
@@ -338,7 +315,6 @@
                 [readonly]="readonly"
                 label="Số tài khoản"
                 [value]="data.chuyen_khoan.detail[0].tk_nh_nhan"
-                [invalid]="data.chuyen_khoan.selected && invalid ? true : false"
                 (handleChangeValue)="
                   data.chuyen_khoan.detail[0].tk_nh_nhan = $event; onChange()
                 " />
@@ -346,7 +322,6 @@
                 [readonly]="readonly"
                 label="Tên ngân hàng"
                 [value]="data.chuyen_khoan.detail[0].ten_ngan_hang"
-                [invalid]="data.chuyen_khoan.selected && invalid ? true : false"
                 (handleChangeValue)="
                   data.chuyen_khoan.detail[0].ten_ngan_hang = $event; onChange()
                 " />
@@ -370,7 +345,6 @@
                 dataType="number"
                 format="moneyViewFormat"
                 [align]="'right'"
-                [invalid]="data.vi_dien_tu.selected && invalid ? true : false"
                 (handleChangeValue)="
                   data.vi_dien_tu.tien = $event; onChange()
                 " />
@@ -403,7 +377,6 @@
                 dataType="number"
                 [disabled]="true"
                 format="moneyViewFormat"
-                [invalid]="data.vnpay.selected && invalid ? true : false"
                 (handleChangeValue)="data.vnpay.tien = $event; onChange()" />
               <button
                 class="flex-1 btn act-deposit-btn text-nowrap"
@@ -510,7 +483,6 @@
               [align]="'end'"
               dataType="number"
               format="moneyInputFormat"
-              [invalid]="data.tra_gop.selected && invalid ? true : false"
               (handleChangeValue)="data.tra_gop.tien = $event; onChange()" />
             <div class="d-flex gap-2">
               <form-payment-custom
@@ -519,7 +491,6 @@
                 [name]="'so_hd_tragop'"
                 [label]="'Mã hợp đồng'"
                 [value]="data.tra_gop.so_hd_tragop"
-                [invalid]="data.tra_gop.selected && invalid ? true : false"
                 [highlightBox]="
                   data.tra_gop.tien > 0 &&
                   (!data.tra_gop.so_hd_tragop ||
@@ -537,7 +508,6 @@
                 dataType="number"
                 format="moneyInputFormat"
                 [value]="data.tra_gop.phi_bao_hiem"
-                [invalid]="data.tra_gop.selected && invalid ? true : false"
                 (handleChangeValue)="
                   data.tra_gop.phi_bao_hiem = $event; onChange()
                 " />
@@ -550,7 +520,9 @@
                 [name]="'ma_dv_tragop'"
                 [label]="'Đơn vị trả góp'"
                 [value]="data.tra_gop.ma_dv_tragop"
-                [invalid]="data.tra_gop.selected && invalid ? true : false"
+                [invalid]="
+                  data.tra_gop.selected && invalid.tra_gop.ma_dv_tragop
+                "
                 [highlightBox]="
                   data.tra_gop.tien > 0 &&
                   (!data.tra_gop.ma_dv_tragop ||
@@ -570,7 +542,6 @@
                 dataType="number"
                 format="moneyInputFormat"
                 [value]="data.tra_gop.phi_cd_tragop"
-                [invalid]="data.tra_gop.selected && invalid ? true : false"
                 (handleChangeValue)="
                   data.tra_gop.phi_cd_tragop = $event; onChange()
                 " />
@@ -614,7 +585,6 @@
                 dataType="number"
                 format="moneyViewFormat"
                 [max]="diem_qd_max"
-                [invalid]="data.sd_diem.selected && invalid ? true : false"
                 (handleChangeValue)="
                   data.sd_diem.diem_qd = $event; onChange()
                 " />
@@ -626,7 +596,6 @@
                 [align]="'end'"
                 dataType="number"
                 format="moneyViewFormat"
-                [invalid]="data.sd_diem.selected && invalid ? true : false"
                 (handleChangeValue)="data.sd_diem.tien = $event; onChange()" />
             </div>
             <div class="d-flex gap-3">
@@ -721,9 +690,6 @@
                 [align]="'end'"
                 dataType="number"
                 format="moneyInputFormat"
-                [invalid]="
-                  data.voucher_doi_tac.selected && invalid ? true : false
-                "
                 (handleChangeValue)="
                   data.voucher_doi_tac.tien = $event; onChange()
                 " />
@@ -734,9 +700,6 @@
                 [label]="'Mã giao dịch'"
                 [value]="data.voucher_doi_tac.ma_chuan_chi"
                 [disabled]="readonly"
-                [invalid]="
-                  data.voucher_doi_tac.selected && invalid ? true : false
-                "
                 [highlightBox]="
                   data.voucher_doi_tac.tien > 0 &&
                   (!data.voucher_doi_tac.ma_chuan_chi ||
@@ -753,9 +716,6 @@
                 [name]="'ma_voucher'"
                 [label]="'Mã voucher'"
                 [value]="data.voucher_doi_tac.ma_gg"
-                [invalid]="
-                  data.voucher_doi_tac.selected && invalid ? true : false
-                "
                 [highlightBox]="
                   data.voucher_doi_tac.tien > 0 &&
                   (!data.voucher_doi_tac.ma_gg ||
@@ -772,7 +732,8 @@
                 [label]="'Đơn vị phát hành'"
                 [value]="data.voucher_doi_tac.ma_ctr"
                 [invalid]="
-                  data.voucher_doi_tac.selected && invalid ? true : false
+                  data.voucher_doi_tac.selected &&
+                  invalid.voucher_doi_tac.ma_ctr
                 "
                 [highlightBox]="
                   data.voucher_doi_tac.tien > 0 &&

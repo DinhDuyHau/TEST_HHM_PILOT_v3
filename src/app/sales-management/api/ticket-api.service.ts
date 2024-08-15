@@ -255,4 +255,15 @@ export class TicketApiService extends ApiService {
     findStocks(body: any, page_index: number, page_size: number): Observable<Result<any>> {
         return this.post<Result<any>>(GET_STOCK_BY_SHOP, body, { page_index, page_size });
     }
+
+    findOneByCode(ma_kho: string): Observable<Result<any>> {
+        const body = [
+            {
+                name: 'ma_kho',
+                operator: "=",
+                value: ma_kho
+            },
+        ]
+        return this.post<Result<any>>(GET_STOCK_BY_SHOP, body, { page_index: 1, page_size: 1 });
+    }
 }

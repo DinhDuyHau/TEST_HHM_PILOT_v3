@@ -89,6 +89,7 @@
           [label]="lbl_ma_kho"
           [value]="filters.ma_kho"
           (handleChangeValue)="filters.ma_kho = $event"
+          (handleEnterInput)="onEnterWarehouseInput($event)"
           (handleClickOpenDialog)="openWarehouseDialog('ma_kho', 'ten_kho')" />
         <form-input-custom
           class="flex-1"

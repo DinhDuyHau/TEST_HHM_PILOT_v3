@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import dataFormat from '@app/_common/dataFormat';
 import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
@@ -6,7 +6,9 @@ import { CommonService } from '@app/sales-management/page/common/common.service'
 import { StatusTicket } from '@app/sales-management/model/common/status.model';
 import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '../search/serach-dialog.component';
 import { formatDate } from '@angular/common';
-import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
+import { TICKET_CODE } from '@app/sales-management/model/common/ticket-code.model';
+import { MerchandiseApiService } from '@app/sales-management/api/merchandise-api.service';
+import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 
 interface IFilter {
   ngay_bd: string;
@@ -88,6 +90,8 @@ export class AdvancedSearchDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: IFilter,
     private customerApiService: CustomerApiService,
     private commonService: CommonService,
+    private ticketApiService: TicketApiService,
+    private merchandiseApiService: MerchandiseApiService
   ) {
   }
 
@@ -213,7 +217,15 @@ export class AdvancedSearchDialogComponent implements OnInit {
 
   // #region customer
   onEnterCustomerCode(ma_kh: string) {
-    this.openSearchCustomerDialog(ma_kh);
+    this.customerApiService.getOneById(ma_kh.trim()).subscribe(result => {
+      if (result?.result) {
+        const res = result.result as any;
+        this.filters.ma_kh = res.ma_kh;
+        this.filters.ten_kh = res.ten_kh;
+      } else {
+        this.commonService.showMessage("Không tìm thấy khách hàng")
+      }
+    })
   }
 
   openSearchCustomerDialog(ma_kh?: string) {
@@ -243,6 +255,18 @@ export class AdvancedSearchDialogComponent implements OnInit {
       });
   }
 
+  onEnterWarehouseInput(ma_kho: string) {
+    this.ticketApiService.findOneByCode(ma_kho.trim()).subscribe(result => {
+      if (result?.result?.items.length) {
+        const res = result.result.items[0];
+        this.filters.ma_kho = res.ma_kho;
+        this.filters.ten_kho = res.ten_kho;
+      } else {
+        this.commonService.showMessage("Không tìm thấy kho")
+      }
+    })
+  }
+
   // #region merchandise
   openMerchandiseDialog(ma_vt?: string) {
     this.commonService.openDialog(SearchDialogComponent, {
@@ -258,7 +282,15 @@ export class AdvancedSearchDialogComponent implements OnInit {
   }
 
   onEnterMerchandiseCode(ma_vt: string) {
-    this.openMerchandiseDialog(ma_vt);
+    this.merchandiseApiService.getOneById(ma_vt.trim()).subscribe(result => {
+      if (result?.result) {
+        const res = result.result as any;
+        this.filters.ma_vt = res.ma_vt;
+        this.filters.ten_vt = res.ten_vt;
+      } else {
+        this.commonService.showMessage("Không tìm thấy háng hóa")
+      }
+    })
   }
 
   handleEnterShop(ma_cuahang: string) {

@@ -58,11 +58,18 @@ export class EWalletComponent implements OnInit {
       this.invalid = true;
       return;
     }
-    this.data.eWallet.detail.push(this.vi_dien_tu);
-    this.data.eWallet.tien += this.vi_dien_tu.tien;
-    this.dataSource = this.data.eWallet.detail;
-    this.vi_dien_tu = new EWalletDetail;
-    this.invalid = false;
+    if (this.vi_dien_tu.thong_tin.trim() !== '' && this.vi_dien_tu.so_hd_vnpay.trim() !== '' && this.vi_dien_tu.tien) {
+      this.data.eWallet.detail = [...this.data.eWallet.detail, this.vi_dien_tu];
+      this.data.eWallet.tien += this.vi_dien_tu.tien;
+      this.dataSource = this.data.eWallet.detail;
+      this.vi_dien_tu = new EWalletDetail;
+      this.invalid = false;
+    } else {
+      this.invalid = true;
+      this.commonService.showMessage('Cần nhập đầy đủ thông tin');
+    }
+
+
   }
   onDeleteItem(event: { item: any }) {
     this.data.eWallet.detail = this.data.eWallet.detail.filter((x => x.thong_tin != event.item.thong_tin));
