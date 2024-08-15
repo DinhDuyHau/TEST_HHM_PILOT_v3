@@ -27,8 +27,12 @@ import { TabsCustomModule } from '@app/sales-management/component/form-control-c
 import { DebtReceiptDetailComponent } from './create/create.component';
 import { PaymentTabModule } from '@app/sales-management/component/payment/payment-tab/payment-tab.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
+import { DebtListComponent } from './create/debt-list/debt-list.component';
+import { TableCustomModule } from '@app/sales-management/component/form-control-custom/table-custom/table-custom.module';
+import { MatDialogModule } from '@angular/material/dialog';
+
 @NgModule({
-  declarations: [DebtReceiptComponent, DebtReceiptDetailComponent],
+  declarations: [DebtReceiptComponent, DebtReceiptDetailComponent, DebtListComponent],
   imports: [
     CommonModule,
     DirModule,
@@ -53,8 +57,10 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
     TabsCustomModule,
     PaymentTabModule,
     PaymentTabModule,
-    VoucherInfoModule
+    VoucherInfoModule,
+    TableCustomModule,
+    MatDialogModule
   ],
-  exports: [DebtReceiptComponent, DebtReceiptDetailComponent]
+  exports: [DebtReceiptComponent, DebtReceiptDetailComponent, DebtListComponent]
 })
 export class DebtReceiptModule { }

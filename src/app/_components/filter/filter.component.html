@@ -52,6 +52,18 @@
             ></app-input-date>
           </div>
 
+          <div *ngIf="item.type === 'select'">
+            <select-custom
+              *ngIf="item.type === 'select'"
+              [label]="item.label"
+              [options]="item.options"
+              [optionValue]="item.optionValue"
+              [optionDes]="item.optionDes"
+              [value]="filter[item.name]"
+              (handleChangeValue)="handleInputChange(item.name, $event)">
+            </select-custom>
+          </div>
+
         </div>
       </ng-container>
     </div>

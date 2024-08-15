@@ -26,4 +26,8 @@ export class Control {
     reference?: string[] = [];
     class?: string = '';
     isExternalField?: boolean = false;
+    options?: any[] = [];
+    des!: string;
+    optionValue?: any;
+    optionDes!: string;
 }

@@ -5,8 +5,18 @@
       [ngClass]="{'table-search': type && type == 'search-dialog'}">
       <tr class="table-header">
         <th *ngIf="selectByCheckbox">
+          <div *ngIf="selectByCheckboxAll; else noselectByCheckboxAll">
+          <input
+          class="form-check-input"
+          type="checkbox"
+          (change)="onToggleAllCheckboxes($event)"
+          [checked]="isAllSelected()"
+        />
+        </div>
+        <ng-template #noselectByCheckboxAll>
           Chọn
           <div class="cell-boder-right"></div>
+        </ng-template>
         </th>
         <th
           class="table-title text-nowrap"
