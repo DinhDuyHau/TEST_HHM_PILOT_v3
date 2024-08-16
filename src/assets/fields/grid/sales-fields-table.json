@@ -1771,7 +1771,8 @@
   "DEBT_LIST": [
     {
       "name": "line_nbr",
-      "title": "STT"
+      "title": "STT",
+      "align": "center"
     },
     {
       "name": "so_hd_tt",
@@ -1779,19 +1780,31 @@
     },
     {
       "name": "ngay_hd_tt",
-      "title": "Ngày hóa đơn"
+      "title": "Ngày hóa đơn",
+      "format": "datetimeFormat",
+      "dataType": "date",
+      "align": "center"
     },
     {
       "name": "tien_hd",
-      "title": "Tiền hóa đơn"
+      "title": "Tiền hóa đơn",
+      "format": "moneyViewNoDigit",
+      "dataType": "number",
+      "align": "right"
     },
     {
       "name": "da_tt",
-      "title": "Đã thanh toán"
+      "title": "Đã thanh toán",
+      "format": "moneyViewNoDigit",
+      "dataType": "number",
+      "align": "right"
     },
     {
       "name": "tien_cl",
-      "title": "Phải thanh toán"
+      "title": "Phải thanh toán",
+      "format": "moneyViewNoDigit",
+      "dataType": "number",
+      "align": "right"
     },
     {
       "name": "dien_giai",
@@ -1799,11 +1812,17 @@
     },
     {
       "name": "tien_nt",
-      "title": "Tiền"
+      "title": "Tiền",
+      "format": "moneyViewNoDigit",
+      "dataType": "number",
+      "align": "right"
     },
     {
       "name": "con_lai",
-      "title": "Còn lại"
+      "title": "Còn lại",
+      "format": "moneyViewNoDigit",
+      "dataType": "number",
+      "align": "right"
     }
   ]
 }
