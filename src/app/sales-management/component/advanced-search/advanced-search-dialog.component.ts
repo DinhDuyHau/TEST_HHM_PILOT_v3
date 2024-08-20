@@ -174,7 +174,23 @@ export class AdvancedSearchDialogComponent implements OnInit {
     TICKET_CODE.STOCK_OTHER_RECEIPT,
     TICKET_CODE.DEPOSIST_RETURN_PAYMENT,
     TICKET_CODE.CLOSE_SHIFT_PAYMENT,
-    TICKET_CODE.OTHER_PAYMENT
+    TICKET_CODE.OTHER_PAYMENT,
+    TICKET_CODE.RETAIL,
+    TICKET_CODE.ONLINE_ECOMMERCE,
+    TICKET_CODE.ONLINE,
+    TICKET_CODE.WHOLE,
+    TICKET_CODE.AFFILIATE,
+    TICKET_CODE.CONTRACT,
+    TICKET_CODE.TELECOM,
+    TICKET_CODE.ITINERANT,
+    TICKET_CODE.SERVICE,
+    TICKET_CODE.RETURN,
+    TICKET_CODE.RETURN_ONLINE,
+    TICKET_CODE.RETURN_SERVICE,
+    TICKET_CODE.CHANGE,
+    TICKET_CODE.GIFT_REPAY,
+    TICKET_CODE.REPURCHASE,
+    TICKET_CODE.RENEW
     ].includes(this.voucherCode)
     ) {
       return true;
@@ -294,13 +310,15 @@ export class AdvancedSearchDialogComponent implements OnInit {
   }
 
   handleEnterShop(ma_cuahang: string) {
-    const shop = this.shop.find((e: any) => e.ma_cuahang === ma_cuahang.trim());
+    const shop = this.shop.find((e: any) => (e.ma_cuahang as string).toLowerCase() === ma_cuahang.trim().toLowerCase());
     if (shop) {
       this.filters.ma_cuahang = shop.ma_cuahang;
       this.ten_cuahang = shop?.ten_cuahang;
     } else {
+      this.filters.ma_cuahang = ma_cuahang;
       this.ten_cuahang = ''
     }
+
   }
 
   // #endregion merchandise
@@ -308,8 +326,10 @@ export class AdvancedSearchDialogComponent implements OnInit {
   openSearchShopDialog() {
     this.commonService.openDialog(SearchDialogComponent, { dataSource: this.shop, componentName: SEARCH_COMPONENT_NAME.SHOP_INFO })
       .afterClosed().subscribe(result => {
-        this.filters.ma_cuahang = result?.ma_cuahang;
-        this.ten_cuahang = result?.ten_cuahang;
+        if (result?.ma_cuahang) {
+          this.filters.ma_cuahang = result?.ma_cuahang;
+          this.ten_cuahang = result?.ten_cuahang;
+        }
       });
   }
 

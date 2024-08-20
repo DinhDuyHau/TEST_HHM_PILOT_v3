@@ -49,7 +49,7 @@ export class DebtListComponent implements OnInit {
     this.loadDebtSelected(this.currentItem, this.data.dataSource);
     this.loadDebtSelected(this.currentItem, this.filteredData);
     this.recordCount = this.filteredData.length;
-    console.log(this.data.currentItem);
+    // console.log(this.data.currentItem);
   }
   loadData() {
     let index = 1;
