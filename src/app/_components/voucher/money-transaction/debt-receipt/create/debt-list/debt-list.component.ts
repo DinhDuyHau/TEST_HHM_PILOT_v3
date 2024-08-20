@@ -22,6 +22,7 @@ export class DebtListComponent implements OnInit {
   isMobile = false;
   disabled = false;
 
+  dshd = '';
   tu_so = '';
   den_so = '';
   tu_ngay = getFirstDayOfMonth(new Date());
@@ -122,6 +123,9 @@ export class DebtListComponent implements OnInit {
       this.den_so = value;
     }
   }
+  onNumberListChange(value: string) {
+    this.dshd = value.replace(/\s*,\s*/g, ',');
+  }
   resetHours(date: Date): Date {
     const resetDate = new Date(date);
     resetDate.setHours(0, 0, 0, 0);
@@ -145,10 +149,19 @@ export class DebtListComponent implements OnInit {
     }
     return true;
   }
-  filterData(item: any) {
+  checkInvoiceNumber(item: any) {
+    if (this.dshd) {
+      const invoiceNumbers = this.dshd.split(',').map(num => num.trim()).filter(num => num.length > 0);
+      return invoiceNumbers.includes(item.so_hd_tt.trim());
+    }
+    return true;
+  }
+  filterData(item: any): boolean {
     const dateValid = this.checkDateRange(item);
     const numberValid = this.checkNumberRange(item);
-    return numberValid && dateValid;
+    const invoiceNumberValid = this.checkInvoiceNumber(item);
+
+    return numberValid && dateValid && invoiceNumberValid;
   }
   onSearch() {
     this.page_index = 1;
