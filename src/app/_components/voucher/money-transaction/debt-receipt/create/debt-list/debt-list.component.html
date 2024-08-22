@@ -14,6 +14,18 @@
      <!-- Thêm các trường tìm kiếm -->
     <div class="search-container">
       <div class="search-input flex">
+
+          <div class="inp-search col-5">
+          <app-input-custom-v2
+          class="flex-1"
+          [label]="'Danh sách số HĐ'"
+          [value]="dshd"
+          name="dshd"
+          type="text"
+          [disabled]="disabled"
+          (handleChange)="onNumberListChange($event)"/>
+          </div>
+
           <div class="inp-search">
           <app-input-custom-v2
           class="flex-1"
@@ -22,8 +34,10 @@
           name="tu_so"
           type="text"
           [disabled]="disabled"
-          (handleChange)="onNumberChange('tu_so', $event)"/>
+          (handleChange)="onNumberChange('tu_so', $event)"
+          (handleEnter)="onEnter($event)"/>
         </div>
+
         <div class="inp-search">
           <app-input-custom-v2
           class="flex-1"
@@ -32,7 +46,8 @@
           name="den_so"
           type="text"
           [disabled]="disabled"
-          (handleChange)="onNumberChange('den_so', $event)"/>
+          (handleChange)="onNumberChange('den_so', $event)"
+          (handleEnter)="onEnter($event)"/>
         </div> 
 
         <div class="inp-search">
@@ -41,15 +56,17 @@
           #startDate
           [text]="'tu_ngay'"
           (handleBlur)="onBlurDateStart($event, startDate, 'tu_ngay')"
-          (handleKeyUp)="onEnterDate($event)"/>
+          (handleKeyUp)="onEnterDate($event)"
+          (handleEnter)="onEnter($event)"/>
         </div>
+        
         <div class="inp-search">
           <label class="col-form-label">Đến ngày</label>
           <app-input-date 
           #endDate
           [text]="'den_ngay'"
           (handleBlur)="onBlurDateStart($event, endDate, 'den_ngay')"
-          (handleKeyUp)="onEnterDate($event)"/>
+          (handleEnter)="onEnter($event)"/>
         </div>
       </div>
           
@@ -60,7 +77,7 @@
 
     <table-custom
       [dataSource]="dataSource"
-      [dataSourceAll]="data.dataSource"
+      [dataSourceAll]="filteredData"
       [columns]="columns"
       [selectByCheckbox]="true"
       [selectByCheckboxAll]="true"
