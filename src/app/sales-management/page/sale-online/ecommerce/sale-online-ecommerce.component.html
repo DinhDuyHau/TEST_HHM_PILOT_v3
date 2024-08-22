@@ -216,6 +216,118 @@
     </div> -->
 
     <div style="border-bottom: 1px dashed #cbd5e0; margin-bottom: 20px">
+      <div class="title-content p-2">Phí sàn TMĐT</div>
+      <div class="box-container">
+        <div class="box d-flex gap-2">
+          <form-input-custom
+            class="flex-1"
+            [label]="getLabel('lbl_phi_san_tmdt01')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.tien_phi_01"
+            format="moneyInputFormat"
+            dataType="number"
+            (handleChangeValue)="ticket.masterInfo.tien_phi_01 = $event; onChangeEcommFee();" />
+
+          <form-input-custom
+            class="flex-1"
+            [align]="'end'"
+            [label]="getLabel('lbl_phi_san_tmdt02')"
+            [value]="ticket.masterInfo.tien_phi_02"
+            format="moneyInputFormat"
+            dataType="number"
+            (handleChangeValue)="ticket.masterInfo.tien_phi_02 = $event; onChangeEcommFee()" />
+        </div>
+        <div class="box d-flex gap-2">
+          <form-input-custom
+            class="flex-1"
+            [label]="getLabel('lbl_phi_san_tmdt03')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.tien_phi_03"
+            format="moneyInputFormat"
+            dataType="number"
+            (handleChangeValue)="ticket.masterInfo.tien_phi_03 = $event; onChangeEcommFee()" />
+
+          <form-input-custom
+            class="flex-1"
+            [align]="'end'"
+            [label]="getLabel('lbl_phi_san_tmdt04')"
+            [value]="ticket.masterInfo.tien_phi_04"
+            format="moneyInputFormat"
+            dataType="number"
+            (handleChangeValue)="ticket.masterInfo.tien_phi_04 = $event; onChangeEcommFee()" />
+        </div>
+        <div class="box d-flex gap-2">
+          <form-input-custom
+            class="flex-1"
+            [label]="getLabel('lbl_phi_san_tmdt05')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.tien_phi_05"
+            format="moneyInputFormat"
+            dataType="number"
+            (handleChangeValue)="ticket.masterInfo.tien_phi_05 = $event; onChangeEcommFee()" />
+
+          <form-input-custom
+            class="flex-1"
+            [align]="'end'"
+            [label]="getLabel('lbl_phi_san_tmdt06')"
+            [value]="ticket.masterInfo.tien_phi_06"
+            format="moneyInputFormat"
+            dataType="number"
+            (handleChangeValue)="ticket.masterInfo.tien_phi_06 = $event; onChangeEcommFee()" />
+        </div>
+      </div>
+      <div class="box-container">
+        <div class="box d-flex gap-2">
+          <form-input-custom
+            class="flex-1"
+            [label]="getLabel('lbl_phi_san_tmdt07')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.tien_phi_07"
+            format="moneyInputFormat"
+            dataType="number"
+            (handleChangeValue)="ticket.masterInfo.tien_phi_07 = $event; onChangeEcommFee()" />
+
+          <form-input-custom
+            class="flex-1"
+            [align]="'end'"
+            [label]="getLabel('lbl_phi_san_tmdt08')"
+            [value]="ticket.masterInfo.tien_phi_08"
+            format="moneyInputFormat"
+            dataType="number"
+            (handleChangeValue)="ticket.masterInfo.tien_phi_08 = $event; onChangeEcommFee()" />
+        </div>
+        <div class="box d-flex gap-2">
+          <form-input-custom
+            class="flex-1"
+            [label]="getLabel('lbl_phi_san_tmdt09')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.tien_phi_09"
+            format="moneyInputFormat"
+            dataType="number"
+            (handleChangeValue)="ticket.masterInfo.tien_phi_09 = $event; onChangeEcommFee()" />
+
+          <form-input-custom
+            class="flex-1"
+            [align]="'end'"
+            [label]="getLabel('lbl_phi_san_tmdt10')"
+            [value]="ticket.masterInfo.tien_phi_10"
+            format="moneyInputFormat"
+            dataType="number"
+            (handleChangeValue)="ticket.masterInfo.tien_phi_10 = $event; onChangeEcommFee()" />
+        </div>
+        <div class="box d-flex">
+          <form-input-custom
+            class="flex-1"
+            [label]="getLabel('lbl_phi_san_hoangha')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.phi_hoang_ha"
+            format="moneyInputFormat"
+            dataType="number" />
+        </div>
+      </div>
+    </div>
+
+    <div style="border-bottom: 1px dashed #cbd5e0; margin-bottom: 20px">
       <div class="title-content p-2">{{ getLabel('lbl_tc_don_hang') }}</div>
       <div class="box-container">
         <div class="box d-flex gap-2">
@@ -239,9 +351,9 @@
           <form-input-custom
             class="flex-1"
             [disabled]="true"
-            [label]="getLabel('lbl_chiet_khau')"
+            [label]="'Tổng phí sàn'"
             [align]="'end'"
-            [value]="ticket.masterInfo.t_ck"
+            [value]="ticket.masterInfo.t_phi_san"
             format="moneyViewFormat"
             dataType="number" />
           <form-input-custom
@@ -262,14 +374,24 @@
           format="moneyViewFormat"
           dataType="number" />
         <div class="w-100 order-10 d-flex justify-content-end">
-          <form-input-custom
-            class="box"
-            [disabled]="true"
-            [label]="getLabel('lbl_diem_qd')"
-            [align]="'end'"
-            [value]="ticket.masterInfo.diem_qd"
-            format="moneyViewFormat"
-            dataType="number" />
+          <div class="box d-flex gap-2">
+            <form-input-custom
+              class="flex-1"
+              [disabled]="true"
+              [label]="getLabel('lbl_chiet_khau')"
+              [align]="'end'"
+              [value]="ticket.masterInfo.t_ck"
+              format="moneyViewFormat"
+              dataType="number" />
+            <form-input-custom
+              class="flex-1"
+              [disabled]="true"
+              [label]="getLabel('lbl_diem_qd')"
+              [align]="'end'"
+              [value]="ticket.masterInfo.diem_qd"
+              format="moneyViewFormat"
+              dataType="number" />
+          </div>
         </div>
       </div>
     </div>

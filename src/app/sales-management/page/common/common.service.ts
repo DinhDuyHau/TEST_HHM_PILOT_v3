@@ -209,6 +209,19 @@ export class CommonService {
             e.ma_ca = masterInfo.ma_ca;
             e.ma_nvbh_i = masterInfo.ma_nvbh;
             e.ma_dvcs = masterInfo.ma_dvcs;
+
+            e.tien_phi_01 = masterInfo.tien_phi_01;
+            e.tien_phi_02 = masterInfo.tien_phi_02;
+            e.tien_phi_03 = masterInfo.tien_phi_03;
+            e.tien_phi_04 = masterInfo.tien_phi_04;
+            e.tien_phi_05 = masterInfo.tien_phi_05;
+            e.tien_phi_06 = masterInfo.tien_phi_06;
+            e.tien_phi_07 = masterInfo.tien_phi_07;
+            e.tien_phi_08 = masterInfo.tien_phi_08;
+            e.tien_phi_09 = masterInfo.tien_phi_09;
+            e.tien_phi_10 = masterInfo.tien_phi_10;
+            e.phi_hoang_ha = masterInfo.phi_hoang_ha;
+
         });
 
         return model;

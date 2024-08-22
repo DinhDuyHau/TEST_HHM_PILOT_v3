@@ -8,11 +8,23 @@ import { Package } from '../common-model/package.model';
 export class SaleOnlineEcommerceTicket {
   masterInfo: MasterInfo = new MasterInfo;
   merchandise: Merchandise[] = [];
+
+  //Dịch vụ
   service: Service[] = [];
+
+  //Gói cước
   packages: Package[] = [];
+
+  //Chiết khấu
   discount: Discount[] = [];
+
+  //Thông tin bảo hành
   guarantee: Guarantee[] = [];
+
+  //Thanh toán
   payment: Payment = new Payment;
+
+  //Thông tin sàn thương mại điện tử
   ecommerce: EcommerceInfomation = new EcommerceInfomation;
 }
 
@@ -40,6 +52,20 @@ export class MasterInfo extends BaseMasterInfo {
   email_nhan_key = '';
   dien_giai = '';
 
+  tien_phi_01 = 0;
+  tien_phi_02 = 0;
+  tien_phi_03 = 0;
+  tien_phi_04 = 0;
+  tien_phi_05 = 0;
+  tien_phi_06 = 0;
+  tien_phi_07 = 0;
+  tien_phi_08 = 0;
+  tien_phi_09 = 0;
+  tien_phi_10 = 0;
+  phi_hoang_ha = 0;
+
+  t_phi_san = 0;
+
   constructor(obj?: any) {
     super();
     Object.assign(this, obj);
@@ -54,6 +80,18 @@ export class Merchandise extends BaseMerchandise {
   no_km_yn?: boolean = false;
   imei_mua = '';
   tien_kmqd = 0;
+
+  phi_san_01 = 0;
+  phi_san_02 = 0;
+  phi_san_03 = 0;
+  phi_san_04 = 0;
+  phi_san_05 = 0;
+  phi_san_06 = 0;
+  phi_san_07 = 0;
+  phi_san_08 = 0;
+  phi_san_09 = 0;
+  phi_san_10 = 0;
+  phi_san_hhm = 0;
 
   constructor(obj?: any) {
     super();
@@ -74,6 +112,18 @@ export class EcommerceInfomation {
   phi_vc = 0;
   nguoi_nhan_hang = '';
   ma_van_don = '';
+
+  tien_phi_01 = 0;
+  tien_phi_02 = 0;
+  tien_phi_03 = 0;
+  tien_phi_04 = 0;
+  tien_phi_05 = 0;
+  tien_phi_06 = 0;
+  tien_phi_07 = 0;
+  tien_phi_08 = 0;
+  tien_phi_09 = 0;
+  tien_phi_10 = 0;
+  phi_hoang_ha = 0;
 
   constructor(obj?: any) {
     Object.assign(this, obj);

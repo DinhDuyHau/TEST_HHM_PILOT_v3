@@ -99,31 +99,31 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   }
 
   testData() {
-    this.onEnterCustomerCode('001098025044');
-    this.onEnterImeiCode('11SC662VNA00009');
-    this.onEnterImeiCode('11SC664VNA001');
-    this.onEnterImeiCode('0100270081A00015');
-    this.onEnterImeiCode('0100270080A00004');
+    // this.onEnterCustomerCode('001098025044');
+    // this.onEnterImeiCode('11SC662VNA00009');
+    // this.onEnterImeiCode('11SC664VNA001');
+    // this.onEnterImeiCode('0100270081A00015');
+    // this.onEnterImeiCode('0100270080A00004');
     // this.onEnterImeiCode('IPV11128B2308016');
-    this.onEnterImeiCode('1030VNA00008');
+    // this.onEnterImeiCode('1030VNA00008');
 
-    this.onEnterImeiCode('CLFP12MA0001');
-    this.onEnterImeiCode('CSXMA0001');
-    this.onEnterImeiCode('G4S22AA0001');
-    this.onEnterImeiCode('MTIP12NA0001 ');
-    this.onEnterImeiCode('SBAG20A0001');
-    this.onEnterImeiCode('ZEE15CL1A0001');
+    // this.onEnterImeiCode('CLFP12MA0001');
+    // this.onEnterImeiCode('CSXMA0001');
+    // this.onEnterImeiCode('G4S22AA0001');
+    // this.onEnterImeiCode('MTIP12NA0001 ');
+    // this.onEnterImeiCode('SBAG20A0001');
+    // this.onEnterImeiCode('ZEE15CL1A0001');
 
-    this.onEnterImeiCode('CLFP12MA0002');
-    this.onEnterImeiCode('CSXMA0002');
-    this.onEnterImeiCode('G4S22AA0002');
-    this.onEnterImeiCode('MTIP12NA0002 ');
-    this.onEnterImeiCode('SBAG20A0002');
-    this.onEnterImeiCode('ZEE15CL1A0002');
+    // this.onEnterImeiCode('CLFP12MA0002');
+    // this.onEnterImeiCode('CSXMA0002');
+    // this.onEnterImeiCode('G4S22AA0002');
+    // this.onEnterImeiCode('MTIP12NA0002 ');
+    // this.onEnterImeiCode('SBAG20A0002');
+    // this.onEnterImeiCode('ZEE15CL1A0002');
 
-    this.onEnterImeiCode('CLFP12MA0003');
-    this.onEnterImeiCode('MTIP12NA0003 ');
-    this.onEnterImeiCode('SBAG20A0003');
+    // this.onEnterImeiCode('CLFP12MA0003');
+    // this.onEnterImeiCode('MTIP12NA0003 ');
+    // this.onEnterImeiCode('SBAG20A0003');
 
   }
   ngAfterViewInit(): void {
@@ -312,10 +312,37 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
           this.saleOnlineEcommerceService.addPromotionMerchandise(discount, merchandiseResponse.ma_imei);
         }
       }
+
+      //mapping các loại phí sàn
+      this.handleECommFeeMapping(merchandiseResponse);
+
       this.commonService.clearText([this.tabIndex.imei, this.tabIndex.ma_vt]);
       this.saleOnlineEcommerceService.setIsNeedCalcDiscount(true);
       this.discountService.resetDiscount(this.ticket.discount);
       this.saleOnlineEcommerceService.calcMoney();
+    }
+  }
+
+  handleECommFeeMapping(merchandise: any) {
+    if (!merchandise.ecomm_fee) return;
+    const detail_item = this.ticket.merchandise.find(x => x.ma_imei.trim() === merchandise.ma_imei.trim());
+    if (!detail_item) return;
+
+    const arr_fee: any[] = merchandise.ecomm_fee;
+    for (let item of arr_fee) {
+      if (item.ma_loai === '01') detail_item.phi_san_01 += item.tien_phi_san;
+      if (item.ma_loai === '02') detail_item.phi_san_02 += item.tien_phi_san;
+      if (item.ma_loai === '03') detail_item.phi_san_03 += item.tien_phi_san;
+      if (item.ma_loai === '04') detail_item.phi_san_04 += item.tien_phi_san;
+      if (item.ma_loai === '05') detail_item.phi_san_05 += item.tien_phi_san;
+      if (item.ma_loai === '06') detail_item.phi_san_06 += item.tien_phi_san;
+      if (item.ma_loai === '07') detail_item.phi_san_07 += item.tien_phi_san;
+      if (item.ma_loai === '08') detail_item.phi_san_08 += item.tien_phi_san;
+      if (item.ma_loai === '09') detail_item.phi_san_09 += item.tien_phi_san;
+      if (item.ma_loai === '10') detail_item.phi_san_10 += item.tien_phi_san;
+
+      //phí hoàng hà
+      if (item.tl_phi !== 0 && item.tien_phi_san !== 0) detail_item.phi_san_hhm += item.phi_hoang_ha;
     }
   }
 
@@ -345,8 +372,13 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   }
 
   onEnterImeiCode(ma_imei: string) {
+    //check nhập mã sàn TMĐT
+    if (!this.ticket.masterInfo.ma_kh_tmdt || this.ticket.masterInfo.ma_kh_tmdt.trim() === '') {
+      this.commonService.showMessage('Chưa nhập thông tin sàn TMĐT');
+      return;
+    }
 
-    this.saleOnlineEcommerceService.getImeiInStore(ma_imei).subscribe(result => {
+    this.saleOnlineEcommerceService.getImeiInStore(ma_imei, this.ticket.masterInfo.ma_kh_tmdt).subscribe(result => {
       if (result.success && result.result.length) {
         if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise)) {
           this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: ma_imei });
@@ -554,6 +586,10 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
     this.commonService.openDialog(ViewImageComponent, { imageUrl: this.previewImage }, '', false).afterClosed().subscribe(result => {
       // console.log("result: ", result);
     });
+  }
+
+  onChangeEcommFee() {
+    this.saleOnlineEcommerceService.calcTotalMoney();
   }
 
   // Submit

@@ -99,6 +99,17 @@ export class SaleOnlineEcommerceService {
                 case TAB_NAME.ECOMMERCE:
                     this.ticket.ecommerce = this.commonService.convertDateOfModelFromVoucher(e.data[0]);
                     this.ticket.masterInfo.ma_kh_tmdt = this.ticket.ecommerce.ma_kh_tmdt;
+                    this.ticket.masterInfo.tien_phi_01 = this.ticket.ecommerce.tien_phi_01;
+                    this.ticket.masterInfo.tien_phi_02 = this.ticket.ecommerce.tien_phi_02;
+                    this.ticket.masterInfo.tien_phi_03 = this.ticket.ecommerce.tien_phi_03;
+                    this.ticket.masterInfo.tien_phi_04 = this.ticket.ecommerce.tien_phi_04;
+                    this.ticket.masterInfo.tien_phi_05 = this.ticket.ecommerce.tien_phi_05;
+                    this.ticket.masterInfo.tien_phi_06 = this.ticket.ecommerce.tien_phi_06;
+                    this.ticket.masterInfo.tien_phi_07 = this.ticket.ecommerce.tien_phi_07;
+                    this.ticket.masterInfo.tien_phi_08 = this.ticket.ecommerce.tien_phi_08;
+                    this.ticket.masterInfo.tien_phi_09 = this.ticket.ecommerce.tien_phi_09;
+                    this.ticket.masterInfo.tien_phi_10 = this.ticket.ecommerce.tien_phi_10;
+                    this.ticket.masterInfo.phi_hoang_ha = this.ticket.ecommerce.phi_hoang_ha;
                     break;
                 default:
                     break;
@@ -188,8 +199,8 @@ export class SaleOnlineEcommerceService {
     // #endregion guarantee
 
     // #region imei
-    getImeiInStore(imei: string) {
-        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.ONLINE_ECOMMERCE);
+    getImeiInStore(imei: string, ma_kh = '') {
+        return this.imeiApiService.getImeiInStore_TMDT(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.ONLINE_ECOMMERCE, ma_kh);
     }
 
     getMerchandiseInfo(ma_vt: string) {
@@ -453,17 +464,44 @@ export class SaleOnlineEcommerceService {
             .map(e => e.tien_thue)
             .reduce((pre, cur) => pre + cur, 0);
 
+
         this.ticket.masterInfo.t_tien_nt2 = merchandiseMoney + serviceMoney;
-        this.ticket.masterInfo.t_thue_nt = this.commonService.rouding(serviceTax + merchandiseTax, this.option);
+        // this.ticket.masterInfo.t_thue_nt = this.commonService.rouding(serviceTax + merchandiseTax, this.option);
+        this.ticket.masterInfo.t_thue_nt = serviceTax + merchandiseTax;
         this.ticket.masterInfo.t_ck = this.ticket.discount.map(e => e.tien_ck).reduce((pre, cur) => pre + cur, 0);
-        this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt;
-        this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt, this.option);
+
+        // Tính các loại phí sàn TMĐT
+        this.ticket.masterInfo.tien_phi_01 = this.ticket.merchandise.map(e => e.phi_san_01).reduce((pre, cur) => pre + cur, 0);
+        this.ticket.masterInfo.tien_phi_02 = this.ticket.merchandise.map(e => e.phi_san_02).reduce((pre, cur) => pre + cur, 0);
+        this.ticket.masterInfo.tien_phi_03 = this.ticket.merchandise.map(e => e.phi_san_03).reduce((pre, cur) => pre + cur, 0);
+        this.ticket.masterInfo.tien_phi_04 = this.ticket.merchandise.map(e => e.phi_san_04).reduce((pre, cur) => pre + cur, 0);
+        this.ticket.masterInfo.tien_phi_05 = this.ticket.merchandise.map(e => e.phi_san_05).reduce((pre, cur) => pre + cur, 0);
+        this.ticket.masterInfo.tien_phi_06 = this.ticket.merchandise.map(e => e.phi_san_06).reduce((pre, cur) => pre + cur, 0);
+        this.ticket.masterInfo.tien_phi_07 = this.ticket.merchandise.map(e => e.phi_san_07).reduce((pre, cur) => pre + cur, 0);
+        this.ticket.masterInfo.tien_phi_08 = this.ticket.merchandise.map(e => e.phi_san_08).reduce((pre, cur) => pre + cur, 0);
+        this.ticket.masterInfo.tien_phi_09 = this.ticket.merchandise.map(e => e.phi_san_09).reduce((pre, cur) => pre + cur, 0);
+        this.ticket.masterInfo.tien_phi_10 = this.ticket.merchandise.map(e => e.phi_san_10).reduce((pre, cur) => pre + cur, 0);
+        this.ticket.masterInfo.phi_hoang_ha = this.ticket.merchandise.map(e => e.phi_san_hhm).reduce((pre, cur) => pre + cur, 0);
+
+        this.calcTotalMoney();
+
+    }
+
+    calcTotalMoney() {
+        // Tổng phí sàn
+        this.ticket.masterInfo.t_phi_san = this.ticket.masterInfo.tien_phi_01 + this.ticket.masterInfo.tien_phi_02
+            + this.ticket.masterInfo.tien_phi_03 + this.ticket.masterInfo.tien_phi_04 + this.ticket.masterInfo.tien_phi_05
+            + this.ticket.masterInfo.tien_phi_06 + this.ticket.masterInfo.tien_phi_07 + this.ticket.masterInfo.tien_phi_08
+            + this.ticket.masterInfo.tien_phi_09 + this.ticket.masterInfo.tien_phi_10;
+
+        // Tổng thanh toán
+        this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt + this.ticket.masterInfo.t_phi_san;
+        //this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt, this.option);
 
         this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra - this.ticket.masterInfo.tien_coc;
-        this.ticket.masterInfo.t_con_no = this.commonService.rouding(this.ticket.masterInfo.t_con_no, this.option);
+        // this.ticket.masterInfo.t_con_no = this.commonService.rouding(this.ticket.masterInfo.t_con_no, this.option);
 
         this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);
-
     }
 
     // validate ticket before create or update

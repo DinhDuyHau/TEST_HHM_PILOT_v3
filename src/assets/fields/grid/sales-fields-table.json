@@ -6,12 +6,20 @@
             "isPrimaryKey": true
         },
         {
+            "name": "ma_td2",
+            "title": "Mã giao dịch"
+        },
+        {
             "name": "ten_kh",
-            "title": "Tên khách hàng"
+            "title": "Tên khách hàng",
+            "width": "300px",
+            "min-width": "50px"
         },
         {
             "name": "dia_chi",
-            "title": "Địa chỉ"
+            "title": "Địa chỉ",
+            "width": "300px",
+            "min-width": "50px"
         },
         {
             "name": "ma_so_thue",
