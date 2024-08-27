@@ -93,6 +93,7 @@ export class PaymentService {
                 case PAYMENT_CODE.DISCOUNTCODE:
                     des.ma_giam_gia.tien = e.tien;
                     des.ma_giam_gia.ma_gg = e.ma_gg;
+                    des.ma_giam_gia.selected = true;
                     break;
                 case PAYMENT_CODE.DISCOUNTPROGRAMCRM:
                     des.giam_gia_crm.tien += e.tien;

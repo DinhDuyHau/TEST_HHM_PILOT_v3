@@ -10,10 +10,10 @@ import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { MerchandiseApiService } from '@app/sales-management/api/merchandise-api.service';
 import { POSService } from '@app/sales-management/api/pos-api.service';
 import { AuthenticationService } from '@app/_services';
-import { TICKET_CODE } from '@app/sales-management/model/common/ticket-code.model';
+import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 
 const {
-  TICKET_ENTITY,
+  // TICKET_ENTITY,
   CUSTOMER_SEARCH,
   MERCHANDISE_SEARCH,
   IMEI_SEARCH,

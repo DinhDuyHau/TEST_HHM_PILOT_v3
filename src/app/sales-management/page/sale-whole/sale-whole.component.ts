@@ -180,6 +180,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
       { keyword: '', componentName: SEARCH_COMPONENT_NAME.CONTRACT })
       .afterClosed()
       .subscribe((result) => {
+        console.log(result);
         if (result) {
           this.handleAddCustomer(result.ma_kh);
           this.ticketApiService.getVoucherByid(TICKET_ENTITY.CONTRACT, result.stt_rec).subscribe((data: any) => {

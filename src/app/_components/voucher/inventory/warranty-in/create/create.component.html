@@ -48,6 +48,7 @@
             (handleChange)="handleInputChange('ma_kh', $event)"
             (handleEnter)="onEnter($event)"
             [control]="customerService"
+            [filter]="[{ name: 'nh_kh9', operator: '=', value: 'NGKH60' }]"
             [lookup]="true || disabled"
             [reference]="[ma_kh, ten_ncc]"></app-input-custom-v2>
         </div>

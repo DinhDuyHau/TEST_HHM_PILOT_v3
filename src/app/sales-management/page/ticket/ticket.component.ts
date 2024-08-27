@@ -217,7 +217,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.columns = TICKET_FIELDS.SALE_CONTRACT as Cell[];
         this.title = 'Hợp đồng';
         this.primaryKey = 'stt_rec';
-        this.entityName = TICKET_CODE.CONTRACT;
+        this.entityName = TICKET_ENTITY.CONTRACT;
         this.codeName = TICKET_CODE.CONTRACT;
         this.hasButton.create = false;
         break;
