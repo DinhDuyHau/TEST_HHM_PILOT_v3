@@ -274,7 +274,7 @@ export class SaleOnlineEcommerceService {
 
     // #endregion imei
 
-    // #region merchandise
+    // #region merchandisex`
     removePromotionMechandise(merchandise: Merchandise) {
         const flag = this.merchandiseService.removePromotionMechandise(merchandise, this.ticket.merchandise, this.ticket.discount, this.option);
         if (flag) {
@@ -450,7 +450,7 @@ export class SaleOnlineEcommerceService {
         // Tính tổng tiền của chi tiết vật tư
         const merchandiseMoney = this.ticket.merchandise
             .filter(e => !e.km_yn)
-            .map(e => e.thanh_tien)
+            .map(e => e.thanh_toan)
             .reduce((pre, cur) => pre + cur, 0);
         // Tính tổng tiền của chi tiết dịch vụ
         const serviceMoney = this.ticket?.service?.map(e => e.thanh_tien).reduce((pre, cur) => pre + cur, 0) || 0;
@@ -482,6 +482,8 @@ export class SaleOnlineEcommerceService {
         this.ticket.masterInfo.tien_phi_09 = this.ticket.merchandise.map(e => e.phi_san_09).reduce((pre, cur) => pre + cur, 0);
         this.ticket.masterInfo.tien_phi_10 = this.ticket.merchandise.map(e => e.phi_san_10).reduce((pre, cur) => pre + cur, 0);
         this.ticket.masterInfo.phi_hoang_ha = this.ticket.merchandise.map(e => e.phi_san_hhm).reduce((pre, cur) => pre + cur, 0);
+
+
 
         this.calcTotalMoney();
 
