@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Field, IGridService, ItemFilter, ItemSort, Result } from '@app/_components/gridV2/grid.model';
 import { environment } from '@environments/environment';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { first, switchMap } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DirComponent } from '@app/_components/dir/dir.component';
 import dataFormat from '@app/_common/dataFormat';
@@ -58,16 +58,22 @@ export class CustomerService implements IGridService<Customer>{
       `/Category/find/dmkh?order_by=${order_by}&page_index=${page.pageIndex + 1}&page_size=${page.pageSize}`, body
     ).pipe();
   }
+
   getItem(id: string): Observable<Customer> {
-    // return this.http.post<Customer>(environment.apiUrl +
-    //   '/Category/getById/dmkh', { name: 'ma_kh', operator: '=', value: id }
-    // ).pipe();
-    return this.getItems({ pageIndex: 0, pageSize: 1 }, [id !== '' ? { name: 'ma_kh', value: id } : { name: '1', value: '1' }], { name: 'ma_kh', direction: 'asc' }).pipe(switchMap(item => {
-      if (item && item.result && item.result.items) {
-        return of(item.result.items[0]);
-      }
+    const entity = this.http.post<Customer>(environment.apiUrl + '/Category/getById/dmkh', { name: 'ma_kh', operator: '=', value: id }
+    ).pipe(switchMap((data: any) => {
+      if (data.success && data.result) return of(data.result);
       return of();
     }));
+    return entity;
+
+    // return this.getItems({ pageIndex: 0, pageSize: 1 }, [id !== '' ? { name: 'ma_kh', value: id } : { name: '1', value: '1' }], { name: 'ma_kh', direction: 'asc' }).pipe(switchMap(item => {
+    //   if (item && item.result && item.result.items) {
+    //     return of(item.result.items[0]);
+    //   }
+    //   return of();
+    // }));
+
   }
 
   getFields(): Observable<Field[]> {

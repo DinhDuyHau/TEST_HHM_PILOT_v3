@@ -450,6 +450,11 @@ export class RetailService {
                 this.discountService.addNew([discount], this.ticket.discount);
             }
         });
+
+        //Kiểm tra nếu không tồn tại chiết khấu ngoại giao => loại bỏ người duyệt ck
+        const exists_ckng = this.ticket.discount.find(x => x.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER)
+        if (!exists_ckng) this.ticket.masterInfo.nguoi_duyet_ck = '';
+
         this.calcMoney();
     }
 

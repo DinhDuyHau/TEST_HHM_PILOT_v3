@@ -112,7 +112,9 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
           this.t_da_tra = data.t_da_tra;
           this.t_gg = data.t_gg;
           this.t_cp = data.t_chi_phi;
-          this.approveDiscount = data.approveDiscount;
+
+          // this.approveDiscount = data.approveDiscount;
+          this.approveDiscount = data.nguoi_duyet_ck;
           this.handleChangeValue.emit({ t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, nguoi_duyet_ck: this.approveDiscount, t_chi_phi: this.t_cp });
           this.initViewPayment();
         }

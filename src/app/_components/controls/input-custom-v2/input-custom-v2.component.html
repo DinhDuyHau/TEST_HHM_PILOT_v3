@@ -24,7 +24,9 @@
       (keyup)="onKeyUp($event)"
       [readOnly]="readonly"
       [disabled]="disabled" />
-    <ul
+    
+    <!-- Susgestion box -->
+      <!-- <ul
       *ngIf="lookup && !disabled && searchResult && searchResult.length > 0"
       class="absolute left-0 z-999 bg-white lookup-search shadow-md lg:text-ellipsis py-1 text-xs">
       <li
@@ -36,7 +38,9 @@
           {{ getDesctioption(item) }}
         </div>
       </li>
-    </ul>
+    </ul> -->
+    <!-- END Susgestion box -->
+
     <span *ngIf="!value && invalid" class="text-danger text-xs"
       >Chưa nhập thông tin {{ label.toLowerCase() }}</span
     >

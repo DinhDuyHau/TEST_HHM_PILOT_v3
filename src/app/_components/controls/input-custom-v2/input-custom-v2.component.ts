@@ -107,6 +107,7 @@ export class InputCustomV2Component implements OnChanges, OnInit {
   onChange() {
     //
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['value']) {
       this.value = this.formatValue(this.value);
@@ -116,6 +117,7 @@ export class InputCustomV2Component implements OnChanges, OnInit {
       // }
     }
   }
+
   async onBlur($event: any) {
     this.withRefresh = true;
     setTimeout(() => {
@@ -256,17 +258,19 @@ export class InputCustomV2Component implements OnChanges, OnInit {
       this.focusNext(event.target);
     }
   }
+
   onKeyUp(event: any) {
     if (event.key === 'Enter' || event.keyCode === 13) {
       event.preventDefault();
-      this.onBlur(event);
+      // this.onBlur(event);
       this.focusNext(event.target);
       this.handleEnter.emit(event);
     }
     else {
-      this.search(this.getValue(event));
+      // this.search(this.getValue(event));
     }
   }
+
   focusNext(input: any) {
     const currentNode = input;
     const container = currentNode.closest('.ticket-container');
@@ -288,6 +292,7 @@ export class InputCustomV2Component implements OnChanges, OnInit {
     if (nextInput)
       nextInput.focus();
   }
+
   checkValidDate(dateString: string) {
     const dateObj = new Date(dateString);
     return dateObj.toString() !== 'Invalid Date';
@@ -426,6 +431,7 @@ export class InputCustomV2Component implements OnChanges, OnInit {
     // if (isFloat($event))
     this.handleChange.emit(this.value);
   }
+
   onValueChange($event: string) {
     // if (this.type === 'number' && isFloat($event) && $event) {
     //   this.input.nativeElement.value = this.formatValue(Number.parseInt($event));
@@ -445,6 +451,7 @@ export class InputCustomV2Component implements OnChanges, OnInit {
     }
     this.handleChange.emit(value);
   }
+
   formatValue(value: any) {
     const dataFormatPipe = new DataFormatPipe();
     const format = (dataFormat as any)[this.dataFormatString];
@@ -546,12 +553,14 @@ export class InputCustomV2Component implements OnChanges, OnInit {
     }
 
   }
+
   search(packageName: string) {
     if (this.lookup && packageName && packageName.length > 2) {
       this.withRefresh = false;
       this.searchText$.next(packageName);
     }
   }
+
   getName() {
     let name = this.name;
     if (this.mapper) {

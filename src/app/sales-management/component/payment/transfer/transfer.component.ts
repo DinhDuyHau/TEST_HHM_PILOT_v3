@@ -51,9 +51,15 @@ export class TransferComponent implements OnInit {
     this.dataSource = this.data.transfer.detail;
 
     //set tiền còn nợ khi mở form
-    this.t_con_no = this.data.tien_con_no - this.data.transfer.tien;
+    this.t_con_no = this.data.tien_con_no;
+
   }
   addDetail() {
+    if (this.t_con_no < 0) {
+      this.commonService.showMessage("Tổng tiền nợ là số âm, không thể thực hiện thanh toán");
+      return;
+    }
+
     if (this.chuyen_khoan.ten_ngan_hang == '') {
       this.invalid = true;
       return;
