@@ -370,10 +370,80 @@
             "align": "center"
         },
         {
-            "name": "thanh_tien",
-            "title": "Thành tiền (chưa VAT)",
+            "name": "phi_san_01",
+            "title": "Phí sàn",
+            "format": "moneyViewNoDigit",
             "align": "right",
-            "format": "moneyView2Digit",
+            "dataType": "number"
+        },
+        {
+            "name": "phi_san_02",
+            "title": "Phí vận chuyển",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "phi_san_03",
+            "title": "Phí dịch vụ",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "phi_san_04",
+            "title": "Phí thanh toán",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "phi_san_05",
+            "title": "Voucher KM",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "phi_san_06",
+            "title": "Hoa hồng sàn",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "phi_san_07",
+            "title": "Phí khác",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "phi_dc_khac",
+            "title": "Phí ĐC khác",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tong_phi",
+            "title": "Tổng phí",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "phi_san_hhm",
+            "title": "Phí HHM",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "gia_tmdt",
+            "title": "Giá TMDT",
+            "align": "right",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
@@ -388,10 +458,24 @@
             "align": "right",
             "dataType": "number"
         },
+        {   
+            "name": "gia_tmdt_vat",
+            "title": "Giá TMDT sau thuế",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "thanh_tien",
+            "title": "Thành tiền (chưa VAT)",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
         {
             "name": "tien_ck",
-            "title": "Tiền chiết khấu",
-            "format": "moneyViewNoDigit",
+            "title": "Chiết khấu",
+            "format": "moneyView2Digit",
             "align": "right",
             "dataType": "number"
         },
