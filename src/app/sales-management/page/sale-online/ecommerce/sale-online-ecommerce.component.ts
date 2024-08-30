@@ -1,3 +1,4 @@
+
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { SaleOnlineEcommerceService } from './sale-online-ecommerce.service';
 import { Merchandise, SaleOnlineEcommerceTicket } from '@app/sales-management/model/ticket/sale-online-ecommerce/model';
@@ -68,6 +69,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
     imei: 3,
     ma_vt: 4
   };
+
   disableSelectStatus = false;
   previewImage = '';
   depositCanApply: any[] = [];
@@ -167,6 +169,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
         this.statusList = result.result.items as StatusTicket[];
       });
     };
+
 
     this.route.queryParams.subscribe((data: any) => {
       if (data.key) {
@@ -315,11 +318,11 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
 
       //mapping các loại phí sàn
       this.handleECommFeeMapping(merchandiseResponse);
-
       this.commonService.clearText([this.tabIndex.imei, this.tabIndex.ma_vt]);
       this.saleOnlineEcommerceService.setIsNeedCalcDiscount(true);
       this.discountService.resetDiscount(this.ticket.discount);
       this.saleOnlineEcommerceService.calcMoney();
+      console.log(this.ticket.merchandise);
     }
   }
 
@@ -327,7 +330,6 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
     if (!merchandise.ecomm_fee) return;
     const detail_item = this.ticket.merchandise.find(x => x.ma_imei.trim() === merchandise.ma_imei.trim());
     if (!detail_item) return;
-
     const arr_fee: any[] = merchandise.ecomm_fee;
     for (let item of arr_fee) {
       if (item.ma_loai === '01') detail_item.phi_san_01 += item.tien_phi_san;
@@ -340,10 +342,13 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
       if (item.ma_loai === '08') detail_item.phi_san_08 += item.tien_phi_san;
       if (item.ma_loai === '09') detail_item.phi_san_09 += item.tien_phi_san;
       if (item.ma_loai === '10') detail_item.phi_san_10 += item.tien_phi_san;
+      detail_item.tong_phi += item.tien_phi_san;
+
 
       //phí hoàng hà
       if (item.tl_phi !== 0 && item.tien_phi_san !== 0) detail_item.phi_san_hhm += item.phi_hoang_ha;
     }
+    detail_item.tong_phi += detail_item.phi_dc_khac;
   }
 
   handleCheckDeposit(ma_vt?: string, isAdd = true) {
@@ -420,6 +425,8 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
           this.onEnterImeiCode(result.ma_imei);
         }
       });
+
+
   }
 
   onEnterMerchandiseCode(ma_vt: string) {
@@ -677,5 +684,3 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   }
 
 }
-
-
