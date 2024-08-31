@@ -21,6 +21,12 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     phi_san_09 = 0;
     phi_san_10 = 0;
     phi_san_hhm = 0;
+    phi_dc_khac = 0;
+    tong_phi = 0;
+
+    gia_tmdt = 0;
+    gia_tmdt_vat = 0;
+
 
     constructor(obj?: any) {
         super();
@@ -51,6 +57,7 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     tien_phi_09 = 0;
     tien_phi_10 = 0;
     phi_hoang_ha = 0;
+    tong_phi = 0;
 
     constructor(obj?: any) {
         super();
