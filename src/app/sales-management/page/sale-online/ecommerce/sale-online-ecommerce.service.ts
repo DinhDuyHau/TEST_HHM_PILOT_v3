@@ -439,6 +439,7 @@ export class SaleOnlineEcommerceService {
     // + Nếu type = 0 thì sẽ tính lại chiết khấu và thực hiện cập nhật lại giá, tiền cho tất cả các vật tư trong chi tiết
     // + Nếu type = 1 thì sẽ không tính lại chiết khấu --> áp dụng khi xoá mặt hàng khuyến mãi --> chỉ cập nhật riêng cho hàng được khuyễn mãi
     calcMoney(type = 0) {
+
         // Cập nhật tổng số lượng cuối phiếu
         this.ticket.masterInfo.t_so_luong = this.ticket.merchandise.length + this.ticket.service.length;
 
@@ -447,16 +448,26 @@ export class SaleOnlineEcommerceService {
             this.merchandiseService.updatePriceForMerchandise(this.ticket, this.ticket.merchandise, this.ticket.service);
         }
 
+        // Tính giá tiền
+        this.ticket.merchandise.find((e: any) => {
+            e.gia_tmdt_vat = e.gia_vat + e.tong_phi;
+            e.gia_tmdt = e.gia_tmdt_vat / (1 + e.thue_suat / 100)
+            e.tien_thue = e.gia_tmdt_vat - e.gia_tmdt;
+            e.thanh_tien = e.gia_tmdt * e.so_luong;
+            e.thanh_toan = e.gia_tmdt_vat * e.so_luong;
+        });
+
         // Tính tổng tiền của chi tiết vật tư
         const merchandiseMoney = this.ticket.merchandise
             .filter(e => !e.km_yn)
-            .map(e => e.thanh_toan)
+            .map(e => e.thanh_tien)
             .reduce((pre, cur) => pre + cur, 0);
         // Tính tổng tiền của chi tiết dịch vụ
         const serviceMoney = this.ticket?.service?.map(e => e.thanh_tien).reduce((pre, cur) => pre + cur, 0) || 0;
 
         // Tính tổng tiền thuế của chi tiết dịch vụ
         const serviceTax = this.ticket.service.map(e => e.tien_thue).reduce((pre, cur) => pre + cur, 0);
+        console.log(serviceTax);
 
         // Tính tổng tiền thuế của chi tiết vật tư
         const merchandiseTax = this.ticket.merchandise
@@ -483,8 +494,6 @@ export class SaleOnlineEcommerceService {
         this.ticket.masterInfo.tien_phi_10 = this.ticket.merchandise.map(e => e.phi_san_10).reduce((pre, cur) => pre + cur, 0);
         this.ticket.masterInfo.phi_hoang_ha = this.ticket.merchandise.map(e => e.phi_san_hhm).reduce((pre, cur) => pre + cur, 0);
 
-
-
         this.calcTotalMoney();
 
     }
@@ -497,7 +506,7 @@ export class SaleOnlineEcommerceService {
             + this.ticket.masterInfo.tien_phi_09 + this.ticket.masterInfo.tien_phi_10;
 
         // Tổng thanh toán
-        this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt + this.ticket.masterInfo.t_phi_san;
+        this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt;
         //this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt, this.option);
 
         this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra - this.ticket.masterInfo.tien_coc;
