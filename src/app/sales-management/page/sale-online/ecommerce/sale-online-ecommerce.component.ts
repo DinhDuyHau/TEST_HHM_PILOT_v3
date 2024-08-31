@@ -19,7 +19,6 @@ import { Service } from '@app/sales-management/model/ticket/common-model/service
 import { DiscountSelectComponent } from '@app/sales-management/component/discount/select/discount-select.component';
 import { CommonService } from '../../common/common.service';
 import { MerchandiseService } from '../../common/merchandise.service';
-import { EcommerceService } from '../../common/ecommerce.service';
 import { DiscountService } from '../../common/discount.service';
 import { MODE, STATUS_LIST } from '@app/sales-management/enum/ticket.enum';
 import { ScanQrcodeComponent } from '@app/_components/scan-qrcode/scan-qrcode.component';
