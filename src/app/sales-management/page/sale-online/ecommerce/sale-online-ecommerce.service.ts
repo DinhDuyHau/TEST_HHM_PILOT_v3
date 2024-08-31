@@ -451,7 +451,7 @@ export class SaleOnlineEcommerceService {
         // Tính giá tiền
         this.ticket.merchandise.find((e: any) => {
             e.gia_tmdt_vat = e.gia_vat + e.tong_phi;
-            e.gia_tmdt = e.gia_tmdt_vat / (1 + e.thue_suat / 100)
+            e.gia_tmdt = Math.round(e.gia_tmdt_vat / (1 + e.thue_suat / 100));
             e.tien_thue = e.gia_tmdt_vat - e.gia_tmdt;
             e.thanh_tien = e.gia_tmdt * e.so_luong;
             e.thanh_toan = e.gia_tmdt_vat * e.so_luong;
@@ -467,7 +467,6 @@ export class SaleOnlineEcommerceService {
 
         // Tính tổng tiền thuế của chi tiết dịch vụ
         const serviceTax = this.ticket.service.map(e => e.tien_thue).reduce((pre, cur) => pre + cur, 0);
-        console.log(serviceTax);
 
         // Tính tổng tiền thuế của chi tiết vật tư
         const merchandiseTax = this.ticket.merchandise
