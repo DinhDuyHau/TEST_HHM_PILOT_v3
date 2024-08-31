@@ -119,7 +119,7 @@
         <table-custom
           [readonly]="readonly"
           [dataSource]="ticket.merchandise"
-          [columns]="merchandiseColumns"
+          [columns]="ecommerceColumns"
           (handleDelete)="onRemoveMerchandise($event)"
           (handleAdd)="onAddService($event)"
           (handleSwap)="onSwapPromotionMerchandise($event)"
@@ -215,7 +215,7 @@
       }}</span>
     </div> -->
 
-    <div style="border-bottom: 1px dashed #cbd5e0; margin-bottom: 20px">
+    <!-- <div style="border-bottom: 1px dashed #cbd5e0; margin-bottom: 20px">
       <div class="title-content p-2">Phí sàn TMĐT</div>
       <div class="box-container">
         <div class="box d-flex gap-2">
@@ -325,7 +325,7 @@
             dataType="number" />
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div style="border-bottom: 1px dashed #cbd5e0; margin-bottom: 20px">
       <div class="title-content p-2">{{ getLabel('lbl_tc_don_hang') }}</div>
