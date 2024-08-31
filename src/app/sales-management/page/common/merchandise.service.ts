@@ -468,12 +468,18 @@ export class MerchandiseService {
             //Xử lý làm tròn giá ck sau khi trừ bị âm hoặc trong khoảng 0-0.49
             e.gia_ck = (e.gia_ck < 0 || (e.gia_ck > 0 && e.gia_ck < 0.5)) ? Math.abs(Math.round(e.gia_ck)) : e.gia_ck;
 
-            e.gia_tmdt_vat = e.gia_vat + e.tong_phi;
-            e.gia_tmdt = Math.round(e.gia_tmdt_vat / (1 + e.thue_suat / 100));
-            e.thanh_tien = e.gia_tmdt * e.so_luong;
-            e.thanh_toan = e.gia_tmdt_vat * e.so_luong;
-            e.tien_thue = e.gia_tmdt_vat - e.gia_tmdt;
-            if (e.tien_thue < 0) e.tien_thue = 0
+            e.thanh_tien = Math.round(e.gia_ck * e.so_luong);
+            // e.tien_thue = Math.round(e.thanh_tien * e.thue_suat / 100);
+            // e.tien_thue = e.thanh_tien * e.thue_suat / 100;
+            // e.thanh_toan = this.commonService.rouding(e.thanh_tien + e.tien_thue, option);
+
+            /**
+             * 2024-05-15: cài đặt công thức tính tổng thanh toán và tiền thuế như sau
+             *      tổng thanh toán = giá full vat x số lượng - tiền chiết khấu
+             *      thuế = tổng thanh toán - thành tiền 
+             */
+            e.thanh_toan = (e.gia_vat * e.so_luong) - e.tien_ck;
+            e.tien_thue = e.thanh_toan - e.thanh_tien;
             // 2024-05-15: end
 
 
@@ -564,7 +570,3 @@ export class MerchandiseService {
 
     // #endregion convert
 }
-
-
-
-
