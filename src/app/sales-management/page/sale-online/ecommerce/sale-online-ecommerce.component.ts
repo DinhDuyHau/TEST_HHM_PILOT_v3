@@ -348,7 +348,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
       if (item.tl_phi !== 0 && item.tien_phi_san !== 0) detail_item.phi_san_hhm += item.phi_hoang_ha;
     }
     detail_item.tong_phi += detail_item.phi_dc_khac;
-    console.log(detail_item);
+    //this.ticket.merchandise.find((e) => { e.tong_phi = detail_item.tong_phi });
   }
 
   handleCheckDeposit(ma_vt?: string, isAdd = true) {
@@ -384,7 +384,6 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
     }
 
     this.saleOnlineEcommerceService.getImeiInStore(ma_imei, this.ticket.masterInfo.ma_kh_tmdt).subscribe(result => {
-      console.log(result)
       if (result.success && result.result.length) {
         if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise)) {
           this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: ma_imei });
@@ -609,6 +608,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
       this.commonService.showMessage(message);
     } else if (!this.invalid && !message) {
       const voucherDto = this.saleOnlineEcommerceService.prepareVoucher();
+      console.log(voucherDto);
       this.route.queryParams.subscribe((data: any) => {
         if (this.mode === MODE.UPDATE && !this.isSaving) {
           this.isSaving = true;
