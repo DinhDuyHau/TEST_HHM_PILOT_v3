@@ -63,6 +63,7 @@ export class MasterInfo extends BaseMasterInfo {
   tien_phi_09 = 0;
   tien_phi_10 = 0;
   phi_hoang_ha = 0;
+  tong_phi = 0;
 
   t_phi_san = 0;
 
