@@ -19,6 +19,7 @@ import { Service } from '@app/sales-management/model/ticket/common-model/service
 import { DiscountSelectComponent } from '@app/sales-management/component/discount/select/discount-select.component';
 import { CommonService } from '../../common/common.service';
 import { MerchandiseService } from '../../common/merchandise.service';
+import { EcommerceService } from '../../common/ecommerce.service';
 import { DiscountService } from '../../common/discount.service';
 import { MODE, STATUS_LIST } from '@app/sales-management/enum/ticket.enum';
 import { ScanQrcodeComponent } from '@app/_components/scan-qrcode/scan-qrcode.component';
@@ -34,7 +35,7 @@ import { PromotionSelectComponent } from '@app/sales-management/component/promot
 
 const { DISCOUNT_LIST,
   GUARANTEE_LIST,
-  MERCHANDISE_LIST,
+  ECOMMERCE_LIST,
   SERVICE_LIST,
   PACKAGE_LIST
 } = require('@assets/fields/grid/sales-fields-table.json');
@@ -52,7 +53,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   discountCanApply: Discount[] = [];
   uploadImageSuccess = false;
   uploading = true;
-  merchandiseColumns = MERCHANDISE_LIST;
+  ecommerceColumns = ECOMMERCE_LIST;
   serviceColumns = SERVICE_LIST;
   discountColumns = DISCOUNT_LIST;
   packageColumns = PACKAGE_LIST;
@@ -322,15 +323,14 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
       this.saleOnlineEcommerceService.setIsNeedCalcDiscount(true);
       this.discountService.resetDiscount(this.ticket.discount);
       this.saleOnlineEcommerceService.calcMoney();
-      console.log(this.ticket.merchandise);
     }
   }
 
-  handleECommFeeMapping(merchandise: any) {
-    if (!merchandise.ecomm_fee) return;
-    const detail_item = this.ticket.merchandise.find(x => x.ma_imei.trim() === merchandise.ma_imei.trim());
+  handleECommFeeMapping(ecommerce: any) {
+    if (!ecommerce.ecomm_fee) return;
+    const detail_item = this.ticket.merchandise.find(x => x.ma_imei.trim() === ecommerce.ma_imei.trim());
     if (!detail_item) return;
-    const arr_fee: any[] = merchandise.ecomm_fee;
+    const arr_fee: any[] = ecommerce.ecomm_fee;
     for (let item of arr_fee) {
       if (item.ma_loai === '01') detail_item.phi_san_01 += item.tien_phi_san;
       if (item.ma_loai === '02') detail_item.phi_san_02 += item.tien_phi_san;
@@ -349,6 +349,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
       if (item.tl_phi !== 0 && item.tien_phi_san !== 0) detail_item.phi_san_hhm += item.phi_hoang_ha;
     }
     detail_item.tong_phi += detail_item.phi_dc_khac;
+    console.log(detail_item);
   }
 
   handleCheckDeposit(ma_vt?: string, isAdd = true) {
@@ -384,6 +385,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
     }
 
     this.saleOnlineEcommerceService.getImeiInStore(ma_imei, this.ticket.masterInfo.ma_kh_tmdt).subscribe(result => {
+      console.log(result)
       if (result.success && result.result.length) {
         if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise)) {
           this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: ma_imei });
