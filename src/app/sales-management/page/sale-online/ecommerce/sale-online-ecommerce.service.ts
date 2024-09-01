@@ -28,6 +28,7 @@ import { ServiceApiService } from '@app/sales-management/api/service-api.service
 import { PackageOfMerchandiseService } from '../../common/package.service';
 import { PackageForImeiComponent } from '@app/sales-management/component/merchandise-service/package-for-imei/package-for-imei.component';
 import { Package, PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
+import { EcommerceDialogComponent } from './ecommerce-dialog/ecommerce-dialog.component';
 
 @Injectable({
     providedIn: 'root'
@@ -393,6 +394,13 @@ export class SaleOnlineEcommerceService {
             });
     }
 
+    updateServiceForMerchandise(item: Merchandise) {
+        this.commonService.openDialog(EcommerceDialogComponent, { item }, 'fullscreen-dialog')
+            .afterClosed().subscribe(() => {
+                this.calcMoney();
+            });
+    }
+
     // Remove service
     removeService(item: Service, ticket: SaleOnlineEcommerceTicket) {
         this.serviceOfMerchandiseService.removeService(item, ticket.service);
@@ -433,30 +441,15 @@ export class SaleOnlineEcommerceService {
         this.packageOfMerchandiseService.removePackage(item, ticket.packages);
         this.calcMoney();
     }
-    //#endregion package
 
-    //#region other
-    // + Nếu type = 0 thì sẽ tính lại chiết khấu và thực hiện cập nhật lại giá, tiền cho tất cả các vật tư trong chi tiết
-    // + Nếu type = 1 thì sẽ không tính lại chiết khấu --> áp dụng khi xoá mặt hàng khuyến mãi --> chỉ cập nhật riêng cho hàng được khuyễn mãi
+
     calcMoney(type = 0) {
-
         // Cập nhật tổng số lượng cuối phiếu
         this.ticket.masterInfo.t_so_luong = this.ticket.merchandise.length + this.ticket.service.length;
-
         if (type == 0) {
             // Thực hiện cập nhật tiền cho chi tiết vật tư, chi tiết dịch vụ (bao gồm giá, chiết khấu, thuế, thành tiền)
-            this.merchandiseService.updatePriceForMerchandise(this.ticket, this.ticket.merchandise, this.ticket.service);
+            this.merchandiseService.updatePriceForEcommerce(this.ticket, this.ticket.merchandise, this.ticket.service);
         }
-
-        // Tính giá tiền
-        this.ticket.merchandise.find((e: any) => {
-            e.gia_tmdt_vat = e.gia_vat + e.tong_phi;
-            e.gia_tmdt = Math.round(e.gia_tmdt_vat / (1 + e.thue_suat / 100));
-            e.tien_thue = e.gia_tmdt_vat - e.gia_tmdt;
-            e.thanh_tien = e.gia_tmdt * e.so_luong;
-            e.thanh_toan = e.gia_tmdt_vat * e.so_luong;
-        });
-
         // Tính tổng tiền của chi tiết vật tư
         const merchandiseMoney = this.ticket.merchandise
             .filter(e => !e.km_yn)
@@ -464,22 +457,17 @@ export class SaleOnlineEcommerceService {
             .reduce((pre, cur) => pre + cur, 0);
         // Tính tổng tiền của chi tiết dịch vụ
         const serviceMoney = this.ticket?.service?.map(e => e.thanh_tien).reduce((pre, cur) => pre + cur, 0) || 0;
-
         // Tính tổng tiền thuế của chi tiết dịch vụ
         const serviceTax = this.ticket.service.map(e => e.tien_thue).reduce((pre, cur) => pre + cur, 0);
-
         // Tính tổng tiền thuế của chi tiết vật tư
         const merchandiseTax = this.ticket.merchandise
             .filter(e => !e.km_yn)
             .map(e => e.tien_thue)
             .reduce((pre, cur) => pre + cur, 0);
-
-
         this.ticket.masterInfo.t_tien_nt2 = merchandiseMoney + serviceMoney;
         // this.ticket.masterInfo.t_thue_nt = this.commonService.rouding(serviceTax + merchandiseTax, this.option);
         this.ticket.masterInfo.t_thue_nt = serviceTax + merchandiseTax;
         this.ticket.masterInfo.t_ck = this.ticket.discount.map(e => e.tien_ck).reduce((pre, cur) => pre + cur, 0);
-
         // Tính các loại phí sàn TMĐT
         this.ticket.masterInfo.tien_phi_01 = this.ticket.merchandise.map(e => e.phi_san_01).reduce((pre, cur) => pre + cur, 0);
         this.ticket.masterInfo.tien_phi_02 = this.ticket.merchandise.map(e => e.phi_san_02).reduce((pre, cur) => pre + cur, 0);
@@ -491,26 +479,25 @@ export class SaleOnlineEcommerceService {
         this.ticket.masterInfo.tien_phi_08 = this.ticket.merchandise.map(e => e.phi_san_08).reduce((pre, cur) => pre + cur, 0);
         this.ticket.masterInfo.tien_phi_09 = this.ticket.merchandise.map(e => e.phi_san_09).reduce((pre, cur) => pre + cur, 0);
         this.ticket.masterInfo.tien_phi_10 = this.ticket.merchandise.map(e => e.phi_san_10).reduce((pre, cur) => pre + cur, 0);
+        this.ticket.masterInfo.phi_dc_khac = this.ticket.merchandise.map(e => e.phi_dc_khac).reduce((pre, cur) => pre + cur, 0);
         this.ticket.masterInfo.phi_hoang_ha = this.ticket.merchandise.map(e => e.phi_san_hhm).reduce((pre, cur) => pre + cur, 0);
+
+
 
         this.calcTotalMoney();
 
     }
-
     calcTotalMoney() {
         // Tổng phí sàn
         this.ticket.masterInfo.t_phi_san = this.ticket.masterInfo.tien_phi_01 + this.ticket.masterInfo.tien_phi_02
             + this.ticket.masterInfo.tien_phi_03 + this.ticket.masterInfo.tien_phi_04 + this.ticket.masterInfo.tien_phi_05
             + this.ticket.masterInfo.tien_phi_06 + this.ticket.masterInfo.tien_phi_07 + this.ticket.masterInfo.tien_phi_08
-            + this.ticket.masterInfo.tien_phi_09 + this.ticket.masterInfo.tien_phi_10;
-
+            + this.ticket.masterInfo.tien_phi_09 + this.ticket.masterInfo.tien_phi_10 + this.ticket.masterInfo.phi_dc_khac;
         // Tổng thanh toán
-        this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt;
+        this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt; //+ this.ticket.masterInfo.t_phi_san;
         //this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt, this.option);
-
         this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra - this.ticket.masterInfo.tien_coc;
         // this.ticket.masterInfo.t_con_no = this.commonService.rouding(this.ticket.masterInfo.t_con_no, this.option);
-
         this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);
     }
 
