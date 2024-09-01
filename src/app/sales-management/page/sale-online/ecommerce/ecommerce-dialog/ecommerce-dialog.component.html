@@ -1,0 +1,107 @@
+<div class="bg-white p-4">
+    <div mat-dialog-title class="title">
+        Sửa phí sàn TMĐT
+    </div>
+    <div mat-dialog-content>  
+        <div class="box-container">
+          <div class="box d-flex gap-2">
+            <form-input-custom
+              class="flex-1"
+              [disabled]="true"
+              [label]="'Phí sàn'"
+              [align]="'end'"
+              [value]="data.item.phi_san_01"
+              format="moneyInputFormat"
+              dataType="number" />
+  
+            <form-input-custom
+              class="flex-1"
+              [disabled]="true"
+              [align]="'end'"
+              [label]="getLabel('lbl_phi_san_tmdt02')"
+              [value]="data.item.phi_san_02"
+              format="moneyInputFormat"
+              dataType="number"/>
+
+              <form-input-custom
+              class="flex-1"
+              [disabled]="true"
+              [label]="getLabel('lbl_phi_san_tmdt03')"
+              [align]="'end'"
+              [value]="data.item.phi_san_03"
+              format="moneyInputFormat"
+              dataType="number" />  
+          </div>
+          <div class="box d-flex gap-2">
+            <form-input-custom
+              class="flex-1"
+              [disabled]="true"
+              [align]="'end'"
+              [label]="getLabel('lbl_phi_san_tmdt04')"
+              [value]="data.item.phi_san_04"
+              format="moneyInputFormat"
+              dataType="number"/>
+
+              <form-input-custom
+              class="flex-1"
+              [disabled]="true"
+              [label]="getLabel('lbl_phi_san_tmdt05')"
+              [align]="'end'"
+              [value]="data.item.phi_san_05"
+              format="moneyInputFormat"
+              dataType="number"/>
+  
+            <form-input-custom
+              class="flex-1"
+              [disabled]="true"
+              [align]="'end'"
+              [label]="getLabel('lbl_phi_san_tmdt06')"
+              [value]="data.item.phi_san_06"
+              format="moneyInputFormat"
+              dataType="number"/>
+          </div>
+        </div>
+        <div class="box-container">
+          <div class="box d-flex gap-2">
+            <form-input-custom
+              class="flex-1"
+              [disabled]="true"
+              [label]="getLabel('lbl_phi_san_tmdt07')"
+              [align]="'end'"
+              [value]="data.item.phi_san_07"
+              format="moneyInputFormat"
+              dataType="number"/>
+  
+          <div class="box d-flex">
+            <form-input-custom
+              class="flex-1"
+              [label]="'Phí ĐC khác'"
+              [align]="'end'"
+              [value]="phi_dc_khac"
+              format="moneyInputFormat"
+              dataType="number"
+              (handleChangeValue)="handleTotal($event)"/>
+          </div>
+
+          <div class="box d-flex">
+            <form-input-custom
+              class="flex-1"
+              [readonly] = "true"
+              [label]="'Tổng phí'"
+              [align]="'end'"
+              [value]="tong_phi"
+              format="moneyInputFormat"
+              dataType="number" />
+          </div>
+        </div>
+    </div>
+  
+    <div mat-dialog-actions class="gap-3 justify-end ml-5">
+      <div class="d-flex justify-end gap-2 m-2">
+        <div class="btn-responsive btn-cancel" (click)="onCancel()">Hủy bỏ</div>
+        <div class="btn-responsive btn-add" (click)="onSelect()">Chọn</div>
+      </div>
+    </div>
+  </div>
+  
+    
