@@ -24,6 +24,7 @@ import { TabCustomModule } from '@app/sales-management/component/form-control-cu
 import { EInvoiceTabModule } from '@app/sales-management/component/e-invoice/e-invoice-tab/e-invoice-tab.module';
 import { EInvoiceInfoModule } from '@app/sales-management/component/e-invoice/e-invoice-info/e-invoice-info.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
+import { EcommerceDialogComponent } from './ecommerce-dialog/ecommerce-dialog.component';
 
 @NgModule({
   imports: [
@@ -52,10 +53,11 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
     VoucherInfoModule
   ],
   declarations: [
-    SaleOnlineEcommerceComponent
+    SaleOnlineEcommerceComponent,
+    EcommerceDialogComponent
   ],
   exports: [
-    SaleOnlineEcommerceComponent
+    SaleOnlineEcommerceComponent, EcommerceDialogComponent
   ],
 })
 export class SaleOnlineEcommerceModule { }
