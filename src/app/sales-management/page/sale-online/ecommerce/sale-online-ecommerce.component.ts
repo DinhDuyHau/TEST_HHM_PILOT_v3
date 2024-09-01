@@ -348,7 +348,6 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
       if (item.tl_phi !== 0 && item.tien_phi_san !== 0) detail_item.phi_san_hhm += item.phi_hoang_ha;
     }
     detail_item.tong_phi += detail_item.phi_dc_khac;
-    //this.ticket.merchandise.find((e) => { e.tong_phi = detail_item.tong_phi });
   }
 
   handleCheckDeposit(ma_vt?: string, isAdd = true) {
@@ -556,6 +555,11 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   onAddService(event: { item: Merchandise }) {
     this.saleOnlineEcommerceService.addServiceForMerchandise(event.item, this.ticket);
   }
+
+  onUpdateService(event: { item: Merchandise }) {
+    this.saleOnlineEcommerceService.updateServiceForMerchandise(event.item);
+  }
+
 
   // click button add service
   onRemoveService(event: { item: Service }) {
