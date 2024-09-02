@@ -277,6 +277,8 @@
           [readonly]="readonly"
           [dataSource]="ticket.merchandise_used"
           [columns]="merchandiseUsedColumns"
+          [isShowCustomeEdit]="true"
+          (handleCustomeUpdate)="onUsedMerchandiseUpdate($event)"
           (handleDelete)="onRemoveUsedMerchandise($event)" />
       </tab-custom>
       <tab-custom label="HĐĐT" class="w-100">

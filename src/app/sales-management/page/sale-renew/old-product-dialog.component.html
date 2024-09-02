@@ -1,0 +1,57 @@
+<!-- <div class="bg-white">
+    <div
+      mat-dialog-title
+      cdkDrag
+      cdkDragRootElement=".cdk-overlay-pane"
+      cdkDragHandle
+      *ngIf="!isMobile">
+      Cập nhật thông tin hàng thu cũ
+    </div>
+    <div mat-dialog-title *ngIf="isMobile">
+        Cập nhật thông tin hàng thu cũ
+    </div>
+    <div mat-dialog-content>
+        <div class="inp-search col-5">
+            <app-input-custom-v2
+                class="flex-1"
+                [label]="'Imei hàng cũ'"
+                name="imei_cu"
+                type="text"
+                [disabled]="true"
+            />
+        </div>
+    </div>
+  
+    <div mat-dialog-actions class="gap-3 justify-end ml-5">
+      <div class="d-flex justify-end gap-2 m-2">
+        <div class="btn-responsive btn-cancel" (click)="onCancel()">Hủy bỏ</div>
+        <div class="btn-responsive btn-add" (click)="onSave()">Chọn</div>
+      </div>
+    </div>
+  </div>
+ -->
+
+<div class="service-for-imei-container">
+    <div class="title">Cập nhật thông tin hàng thu cũ</div>
+    <div>
+      <div>
+        <div class="box-container">
+          <form-input-custom
+            class="box"
+            label="Imei"
+            [disabled]="true"
+             />
+        </div>
+      </div>
+  
+      <hr />
+    </div>
+    <div mat-dialog-actions class="d-flex justify-end gap-2 m-2">
+      <div class="btn-responsive btn-cancel" (click)="onCancel()">Hủy bỏ</div>
+      <div class="btn-responsive btn-add" (click)="onSave()">Chọn</div>
+    </div>
+    <div class="close-btn" (click)="onCancel()">
+      <i class="fas fa-times"></i>
+    </div>
+</div>
+  

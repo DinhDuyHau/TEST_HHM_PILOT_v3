@@ -35,6 +35,7 @@ import { LookupApiService } from '@app/sales-management/api/lookup-api.service';
 import { async } from 'rxjs';
 import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
+import { OldProductDialogComponent } from './old-product-dialog.component';
 
 const { DISCOUNT_LIST,
   GUARANTEE_LIST,
@@ -124,33 +125,34 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   }
 
   testData() {
-    this.onEnterCustomerCode('001098025044');
-    this.onEnterImeiNewMerchandiseCode('11SC662VNA00009');
-    this.onEnterImeiNewMerchandiseCode('11SC664VNA001');
-    this.onEnterImeiNewMerchandiseCode('0100270081A00015');
-    this.onEnterImeiNewMerchandiseCode('0100270080A00004');
-    // this.onEnterImeiNewMerchandiseCode('IPV11128B2308016');
-    this.onEnterImeiNewMerchandiseCode('1030VNA00008');
+    // this.onEnterCustomerCode('001098025044');
+    // this.onEnterImeiNewMerchandiseCode('11SC662VNA00009');
+    // this.onEnterImeiNewMerchandiseCode('11SC664VNA001');
+    // this.onEnterImeiNewMerchandiseCode('0100270081A00015');
+    // this.onEnterImeiNewMerchandiseCode('0100270080A00004');
+    // // this.onEnterImeiNewMerchandiseCode('IPV11128B2308016');
+    // this.onEnterImeiNewMerchandiseCode('1030VNA00008');
 
-    this.onEnterImeiNewMerchandiseCode('CLFP12MA0001');
-    this.onEnterImeiNewMerchandiseCode('CSXMA0001');
-    this.onEnterImeiNewMerchandiseCode('G4S22AA0001');
-    this.onEnterImeiNewMerchandiseCode('MTIP12NA0001 ');
-    this.onEnterImeiNewMerchandiseCode('SBAG20A0001');
-    this.onEnterImeiNewMerchandiseCode('ZEE15CL1A0001');
+    // this.onEnterImeiNewMerchandiseCode('CLFP12MA0001');
+    // this.onEnterImeiNewMerchandiseCode('CSXMA0001');
+    // this.onEnterImeiNewMerchandiseCode('G4S22AA0001');
+    // this.onEnterImeiNewMerchandiseCode('MTIP12NA0001 ');
+    // this.onEnterImeiNewMerchandiseCode('SBAG20A0001');
+    // this.onEnterImeiNewMerchandiseCode('ZEE15CL1A0001');
 
-    this.onEnterImeiNewMerchandiseCode('CLFP12MA0002');
-    this.onEnterImeiNewMerchandiseCode('CSXMA0002');
-    this.onEnterImeiNewMerchandiseCode('G4S22AA0002');
-    this.onEnterImeiNewMerchandiseCode('MTIP12NA0002 ');
-    this.onEnterImeiNewMerchandiseCode('SBAG20A0002');
-    this.onEnterImeiNewMerchandiseCode('ZEE15CL1A0002');
+    // this.onEnterImeiNewMerchandiseCode('CLFP12MA0002');
+    // this.onEnterImeiNewMerchandiseCode('CSXMA0002');
+    // this.onEnterImeiNewMerchandiseCode('G4S22AA0002');
+    // this.onEnterImeiNewMerchandiseCode('MTIP12NA0002 ');
+    // this.onEnterImeiNewMerchandiseCode('SBAG20A0002');
+    // this.onEnterImeiNewMerchandiseCode('ZEE15CL1A0002');
 
-    this.onEnterImeiNewMerchandiseCode('CLFP12MA0003');
-    this.onEnterImeiNewMerchandiseCode('MTIP12NA0003 ');
-    this.onEnterImeiNewMerchandiseCode('SBAG20A0003');
+    // this.onEnterImeiNewMerchandiseCode('CLFP12MA0003');
+    // this.onEnterImeiNewMerchandiseCode('MTIP12NA0003 ');
+    // this.onEnterImeiNewMerchandiseCode('SBAG20A0003');
 
   }
+
   ngAfterViewInit(): void {
     if (!environment.production) {
       //this.testData();
@@ -357,7 +359,6 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   handleAddImei(merchandiseResponse: any) {
     const merchandise = this.merchandiseService.getMerchandiseNotHaveImei(merchandiseResponse.ma_vt, this.ticket.merchandise_new_sale);
     merchandise && (merchandise.ma_imei = merchandiseResponse.ma_imei) && (merchandise.ma_kho = merchandiseResponse.ma_kho);
-
     if (!merchandise) {
       this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise_new_sale, Merchandise);
       if (merchandiseResponse.promotions && merchandiseResponse.promotions.length) {
@@ -903,8 +904,16 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     // }
 
   }
+
   getLabel(label: string) {
     return this.commonService.getMessage(label);
+  }
+
+  onUsedMerchandiseUpdate(event: { item: Merchandise }) {
+    this.commonService.openDialog(OldProductDialogComponent, { currentItem: event.item })
+      .afterClosed().subscribe(item => {
+        console.log(item);
+      });
   }
 
 }

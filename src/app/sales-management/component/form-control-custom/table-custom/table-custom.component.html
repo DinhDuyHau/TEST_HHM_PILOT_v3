@@ -205,6 +205,12 @@
               <i class="fas fa-edit icon-table text-primary"></i>
             </button>
             <button
+              title="Sửa"
+              (click)="onCustomeUpdateItem(record)"
+              *ngIf="isShowCustomeEdit">
+              <i class="fas fa-edit icon-table text-primary"></i>
+            </button>
+            <button
               title="Xóa"
               (click)="onDeleteItem(record)"
               *ngIf="showDeleteButton(record)">

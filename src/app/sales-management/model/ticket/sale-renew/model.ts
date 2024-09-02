@@ -69,6 +69,10 @@ export class Merchandise extends BaseMerchandise {
   no_km_yn?: boolean = false;
   imei_mua = '';
   tien_kmqd = 0;
+  ma_gd_tcdm = '';
+  gia_bl = 0;
+  gia_bl_vat = 0;
+  tien_ht = 0;
 
   constructor(obj?: any) {
     super();

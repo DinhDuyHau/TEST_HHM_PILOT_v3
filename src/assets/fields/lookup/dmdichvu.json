@@ -1,0 +1,21 @@
+[
+    {
+      "name": "ma_dv",
+      "title": "Mã dịch vụ",
+      "isLockingColumn": true,
+      "isPrimaryKey": true,
+      "width": 160,
+      "allowSorting": true,
+      "allowFilter": true,
+      "dataFormatString": "upperCaseFormat"
+    },
+    {
+      "name": "ten_dv",
+      "title": "Tên dịch vụ",
+      "isLockingColumn": true,
+      "allowSorting": true,
+      "allowFilter": true,
+      "width": 400
+    }
+  ]
+  

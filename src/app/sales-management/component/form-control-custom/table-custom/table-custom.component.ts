@@ -47,6 +47,7 @@ export class TableCustomComponent implements
   @Input() isLoading = false;
   @Input() isTicket = true;
   @Input() isShowDiscountNG = false;
+  @Input() isShowCustomeEdit = false;
   @Input() hasButton = { create: true, delete: true, view: true, edit: true };
 
   pageSizeOptions: number[] = [10, 20, 50, 100, 150, 200];
@@ -67,6 +68,7 @@ export class TableCustomComponent implements
   @Output() handleChangeInput = new EventEmitter<{ item: any, index: number, value: any, columnName: string }>();
   @Output() handleChangeSelectCheckbox = new EventEmitter<any>();
   @Output() handleAddDiscountNG = new EventEmitter<{ item: any }>();
+  @Output() handleCustomeUpdate = new EventEmitter<{ item: any }>();
 
   dataFormat = dataFormat;
 
@@ -158,6 +160,10 @@ export class TableCustomComponent implements
 
   onUpdateItem(item: any) {
     this.handleUpdate.emit({ item });
+  }
+
+  onCustomeUpdateItem(item: any) {
+    this.handleCustomeUpdate.emit({ item });
   }
 
   onClickChangePage(action: string | number) {

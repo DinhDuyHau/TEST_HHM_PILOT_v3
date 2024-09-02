@@ -22,10 +22,12 @@ import { EInvoiceTabModule } from '@app/sales-management/component/e-invoice/e-i
 import { EInvoiceInfoModule } from '@app/sales-management/component/e-invoice/e-invoice-info/e-invoice-info.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
 import { ControlsModule } from '@app/_components/controls/controls.module'
+import { OldProductDialogComponent } from './old-product-dialog.component';
 
 @NgModule({
     declarations: [
-        SaleRenewComponent
+        SaleRenewComponent,
+        OldProductDialogComponent
     ],
     exports: [],
     imports: [
