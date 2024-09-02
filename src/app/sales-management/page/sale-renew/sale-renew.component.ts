@@ -412,8 +412,54 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
 
   //#region Enter Imei mua lại
 
-  onEnterImeiOldMerchandiseCode() {
+  onEnterImeiOldMerchandiseCode(ma_imei: string) {
+    /* add imei thu cũ vào grid 'hàng thu cũ' */
+    const imei_thu_cu = this.renew.ma_imei;
+    const ma_vt_thu_cu = this.renew.ma_vt;
+    this.invalidMerchandiseInput.ma_vt = false;
+    this.invalidMerchandiseInput.gia_nt = false;
+    this.invalidMerchandiseInput.loai_hh = false;
+    this.invalidMerchandiseInput.imei_used = false;
 
+    const isExists = this.handleCheckExistsImei(this.renew.ma_imei);
+
+    isExists && this.commonService.showMessageByName('lblWarningInfomationRenew');
+    if (!isExists) {
+      if (!(this.renew.ma_vt && this.renew.ma_imei && this.renew.loai_hh)) {
+        this.invalidMerchandiseInput.ma_vt = true;
+        this.invalidMerchandiseInput.gia_nt = true;
+        this.invalidMerchandiseInput.loai_hh = true;
+        this.invalidMerchandiseInput.imei_used = true;
+      } else {
+        this.imeiApiService.getImeisState([this.renew.ma_imei]).subscribe((result) => {
+          if (result && result.success && result.result && result.result[0]) {
+            if (result.result[0].exists_yn) {
+              const map = new Map();
+              map.set('in_store_yn', false);
+              map.set('dat_hang_yn', false);
+              const message = this.imeiService.GetMessageStatusImei(map, result.result[0]);
+              if (message) {
+                this.commonService.showMessageByContent(this.imeiService.GetMessageStatusImei(map, result.result[0]));
+                return;
+              } else {
+                this.addImeiOldMerchandise(ma_imei);
+                this.commonService.clearText([this.tabIndex.imei_used]);
+                this.onRefreshRenew();
+              }
+            }
+            else {
+              this.renew.new_imei_yn = true;
+              this.addImeiOldMerchandise(ma_imei);
+              this.commonService.clearText([this.tabIndex.imei_used]);
+              this.onRefreshRenew();
+            }
+          }
+
+
+        });
+      }
+    }
+    this.invalid && this.commonService.showMessage(Language.content.Missing_information);
   }
   //#endregion
 
@@ -670,6 +716,13 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     this.handleRemoveMerchandise(event.item);
   }
 
+  onUpdateUsedMerchandiseDialog() {
+    console.log(this.renew);
+    this.commonService.openDialog(UpdateOldMerchandiseComponent, 'fullscreen-dialog')
+      .afterClosed()
+      .subscribe();
+  }
+
   onRemoveUsedMerchandise(event: { item: Merchandise }) {
     this.ticket.merchandise_new_sale = [];
     this.saleRenewService.removeUsedMerchandise(event.item);
@@ -710,13 +763,9 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         .afterClosed().subscribe((selected: Merchandise) => {
           const merchandise = this.ticket.merchandise_new_sale.find(e => e.ma_imei === event.item.ma_imei)
           if (merchandise) {
-            merchandise.ma_vt = selected.ma_vt;
-            merchandise.ten_vt = selected.ten_vt;
-            merchandise.dvt = selected.dvt;
-
-            //clear mã imei của vật tư khuyến mại => người dùng sẽ phải nhập lại imei KM sau khi đổi quà
-            merchandise.ma_imei = '';
-            merchandise.ma_kho = '';
+            merchandise.ma_vt = selected.ma_vt
+            merchandise.ten_vt = selected.ten_vt
+            merchandise.dvt = selected.dvt
           }
         });
     }
