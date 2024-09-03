@@ -2,6 +2,7 @@ import { Discount } from '../common-model/discount.model';
 import { Guarantee } from '../common-model/guarantee.model';
 import { Service } from '../common-model/service.model';
 import { Payment } from '../common-model/payment.model';
+import { Transport } from '../../common/delivery.mode';
 import { BaseMasterInfo, BaseMerchandise, BaseTicket } from '../common-model/base-entity.model';
 import { Package } from '../common-model/package.model';
 
@@ -14,6 +15,7 @@ export class RetailSaleTicket {
     discount: Discount[] = [];
     guarantee: Guarantee[] = [];
     payment: Payment = new Payment;
+    transport: Transport = new Transport;
 }
 
 export type RetailTicketList = BaseTicket
@@ -24,7 +26,8 @@ export const TAB_NAME = {
     DISCOUNT: 'd581ck',
     GUARANTEE: 'ddd',
     PAYMENT: 'd581tt',
-    PACKAGE: 'd581bh'
+    PACKAGE: 'd581bh',
+    TRANSPORT: 'd581'
 };
 
 export class MasterInfo extends BaseMasterInfo {
@@ -37,6 +40,12 @@ export class MasterInfo extends BaseMasterInfo {
     image = '';
     email_nhan_key = '';
     dien_giai = '';
+
+    ma_loaivc = '';
+    so_dh_vc = '';
+    ma_van_don = '';
+    tien_phi_cod = 0;
+    ghi_chu_gh = '';
 
     constructor(obj?: any) {
         super();
