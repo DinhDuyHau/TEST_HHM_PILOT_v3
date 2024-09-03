@@ -1,4 +1,4 @@
-import { BaseMasterInfoRequest, BaseMerchandiseRequest } from '../common-model/base-entity.model';
+import { BaseEntity, BaseMasterInfoRequest, BaseMerchandiseRequest } from '../common-model/base-entity.model';
 
 export class MerchandiseRequest extends BaseMerchandiseRequest {
     gia_ck = 0;
@@ -20,6 +20,7 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
 
 export class MasterInfoRequest extends BaseMasterInfoRequest {
     ma_nvvc = '';
+    ten_nvvc = '';
     t_ck = 0;
     t_ck_nt = 0;
     t_da_tra = 0;
@@ -27,6 +28,26 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     tien_dat_coc = 0;
     email_nhan_key = '';
     dien_giai = '';
+
+    ma_loaivc = '';
+    so_dh_vc = '';
+    ma_van_don = '';
+    tien_phi_cod = 0;
+    ghi_chu_gh = '';
+
+    constructor(obj?: any) {
+        super();
+        Object.assign(this, obj);
+    }
+}
+
+export class TransportRequest extends BaseEntity {
+    ma_loaivc = '';
+    so_dh_vc = '';
+    ma_van_don = '';
+    tien_phi_cod = 0;
+    ma_nvvc = '';
+    ghi_chu_gh = '';
 
     constructor(obj?: any) {
         super();

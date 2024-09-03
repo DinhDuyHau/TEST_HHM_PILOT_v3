@@ -32,6 +32,7 @@ import { environment } from '@environments/environment';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
 import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
+import { Transport } from '../../model/common/delivery.mode';
 
 const {
   DISCOUNT_LIST,
@@ -49,6 +50,7 @@ const {
 export class RetailComponent implements OnInit, AfterViewInit {
   ticket: RetailSaleTicket = new RetailSaleTicket;
   statusList: StatusTicket[] = [];
+  transport: Transport = new Transport;
   dataFormat = dataFormat;
   title = '';
   discountCanApply: Discount[] = [];
@@ -143,6 +145,16 @@ export class RetailComponent implements OnInit, AfterViewInit {
     }
     // this.commonService.focusControl(this.tabIndexFocusFirst);
   }
+  dataTransport(result: any) {
+    this.ticket.transport.ma_loaivc = result.masterInfo.ma_loaivc;
+    this.ticket.transport.hhDelivery.ma_nv_giao = result.masterInfo.ma_nvvc;
+    this.ticket.transport.hhDelivery.ten_nv = result.masterInfo.ten_nvvc;
+    this.ticket.transport.cod.so_dh_vc = result.masterInfo.so_dh_vc;
+    this.ticket.transport.cod.ma_van_don = result.masterInfo.ma_van_don;
+    this.ticket.transport.cod.tien_phi_cod = result.masterInfo.tien_phi_cod;
+    this.ticket.transport.hhDelivery.ghi_chu_gh = result.masterInfo.ghi_chu_gh;
+    this.onEnterDECode(this.ticket.transport.hhDelivery.ma_nv_giao);
+  }
   ngOnInit() {
     this.route.url.subscribe(urlSegment => {
       const path = urlSegment[0].path;
@@ -181,7 +193,9 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.route.queryParams.pipe().subscribe((data: any) => {
       if (data.key) {
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.RETAIL, data.key).subscribe((result) => {
+          console.log(result);
           if (result.result) {
+            this.dataTransport(result.result);
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.RETAIL.CREATE) {
               this.router.navigate(['/404']);
             }
@@ -634,6 +648,14 @@ export class RetailComponent implements OnInit, AfterViewInit {
   onSave() {
     const message = this.retailService.validateTicket(this.ticket);
     this.invalid = this.commonService.isInValidPayment(this.ticket.payment) || this.retailService.isInvalidForm(this.ticket.masterInfo);
+
+    this.ticket.masterInfo.ma_nvvc = this.ticket.transport.hhDelivery.ma_nv_giao;
+    this.ticket.masterInfo.ten_nvvc = this.ticket.transport.hhDelivery.ten_nv;
+    this.ticket.masterInfo.ma_loaivc = this.ticket.transport.ma_loaivc;
+    this.ticket.masterInfo.so_dh_vc = this.ticket.transport.cod.so_dh_vc;
+    this.ticket.masterInfo.ma_van_don = this.ticket.transport.cod.ma_van_don;
+    this.ticket.masterInfo.tien_phi_cod = this.ticket.transport.cod.tien_phi_cod;
+    this.ticket.masterInfo.ghi_chu_gh = this.ticket.transport.hhDelivery.ghi_chu_gh;
 
     //check valid các trường số lượng và tiền trong grid hàng hóa và dịch vụ
     if (!this.retailService.isInvalidMerchandise(this.ticket.merchandise)) {

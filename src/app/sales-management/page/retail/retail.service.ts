@@ -29,6 +29,7 @@ import { PackageForImeiComponent } from '@app/sales-management/component/merchan
 import { PackageOfMerchandiseService } from '../common/package.service';
 import { Package, PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
+import { TransportService } from '../common/transport.service';
 
 @Injectable({
     providedIn: 'root'
@@ -53,6 +54,7 @@ export class RetailService {
         private paymentService: PaymentService,
         private guanranteeService: GuanranteeService,
         private packageOfMerchandiseService: PackageOfMerchandiseService,
+        private transportService: TransportService,
     ) {
 
     }
@@ -100,6 +102,14 @@ export class RetailService {
                 case TAB_NAME.DISCOUNT:
                     this.discountService.convertDiscountFromVoucher(e.data, this.ticket.discount);
                     break;
+                case TAB_NAME.TRANSPORT:
+                    this.ticket.transport = this.transportService.convertFromVoucher(e.data[0]);
+                    this.customerApiService.getOneById(this.ticket.transport.hhDelivery.ma_nv_giao).subscribe((result: any) => {
+                        if (result && result.success && result.result) {
+                            this.ticket.transport.hhDelivery.ten_nv = result.result.ten_kh;
+                        }
+                    });
+                    break;
                 case TAB_NAME.PAYMENT:
                     this.paymentService.convertPaymentFromVoucher(e.data, this.ticket.payment);
                     break;
@@ -120,6 +130,7 @@ export class RetailService {
         voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.SERVICE, data: this.serviceOfMerchandiseService.convertServiceToRequest(this.ticket.service, voucherDto.masterInfo, ServiceRequest) }];
         voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.DISCOUNT, data: this.discountService.convertDiscountToRequest(this.ticket.discount, voucherDto.masterInfo) }];
         voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
+        voucherDto.details = [...voucherDto.details, { id: 6, name: TAB_NAME.TRANSPORT, data: [this.transportService.convertToRequest(this.ticket.transport, voucherDto.masterInfo)] }];
         voucherDto.details = [...voucherDto.details, { id: 5, name: TAB_NAME.PACKAGE, data: this.packageOfMerchandiseService.convertPackageToRequest(this.ticket.packages, voucherDto.masterInfo, PackageRequest) }];
         return voucherDto;
     }
@@ -633,6 +644,8 @@ export class RetailService {
             message = this.commonService.getMessage('lbl_invalid_ma_dvcs');
         } else if (this.validatePayment(ticket.payment)) {
             message = this.commonService.getMessage('lbl_invalid_payment');
+        } else if (!ticket.transport.ma_loaivc) {
+            message = this.commonService.getMessage('lbl_invalid_transport');
         } else if (ticket.merchandise.filter(e => !e.km_yn).length === 0) {
             message = this.commonService.getMessage('lbl_invalid_detail');
         } else if (ticket.merchandise.filter(e => !e.ma_imei && e.km_yn && !e.no_km_yn).length > 0) {

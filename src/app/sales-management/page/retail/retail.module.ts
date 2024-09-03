@@ -18,6 +18,8 @@ import { EInvoiceTabModule } from '@app/sales-management/component/e-invoice/e-i
 import { EInvoiceInfoModule } from '@app/sales-management/component/e-invoice/e-invoice-info/e-invoice-info.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
 import { PackageForImeiModule } from '@app/sales-management/component/merchandise-service/package-for-imei/package-for-imei.module';
+import { DeliveryInfomationModule } from '@app/sales-management/component/delivery/infomation/delivery-infomation.module';
+
 
 @NgModule({
     imports: [
@@ -39,6 +41,7 @@ import { PackageForImeiModule } from '@app/sales-management/component/merchandis
         EInvoiceInfoModule,
         VoucherInfoModule,
         PackageForImeiModule,
+        DeliveryInfomationModule,
     ],
     declarations: [
         RetailComponent
