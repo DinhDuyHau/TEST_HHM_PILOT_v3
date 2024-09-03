@@ -9,7 +9,7 @@
         [label]="'Thông tin ví'"
         [value]="vi_dien_tu.thong_tin"
         [invalid]="invalid"
-        [disabled]="readonly"
+        [disabled]="true"
         (handleChangeValue)="vi_dien_tu.thong_tin = $event"
         (handleClickOpenDialog)="onOpenSearchWallet()" />
       <form-payment-custom

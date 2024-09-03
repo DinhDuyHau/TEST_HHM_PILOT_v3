@@ -220,6 +220,13 @@
             "align": "center"
         },
         {
+            "name": "gia0",
+            "title": "Giá CTTC",
+            "format": "moneyView2Digit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
             "name": "gia_ban",
             "title": "Giá bán",
             "format": "moneyView2Digit",

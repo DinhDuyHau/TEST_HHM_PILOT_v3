@@ -266,4 +266,18 @@ export class TicketApiService extends ApiService {
         ]
         return this.post<Result<any>>(GET_STOCK_BY_SHOP, body, { page_index: 1, page_size: 1 });
     }
+
+    getRenewAdjustBuyPrice(ngay_ct: Date, ma_cttc: string, ma_ncc: string, loai_hang_mua: string, ma_vt_mua: string, ma_vt_ban: string, gia_ban: number, gia_dc: number): Observable<ResultNoPaging<any>> {
+        let url = `${environment.apiUrl}/Price/renew_adjust_buy_price`;
+        url += `?ngay_ct=${ngay_ct.toISOString()}`;
+        url += `&ma_cttc=${ma_cttc}`;
+        url += `&ma_ncc=${ma_ncc}`;
+        url += `&loai_hang_mua=${loai_hang_mua}`;
+        url += `&ma_vt_mua=${ma_vt_mua}`;
+        url += `&ma_vt_ban=${ma_vt_ban}`;
+        url += `&gia_ban=${gia_ban}`;
+        url += `&gia_dc=${gia_dc}`;
+
+        return this.get<ResultNoPaging<any>>(url);
+    }
 }

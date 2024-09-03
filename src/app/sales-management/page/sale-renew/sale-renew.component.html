@@ -138,12 +138,13 @@
               [name]="'loai_hh'"
               [label]="getLabel('lbl_loai_hh')"
               [value]="renew.loai_hh"
+              [readonly]="true"
               [disabled]="readonly"
               [invalid]="invalidMerchandiseInput.loai_hh"
               [tabIndex]="tabIndex.ma_loai"
               (handleClickOpenDialog)="openSearchTypeMerchandiseDialog()" />
             <form-input-custom
-              class="basis-2/5"
+              class="basis-3/5"
               [name]="'gia_nhap_mua'"
               [label]="getLabel('lbl_gia_nhap_mua')"
               [align]="'end'"
@@ -154,11 +155,11 @@
               dataType="number"
               [readonly]="true"
               format="moneyViewFormat" />
-            <button
+            <!-- <button
               class="btn-responsive btn-add d-flex flex-1 align-self-end"
               (click)="onEnterImeiOldMerchandiseCode(renew.ma_imei)">
               Thêm
-            </button>
+            </button> -->
           </div>
           <!-- <div class="d-flex box align-items-end gap-3 mt-5 align-self-end">
             <button

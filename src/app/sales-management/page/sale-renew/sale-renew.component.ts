@@ -36,6 +36,7 @@ import { async } from 'rxjs';
 import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
 import { OldProductDialogComponent } from './old-product-dialog.component';
+import { DataFormatPipe } from '@app/_pipe/dataFormat/data-format.pipe';
 
 const { DISCOUNT_LIST,
   GUARANTEE_LIST,
@@ -361,6 +362,15 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     merchandise && (merchandise.ma_imei = merchandiseResponse.ma_imei) && (merchandise.ma_kho = merchandiseResponse.ma_kho);
     if (!merchandise) {
       this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise_new_sale, Merchandise);
+
+      //nếu tiền hỗ trợ lấy từ khai báo trong danh mục giá bán (hàng thu cũ) > 0 => set mã giao dịch TCĐM là '1', ngược lại set = '2'
+      if (merchandiseResponse.tien_ht > 0) {
+        this.ticket.merchandise_new_sale[0].ma_gd_tcdm = '1';
+      }
+      else {
+        this.ticket.merchandise_new_sale[0].ma_gd_tcdm = '2';
+      }
+
       if (merchandiseResponse.promotions && merchandiseResponse.promotions.length) {
         const discount = this.discountService.convertPromotionToDiscount(merchandiseResponse.promotions);
         // const discount = merchandiseResponse.promotions.length && this.discountService.convertDiscount(discount_temp);
@@ -398,6 +408,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       ma_imei: this.renew.ma_imei,
       new_imei_yn: this.renew.new_imei_yn,
       ma_kho: this.defaultStockRenew,
+      gia0: this.renew.gia_nt,
       gia_ban: this.renew.gia_nt,
       thanh_tien: this.renew.gia_nt,
       thanh_toan: this.renew.gia_nt,
@@ -716,12 +727,12 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     this.handleRemoveMerchandise(event.item);
   }
 
-  onUpdateUsedMerchandiseDialog() {
-    console.log(this.renew);
-    this.commonService.openDialog(UpdateOldMerchandiseComponent, 'fullscreen-dialog')
-      .afterClosed()
-      .subscribe();
-  }
+  // onUpdateUsedMerchandiseDialog() {
+  //   console.log(this.renew);
+  //   this.commonService.openDialog(UpdateOldMerchandiseComponent, 'fullscreen-dialog')
+  //     .afterClosed()
+  //     .subscribe();
+  // }
 
   onRemoveUsedMerchandise(event: { item: Merchandise }) {
     this.ticket.merchandise_new_sale = [];
@@ -959,9 +970,51 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   }
 
   onUsedMerchandiseUpdate(event: { item: Merchandise }) {
-    this.commonService.openDialog(OldProductDialogComponent, { currentItem: event.item })
-      .afterClosed().subscribe(item => {
-        console.log(item);
+    this.commonService.openDialog(OldProductDialogComponent, { supplierId: this.ticket.masterInfo.ma_ncc, currentItem: event.item })
+      .afterClosed().subscribe(res => {
+        if (res) {
+          const sale_item = this.ticket.merchandise_new_sale.find(x => x.ma_imei.trim() === event.item.gc_td1.trim());
+          const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+          this.saleRenewService.adjustBuyPrice(ngay_ct, this.ticket.masterInfo.ma_ncc, res, sale_item!)?.pipe().subscribe(result => {
+            if (result && result.success && result.result) {
+              const tien_max = Number(result.result[0].tien_dc_max);
+              const tien_min = Number(result.result[0].tien_dc_min);
+              const tien_ht = Number(result.result[0].tien_ht);
+              const gia_dc = Number(res.gia_dc);
+              const ma_gd_tcdm = sale_item?.ma_gd_tcdm;
+
+              if (gia_dc < tien_min || gia_dc > tien_max) {
+                const dataFormatPipe = new DataFormatPipe();
+                const t_max = dataFormatPipe.transform(tien_max, 'number', dataFormat.moneyViewNoDigit);
+                const t_min = dataFormatPipe.transform(tien_min, 'number', dataFormat.moneyViewNoDigit);
+
+                this.commonService.showMessage(`Giá điều chỉnh không được nhỏ hơn ${t_min} hoặc lớn hơn ${t_max}`);
+                return;
+              }
+              else {
+                //cập nhật giá điều chỉnh vào tab hàng thu cũ
+                const buy_item = this.ticket.merchandise_used.find(x => x.ma_imei.trim() === res.ma_imei.trim());
+                buy_item!.gia_ban = gia_dc;
+                buy_item!.thanh_tien = gia_dc;
+                buy_item!.thanh_toan = gia_dc;
+                this.saleRenewService.calcMoney();
+
+                if (ma_gd_tcdm === '1') {
+                  //fix không thay đổi tiền hỗ trợ
+                  this.commonService.showMessage(`Chương trình đã cập nhật giá mua hàng cũ. Tiền hỗ trợ của hàng bán mới không thay đổi do cài đặt từ chương trình thu cũ`);
+                  return;
+                }
+                else {
+                  sale_item!.tien_ht = tien_ht;
+                  sale_item!.gia_vat -= tien_ht;
+                  this.saleRenewService.calcMoney();
+                  console.log(sale_item);
+                }
+
+              }
+            }
+          })
+        }
       });
   }
 

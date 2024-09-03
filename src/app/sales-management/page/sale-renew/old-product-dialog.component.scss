@@ -11,6 +11,7 @@ input:focus {
 }
 
 .service-for-imei-container {
+  min-width: 600px;
   position: relative;
   margin: 12px;
   // padding: 30px 55px 20px 55px;
@@ -95,4 +96,11 @@ input:focus {
       width: 100%;
     }
   }
+}
+
+.price-err {
+  background: #039;
+}
+.price-err input.form-control {
+  border-color: #f00 !important;
 }

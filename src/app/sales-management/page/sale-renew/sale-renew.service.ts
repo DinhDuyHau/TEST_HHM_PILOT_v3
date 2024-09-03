@@ -29,6 +29,7 @@ import { FuncExtendService } from '@app/_utils';
 import { PackageForImeiComponent } from '@app/sales-management/component/merchandise-service/package-for-imei/package-for-imei.component';
 import { Package, PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
 import { PackageOfMerchandiseService } from '../common/package.service';
+import { environment } from '@environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -541,4 +542,9 @@ export class SaleRenewService {
 
     // #endregion other
 
+
+    adjustBuyPrice(ngay_ct: Date, ma_ncc: string, buy_item: MerchandiseUsed, sale_item: Merchandise): Observable<ResultNoPaging<any>> | undefined {
+        return this.ticketApiService.getRenewAdjustBuyPrice(ngay_ct, sale_item.ma_cttc, ma_ncc, buy_item.ma_loai, buy_item.ma_vt, sale_item.ma_vt, buy_item.gia_ban, buy_item.gia_dc);
+
+    }
 }

@@ -20,6 +20,7 @@ const moneyViewFormat = 'moneyViewFormat';
 const moneyViewFormat2 = '###,###,###,###/0';
 const moneyViewFormat3 = '-###,###,###,###';
 const moneyInputFormat = '###,###,###,###';
+const moneyNegativeInputFormat = '-###,###,###,###';
 const moneyViewNoDigit = '###,###,###,##0';
 const moneyView2Digit = '###,###,###,###.00';
 const moneyViewThousandRound = '###,###,###,000';
@@ -53,6 +54,7 @@ export default {
   moneyViewFormat2,
   moneyViewFormat3,
   moneyInputFormat,
+  moneyNegativeInputFormat,
   moneyViewNoDigit,
   moneyView2Digit,
   moneyViewThousandRound,

@@ -10,26 +10,34 @@ import { Platform } from '@angular/cdk/platform';
 export class OldProductDialogComponent implements OnInit {
     @ViewChild('form') form!: ElementRef;
     isMobile = false;
-    currentItem!: any[];
+    currentItem!: any;
+    supplier_id = '';
+    gia_dc = 0;
 
     constructor(
         public dialogRef: MatDialogRef<OldProductDialogComponent>,
         private platform: Platform,
-        @Inject(MAT_DIALOG_DATA) public data: { currentItem: any[] },
+        @Inject(MAT_DIALOG_DATA) public data: { supplierId: string, currentItem: any },
     ) {
+        this.currentItem = data.currentItem;
+        this.gia_dc = data.currentItem.gia_ban;
+        this.supplier_id = data.supplierId;
     }
     ngOnInit(): void {
-        console.log(this.data)
+
+    }
+
+    changePrice(event: any) {
+        this.gia_dc = event;
     }
 
     onCancel() {
-        this.dialogRef.close(this.currentItem);
+        this.dialogRef.close();
     }
 
     onSave(): void {
-        console.log('check for save')
-
-        this.dialogRef.close();
+        this.currentItem.gia_dc = this.gia_dc;
+        this.dialogRef.close(this.currentItem);
     }
 }
 

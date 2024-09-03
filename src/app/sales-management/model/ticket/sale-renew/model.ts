@@ -73,6 +73,8 @@ export class Merchandise extends BaseMerchandise {
   gia_bl = 0;
   gia_bl_vat = 0;
   tien_ht = 0;
+  gc_td1 = '';
+  ma_cttc = '';
 
   constructor(obj?: any) {
     super();
@@ -83,6 +85,8 @@ export class Merchandise extends BaseMerchandise {
 export class MerchandiseUsed extends BaseMerchandise {
   new_imei_yn = false;
   ma_loai = '';
+  gia0 = 0;
+  gia_dc = 0;
 
   constructor(obj?: any) {
     super();
