@@ -32,14 +32,11 @@
         (handleUViewPhoto)="openImage()" />
 
       <form-input-custom
-        class="box order-dynamic-3"
-        [name]="'ma_nvvc'"
-        [label]="getLabel('lbl_ma_nvvc')"
-        [tabIndex]="tabIndex.nvvc"
-        [readonly]="readonly"
-        [value]="ticket.masterInfo.ma_nvvc"
-        (handleChangeValue)="onEnterDECode($event)"
-        (handleClickOpenDialog)="openSearchDEDialog()" />
+        class="box order-dynamic-2"
+        [name]="'ten_kh'"
+        [label]="getLabel('lbl_ten_kh')"
+        [value]="ticket.masterInfo.ten_kh"
+        [disabled]="true" />
 
       <form-input-custom
         class="box order-dynamic-1"
@@ -52,33 +49,20 @@
 
       <form-input-custom
         class="box order-dynamic-2"
-        [name]="'ten_kh'"
-        [label]="getLabel('lbl_ten_kh')"
-        [value]="ticket.masterInfo.ten_kh"
-        [disabled]="true" />
-
-      <form-input-custom
-        class="box order-dynamic-3"
-        [name]="'ten_nvvc'"
-        [label]="getLabel('lbl_ten_nvvc')"
-        [value]="ticket.masterInfo.ten_nvvc"
-        [disabled]="true" />
-
-      <form-input-custom
-        class="box order-dynamic-2"
         [name]="'dia_chi'"
         [label]="getLabel('lbl_dia_chi')"
         [value]="ticket.masterInfo.dia_chi"
         [disabled]="true" />
 
       <form-input-custom
-        class="box"
-        name="ma_vt"
-        [label]="getLabel('lbl_ma_vt')"
-        [tabIndex]="tabIndex.ma_hh"
-        *ngIf="!readonly"
-        (handleEnterInput)="onEnterMerchandiseCode($event)"
-        (handleClickOpenDialog)="openMerchandiseDialog()" />
+        #txt_dien_giai
+        class="box order-dynamic-2"
+        [name]="'dien_giai'"
+        [label]="getLabel('lbl_dien_giai')"
+        [value]="ticket.masterInfo.dien_giai"
+        (handleChangeValue)="
+          ticket.masterInfo.dien_giai = txt_dien_giai.value
+        " />
 
       <form-select-custom
         class="box order-dynamic-1 width-full"
@@ -91,6 +75,15 @@
         (handleChangeValue)="ticket.masterInfo.status = $event" />
 
       <form-input-custom
+        class="box"
+        name="ma_vt"
+        [label]="getLabel('lbl_ma_vt')"
+        [tabIndex]="tabIndex.ma_hh"
+        *ngIf="!readonly"
+        (handleEnterInput)="onEnterMerchandiseCode($event)"
+        (handleClickOpenDialog)="openMerchandiseDialog()" />
+
+      <form-input-custom
         #txtImei
         class="box order-dynamic-2"
         [name]="'imei'"
@@ -101,17 +94,34 @@
         (handleClickCodeScanner)="onClickCodeScanner()"
         [uploadImage]="true" />
 
-      <form-input-custom
-        #txt_dien_giai
-        class="box order-dynamic-2"
-        [name]="'dien_giai'"
-        [label]="getLabel('lbl_dien_giai')"
-        [value]="ticket.masterInfo.dien_giai"
-        (handleChangeValue)="
-          ticket.masterInfo.dien_giai = txt_dien_giai.value
-        " />
 
-      <div class="d-flex box align-items-end gap-3 mt-3 align-self-end">
+
+      <!-- <form-input-custom
+        class="box order-dynamic-3"
+        [name]="'ma_nvvc'"
+        [label]="getLabel('lbl_ma_nvvc')"
+        [tabIndex]="tabIndex.nvvc"
+        [readonly]="readonly"
+        [value]="ticket.masterInfo.ma_nvvc"
+        (handleChangeValue)="onEnterDECode($event)"
+        (handleClickOpenDialog)="openSearchDEDialog()" />
+
+      <form-input-custom
+        class="box order-dynamic-3"
+        [name]="'ten_nvvc'"
+        [label]="getLabel('lbl_ten_nvvc')"
+        [value]="ticket.masterInfo.ten_nvvc"
+        [disabled]="true" /> -->
+
+
+      
+
+      
+
+      
+
+
+      <div class="d-flex box align-items-end gap-3 mt-3 align-self-end ">
         <button
           *ngIf="!readonly"
           class="flex-1 btn act-input-data-btn text-nowrap"
@@ -209,6 +219,13 @@
           [columns]="discountColumns"
           [readonly]="readonly"
           (handleDelete)="onRemoveDiscount($event)" />
+      </tab-custom>
+      <tab-custom label="Vận chuyển" class="w-100">
+        <delivery-infomation
+        l_ma_don_vi="Mã nhân viên/Shipper"
+        l_ten_don_vi="Tên nhân viên/Shipper"
+        [data]="ticket.transport"
+        [readonly]="readonly" />
       </tab-custom>
       <!-- <tab-custom label="Bảo hành" class="w-100">
         <table-custom
