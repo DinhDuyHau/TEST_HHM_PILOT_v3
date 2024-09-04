@@ -77,6 +77,9 @@ export class Language {
         No_image: '',
         grid_merchandise_invalid: 'Giá trị các trường số lượng, giá, tiền trong chi tiết hàng hóa không hợp lệ.',
         grid_service_invalid: 'Giá trị các trường số lượng, giá, tiền trong chi tiết dịch vụ không hợp lệ.',
+        invalid_ma_nvvc: 'Chưa chọn nhân viên vận chuyển',
+        invalid_so_dh_vc: 'Chưa nhập mã đơn hàng',
+        invalid_ma_van_don: 'Chưa nhập mã vận đơn',
 
 
         all: '',
