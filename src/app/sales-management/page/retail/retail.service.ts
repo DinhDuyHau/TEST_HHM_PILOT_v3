@@ -644,8 +644,6 @@ export class RetailService {
             message = this.commonService.getMessage('lbl_invalid_ma_dvcs');
         } else if (this.validatePayment(ticket.payment)) {
             message = this.commonService.getMessage('lbl_invalid_payment');
-        } else if (!ticket.transport.ma_loaivc) {
-            message = this.commonService.getMessage('lbl_invalid_transport');
         } else if (ticket.merchandise.filter(e => !e.km_yn).length === 0) {
             message = this.commonService.getMessage('lbl_invalid_detail');
         } else if (ticket.merchandise.filter(e => !e.ma_imei && e.km_yn && !e.no_km_yn).length > 0) {
