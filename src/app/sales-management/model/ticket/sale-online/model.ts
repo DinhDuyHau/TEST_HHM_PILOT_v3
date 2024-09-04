@@ -46,7 +46,6 @@ export class MasterInfo extends BaseMasterInfo {
 }
 
 export class Merchandise extends BaseMerchandise {
-  s5 = 0;
   gia_ck = 0;
   tien_ck = 0;
   tien_ck_qd = 0;
@@ -54,6 +53,7 @@ export class Merchandise extends BaseMerchandise {
   tien_kmqd = 0;
   no_km_yn?: boolean = false;
   imei_mua = '';
+  status = '0';
 
   constructor(obj?: any) {
     super();
