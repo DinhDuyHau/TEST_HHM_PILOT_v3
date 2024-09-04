@@ -1,0 +1,73 @@
+<div class="bg-white p-4">
+    <div mat-dialog-title class="title">
+        Sửa giá điều chỉnh
+    </div>
+    <div mat-dialog-content>  
+        <div class="box-container mb-4">
+          <div class="box d-flex gap-2">
+            <form-input-custom
+              class="flex-1"
+              [disabled]="true"
+              [label]="'Giá bán'"
+              [align]="'end'"
+              [value]="data.item.gia_ban"
+              format="moneyInputFormat"
+              dataType="number" />
+  
+            <form-input-custom
+              class="flex-1"
+              [disabled]="true"
+              [align]="'end'"
+              [label]="'Giá chiết khấu'"
+              [value]="data.item.gia_ck"
+              format="moneyInputFormat"
+              dataType="number"/>
+
+              <form-input-custom
+              class="flex-1"
+              [disabled]="true"
+              [label]="'Thành tiền'"
+              [align]="'end'"
+              [value]="data.item.thanh_tien"
+              format="moneyInputFormat"
+              dataType="number" />  
+          </div>
+          <div class="box d-flex gap-2">
+            <form-input-custom
+              class="flex-1"
+              [disabled]="true"
+              [align]="'end'"
+              [label]="'Tiền thuế'"
+              [value]="data.item.tien_thue"
+              format="moneyInputFormat"
+              dataType="number"/>
+
+              <form-input-custom
+              class="flex-1"
+              [label]="'Giá điều chỉnh'"
+              [align]="'end'"
+              [value]="data.item.s5"
+              format="moneyInputFormat"
+              dataType="number"
+              (handleChangeValue)="handleTotal($event)"/>
+  
+            <form-input-custom
+              class="flex-1"
+              [disabled]="true"
+              [align]="'end'"
+              [label]="'Tổng tiền'"
+              [value]="tong_tien"
+              format="moneyInputFormat"
+              dataType="number"/>
+          </div>
+        </div>
+  
+    <div mat-dialog-actions class="gap-3 justify-end ml-5">
+      <div class="d-flex justify-end gap-2 m-2">
+        <div class="btn-responsive btn-cancel" (click)="onCancel()">Hủy bỏ</div>
+        <div class="btn-responsive btn-add" (click)="onSelect()">Chọn</div>
+      </div>
+    </div>
+  </div>
+  
+    
