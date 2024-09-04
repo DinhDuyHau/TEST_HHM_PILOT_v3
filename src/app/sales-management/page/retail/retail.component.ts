@@ -656,6 +656,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.ma_van_don = this.ticket.transport.cod.ma_van_don;
     this.ticket.masterInfo.tien_phi_cod = this.ticket.transport.cod.tien_phi_cod;
     this.ticket.masterInfo.ghi_chu_gh = this.ticket.transport.hhDelivery.ghi_chu_gh;
+    console.log(this.ticket.masterInfo.ma_loaivc);
 
     //check valid các trường số lượng và tiền trong grid hàng hóa và dịch vụ
     if (!this.retailService.isInvalidMerchandise(this.ticket.merchandise)) {
@@ -664,6 +665,18 @@ export class RetailComponent implements OnInit, AfterViewInit {
     }
     if (!this.retailService.isInvalidService(this.ticket.service)) {
       this.commonService.showMessage(Language.content.grid_service_invalid);
+      return;
+    }
+    if (this.ticket.masterInfo.ma_loaivc !== '03' && !this.ticket.masterInfo.ma_nvvc) {
+      this.commonService.showMessage(Language.content.invalid_ma_nvvc);
+      return;
+    }
+    if (this.ticket.masterInfo.ma_loaivc === '01' && !this.ticket.masterInfo.so_dh_vc) {
+      this.commonService.showMessage(Language.content.invalid_so_dh_vc);
+      return;
+    }
+    if (this.ticket.masterInfo.ma_loaivc === '01' && !this.ticket.masterInfo.ma_van_don) {
+      this.commonService.showMessage(Language.content.invalid_ma_van_don);
       return;
     }
 
