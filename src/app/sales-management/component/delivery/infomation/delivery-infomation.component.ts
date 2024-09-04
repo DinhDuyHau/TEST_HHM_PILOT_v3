@@ -15,6 +15,9 @@ import { Language } from '@app/sales-management/page/common/language';
 export class DeliveryInfomationComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() data!: Transport;
   @Input() readonly: boolean = false;
+  @Input() l_ma_don_vi: string = 'Mã đơn vị';
+  @Input() l_ten_don_vi: string = 'Tên đơn vị';
+  @Input() dataDefault: string = '';
 
   deliveryType = DELIVERY_TYPE;
   dataFormat = dataFormat;
@@ -29,6 +32,7 @@ export class DeliveryInfomationComponent implements OnInit, AfterViewInit, OnCha
   }
 
   ngOnInit(): void {
+    this.data.ma_loaivc = this.dataDefault;
   }
 
   ngAfterViewInit(): void {
