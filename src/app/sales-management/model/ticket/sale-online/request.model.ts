@@ -10,7 +10,7 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     tien_kmqd = 0;
     imei_mua = '';
     gia_vat = 0;
-    s4 = 0
+    s4 = 0;
     s5 = 0;
     constructor(obj?: any) {
         super();
