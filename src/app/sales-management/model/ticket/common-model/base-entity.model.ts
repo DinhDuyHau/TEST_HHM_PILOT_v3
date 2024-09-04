@@ -10,6 +10,8 @@ export class BaseEntity {
 }
 
 export class BaseMerchandise {
+    s4 = 0;
+    s5 = 0
     ma_nvbh_i = '';
     ma_vt = '';
     ten_vt = '';
