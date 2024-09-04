@@ -34,7 +34,7 @@ import { PromotionSelectComponent } from '@app/sales-management/component/promot
 
 const { DISCOUNT_LIST,
     GUARANTEE_LIST,
-    MERCHANDISE_LIST,
+    MERCHANDISE_ONLINE_LIST,
     SERVICE_LIST,
     PACKAGE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
@@ -51,7 +51,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     discountCanApply: Discount[] = [];
     uploadImageSuccess = false;
     uploading = true;
-    merchandiseColumns = MERCHANDISE_LIST;
+    merchandiseColumns = MERCHANDISE_ONLINE_LIST;
     serviceColumns = SERVICE_LIST;
     packageColumns = PACKAGE_LIST;
     discountColumns = DISCOUNT_LIST;
@@ -172,6 +172,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
         this.route.queryParams.subscribe((data: any) => {
             if (data.key) {
                 this.ticketApiService.getVoucherByid(TICKET_ENTITY.ONLINE, data.key).subscribe((result) => {
+                    console.log(result);
                     if (result.result) {
                         if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_ONLINE.CREATE) {
                             this.router.navigate(['/404']);
@@ -531,6 +532,10 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     // #region service
     onAddService(event: { item: Merchandise }) {
         this.saleOnlineService.addServiceForMerchandise(event.item, this.ticket);
+    }
+
+    onUpdateService(event: { item: Merchandise }) {
+        this.saleOnlineService.updateServiceForMerchandise(event.item);
     }
 
     // click button add service

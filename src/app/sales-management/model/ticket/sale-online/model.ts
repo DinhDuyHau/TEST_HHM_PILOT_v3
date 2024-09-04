@@ -46,6 +46,7 @@ export class MasterInfo extends BaseMasterInfo {
 }
 
 export class Merchandise extends BaseMerchandise {
+  s5 = 0;
   gia_ck = 0;
   tien_ck = 0;
   tien_ck_qd = 0;
