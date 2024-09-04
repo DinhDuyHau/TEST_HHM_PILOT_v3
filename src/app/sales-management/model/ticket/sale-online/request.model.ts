@@ -9,6 +9,9 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     no_km_yn = false;
     tien_kmqd = 0;
     imei_mua = '';
+    gia_vat = 0;
+    s4 = 0
+    s5 = 0;
     constructor(obj?: any) {
         super();
         Object.assign(this, obj);
