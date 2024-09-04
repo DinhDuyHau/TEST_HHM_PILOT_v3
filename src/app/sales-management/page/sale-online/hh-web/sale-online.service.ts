@@ -29,6 +29,7 @@ import { ServiceApiService } from '@app/sales-management/api/service-api.service
 import { PackageForImeiComponent } from '@app/sales-management/component/merchandise-service/package-for-imei/package-for-imei.component';
 import { PackageOfMerchandiseService } from '../../common/package.service';
 import { Package, PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
+import { SaleOnlineDialogComponent } from './sale-online-dialog/sale-online-dialog.component';
 
 @Injectable({
     providedIn: 'root'
@@ -396,6 +397,11 @@ export class SaleOnlineService {
                 }
             });
     }
+    //Sửa giá điều chỉnh
+    updateServiceForMerchandise(item: Merchandise) {
+        this.commonService.openDialog(SaleOnlineDialogComponent, { item }, 'fullscreen-dialog')
+            .afterClosed().subscribe(() => { this.calcMoney() });
+    }
 
     // Remove service
     removeService(item: Service, ticket: SaleOnlineTicket) {
@@ -443,12 +449,13 @@ export class SaleOnlineService {
     // + Nếu type = 0 thì sẽ tính lại chiết khấu và thực hiện cập nhật lại giá, tiền cho tất cả các vật tư trong chi tiết
     // + Nếu type = 1 thì sẽ không tính lại chiết khấu --> áp dụng khi xoá mặt hàng khuyến mãi --> chỉ cập nhật riêng cho hàng được khuyễn mãi
     calcMoney(type = 0) {
+        console.log(this.ticket.merchandise);
         // Cập nhật tổng số lượng cuối phiếu
         this.ticket.masterInfo.t_so_luong = this.ticket.merchandise.length + this.ticket.service.length;
 
         if (type == 0) {
             // Thực hiện cập nhật tiền cho chi tiết vật tư, chi tiết dịch vụ (bao gồm giá, chiết khấu, thuế, thành tiền)
-            this.merchandiseService.updatePriceForMerchandise(this.ticket, this.ticket.merchandise, this.ticket.service);
+            this.merchandiseService.updatePriceForMerchandiseOnline(this.ticket, this.ticket.merchandise, this.ticket.service);
         }
 
         // Tính tổng tiền của chi tiết vật tư
