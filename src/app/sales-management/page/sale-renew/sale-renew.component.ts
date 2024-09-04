@@ -585,7 +585,8 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.saleRenewService.getPriceRenew(ma_imei, ma_vt_thu_cu, imei_thu_cu).subscribe(result => {
+    const ngay_ct: Date = new Date(this.ticket.masterInfo.ngay_ct);
+    this.saleRenewService.getPriceRenew(ma_imei, ma_vt_thu_cu, imei_thu_cu, ngay_ct).subscribe(result => {
       if (result.success && result.result.length && result.result.length > 0) {
         const sale_item = result.result[0] as any;
         if (sale_item.gia_ban === 0 || sale_item.gia_vat === 0) {
@@ -1007,8 +1008,14 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
                 else {
                   sale_item!.tien_ht = tien_ht;
                   sale_item!.gia_vat -= tien_ht;
+
+                  //tính lại tiền trước thuế và tiền thuế
+                  sale_item!.gia_ban = Math.round(sale_item!.gia_vat / (1 + (sale_item!.thue_suat / 100)));
+                  sale_item!.tien_thue = sale_item!.gia_vat - sale_item!.gia_ban;
+                  if (sale_item!.tien_thue < 0) sale_item!.tien_thue = 0;
+                  sale_item!.gia_ck = sale_item!.gia_ban;
+                  sale_item!.thanh_tien = sale_item!.gia_ck * sale_item!.so_luong;
                   this.saleRenewService.calcMoney();
-                  console.log(sale_item);
                 }
 
               }

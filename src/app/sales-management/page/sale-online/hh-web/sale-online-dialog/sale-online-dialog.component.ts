@@ -22,7 +22,6 @@ export class SaleOnlineDialogComponent {
   ) {
   }
   ngOnInit(): void {
-    console.log(this.data.item)
     this.tong_tien = this.data.item.thanh_toan;
     this.gia_dc = this.data.item.s5;
   }

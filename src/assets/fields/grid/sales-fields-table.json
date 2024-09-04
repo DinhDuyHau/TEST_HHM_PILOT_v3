@@ -622,13 +622,6 @@
             "dataType": "number"
         },
         {
-            "name": "tien_ht",
-            "title": "Tiền hỗ trợ",
-            "format": "moneyView2Digit",
-            "align": "right",
-            "dataType": "number"
-        },
-        {
             "name": "gia_ban",
             "title": "Giá bán",
             "format": "moneyView2Digit",
@@ -672,6 +665,13 @@
             "name": "tien_ck",
             "title": "Tiền chiết khấu",
             "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tien_ht",
+            "title": "Tiền hỗ trợ",
+            "format": "moneyView2Digit",
             "align": "right",
             "dataType": "number"
         },

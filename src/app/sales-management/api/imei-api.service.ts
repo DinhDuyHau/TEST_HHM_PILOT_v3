@@ -35,9 +35,9 @@ export class ImeiApiService extends ApiService {
         return this.get<ResultNoPaging<Imei>>(GET_ONE_URL, { ma_imei, ma_cuahang, ma_ct, ma_kh });
     }
 
-    getImeiRenew(ma_imei: string, ma_cuahang: string, ma_ncc: string, list_vt: string[], imei_thu_cu: string = ''): Observable<ResultNoPaging<Imei>> {
+    getImeiRenew(ma_imei: string, ma_cuahang: string, ma_ncc: string, list_vt: string[], imei_thu_cu: string = '', ngay_ct: Date): Observable<ResultNoPaging<Imei>> {
         ma_imei = encodeURIComponent(ma_imei);
-        return this.post<ResultNoPaging<Imei>>(GET_IMEI_RENEW_URL, { ma_imei, ma_cuahang, ma_ncc, list_vt, imei_thu_cu });
+        return this.post<ResultNoPaging<Imei>>(GET_IMEI_RENEW_URL, { ma_imei, ma_cuahang, ma_ncc, list_vt, imei_thu_cu, ngay_ct: ngay_ct.toISOString() });
     }
     getOneById(body: {}): Observable<ResultNoPaging<Imei>> {
         return this.post<ResultNoPaging<Imei>>(GET_ONE_URL, body);

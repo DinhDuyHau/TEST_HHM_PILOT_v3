@@ -188,11 +188,11 @@ export class SaleRenewService {
     getImeiInStore(imei: string) {
         return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.RENEW);
     }
-    getPriceRenew(imei: string, ma_vt_mua: string = '', imei_thu_cu: string = '') {
+    getPriceRenew(imei: string, ma_vt_mua: string = '', imei_thu_cu: string = '', ngay_ct: Date) {
         // const list_vt = this.ticket.merchandise_used.map(x => x.ma_vt);
         let list_vt: any[] = [];
         if (ma_vt_mua && ma_vt_mua !== '') list_vt.push(ma_vt_mua);
-        return this.imeiApiService.getImeiRenew(imei, this.ticket.masterInfo.ma_cuahang, this.ticket.masterInfo.ma_ncc, list_vt, imei_thu_cu);
+        return this.imeiApiService.getImeiRenew(imei, this.ticket.masterInfo.ma_cuahang, this.ticket.masterInfo.ma_ncc, list_vt, imei_thu_cu, ngay_ct);
     }
     getMerchandiseInfo(ma_vt: string) {
         return this.merchandiseApiService.getOneById(ma_vt);
