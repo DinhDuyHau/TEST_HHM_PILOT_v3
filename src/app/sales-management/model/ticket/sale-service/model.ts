@@ -15,6 +15,7 @@ export const TAB_NAME = {
 };
 
 export class MasterInfo extends BaseMasterInfo {
+  dien_giai = '';
   t_con_no = 0;
   t_da_tra = 0;
   email_nhan_key = '';
