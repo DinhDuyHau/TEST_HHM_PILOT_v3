@@ -42,12 +42,12 @@
               format="moneyInputFormat"
               dataType="number"/>
 
-              <form-input-custom
+            <form-input-custom
               class="flex-1"
               [label]="'Giá điều chỉnh'"
               [align]="'end'"
               [value]="data.item.s5"
-              format="moneyInputFormat"
+              format="moneyNegativeInputFormat"
               dataType="number"
               (handleChangeValue)="handleTotal($event)"/>
   

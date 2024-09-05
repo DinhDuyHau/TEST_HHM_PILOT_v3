@@ -47,6 +47,8 @@ export class MerchandiseService {
         merchandiseNew.line_nbr = merchandises.length;
         //giá niêm yết (s4)
         merchandiseNew.s4 = merchandise.s4;
+        //giá điều chỉnh(s5)
+        merchandiseNew.s5 = 0;
         //imei xuất bán
         merchandiseNew.gc_td1 = merchandise.gc_td1;
         merchandises.push(merchandiseNew);
@@ -1293,6 +1295,7 @@ export class MerchandiseService {
         // let option: Option = new Option;
 
         merchandiseUpdate.map((e: any) => {
+            e.gia_ban = Math.round((e.gia_vat + e.s5) / (1 + e.thue_suat / 100));
             e.tien_ck += e.tien_ck_qd;
             e.gia_ck = e.gia_ban - (e.tien_ck / (1 + (e.thue_suat / 100)));
 
@@ -1302,6 +1305,13 @@ export class MerchandiseService {
             e.thanh_toan = ((e.gia_vat + e.s5) * e.so_luong) - e.tien_ck;
             e.thanh_tien = Math.round(e.thanh_toan / (1 + e.thue_suat / 100));
             e.tien_thue = e.thanh_toan - e.thanh_tien;
+
+            if (e.gia_ban < 0) {
+                e.gia_ban = 0;
+            }
+            else if (e.thanh_toan < 0) {
+                e.thanh_toan = 0;
+            }
 
         });
 
