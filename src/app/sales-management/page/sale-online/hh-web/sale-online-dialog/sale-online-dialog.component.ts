@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Merchandise, SaleOnlineEcommerceTicket } from '@app/sales-management/model/ticket/sale-online-ecommerce/model';
+import { Merchandise } from '@app/sales-management/model/ticket/sale-online/model';
 import { CommonService } from '../../../common/common.service';
 
 @Component({
