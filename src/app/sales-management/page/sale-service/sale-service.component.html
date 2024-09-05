@@ -72,6 +72,13 @@
         optionValue="status"
         [value]="ticket.masterInfo.status"
         (handleChangeValue)="ticket.masterInfo.status = $event" />
+      <form-input-custom
+        class="box"
+        [name]="'dien_giai'"
+        [label]="getLabel('lbl_dien_giai')"
+        [value]="ticket.masterInfo.dien_giai"
+        (handleChangeValue)="onChange_dien_giai($event)"
+        />
 
       <div class="d-flex box align-items-end gap-3 mt-3 align-self-end">
         <button
