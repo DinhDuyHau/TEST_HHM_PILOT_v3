@@ -299,7 +299,8 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
         return this.commonService.getMessage(label);
     }
 
+    onChange_dien_giai(event: any) {
+        this.ticket.masterInfo.dien_giai = event;
+    }
+
 }
-
-
-
