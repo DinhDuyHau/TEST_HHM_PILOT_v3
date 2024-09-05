@@ -1295,24 +1295,27 @@ export class MerchandiseService {
         // let option: Option = new Option;
 
         merchandiseUpdate.map((e: any) => {
-            e.gia_ban = Math.round((e.gia_vat + e.s5) / (1 + e.thue_suat / 100));
+            //giá vat đã áp dụng giá điều chỉnh
+            const gia_vat_dc = e.gia_vat + e.s5
+
+            e.gia_ban = Math.round(gia_vat_dc / (1 + e.thue_suat / 100));
             e.tien_ck += e.tien_ck_qd;
             e.gia_ck = e.gia_ban - (e.tien_ck / (1 + (e.thue_suat / 100)));
 
             //Xử lý làm tròn giá ck sau khi trừ bị âm hoặc trong khoảng 0-0.49
             e.gia_ck = (e.gia_ck < 0 || (e.gia_ck > 0 && e.gia_ck < 0.5)) ? Math.abs(Math.round(e.gia_ck)) : e.gia_ck;
 
-            e.thanh_toan = ((e.gia_vat + e.s5) * e.so_luong) - e.tien_ck;
+            e.thanh_toan = (gia_vat_dc * e.so_luong) - e.tien_ck;
             e.thanh_tien = Math.round(e.thanh_toan / (1 + e.thue_suat / 100));
             e.tien_thue = e.thanh_toan - e.thanh_tien;
 
             if (e.gia_ban < 0) {
                 e.gia_ban = 0;
+                e.gia_ck = 0;
             }
             else if (e.thanh_toan < 0) {
                 e.thanh_toan = 0;
             }
-
         });
 
         serviceUpdate.map((e: Service) => {
