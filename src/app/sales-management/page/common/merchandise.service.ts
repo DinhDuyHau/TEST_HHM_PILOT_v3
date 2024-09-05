@@ -47,6 +47,8 @@ export class MerchandiseService {
         merchandiseNew.line_nbr = merchandises.length;
         //giá niêm yết (s4)
         merchandiseNew.s4 = merchandise.s4;
+        //giá điều chỉnh(s5)
+        merchandiseNew.s5 = merchandise.s5;
         //imei xuất bán
         merchandiseNew.gc_td1 = merchandise.gc_td1;
         merchandises.push(merchandiseNew);
