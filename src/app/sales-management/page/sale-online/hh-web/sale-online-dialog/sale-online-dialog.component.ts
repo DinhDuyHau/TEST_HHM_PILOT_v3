@@ -31,7 +31,7 @@ export class SaleOnlineDialogComponent {
   }
   handleTotal(gia_dc: any) {
     this.gia_dc = gia_dc;
-    this.tong_tien = this.data.item.thanh_toan + gia_dc;
+    this.tong_tien = this.data.item.thanh_toan + (gia_dc - this.data.item.s5);
   }
   onCancel() {
     this.dialogRef.close();
