@@ -95,6 +95,24 @@
           >{{ getLabel('giam_gia_db') }}</mat-checkbox
         >
       </div>
+      <div class="d-flex gap-2 box">
+        <form-input-custom
+          class="flex-1"
+          [name]="'so_ct_ban'"
+          [label]="'Số phiếu bán'"
+          [value]="ticket.masterInfo.fcode2"
+          (handleChangeValue)="ticket.masterInfo.fcode2 = $event"
+          [disabled]="true" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ngay_ct_ban'"
+          [label]="'Ngày phiếu bán'"
+          [value]="ticket.masterInfo.fdate2"
+          (handleChangeValue)="ticket.masterInfo.fdate2 = $event"
+          format="datetimeFormat"
+          dataType="date"
+          [disabled]="true" />
+      </div>
       <div class="d-flex gap-2 box">&nbsp;</div>
       <div class="d-flex gap-2 box">&nbsp;</div>
 
