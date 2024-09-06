@@ -44,7 +44,7 @@
     >
     <div
       class="position-absolute top-0 end-0"
-      (click)="openDialog()"
+      (click)="openDialog($event)"
       *ngIf="handleClickOpenDialog.observers.length && !disabled">
       <button class="search-btn">
         <mat-icon>search</mat-icon>

@@ -29,6 +29,12 @@ import { CommonService } from '@app/sales-management/page/common/common.service'
 import { catchError, map, of } from 'rxjs';
 import { getDateFormat } from '@app/_common/commonFunction';
 
+import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '@app/sales-management/component/search/serach-dialog.component';
+import { Customer } from '@app/_components/category/customer/customer.model';
+import { DeliveryEmployeeApiService } from '@app/sales-management/api/delivery-employee-api.service';
+import { Language } from '@app/sales-management/page/common/language';
+
+
 @Component({
   selector: 'internal-sale-create',
   templateUrl: './create.component.html',
@@ -66,6 +72,8 @@ export class InternalSaleCreateComponent extends Grid<ReceiptDetail> implements 
   list_imei_old: string[] = [];
   entity = VOUCHER_TYPE.INTERNAL_SALE.sysid;
 
+  ten_nvvc = '';
+
 
   override gridType = GridType.GridDetail;
   constructor(
@@ -89,7 +97,8 @@ export class InternalSaleCreateComponent extends Grid<ReceiptDetail> implements 
     private statusVoucher: StatusVoucher,
     private commonService: CommonService,
     private el: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private deliveryEmployeeApiService: DeliveryEmployeeApiService
   ) {
     localStorage.setItem('useGridCached', '1');
     super(internalSaleDeatailService);
@@ -168,6 +177,9 @@ export class InternalSaleCreateComponent extends Grid<ReceiptDetail> implements 
         //
       }
       this.initCheckValidCreateDraft();
+
+      //Hiển thị tên nhân viên vận chuyển
+      this.onEnterDECode(item.masterInfo.fcode3);
     }));
     // this.data = {
     //   dien_giai: 'test nhu cau 444',
@@ -239,6 +251,9 @@ export class InternalSaleCreateComponent extends Grid<ReceiptDetail> implements 
     });
     this.data = {
       masterInfo: {
+        fcode1: '',
+        fcode2: '',
+        fcode3: '',
         dien_giai: '',
         stt_rec: '',
         ma_ct: 'PXB',
@@ -664,5 +679,38 @@ export class InternalSaleCreateComponent extends Grid<ReceiptDetail> implements 
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);
+  }
+
+  onOpenDialogTransport() {
+    this.commonService.openDialog(SearchDialogComponent,
+      { keyword: '', componentName: SEARCH_COMPONENT_NAME.DELIVERY_EMP, title: 'Danh sách đơn vị vận chuyển' }, 'search-style-dialog')
+      .afterClosed()
+      .subscribe((customer: Customer) => {
+        if (customer) {
+          this.data.masterInfo.fcode3 = customer.ma_kh;
+          this.ten_nvvc = customer.ten_kh;
+        }
+      })
+  }
+
+  onEnterDECode(ma_nvvc: string) {
+    if (!ma_nvvc) {
+      this.data.masterInfo.fcode3 = '';
+      this.ten_nvvc = '';
+      return;
+    }
+    this.deliveryEmployeeApiService.getOneById(ma_nvvc).subscribe(result => {
+      if (result.success && result.result) {
+        this.handleAddDeliveryEmpl((result.result as any));
+      } else {
+        this.commonService.showMessage(Language.content.Staff_not_exist);
+      }
+    });
+  }
+
+  handleAddDeliveryEmpl(empl: any) {
+    console.log(empl);
+    this.data.masterInfo.fcode3 = empl.ma_kh;
+    this.ten_nvvc = empl.ten_kh;
   }
 }

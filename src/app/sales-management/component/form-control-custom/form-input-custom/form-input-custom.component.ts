@@ -89,7 +89,8 @@ export class FormInputCustomComponent implements OnChanges, OnInit {
     this.handleClickSearch.emit();
   }
 
-  openDialog() {
+  openDialog(event: any) {
+    event.preventDefault();
     this.handleClickOpenDialog.emit();
   }
 

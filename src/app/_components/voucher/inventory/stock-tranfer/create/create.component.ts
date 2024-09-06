@@ -28,6 +28,11 @@ import { MODE, VOUCHER_TYPE } from '../../../enum/voucher_enum';
 import { CommonService } from '@app/sales-management/page/common/common.service';
 import { getDateFormat } from '@app/_common/commonFunction';
 
+import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '@app/sales-management/component/search/serach-dialog.component';
+import { Customer } from '@app/_components/category/customer/customer.model';
+import { DeliveryEmployeeApiService } from '@app/sales-management/api/delivery-employee-api.service';
+import { Language } from '@app/sales-management/page/common/language';
+
 @Component({
   selector: 'app-stock-tranfer-create',
   templateUrl: './create.component.html',
@@ -61,6 +66,7 @@ export class StockTranferCreateComponent extends Grid<ReceiptDetail> implements 
     { ma_loai: '1', ten_loai: '1 - Luân chuyển kho tại cửa hàng' },
     { ma_loai: '2', ten_loai: '2 - Điều chuyển hàng lỗi về kho tổng' }
   ];
+  ten_nvvc = '';
 
   override gridType = GridType.GridDetail;
   constructor(
@@ -84,7 +90,8 @@ export class StockTranferCreateComponent extends Grid<ReceiptDetail> implements 
     private stockTranferService: StockTranferService,
     private statusVoucher: StatusVoucher,
     private el: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private deliveryEmployeeApiService: DeliveryEmployeeApiService
   ) {
     localStorage.setItem('useGridCached', '1');
     super(stockTranferDetailService);
@@ -98,7 +105,7 @@ export class StockTranferCreateComponent extends Grid<ReceiptDetail> implements 
     this.onClickButton(event);
     if (event.buttonId == button.EditIMEIButton.id) {
       if (!event.data) {
-        this.commonService.showMessageByName('lblWarningEditRowIMEI');
+        //this.commonService.showMessageByName('lblWarningEditRowIMEI');
       }
       else {
         const data = { ...event.data };
@@ -154,6 +161,9 @@ export class StockTranferCreateComponent extends Grid<ReceiptDetail> implements 
       });
       this.t_so_luong = this.data.details[0].data.reduce((pre, item) => { return pre += item.so_luong; }, 0);
       this.dataSource = new MatTableDataSource<ReceiptDetail>(this.data.details[0].data);
+
+      //Hiển thị tên nhân viên vận chuyển
+      this.onEnterDECode(item.masterInfo.fcode3);
     }));
     // this.data = {
     //   dien_giai: 'test nhu cau 444',
@@ -236,7 +246,10 @@ export class StockTranferCreateComponent extends Grid<ReceiptDetail> implements 
         ngay_ct: getDateFormat(new Date()),
         ma_dvcs: '001',
         ma_ca: '01',
-        status: '0'
+        status: '0',
+        fcode1: '',
+        fcode2: '',
+        fcode3: ''
       },
       details: [
         {
@@ -587,5 +600,37 @@ export class StockTranferCreateComponent extends Grid<ReceiptDetail> implements 
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);
+  }
+
+  onOpenDialogTransport() {
+    this.commonService.openDialog(SearchDialogComponent,
+      { keyword: '', componentName: SEARCH_COMPONENT_NAME.DELIVERY_EMP, title: 'Danh sách đơn vị vận chuyển' }, 'search-style-dialog')
+      .afterClosed()
+      .subscribe((customer: Customer) => {
+        if (customer) {
+          this.data.masterInfo.fcode3 = customer.ma_kh;
+          this.ten_nvvc = customer.ten_kh;
+        }
+      })
+  }
+
+  onEnterDECode(ma_nvvc: string) {
+    if (!ma_nvvc) {
+      this.data.masterInfo.fcode3 = '';
+      this.ten_nvvc = '';
+      return;
+    }
+    this.deliveryEmployeeApiService.getOneById(ma_nvvc).subscribe(result => {
+      if (result.success && result.result) {
+        this.handleAddDeliveryEmpl((result.result as any));
+      } else {
+        this.commonService.showMessage(Language.content.Staff_not_exist);
+      }
+    });
+  }
+
+  handleAddDeliveryEmpl(empl: any) {
+    this.data.masterInfo.fcode3 = empl.ma_kh;
+    this.ten_nvvc = empl.ten_kh;
   }
 }
