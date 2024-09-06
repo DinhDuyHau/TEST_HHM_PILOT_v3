@@ -399,8 +399,11 @@ export class SaleOnlineService {
     }
     //Sửa giá điều chỉnh
     updateServiceForMerchandise(item: Merchandise) {
+        console.log(item);
         this.commonService.openDialog(SaleOnlineDialogComponent, { item }, 'fullscreen-dialog')
-            .afterClosed().subscribe(() => { this.calcMoney() });
+            .afterClosed().subscribe(res => {
+                if (res === 1) this.calcMoney()
+            });
     }
 
     // Remove service
@@ -449,13 +452,13 @@ export class SaleOnlineService {
     // + Nếu type = 0 thì sẽ tính lại chiết khấu và thực hiện cập nhật lại giá, tiền cho tất cả các vật tư trong chi tiết
     // + Nếu type = 1 thì sẽ không tính lại chiết khấu --> áp dụng khi xoá mặt hàng khuyến mãi --> chỉ cập nhật riêng cho hàng được khuyễn mãi
     calcMoney(type = 0) {
-        console.log(this.ticket.merchandise);
         // Cập nhật tổng số lượng cuối phiếu
         this.ticket.masterInfo.t_so_luong = this.ticket.merchandise.length + this.ticket.service.length;
 
         if (type == 0) {
             // Thực hiện cập nhật tiền cho chi tiết vật tư, chi tiết dịch vụ (bao gồm giá, chiết khấu, thuế, thành tiền)
             this.merchandiseService.updatePriceForMerchandiseOnline(this.ticket, this.ticket.merchandise, this.ticket.service);
+            console.log(this.ticket.merchandise);
         }
 
         // Tính tổng tiền của chi tiết vật tư
@@ -476,13 +479,13 @@ export class SaleOnlineService {
             .reduce((pre, cur) => pre + cur, 0);
 
         this.ticket.masterInfo.t_tien_nt2 = merchandiseMoney + serviceMoney;
-        this.ticket.masterInfo.t_thue_nt = this.commonService.rouding(serviceTax + merchandiseTax, this.option);
+        this.ticket.masterInfo.t_thue_nt = serviceTax + merchandiseTax;
         this.ticket.masterInfo.t_ck = this.ticket.discount.map(e => e.tien_ck).reduce((pre, cur) => pre + cur, 0);
         this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt;
-        this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt, this.option);
+        this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tt_nt;
 
         this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra - this.ticket.masterInfo.tien_coc;
-        this.ticket.masterInfo.t_con_no = this.commonService.rouding(this.ticket.masterInfo.t_con_no, this.option);
+        this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_con_no;
 
         this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);
 

@@ -172,7 +172,6 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
         this.route.queryParams.subscribe((data: any) => {
             if (data.key) {
                 this.ticketApiService.getVoucherByid(TICKET_ENTITY.ONLINE, data.key).subscribe((result) => {
-                    console.log(result);
                     if (result.result) {
                         if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_ONLINE.CREATE) {
                             this.router.navigate(['/404']);

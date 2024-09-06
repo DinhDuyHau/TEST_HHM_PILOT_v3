@@ -11,7 +11,7 @@
               [label]="'Giá bán'"
               [align]="'end'"
               [value]="data.item.gia_ban"
-              format="moneyInputFormat"
+              format="moneyViewNoDigit"
               dataType="number" />
   
             <form-input-custom
@@ -20,7 +20,7 @@
               [align]="'end'"
               [label]="'Giá chiết khấu'"
               [value]="data.item.gia_ck"
-              format="moneyInputFormat"
+              format="moneyViewNoDigit"
               dataType="number"/>
 
               <form-input-custom
@@ -29,7 +29,7 @@
               [label]="'Thành tiền'"
               [align]="'end'"
               [value]="data.item.thanh_tien"
-              format="moneyInputFormat"
+              format="moneyViewNoDigit"
               dataType="number" />  
           </div>
           <div class="box d-flex gap-2">
@@ -39,7 +39,7 @@
               [align]="'end'"
               [label]="'Tiền thuế'"
               [value]="data.item.tien_thue"
-              format="moneyInputFormat"
+              format="moneyViewNoDigit"
               dataType="number"/>
 
             <form-input-custom
@@ -57,7 +57,7 @@
               [align]="'end'"
               [label]="'Tổng tiền'"
               [value]="tong_tien"
-              format="moneyInputFormat"
+              format="moneyViewNoDigit"
               dataType="number"/>
           </div>
         </div>

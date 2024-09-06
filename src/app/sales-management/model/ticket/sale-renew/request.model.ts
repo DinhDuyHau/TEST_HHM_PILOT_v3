@@ -10,6 +10,11 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     tien_kmqd = 0;
     imei_mua = '';
     gia_vat = 0;
+    gc_td1 = '';
+    ma_gd_tcdm = '';
+    tien_ht = 0;
+    gia_bl = 0;
+    gia_bl_vat = 0;
 
     constructor(obj?: any) {
         super();
@@ -24,6 +29,8 @@ export class MerchandiseUsedRequest extends BaseMerchandiseRequest {
     tien = 0;
     tien_nt = 0;
     new_imei_yn = false;
+    gia0 = 0;
+    gc_td1 = '';
 
     constructor(obj?: any) {
         super();
@@ -39,6 +46,7 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     t_con_no = 0;
     tien_dat_coc = 0;
     ma_nvvc = '';
+    t_tien_ban = 0;
 
     //Thu cũ
     t_sl_thu_cu = 0;

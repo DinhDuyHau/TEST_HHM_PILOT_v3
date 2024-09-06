@@ -33,12 +33,12 @@ export class SaleOnlineDialogComponent {
     this.tong_tien = this.data.item.thanh_toan + (gia_dc - this.data.item.s5);
   }
   onCancel() {
-    this.dialogRef.close();
+    this.dialogRef.close(0);
   }
   onSelect(): void {
     this.data.item.thanh_toan = this.tong_tien;
     this.data.item.s5 = this.gia_dc;
-    this.dialogRef.close();
+    this.dialogRef.close(1);
   }
 
 }

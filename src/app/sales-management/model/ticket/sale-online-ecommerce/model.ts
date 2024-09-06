@@ -103,8 +103,6 @@ export class Merchandise extends BaseMerchandise {
   gia_tmdt = 0;
   gia_tmdt_vat = 0;
   tong_thue = 0;
-  s5 = 0;
-
 
   constructor(obj?: any) {
     super();

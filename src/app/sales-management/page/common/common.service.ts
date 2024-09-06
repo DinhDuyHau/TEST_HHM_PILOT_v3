@@ -246,6 +246,7 @@ export class CommonService {
         masterInfoNew.t_cp_khac_nt = masterInfoNew.t_cp_khac;
         masterInfoNew.ngay_ct = getDateFormat(new Date(masterInfoNew.ngay_ct));
         masterInfoNew.ngay_lct = masterInfoNew.ngay_ct;
+        masterInfoNew.s4 = masterInfoNew.t_tien_ban;
 
         Object.keys(masterInfoNew).forEach(key => {
             if (masterInfoNew[key] === undefined) {

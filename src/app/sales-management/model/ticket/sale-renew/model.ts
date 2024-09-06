@@ -46,6 +46,8 @@ export class MasterInfo extends BaseMasterInfo {
   t_tt = 0;
   t_con_no = 0;
   gia_nhap_mua = 0;
+  t_tien_ban = 0;
+  s4 = 0;
 
   //Thu cũ
   t_sl_thu_cu = 0;

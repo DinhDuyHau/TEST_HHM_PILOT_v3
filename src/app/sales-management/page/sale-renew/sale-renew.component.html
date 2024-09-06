@@ -344,7 +344,7 @@
             [disabled]="true"
             [align]="'end'"
             [label]="getLabel('lbl_tt_ban_moi')"
-            [value]="ticket.masterInfo.t_tien_nt2"
+            [value]="ticket.masterInfo.t_tien_ban"
             format="moneyViewFormat"
             dataType="number" />
         </div>
@@ -397,7 +397,6 @@
     <div>
       <ng-container>
         <payment-tab
-          [pay_hidden]="['tien_dat_coc']"
           [invalid]="invalid"
           [readonly]="readonly"
           [t_tong_tien]="ticket.masterInfo.t_tt_nt"

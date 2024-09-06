@@ -532,7 +532,6 @@ export class MerchandiseService {
             merchandise.thue_nt = merchandise.tien_thue;
             merchandise.tt = merchandise.thanh_toan;
             merchandise.tt_nt = merchandise.thanh_toan;
-
             //
 
             const rs = this.createNewMerchandise(merchandise, TCreator);
@@ -1304,6 +1303,7 @@ export class MerchandiseService {
 
             //Xử lý làm tròn giá ck sau khi trừ bị âm hoặc trong khoảng 0-0.49
             e.gia_ck = (e.gia_ck < 0 || (e.gia_ck > 0 && e.gia_ck < 0.5)) ? Math.abs(Math.round(e.gia_ck)) : e.gia_ck;
+            e.gia_ck = Math.round(e.gia_ck);
 
             e.thanh_toan = (gia_vat_dc * e.so_luong) - e.tien_ck;
             e.thanh_tien = Math.round(e.thanh_toan / (1 + e.thue_suat / 100));

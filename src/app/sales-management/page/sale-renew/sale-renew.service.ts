@@ -73,6 +73,8 @@ export class SaleRenewService {
     // #region init
     loadData(data: VoucherDto) {
         this.ticket.masterInfo = this.commonService.convertMasterInfoFromVoucher(data.masterInfo, MasterInfo);
+        this.ticket.masterInfo.t_tien_ban = this.ticket.masterInfo.s4;
+
         this.customerApiService.getOneById(data.masterInfo.ma_kh).subscribe(result => {
             const customer = result.result as any;
             this.ticket.masterInfo.ten_kh = customer.ten_kh;
@@ -486,6 +488,8 @@ export class SaleRenewService {
         this.ticket.masterInfo.t_tt_nt = (t_tt_hanghoa + t_tt_dichvu) - this.ticket.masterInfo.t_tc_tien_nt2;
         this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tt_nt < 0 ? 0 : this.ticket.masterInfo.t_tt_nt;
         this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra;
+
+        this.ticket.masterInfo.t_tien_ban = t_tt_hanghoa + t_tt_dichvu;
 
         this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);
     }

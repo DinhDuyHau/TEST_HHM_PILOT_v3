@@ -657,7 +657,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.ma_van_don = this.ticket.transport.cod.ma_van_don;
     this.ticket.masterInfo.tien_phi_cod = this.ticket.transport.cod.tien_phi_cod;
     this.ticket.masterInfo.ghi_chu_gh = this.ticket.transport.hhDelivery.ghi_chu_gh;
-    console.log(this.ticket.masterInfo.ma_loaivc);
 
     //check valid các trường số lượng và tiền trong grid hàng hóa và dịch vụ
     if (!this.retailService.isInvalidMerchandise(this.ticket.merchandise)) {

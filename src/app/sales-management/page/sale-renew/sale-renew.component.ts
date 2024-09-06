@@ -364,12 +364,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise_new_sale, Merchandise);
 
       //nếu tiền hỗ trợ lấy từ khai báo trong danh mục giá bán (hàng thu cũ) > 0 => set mã giao dịch TCĐM là '1', ngược lại set = '2'
-      if (merchandiseResponse.tien_ht > 0) {
-        this.ticket.merchandise_new_sale[0].ma_gd_tcdm = '1';
-      }
-      else {
-        this.ticket.merchandise_new_sale[0].ma_gd_tcdm = '2';
-      }
+      this.ticket.merchandise_new_sale[0].ma_gd_tcdm = merchandiseResponse.ma_gd_tcdm;
 
       if (merchandiseResponse.promotions && merchandiseResponse.promotions.length) {
         const discount = this.discountService.convertPromotionToDiscount(merchandiseResponse.promotions);
@@ -976,6 +971,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         if (res) {
           const sale_item = this.ticket.merchandise_new_sale.find(x => x.ma_imei.trim() === event.item.gc_td1.trim());
           const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+
           this.saleRenewService.adjustBuyPrice(ngay_ct, this.ticket.masterInfo.ma_ncc, res, sale_item!)?.pipe().subscribe(result => {
             if (result && result.success && result.result) {
               const tien_max = Number(result.result[0].tien_dc_max);

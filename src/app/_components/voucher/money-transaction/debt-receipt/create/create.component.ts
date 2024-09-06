@@ -171,6 +171,7 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
               index += 1;
               this.data.details[0].data.push({
                 stt_rec0: '',
+                ma_cuahang: item.ma_cuahang,
                 line_nbr: index,
                 stt_rec_tt: item.stt_rec,
                 so_hd_tt: item.so_ct,
@@ -185,6 +186,7 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
                 dien_giai: item.dien_giai
               });
             });
+            console.log(this.data.details[0].data)
             this.openDialogDebtList(this.data.details[0].data);
 
           } else {
