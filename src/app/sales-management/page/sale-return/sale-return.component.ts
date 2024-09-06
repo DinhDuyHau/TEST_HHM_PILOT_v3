@@ -268,6 +268,10 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
                 }
               })
 
+              this.ticket.masterInfo.fcode2 = result.result.masterInfo.so_ct;
+              this.ticket.masterInfo.fdate2 = result.result.masterInfo.ngay_ct;
+
+
               //tính số tiền còn nợ
               this.ticket.masterInfo.t_con_no = Math.abs(this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra);
 
@@ -328,7 +332,6 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
       this.commonService.showMessage(message);
     } else if (!message) {
       const voucherDto = this.saleReturnService.prepareVoucher();
-
       this.route.queryParams.subscribe((data: any) => {
         if (this.mode === MODE.UPDATE && !this.isSaving) {
           this.isSaving = true;
@@ -476,7 +479,6 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
     //tính lại số tiền còn nợ
     this.ticket.masterInfo.t_con_no = Math.abs(this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra);
   }
-
 }
 
 

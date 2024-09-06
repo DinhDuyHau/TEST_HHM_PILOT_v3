@@ -297,7 +297,8 @@
     </tabs-custom>
 
     <ng-container>
-      <payment-tab
+      
+        <payment-tab
         [invalid]="invalid"
         [readonly]="readonly"
         [pay_hidden]="[
@@ -323,7 +324,29 @@
           ticket.masterInfo.t_con_no = $event.t_con_no;
           ticket.masterInfo.t_da_tra = $event.t_da_tra
         " />
-    </ng-container>
+
+    <div class="d-flex gap-2 ">
+      <form-input-custom
+        class="col-4"
+        [name]="'so_ct'"
+        [label]="'Số phiếu bán'"
+        [value]="ticket.masterInfo.fcode2"
+        [disabled]="true"
+        (handleChangeValue)="ticket.masterInfo.fcode2= $event"/>
+      <form-input-custom
+        class="col-4"
+        [name]="'ngay_ct'"
+        [label]="'Ngày phiếu bán'"
+        [value]="ticket.masterInfo.fdate2"
+        format="datetimeFormat"
+        dataType="date"
+        [disabled]="true"
+        (handleChangeValue)="ticket.masterInfo.fdate2= $event"/>
+    </div>
+   </ng-container>
+    
+     
+
 
     <div>
       <div class="title-content p-2">{{ getLabel('lbl_tc_don_hang') }}</div>

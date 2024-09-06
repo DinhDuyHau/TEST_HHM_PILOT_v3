@@ -22,6 +22,8 @@ export const TAB_NAME = {
 export class MasterInfo extends BaseMasterInfo {
   dien_giai = '';
   fcode1 = '';
+  fcode2 = '';
+  fdate2 = '';
   t_ck = 0;
   t_tien_tnk = 0;   // Thu nhập khác
   email_nhan_key = '';
