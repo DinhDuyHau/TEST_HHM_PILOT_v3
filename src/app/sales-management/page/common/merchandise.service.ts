@@ -1309,13 +1309,6 @@ export class MerchandiseService {
             e.thanh_tien = Math.round(e.thanh_toan / (1 + e.thue_suat / 100));
             e.tien_thue = e.thanh_toan - e.thanh_tien;
 
-            if (e.gia_ban < 0) {
-                e.gia_ban = 0;
-                e.gia_ck = 0;
-            }
-            else if (e.thanh_toan < 0) {
-                e.thanh_toan = 0;
-            }
         });
 
         serviceUpdate.map((e: Service) => {
