@@ -407,7 +407,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
           return;
         }
         const merchandise = result.result[0];
-        console.log(merchandise);
         this.handleAddImei(merchandise);
         // this.handleAddGuarantee(merchandise);
 

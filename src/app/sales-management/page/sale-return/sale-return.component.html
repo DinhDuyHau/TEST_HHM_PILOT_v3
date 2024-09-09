@@ -90,6 +90,10 @@
 
       <div class="d-flex gap-2 box">
         <mat-checkbox
+          class="box flex items-end flex-1 justify-start"
+          [(ngModel)]="isCODReturn"
+          >Trả lại đơn COD</mat-checkbox>
+        <mat-checkbox
           class="box flex items-end flex-1 justify-end"
           [(ngModel)]="isSaleDown"
           >{{ getLabel('giam_gia_db') }}</mat-checkbox
@@ -113,9 +117,8 @@
           dataType="date"
           [disabled]="true" />
       </div>
-      <div class="d-flex gap-2 box">&nbsp;</div>
-      <div class="d-flex gap-2 box">&nbsp;</div>
 
+      <div class="d-flex gap-2 box">&nbsp;</div>
       <div class="d-flex gap-2 box">
         <form-input-custom
           *ngIf="isSaleDown"
@@ -148,7 +151,7 @@
       <div class="d-flex gap-2 box">
         <form-input-custom
           *ngIf="isSaleDown"
-          class="box order-dynamic-2 flex-1"
+          class="flex-1"
           [name]="'ma_asm'"
           [label]="getLabel('lbl_ma_asm')"
           [value]="ma_asm"
@@ -159,7 +162,7 @@
 
         <form-input-custom
           *ngIf="isSaleDown"
-          class="box order-dynamic-2 flex-1"
+          class="flex-1"
           [name]="'ten_asm'"
           [label]="getLabel('lbl_ten_asm')"
           [value]="ten_asm"
@@ -315,7 +318,6 @@
     </tabs-custom>
 
     <ng-container>
-      
         <payment-tab
         [invalid]="invalid"
         [readonly]="readonly"
@@ -342,29 +344,7 @@
           ticket.masterInfo.t_con_no = $event.t_con_no;
           ticket.masterInfo.t_da_tra = $event.t_da_tra
         " />
-
-    <div class="d-flex gap-2 ">
-      <form-input-custom
-        class="col-4"
-        [name]="'so_ct'"
-        [label]="'Số phiếu bán'"
-        [value]="ticket.masterInfo.fcode2"
-        [disabled]="true"
-        (handleChangeValue)="ticket.masterInfo.fcode2= $event"/>
-      <form-input-custom
-        class="col-4"
-        [name]="'ngay_ct'"
-        [label]="'Ngày phiếu bán'"
-        [value]="ticket.masterInfo.fdate2"
-        format="datetimeFormat"
-        dataType="date"
-        [disabled]="true"
-        (handleChangeValue)="ticket.masterInfo.fdate2= $event"/>
-    </div>
    </ng-container>
-    
-     
-
 
     <div>
       <div class="title-content p-2">{{ getLabel('lbl_tc_don_hang') }}</div>

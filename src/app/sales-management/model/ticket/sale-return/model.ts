@@ -29,7 +29,8 @@ export class MasterInfo extends BaseMasterInfo {
   email_nhan_key = '';
   t_con_no = 0;
   t_da_tra = 0;
-
+  stt_rec_hd = '';
+  tra_lai_cod = false;
 
   constructor(obj?: any) {
     super();

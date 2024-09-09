@@ -526,7 +526,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     this.data.quet_the_tra_gop.ma_may_pos = pos.ma_pos;
   }
 
-  validate() {
+  validateFail() {
     if (this.data.quet_the_tra_gop.selected && !this.data.quet_the_tra_gop.ma_may_pos.trim() && !this.data.quet_the_tra_gop.ma_dv_tragop.trim()) {
       this.invalid.quet_the_tra_gop.ma_may_pos = true;
       this.invalid.quet_the_tra_gop.ma_dv_tragop = true;
@@ -540,11 +540,15 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       this.invalid.voucher_doi_tac.ma_ctr = true;
       return true;
     }
+    if (this.t_con_no < 0) {
+      this.commonService.showMessage("Tiền còn nợ không được là số âm");
+      return true;
+    }
     return false;
   }
 
   onCancel() {
-    if (this.validate()) {
+    if (this.validateFail()) {
       return;
     } else {
       this.dialogRef.close({ t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, nguoi_duyet_ck: this.approveDiscount, t_chi_phi: this.t_tien_phi });
