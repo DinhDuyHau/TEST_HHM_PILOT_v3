@@ -484,6 +484,11 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    if (!this.ten_nvvc) {
+      this.commonService.showMessage(Language.content.invalid_ma_nvvc);
+      return;
+    }
+
     this.invalid && this.commonService.showMessage(Language.content.Missing_information);
     if (message) {
       this.commonService.showMessage(message);
@@ -492,6 +497,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       this.ticket.masterInfo.t_so_luong = this.ticket.merchandise.reduce((total, currentValue) => {
         return total + currentValue.so_luong;
       }, 0);
+
 
       const voucherDto = this.stockTransferService.prepareVoucher();
       this.route.queryParams.subscribe((data: any) => {

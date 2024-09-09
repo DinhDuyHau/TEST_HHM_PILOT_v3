@@ -335,6 +335,10 @@ export class InternalSaleCreateComponent extends Grid<ReceiptDetail> implements 
       this.commonService.showMessage(this.checkDuplicateIMEI(all_imei));
       return;
     }
+    if (!this.ten_nvvc) {
+      this.commonService.showMessage(Language.content.invalid_ma_nvvc);
+      return;
+    }
     const imeiInvalid = this.data.details[0].data.filter((item) => {
       if (item.ma_imei) {
         let list_imei = item.ma_imei.split(',');

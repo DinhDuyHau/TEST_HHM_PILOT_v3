@@ -316,6 +316,10 @@ export class StockTranferCreateComponent extends Grid<ReceiptDetail> implements 
           all_imei = [...all_imei, ...detail.ma_imei.split(',').map((item: string) => item.trim())];
         }
       });
+      if (!this.ten_nvvc) {
+        this.commonService.showMessage(Language.content.invalid_ma_nvvc);
+        return;
+      }
       if (this.checkDuplicateIMEI(all_imei) !== '') {
         this.commonService.showMessage(this.checkDuplicateIMEI(all_imei));
         return;
