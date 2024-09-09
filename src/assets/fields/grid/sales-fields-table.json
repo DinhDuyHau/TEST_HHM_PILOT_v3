@@ -416,9 +416,10 @@
       "title": "Mã vật tư"
     },
     {
-      "name": "ten_vt",
-      "title": "Tên vật tư",
-      "width": "300px"
+        "name": "ten_vt",
+        "title": "Tên vật tư",
+        "width": "300px",
+        "min-width": "50px"
     },
     {
       "name": "ma_imei",
@@ -442,9 +443,9 @@
       "align": "center"
     },
     {
-      "name": "gia_ban",
+      "name": "gia_vat",
       "title": "Giá niêm yết",
-      "format": "moneyView2Digit",
+      "format": "moneyViewNoDigit",
       "align": "right",
       "dataType": "number"
     },
@@ -743,7 +744,9 @@
         },
         {
             "name": "ten_vt",
-            "title": "Tên vật tư"
+            "title": "Tên vật tư",
+            "width": "300px",
+            "min-width": "50px"
         },
         {
             "name": "ma_imei",
@@ -841,7 +844,9 @@
         },
         {
             "name": "ten_vt",
-            "title": "Tên vật tư"
+            "title": "Tên vật tư",
+            "width": "300px",
+            "min-width": "50px"
         },
         {
             "name": "ma_imei",
@@ -907,7 +912,9 @@
         },
         {
             "name": "ten_vt",
-            "title": "Tên vật tư"
+            "title": "Tên vật tư",
+            "width": "300px",
+            "min-width": "50px"
         },
         {
             "name": "ma_imei",
@@ -940,7 +947,9 @@
         },
         {
             "name": "ten_vt",
-            "title": "Tên vật tư"
+            "title": "Tên vật tư",
+            "width": "300px",
+            "min-width": "50px"
         },
         {
             "name": "ma_imei",
@@ -1011,7 +1020,9 @@
         },
         {
             "name": "ten_vt",
-            "title": "Tên vật tư"
+            "title": "Tên vật tư",
+            "width": "300px",
+            "min-width": "50px"
         },
         {
             "name": "dvt",
@@ -1039,7 +1050,9 @@
         },
         {
             "name": "ten_vt",
-            "title": "Tên vật tư"
+            "title": "Tên vật tư",
+            "width": "300px",
+            "min-width": "50px"
         },
         {
             "name": "ma_imei",

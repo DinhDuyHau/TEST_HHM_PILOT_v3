@@ -37,6 +37,7 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     email_nhan_key = '';
     fcode2 = '';
     fdate2: string = Date();
+    stt_rec_hd = '';
 
     constructor(obj?: any) {
         super();

@@ -216,9 +216,13 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
         if (!this.ticket.masterInfo.ma_kh) {
           this.onEnterCustomerCode(result.result.masterInfo.ma_kh);
         }
+
         const merchandise = result.result.details[0].data;
         const service = result.result.details[1].data;
-        this.merchandiseService.convertFromVoucher(merchandise.filter((x: any) => x.ma_imei.trim() === ma_imei.trim()), this.ticket.merchandise_return, Merchandise);
+        const src_merchandise = merchandise.filter((x: any) => x.ma_imei.trim() === ma_imei.trim());
+        src_merchandise.forEach((x: any) => x.stt_rec_dh = x.stt_rec);
+
+        this.merchandiseService.convertFromVoucher(src_merchandise, this.ticket.merchandise_return, Merchandise);
         this.serviceOfMerchandiseService.convertFromVoucher(service.filter((x: any) => x.ma_imei.trim() === ma_imei.trim()), this.ticket.service);
         this.ticket.service.forEach(x => {
           x.ma_imei_tra = ma_imei;

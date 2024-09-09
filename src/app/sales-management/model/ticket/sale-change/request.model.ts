@@ -8,6 +8,7 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     ck_nt = 0;
     km_yn = false;
     imei_mua = '';
+    stt_rec_dh = '';
 
     constructor(obj?: any) {
         super();

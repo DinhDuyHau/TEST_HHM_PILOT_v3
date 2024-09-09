@@ -55,6 +55,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
   };
   previewImage = '';
 
+  isCODReturn = false;
   isSaleDown = false;
   rate = '0';
   rateMax = 100;
@@ -136,6 +137,9 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
               this.router.navigate(['/404']);
             }
             this.saleReturnService.loadData(result.result as any as VoucherDto);
+            this.isCODReturn = this.ticket.masterInfo.tra_lai_cod;
+            this.ticket.masterInfo.fcode1 = this.ticket.masterInfo.fcode1.trim();
+
             this.commonService.addToImeisInVoucher(this.ticket.merchandise.filter(e => e.ma_imei).map(e => e.ma_imei));
             getStatusList();
             this.commonService.getPointRateExchange(this.ticket);
@@ -150,7 +154,8 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
     });
 
     //mặc định loại giao dịch
-    this.ticket.masterInfo.fcode1 = '01';
+    if (this.mode === MODE.CREATE)
+      this.ticket.masterInfo.fcode1 = '01';
   }
 
   // #region customer
@@ -268,6 +273,8 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
                 }
               })
 
+              //Lưu thông tin stt_rec, so_ct, ngay_ct của đơn hàng bán vào phiếu trả lại
+              this.ticket.masterInfo.stt_rec_hd = result.result.masterInfo.stt_rec;
               this.ticket.masterInfo.fcode2 = result.result.masterInfo.so_ct;
               this.ticket.masterInfo.fdate2 = result.result.masterInfo.ngay_ct;
 
@@ -332,6 +339,10 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
       this.commonService.showMessage(message);
     } else if (!message) {
       const voucherDto = this.saleReturnService.prepareVoucher();
+
+      //mapping checkbox trả lại COD
+      voucherDto.masterInfo.tra_lai_cod = this.isCODReturn;
+
       this.route.queryParams.subscribe((data: any) => {
         if (this.mode === MODE.UPDATE && !this.isSaving) {
           this.isSaving = true;
