@@ -162,6 +162,39 @@
       </tab-custom>
     </tabs-custom>
 
+    <div class="transport d-flex flex-1 gap-3">
+      <div class="d-flex gap-3 col-6">
+        <form-input-custom
+          class="flex-1"
+          [name]="'so_dh_vc'"
+          [label]="'Mã đơn hàng'"
+          [value]="ticket.masterInfo.fcode1"
+          (handleChangeValue)="ticket.masterInfo.fcode1 = $event" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ma_van_don'"
+          [label]="'Mã vận đơn'"
+          [value]="ticket.masterInfo.fcode2"
+          (handleChangeValue)="ticket.masterInfo.fcode2 = $event" />
+      </div>
+      <div class="d-flex gap-3 col-6">
+        <form-input-custom
+          class="flex-1"
+          [name]="'ma_nv_giao'"
+          [label]="'Mã NV vận chuyển'"
+          [value]="ticket.masterInfo.fcode3"
+          (handleEnterInput)="onEnterDECode($event)"
+          (handleClickOpenDialog)="onOpenDialogTransport()"/>
+        <form-input-custom
+          class="flex-1"
+          [name]="'ten_kh'"
+          [label]="'Tên NV vận chuyển'"
+          [value]="ten_nvvc"
+          [readonly]="true"
+          [disabled]="true" />
+      </div>
+    </div>
+
     <div>
       <div class="d-flex justify-end gap-2 m-3">
         <app-voucher-info

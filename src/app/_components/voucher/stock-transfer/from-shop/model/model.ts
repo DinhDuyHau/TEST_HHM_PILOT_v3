@@ -30,6 +30,9 @@ export class MasterInfo extends BaseMasterInfo {
     ma_khon = '';
     ten_khon = '';
     fnote2 = '';
+    fcode1 = '';
+    fcode2 = '';
+    fcode3 = '';
 
     constructor(obj?: any) {
         super();

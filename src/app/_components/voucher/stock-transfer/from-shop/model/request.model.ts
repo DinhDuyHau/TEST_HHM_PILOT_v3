@@ -34,6 +34,9 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     ma_khon = '';
     ma_cuahang_n = '';
     fnote2 = '';
+    fcode1 = '';
+    fcode2 = '';
+    fcode3 = '';
 
     constructor(obj?: any) {
         super();

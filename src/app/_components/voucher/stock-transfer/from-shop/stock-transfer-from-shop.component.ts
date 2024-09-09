@@ -18,6 +18,9 @@ import { STATUS, STOCK_TRANSFER_TICKET_CODE, STOCK_TRANSFER_TICKET_ENTITY } from
 import { ImportImeiComponent } from '../import-imei/import-imei.component';
 import { IMEIService } from '@app/_services/imei.service';
 
+import { Customer } from '@app/_components/category/customer/customer.model';
+import { DeliveryEmployeeApiService } from '@app/sales-management/api/delivery-employee-api.service';
+
 const {
   MERCHANDISE_LIST
 } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json');
@@ -67,6 +70,8 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   stocks: any[] = JSON.parse(localStorage.getItem('stock') || "[]");
   shops = JSON.parse(localStorage.getItem('shop') || "[]");
 
+  ten_nvvc = '';
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -75,7 +80,8 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
     private ticketApiService: TicketApiService,
     private commonService: CommonService,
     private merchandiseService: MerchandiseService,
-    private imeiService: IMEIService
+    private imeiService: IMEIService,
+    private deliveryEmployeeApiService: DeliveryEmployeeApiService
   ) {
     localStorage.setItem('useGridCached', '1');
     this.stockTransferService.setTicket(this.ticket, this.option);
@@ -133,6 +139,9 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
             this.commonService.addToImeisInVoucher(this.ticket.merchandise.filter(e => e.ma_imei).map(e => e.ma_imei));
             getStatusList();
             this.tabIndexFocusFirst = this.tabIndex.imei;
+
+            //Hiển thị tên nhân viên vận chuyển
+            this.onEnterDECode(this.ticket.masterInfo.fcode3);
           }
         });
       } else {
@@ -538,6 +547,38 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);
+  }
+
+  onOpenDialogTransport() {
+    this.commonService.openDialog(SearchDialogComponent,
+      { keyword: '', componentName: SEARCH_COMPONENT_NAME.DELIVERY_EMP, title: 'Danh sách đơn vị vận chuyển' }, 'search-style-dialog')
+      .afterClosed()
+      .subscribe((customer: Customer) => {
+        if (customer) {
+          this.ticket.masterInfo.fcode3 = customer.ma_kh;
+          this.ten_nvvc = customer.ten_kh;
+        }
+      })
+  }
+
+  onEnterDECode(ma_nvvc: string) {
+    if (!ma_nvvc) {
+      this.ticket.masterInfo.fcode3 = '';
+      this.ten_nvvc = '';
+      return;
+    }
+    this.deliveryEmployeeApiService.getOneById(ma_nvvc).subscribe(result => {
+      if (result.success && result.result) {
+        this.handleAddDeliveryEmpl((result.result as any));
+      } else {
+        this.commonService.showMessage(Language.content.Staff_not_exist);
+      }
+    });
+  }
+
+  handleAddDeliveryEmpl(empl: any) {
+    this.ticket.masterInfo.fcode3 = empl.ma_kh;
+    this.ten_nvvc = empl.ten_kh;
   }
 
 }
