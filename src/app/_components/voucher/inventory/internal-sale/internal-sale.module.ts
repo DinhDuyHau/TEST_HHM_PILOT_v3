@@ -26,6 +26,7 @@ import { FormSelectCustomModule } from '@app/sales-management/component/form-con
 import { TabCustomModule } from '@app/sales-management/component/form-control-custom/tab/tab.module';
 import { TabsCustomModule } from '@app/sales-management/component/form-control-custom/tabs/tabs.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
+import { FormInputCustomModule } from '@app/sales-management/component/form-control-custom/form-input-custom/form-input-custom.module';
 
 
 
@@ -56,7 +57,8 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
     ReactiveFormsModule,
     TabCustomModule,
     TabsCustomModule,
-    VoucherInfoModule
+    VoucherInfoModule,
+    FormInputCustomModule
   ],
   exports: [
     InternalSaleComponent,

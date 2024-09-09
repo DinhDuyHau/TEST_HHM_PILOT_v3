@@ -24,6 +24,9 @@ export interface DetailInfo {
 }
 
 export interface MasterInfo {
+    fcode1: string,
+    fcode2: string,
+    fcode3: string,
     stt_rec?: string,
     ma_ct?: string,
     so_ct?: string,

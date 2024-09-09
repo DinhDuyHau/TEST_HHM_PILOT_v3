@@ -50,7 +50,8 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
     ReactiveFormsModule,
     TabCustomModule,
     TabsCustomModule,
-    VoucherInfoModule
+    VoucherInfoModule,
+    FormInputCustomModule
   ],
   exports: [StockTranferComponent, StockTranferCreateComponent]
 })
