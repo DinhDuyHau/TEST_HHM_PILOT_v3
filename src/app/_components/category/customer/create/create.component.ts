@@ -11,6 +11,8 @@ import { Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { getResource } from '@app/_common/commonFunction';
 import { CommonService } from '@app/sales-management/page/common/common.service';
+import { Language } from '@app/sales-management/page/common/language';
+
 @Component({
   selector: 'app-customer-create',
   templateUrl: './create.component.html',
@@ -32,6 +34,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
   loading = false;
   disabled = false;
   invalid = false;
+  disabled_ma_kh = false;
 
   mode = 1;
   submitButtonTitle = '';
@@ -74,6 +77,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
             this.mode = MODE.UPDATE;
             this.submitButtonTitle = 'Sửa';
             this.cancelButtonTitle = 'Hủy bỏ';
+            this.disabled_ma_kh = true;
             break;
           case 'view':
             this.disabled = true;
@@ -118,6 +122,10 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
   }
   onSubmit() {
     this.submitted = true;
+    if (this.containsSpecialCharacters(this.customer.ma_kh)) {
+      this.commonService.showMessage(Language.content.invalid_ma_kh);
+      return;
+    }
     if (this.checkInvalidForm(this.customer))
       return;
     this.loading = true;
@@ -215,7 +223,6 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
       }
     });
   }
-
   checkInvalid(control: string) {
     if (control == 'ma_kh') {
       if (this.customer.ma_kh == '') {
@@ -236,5 +243,8 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
       }
     }
     return false;
+  }
+  containsSpecialCharacters(input: string): boolean {
+    return /[^a-zA-Z0-9\s]/.test(input);
   }
 }
