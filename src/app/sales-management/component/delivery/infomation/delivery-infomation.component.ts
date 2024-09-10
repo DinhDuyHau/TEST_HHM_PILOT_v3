@@ -28,7 +28,6 @@ export class DeliveryInfomationComponent implements OnInit, AfterViewInit, OnCha
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-
   }
 
   ngOnInit(): void {
@@ -76,6 +75,7 @@ export class DeliveryInfomationComponent implements OnInit, AfterViewInit, OnCha
   }
 
   handleAddDeliveryEmpl(empl: any) {
+    this.data.hhDelivery.ma_nv_giao = empl.ma_kh;
     this.data.hhDelivery.ten_nv = empl.ten_kh;
     this.data.cod.ten_nv = empl.ten_kh;
   }

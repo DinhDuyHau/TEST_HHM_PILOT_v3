@@ -153,7 +153,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.ticket.transport.cod.ma_van_don = result.masterInfo.ma_van_don;
     this.ticket.transport.cod.tien_phi_cod = result.masterInfo.tien_phi_cod;
     this.ticket.transport.hhDelivery.ghi_chu_gh = result.masterInfo.ghi_chu_gh;
-    this.onEnterDECode(this.ticket.transport.hhDelivery.ma_nv_giao);
+    this.onEnterDECode(result.masterInfo.ma_nvvc);
   }
   ngOnInit() {
     this.route.url.subscribe(urlSegment => {
@@ -193,7 +193,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.route.queryParams.pipe().subscribe((data: any) => {
       if (data.key) {
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.RETAIL, data.key).subscribe((result) => {
-          console.log(result);
           if (result.result) {
             this.dataTransport(result.result);
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.RETAIL.CREATE) {
@@ -309,6 +308,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.ma_nvvc = empl.ma_kh;
     this.ticket.masterInfo.ten_nvvc = empl.ten_kh;
     this.commonService.focusControl(this.tabIndex.imei);
+    this.ticket.transport.hhDelivery.ten_nv = empl.ten_kh;
   }
 
   onEnterDECode(ma_nvvc: string) {
@@ -684,7 +684,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
       this.commonService.showMessage(message);
     } else if (!this.invalid && !message) {
       const voucherDto = this.retailService.prepareVoucher();
-
       this.route.queryParams.subscribe((data: any) => {
         if (this.mode === MODE.UPDATE && !this.isSaving) {
           this.isSaving = true;
@@ -763,7 +762,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
 
     this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
   }
-
 }
 
 
