@@ -122,7 +122,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   }
 
   ngOnInit(): void {
-    //
+    // console.log(this.data);
   }
 
   ngAfterViewInit(): void {

@@ -969,6 +969,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     this.commonService.openDialog(OldProductDialogComponent, { supplierId: this.ticket.masterInfo.ma_ncc, currentItem: event.item })
       .afterClosed().subscribe(res => {
         if (res) {
+          //lọc tìm item theo imei xuất bán (gc_td1)
           const sale_item = this.ticket.merchandise_new_sale.find(x => x.ma_imei.trim() === event.item.gc_td1.trim());
           const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
 

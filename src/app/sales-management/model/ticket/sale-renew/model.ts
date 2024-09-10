@@ -89,6 +89,7 @@ export class MerchandiseUsed extends BaseMerchandise {
   ma_loai = '';
   gia0 = 0;
   gia_dc = 0;
+  gc_td1 = '';
 
   constructor(obj?: any) {
     super();
