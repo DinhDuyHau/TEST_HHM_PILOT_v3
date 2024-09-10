@@ -80,6 +80,7 @@ export class Language {
         invalid_ma_nvvc: 'Chưa chọn nhân viên vận chuyển',
         invalid_so_dh_vc: 'Chưa nhập mã đơn hàng',
         invalid_ma_van_don: 'Chưa nhập mã vận đơn',
+        invalid_ma_kh: 'Mã khách hàng có chứa ký tự đặc biệt',
 
 
         all: '',
