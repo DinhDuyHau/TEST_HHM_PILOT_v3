@@ -235,7 +235,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
           }
         }
 
-        this.saleReturnService.getSoldInfo(ma_imei, rate, this.tien_giam, this.ticket.masterInfo.fcode1).subscribe((result: any) => {
+        this.saleReturnService.getSoldInfo(ma_imei, rate, this.tien_giam, this.ticket.masterInfo.fcode1, this.isCODReturn).subscribe((result: any) => {
           if (result && result.success && result.result && result.result.details) {
             this.loadCustomerInfo(result.result.masterInfo.ma_kh);
             const merchandise = result.result.details[0].data;

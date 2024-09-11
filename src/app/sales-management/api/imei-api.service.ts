@@ -71,13 +71,13 @@ export class ImeiApiService extends ApiService {
     }
 
 
-    getSoldInfo(ma_imei: string, ma_cuahang: string, ma_ct = '', rate = -1, tien_giam = 0, loai_tra_lai = ''): Observable<ResultNoPaging<Imei>> {
+    getSoldInfo(ma_imei: string, ma_cuahang: string, ma_ct = '', rate = -1, tien_giam = 0, loai_tra_lai = '', tra_lai_cod = false): Observable<ResultNoPaging<Imei>> {
         ma_imei = encodeURIComponent(ma_imei);
         if (rate == -1 && tien_giam == 0) {
-            return this.get<ResultNoPaging<Imei>>(GET_SOLD_INFO_IMEI_URL, { ma_imei, ma_cuahang, ma_ct, loai_tra_lai });
+            return this.get<ResultNoPaging<Imei>>(GET_SOLD_INFO_IMEI_URL, { ma_imei, ma_cuahang, ma_ct, loai_tra_lai, tra_lai_cod });
         }
         else {
-            return this.get<ResultNoPaging<Imei>>(GET_SOLD_INFO_IMEI_URL, { ma_imei, ma_cuahang, ma_ct, rate, tien_giam, loai_tra_lai });
+            return this.get<ResultNoPaging<Imei>>(GET_SOLD_INFO_IMEI_URL, { ma_imei, ma_cuahang, ma_ct, rate, tien_giam, loai_tra_lai, tra_lai_cod });
         }
     }
 

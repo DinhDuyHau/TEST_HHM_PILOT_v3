@@ -129,8 +129,8 @@ export class SaleReturnService {
     //#endregion customer
 
     // #region imei
-    getSoldInfo(imei: string, rate = -1, tien_giam = 0, loai_tra_lai = "") {
-        return this.imeiApiService.getSoldInfo(imei, this.ticket.masterInfo.ma_cuahang, this.ticket.masterInfo.ma_ct, rate, tien_giam, loai_tra_lai);
+    getSoldInfo(imei: string, rate = -1, tien_giam = 0, loai_tra_lai = "", tra_lai_cod = false) {
+        return this.imeiApiService.getSoldInfo(imei, this.ticket.masterInfo.ma_cuahang, this.ticket.masterInfo.ma_ct, rate, tien_giam, loai_tra_lai, tra_lai_cod);
     }
 
     getMerchandiseInfo(ma_vt: string) {

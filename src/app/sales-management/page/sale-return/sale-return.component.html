@@ -30,26 +30,6 @@
 
       <form-input-custom
         class="box"
-        [name]="'imei'"
-        [label]="getLabel('lbl_imei')"
-        [tabIndex]="tabIndex.imei"
-        [readonly]="readonly"
-        (handleEnterInput)="onEnterImeiCode($event)"
-        (handleClickCodeScanner)="!readonly && onClickCodeScanner()"
-        [uploadImage]="true" />
-
-      <form-select-custom
-        class="box"
-        [isDisable]="readonly || disableSelectStatus"
-        [label]="getLabel('lbl_trang_thai')"
-        [options]="statusList"
-        optionDes="statusname"
-        optionValue="status"
-        [value]="ticket.masterInfo.status"
-        (handleChangeValue)="ticket.masterInfo.status = $event" />
-
-      <form-input-custom
-        class="box"
         [name]="'ma_kh'"
         [label]="getLabel('lbl_ma_kh')"
         [value]="ticket.masterInfo.ma_kh"
@@ -65,14 +45,14 @@
 
       <form-select-custom
         class="box"
-        [isDisable]="false"
-        [label]="'Loại giao dịch'"
-        [options]="saleReturnType"
-        optionDes="ten_loai"
-        optionValue="ma_loai"
-        [value]="ticket.masterInfo.fcode1"
-        (handleChangeValue)="onSaleReturnTypeChange($event)" />
-      <!-- ticket.masterInfo.fcode1 = $event -->
+        [isDisable]="readonly || disableSelectStatus"
+        [label]="getLabel('lbl_trang_thai')"
+        [options]="statusList"
+        optionDes="statusname"
+        optionValue="status"
+        [value]="ticket.masterInfo.status"
+        (handleChangeValue)="ticket.masterInfo.status = $event" />
+
       <form-input-custom
         class="box"
         [name]="'dien_giai'"
@@ -88,17 +68,32 @@
         [value]="ticket.masterInfo.dia_chi"
         [disabled]="true" />
 
+      <form-select-custom
+        class="box"
+        [isDisable]="false"
+        [label]="'Loại giao dịch'"
+        [options]="saleReturnType"
+        optionDes="ten_loai"
+        optionValue="ma_loai"
+        [value]="ticket.masterInfo.fcode1"
+        (handleChangeValue)="onSaleReturnTypeChange($event)" />
+      <!-- ticket.masterInfo.fcode1 = $event -->
+      
       <div class="d-flex gap-2 box">
         <mat-checkbox
           class="box flex items-end flex-1 justify-start"
           [(ngModel)]="isCODReturn"
           >Trả lại đơn COD</mat-checkbox>
+      </div>
+      
+      <div class="d-flex gap-2 box">
         <mat-checkbox
           class="box flex items-end flex-1 justify-end"
           [(ngModel)]="isSaleDown"
           >{{ getLabel('giam_gia_db') }}</mat-checkbox
         >
       </div>
+      
       <div class="d-flex gap-2 box">
         <form-input-custom
           class="flex-1"
@@ -118,7 +113,17 @@
           [disabled]="true" />
       </div>
 
-      <div class="d-flex gap-2 box">&nbsp;</div>
+      <form-input-custom
+        class="box"
+        [name]="'imei'"
+        [label]="getLabel('lbl_imei')"
+        [tabIndex]="tabIndex.imei"
+        [readonly]="readonly"
+        (handleEnterInput)="onEnterImeiCode($event)"
+        (handleClickCodeScanner)="!readonly && onClickCodeScanner()"
+        [uploadImage]="true" />
+
+      <!-- <div class="d-flex gap-2 box">&nbsp;</div> -->
       <div class="d-flex gap-2 box">
         <form-input-custom
           *ngIf="isSaleDown"
