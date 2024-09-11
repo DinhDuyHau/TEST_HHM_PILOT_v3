@@ -483,12 +483,6 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       this.commonService.showMessage(Language.content.grid_merchandise_invalid);
       return;
     }
-
-    if (!this.ten_nvvc) {
-      this.commonService.showMessage(Language.content.invalid_ma_nvvc);
-      return;
-    }
-
     this.invalid && this.commonService.showMessage(Language.content.Missing_information);
     if (message) {
       this.commonService.showMessage(message);
