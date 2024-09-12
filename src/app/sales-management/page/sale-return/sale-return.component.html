@@ -70,7 +70,7 @@
 
       <form-select-custom
         class="box"
-        [isDisable]="false"
+        [isDisable]="isDisableReturnType"
         [label]="'Loại giao dịch'"
         [options]="saleReturnType"
         optionDes="ten_loai"
@@ -83,6 +83,8 @@
         <mat-checkbox
           class="box flex items-end flex-1 justify-start"
           [(ngModel)]="isCODReturn"
+          (change)="onCODReturn($event)"
+          [disabled]="isDisableCODReturn"
           >Trả lại đơn COD</mat-checkbox>
       </div>
       
@@ -90,6 +92,7 @@
         <mat-checkbox
           class="box flex items-end flex-1 justify-end"
           [(ngModel)]="isSaleDown"
+          [disabled]="isDisableSaleDown"
           >{{ getLabel('giam_gia_db') }}</mat-checkbox
         >
       </div>
