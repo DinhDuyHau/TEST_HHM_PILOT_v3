@@ -295,7 +295,6 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
               //Khóa trường
               this.isDisableCODReturn = true;
               this.isDisableReturnType = true;
-              this.isDisableSaleDown = true;
             } else {
               this.commonService.showMessageByName('lblWarningProductExist');
             }
