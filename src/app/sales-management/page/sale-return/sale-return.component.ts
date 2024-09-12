@@ -24,6 +24,7 @@ import { Option } from '@app/sales-management/model/ticket/common-model/option.m
 import { ServiceOfMerchandiseService } from '../common/service.service';
 import { PaymentService } from '../common/payment.service';
 import { Service } from '@app/sales-management/model/ticket/sale-return-service/model';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 const { SERVICE_LIST_SALE_RETURN, MERCHANDISE_RETURN_LIST } = require('@assets/fields/grid/sales-fields-table.json')
 
@@ -50,6 +51,9 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
   readonly = false;
   invalid = false;
   isSaving = false;
+  isDisableSaleDown = false;
+  isDisableReturnType = false;
+  isDisableCODReturn = false;
   tabIndex = {
     imei: 1
   };
@@ -111,6 +115,9 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
             this.disableSelectStatus = false;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.isDisableCODReturn = true;
+            this.isDisableReturnType = true;
+            this.isDisableSaleDown = true;
             break;
           case 'view':
             this.title = Language.content.view;
@@ -285,6 +292,10 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
               this.commonService.clearText([this.tabIndex.imei]);
               // this.commonService.addImeiToStorage(ma_imei);
               this.resetSaleDown();
+              //Khóa trường
+              this.isDisableCODReturn = true;
+              this.isDisableReturnType = true;
+              this.isDisableSaleDown = true;
             } else {
               this.commonService.showMessageByName('lblWarningProductExist');
             }
@@ -299,7 +310,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
     });
   }
   resetSaleDown() {
-    this.isSaleDown = false;
+    //this.isSaleDown = false;
     this.rate = '0';
     this.ma_asm = '';
     this.ten_asm = '';
@@ -314,6 +325,11 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
       this.saleReturnService.removePromotionMechandise(merchandise);
     } else {
       this.saleReturnService.removeMerchandise(merchandise);
+    }
+    if (this.ticket.merchandise.length === 0) {
+      this.isDisableCODReturn = false;
+      this.isDisableReturnType = false;
+      this.isDisableSaleDown = false;
     }
   }
 
@@ -489,6 +505,19 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
 
     //tính lại số tiền còn nợ
     this.ticket.masterInfo.t_con_no = Math.abs(this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra);
+  }
+  onCODReturn(event: MatCheckboxChange): void {
+    // Thực hiện hành động khác dựa trên trạng thái của checkbox
+    this.isCODReturn = event.checked;
+    if (this.isCODReturn) {
+      this.isSaleDown = false;
+      this.isDisableReturnType = true;
+      this.isDisableSaleDown = true;
+    }
+    else {
+      this.isDisableReturnType = false;
+      this.isDisableSaleDown = false;
+    }
   }
 }
 
