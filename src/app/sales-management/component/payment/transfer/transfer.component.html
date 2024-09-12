@@ -11,7 +11,7 @@
         [align]="'left'"
         [value]="chuyen_khoan.ten_ngan_hang"
         [invalid]="invalid"
-        [disabled]="readonly"
+        [disabled]="true"
         (handleChangeValue)="chuyen_khoan.tk_nh_nhan = $event"
         (handleClickOpenDialog)="onOpenSearchBankAccount()" />
       <form-payment-custom
