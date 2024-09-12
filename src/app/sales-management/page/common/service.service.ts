@@ -92,26 +92,18 @@ export class ServiceOfMerchandiseService {
                     (rs as any)[key] = service[key];
                 }
             });
-            rs.gia = service.gia_ban;
-            rs.gia_nt = service.gia_ban;
-            rs.gia2 = service.gia_ban;
-            rs.gia_nt2 = service.gia_ban;
-            rs.gia_ck = service.gia_ck;
-            rs.gia_ck_nt = service.gia_ck;
-            rs.ck = service.tien_ck;
-            rs.ck_nt = service.tien_ck;
-            rs.tien2 = service.thanh_tien;
-            rs.tien_nt2 = service.thanh_tien;
-            rs.tien = service.thanh_tien;
-            rs.tien_nt = service.thanh_tien;
+            rs.gia = service.gia2;
+            rs.gia_nt = service.gia_nt2;
+            rs.gia_ck = service.gia2;
+            rs.gia_ck_nt = service.gia_nt2;
+            rs.ck = 0;
+            rs.ck_nt = 0;
+            rs.tien = service.tien2;
+            rs.tien_nt = service.tien_nt2;
             rs.thue_suat = service.thue_suat;
-            rs.thue = service.tien_thue;
-            rs.thue_nt = service.tien_thue;
-            rs.tt = service.tong_tien;
-            rs.tt_nt = service.tong_tien;
             rs.km_yn = service.km_yn ? 1 : 0;
-            rs.gia_vat = service.gia_vat;
-            rs.gia_vat_nt = service.gia_vat;
+            rs.gia_vat = service.gia_tra_lai;
+            rs.gia_vat_nt = service.gia_tra_lai;
 
             return rs;
         });
@@ -132,7 +124,6 @@ export class ServiceOfMerchandiseService {
                 }
             });
             serviceNew.tien_ck = e.ck;
-            serviceNew.gia_ban = e.gia;
             serviceNew.thanh_tien = e.tien2;
             serviceNew.tien_thue = e.thue;
             serviceNew.tong_tien = e.tt;

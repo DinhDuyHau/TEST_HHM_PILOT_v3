@@ -12,6 +12,7 @@ export class Service {
     gia_ck = 0;
     tien_ck = 0;
     gia_ban = 0;
+    gia_ban_nt = 0;
     thanh_tien = 0;
     thue_suat = 0;
     tien_thue = 0;
@@ -22,6 +23,14 @@ export class Service {
     line_nbr = 0;
     ad_key = false;
     gia_vat = 0;
+    gia2 = 0;
+    gia_nt2 = 0;
+    tien2 = 0;
+    tien_nt2 = 0;
+    tt = 0;
+    tt_nt = 0;
+    thue = 0;
+    thue_nt = 0;
 
     //sale return
     tien_giam = 0;
@@ -44,6 +53,8 @@ export class ServiceRequest extends BaseEntity {
     vt_ton_kho = '';
     gia = 0;
     gia_nt = 0;
+    gia2 = 0;
+    gia_nt2 = 0;
     tien2 = 0;
     tien_nt2 = 0;
     ma_thue = '';
@@ -57,6 +68,9 @@ export class ServiceRequest extends BaseEntity {
     line_nbr = 0;
     gia_vat = 0;
     tien_giam = 0;
+    gia_tra_lai = 0;
+    gia_ban = 0;
+    gia_ban_nt = 0;
 
     //sale return 
     ck_nt = 0;

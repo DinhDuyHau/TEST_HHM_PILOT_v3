@@ -48,6 +48,15 @@ export class Merchandise extends BaseMerchandise {
   tien_kmqd = 0;
   imei_mua = '';
 
+  gia2 = 0;
+  gia_nt2 = 0;
+  tien2 = 0;
+  tien_nt2 = 0;
+  thue = 0;
+  thue_nt = 0;
+  tt = 0;
+  tt_nt = 0;
+
   ma_asm_duyet?: string = '';
   ten_asm_duyet?: string = '';
   ty_le_giam?: number = -1;
@@ -55,6 +64,7 @@ export class Merchandise extends BaseMerchandise {
   giam_gia_yn?: boolean = false;
   email_nhan_key = '';
   gia_tra_lai = 0;
+  s6 = 0;
 
   constructor(obj?: any) {
     super();

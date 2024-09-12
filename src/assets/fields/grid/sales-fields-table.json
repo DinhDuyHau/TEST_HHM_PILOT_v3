@@ -365,7 +365,7 @@
     },
     {
       "name": "gia_ck",
-      "title": "Giá CK",
+      "title": "Giá đã CK",
       "format": "moneyView2Digit",
       "align": "right",
       "dataType": "number"
@@ -1076,29 +1076,29 @@
             "align": "center"
         },
         {
-            "name": "gia_ban",
-            "title": "Giá bán",
-            "format": "moneyView2Digit",
+            "name": "s6",
+            "title": "Giá bán hiện tại",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "s5",
+            "title": "Giá đã bán",
+            "format": "moneyViewNoDigit",
             "align": "right",
             "dataType": "number"
         },
         {
             "name": "tien_giam",
             "title": "Tiền phí",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
             "align": "right",
             "dataType": "number"
         },
         {
             "name": "gia_tra_lai",
-            "title": "Giá trả lại",
-            "format": "moneyView2Digit",
-            "align": "right",
-            "dataType": "number"
-        },
-        {
-            "name": "tien_ck",
-            "title": "Tiền chiết khấu",
+            "title": "Giá nhập trả lại",
             "format": "moneyViewNoDigit",
             "align": "right",
             "dataType": "number"
@@ -1109,8 +1109,16 @@
             "format": "moneyViewNoDigit",
             "align": "center"
         },
+
         {
-            "name": "thanh_tien",
+            "name": "gia2",
+            "title": "Giá TL (chưa VAT)",
+            "format": "moneyView2Digit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tien2",
             "title": "Thành tiền",
             "align": "right",
             "format": "moneyView2Digit",
@@ -1123,14 +1131,14 @@
             "align": "center"
         },
         {
-            "name": "tien_thue",
+            "name": "thue",
             "title": "Tiền thuế",
             "format": "moneyView2Digit",
             "align": "right",
             "dataType": "number"
         },
         {
-            "name": "thanh_toan",
+            "name": "tt",
             "title": "Tổng tiền",
             "format": "moneyViewNoDigit",
             "align": "right",
@@ -1264,7 +1272,9 @@
         },
         {
             "name": "ten_vt",
-            "title": "Tên vật tư"
+            "title": "Tên vật tư",
+            "width": "300px",
+            "min-width": "50px"            
         },
         {
             "name": "ngay_ct",
@@ -1404,31 +1414,24 @@
         },
         {
             "name": "gia_ban",
-            "title": "Đơn giá",
-            "format": "moneyView2Digit",
+            "title": "Giá đã bán",
+            "format": "moneyViewNoDigit",
             "dataType": "number",
             "align": "right"
         },
         {
             "name": "tien_giam",
             "title": "Tiền phí",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
             "align": "right",
             "dataType": "number"
         },
         {
             "name": "gia_tra_lai",
             "title": "Giá trả lại",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number",
             "align": "right"
-        },
-        {
-            "name": "ck_nt",
-            "title": "Tiền chiết khấu",
-            "format": "moneyView2Digit",
-            "align": "right",
-            "dataType": "number"
         },
         {
             "name": "so_luong",
@@ -1438,9 +1441,16 @@
             "align": "center"
         },
         {
-            "name": "thanh_tien",
+            "name": "gia2",
+            "title": "Giá TL (chưa VAT)",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "tien2",
             "title": "Thành tiền",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number",
             "align": "right"
         },
@@ -1452,14 +1462,14 @@
             "align": "center"
         },
         {
-            "name": "tien_thue",
+            "name": "thue",
             "title": "Tiền thuế",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number",
             "align": "right"
         },
         {
-            "name": "tong_tien",
+            "name": "tt",
             "title": "Tổng tiền",
             "format": "moneyViewNoDigit",
             "dataType": "number",
