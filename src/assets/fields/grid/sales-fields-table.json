@@ -967,6 +967,13 @@
             "align": "center"
         },
         {
+            "name": "gia_full_vat",
+            "title": "Giá Full VAT",
+            "format": "moneyView2Digit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
             "name": "gia_ban",
             "title": "Giá bán",
             "format": "moneyView2Digit",

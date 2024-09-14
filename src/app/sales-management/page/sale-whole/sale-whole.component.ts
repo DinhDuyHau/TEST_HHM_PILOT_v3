@@ -124,6 +124,16 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
           getStatusList();
           this.commonService.getPointRateExchange(this.ticket);
           result && this.saleWholeService.loadDataMerchandiseFromContract(result.result);
+          //Reset các trường tiền bằng 0
+          const merchandiseList = result.result.details[0];
+          this.ticket.merchandise = merchandiseList.data.map((item: any) => {
+            const merchandiseItem = new Merchandise(item);
+            merchandiseItem.gia_ban = item.gia_nt2;
+            merchandiseItem.tien_thue = 0;
+            merchandiseItem.thanh_tien = 0;
+            merchandiseItem.thanh_toan = 0
+            return merchandiseItem;
+          });
         });
       } else if (key && !fromContract) {
         this.ticketApiService.getVoucherByid(ticketEntity, key).subscribe((result: any) => {
@@ -180,7 +190,6 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
       { keyword: '', componentName: SEARCH_COMPONENT_NAME.CONTRACT })
       .afterClosed()
       .subscribe((result) => {
-        console.log(result);
         if (result) {
           this.handleAddCustomer(result.ma_kh);
           this.ticketApiService.getVoucherByid(TICKET_ENTITY.CONTRACT, result.stt_rec).subscribe((data: any) => {
@@ -189,10 +198,6 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
               this.ticket.merchandise = merchandiseList.data.map((item: any) => {
                 const merchandiseItem = new Merchandise(item);
                 merchandiseItem.gia_ban = item.gia_nt2;
-                merchandiseItem.tien_thue = item.thue;
-                merchandiseItem.thanh_tien = item.tien_nt2;
-                merchandiseItem.thanh_toan = item.tien_nt2 + item.thue;
-                // merchandiseItem.thanh_tien = 0;
                 return merchandiseItem;
               });
               this.saleWholeService.setContactInfo(data.result.masterInfo);
@@ -274,11 +279,13 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
     }
 
     this.saleWholeService.openDialogIMEI(this.itemSelected).subscribe((value) => {
-      console.log(value);
-      console.log(this.itemSelected);
       if (value) {
         this.itemSelected.ma_imei = value.join(', ');
         this.itemSelected.so_luong_imei = value.length;
+        this.itemSelected.thanh_toan = this.itemSelected.gia_full_vat * this.itemSelected.so_luong_imei;
+        this.itemSelected.thanh_tien = Math.round(this.itemSelected.thanh_toan / (1 + this.itemSelected.thue_suat / 100));
+        this.itemSelected.tien_thue = Math.max(this.itemSelected.thanh_toan - this.itemSelected.thanh_tien, 0);
+        this.saleWholeService.calcMoney();
       }
       else {
         this.itemSelected.ma_imei = this.itemSelected.ma_imei.join(', ');
