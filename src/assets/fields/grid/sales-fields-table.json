@@ -1413,7 +1413,7 @@
             "align": "center"
         },
         {
-            "name": "gia_ban",
+            "name": "gia_ban0",
             "title": "Giá đã bán",
             "format": "moneyViewNoDigit",
             "dataType": "number",

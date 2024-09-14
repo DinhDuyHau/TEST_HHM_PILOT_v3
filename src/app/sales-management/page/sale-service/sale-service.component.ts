@@ -244,6 +244,7 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
             this.commonService.showMessage(message);
         } else if (!this.invalid && !message) {
             const voucherDto = this.saleServiceService.prepareVoucher();
+
             this.route.queryParams.subscribe((data: any) => {
                 if (this.mode === MODE.UPDATE && !this.isSaving) {
                     this.isSaving = true;
