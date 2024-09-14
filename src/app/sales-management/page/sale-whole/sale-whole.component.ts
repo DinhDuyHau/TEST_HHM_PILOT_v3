@@ -274,8 +274,11 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
     }
 
     this.saleWholeService.openDialogIMEI(this.itemSelected).subscribe((value) => {
+      console.log(value);
+      console.log(this.itemSelected);
       if (value) {
         this.itemSelected.ma_imei = value.join(', ');
+        this.itemSelected.so_luong_imei = value.length;
       }
       else {
         this.itemSelected.ma_imei = this.itemSelected.ma_imei.join(', ');
@@ -364,7 +367,6 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
       this.commonService.showMessage(message);
     } else if (!this.invalid && !message) {
       const voucherDto = this.saleWholeService.prepareVoucher();
-
       if (this.ticket.contractFile.co_file || this.ticket.contractFile.cq_file) {
         this.saleWholeService.handleUploadFileContract().subscribe(result => {
           if (result && result.success) {
