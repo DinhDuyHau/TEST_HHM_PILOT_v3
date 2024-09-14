@@ -13,6 +13,8 @@ export class Service {
     tien_ck = 0;
     gia_ban = 0;
     gia_ban_nt = 0;
+    gia_ban0 = 0;
+    gia_ban_nt0 = 0;
     thanh_tien = 0;
     thue_suat = 0;
     tien_thue = 0;
@@ -71,6 +73,8 @@ export class ServiceRequest extends BaseEntity {
     gia_tra_lai = 0;
     gia_ban = 0;
     gia_ban_nt = 0;
+    gia_ban0 = 0;
+    gia_ban_nt0 = 0;
 
     //sale return 
     ck_nt = 0;

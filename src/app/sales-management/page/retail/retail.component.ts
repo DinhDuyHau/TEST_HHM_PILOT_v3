@@ -393,7 +393,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
         this.depositTotalPrice = this.depositMerchandise.reduce((pre, cur) => pre + cur.cl_nt, 0);
       }
     } else {
-      this.depositMerchandise = this.depositCanApply.filter(item => this.ticket.merchandise.some(({ ma_vt }) => item.ma_vt.trim() === ma_vt.trim()));
+      //sửa gán thẳng danh sách các đặt cọc có thể áp dụng mà không cần quan tâm đến mã hàng
+      //this.depositMerchandise = this.depositCanApply.filter(item => this.ticket.merchandise.some(({ ma_vt }) => item.ma_vt.trim() === '' || item.ma_vt.trim() === ma_vt.trim()));
+      this.depositMerchandise = this.depositCanApply;
+
       this.depositNameList = this.depositMerchandise.map(item => item.ma_vt).join(', ');
       this.depositTotalPrice = this.depositMerchandise.reduce((pre, cur) => pre + cur.cl_nt, 0);
     }

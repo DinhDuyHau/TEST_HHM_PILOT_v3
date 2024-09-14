@@ -315,15 +315,22 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   //   });
   // }
   openDepositDialog() {
-    if (this.depositSource.length > 0) {
-      this.commonService.openDialog(DepositSelectComponent, { dataSource: this.depositSource, currentItem: this.depositSelected })
+    //lọc lấy tiền cọc của các vật tư có trong grid hàng hóa
+    const deposit = this.depositSource.filter(x => x.ma_vt.trim() === '' ||
+      this.merchandise.some((item: any) => item.ma_vt.trim() === x.ma_vt.trim())
+    );
+
+    if (deposit.length > 0) {
+      this.commonService.openDialog(DepositSelectComponent, { dataSource: deposit, currentItem: this.depositSelected })
         .afterClosed().subscribe(depositSelected => {
           this.depositSelected = depositSelected || [];
           if (depositSelected && depositSelected.length) {
-            this.data.tien_dat_coc.tien = depositSelected.reduce((pre: number, cur: any) => pre + cur.cl_nt, 0);
+            const tien_tt_coc = depositSelected.reduce((pre: number, cur: any) => pre + cur.cl_nt, 0);
+            this.data.tien_dat_coc.tien = this.t_con_no > tien_tt_coc ? tien_tt_coc : this.t_con_no;
             this.data.tien_dat_coc.detail = depositSelected.map((item: any) => {
               const payment = new DepositDetail;
-              payment.tien = item.cl_nt;
+              // payment.tien = item.cl_nt;
+              payment.tien = this.data.tien_dat_coc.tien;
               payment.stt_rec_pt = item.stt_rec;
               payment.ma_sp = item.ma_vt;
               payment.ma_ctr = item.ma_ctr;

@@ -244,6 +244,14 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
 
         this.saleReturnService.getSoldInfo(ma_imei, rate, this.tien_giam, this.ticket.masterInfo.fcode1, this.isCODReturn).subscribe((result: any) => {
           if (result && result.success && result.result && result.result.details) {
+            const map_tralai = new Map();
+            map_tralai.set('nhap_tra_lai_yn', true);
+            const message = this.imeiService.GetMessageStatusImei(map_tralai, result.result.details[0].data[0]);
+            if (message) {
+              this.commonService.showMessageByContent(message);
+              return;
+            }
+
             this.loadCustomerInfo(result.result.masterInfo.ma_kh);
             const merchandise = result.result.details[0].data;
 

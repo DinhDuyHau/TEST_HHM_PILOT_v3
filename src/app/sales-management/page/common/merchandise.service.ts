@@ -517,7 +517,6 @@ export class MerchandiseService {
             merchandise.tien = merchandise.thanh_tien;
             merchandise.tien_nt = merchandise.thanh_tien;
 
-            //
             // merchandise.gia_ban = merchandise.gia_ban;
             merchandise.gia_ban_nt = merchandise.gia_ban;
             merchandise.gia2 = merchandise.gia_ban;
@@ -532,6 +531,7 @@ export class MerchandiseService {
             merchandise.thue_nt = merchandise.tien_thue;
             merchandise.tt = merchandise.thanh_toan;
             merchandise.tt_nt = merchandise.thanh_toan;
+
             //
 
             const rs = this.createNewMerchandise(merchandise, TCreator);

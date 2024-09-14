@@ -138,7 +138,7 @@ export class PaymentService {
     convertPaymentRequest = (src: Payment) => {
         let des: PaymentRequest[] = [];
         if (src.tien_dat_coc.selected) {
-            src.tien_dat_coc.detail.forEach(element => {
+            /* src.tien_dat_coc.detail.forEach(element => {
                 //
                 des = [
                     ...des,
@@ -152,7 +152,20 @@ export class PaymentService {
                         ma_ctr: element.ma_ctr,
                     }),
                 ];
-            });
+            }); */
+            const element = src.tien_dat_coc.detail[0];
+            des = [
+                ...des,
+                new PaymentRequest({
+                    ma_thanhtoan: PAYMENT_CODE.DEPOSIT,
+                    ten_thanhtoan: PAYMENT_NAME.DEPOSIT,
+                    tien: element.tien,
+                    tien_nt: element.tien_nt2 || 0,
+                    stt_rec_pt: element.stt_rec_pt,
+                    ma_sp: element.ma_sp,
+                    ma_ctr: element.ma_ctr,
+                }),
+            ];
         }
         if (src.tien_mat.selected) {
             des = [
