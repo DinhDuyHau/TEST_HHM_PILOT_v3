@@ -513,6 +513,11 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
 
   //#region Enter tại ô imei bán ra
   onEnterImeiNewMerchandiseCode(ma_imei: string) {
+    if (this.ticket.merchandise_used.length > 0) {
+      this.commonService.showMessageByName('bhk_exists_old_imei_msg');
+      this.onRefreshRenew();
+      return
+    }
     if (this.renew && this.renew.ma_imei === '' && this.renew.ma_vt === '' && this.renew.loai_hh === '' && this.renew.gia_nt === 0) {
       //trường hợp chỉ nhập thông tin hàng bán ra => add hàng bán vào grid
       this.onEnterImeiSell(ma_imei, '', '');
@@ -1021,7 +1026,6 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         }
       });
   }
-
 }
 
 
