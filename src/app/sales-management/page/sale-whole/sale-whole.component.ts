@@ -274,6 +274,8 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
     }
 
     this.saleWholeService.openDialogIMEI(this.itemSelected).subscribe((value) => {
+      console.log(value);
+      console.log(this.itemSelected);
       if (value) {
         this.itemSelected.ma_imei = value.join(', ');
         this.itemSelected.so_luong_imei = value.length;
