@@ -176,6 +176,11 @@ export class SaleRenewService {
         this.discountService.removeDiscount(discounts, this.ticket.discount);
     }
 
+    getDeposit() {
+        const ngay_ct = formatDate(this.ticket.masterInfo.ngay_ct, 'yyyy/MM/dd', 'en_US');
+        const { ma_kh, ma_dvcs } = this.ticket.masterInfo;
+        return this.customerApiService.getDeposit(ma_kh, ma_dvcs, ngay_ct);
+    }
     //#endregion customer
 
     // #region guarantee

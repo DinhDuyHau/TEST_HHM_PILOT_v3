@@ -105,6 +105,11 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   option: Option = new Option;
   entity = TICKET_ENTITY.RENEW;
 
+  depositCanApply: any[] = [];
+  depositMerchandise: any[] = [];
+  depositNameList = '';
+  depositTotalPrice = 0;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -244,6 +249,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     this.commonService.focusControl(this.tabIndex.nvvc);
     this.saleRenewService.removeDiscountForCustomer();
     this.saleRenewService.setInfoCustomer(customer);
+    this.handleGetDeposit();
     this.saleRenewService.setIsNeedCalcDiscount(true);
     this.discountService.resetDiscount(this.ticket.discount);
     this.saleRenewService.calcMoney();
@@ -254,6 +260,46 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  handleGetDeposit() {
+    this.saleRenewService.getDeposit().subscribe((result: any) => {
+      if (result && result.success && result.result && result.result.items) {
+        this.depositCanApply = result.result.items;
+      } else {
+        this.depositCanApply = [];
+      }
+      this.handleCheckDeposit();
+    });
+  }
+
+  handleCheckDeposit(ma_vt?: string, isAdd = true) {
+    if (ma_vt && isAdd) {
+      const isExists = this.depositMerchandise.find(item => item.ma_vt.trim() === ma_vt.trim());
+      const depositItem = this.depositCanApply.find(item => item.ma_vt.trim() === ma_vt.trim());
+      if (isExists) {
+        return;
+      } else if (!isExists && depositItem) {
+        this.depositMerchandise.push(depositItem);
+        this.depositNameList = this.depositMerchandise.map(item => item.ma_vt).join(', ');
+        this.depositTotalPrice = this.depositMerchandise.reduce((pre, cur) => pre + cur.cl_nt, 0);
+      }
+    } else if (ma_vt && !isAdd) {
+      const isDelete = this.ticket.merchandise_new_sale.filter(mer => mer.ma_vt.trim() === ma_vt.trim()).length;
+      if (isDelete <= 1) {
+        this.depositMerchandise = this.depositMerchandise.filter(item => item.ma_vt.trim() !== ma_vt.trim());
+        this.depositNameList = this.depositMerchandise.map(item => item.ma_vt).join(', ');
+        this.depositTotalPrice = this.depositMerchandise.reduce((pre, cur) => pre + cur.cl_nt, 0);
+      }
+    } else {
+      //sửa gán thẳng danh sách các đặt cọc có thể áp dụng mà không cần quan tâm đến mã hàng
+      //this.depositMerchandise = this.depositCanApply.filter(item => this.ticket.merchandise.some(({ ma_vt }) => item.ma_vt.trim() === '' || item.ma_vt.trim() === ma_vt.trim()));
+      this.depositMerchandise = this.depositCanApply;
+
+      this.depositNameList = this.depositMerchandise.map(item => item.ma_vt).join(', ');
+      this.depositTotalPrice = this.depositMerchandise.reduce((pre, cur) => pre + cur.cl_nt, 0);
+    }
+  }
+
 
   onEnterCustomerCode(ma_kh: string) {
     this.customerApiService.getOneById(ma_kh).subscribe(result => {
