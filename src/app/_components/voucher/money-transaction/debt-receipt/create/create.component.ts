@@ -41,6 +41,7 @@ import { CustomerApiService } from '@app/sales-management/api/customer-api.servi
 import { DebtListComponent } from './debt-list/debt-list.component';
 import { formatDate } from '@angular/common';
 
+
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
@@ -356,7 +357,6 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
   }
 
   onSubmit() {
-    console.log(this.voucherForm);
     this.submitted = true;
     let input_error: any;
     if (this.voucherForm.invalid) {
@@ -382,6 +382,17 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
       this.commonService.showMessageByName('lblWarningLackDetail');
       return;
     }
+
+    //Kiếm tra phân bổ
+    let sum_tien_nt = 0;
+    this.data.details[0].data.forEach((item) => {
+      sum_tien_nt += item.tien_nt;
+    });
+    if (sum_tien_nt == 0) {
+      this.commonService.showMessage("Cần thực hiện phân bổ tiền thanh toán trước khi lưu phiếu");
+      return;
+    }
+
     this.loading = true;
     if (this.mode == MODE.UPDATE) {
       if (this.data.details.length > 1) {
