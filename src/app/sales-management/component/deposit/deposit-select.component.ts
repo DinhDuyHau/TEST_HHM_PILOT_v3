@@ -53,7 +53,7 @@ export class DepositSelectComponent implements OnInit, OnChanges, AfterViewInit 
   }
 
   onCancel() {
-    this.dialogRef.close();
+    this.dialogRef.close([]);
   }
 
 }

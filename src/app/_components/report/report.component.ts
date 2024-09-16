@@ -29,7 +29,7 @@ export class ReportComponent implements OnInit, OnChanges {
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   totalItems = 0;
   pageIndex = 0;
-  pageSize = 20;
+  pageSize = 50;
   pageCount = 0;
   titleGrid = '';
   pageSizeOptions = [10, 20, 50, 100, 150, 200, 250];
