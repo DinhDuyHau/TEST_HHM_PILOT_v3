@@ -38,7 +38,8 @@
     "allowFilter": true,
     "width": 120,
     "dataFormatString": "upperCaseFormat",
-    "isLockingColumn": true
+    "isLockingColumn": true,
+    "link": true
   },
   {
     "name": "ma_kh",
