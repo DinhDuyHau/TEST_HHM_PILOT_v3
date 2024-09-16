@@ -37,25 +37,6 @@
     ],
     [
       {
-        "name": "ma_nvbh",
-        "label": "Mã NVBH",
-        "isLookup": "true",
-        "control": "dmnvbh",
-        "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nvbh", "ten_nvbh"],
-        "class": "basis-1/3",
-        "required": false
-      },
-      {
-        "name": "ten_nvbh",
-        "label": "Tên NVBH",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
-      }
-    ],
-    [
-      {
         "name": "ma_kho",
         "label": "Mã kho",
         "isLookup": "true",
