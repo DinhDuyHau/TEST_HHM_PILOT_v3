@@ -259,6 +259,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.IMEI:
         return this.imeiApiService.getImeisById(this.data.keyword);
       case SEARCH_COMPONENT_NAME.DELIVERY_EMP:
+        this.page_size = 20;
         return this.customerApiService.findById(this.defaultFilters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.DELIVERY_PARNER:
         return this.customerApiService.findById(this.defaultFilters, this.page_index, this.page_size);
