@@ -141,21 +141,24 @@
           [readonly]="true" />
       </div>
 
-      <form-input-custom
+      <div class="d-flex gap-2 box">
+        <form-input-custom
         *ngIf="isShowImei()"
-        class="box"
+        class="flex-1"
         [name]="'ma_imei'"
         [label]="'Mã imei'"
         [value]="filters.ma_imei"
         (handleChangeValue)="filters.ma_imei = $event" />
       <form-select-custom
-        class="box"
+        class="flex-1"
         label="Trạng thái"
         [options]="statusList"
         optionDes="statusname"
         optionValue="status"
         [value]="filters.status"
         (handleChangeValue)="filters.status = $event" />
+      </div>
+
     </div>
     <div class="d-flex justify-end gap-2">
       <div class="btn-responsive btn-cancel" (click)="onCancel()">Hủy bỏ</div>
