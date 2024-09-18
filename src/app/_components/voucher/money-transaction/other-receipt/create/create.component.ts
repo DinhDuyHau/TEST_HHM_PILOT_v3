@@ -303,6 +303,10 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
       this.commonService.showMessageByName('lblWarningLackDetail');
       return;
     }
+    if (this.data.masterInfo.t_da_tra == 0) {
+      this.commonService.showMessage("Cần chọn hình thức thanh toán trước khi lưu phiếu");
+      return;
+    }
     this.loading = true;
     if (this.mode == MODE.UPDATE) {
       if (this.data.details.length > 1) {

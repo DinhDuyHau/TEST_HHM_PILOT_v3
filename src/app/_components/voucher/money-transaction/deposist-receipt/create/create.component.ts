@@ -377,6 +377,10 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
       this.commonService.showMessageByName('lblWarningLackDetail');
       return;
     }
+    if (this.data.masterInfo.t_da_tra == 0) {
+      this.commonService.showMessage("Cần chọn hình thức thanh toán trước khi lưu phiếu");
+      return;
+    }
     if (this.data.masterInfo.t_con_no != 0) {
       this.commonService.showMessageByName('lblWarningInvalidMoneyOwed');
       return;
