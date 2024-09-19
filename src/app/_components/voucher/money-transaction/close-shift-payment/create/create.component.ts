@@ -367,6 +367,10 @@ export class CloseShiftPaymentDetailComponent extends Grid<ReceiptDetail> implem
       this.commonService.showMessageByName('lblWarningLackDetail');
       return;
     }
+    if (this.data.masterInfo.t_tien_nt == 0) {
+      this.commonService.showMessage("Tiền không hợp lệ");
+      return;
+    }
 
     this.loading = true;
     if (this.mode == MODE.UPDATE) {

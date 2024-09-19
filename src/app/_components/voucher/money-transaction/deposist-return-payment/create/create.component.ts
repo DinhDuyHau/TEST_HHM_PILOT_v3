@@ -378,6 +378,16 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
       this.commonService.showMessageByName('lblWarningLackDetail');
       return;
     }
+    let sum_tien_nt = 0;
+    this.data.details[0].data.forEach((item) => {
+      if (item && item.tien_nt) {
+        sum_tien_nt += item.tien_nt;
+      }
+    });
+    if (sum_tien_nt == 0) {
+      this.commonService.showMessage("Tiền hoàn cọc không hợp lệ");
+      return;
+    }
     this.loading = true;
     if (this.mode == MODE.UPDATE) {
       this.DeposistReturnReceipt.update(this.data).subscribe((item: any) => {
