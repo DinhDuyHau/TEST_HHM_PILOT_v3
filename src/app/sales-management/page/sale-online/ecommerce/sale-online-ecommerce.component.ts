@@ -348,6 +348,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
       if (item.tl_phi !== 0 && item.tien_phi_san !== 0) detail_item.phi_san_hhm += item.phi_hoang_ha;
     }
     detail_item.tong_phi += detail_item.phi_dc_khac;
+    detail_item.tong_phi = Math.round(detail_item.tong_phi);
   }
 
   handleCheckDeposit(ma_vt?: string, isAdd = true) {

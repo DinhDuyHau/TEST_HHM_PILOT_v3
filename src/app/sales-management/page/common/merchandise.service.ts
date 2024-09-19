@@ -918,7 +918,7 @@ export class MerchandiseService {
             //Xử lý làm tròn giá ck sau khi trừ bị âm hoặc trong khoảng 0-0.49
             e.gia_ck = (e.gia_ck < 0 || (e.gia_ck > 0 && e.gia_ck < 0.5)) ? Math.abs(Math.round(e.gia_ck)) : e.gia_ck;
 
-            e.gia_tmdt_vat = e.gia_vat + e.tong_phi - e.tien_ck;
+            e.gia_tmdt_vat = e.gia_vat + Math.round(e.tong_phi) - e.tien_ck;
             e.gia_tmdt = Math.round(e.gia_tmdt_vat / (1 + e.thue_suat / 100));
             e.tien_thue = e.gia_tmdt_vat - e.gia_tmdt;
             e.thanh_tien = e.gia_tmdt * e.so_luong;

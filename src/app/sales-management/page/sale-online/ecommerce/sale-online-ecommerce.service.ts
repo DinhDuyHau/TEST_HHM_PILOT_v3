@@ -489,10 +489,10 @@ export class SaleOnlineEcommerceService {
     }
     calcTotalMoney() {
         // Tổng phí sàn
-        this.ticket.masterInfo.t_phi_san = this.ticket.masterInfo.tien_phi_01 + this.ticket.masterInfo.tien_phi_02
+        this.ticket.masterInfo.t_phi_san = Math.round(this.ticket.masterInfo.tien_phi_01 + this.ticket.masterInfo.tien_phi_02
             + this.ticket.masterInfo.tien_phi_03 + this.ticket.masterInfo.tien_phi_04 + this.ticket.masterInfo.tien_phi_05
             + this.ticket.masterInfo.tien_phi_06 + this.ticket.masterInfo.tien_phi_07 + this.ticket.masterInfo.tien_phi_08
-            + this.ticket.masterInfo.tien_phi_09 + this.ticket.masterInfo.tien_phi_10 + this.ticket.masterInfo.phi_dc_khac;
+            + this.ticket.masterInfo.tien_phi_09 + this.ticket.masterInfo.tien_phi_10 + this.ticket.masterInfo.phi_dc_khac);
         // Tổng thanh toán
         this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt; //+ this.ticket.masterInfo.t_phi_san;
         //this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt, this.option);

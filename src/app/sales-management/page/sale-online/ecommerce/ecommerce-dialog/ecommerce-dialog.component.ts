@@ -33,6 +33,7 @@ export class EcommerceDialogComponent implements OnInit {
     this.phi_dc_khac = phi_dc_khac;
     this.tong_phi = this.data.item.phi_san_01 + this.data.item.phi_san_02 + this.data.item.phi_san_03 + this.data.item.phi_san_04 +
       this.data.item.phi_san_05 + this.data.item.phi_san_06 + this.data.item.phi_san_07 + phi_dc_khac;
+    this.tong_phi = Math.round(this.tong_phi);
   }
   onCancel() {
     this.dialogRef.close();
