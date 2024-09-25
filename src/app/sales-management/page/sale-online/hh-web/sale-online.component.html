@@ -205,7 +205,7 @@
           [columns]="guaranteeColumns" />
       </tab-custom> -->
       <tab-custom label="Vận chuyển" class="w-100">
-        <delivery-infomation [data]="ticket.transport" [readonly]="readonly" />
+        <delivery-infomation [data]="ticket.transport" [dataDefault]="'01'" [readonly]="readonly" />
       </tab-custom>
       <tab-custom label="HĐĐT" class="w-100">
         <div

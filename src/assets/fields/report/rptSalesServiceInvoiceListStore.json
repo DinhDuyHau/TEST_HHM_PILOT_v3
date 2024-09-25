@@ -1,0 +1,119 @@
+[
+  {
+    "name": "ma_dvcs",
+    "title": "Mã ĐVCS",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_cuahang",
+    "title": "Cửa hàng",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_ca",
+    "title": "Ca bán hàng",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày ct",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "ma_ct0",
+    "title": "Mã ct",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "so_ct",
+    "title": "Số ct",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "link": true
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 230
+  },
+  {
+    "name": "ma_dv",
+    "title": "Mã dịch vụ",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "tien2",
+    "allowFilter": true,
+    "title": "Tiền",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "center",
+    "width": 100
+  },
+  {
+    "name": "thue",
+    "allowFilter": true,
+    "title": "Thuế",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "center",
+    "width": 100
+  },
+  {
+    "name": "ck",
+    "allowFilter": true,
+    "title": "Chiết khấu",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "center",
+    "width": 100
+  },
+  {
+    "name": "pt",
+    "allowFilter": true,
+    "title": "Phải thu",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "center",
+    "width": 100
+  },
+  {
+    "name": "ma_nvbh",
+    "title": "NVBH",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  }
+]

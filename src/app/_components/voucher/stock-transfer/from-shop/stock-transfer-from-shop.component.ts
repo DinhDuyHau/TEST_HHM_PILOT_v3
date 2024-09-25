@@ -60,7 +60,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       value: 1
     },
     {
-      label: "2-Chuyển hàng lỗi về kho tổng",
+      label: "2-Chuyển hàng về kho tổng",
       value: 2
     }
   ]
@@ -161,6 +161,10 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       this.ticket.masterInfo.ma_khon = '';
       this.ticket.masterInfo.ten_khon = '';
     }
+    if (event === "2") {
+      this.ticket.masterInfo.ma_cuahang_n = '';
+      this.ticket.masterInfo.ten_cuahang_n = '';
+    }
   }
 
   onChangeImportStore(event: any) {
@@ -178,7 +182,13 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   }
 
   openSearchShopDialog() {
-    const data = this.shops;
+    let data = this.shops;
+    if (this.ticket.masterInfo.fnote2 === '2') {
+      data = this.shops.filter((x: { ma_cuahang: string; }) => {
+        const ma_cuahang = x.ma_cuahang.trim().toUpperCase();
+        return ma_cuahang === 'HN000' || ma_cuahang === 'SG000' || ma_cuahang === 'HN008'
+      });
+    }
     this.commonService.openDialog(SearchDialogComponent, { dataSource: data, componentName: SEARCH_COMPONENT_NAME.SHOP_INFO })
       .afterClosed().subscribe(result => {
         this.ticket.masterInfo.ma_cuahang_n = result?.ma_cuahang;
@@ -236,6 +246,20 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
           value: 'HD'
         }
       ]
+
+      if (this.ticket.masterInfo.fnote2 === '2')
+        filter = [
+          {
+            name: 'ma_cuahang',
+            operator: "=",
+            value: this.ticket.masterInfo.ma_cuahang_n
+          },
+          {
+            name: 'ma_loai',
+            operator: "=",
+            value: 'HH'
+          }
+        ]
     }
 
     this.commonService.openDialog(SearchDialogComponent, { filter, componentName: SEARCH_COMPONENT_NAME.STOCK_INFO })
@@ -283,9 +307,9 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
               const ma_loai_out = _stock_out.ma_loai.trim().toUpperCase();
               const ma_loai_in = _stock.ma_loai.trim().toUpperCase();
 
-              //loại kho xuất là HH -> loại kho nhận phải là HD
-              if (ma_loai_out === 'HH' && ma_loai_in !== 'HD') {
-                this.commonService.showMessage("Mã kho xuất loại HH thì mã kho nhận phải là loại HD");
+              //loại kho xuất là HH -> loại kho nhận phải là HH hoặc HD
+              if (ma_loai_out === 'HH' && ma_loai_in !== 'HH' && ma_loai_in !== 'HD') {
+                this.commonService.showMessage("Mã kho xuất loại HH thì mã kho nhận phải là loại HH hoặc HD");
                 this.ticket.masterInfo.ma_khon = '';
                 this.ticket.masterInfo.ten_khon = '';
                 return;
@@ -477,6 +501,43 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   onSave() {
     const message = this.stockTransferService.validateTicket(this.ticket);
     this.invalid = this.stockTransferService.isInvalidForm(this.ticket.masterInfo);
+
+    //check mã kho xuất thuộc mã cửa hàng xuất
+    const stock_out = this.stocks.find(x => x.ma_kho.trim().toUpperCase() === this.ticket.masterInfo.ma_kho.trim().toUpperCase());
+    if (!stock_out) {
+      this.commonService.showMessage('Không tìm thấy thông tin kho xuất trong danh mục kho');
+      return;
+    }
+    if (stock_out.ma_cuahang.trim().toUpperCase() !== this.ticket.masterInfo.ma_cuahang.trim().toUpperCase()) {
+      this.commonService.showMessage('Mã kho xuất không thuộc cửa hàng xuất');
+      return;
+    }
+
+    //check mã kho xuất thuộc mã cửa hàng xuất
+    const stock_in = this.stocks.find(x => x.ma_kho.trim().toUpperCase() === this.ticket.masterInfo.ma_khon.trim().toUpperCase());
+    if (!stock_in) {
+      this.commonService.showMessage('Không tìm thấy thông tin kho nhập trong danh mục kho');
+      return;
+    }
+    if (stock_in.ma_cuahang.trim().toUpperCase() !== this.ticket.masterInfo.ma_cuahang_n.trim().toUpperCase()) {
+      this.commonService.showMessage('Mã kho nhập không thuộc cửa hàng nhập');
+      return;
+    }
+
+    //check giao dịch 2: cửa hàng nhận phải là 1 trong các shop id sau HN000, SG000, HN008
+    // (tạm fix cứng do cần dùng gấp => sẽ bổ sung vào khai báo trong danh mục ở db sau)
+    if (this.ticket.masterInfo.fnote2 === '2') {
+      const store_in = this.ticket.masterInfo.ma_cuahang_n;
+      if (!store_in || store_in === '') {
+        this.commonService.showMessage('Chưa nhập cửa hàng nhận');
+        return;
+      }
+      if (store_in.trim().toUpperCase() !== 'HN000' && store_in.trim().toUpperCase() !== 'SG000'
+        && store_in.trim().toUpperCase() !== 'HN008') {
+        this.commonService.showMessage('Giao dịch chuyển hàng về kho tổng, cửa hàng nhận phải là 1 trong các mã sau: HN000, SG000, HN008');
+        return;
+      }
+    }
 
     //check valid các trường số lượng và tiền trong grid hàng hóa và dịch vụ
     if (!this.stockTransferService.isInvalidMerchandise(this.ticket.merchandise)) {

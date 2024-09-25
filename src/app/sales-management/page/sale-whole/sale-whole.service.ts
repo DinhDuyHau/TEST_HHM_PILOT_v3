@@ -20,6 +20,7 @@ import { formatDate } from '@angular/common';
 import { Observable } from 'rxjs';
 import { DialogIMEIComponent } from '@app/_components/dialog/dialog-imei/dialog-imei.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MODE } from '@app/sales-management/enum/ticket.enum';
 
 @Injectable({
     providedIn: 'root'
@@ -50,7 +51,7 @@ export class SaleWholeService {
     //#endregion setter
 
     // #region init
-    loadData(data: VoucherDto) {
+    loadData(data: VoucherDto, mode: number = MODE.VIEW) {
         const sub_merchandise: Merchandise[] = [];
         this.ticket.masterInfo = this.commonService.convertMasterInfoFromVoucher(data.masterInfo, MasterInfo);
         this.customerApiService.getOneById(data.masterInfo.ma_kh).subscribe(result => {
@@ -90,7 +91,12 @@ export class SaleWholeService {
             }
         });
 
-        this.loadDataFromContract(this.ticket.contractInfo.stt_rec_hd, sub_merchandise);
+        if (mode === MODE.CREATE) {
+            this.loadDataFromContract(this.ticket.contractInfo.stt_rec_hd, sub_merchandise);
+        }
+        if (mode === MODE.UPDATE || mode === MODE.VIEW) {
+            this.loadDataForUpdate(this.ticket.contractInfo.stt_rec_hd, sub_merchandise);
+        }
     }
 
     loadDataFromContract(stt_rec_hd: string, sub_merchandise: Merchandise[]) {
@@ -113,6 +119,10 @@ export class SaleWholeService {
                 });
             }
         });
+    }
+
+    loadDataForUpdate(stt_rec_hd: string, sub_merchandise: Merchandise[]) {
+        this.ticket.merchandise = sub_merchandise;
     }
 
     loadDataMerchandiseFromContract(data: any) {

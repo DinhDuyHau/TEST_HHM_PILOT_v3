@@ -201,7 +201,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       });
     };
     const getDefaultStock = () => {
-      this.ticketApiService.getStockRenew(this.ticket.masterInfo.ma_cuahang, 'HC').subscribe(result => {
+      this.ticketApiService.getStockRenew(this.ticket.masterInfo.ma_cuahang, 'KD').subscribe(result => {
         if (result && result.success && result.result.items && result.result.items[0]) {
           this.defaultStockRenew = result.result.items[0].ma_kho;
         }
@@ -559,7 +559,8 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
 
   //#region Enter tại ô imei bán ra
   onEnterImeiNewMerchandiseCode(ma_imei: string) {
-    if (this.ticket.merchandise_used.length > 0) {
+    if (this.renew && this.renew.ma_imei && this.renew.ma_imei !== '' && this.renew.ma_vt && this.renew.ma_vt !== ''
+      && this.renew.ma_loai && this.renew.ma_loai !== '' && this.ticket.merchandise_used.length > 0) {
       this.commonService.showMessageByName('bhk_exists_old_imei_msg');
       this.onRefreshRenew();
       return
@@ -573,6 +574,8 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     /* add imei thu cũ vào grid 'hàng thu cũ' */
     const imei_thu_cu = this.renew.ma_imei;
     const ma_vt_thu_cu = this.renew.ma_vt;
+    const gia_thu_cu = this.renew.gia_nt;
+
     this.invalidMerchandiseInput.ma_vt = false;
     this.invalidMerchandiseInput.gia_nt = false;
     this.invalidMerchandiseInput.loai_hh = false;
@@ -613,14 +616,14 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
           }
 
           /* add imei hàng bán ra */
-          this.onEnterImeiSell(ma_imei, imei_thu_cu, ma_vt_thu_cu);
+          this.onEnterImeiSell(ma_imei, imei_thu_cu, ma_vt_thu_cu, gia_thu_cu);
         });
       }
     }
     this.invalid && this.commonService.showMessage(Language.content.Missing_information);
   }
 
-  onEnterImeiSell(ma_imei: string, imei_thu_cu: string, ma_vt_thu_cu: string) {
+  onEnterImeiSell(ma_imei: string, imei_thu_cu: string, ma_vt_thu_cu: string, tien_thu_cu: number = 0) {
     if (!this.ticket.masterInfo.ma_ncc) {
       this.commonService.showMessageByName('lblWarningLackSupplierRenew');
       return;
@@ -631,8 +634,14 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    //Tính tổng tiền hỗ trợ đã có trong phiếu
+    let tien_ho_tro = 0;
+    for (const item of this.ticket.merchandise_new_sale) {
+      tien_ho_tro += item.tien_ht;
+    }
+
     const ngay_ct: Date = new Date(this.ticket.masterInfo.ngay_ct);
-    this.saleRenewService.getPriceRenew(ma_imei, ma_vt_thu_cu, imei_thu_cu, ngay_ct).subscribe(result => {
+    this.saleRenewService.getPriceRenew(ma_imei, ma_vt_thu_cu, imei_thu_cu, ngay_ct, tien_ho_tro, tien_thu_cu).subscribe(result => {
       if (result.success && result.result.length && result.result.length > 0) {
         const sale_item = result.result[0] as any;
         if (sale_item.gia_ban === 0 || sale_item.gia_vat === 0) {

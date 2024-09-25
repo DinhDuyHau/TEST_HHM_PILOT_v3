@@ -69,7 +69,7 @@ const PrintButton: Button = {
 };
 const EditIMEIButton: Button = {
     id: 'EditIMEI',
-    name: resources.find(x => x.name == 'btnEditIMEI')?.message || 'Sửa IMEI',
+    name: resources.find(x => x.name == 'btnEditIMEI')?.message || 'Sửa IMEI (Nhập chùm imei)',
     icon: 'edit',
     buttonColor: '#f3f3f3',
     iconColor: 'blue',

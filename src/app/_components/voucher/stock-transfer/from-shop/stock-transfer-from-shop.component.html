@@ -77,6 +77,7 @@
           (handleClickOpenDialog)="
             ticket.masterInfo.fnote2 === '2' && openSearchShopDialog()
           "
+          [readonly]="ticket.masterInfo.fnote2 === '2'"
           [disabled]="
             ticket.masterInfo.fnote2 === '1' || ticket.merchandise.length > 0
           " />
