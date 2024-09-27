@@ -128,7 +128,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
           const merchandiseList = result.result.details[0];
           this.ticket.merchandise = merchandiseList.data.map((item: any) => {
             const merchandiseItem = new Merchandise(item);
-            merchandiseItem.gia_ban = item.gia_nt2;
+            merchandiseItem.gia_ban = Math.round(item.gia_nt2);
             merchandiseItem.tien_thue = 0;
             merchandiseItem.thanh_tien = 0;
             merchandiseItem.thanh_toan = 0

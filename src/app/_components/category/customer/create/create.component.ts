@@ -245,6 +245,6 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
     return false;
   }
   containsSpecialCharacters(input: string): boolean {
-    return /[^a-zA-Z0-9\s]/.test(input);
+    return /[\s_!@#$%^&*(),.?":{}|<>]/.test(input);
   }
 }

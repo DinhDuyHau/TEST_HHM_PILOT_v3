@@ -51,7 +51,7 @@ export class SaleWholeService {
     //#endregion setter
 
     // #region init
-    loadData(data: VoucherDto, mode: number = MODE.VIEW) {
+    loadData(data: VoucherDto) {
         const sub_merchandise: Merchandise[] = [];
         this.ticket.masterInfo = this.commonService.convertMasterInfoFromVoucher(data.masterInfo, MasterInfo);
         this.customerApiService.getOneById(data.masterInfo.ma_kh).subscribe(result => {
@@ -91,38 +91,32 @@ export class SaleWholeService {
             }
         });
 
-        if (mode === MODE.CREATE) {
-            this.loadDataFromContract(this.ticket.contractInfo.stt_rec_hd, sub_merchandise);
-        }
-        if (mode === MODE.UPDATE || mode === MODE.VIEW) {
-            this.loadDataForUpdate(this.ticket.contractInfo.stt_rec_hd, sub_merchandise);
-        }
+        this.loadDataFromContract(this.ticket.contractInfo.stt_rec_hd, sub_merchandise);
     }
 
     loadDataFromContract(stt_rec_hd: string, sub_merchandise: Merchandise[]) {
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.CONTRACT, stt_rec_hd).subscribe((data: any) => {
             if (data && data.success) {
-                const merchandiseList = data.result.details[0];
-                this.ticket.merchandise = merchandiseList.data.map((item: any) => {
+                const merchandiseList = data.result.details[0].data.filter((item1: any) => sub_merchandise.map((item2) => item2.ma_vt).includes(item1.ma_vt));
+                this.ticket.merchandise = merchandiseList.map((item: any) => {
                     const merchandiseItem = new Merchandise(item);
 
                     const merchandiseByContract = sub_merchandise.filter(mer => mer.ma_vt === merchandiseItem.ma_vt);
 
+
                     merchandiseItem.ma_imei = merchandiseByContract.map(mer => mer.ma_imei).join(', ');
 
                     merchandiseItem.so_luong_imei = merchandiseByContract.length;
+                    merchandiseItem.gia_ban = Math.round(item.gia_nt2);
 
                     merchandiseItem.thanh_tien = merchandiseByContract.reduce((pre, cur) => pre + cur.thanh_tien, 0);
                     merchandiseItem.tien_thue = merchandiseByContract.reduce((pre, cur) => pre + cur.tien_thue, 0);
                     merchandiseItem.thanh_toan = merchandiseByContract.reduce((pre, cur) => pre + cur.thanh_toan, 0);
+                    console.log(merchandiseItem)
                     return merchandiseItem;
                 });
             }
         });
-    }
-
-    loadDataForUpdate(stt_rec_hd: string, sub_merchandise: Merchandise[]) {
-        this.ticket.merchandise = sub_merchandise;
     }
 
     loadDataMerchandiseFromContract(data: any) {
@@ -149,7 +143,7 @@ export class SaleWholeService {
     }
 
     setContactInfo(data: any) {
-        this.ticket.contractInfo.so_ct_hd = data.so_ct;
+        this.ticket.contractInfo.so_ct_hd = data.so_ct.trim();
         this.ticket.contractInfo.stt_rec_hd = data.stt_rec;
         this.ticket.contractInfo.ngay_ct_hd = data.ngay_ct;
     }
