@@ -152,7 +152,7 @@ export class TicketApiService extends ApiService {
     getTicketByQuery(entity: string, params: {}, page_index: number, page_size: number): Observable<Result<any>> {
         let url = GET_TICKET_QUERY_URL + entity;
 
-        if (["ITTran", "IPTran", "ITTran_PXB2", "IPTran_PNF2", "ITNTran", "IPNTran"].includes(entity)) {
+        if (["ITTran", "IPTran", "ITTran_PXB2", "IPTran_PNF2", "ITNTran", "IPNTran", "PR3Tran"].includes(entity)) {
             url = GET_TICKET_QUERY_EXT_URL + entity;
         }
         return this.post<Result<any>>(url, {}, { ...params, page_index, page_size });

@@ -27,6 +27,9 @@ interface IFilter {
   ten_kho2: string;
   ten_vt: string;
   ma_cuahang: string;
+  ten_cuahang: string;
+  ma_cuahang2: string;
+  ten_cuahang2: string;
   ma_ct: string;
 }
 
@@ -41,6 +44,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
   invalid = false;
   shop = JSON.parse(localStorage.getItem('shop') || '');
   ten_cuahang = '';
+  ten_cuahang2 = '';
 
   filters: IFilter = {
     ngay_bd: '',
@@ -59,6 +63,9 @@ export class AdvancedSearchDialogComponent implements OnInit {
     ten_kho2: '',
     ten_vt: '',
     ma_cuahang: '',
+    ten_cuahang: '',
+    ma_cuahang2: '',
+    ten_cuahang2: '',
     ma_ct: ''
   };
 
@@ -84,6 +91,10 @@ export class AdvancedSearchDialogComponent implements OnInit {
   lbl_ma_kho2 = 'Mã kho 2';
   lbl_ten_kho2 = 'Tên kho 2';
 
+  lbl_ma_cuahang = 'Mã cửa hàng';
+  lbl_ten_cuahang = 'Tên cửa hàng';
+  lbl_ma_cuahang2 = 'Mã cửa hàng 2';
+  lbl_ten_cuahang2 = 'Tên cửa hàng 2';
 
   constructor(
     public dialogRef: MatDialogRef<AdvancedSearchDialogComponent>,
@@ -125,12 +136,22 @@ export class AdvancedSearchDialogComponent implements OnInit {
       this.lbl_ten_kho = 'Tên kho xuất';
       this.lbl_ma_kho2 = 'Mã kho nhập';
       this.lbl_ten_kho2 = 'Tên kho nhập';
+
+      this.lbl_ma_cuahang = 'Mã cửa hàng xuất';
+      this.lbl_ten_cuahang = 'Tên cửa hàng xuất';
+      this.lbl_ma_cuahang2 = 'Mã cửa hàng nhận';
+      this.lbl_ten_cuahang2 = 'Tên cửa hàng nhận';
     }
-    if (this.voucherCode === 'PNF' || this.voucherCode === 'pnf') {
+    if (this.voucherCode === 'PNF' || this.voucherCode === 'pnf' || this.voucherCode === 'PR3' || this.voucherCode === 'pr3') {
       this.lbl_ma_kho = 'Mã kho nhập';
       this.lbl_ten_kho = 'Tên kho nhập';
       this.lbl_ma_kho2 = 'Mã kho xuất';
       this.lbl_ten_kho2 = 'Tên kho xuất';
+
+      this.lbl_ma_cuahang = 'Mã cửa hàng nhập';
+      this.lbl_ten_cuahang = 'Tên cửa hàng nhập';
+      this.lbl_ma_cuahang2 = 'Mã cửa hàng xuất';
+      this.lbl_ten_cuahang2 = 'Tên cửa hàng xuất';
     }
 
     const userInfo = JSON.parse(localStorage.getItem('user') || '');
@@ -272,11 +293,25 @@ export class AdvancedSearchDialogComponent implements OnInit {
   }
 
   onEnterWarehouseInput(ma_kho: string) {
+    if (!ma_kho || ma_kho === '') return;
     this.ticketApiService.findOneByCode(ma_kho.trim()).subscribe(result => {
       if (result?.result?.items.length) {
         const res = result.result.items[0];
         this.filters.ma_kho = res.ma_kho;
         this.filters.ten_kho = res.ten_kho;
+      } else {
+        this.commonService.showMessage("Không tìm thấy kho")
+      }
+    })
+  }
+
+  onEnterWarehouseOutput(ma_kho2: string) {
+    if (!ma_kho2 || ma_kho2 === '') return;
+    this.ticketApiService.findOneByCode(ma_kho2.trim()).subscribe(result => {
+      if (result?.result?.items.length) {
+        const res = result.result.items[0];
+        this.filters.ma_kho2 = res.ma_kho;
+        this.filters.ten_kho2 = res.ten_kho;
       } else {
         this.commonService.showMessage("Không tìm thấy kho")
       }
@@ -317,6 +352,18 @@ export class AdvancedSearchDialogComponent implements OnInit {
     } else {
       this.filters.ma_cuahang = ma_cuahang;
       this.ten_cuahang = ''
+    }
+
+  }
+
+  handleEnterShop2(ma_cuahang: string) {
+    const shop = this.shop.find((e: any) => (e.ma_cuahang as string).toLowerCase() === ma_cuahang.trim().toLowerCase());
+    if (shop) {
+      this.filters.ma_cuahang2 = shop.ma_cuahang;
+      this.ten_cuahang2 = shop?.ten_cuahang;
+    } else {
+      this.filters.ma_cuahang2 = ma_cuahang;
+      this.ten_cuahang2 = ''
     }
 
   }

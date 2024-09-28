@@ -12,14 +12,19 @@ import { MenuReport } from '@app/_models';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 import { filter } from 'rxjs';
 
+//khai báo column các chứng từ bán hàng
 const TICKET_FIELDS = require('@assets/fields/grid/sales-ticket.json')
 
+//Khai báo column các chứng từ kho
 const STOCK_FIELDS = require('@assets/fields/grid/voucher-stock-fields.json')
 
+//Phiếu xuất điều chuyển GD (1,2)
 const { TICKET: STOCK_TRANSFER_FROM_SHOP } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
 
+//Nhập điều chuyển GD 1,2 (tạm chưa dùng)
 const { TICKET: STOCK_TRANSFER_IN_SHOP } = require('@assets/fields/grid/voucher-stock-transfer-in-shop.json')
 
+//Kiểm kê kho
 const { TICKET: STOCK_SHOP_CHECK } = require('@assets/fields/grid/voucher-stock-shop-check.json')
 
 @Component({
@@ -420,7 +425,12 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
     const observer = {
       next: (result: any) => {
         //lưu params tìm kiếm vào localStorage
-        localStorage.setItem('saleSearchParams', JSON.stringify(params));
+        const new_params: any = {
+          ngay_bd: params.ngay_bd,
+          ngay_kt: params.ngay_kt,
+          voucherCode: params.voucherCode
+        };
+        localStorage.setItem('saleSearchParams', JSON.stringify(new_params));
 
         //lưu vào local storage kết quả và tham số tìm kiếm
         // const adv_search_data: any = {
@@ -551,7 +561,8 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   openAdvancedSearchDialog() {
-    this.commonService.openDialog(AdvancedSearchDialogComponent, { voucherCode: this.codeName, ...this.advanceSearchParams }, 'advanced-search-style-dialog', false, '850px')
+    const filter_params: any = localStorage.getItem('saleSearchParams');
+    this.commonService.openDialog(AdvancedSearchDialogComponent, { voucherCode: this.codeName, ...filter_params }, 'advanced-search-style-dialog', false, '850px')
       .afterClosed()
       .subscribe(result => {
         if (result) {
