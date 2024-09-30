@@ -1,6 +1,6 @@
 {
   "width": 400,
-  "height": 600,
+  "height": 300,
   "control": [
     [
       {
@@ -13,13 +13,17 @@
         "name": "tu_ngay",
         "label": "Từ ngày",
         "type": "date",
-        "dataFormatString": "datetimeFormat"
+        "dataFormatString": "datetimeFormat",
+		"hidden": true,
+		"disabled": true
       },
       {
         "name": "den_ngay",
         "label": "Đến ngày",
         "type": "date",
-        "dataFormatString": "datetimeFormat"
+        "dataFormatString": "datetimeFormat",
+		"hidden": true,
+		"disabled": true
       }
     ],
     [

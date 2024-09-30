@@ -9,6 +9,24 @@
     "width": 50
   },
   {
+    "name": "ma_cuahang",
+    "title": "Cửa hàng",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_kho",
+    "title": "Kho hàng",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
     "name": "ma_vt",
     "title": "Mã vật tư",
     "isLockingColumn": true,

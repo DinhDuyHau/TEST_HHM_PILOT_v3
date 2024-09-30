@@ -3,7 +3,7 @@
         "name": "stt",
         "title": "Stt",
         "isLockingColumn": true,
-        "align": "center",
+        "align": "right",
         "width": 50
     },
     {

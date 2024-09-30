@@ -1,0 +1,82 @@
+{
+  "width": 500,
+  "height": 500,
+  "control": [
+    [
+      {
+        "name": "ngay_ct1",
+        "label": "Từ ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat",
+        "required": true,
+        "value": "new Date()"
+      },
+      {
+        "name": "ngay_ct2",
+        "label": "Đến ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat",
+        "required": true,
+        "value": "new Date()"
+      }
+    ],
+    [
+      {
+        "name": "ma_ca",
+        "label": "Mã ca",
+        "isLookup": "true",
+        "control": "dmca",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_ca", "ten_ca"],
+        "class": "basis-1/3",
+        "required": false
+      },
+      {
+        "name": "ten_ca",
+        "label": "Tên ca",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ],
+    [
+      {
+        "name": "tk",
+        "label": "Tài khoản",
+        "isLookup": "true",
+        "control": "dmtk",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["tk", "ten_tk"],
+        "class": "basis-1/3",
+        "hidden": true
+      },
+      {
+        "name": "ten_tk",
+        "label": "Tên tài khoản",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1",
+        "hidden": true
+      }
+    ],
+    [
+      {
+        "name": "ma_kh",
+        "label": "Mã khách",
+        "isLookup": "true",
+        "control": "dmkh",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_kh", "ten_kh"],
+        "class": "basis-1/3",
+        "required": false
+      },
+      {
+        "name": "ten_kh",
+        "label": "Tên khách",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ]
+  ]
+}

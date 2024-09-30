@@ -35,7 +35,7 @@
     ],
     "MERCHANDISE_LIST": [
         {
-            "name": "stt",
+            "name": "line_nbr",
             "title": "Stt",
             "align": "center"
         },

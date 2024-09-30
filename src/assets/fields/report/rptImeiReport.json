@@ -23,11 +23,52 @@
     "isLockingColumn": true
   },
   {
-    "name": "ngay_nhap0",
-    "title": "Ngày nhập",
+    "name": "ma_kho",
+    "title": "Mã kho",
+    "width": 160,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_kho",
+    "title": "Tên kho",
+    "width": 200,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_cuahang",
+    "title": "Mã cửa hàng",
+    "width": 160,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_cuahang",
+    "title": "Tên cửa hàng",
+    "width": 200,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ngay_nhap2",
+    "title": "Ngày nhập gần nhất",
     "isLockingColumn": true,
     "allowFilter": true,
-    "width": 100,
+    "width": 120,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "ngay_xuat",
+    "title": "Ngày xuất gần nhất",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
     "type": "date",
     "dataFormatString": "datetimeFormat"
   },
@@ -37,12 +78,6 @@
     "allowFilter": true,
     "isLockingColumn": true,
     "width": 140
-  },
-  {
-    "name": "status",
-    "title": "Trạng thái",
-    "isLockingColumn": true,
-    "width": 100
   },
   {
     "name": "xuat_yn",
@@ -60,17 +95,11 @@
     "name": "dieu_chuyen_yn",
     "title": "Điều chuyển",
     "type": "boolean",
-    "width": 100
+    "width": 110
   },
   {
     "name": "bao_hanh_yn",
     "title": "Bảo hành",
-    "type": "boolean",
-    "width": 100
-  },
-  {
-    "name": "di_duong_yn",
-    "title": "Đi đường",
     "type": "boolean",
     "width": 100
   }

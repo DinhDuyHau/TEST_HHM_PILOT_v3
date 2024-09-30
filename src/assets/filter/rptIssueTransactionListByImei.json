@@ -1,0 +1,81 @@
+{
+  "width": 600,
+  "height": 600,
+  "control": [
+    [
+      {
+        "name": "tu_ngay",
+        "label": "Từ ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      },
+      {
+        "name": "den_ngay",
+        "label": "Đến ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      }
+    ],
+    [
+      {
+        "name": "ma_vt",
+        "label": "Mã hàng",
+        "isLookup": "true",
+        "control": "dmvt",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_vt", "ten_vt"],
+        "class": "basis-1/3"
+      },
+      {
+        "name": "ten_vt",
+        "label": "Tên hàng",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ],
+    [
+      {
+        "name": "ma_imei",
+        "label": "Imei"
+      }
+    ],
+    [
+      {
+        "name": "ma_kho",
+        "label": "Kho hàng",
+        "isLookup": "true",
+        "control": "dmkho",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_kho", "ten_kho"],
+        "class": "basis-1/3"
+      },
+      {
+        "name": "ten_kho",
+        "label": "Tên kho",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ],
+    [
+      {
+        "name": "kho_hang_dc",
+        "label": "Kho hàng ĐC",
+        "isLookup": "true",
+        "control": "dmkho",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["kho_hang_dc", "ten_kho_dc"],
+        "class": "basis-1/3"
+      },
+      {
+        "name": "ten_kho_dc",
+        "label": "Tên kho ĐC",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ]
+
+  ]
+}

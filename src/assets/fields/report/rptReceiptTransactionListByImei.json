@@ -1,0 +1,98 @@
+[
+  {
+    "name": "ngay_ct",
+    "title": "Ngày ct",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "ma_ct0",
+    "title": "Mã ct",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "so_ct",
+    "title": "Số ct",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã kho",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên kho",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 230
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã hàng",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên hàng",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 280
+  },
+  {
+    "name": "ds_imei",
+    "title": "Imei",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 400
+  },
+  {
+    "name": "dvt",
+    "title": "Đvt",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 100
+  },
+  {
+    "name": "so_luong",
+    "allowFilter": true,
+    "title": "Số lượng",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "center",
+    "width": 100
+  },
+  {
+    "name": "gia",
+    "allowFilter": true,
+    "title": "Giá",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "center",
+    "width": 100
+  },
+  {
+    "name": "tien",
+    "allowFilter": true,
+    "title": "Tiền",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "center",
+    "width": 100
+  }
+]

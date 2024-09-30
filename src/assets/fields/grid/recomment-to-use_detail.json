@@ -29,6 +29,12 @@
     "width": 120
   },
   {
+    "name": "ma_kho",
+    "title": "Mã kho",
+    "isLockingColumn": true,
+    "width": 120
+  },
+  {
     "name": "dvt",
     "title": "Đvt",
     "isLockingColumn": false,

@@ -1,0 +1,195 @@
+[
+  {
+    "name": "stt",
+    "title": "Stt",
+    "isLockingColumn": true,
+    "type": "number",
+    "dataFormatString": "countingFormat",
+    "align": "center",
+    "width": 50
+  },
+  {
+    "name": "ma_dvcs",
+    "title": "Mã ĐVCS",
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_cuahang",
+    "title": "Mã cửa hàng",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_ca",
+    "title": "Mã ca",
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_ct",
+    "title": "Mã ct",
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "so_ct",
+    "title": "Số ct",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày ct",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "dien_giai",
+    "title": "Diễn giải",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 280
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 280
+  },
+  {
+    "name": "tien",
+    "title": "Số tiền",
+    "type": "number",
+    "dataFormatString": "moneyView2Digit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_qt_tra_gop",
+    "title": "Tiền QTTG",
+    "type": "number",
+    "dataFormatString": "moneyView2Digit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "phi_bh_qt",
+    "title": "Phí bảo hiểm",
+    "type": "number",
+    "dataFormatString": "moneyView2Digit",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "phi_cd_qt",
+    "title": "Phí chuyển đổi",
+    "type": "number",
+    "dataFormatString": "moneyView2Digit",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "ma_cc_tg",
+    "title": "Mã chuẩn chi",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_pos_tg",
+    "title": "Mã máy POS",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "so_the_tg",
+    "title": "Số thẻ",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_hd_qt",
+    "title": "Mã hợp đồng",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ngan_hang",
+    "title": "NH phát hành thẻ",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_dvtg_qt",
+    "title": "ĐV trả góp",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "t_tra_gop",
+    "title": "Tiền trả góp",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "phi_bh",
+    "title": "Phí bảo hiểm",
+    "type": "number",
+    "dataFormatString": "moneyView2Digit",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "phi_cd",
+    "title": "Phí chuyển đổi",
+    "type": "number",
+    "dataFormatString": "moneyView2Digit",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "ma_hd",
+    "title": "Mã hợp đồng",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_dvtg",
+    "title": "ĐV trả góp",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  }
+]

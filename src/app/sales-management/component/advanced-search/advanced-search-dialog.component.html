@@ -57,7 +57,7 @@
           [label]="lbl_ma_cuahang"
           [value]="filters.ma_cuahang"
           (handleClickOpenDialog)="openSearchShopDialog()"
-          (handleEnterInput)="handleEnterShop($event)" />
+          (handleChangeValue)="handleEnterShop($event)" />
         <form-input-custom
           class="flex-1"
           [name]="'ten_cuahang'"
@@ -70,7 +70,9 @@
         *ngIf="
           voucherCode === 'PXB' || voucherCode === 'pxb' ||
           voucherCode === 'PNF' || voucherCode === 'pnf' ||
-          voucherCode === 'PR3' || voucherCode === 'pr3'
+          voucherCode === 'PR3' || voucherCode === 'pr3' ||
+          voucherCode === 'PXN' || voucherCode === 'pxn' ||
+          voucherCode === 'PNN' || voucherCode === 'pnn'
         "
         class="d-flex gap-2 box">
         <form-input-custom
@@ -79,7 +81,7 @@
           [label]="lbl_ma_cuahang2"
           [value]="filters.ma_cuahang2"
           (handleClickOpenDialog)="openSearchShopDialog()"
-          (handleEnterInput)="handleEnterShop2($event)" />
+          (handleChangeValue)="handleEnterShop2($event)" />
         <form-input-custom
           class="flex-1"
           [name]="'ten_cuahang2'"
@@ -91,7 +93,10 @@
       <div *ngIf="
         !(voucherCode === 'PXB' || voucherCode === 'pxb' ||
         voucherCode === 'PNF' || voucherCode === 'pnf' ||
-        voucherCode === 'PR3' || voucherCode === 'pr3')
+        voucherCode === 'PR3' || voucherCode === 'pr3' ||
+        voucherCode === 'PXN' || voucherCode === 'pxn' ||
+        voucherCode === 'PNN' || voucherCode === 'pnn'
+        )
       "
         class="d-flex gap-2 box">
         <form-input-custom
@@ -116,8 +121,7 @@
           [name]="'ma_kho'"
           [label]="lbl_ma_kho"
           [value]="filters.ma_kho"
-          (handleChangeValue)="filters.ma_kho = $event"
-          (handleEnterInput)="onEnterWarehouseInput($event)"
+          (handleChangeValue)="onEnterWarehouseInput($event)"
           (handleClickOpenDialog)="openWarehouseDialog('ma_kho', 'ten_kho')" />
         <form-input-custom
           class="flex-1"
@@ -131,7 +135,9 @@
         *ngIf="
           voucherCode === 'PXB' || voucherCode === 'pxb' ||
           voucherCode === 'PNF' || voucherCode === 'pnf' ||
-          voucherCode === 'PR3' || voucherCode === 'pr3'
+          voucherCode === 'PR3' || voucherCode === 'pr3' ||
+          voucherCode === 'PXN' || voucherCode === 'pxn' ||
+          voucherCode === 'PNN' || voucherCode === 'pnn'
         "
         class="d-flex gap-2 box">
         <form-input-custom

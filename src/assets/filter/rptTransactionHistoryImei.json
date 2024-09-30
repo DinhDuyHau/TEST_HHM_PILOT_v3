@@ -1,6 +1,6 @@
 {
-  "width": 400,
-  "height": 600,
+  "width": 600,
+  "height": 320,
   "control": [
     [
       {
@@ -8,7 +8,8 @@
         "label": "Đến ngày",
         "type": "date",
         "dataFormatString": "datetimeFormat",
-        "value": "new Date()"
+        "value": "new Date()",
+        "class": "basis-1/4"
       }
     ],
     [

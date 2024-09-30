@@ -1,0 +1,110 @@
+[
+  {
+    "name": "ngay_ct",
+    "title": "Ngày h.toán",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 90,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "ma_ct0",
+    "title": "Mã c.từ",
+    "isLockingColumn": true,  
+    "allowFilter": true,
+    "width": 50,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ngay_ct0",
+    "title": "Ngày ct",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 90,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "so_ct",
+    "title": "Số c.từ",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "isPrimaryKey": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 280
+  },
+  {
+    "name": "t_tt0",
+    "title": "Số tiền",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_tt1",
+    "title": "Đã thu",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "con_pt",
+    "title": "Phải thu",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "han_tt",
+    "allowFilter": true,
+    "title": "Hạn t.toán",
+    "type": "number",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "ngay_tt0",
+    "title": "Ngày t.toán",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 90,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "ma_vv",
+    "title": "Vụ việc",
+    "isLockingColumn": true,  
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "tk",
+    "title": "Tài khoản",
+    "isLockingColumn": true,  
+    "allowFilter": true,
+    "width": 100,
+    "align": "right",
+    "dataFormatString": "upperCaseFormat"
+  }
+]

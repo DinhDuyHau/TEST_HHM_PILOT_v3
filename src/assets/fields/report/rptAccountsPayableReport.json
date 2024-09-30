@@ -1,0 +1,81 @@
+[
+  {
+    "name": "stt",
+    "title": "Stt",
+    "isLockingColumn": true,
+    "type": "number",
+    "dataFormatString": "countingFormat",
+    "align": "center",
+    "width": 50
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 250
+  },
+  {
+    "name": "no_dk",
+    "allowFilter": true,
+    "title": "Phải thu ĐK",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "co_dk",
+    "allowFilter": true,
+    "title": "Trả trước ĐK",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "ps_no",
+    "allowFilter": true,
+    "title": "Phải thu tăng",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 110
+  },
+  {
+    "name": "ps_co",
+    "allowFilter": true,
+    "title": "Phải thu giảm",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 110
+  },
+  {
+    "name": "no_ck",
+    "allowFilter": true,
+    "title": "Phải thu CK",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "co_ck",
+    "allowFilter": true,
+    "title": "Trả trước CK",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  }
+]

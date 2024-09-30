@@ -1,19 +1,21 @@
 {
-  "width": 400,
-  "height": 600,
+  "width": 700,
+  "height": 320,
   "control": [
     [
       {
         "name": "tu_ngay",
         "label": "Từ ngày",
         "type": "date",
-        "dataFormatString": "datetimeFormat"
+        "dataFormatString": "datetimeFormat",
+        "class": "basis-1/4"
       },
       {
         "name": "den_ngay",
         "label": "Đến ngày",
         "type": "date",
-        "dataFormatString": "datetimeFormat"
+        "dataFormatString": "datetimeFormat",
+        "class": "basis-1/4"
       }
     ],
     [
@@ -24,7 +26,7 @@
         "control": "dmkh",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_kh", "ten_kh"],
-        "class": "basis-1/3",
+        "class": "basis-1/4",
         "required": true
       },
       {

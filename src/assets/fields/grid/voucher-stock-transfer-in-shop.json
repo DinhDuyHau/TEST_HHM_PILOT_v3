@@ -51,7 +51,7 @@
     ],
     "MERCHANDISE_LIST": [
         {
-            "name": "stt",
+            "name": "line_nbr",
             "title": "Stt"
         },
         {
@@ -113,7 +113,7 @@
     ],
     "IMPORT_IMEI_LIST": [
         {
-            "name": "stt",
+            "name": "line_nbr",
             "title": "Stt"
         },
         {

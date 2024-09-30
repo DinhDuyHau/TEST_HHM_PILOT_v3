@@ -1,0 +1,129 @@
+[
+  {
+    "name": "ngay_ct",
+    "title": "Ngày CT",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "datetimeFormat",
+    "isLockingColumn": true,
+    "align": "center"
+  },
+  {
+    "name": "so_ct",
+    "title": "Số CT",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách hàng",
+    "allowFilter": true,
+    "width": 220,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_vt_tra",
+    "title": "Mã hàng trả",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_vt_tra",
+    "title": "Tên hàng trả",
+    "allowFilter": true,
+    "width": 220,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_imei_tra",
+    "title": "Imei hàng trả",
+    "allowFilter": true,
+    "width": 150,
+    "isLockingColumn": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "hbh_tra",
+    "title": "HBH hàng trả",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "datetimeFormat",
+    "isLockingColumn": true,
+    "align": "center"
+  },
+  {
+    "name": "ma_kho_tra",
+    "title": "Kho hàng trả",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_vt_doi",
+    "title": "Mã hàng đổi",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_vt_doi",
+    "title": "Tên hàng đổi",
+    "allowFilter": true,
+    "width": 220,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_imei_doi",
+    "title": "Imei hàng đổi",
+    "allowFilter": true,
+    "width": 150,
+    "isLockingColumn": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "hbh_doi",
+    "title": "HBH hàng đổi",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "datetimeFormat",
+    "isLockingColumn": true,
+    "align": "center"
+  },
+  {
+    "name": "ma_kho_doi",
+    "title": "Kho hàng đổi",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_nvbh",
+    "title": "Mã NV đổi",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_nvbh",
+    "title": "Tên NV đổi",
+    "allowFilter": true,
+    "width": 220,
+    "isLockingColumn": true
+  }
+]

@@ -1,10 +1,5 @@
 [
   {
-    "name": "ten_loaigd",
-    "title": "Giao dịch",
-    "width": 200
-  },
-  {
     "name": "ngay_ct",
     "title": "Ngày ct",
     "allowFilter": true,
@@ -22,6 +17,16 @@
     "link": true
   },
   {
+    "name": "ten_ct",
+    "title": "Giao dịch",
+    "width": 200
+  },
+  {
+    "name": "ma_imei",
+    "title": "Mã imei",
+    "width": 120
+  },
+  {
     "name": "ma_vt",
     "title": "Mã vật tư",
     "width": 120
@@ -29,7 +34,7 @@
   {
     "name": "ten_vt",
     "title": "Tên vật tư",
-    "width": 200
+    "width": 250
   },
   {
     "name": "ma_kh",
@@ -43,13 +48,13 @@
     "name": "ten_kh",
     "allowFilter": true,
     "title": "Tên khách hàng",
-    "width": 360
+    "width": 250
   },
   {
     "name": "tr_thai",
     "title": "NXT",
     "isLockingColumn": true,
-    "width": 80
+    "width": 140
   },
   {
     "name": "tien",

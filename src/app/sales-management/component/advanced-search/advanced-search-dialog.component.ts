@@ -43,6 +43,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
   dataFormat = dataFormat;
   invalid = false;
   shop = JSON.parse(localStorage.getItem('shop') || '');
+  store = JSON.parse(localStorage.getItem('stock') || '');
   ten_cuahang = '';
   ten_cuahang2 = '';
 
@@ -131,7 +132,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
     if (!convert.ngay_bd || convert.ngay_bd === '') convert.ngay_bd = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
     if (!convert.ngay_kt || convert.ngay_kt === '') convert.ngay_kt = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
 
-    if (this.voucherCode === 'PXB' || this.voucherCode === 'pxb') {
+    if (this.voucherCode === 'PXB' || this.voucherCode === 'pxb' || this.voucherCode === 'PXN' || this.voucherCode === 'pxn') {
       this.lbl_ma_kho = 'Mã kho xuất';
       this.lbl_ten_kho = 'Tên kho xuất';
       this.lbl_ma_kho2 = 'Mã kho nhập';
@@ -142,7 +143,9 @@ export class AdvancedSearchDialogComponent implements OnInit {
       this.lbl_ma_cuahang2 = 'Mã cửa hàng nhận';
       this.lbl_ten_cuahang2 = 'Tên cửa hàng nhận';
     }
-    if (this.voucherCode === 'PNF' || this.voucherCode === 'pnf' || this.voucherCode === 'PR3' || this.voucherCode === 'pr3') {
+    if (this.voucherCode === 'PNF' || this.voucherCode === 'pnf' || this.voucherCode === 'PR3' || this.voucherCode === 'pr3'
+      || this.voucherCode === 'PNN' || this.voucherCode === 'pnn'
+    ) {
       this.lbl_ma_kho = 'Mã kho nhập';
       this.lbl_ten_kho = 'Tên kho nhập';
       this.lbl_ma_kho2 = 'Mã kho xuất';
@@ -293,7 +296,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
   }
 
   onEnterWarehouseInput(ma_kho: string) {
-    if (!ma_kho || ma_kho === '') return;
+    /* if (!ma_kho || ma_kho === '') return;
     this.ticketApiService.findOneByCode(ma_kho.trim()).subscribe(result => {
       if (result?.result?.items.length) {
         const res = result.result.items[0];
@@ -302,20 +305,27 @@ export class AdvancedSearchDialogComponent implements OnInit {
       } else {
         this.commonService.showMessage("Không tìm thấy kho")
       }
-    })
+    }) */
+
+    if (!ma_kho || ma_kho === '' || !this.store || this.store.length <= 0) return;
+    const store_item = this.store.find((x: { ma_kho: string; }) => x.ma_kho.trim().toLowerCase() === ma_kho.trim().toLowerCase());
+    if (store_item) {
+      this.filters.ma_kho = store_item.ma_kho;
+      this.filters.ten_kho = store_item.ten_kho;
+    } else {
+      this.commonService.showMessage("Không tìm thấy kho")
+    }
   }
 
   onEnterWarehouseOutput(ma_kho2: string) {
-    if (!ma_kho2 || ma_kho2 === '') return;
-    this.ticketApiService.findOneByCode(ma_kho2.trim()).subscribe(result => {
-      if (result?.result?.items.length) {
-        const res = result.result.items[0];
-        this.filters.ma_kho2 = res.ma_kho;
-        this.filters.ten_kho2 = res.ten_kho;
-      } else {
-        this.commonService.showMessage("Không tìm thấy kho")
-      }
-    })
+    if (!ma_kho2 || ma_kho2 === '' || !this.store || this.store.length <= 0) return;
+    const store_item = this.store.find((x: { ma_kho: string; }) => x.ma_kho.trim().toLowerCase() === ma_kho2.trim().toLowerCase());
+    if (store_item) {
+      this.filters.ma_kho2 = store_item.ma_kho;
+      this.filters.ten_kho2 = store_item.ten_kho;
+    } else {
+      this.commonService.showMessage("Không tìm thấy kho")
+    }
   }
 
   // #region merchandise

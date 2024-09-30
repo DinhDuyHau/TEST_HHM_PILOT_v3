@@ -1,0 +1,115 @@
+[
+  {
+    "name": "ma_ct",
+    "title": "Mã CT",
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 70,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "so_ct",
+    "title": "Số CT",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày CT",
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "ma_dvcs_x",
+    "title": "Đvcs Xuất",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_cuahang_x",
+    "title": "Cửa hàng xuất",
+    "allowFilter": true,
+    "width": 130,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_khox",
+    "title": "Mã kho xuất",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_dvcs_n",
+    "title": "Đvcs Nhập",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_cuahang_n",
+    "title": "Cửa hàng nhập",
+    "allowFilter": true,
+    "width": 130,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_khon",
+    "title": "Mã kho nhập",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "shop_xdc_lct",
+    "title": "SHOP/Xuất DC(LCT)",
+    "width": 170,
+    "type": "boolean",
+    "hidden": false,
+    "class": "check-custom"
+  },
+  {
+    "name": "shop_ndc_lct",
+    "title": "SHOP/Nhập DC(LCT)",
+    "width": 170,
+    "type": "boolean",
+    "hidden": false,
+    "class": "check-custom"
+  },
+  {
+    "name": "shop_xdc_ht",
+    "title": "SHOP/Xuất DC(HT)",
+    "width": 170,
+    "type": "boolean",
+    "hidden": false,
+    "class": "check-custom"
+  },
+  {
+    "name": "shop_ndc_ht",
+    "title": "SHOP/Nhập DC(HT)",
+    "width": 170,
+    "type": "boolean",
+    "hidden": false,
+    "class": "check-custom"
+  },
+  {
+    "name": "qt_xdc_ht",
+    "title": "QT/Xuất DC(HT)",
+    "width": 170,
+    "type": "boolean",
+    "hidden": false,
+    "class": "check-custom"
+  },
+  {
+    "name": "qt_ndc_ht",
+    "title": "QT/Nhập DC(HT)",
+    "width": 170,
+    "type": "boolean",
+    "hidden": false,
+    "class": "check-custom"
+  }
+]

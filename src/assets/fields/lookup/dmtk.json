@@ -1,0 +1,20 @@
+[
+  {
+    "name": "tk",
+    "title": "Tài khoản",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_tk",
+    "title": "Tên tài khoản",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  }
+]

@@ -1,0 +1,21 @@
+[
+  {
+    "name": "ma_nganh",
+    "title": "Mã ngành hàng",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_nganh",
+    "title": "Tên ngành hàng",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  }
+]

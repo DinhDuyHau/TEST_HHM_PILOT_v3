@@ -1,0 +1,176 @@
+[
+  {
+    "name": "ma_dvcs",
+    "title": "Đơn vị",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 70
+  },
+  {
+    "name": "ma_cuahang",
+    "title": "Cửa hàng",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 100
+  },
+  {
+    "name": "ma_ca",
+    "title": "Mã ca",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 70
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày ct",
+    "width": 100,
+    "type": "date",
+    "isLockingColumn": true,
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "ma_ct0",
+    "title": "Mã ct",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 70
+  },
+  {
+    "name": "so_ct",
+    "title": "Số ct",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 80
+  },
+  {
+    "name": "ngay_ct0",
+    "title": "Ngày HĐ",
+    "width": 100,
+    "type": "date",
+    "isLockingColumn": true,
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "so_ct0",
+    "title": "Số HĐ",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 70
+  },
+  {
+    "name": "so_seri0",
+    "title": "Ký hiệu HĐ",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 100
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã ncc",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 120
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên ncc",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 250
+  },
+  {
+    "name": "dien_giai",
+    "title": "Diễn giải",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 200
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã hàng",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 120
+  },
+  {
+    "name": "ma_imei",
+    "title": "Mã imei",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "dataFormatString": "upperCaseFormat",
+    "width": 200
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên mặt hàng",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 250
+  },
+  {
+    "name": "dvt",
+    "title": "Đvt",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 70
+  },
+  {
+    "name": "so_luong",
+    "title": "Số lượng",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "center",
+    "width": 100
+  },
+  {
+    "name": "gia",
+    "title": "Giá",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "tien",
+    "title": "Tiền",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "ma_kho",
+    "title": "Kho hàng",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 120
+  },
+  {
+    "name": "ma_nx",
+    "title": "Mã nx",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 120
+  },
+  {
+    "name": "ma_vv",
+    "title": "Vụ việc",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 120
+  },
+  {
+    "name": "ma_bp",
+    "title": "Bộ phận",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 120
+  },
+  {
+    "name": "ma_hd",
+    "title": "Hợp đồng",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 120
+  }
+]

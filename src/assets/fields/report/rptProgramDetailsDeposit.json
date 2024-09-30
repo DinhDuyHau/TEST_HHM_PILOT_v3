@@ -1,0 +1,177 @@
+[
+  {
+    "name": "ma_cuahang",
+    "title": "Cửa hàng",
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_ca",
+    "title": "Ca bán hàng",
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày CT",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "datetimeFormat",
+    "isLockingColumn": true,
+    "align": "center"
+  },
+  {
+    "name": "so_ct",
+    "title": "Số CT",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách hàng",
+    "allowFilter": true,
+    "width": 220,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã hàng đặt cọc",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên hàng đặt cọc",
+    "allowFilter": true,
+    "width": 220,
+    "isLockingColumn": true
+  },
+  {
+    "name": "dvt",
+    "title": "Đvt",
+    "allowFilter": true,
+    "width": 80,
+    "isLockingColumn": true
+  },
+  {
+    "name": "sl_dat_coc",
+    "title": "SL máy đặt cọc",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tien_dat_coc",
+    "title": "Tiền đã đặt cọc",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "sl_hoan_coc",
+    "title": "SL máy hoàn cọc",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tien_hoan_coc",
+    "title": "Tiền hoàn cọc",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "sl_dung_coc",
+    "title": "SL máy dùng cọc",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tien_dung_coc",
+    "title": "Tiền cọc đã dùng",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tien_con_lai",
+    "title": "Tiền còn lại",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "ma_ctr",
+    "title": "Mã chương trình cọc",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_ctr",
+    "title": "Tên chương trình cọc",
+    "allowFilter": true,
+    "width": 220,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ngay_bd",
+    "title": "Ngày bđ đặt cọc",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "datetimeFormat",
+    "isLockingColumn": true,
+    "align": "center"
+  },
+  {
+    "name": "ngay_kt",
+    "title": "Ngày kt đặt cọc",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "datetimeFormat",
+    "isLockingColumn": true,
+    "align": "center"
+  },
+  {
+    "name": "ngay_tra_hang",
+    "title": "Ngày trả hàng",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "datetimeFormat",
+    "isLockingColumn": true,
+    "align": "center"
+  }
+]
