@@ -292,7 +292,7 @@ export class SaleRenewService {
         this.discountService.removeDiscount(discounts, this.ticket.discount);
         // this.guanranteeService.removeGuarantee(merchandise.ma_imei, this.ticket);
         this.merchandiseService.removePromotionMerchandiseByOrderImei(merchandise.ma_imei, this.ticket.merchandise_new_sale);
-        this.discountService.resetDiscount(this.ticket.discount);
+        this.discountService.resetDiscount(this.ticket.discount, false, merchandise, false, true);
         this.removeServiceAfterRemoveMerchandise(merchandise);
         this.calcMoney();
         this.commonService.showMessage(Language.content.Delete_Completed);

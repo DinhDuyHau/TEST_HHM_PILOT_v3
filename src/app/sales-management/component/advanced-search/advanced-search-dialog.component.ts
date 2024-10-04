@@ -22,6 +22,7 @@ interface IFilter {
   ma_vt: string;
   ma_imei: string;
   status: string;
+  status2: string;
   voucherCode: string;
   ten_kh: string;
   ten_kho: string;
@@ -59,6 +60,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
     ma_vt: '',
     ma_imei: '',
     status: '',
+    status2: '',
     voucherCode: '',
     ten_kh: '',
     ten_kho: '',
@@ -98,6 +100,9 @@ export class AdvancedSearchDialogComponent implements OnInit {
   lbl_ten_cuahang = 'Tên cửa hàng';
   lbl_ma_cuahang2 = 'Mã cửa hàng 2';
   lbl_ten_cuahang2 = 'Tên cửa hàng 2';
+
+  lbl_trang_thai = 'Trạng thái';
+  lbl_trang_thai2 = 'Trạng thái 2';
 
   constructor(
     public dialogRef: MatDialogRef<AdvancedSearchDialogComponent>,
@@ -144,6 +149,10 @@ export class AdvancedSearchDialogComponent implements OnInit {
       this.lbl_ten_cuahang = 'Tên cửa hàng xuất';
       this.lbl_ma_cuahang2 = 'Mã cửa hàng nhận';
       this.lbl_ten_cuahang2 = 'Tên cửa hàng nhận';
+
+      this.lbl_trang_thai = 'Trạng thái PX';
+      this.lbl_trang_thai2 = 'Trạng thái PN';
+
     }
     if (this.voucherCode === 'PNF' || this.voucherCode === 'pnf' || this.voucherCode === 'PR3' || this.voucherCode === 'pr3'
       || this.voucherCode === 'PNN' || this.voucherCode === 'pnn'
@@ -157,21 +166,27 @@ export class AdvancedSearchDialogComponent implements OnInit {
       this.lbl_ten_cuahang = 'Tên cửa hàng nhập';
       this.lbl_ma_cuahang2 = 'Mã cửa hàng xuất';
       this.lbl_ten_cuahang2 = 'Tên cửa hàng xuất';
+
+      this.lbl_trang_thai = 'Trạng thái PN';
+      this.lbl_trang_thai2 = 'Trạng thái PX';
     }
+
+    //set mặc định trạng thái 2
+    convert.status2 = this.statusList[0].status;
 
     const userInfo = JSON.parse(localStorage.getItem('user') || '');
     if (userInfo) {
-      convert.ma_cuahang = userInfo.shop;
-      if (this.isShowShop()) {
-        if (this.shop?.length) {
-          this.ten_cuahang = this.shop.find((e: any) => e.ma_cuahang === userInfo.shop)?.ten_cuahang;
-          if (!this.ten_cuahang) {
-            this.commonService.showMessage("Không tìm thấy thông tin cửa hàng");
-          }
-        } else {
-          this.commonService.showMessage("Không có danh sách cửa hàng");
-        }
-      }
+      // convert.ma_cuahang = userInfo.shop;
+      // if (this.isShowShop()) {
+      //   if (this.shop?.length) {
+      //     this.ten_cuahang = this.shop.find((e: any) => e.ma_cuahang === userInfo.shop)?.ten_cuahang;
+      //     if (!this.ten_cuahang) {
+      //       this.commonService.showMessage("Không tìm thấy thông tin cửa hàng");
+      //     }
+      //   } else {
+      //     this.commonService.showMessage("Không có danh sách cửa hàng");
+      //   }
+      // }
     } else {
       this.commonService.showMessage("Không tìm thấy thông tin người dùng");
     }

@@ -282,7 +282,7 @@ export class SaleAffiliateService {
         this.guanranteeService.removeGuarantee(merchandise.ma_imei, this.ticket);
         this.merchandiseService.removePromotionMerchandiseByOrderImei(merchandise.ma_imei, this.ticket.merchandise);
         this.removeServiceAfterRemoveMerchandise(merchandise);
-        this.discountService.resetDiscount(this.ticket.discount);
+        this.discountService.resetDiscount(this.ticket.discount, false, merchandise, false, true);
         this.calcMoney();
         this.commonService.showMessage(Language.content.Delete_Completed);
     }

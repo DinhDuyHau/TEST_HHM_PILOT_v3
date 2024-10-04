@@ -110,7 +110,9 @@ export class DiscountService {
     }
 
     //isGridDiscount: method được gọi từ grid "chiết khấu"
-    resetDiscount(discounts: any[], isGridItem: boolean = false, currentRowitem: Merchandise | null = null, isGridDiscount: boolean = false) {
+    //isRemoveMerchandise: call method từ hành động xóa hàng hóa trong grid
+    resetDiscount(discounts: any[], isGridItem: boolean = false, currentRowitem: Merchandise | null = null,
+        isGridDiscount: boolean = false, isRemoveMerchandise = false) {
         let discountKeep = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.GIFT);
 
         if (!isGridDiscount) {
@@ -125,7 +127,13 @@ export class DiscountService {
             }
             else {
                 //Thực hiện gọi tính ck từ button trên form master => giữ lại chiết khấu ngoại giao, tính lại các ck khác
-                const discount_keep_adv = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER);
+                let discount_keep_adv = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER);
+
+                //Nếu thực hiện xóa dòng trong grid hàng hóa => loại bỏ ck ngoại giao tương ứng với imei đang xóa
+                if (isRemoveMerchandise && currentRowitem && currentRowitem.ma_imei) {
+                    discount_keep_adv = discount_keep_adv.filter(e => e.ma_imei.trim() !== currentRowitem.ma_imei.trim());
+                }
+
                 discountKeep.push(...discount_keep_adv);
             }
         }
