@@ -115,45 +115,71 @@
           [readonly]="true" />
       </div>
 
-      <div class="d-flex gap-2 box" *ngIf="isShowInventory()">
+      <div class="d-flex gap-2 box" *ngIf="isShowStockList(); else noStockList">
         <form-input-custom
           class="flex-1"
           [name]="'ma_kho'"
           [label]="lbl_ma_kho"
           [value]="filters.ma_kho"
           (handleChangeValue)="onEnterWarehouseInput($event)"
-          (handleClickOpenDialog)="openWarehouseDialog('ma_kho', 'ten_kho')" />
-        <form-input-custom
-          class="flex-1"
-          [name]="'ten_kho'"
-          [label]="lbl_ten_kho"
-          [value]="filters.ten_kho"
-          [readonly]="true" />
+          (handleClickOpenDialog)="openWarehouseDialog2('ma_kho')" />
       </div>
+      <ng-template #noStockList>
+        <div class="d-flex gap-2 box" *ngIf="isShowInventory()">
+          <form-input-custom
+            class="flex-1"
+            [name]="'ma_kho'"
+            [label]="lbl_ma_kho"
+            [value]="filters.ma_kho"
+            (handleChangeValue)="onEnterWarehouseInput($event)"
+            (handleClickOpenDialog)="openWarehouseDialog('ma_kho', 'ten_kho')" />
+          <form-input-custom
+            class="flex-1"
+            [name]="'ten_kho'"
+            [label]="lbl_ten_kho"
+            [value]="filters.ten_kho"
+            [readonly]="true" />
+        </div>
+      </ng-template>
 
-      <div
-        *ngIf="
-          voucherCode === 'PXB' || voucherCode === 'pxb' ||
-          voucherCode === 'PNF' || voucherCode === 'pnf' ||
-          voucherCode === 'PR3' || voucherCode === 'pr3' ||
-          voucherCode === 'PXN' || voucherCode === 'pxn' ||
-          voucherCode === 'PNN' || voucherCode === 'pnn'
-        "
-        class="d-flex gap-2 box">
+
+      <div class="d-flex gap-2 box" *ngIf="isShowStockList(); else noStockList">
         <form-input-custom
           class="flex-1"
           [name]="'ma_kho2'"
           [label]="lbl_ma_kho2"
           [value]="filters.ma_kho2"
           (handleChangeValue)="onEnterWarehouseOutput($event)"
-          (handleClickOpenDialog)="openWarehouseDialog('ma_kho2', 'ten_kho2')" />
-        <form-input-custom
-          class="flex-1"
-          [name]="'ten_kho2'"
-          [label]="lbl_ten_kho2"
-          [value]="filters.ten_kho2"
-          [readonly]="true" />
+          (handleClickOpenDialog)="openWarehouseDialog2('ma_kho2')" />
       </div>
+      <ng-template #noStockList>
+        <div
+              *ngIf="
+                voucherCode === 'PXB' || voucherCode === 'pxb' ||
+                voucherCode === 'PNF' || voucherCode === 'pnf' ||
+                voucherCode === 'PR3' || voucherCode === 'pr3' ||
+                voucherCode === 'PXN' || voucherCode === 'pxn' ||
+                voucherCode === 'PNN' || voucherCode === 'pnn'
+              "
+              class="d-flex gap-2 box">
+              <form-input-custom
+                class="flex-1"
+                [name]="'ma_kho2'"
+                [label]="lbl_ma_kho2"
+                [value]="filters.ma_kho2"
+                (handleChangeValue)="onEnterWarehouseOutput($event)"
+                (handleClickOpenDialog)="openWarehouseDialog('ma_kho2', 'ten_kho2')" />
+              <form-input-custom
+                class="flex-1"
+                [name]="'ten_kho2'"
+                [label]="lbl_ten_kho2"
+                [value]="filters.ten_kho2"
+                [readonly]="true" />
+            </div>
+      </ng-template>
+      
+
+      
 
       <div class="d-flex gap-2 box">
         <form-input-custom
