@@ -42,6 +42,8 @@ import { SelectSearchComponent } from './sales-management/component/form-control
 // import { CustomRouteReuseStrategy } from './custom-route-reuse';
 import { PromotionSelectModule } from './sales-management/component/promotion/promotion-select.module';
 
+import { SearchV2DialogModule } from './sales-management/component/search-v2/serach-v2-dialog.module';
+
 
 @NgModule({
   imports: [
@@ -75,6 +77,7 @@ import { PromotionSelectModule } from './sales-management/component/promotion/pr
     SettingModule,
     SettingChangeModule,
     PromotionSelectModule,
+    SearchV2DialogModule,
   ],
   declarations: [AppComponent, LoginComponent, AppLayoutComponent, LookupV2Component, Home2Component,
     ScanComponent,

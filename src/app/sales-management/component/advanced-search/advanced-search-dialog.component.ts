@@ -10,6 +10,8 @@ import { TICKET_CODE } from '@app/sales-management/model/common/ticket-code.mode
 import { MerchandiseApiService } from '@app/sales-management/api/merchandise-api.service';
 import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 
+import { SEARCH_V2_COMPONENT_NAME, SearchV2DialogComponent } from '../search-v2/serach-v2-dialog.component';
+
 interface IFilter {
   ngay_bd: string;
   ngay_kt: string;
@@ -268,6 +270,21 @@ export class AdvancedSearchDialogComponent implements OnInit {
     }
     return true;
   }
+
+  isShowStockList() {
+    if ([
+      TICKET_CODE.STOCK_PROPOSEDPURCHASE,
+      TICKET_CODE.STOCK_TRANFER,
+      TICKET_CODE.STOCK_TRANFER_IN,
+      TICKET_CODE.STOCK_INTERNAL_SALE,
+      TICKET_CODE.STOCK_INTERNAL_PURCHASE,
+      TICKET_CODE.STOCK_SHOP_CHECK,
+    ].includes(this.voucherCode)
+    ) {
+      return true;
+    }
+    return false;
+  }
   // #region config form
 
   // #region customer
@@ -306,6 +323,26 @@ export class AdvancedSearchDialogComponent implements OnInit {
         if (result) {
           (this.filters as any)[ma_kho] = result.ma_kho;
           (this.filters as any)[ten_kho] = result.ten_kho;
+        }
+      });
+  }
+
+  openWarehouseDialog2(ma_kho: string, ma_vt?: string) {
+    let selectedStock;
+    if (this.filters.ma_kho && ma_kho === 'ma_kho') {
+      selectedStock = this.filters.ma_kho.split(',').map(item => item.trim())
+    }
+    if (this.filters.ma_kho2 && ma_kho === 'ma_kho2') {
+      selectedStock = this.filters.ma_kho2.split(',').map(item => item.trim())
+    }
+    this.commonService.openDialog(SearchV2DialogComponent, {
+      keyword: ma_vt || '',
+      selectedStock: selectedStock,
+      componentName: SEARCH_V2_COMPONENT_NAME.WAREHOUSE
+    }, 'search-style-dialog')
+      .afterClosed().subscribe(result => {
+        if (result) {
+          (this.filters as any)[ma_kho] = result.map((item: any) => item.ma_kho).join(', ');;
         }
       });
   }

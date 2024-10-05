@@ -1,0 +1,78 @@
+.title {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
+  color: #1a212a;
+}
+
+.btn-responsive {
+  font-size: 14px;
+  padding: 7px 27px;
+  border-radius: 5px;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.btn-cancel {
+  background-color: #ebedf2;
+  color: #262f3d;
+}
+
+.btn-add {
+  background-color: #005447;
+  color: #fff;
+}
+
+.search-dialog-container {
+  height: 100%;
+  overflow: auto;
+}
+
+.search-dialog-wrapper {
+  position: relative;
+  margin: 12px;
+  padding: 30px 4px 20px 4px;
+  background: #ffffff;
+  border-radius: 10px;
+
+  .close-btn {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: -12px;
+    right: -12px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    border: 5px solid #fff;
+    background-color: #005447;
+    color: #fff;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .search-dialog {
+    max-height: 550px;
+    overflow: auto;
+  }
+}
+
+::ng-deep .search-style-dialog {
+  max-width: 1500px !important;
+  max-height: 800px;
+  width: 100%;
+  height: 100%;
+}
+
+::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
