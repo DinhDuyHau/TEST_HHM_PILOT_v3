@@ -17,6 +17,8 @@ import { VNPayComponent } from '../../vnpay/vnpay.component';
 import { TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { PaymentApiService } from '@app/sales-management/api/payment-api.service';
 import { formatDate } from '@angular/common';
+import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-payment-tab-dialog',
@@ -58,7 +60,11 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     voucher_doi_tac: {
       ma_ctr: false
     }
-  }
+  };
+
+  ma_kh = '';
+  ngay_ct = '';
+  reloadDepositOnInit = false;
 
   constructor(
     public dialogRef: MatDialogRef<PaymentTabDialogComponent>,
@@ -78,15 +84,16 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       isPaymentHH: boolean,
       approveDiscount: string,
       ma_kh: string,
-      ngay_ct: string
+      ngay_ct: string,
+      reloadDepositOnInit: boolean
     },
     private dialog: MatDialog,
     private commonService: CommonService,
     private posService: POSService,
     private discountProgramService: DiscountProgramService,
     private viewDiscountProgramService: ViewDiscountProgramService,
-    private paymentApiService: PaymentApiService
-
+    private paymentApiService: PaymentApiService,
+    private customerApiService: CustomerApiService
   ) {
     this.data = dataPayment.data;
     this.t_tong_tien = dataPayment.t_tong_tien;
@@ -102,6 +109,10 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     this.merchandise = dataPayment.merchandise;
     this.isPaymentHH = dataPayment.isPaymentHH;
     this.approveDiscount = dataPayment.approveDiscount;
+
+    this.ma_kh = dataPayment.ma_kh;
+    this.ngay_ct = dataPayment.ngay_ct;
+    this.reloadDepositOnInit = dataPayment.reloadDepositOnInit;
 
     if (this.isPaymentHH) {
       if (!this.data.chuyen_khoan.selected) {
@@ -123,6 +134,11 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
 
   ngOnInit(): void {
     // console.log(this.data);
+
+    //load lại thông tin tiền đặt cọc, tạm ứng của khách hàng
+    if (this.reloadDepositOnInit) {
+      this.handleGetDeposit();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -131,6 +147,29 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
 
   ngOnChanges(changes: SimpleChanges): void {
     //
+  }
+
+  handleGetDeposit() {
+    //lấy thông tin đvcs từ user đăng nhập
+    const user: any = JSON.parse(localStorage.getItem('user')!);
+    let ma_dvcs = '';
+    if (user) {
+      ma_dvcs = user.unit;
+    }
+    const ngay_ct = formatDate(this.ngay_ct, 'yyyy/MM/dd', 'en_US');
+
+    if (!this.ma_kh || this.ma_kh === '' || ma_dvcs === '' || ngay_ct === '')
+      return;
+
+    const getDeposit = () => {
+      return this.customerApiService.getDeposit(this.ma_kh, ma_dvcs, ngay_ct);
+    };
+    getDeposit().subscribe((result: any) => {
+      if (result && result.success && result.result) {
+        this.depositSource = result.result.items;
+        this.t_dat_coc_max = this.depositSource.reduce((pre: number, cur: any) => pre + cur.cl_nt, 0);
+      }
+    })
   }
 
   onChange() {
@@ -320,7 +359,6 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       this.merchandise.some((item: any) => item.ma_vt.trim() === x.ma_vt.trim())
     );
 
-    console.log(this.depositSelected)
     if (deposit.length > 0) {
       this.commonService.openDialog(DepositSelectComponent, { dataSource: deposit, currentItem: this.depositSelected })
         .afterClosed().subscribe(depositSelected => {

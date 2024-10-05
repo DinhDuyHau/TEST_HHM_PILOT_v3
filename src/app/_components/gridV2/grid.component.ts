@@ -447,7 +447,8 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
   }
   onhandleLookup(element: any, column: Field) {
     if (column.link) {
-      window.open(element.linkToVoucher, '_blank');
+      const url = element.linkToVoucher.toString().replace('stt_rec', 'key');
+      window.open(url, '_blank');
     }
     if (column.isPrimaryKey && this.gridType === 1 && !this.multipleChoose) {
       this.handleItemLookup.emit({ item: element });

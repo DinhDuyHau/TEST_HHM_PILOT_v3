@@ -236,6 +236,7 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
               result.so_luong = result.sl_ban;
               result.stt_rec_hd = result.stt_rec;
               result.stt_rec0_hd = result.stt_rec0;
+              result.so_ct_hd = result.so_ct;
               this.merchandiseService.addNew(result, this.ticket.merchandise, Merchandise);
               this.saleGiftRepayService.calcMoney();
             }

@@ -47,6 +47,9 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() ma_kh: string = '';
   @Input() ngay_ct: string = '';
 
+  //load lại dữ liệu tiền đặt cọc, tạm ứng của khách hàng
+  @Input() reloadDepositOnInit = false;
+
   @Output() handleChangeValue = new EventEmitter<{ t_con_no: number; t_da_tra: number; t_gg: number; nguoi_duyet_ck: string; t_chi_phi: number }>();
   @Output() handleButton = new EventEmitter<string>();
 
@@ -69,8 +72,6 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
-    //
   }
 
   ngAfterViewInit(): void {
@@ -103,7 +104,8 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
         isPaymentHH: this.isPaymentHH,
         approveDiscount: this.approveDiscount,
         ma_kh: this.ma_kh,
-        ngay_ct: this.ngay_ct
+        ngay_ct: this.ngay_ct,
+        reloadDepositOnInit: this.reloadDepositOnInit
       }, 'search-style-dialog')
       .afterClosed()
       .subscribe((data) => {
