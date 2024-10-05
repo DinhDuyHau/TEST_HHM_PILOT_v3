@@ -40,7 +40,7 @@ export class MasterInfo extends BaseEntity {
 }
 
 export class Merchandise {
-  so_ct = '';
+  so_ct_hd = '';
   stt_rec_hd = '';
   stt_rec0_hd = '';
 
