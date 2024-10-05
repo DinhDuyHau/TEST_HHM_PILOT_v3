@@ -325,18 +325,21 @@ export function getRouteCategoryNotExists(router: Route[]) {
     const route: Route[] = [];
     let link = '';
     getMenuFromLocalStorage2().subscribe((menuItem: MenuItem[]) => {
-        if (menuItem.length > 1)
-            menuItem[0].children.forEach(element => {
-                link = element.link.charAt(0) == '/' ? element.link.slice(1) : element.link;
-                if (!checkIfRouteExists(router, link)) {
-                    route.push({
-                        path: link, component: AppLayoutComponent, canActivate: [AuthGuard],
-                        children: [
-                            { path: '', component: CategoryComponent, canActivate: [AuthGuard] }
-                        ]
-                    });
-                }
-            });
+        const category_menus = menuItem.filter(x => x.type === 'D' || x.type === 'd');
+        if (category_menus && category_menus.length > 0)
+            for (let cate_menu_item of category_menus) {
+                cate_menu_item.children.forEach(element => {
+                    link = element.link.charAt(0) == '/' ? element.link.slice(1) : element.link;
+                    if (!checkIfRouteExists(router, link)) {
+                        route.push({
+                            path: link, component: AppLayoutComponent, canActivate: [AuthGuard],
+                            children: [
+                                { path: '', component: CategoryComponent, canActivate: [AuthGuard] }
+                            ]
+                        });
+                    }
+                });
+            }
     });
     return route;
 }

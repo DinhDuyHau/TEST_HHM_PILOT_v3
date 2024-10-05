@@ -109,7 +109,8 @@ const routes: Routes = [
     children: [
       { path: '', component: CustomerComponent, canActivate: [AuthGuard] },
       { path: 'create', component: CreateCustomerComponent, canActivate: [AuthGuard] },
-      { path: 'update', component: CreateCustomerComponent, canActivate: [AuthGuard] },
+      // { path: 'update', component: CreateCustomerComponent, canActivate: [AuthGuard] },
+      { path: 'view', component: CreateCustomerComponent, canActivate: [AuthGuard] }
     ]
   },
   {

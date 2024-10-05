@@ -45,6 +45,7 @@ export class CategoryComponent implements OnInit, OnChanges {
     else {
       this.type = 2;
     }
+    console.log(this.type);
   }
   ngOnChanges(changes: SimpleChanges): void {
     //

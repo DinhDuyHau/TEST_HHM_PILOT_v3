@@ -19,6 +19,8 @@ export class CustomerComponent extends Grid<Customer> implements OnInit, OnChang
   override fields!: Field[];
   buttonsCustom!: Button[];
   title = 'Danh mục khách hàng';
+  customer_action_buttons: Button[] = [button.ViewButton];
+
   constructor(private customerService: CustomerService) {
     super(customerService);
     this.buttonsCustom = [...this.buttons, button.PrintButton];

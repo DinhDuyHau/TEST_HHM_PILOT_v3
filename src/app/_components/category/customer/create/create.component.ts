@@ -99,7 +99,6 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
     this.customerService.getItem(ma_kh).subscribe((item) => {
       if (item && item.success) {
         this.customer = item.result;
-        console.log(this.customer);
       }
       else {
         this.matSnackBar.open(getResource(item.message), 'Đóng', {
