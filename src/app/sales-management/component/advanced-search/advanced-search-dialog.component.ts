@@ -139,7 +139,9 @@ export class AdvancedSearchDialogComponent implements OnInit {
     if (!convert.ngay_bd || convert.ngay_bd === '') convert.ngay_bd = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
     if (!convert.ngay_kt || convert.ngay_kt === '') convert.ngay_kt = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
 
-    if (this.voucherCode === 'PXB' || this.voucherCode === 'pxb' || this.voucherCode === 'PXN' || this.voucherCode === 'pxn') {
+    if (this.voucherCode === 'PXB' || this.voucherCode === 'pxb' || this.voucherCode === 'PXN' || this.voucherCode === 'pxn'
+      || this.voucherCode === 'PR3' || this.voucherCode === 'pr3'
+    ) {
       this.lbl_ma_kho = 'Mã kho xuất';
       this.lbl_ten_kho = 'Tên kho xuất';
       this.lbl_ma_kho2 = 'Mã kho nhập';
@@ -154,7 +156,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
       this.lbl_trang_thai2 = 'Trạng thái PN';
 
     }
-    if (this.voucherCode === 'PNF' || this.voucherCode === 'pnf' || this.voucherCode === 'PR3' || this.voucherCode === 'pr3'
+    if (this.voucherCode === 'PNF' || this.voucherCode === 'pnf'
       || this.voucherCode === 'PNN' || this.voucherCode === 'pnn'
     ) {
       this.lbl_ma_kho = 'Mã kho nhập';
@@ -273,7 +275,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
 
   isShowStockList() {
     if ([
-      TICKET_CODE.STOCK_PROPOSEDPURCHASE,
+      //TICKET_CODE.STOCK_PROPOSEDPURCHASE,
       TICKET_CODE.STOCK_TRANFER,
       TICKET_CODE.STOCK_TRANFER_IN,
       TICKET_CODE.STOCK_INTERNAL_SALE,
