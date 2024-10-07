@@ -92,6 +92,10 @@ export class FilterComponent implements OnInit {
           inputs[i + 1].focus(); // Focus vào phần tử tiếp theo
           break;
         }
+        else {
+          //phần tử cuối cùng sẽ focus vào button tìm kiếm
+          document.getElementById('btn-filter-add')?.focus();
+        }
       }
     }
   }

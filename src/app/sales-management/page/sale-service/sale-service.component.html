@@ -187,6 +187,7 @@
       <payment-tab
         [pay_hidden]="['tien_dat_coc', 'ma_giam_gia', 'chiet_khau']"
         [invalid]="invalid"
+        [hiddenChooseButton]="mode === 2"
         [readonly]="readonly"
         [t_tong_tien]="ticket.masterInfo.t_tt_nt"
         [data]="ticket.payment"
