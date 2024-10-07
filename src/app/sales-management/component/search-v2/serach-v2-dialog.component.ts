@@ -58,7 +58,7 @@ export class SearchV2DialogComponent implements OnInit, AfterViewInit {
 
   constructor(
     public dialogRef: MatDialogRef<SearchV2DialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { keyword: string, componentName: number, title: string, ma_ct?: string, filter?: ItemFilter[], dataSource: any, selectedStock: any },
+    @Inject(MAT_DIALOG_DATA) public data: { keyword: string, componentName: number, title: string, ma_ct?: string, filter?: ItemFilter[], dataSource: any, selectedStock: any, stockData: any },
     private customerApiService: CustomerApiService,
     private imeiApiService: ImeiApiService,
     private merchandiseServiceApiService: MerchandiseServiceApiService,
@@ -72,17 +72,13 @@ export class SearchV2DialogComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    const retrievedData = localStorage.getItem('stock');
-    if (retrievedData) {
-      const stockData = JSON.parse(retrievedData);
-      this.data.dataSource = stockData;
-      this.selectedData = stockData.map((item: any) => {
-        const selectedStock = Array.isArray(this.data.selectedStock) ? this.data.selectedStock : [];
-        item.selected = selectedStock.includes(item.ma_kho);
-        return item;
-      })
-      this.dataSource = stockData.slice(0, 10);
-    }
+    this.selectedData = this.data.stockData.map((item: any) => {
+      const selectedStock = Array.isArray(this.data.selectedStock) ? this.data.selectedStock : [];
+      item.selected = selectedStock.includes(item.ma_kho);
+      return item;
+    })
+    this.dataSource = this.data.stockData.slice(0, 10);
+
 
     this.title = this.data.title || '';
     this.filters = this.data.filter || [];

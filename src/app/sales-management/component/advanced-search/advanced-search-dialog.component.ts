@@ -329,6 +329,22 @@ export class AdvancedSearchDialogComponent implements OnInit {
       });
   }
 
+  getDataStock(ma_kho: string) {
+    let infUser = JSON.parse(localStorage.getItem('user') || '');
+    let stockData = JSON.parse(localStorage.getItem('stock') || '')
+    if ([
+      TICKET_CODE.STOCK_TRANFER,
+      TICKET_CODE.STOCK_TRANFER_IN,
+      TICKET_CODE.STOCK_INTERNAL_SALE,
+      TICKET_CODE.STOCK_INTERNAL_PURCHASE
+    ].includes(this.voucherCode)) {
+      if (ma_kho && ma_kho === 'ma_kho') {
+        stockData = stockData.filter((items: any) => items.ma_cuahang === infUser.shop);
+      }
+    }
+    return stockData;
+  }
+
   openWarehouseDialog2(ma_kho: string, ma_vt?: string) {
     let selectedStock;
     if (this.filters.ma_kho && ma_kho === 'ma_kho') {
@@ -339,6 +355,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
     }
     this.commonService.openDialog(SearchV2DialogComponent, {
       keyword: ma_vt || '',
+      stockData: this.getDataStock(ma_kho),
       selectedStock: selectedStock,
       componentName: SEARCH_V2_COMPONENT_NAME.WAREHOUSE
     }, 'search-style-dialog')
