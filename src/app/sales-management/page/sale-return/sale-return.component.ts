@@ -467,7 +467,14 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
 
   onSaleReturnTypeChange($event: any) {
     this.ticket.masterInfo.fcode1 = $event;
-
+    if (this.ticket.masterInfo.fcode1 === '02') {
+      this.isSaleDown = false;
+      this.isDisableSaleDown = true;
+      this.resetSaleDown();
+    }
+    if (this.ticket.masterInfo.fcode1 === '01') {
+      this.isDisableSaleDown = false;
+    }
     const option: Option = new Option;
     this.ticket.merchandise.forEach(item => {
       //nhập trả lại theo chính sách
@@ -489,7 +496,6 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
       //nhập trả lại do hàng lỗi
       if (this.ticket.masterInfo.fcode1 === '02') {
         item.tien_giam = 0;
-
         //set kho hàng lỗi cho các item trong grid hàng hóa
         this.ticketApiService.getStockRenew(this.ticket.masterInfo.ma_cuahang, 'HL').subscribe(result => {
           if (result && result.success && result.result.items && result.result.items[0]) {
