@@ -368,7 +368,6 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   }
 
   onClickSearchFilter(filters: any) {
-    console.log(filters);
     this.filters = this.filters.filter((item) => {
       return !filters.find((item2: any) => {
         return item2.name == item.name;

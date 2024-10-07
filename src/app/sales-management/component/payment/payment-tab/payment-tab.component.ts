@@ -48,7 +48,7 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() ngay_ct: string = '';
 
   //load lại dữ liệu tiền đặt cọc, tạm ứng của khách hàng
-  @Input() reloadDepositOnInit = false;
+  @Input() reloadDepositOnInit = true;
 
   @Output() handleChangeValue = new EventEmitter<{ t_con_no: number; t_da_tra: number; t_gg: number; nguoi_duyet_ck: string; t_chi_phi: number }>();
   @Output() handleButton = new EventEmitter<string>();

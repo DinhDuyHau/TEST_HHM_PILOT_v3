@@ -117,6 +117,7 @@
           #ma_kho
           name="ma_kho"
           [disabled]="disabled"
+          [readonly]="true"
           [value]="site_code"
           (handleChange)="this.site_code = $event"
           (handleEnter)="onEnter($event)"

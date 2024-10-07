@@ -200,6 +200,8 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
 
       //Tiền đặt cọc
       if (this.data.tien_dat_coc.selected && this.data.tien_dat_coc.tien) {
+        console.log(this.data.tien_dat_coc);
+        console.log(this.t_dat_coc_max);
         this.data.tien_dat_coc.tien <= this.t_dat_coc_max ?
           this.t_con_no -= this.data.tien_dat_coc.tien :
           this.t_con_no -= this.t_dat_coc_max;
