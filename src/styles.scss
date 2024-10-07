@@ -150,3 +150,16 @@ app-input {
   cursor: move;
 }
 
+/* Css cho trường trạng thái phiếu */
+// lập chứng từ
+.status-lct {
+  --bs-bg-opacity: 0.5;
+  background-color: #FFF7DD !important;
+}
+
+//chờ duyệt
+.status-pending {}
+
+//hoàn thành
+.status-completed {}
+/* End */
