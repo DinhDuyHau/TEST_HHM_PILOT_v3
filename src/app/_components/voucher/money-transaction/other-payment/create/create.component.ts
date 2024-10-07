@@ -108,6 +108,7 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
     const user = authenticateService.userValue;
     if (user !== null && user.username !== undefined && user.shop) {
       this.userName = user.username;
+      this.bankingService.setItemFilter([{ name: 's1', operator: 'like', value: '1' }]);
     }
   }
   onHandleActionButton(event: { buttonId: string; data?: any; }) {

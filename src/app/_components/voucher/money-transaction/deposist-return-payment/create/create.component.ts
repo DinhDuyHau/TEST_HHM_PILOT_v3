@@ -34,6 +34,7 @@ import { BankingService } from '@app/_components/lookup/banking/banking.service'
 import { OpenSaleProgramService } from '@app/_components/lookup/open_sale_program/open_sale_program.service';
 import { DepositReturnPaymentService } from '@app/_components/lookup/deposit_return_payment/deposit_return_payment.service';
 import { CommonService } from '@app/sales-management/page/common/common.service';
+import { EventService } from '@app/_components/lookup/event/event.service';
 
 @Component({
   selector: 'app-create',
@@ -108,6 +109,7 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
     if (user !== null && user.username !== undefined && user.shop) {
       this.userName = user.username;
       this.ma_dvcs = user.unit || '';
+      this.bankingService.setItemFilter([{ name: 's1', operator: 'like', value: '1' }]);
     }
   }
   onHandleActionButton(event: { buttonId: string; data?: any; index: number }) {
