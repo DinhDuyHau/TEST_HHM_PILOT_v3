@@ -89,6 +89,15 @@ export class TableCustomComponent implements
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes["dataSource"]?.currentValue?.length > 0) {
+      // chỉ xử lý các phiếu điều chuyển kho
+      const ARRAY_SITE_TRANSFER = ['PR3Tran', 'ITTran', 'IPTran', 'ITNTran', 'IPNTran', 'ITTran_PXB2', 'KKTran'];
+      if (ARRAY_SITE_TRANSFER.includes(this.entityName)) {
+        this.dataSource = this.dataSource.map(item => ({
+          ...item,
+          class: this.getStatusClass(item.status)
+        }));
+      }
+
       this.pageIndexTotal = Math.trunc(this.totalItem / this.size) + 1
 
       const range = {
@@ -370,4 +379,17 @@ export class TableCustomComponent implements
     return this.dataSourceAll.every(record => record.selected);
   }
 
+  // xử lý class cho trạng thái phiếu
+  getStatusClass(status: string): string {
+    switch (status) {
+      case "0":
+        return 'status-lct';
+      case "1":
+        return 'status-pending';
+      case "2":
+        return 'status-completed';
+      default:
+        return '';
+    }
+  }
 }
