@@ -56,6 +56,7 @@
         id="record"
         #ref
         class="record"
+        [ngClass]="record.class"
         *ngFor="let record of dataSource; index as i">
         <td *ngIf="selectByCheckbox" class="text-center">
           <input
