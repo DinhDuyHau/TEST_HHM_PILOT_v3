@@ -31,6 +31,8 @@ export interface MasterInfo {
     ma_ct?: string,
     so_ct?: string,
     ngay_ct?: string,
+    so_ct_px?: string,
+    ngay_ct_px?: string,
     ngay_lct?: string,
     ma_dvcs: string,
     ma_ca?: string,
