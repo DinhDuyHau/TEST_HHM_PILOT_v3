@@ -492,9 +492,6 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
       this.f['so_ct_px'].setValue(master.so_ct);
       this.f['ngay_ct_px'].setValue(master.ngay_ct);
 
-      console.log(this.data.masterInfo);
-
-
       this.data.details[0].data.push({
         ma_imei: response.ma_imei,
         stt_rec0: '',
