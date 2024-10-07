@@ -184,8 +184,6 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
       this.voucherForm = this.formBuilder.group({
         so_ct: [this.data.masterInfo.so_ct, Validators.required],
         ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
-        so_ct_px: [this.data.masterInfo.so_ct_px, Validators.required],
-        ngay_ct_px: [this.data.masterInfo.ngay_ct_px, Validators.required],
         status: [this.data.masterInfo.status, Validators.required],
         ma_cuahang: [this.data.masterInfo.ma_cuahang, Validators.required],
         ten_cuahang: [this.ten_cuahang],
@@ -235,8 +233,6 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
         ma_ct: this.voucherCode,
         so_ct: '',
         ngay_ct: getDateFormat(new Date()),
-        so_ct_px: '',
-        ngay_ct_px: '',
         ma_dvcs: userObj['unit'],
         ma_ca: userObj['shift'],
         ma_cuahang: userObj['shop'],
@@ -269,8 +265,6 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
         this.voucherForm = this.formBuilder.group({
           so_ct: [this.data.masterInfo.so_ct, Validators.required],
           ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
-          so_ct_px: [this.data.masterInfo.so_ct_px, Validators.required],
-          ngay_ct_px: [this.data.masterInfo.ngay_ct_px, Validators.required],
           status: [this.data.masterInfo.status, Validators.required],
           ma_cuahang: [this.data.masterInfo.ma_cuahang, Validators.required],
           ten_cuahang: [this.ten_cuahang],
@@ -305,8 +299,6 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
     this.voucherForm = this.formBuilder.group({
       so_ct: [this.data.masterInfo.so_ct, Validators.required],
       ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
-      so_ct_px: [this.data.masterInfo.so_ct_px, Validators.required],
-      ngay_ct_px: [this.data.masterInfo.ngay_ct_px, Validators.required],
       status: [this.data.masterInfo.status, Validators.required],
       ma_cuahang: [this.data.masterInfo.ma_cuahang, Validators.required],
       ten_cuahang: [this.ten_cuahang],
@@ -486,12 +478,6 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
       this.f['ma_kh'].setValue(master.ma_kh);
       this.f['ong_ba'].setValue(master.ong_ba);
 
-      // số phiếu xuất, ngày xuất
-      this.data.masterInfo.so_ct_px = master.so_ct;
-      this.data.masterInfo.ngay_ct_px = getDateFormat(new Date(master.ngay_ct || '')).toString();
-      this.f['so_ct_px'].setValue(master.so_ct);
-      this.f['ngay_ct_px'].setValue(master.ngay_ct);
-
       this.data.details[0].data.push({
         ma_imei: response.ma_imei,
         stt_rec0: '',
@@ -506,6 +492,8 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
         tien_nt: response.tien_nt,
         stt_rec_px: response.stt_rec,
         stt_rec0px: response.stt_rec0,
+        so_ct_px: response.so_ct,
+        ngay_ct_px: response.ngay_ct,
       });
       this.calcTotal();
       this.dataSource.data = this.data.details[0].data;

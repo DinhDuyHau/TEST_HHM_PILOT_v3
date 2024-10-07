@@ -141,30 +141,6 @@
             submitted && f['dien_giai'].errors != null
           "></app-input-custom-v2>
       </div>
-      <div class="flex gap-2">
-        <app-input-custom-v2
-          #so_ct
-          [label]="getLabel('lbl_so_ct_px')"
-          class="flex-1"
-          name="so_ct_px"
-          [disabled]="true || disabled"
-          [dataFormatString]="'upperCaseFormat'"
-          type="text"
-          [value]="f['so_ct_px'].value"
-          (handleChange)="handleInputChange('so_ct_px', $event)"
-          (handleEnter)="onEnter($event)"></app-input-custom-v2>
-        <app-input-custom-v2
-          [label]="'Ngày xuất'"
-          class="flex-1"
-          type="date"
-          name="ngay_ct_px"
-          type="text"
-          [dataFormatString]="'datetimeFormat'"
-          [value]="f['ngay_ct_px'].value"
-          [disabled]="true || disabled"
-          (handleChange)="handleInputChange('ngay_ct_px', $event)"
-          (handleEnter)="onEnter($event)"></app-input-custom-v2>
-      </div>
     </div>
     <tabs-custom class="pt-2">
       <tab-custom label="Chi tiết" class="h-96 w-full">

@@ -154,12 +154,18 @@ app-input {
 // lập chứng từ
 .status-lct {
   --bs-bg-opacity: 0.5;
-  background-color: #FFF7DD !important;
+  background-color: #fff !important;
 }
 
 //chờ duyệt
-.status-pending {}
+.status-pending {
+  --bs-bg-opacity: 0.5;
+  background-color: #fff !important;
+}
 
 //hoàn thành
-.status-completed {}
+.status-completed {
+  --bs-bg-opacity: 0.5;
+  background-color: #FFF7DD !important;
+}
 /* End */
