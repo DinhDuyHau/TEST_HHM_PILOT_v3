@@ -27,7 +27,7 @@ export class MerchandiseService {
         return merchandise.find(e => this.compareMerchandiseCode(e.ma_vt, ma_vt));
     }
     getMerchandiseByMaVTAndMaKho(ma_vt: string, ma_kho: string, merchandise: any[]): any | undefined {
-        return merchandise.find(e => this.compareMerchandiseCode(e.ma_vt, ma_vt) && this.compareMerchandiseCode(e.ma_kho, ma_kho));
+        return merchandise.find(e => this.compareMerchandiseCode(e.ma_vt.trim(), ma_vt.trim()) && this.compareMerchandiseCode(e.ma_kho.trim(), ma_kho.trim()));
     }
     checkImeiExistMerchandise(ma_imei: string, merchandise: any[]) {
         return merchandise.find(e => this.compareMerchandiseCode(e.ma_imei, ma_imei));

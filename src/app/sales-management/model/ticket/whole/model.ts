@@ -42,6 +42,13 @@ export class Merchandise extends BaseMerchandise {
   so_luong_imei = 0;
   override ma_imei: any;
 
+  tien2 = 0;
+  tien_nt2 = 0;
+  tt = 0;
+  tt_nt = 0;
+  gia2 = 0;
+  gia_nt2 = 0;
+
   constructor(obj?: any) {
     super();
     Object.assign(this, obj);
