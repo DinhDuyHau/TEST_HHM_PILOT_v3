@@ -1,5 +1,18 @@
 [
   {
+    "name": "so_ct_px",
+    "title": "Số phiếu xuất",
+    "isLockingColumn": true,
+    "width": 120
+  },
+  {
+    "name": "ngay_ct_px",
+    "title": "Ngày",
+    "width": 100,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
     "name": "ma_vt",
     "title": "Mã vật tư",
     "isLockingColumn": true,
