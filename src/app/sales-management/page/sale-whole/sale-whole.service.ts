@@ -112,7 +112,6 @@ export class SaleWholeService {
                     merchandiseItem.thanh_tien = merchandiseByContract.reduce((pre, cur) => pre + cur.thanh_tien, 0);
                     merchandiseItem.tien_thue = merchandiseByContract.reduce((pre, cur) => pre + cur.tien_thue, 0);
                     merchandiseItem.thanh_toan = merchandiseByContract.reduce((pre, cur) => pre + cur.thanh_toan, 0);
-                    console.log(merchandiseItem)
                     return merchandiseItem;
                 });
             }

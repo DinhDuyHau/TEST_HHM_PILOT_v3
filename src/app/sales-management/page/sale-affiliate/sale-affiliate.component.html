@@ -321,6 +321,7 @@
     <ng-container>
       <payment-tab
         [invalid]="invalid"
+        [hiddenChooseButton]="mode === 2"
         [readonly]="readonly"
         [disableChooseButton]="true"
         [hiddenChooseButton]="true"

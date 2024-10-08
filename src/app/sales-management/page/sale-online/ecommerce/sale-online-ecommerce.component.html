@@ -400,6 +400,7 @@
     <ng-container>
       <payment-tab
         [invalid]="invalid"
+        [hiddenChooseButton]="mode === 2"
         [readonly]="readonly"
         [hiddenChooseButton]="true"
         [pay_hidden]="['sd_diem', 'ma_giam_gia']"

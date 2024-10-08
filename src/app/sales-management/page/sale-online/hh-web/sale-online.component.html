@@ -306,6 +306,7 @@
     <ng-container>
       <payment-tab
         [invalid]="invalid"
+        [hiddenChooseButton]="mode === 2"
         [readonly]="readonly"
         [t_tong_tien]="ticket.masterInfo.t_tt_nt"
         [data]="ticket.payment"
