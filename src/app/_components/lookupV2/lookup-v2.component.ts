@@ -54,7 +54,17 @@ export class LookupV2Component {
   }
 
   onClickItemLookup(event: { item: any }) {
-    this.dialogRef.close(event.item);
+    const existingItem = this.dataSource.filteredData.find((e: any) => e.ma_kho === event.item.ma_kho);
+    if (existingItem) {
+      existingItem.choose = true;
+    }
+    const items = this.dataSource.filteredData.filter(((item: any) => item.choose)) || [];
+    if (items.length > 0) {
+      this.dialogRef.close(items);
+    }
+    else {
+      this.dialogRef.close(event.item);
+    }
   }
 
   onNoClick(): void {

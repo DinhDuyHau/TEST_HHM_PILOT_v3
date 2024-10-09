@@ -1,5 +1,11 @@
 [
   {
+    "name": "choose",
+    "title": "Chọn",
+    "width": 80,
+    "type": "select"
+  },
+  {
     "name": "ma_kho",
     "title": "Mã kho",
     "isPrimaryKey": true,

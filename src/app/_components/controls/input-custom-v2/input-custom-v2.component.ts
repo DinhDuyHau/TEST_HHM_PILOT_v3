@@ -361,9 +361,11 @@ export class InputCustomV2Component implements OnChanges, OnInit {
                 list_control.push({ control: this.mapper[item], value: result[item] || (typeof (result[item.name]) == 'boolean' ? false : '') });
               }
               else {
+                if (result.length > 0) {
+                  result[item] = result.map((item: any) => item.ma_kho).join(', ');
+                }
                 list_control.push({ control: item, value: result[item] || (typeof (result[item.name]) == 'boolean' ? false : '') });
               }
-
             }
           });
 
