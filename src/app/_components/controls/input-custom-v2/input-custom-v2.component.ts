@@ -343,7 +343,10 @@ export class InputCustomV2Component implements OnChanges, OnInit {
             return item;
           });
           res.filter = [...res.filter, ...this.filter];
-          dialogConfig.data = res;
+          if (this.value !== undefined) {
+            var currentValue = this.value.split(',').map((item: any) => item.trim());
+          }
+          dialogConfig.data = { ...res, currentValue: currentValue };
         }
         dialogRef = this.dialog.open(LookupV2Component, dialogConfig);
       }

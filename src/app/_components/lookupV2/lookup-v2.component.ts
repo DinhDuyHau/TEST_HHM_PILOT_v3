@@ -94,6 +94,13 @@ export class LookupV2Component {
   }, sort?: ItemSort, filter?: ItemFilter[]): void {
     this.lookupService.getItems(page, filter || [], sort || { name: '', direction: '' }).subscribe(res => {
       this.dataSource = new MatTableDataSource<any>(res.result.items);
+
+      this.dataSource.filteredData = this.dataSource.filteredData.map((item: any) => {
+        const selectedStock = Array.isArray(this.data.currentValue) ? this.data.currentValue : [];
+        item.choose = selectedStock.includes(item.ma_kho);
+        return item;
+      })
+
       this.totalItems = res.result.recordCount;
       this.pageCount = res.result.pageCount;
       // this.pageIndex = res.result.pageIndex;
