@@ -36,7 +36,8 @@
         "control": "zcdmcuahang",
         "value": "@@shop",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_cuahang"]
+        "reference": ["ma_cuahang"],
+        "isChoose": true
       }
     ],
     [
@@ -74,7 +75,8 @@
         "isLookup": "true",
         "control": "dmkho",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_kho"]
+        "reference": ["ma_kho"],
+        "isChoose": true
       }
     ],
     [

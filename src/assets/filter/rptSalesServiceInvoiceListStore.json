@@ -40,7 +40,8 @@
         "dataFormatString": "uppercaseFormat",
         "reference": [
           "ma_cuahang"
-        ]
+        ],
+        "isChoose": true
       }
     ],
     [

@@ -16,7 +16,7 @@
         "name": "ma_cuahang",
         "label": "Mã cửa hàng",
         "isLookup": "true",
-        "control": "dmcuahang",
+        "control": "zcdmcuahang",
         "value": "@@shop",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_cuahang"],

@@ -53,8 +53,9 @@
         "control": "zcdmcuahang",
         "value": "@@shop",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_cuahang", "ten_cuahang"],
-        "hidden": false
+        "reference": ["ma_cuahang"],
+        "hidden": false,
+        "isChoose": true
       }
     ],
     [

@@ -47,10 +47,10 @@
         "value": "@@shop",
         "dataFormatString": "uppercaseFormat",
         "reference": [
-          "ma_cuahang",
-          "ten_cuahang"
+          "ma_cuahang"
         ],
-        "hidden": false
+        "hidden": false,
+        "isChoose": true
       }
     ],
     [
@@ -83,10 +83,10 @@
         "control": "dmkho",
         "dataFormatString": "uppercaseFormat",
         "reference": [
-          "ma_kho",
-          "ten_kho"
+          "ma_kho"
         ],
-        "required": false
+        "required": false,
+        "isChoose": true
       }
     ],
     [

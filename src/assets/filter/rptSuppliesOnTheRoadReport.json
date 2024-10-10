@@ -39,7 +39,8 @@
         "reference": ["ma_cuahang"],
         "mapper": {
           "ma_cuahang": "ma_cuahang_x"
-        }
+        },
+        "isChoose": true
       },
       {
         "name": "ma_cuahang_n",
@@ -51,7 +52,8 @@
         "reference": ["ma_cuahang"],
         "mapper": {
           "ma_cuahang": "ma_cuahang_n"
-        }
+        },
+        "isChoose": true
       }
     ],
     [
@@ -64,7 +66,8 @@
         "reference": ["ma_kho"],
         "mapper": {
           "ma_kho": "ma_kho_x"
-        }
+        },
+        "isChoose": true
       },
       {
         "name": "ma_kho_n",
@@ -75,7 +78,8 @@
         "reference": ["ma_kho"],
         "mapper": {
           "ma_kho": "ma_kho_n"
-        }
+        },
+        "isChoose": true
       }
     ],
     [

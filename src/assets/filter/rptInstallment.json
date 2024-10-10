@@ -1,5 +1,5 @@
 {
-  "width": 650,
+  "width": 700,
   "height": 500,
   "control": [
     [
@@ -30,7 +30,8 @@
         "control": "zcdmcuahang",
         "value": "@@shop",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_cuahang"]
+        "reference": ["ma_cuahang"],
+        "isChoose": true
       }
     ],
     [

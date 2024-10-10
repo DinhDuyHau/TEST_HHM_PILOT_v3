@@ -28,7 +28,8 @@
         "control": "zcdmcuahang",
         "value": "@@shop",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_cuahang"]
+        "reference": ["ma_cuahang"],
+        "isChoose": true
       }
     ],
     [

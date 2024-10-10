@@ -1,5 +1,5 @@
 {
-  "width": 600,
+  "width": 700,
   "height": 700,
   "control": [
     [
@@ -45,18 +45,6 @@
     ],
     [
       {
-        "name": "ma_kho",
-        "label": "Kho hàng",
-        "isLookup": "true",
-        "control": "dmkho",
-        "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_kho"
-        ]
-      }
-    ],
-    [
-      {
         "name": "ma_cuahang",
         "label": "Mã cửa hàng",
         "isLookup": "true",
@@ -65,7 +53,21 @@
         "dataFormatString": "uppercaseFormat",
         "reference": [
           "ma_cuahang"
-        ]
+        ],
+        "isChoose": true
+      }
+    ],
+    [
+      {
+        "name": "ma_kho",
+        "label": "Kho hàng",
+        "isLookup": "true",
+        "control": "dmkho",
+        "dataFormatString": "uppercaseFormat",
+        "reference": [
+          "ma_kho"
+        ],
+        "isChoose": true
       }
     ],
     [
@@ -76,17 +78,10 @@
         "control": "dmkho",
         "dataFormatString": "uppercaseFormat",
         "reference": [
-          "kho_hang_dc",
-          "ten_kho_dc"
+          "kho_hang_dc"
         ],
-        "class": "basis-1/3"
-      },
-      {
-        "name": "ten_kho_dc",
-        "label": "Tên kho ĐC",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [

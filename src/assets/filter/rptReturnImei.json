@@ -63,7 +63,8 @@
         "isLookup": "true",
         "control": "dmkho",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_kho"]
+        "reference": ["ma_kho"],
+        "isChoose": true
       }
     ],
     [
