@@ -6,5 +6,6 @@ export interface LookupData {
     entity: string;
     filter: ItemFilter[];
     multipleChoose: boolean;
+    isChoose: boolean;
     code: string;
 }

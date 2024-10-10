@@ -13,6 +13,7 @@ import { LookupData } from './lookup.model';
 })
 export class LookupComponent extends Grid<any> {
   title = '';
+  isChoose = false;
   multipleChoose = false;
   constructor(
     public dialogRef: MatDialogRef<LookupComponent>,

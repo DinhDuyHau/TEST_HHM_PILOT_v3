@@ -43,10 +43,14 @@ export class LookupV2Component {
     this.lookupData = data;
     this.lookupService.initData(data);
     this.lookupService.getFields().pipe().subscribe(fields => {
-      this.fields = fields;
+      if (data.isChoose == true) {
+        this.fields = fields;
+      }
+      else {
+        this.fields = fields.filter(item => item.name !== 'choose');
+      }
       this.init();
     });
-
     // this.multipleChoose = data.multipleChoose;
   }
   ngOnInit(): void {
@@ -54,10 +58,6 @@ export class LookupV2Component {
   }
 
   onClickItemLookup(event: { item: any }) {
-    const existingItem = this.dataSource.filteredData.find((e: any) => e.ma_kho === event.item.ma_kho);
-    if (existingItem) {
-      existingItem.choose = true;
-    }
     const items = this.dataSource.filteredData.filter(((item: any) => item.choose)) || [];
     if (items.length > 0) {
       this.dialogRef.close(items);

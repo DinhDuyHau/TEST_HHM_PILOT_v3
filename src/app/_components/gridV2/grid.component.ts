@@ -45,6 +45,7 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
   @ViewChild(MatSort) sort: MatSort | undefined;
   @Input() disabled = false;
   @Input() gridType = GridType.Grid;
+  @Input() isChoose = false;
   @Input() multipleChoose = false;
   @Input() pageIndex = 0;
   @Input() pageSize = 10;
@@ -452,6 +453,10 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
     }
     if (column.isPrimaryKey && this.gridType === 1 && !this.multipleChoose) {
       this.handleItemLookup.emit({ item: element });
+    }
+    if (this.isChoose == true) {
+      this.disabled == true
+      console.log('Run')
     }
   }
 

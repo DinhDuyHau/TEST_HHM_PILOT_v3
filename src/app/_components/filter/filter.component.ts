@@ -26,6 +26,7 @@ export class FilterComponent implements OnInit {
   submit = false;
   isMobile = false;
   formControlName: any = [];
+  isChoose = false;
 
   constructor(public dialogRef: MatDialogRef<FilterComponent>,
     private platform: Platform,
@@ -34,6 +35,9 @@ export class FilterComponent implements OnInit {
     this.controls = data.controls;
     this.controls.forEach(control => {
       control.forEach(item => {
+        if (item.isChoose && item.isChoose == true) {
+          this.isChoose = item.isChoose;
+        }
         if (item.value) {
           if (item.type == 'date') {
             if (item.value == 'new Date()') {

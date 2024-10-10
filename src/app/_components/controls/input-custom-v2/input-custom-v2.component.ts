@@ -59,6 +59,7 @@ export class InputCustomV2Component implements OnChanges, OnInit {
   @Input('reference') reference!: any;
   @Input('mapper') mapper!: any;
   @Input('invalid') invalid = false;
+  @Input('isChoose') isChoose!: boolean;
 
   status = true;
   previousValue!: string;
@@ -346,7 +347,7 @@ export class InputCustomV2Component implements OnChanges, OnInit {
           if (this.value !== undefined) {
             var currentValue = this.value.split(',').map((item: any) => item.trim());
           }
-          dialogConfig.data = { ...res, currentValue: currentValue };
+          dialogConfig.data = { ...res, currentValue: currentValue, isChoose: this.isChoose };
         }
         dialogRef = this.dialog.open(LookupV2Component, dialogConfig);
       }
