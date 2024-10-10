@@ -36,6 +36,6 @@
     "width": 160,
     "allowSorting": true,
     "allowFilter": true,
-    "dataFormatString": "upperCaseFormat"
+    "dataFormatString": "upperCaseFormat" 
   }
 ]

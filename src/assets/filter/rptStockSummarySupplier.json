@@ -37,18 +37,11 @@
         "control": "zcdmcuahang",
         "value": "@@shop",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_cuahang", "ten_cuahang"],
-        "class": "basis-1/4",
-        "required": false,
-        "hidden": false
-      },
-      {
-        "name": "ten_cuahang",
-        "label": "Tên cửa hàng",
-        "disabled": true,
-        "isExternalField": true,
+        "reference": ["ma_cuahang"],
         "class": "flex-1",
-        "hidden": false
+        "required": false,
+        "hidden": false,
+        "isChoose": true
       }
     ],
     [

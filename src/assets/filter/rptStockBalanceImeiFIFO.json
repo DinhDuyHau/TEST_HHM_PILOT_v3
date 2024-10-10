@@ -1,13 +1,14 @@
 {
-  "width": 400,
-  "height": 600,
+  "width": 550,
+  "height": 650,
   "control": [
     [
       {
         "name": "den_ngay",
         "label": "Ngày",
         "type": "date",
-        "dataFormatString": "datetimeFormat"
+        "dataFormatString": "datetimeFormat",
+        "class": "basis-1/3"
       }
     ],
     [
@@ -18,7 +19,8 @@
         "control": "dmkho",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_kho"],
-        "class": "flex-1"
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [

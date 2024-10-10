@@ -1,13 +1,14 @@
 {
   "width": 550,
-  "height": 620,
+  "height": 650,
   "control": [
     [
       {
         "name": "den_ngay",
         "label": "Ngày",
         "type": "date",
-        "dataFormatString": "datetimeFormat"
+        "dataFormatString": "datetimeFormat",
+        "class": "basis-1/3"
       }
     ],
     [

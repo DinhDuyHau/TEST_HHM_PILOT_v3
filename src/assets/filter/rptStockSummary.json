@@ -1,5 +1,5 @@
 {
-  "width": 1200,
+  "width": 550,
   "height": 650,
   "control": [
     [
@@ -24,7 +24,8 @@
         "control": "dmkho",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_kho"],
-        "class": "flex-1"
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [

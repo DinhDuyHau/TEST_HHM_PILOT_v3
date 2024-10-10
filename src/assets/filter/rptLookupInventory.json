@@ -19,17 +19,10 @@
         "control": "zcdmcuahang",
         "value": "@@shop",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_cuahang", "ten_cuahang"],
-        "class": "basis-1/4",
-        "hidden": false
-      },
-      {
-        "name": "ten_cuahang",
-        "label": "Tên cửa hàng",
-        "disabled": true,
-        "isExternalField": true,
+        "reference": ["ma_cuahang"],
         "class": "flex-1",
-        "hidden": false
+        "hidden": false,
+        "isChoose": true
       }
     ],
     [
@@ -40,7 +33,8 @@
         "control": "dmkho",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_kho"],
-        "class": "flex-1"
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [
