@@ -1,0 +1,11 @@
+{
+  "title": "Danh mục nhóm khách hàng",
+  "entity": "dmnhkh",
+  "filter": [
+    {
+      "name": "loai_nh",
+      "operator": "=",
+      "value": "3"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "title": "Danh mục vật tư",
+  "entity": "dmvt",
+  "filter": [],
+  "multipleChoose": false,
+  "code": "ma_vt"
+}
