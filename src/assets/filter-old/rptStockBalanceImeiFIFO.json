@@ -1,6 +1,6 @@
 {
-  "width": 700,
-  "height": 700,
+  "width": 550,
+  "height": 650,
   "control": [
     [
       {
@@ -13,39 +13,14 @@
     ],
     [
       {
-        "name": "ma_cuahang",
-        "label": "Mã cửa hàng",
-        "isLookup": "true",
-        "control": "dmcuahang",
-        "value": "@@shop",
-        "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_cuahang", "ten_cuahang"],
-        "class": "basis-1/3"
-      },
-      {
-        "name": "ten_cuahang",
-        "label": "Tên cửa hàng",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
-      }
-    ],
-    [
-      {
         "name": "ma_kho",
         "label": "Mã kho",
         "isLookup": "true",
         "control": "dmkho",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_kho", "ten_kho"],
-        "class": "basis-1/3"
-      },
-      {
-        "name": "ten_kho",
-        "label": "Tên kho",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
+        "reference": ["ma_kho"],
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [
@@ -65,24 +40,21 @@
         "isExternalField": true,
         "class": "flex-1"
       }
-    ],
+    ], 
     [
       {
         "name": "nh_vt1",
-        "label": "Chủng loại",
+        "label": "Nhóm vật tư 1",
         "isLookup": "true",
         "control": "dmnhvt1",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh", "ten_nh"],
-        "mapper": {
-          "ma_nh": "nh_vt1",
-          "ten_nh": "ten_nh1"
-        },
+        "mapper": {"ma_nh": "nh_vt1", "ten_nh": "ten_nh1"},
         "class": "basis-1/3"
       },
       {
         "name": "ten_nh1",
-        "label": "Tên chủng loại",
+        "label": "Tên nhóm vật tư 1",
         "disabled": true,
         "isExternalField": true,
         "class": "flex-1"
@@ -91,20 +63,17 @@
     [
       {
         "name": "nh_vt2",
-        "label": "Hãng sản xuất",
+        "label": "Nhóm vật tư 2",
         "isLookup": "true",
         "control": "dmnhvt2",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh", "ten_nh"],
-        "mapper": {
-          "ma_nh": "nh_vt2",
-          "ten_nh": "ten_nh2"
-        },
+        "mapper": {"ma_nh": "nh_vt2", "ten_nh": "ten_nh2"},
         "class": "basis-1/3"
       },
       {
         "name": "ten_nh2",
-        "label": "Tên hãng",
+        "label": "Tên nhóm vật tư 2",
         "disabled": true,
         "isExternalField": true,
         "class": "flex-1"
@@ -113,42 +82,17 @@
     [
       {
         "name": "nh_vt3",
-        "label": "Model",
+        "label": "Nhóm vật tư 3",
         "isLookup": "true",
         "control": "dmnhvt3",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh", "ten_nh"],
-        "mapper": {
-          "ma_nh": "nh_vt3",
-          "ten_nh": "ten_nh3"
-        },
+        "mapper": {"ma_nh": "nh_vt3", "ten_nh": "ten_nh3"},
         "class": "basis-1/3"
       },
       {
         "name": "ten_nh3",
-        "label": "Model",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
-      }
-    ],
-    [
-      {
-        "name": "nh_vt4",
-        "label": "Cấu hình",
-        "isLookup": "true",
-        "control": "dmnhvt4",
-        "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"],
-        "mapper": {
-          "ma_nh": "nh_vt4",
-          "ten_nh": "ten_nh4"
-        },
-        "class": "basis-1/3"
-      },
-      {
-        "name": "ten_nh4",
-        "label": "Tên cấu hình",
+        "label": "Tên nhóm vật tư 3",
         "disabled": true,
         "isExternalField": true,
         "class": "flex-1"

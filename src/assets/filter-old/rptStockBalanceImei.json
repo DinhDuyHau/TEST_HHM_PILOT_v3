@@ -1,6 +1,6 @@
 {
-  "width": 700,
-  "height": 700,
+  "width": 550,
+  "height": 650,
   "control": [
     [
       {
@@ -20,14 +20,17 @@
         "value": "@@shop",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_cuahang", "ten_cuahang"],
-        "class": "basis-1/3"
+        "class": "basis-1/3",
+        "required": true,
+        "hidden": true
       },
       {
         "name": "ten_cuahang",
         "label": "Tên cửa hàng",
         "disabled": true,
         "isExternalField": true,
-        "class": "flex-1"
+        "class": "flex-1",
+        "hidden": true
       }
     ],
     [
@@ -37,15 +40,9 @@
         "isLookup": "true",
         "control": "dmkho",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_kho", "ten_kho"],
-        "class": "basis-1/3"
-      },
-      {
-        "name": "ten_kho",
-        "label": "Tên kho",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
+        "reference": ["ma_kho"],
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [

@@ -1,19 +1,23 @@
 {
-  "width": 700,
-  "height": 700,
+  "width": 600,
+  "height": 800,
   "control": [
     [
       {
         "name": "ngay_ht1",
-        "label": "Ngày h.toan từ",
+        "label": "Hạch toán từ ngày",
         "type": "date",
-        "dataFormatString": "datetimeFormat"
+        "dataFormatString": "datetimeFormat",
+        "required": true,
+        "value": "new Date()"
       },
       {
         "name": "ngay_ht2",
         "label": "Đến ngày",
         "type": "date",
-        "dataFormatString": "datetimeFormat"
+        "dataFormatString": "datetimeFormat",
+        "required": true,
+        "value": "new Date()"
       }
     ],
     [
@@ -21,13 +25,17 @@
         "name": "ngay_ct1",
         "label": "Hóa đơn từ ngày",
         "type": "date",
-        "dataFormatString": "datetimeFormat"
+        "dataFormatString": "datetimeFormat",
+        "required": true,
+        "value": "new Date()"
       },
       {
         "name": "ngay_ct2",
         "label": "Đến ngày",
         "type": "date",
-        "dataFormatString": "datetimeFormat"
+        "dataFormatString": "datetimeFormat",
+        "required": true,
+        "value": "new Date()"
       }
     ],
     [
@@ -36,18 +44,8 @@
         "label": "Được tt đến ngày",
         "type": "date",
         "dataFormatString": "datetimeFormat",
-        "class": "basis-1/2"
-      }
-    ],
-    [
-      {
-        "name": "ma_cuahang",
-        "label": "Mã cửa hàng",
-        "isLookup": "true",
-        "control": "zcdmcuahang",
-        "value": "@@shop",
-        "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_cuahang"]
+        "required": true,
+        "value": "new Date()"
       }
     ],
     [
@@ -70,7 +68,7 @@
     ],
     [
       {
-        "name": "nh_kh1",
+        "name": "ma_nh1",
         "label": "Nhóm khách 1",
         "isLookup": "true",
         "control": "dmnhkh1",
@@ -92,7 +90,7 @@
     ],
     [
       {
-        "name": "nh_kh2",
+        "name": "ma_nh2",
         "label": "Nhóm khách 2",
         "isLookup": "true",
         "control": "dmnhkh2",
@@ -114,7 +112,7 @@
     ],
     [
       {
-        "name": "nh_kh3",
+        "name": "ma_nh3",
         "label": "Nhóm khách 3",
         "isLookup": "true",
         "control": "dmnhkh3",

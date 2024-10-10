@@ -1,6 +1,6 @@
 {
   "width": 650,
-  "height": 300,
+  "height": 600,
   "control": [
     [
       {
@@ -24,16 +24,71 @@
         "control": "zcdmcuahang",
         "value": "@@shop",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_cuahang", "ten_cuahang"],
-        "class": "basis-1/3",
-        "hidden": false
+        "reference": ["ma_cuahang"]
+      }
+    ],
+    [
+      {
+        "name": "ma_loai_dv",
+        "label": "Mã loại DV",
+        "isLookup": "true",
+        "control": "dmloaidv",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_loai_dv"]
+      }
+    ],
+    [
+      {
+        "name": "nh_vt1",
+        "label": "Chủng loại",
+        "isLookup": "true",
+        "control": "dmnhvt1",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nh"]
       },
       {
-        "name": "ten_cuahang",
-        "label": "Tên cửa hàng",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
+        "name": "nh_vt2",
+        "label": "Hãng sản xuất",
+        "isLookup": "true",
+        "control": "dmnhvt2",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nh"]
+      }
+    ],
+    [
+      {
+        "name": "nh_vt3",
+        "label": "Loại nhóm hàng",
+        "isLookup": "true",
+        "control": "dmnhvt3",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nh"]
+      },
+      {
+        "name": "nh_vt4",
+        "label": "Dung lượng",
+        "isLookup": "true",
+        "control": "dmnhvt4",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nh"]
+      }
+    ],
+    [
+      {
+        "name": "nh_vt5",
+        "label": "Kèm dịch vụ",
+        "isLookup": "true",
+        "control": "dmnhvt5",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nh"]
+      },
+      {
+        "name": "ma_nganh",
+        "label": "Ngành hàng",
+        "isLookup": "true",
+        "control": "dmnganhhang",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nganh", "ten_nganh"]
       }
     ]
   ]

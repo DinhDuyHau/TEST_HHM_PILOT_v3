@@ -1,0 +1,50 @@
+{
+  "width": 550,
+  "height": 650,
+  "control": [
+    [
+      {
+        "name": "tu_ngay",
+        "label": "Từ ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      },
+      {
+        "name": "den_ngay",
+        "label": "Đến ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      }
+    ],
+    [
+      {
+        "name": "ma_kho",
+        "label": "Mã kho",
+        "isLookup": "true",
+        "control": "dmkho",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_kho"],
+        "class": "flex-1",
+        "isChoose": true
+      }
+    ],
+    [
+      {
+        "name": "ma_vt",
+        "label": "Mã hàng",
+        "isLookup": "true",
+        "control": "dmvt",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_vt", "ten_vt"],
+        "class": "basis-1/3"
+      },
+      {
+        "name": "ten_vt",
+        "label": "Tên hàng",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ]
+  ]
+}

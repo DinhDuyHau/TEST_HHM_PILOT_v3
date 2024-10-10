@@ -1,6 +1,6 @@
 {
   "width": 750,
-  "height": 850,
+  "height": 800,
   "control": [
     [
       {
@@ -18,52 +18,12 @@
     ],
     [
       {
-        "name": "ma_kh",
-        "label": "Nhà cung cấp",
-        "isLookup": "true",
-        "control": "dmkh",
-        "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_kh",
-          "ten_kh"
-        ],
-        "class": "basis-1/3",
-        "required": false
-      },
-      {
-        "name": "ten_kh",
-        "label": "Tên nhà cung cấp",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
-      }
-    ],
-    [
-      {
-        "name": "ma_cuahang",
-        "label": "Mã cửa hàng",
-        "isLookup": "true",
-        "control": "zcdmcuahang",
-        "value": "@@shop",
-        "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_cuahang",
-          "ten_cuahang"
-        ],
-        "hidden": false
-      }
-    ],
-    [
-      {
         "name": "ma_ca",
         "label": "Mã ca",
         "isLookup": "true",
         "control": "dmca",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_ca",
-          "ten_ca"
-        ],
+        "reference": ["ma_ca", "ten_ca"],
         "class": "basis-1/3",
         "required": false
       },
@@ -77,52 +37,71 @@
     ],
     [
       {
+        "name": "ma_nvbh",
+        "label": "Mã NVBH",
+        "isLookup": "true",
+        "control": "dmnvbh",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nvbh", "ten_nvbh"],
+        "class": "basis-1/3",
+        "required": false
+      },
+      {
+        "name": "ten_nvbh",
+        "label": "Tên NVBH",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ],
+    [
+      {
         "name": "ma_kho",
         "label": "Mã kho",
         "isLookup": "true",
         "control": "dmkho",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_kho",
-          "ten_kho"
-        ],
+        "reference": ["ma_kho"],
+        "class": "flex-1",
         "required": false
       }
     ],
     [
       {
-        "name": "ma_vt_doi",
-        "label": "Mã hàng đổi",
+        "name": "ma_vt",
+        "label": "Mã vật tư",
         "isLookup": "true",
         "control": "dmvt",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_vt",
-          "ten_vt"
-        ],
-        "mapper": {
-          "ma_nh": "ma_vt_doi",
-          "ten_nh": "ten_vt_doi"
-        },
+        "reference": ["ma_vt", "ten_vt"],
+        "class": "basis-1/3",
         "required": false
+      },
+      {
+        "name": "ten_vt",
+        "label": "Tên vật tư",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
       }
     ],
     [
       {
-        "name": "ma_vt_tra",
-        "label": "Mã hàng trả",
+        "name": "ma_dv",
+        "label": "Mã dịch vụ",
         "isLookup": "true",
-        "control": "dmvt",
+        "control": "dmdichvu",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_vt",
-          "ten_vt"
-        ],
-        "mapper": {
-          "ma_nh": "ma_vt_tra",
-          "ten_nh": "ten_vt_tra"
-        },
+        "reference": ["ma_dv", "ten_dv"],
+        "class": "basis-1/3",
         "required": false
+      },
+      {
+        "name": "ten_dv",
+        "label": "Tên dịch vụ",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
       }
     ],
     [
@@ -132,10 +111,7 @@
         "isLookup": "true",
         "control": "dmnhvt1",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_nh",
-          "ten_nh"
-        ]
+        "reference": ["ma_nh", "ten_nh"]
       },
       {
         "name": "nh_vt2",
@@ -143,10 +119,7 @@
         "isLookup": "true",
         "control": "dmnhvt2",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_nh",
-          "ten_nh"
-        ]
+        "reference": ["ma_nh", "ten_nh"]
       }
     ],
     [
@@ -156,10 +129,7 @@
         "isLookup": "true",
         "control": "dmnhvt3",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_nh",
-          "ten_nh"
-        ]
+        "reference": ["ma_nh", "ten_nh"]
       },
       {
         "name": "nh_vt4",
@@ -167,10 +137,7 @@
         "isLookup": "true",
         "control": "dmnhvt4",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_nh",
-          "ten_nh"
-        ]
+        "reference": ["ma_nh", "ten_nh"]
       }
     ],
     [
@@ -180,10 +147,7 @@
         "isLookup": "true",
         "control": "dmnhvt5",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_nh",
-          "ten_nh"
-        ]
+        "reference": ["ma_nh", "ten_nh"]
       },
       {
         "name": "ma_nganh",
@@ -191,10 +155,7 @@
         "isLookup": "true",
         "control": "dmnganhhang",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_nganh",
-          "ten_nganh"
-        ]
+        "reference": ["ma_nganh", "ten_nganh"]
       }
     ]
   ]

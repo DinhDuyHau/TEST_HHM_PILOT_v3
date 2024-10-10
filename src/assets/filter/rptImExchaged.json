@@ -23,7 +23,10 @@
         "isLookup": "true",
         "control": "dmkh",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_kh", "ten_kh"],
+        "reference": [
+          "ma_kh",
+          "ten_kh"
+        ],
         "class": "basis-1/3",
         "required": false
       },
@@ -43,16 +46,10 @@
         "control": "zcdmcuahang",
         "value": "@@shop",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_cuahang", "ten_cuahang"],
-        "class": "basis-1/4",
-        "hidden": false
-      },
-      {
-        "name": "ten_cuahang",
-        "label": "Tên cửa hàng",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1",
+        "reference": [
+          "ma_cuahang",
+          "ten_cuahang"
+        ],
         "hidden": false
       }
     ],
@@ -63,7 +60,10 @@
         "isLookup": "true",
         "control": "dmca",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_ca", "ten_ca"],
+        "reference": [
+          "ma_ca",
+          "ten_ca"
+        ],
         "class": "basis-1/3",
         "required": false
       },
@@ -82,8 +82,10 @@
         "isLookup": "true",
         "control": "dmkho",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_kho"],
-        "class": "flex-1",
+        "reference": [
+          "ma_kho",
+          "ten_kho"
+        ],
         "required": false
       }
     ],
@@ -94,16 +96,11 @@
         "isLookup": "true",
         "control": "dmvt",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_vt", "ten_vt"],
-        "class": "basis-1/3",
+        "reference": [
+          "ma_vt",
+          "ten_vt"
+        ],
         "required": false
-      },
-      {
-        "name": "ten_vt",
-        "label": "Tên vật tư",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
       }
     ],
     [
@@ -113,7 +110,10 @@
         "isLookup": "true",
         "control": "dmnhvt1",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": [
+          "ma_nh",
+          "ten_nh"
+        ]
       },
       {
         "name": "nh_vt2",
@@ -121,7 +121,10 @@
         "isLookup": "true",
         "control": "dmnhvt2",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": [
+          "ma_nh",
+          "ten_nh"
+        ]
       }
     ],
     [
@@ -131,7 +134,10 @@
         "isLookup": "true",
         "control": "dmnhvt3",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": [
+          "ma_nh",
+          "ten_nh"
+        ]
       },
       {
         "name": "nh_vt4",
@@ -139,7 +145,10 @@
         "isLookup": "true",
         "control": "dmnhvt4",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": [
+          "ma_nh",
+          "ten_nh"
+        ]
       }
     ],
     [
@@ -149,7 +158,10 @@
         "isLookup": "true",
         "control": "dmnhvt5",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": [
+          "ma_nh",
+          "ten_nh"
+        ]
       },
       {
         "name": "ma_nganh",
@@ -157,7 +169,10 @@
         "isLookup": "true",
         "control": "dmnganhhang",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nganh", "ten_nganh"]
+        "reference": [
+          "ma_nganh",
+          "ten_nganh"
+        ]
       }
     ]
   ]
