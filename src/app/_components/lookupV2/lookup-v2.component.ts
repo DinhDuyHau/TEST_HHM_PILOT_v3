@@ -58,6 +58,10 @@ export class LookupV2Component {
   }
 
   onClickItemLookup(event: { item: any }) {
+    const existingItem = this.dataSource.filteredData.find((e: any) => e[this.data.code] === event.item[this.data.code]);
+    if (existingItem) {
+      existingItem.choose = true;
+    }
     const items = this.dataSource.filteredData.filter(((item: any) => item.choose)) || [];
     if (items.length > 0) {
       this.dialogRef.close(items);

@@ -347,7 +347,7 @@ export class InputCustomV2Component implements OnChanges, OnInit {
           if (this.value !== undefined) {
             var currentValue = this.value.split(',').map((item: any) => item.trim());
           }
-          dialogConfig.data = { ...res, currentValue: currentValue, isChoose: this.isChoose };
+          dialogConfig.data = { ...res, currentValue: currentValue, isChoose: this.isChoose, code: this.name };
         }
         dialogRef = this.dialog.open(LookupV2Component, dialogConfig);
       }
@@ -366,7 +366,7 @@ export class InputCustomV2Component implements OnChanges, OnInit {
               }
               else {
                 if (result.length > 0) {
-                  result[item] = result.map((item: any) => item.ma_kho).join(', ');
+                  result[item] = result.map((item: any) => item[this.name]).join(', ');
                 }
                 list_control.push({ control: item, value: result[item] || (typeof (result[item.name]) == 'boolean' ? false : '') });
               }
