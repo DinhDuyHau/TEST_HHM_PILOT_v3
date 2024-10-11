@@ -65,7 +65,7 @@ export class LookupV2Component {
       existingItem.choose = true;
     }
     const items = this.dataSource.filteredData.filter(((item: any) => item.choose)).map((item: any) => item[this.codeLookup[0]]).join(', ') || [];
-    if (items.length > 0) {
+    if (this.data.isChoose == true) {
       this.dialogRef.close(items);
     }
     else {
@@ -100,7 +100,6 @@ export class LookupV2Component {
   }, sort?: ItemSort, filter?: ItemFilter[]): void {
     this.lookupService.getItems(page, filter || [], sort || { name: '', direction: '' }).subscribe(res => {
       this.dataSource = new MatTableDataSource<any>(res.result.items);
-
       this.dataSource.filteredData = this.dataSource.filteredData.map((item: any) => {
         const selectedStock = Array.isArray(this.data.currentValue) ? this.data.currentValue : [];
         item.choose = selectedStock.includes(item[this.codeLookup[0]]);
