@@ -38,7 +38,13 @@ export const TICKET_TYPE = {
     STOCK_OTHER_RECEIPT: 35,
     DEPOSIST_RETURN_PAYMENT: 36,
     CLOSE_SHIFT_PAYMENT: 37,
-    OTHER_PAYMENT: 38
+    OTHER_PAYMENT: 38,
+
+    //xuất đền bù hàng hóa
+    STOCK_COMPENSATION: 39,
+
+    //xuất đền bù dịch vụ
+    SERVICE_COMPENSATION: 40
 };
 
 
@@ -121,5 +127,13 @@ export const STATUS_LIST = {
     SALE_CONTRACT: {
         CREATE: '0',
         COMPLETE: '2'
-    }
+    },
+    STOCK_COMPENSATION: {
+        CREATE: '0',
+        COMPLETE: '2'
+    },
+    SERVICE_COMPENSATION: {
+        CREATE: '0',
+        COMPLETE: '2'
+    },
 };

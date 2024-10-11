@@ -102,8 +102,9 @@ export class SaleWholeService {
                 this.ticket.merchandise = merchandiseList.map((item: any) => {
                     const merchandiseItem = new Merchandise(item);
 
-                    const merchandiseByContract = sub_merchandise.filter(mer => mer.ma_vt === merchandiseItem.ma_vt && mer.ma_imei.trim() !== '');
-                    merchandiseItem.ma_imei = merchandiseByContract.map(mer => mer.ma_imei).join(', ');
+                    const merchandiseByContract = sub_merchandise.filter(mer => mer.ma_vt === merchandiseItem.ma_vt);
+                    const arr_imeis = merchandiseByContract.map(mer => mer.ma_imei.trim());
+                    merchandiseItem.ma_imei = arr_imeis.filter(x => x !== '').join(', ');
 
                     //mode = ADDNEW
                     if (mode === 0) {
@@ -115,7 +116,7 @@ export class SaleWholeService {
                         merchandiseItem.thanh_toan = merchandiseByContract.reduce((pre, cur) => pre + cur.thanh_toan, 0);
                     }
                     else {      //mode = UPDATE | VIEW
-                        merchandiseItem.so_luong_imei = merchandiseByContract.length;
+                        merchandiseItem.so_luong_imei = merchandiseByContract[0].so_luong;
                         merchandiseItem.gia_ban = merchandiseByContract[0].gia_ban;
                         merchandiseItem.gia_vat = merchandiseByContract[0].gia_vat;
                         merchandiseItem.gia2 = merchandiseByContract[0].gia2;

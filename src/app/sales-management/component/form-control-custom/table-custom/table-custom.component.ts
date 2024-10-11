@@ -48,6 +48,7 @@ export class TableCustomComponent implements
   @Input() isTicket = true;
   @Input() isShowDiscountNG = false;
   @Input() isShowCustomeEdit = false;
+  @Input() hiddenAddServiceButton = false;
   @Input() hasButton = { create: true, delete: true, view: true, edit: true };
 
   pageSizeOptions: number[] = [10, 20, 50, 100, 150, 200];

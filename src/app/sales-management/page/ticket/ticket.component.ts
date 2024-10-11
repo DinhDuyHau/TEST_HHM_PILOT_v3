@@ -404,6 +404,20 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.entityName = TICKET_ENTITY.OTHER_PAYMENT;
         this.codeName = TICKET_CODE.OTHER_PAYMENT;
         break;
+      case TICKET_TYPE.STOCK_COMPENSATION:
+        this.columns = TICKET_FIELDS.STOCK_COMPENSATION as any as Cell[];
+        this.title = 'Phiếu xuất đền bù hàng hóa';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.STOCK_COMPENSATION;
+        this.codeName = TICKET_CODE.STOCK_COMPENSATION;
+        break;
+      case TICKET_TYPE.SERVICE_COMPENSATION:
+        this.columns = TICKET_FIELDS.SERVICE_COMPENSATION as any as Cell[];
+        this.title = 'Phiếu xuất đền bù dịch vụ';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.SERVICE_COMPENSATION;
+        this.codeName = TICKET_CODE.SERVICE_COMPENSATION;
+        break;
     }
   }
 
