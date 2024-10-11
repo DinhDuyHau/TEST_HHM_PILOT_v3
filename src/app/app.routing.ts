@@ -63,6 +63,9 @@ import { StockTransferInShopComponent } from './_components/voucher/stock-transf
 import { StockShopCheckComponent } from './_components/voucher/stock-shop-check/stock-shop-check.component';
 // import { TicketComponent } from './_components/ticket/ticket.component';
 
+import { VoucherCompensationComponent } from './sales-management/page/voucher-compensation';
+import { ServiceCompensationComponent } from './sales-management/page/voucher-service-compensation';
+
 const homeModule = () => import('./home/home.module').then(x => x.HomeModule);
 const customer = () => import('./sales-management/component/customer/customer-create-dialog/customer-create-dialog.module').then(x => x.CustomerCreateDialogModule);
 const delivery = () => import('./sales-management/component/delivery/infomation/delivery-infomation.module').then(x => x.DeliveryInfomationModule);
@@ -89,6 +92,9 @@ const advancedSearchModule = () => import('./sales-management/component/advanced
 const StockTransferFromShopModule = () => import('@app/_components/voucher/stock-transfer/from-shop/stock-transfer-from-shop.module');
 const stockTransferInShopModule = () => import('@app/_components/voucher/stock-transfer/in-shop/stock-transfer-in-shop.module');
 const stockShopCheckModule = () => import('@app/_components/voucher/stock-shop-check/stock-shop-check.module');
+
+const voucherCompensationModule = () => import('./sales-management/page/voucher-compensation/voucher-compensation.module').then(x => x.VoucherCompensationModule);
+const serviceCompensationModule = () => import('./sales-management/page/voucher-service-compensation/service-compensation.module').then(x => x.ServiceCompensationModule);
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -498,6 +504,24 @@ const routes: Routes = [
       { path: 'create', component: SaleRenewComponent, canActivate: [AuthGuard] },
       { path: 'update', component: SaleRenewComponent, canActivate: [AuthGuard] },
       { path: 'view', component: SaleRenewComponent, canActivate: [AuthGuard] },
+    ]
+  },
+  {
+    path: 'voucher/compensation', component: AppLayoutComponent, canActivate: [AuthGuard],
+    children: [
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.STOCK_COMPENSATION, reuse: true } },
+      { path: 'create', component: VoucherCompensationComponent, canActivate: [AuthGuard] },
+      { path: 'update', component: VoucherCompensationComponent, canActivate: [AuthGuard] },
+      { path: 'view', component: VoucherCompensationComponent, canActivate: [AuthGuard] },
+    ]
+  },
+  {
+    path: 'voucher/service-compensation', component: AppLayoutComponent, canActivate: [AuthGuard],
+    children: [
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.SERVICE_COMPENSATION, reuse: true } },
+      { path: 'create', component: ServiceCompensationComponent, canActivate: [AuthGuard] },
+      { path: 'update', component: ServiceCompensationComponent, canActivate: [AuthGuard] },
+      { path: 'view', component: ServiceCompensationComponent, canActivate: [AuthGuard] },
     ]
   },
   {
