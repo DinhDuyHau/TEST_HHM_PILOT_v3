@@ -145,7 +145,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
             if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
               this.eInvoiceInfo = hddtTable.data[0];
             }
-            this.saleWholeService.loadData(result.result as any as VoucherDto);
+            this.saleWholeService.loadData(result.result as any as VoucherDto, this.mode);
             this.commonService.addToImeisInVoucher(this.ticket.merchandise.filter(e => e.ma_imei).map(e => e.ma_imei.split(';')).flat());
             getStatusList();
             this.commonService.getPointRateExchange(this.ticket);
@@ -282,8 +282,10 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
       if (value) {
         this.itemSelected.ma_imei = value.join(', ');
         this.itemSelected.so_luong_imei = value.length;
-        this.itemSelected.thanh_toan = this.itemSelected.gia_full_vat * this.itemSelected.so_luong_imei;
-        this.itemSelected.thanh_tien = Math.round(this.itemSelected.thanh_toan / (1 + this.itemSelected.thue_suat / 100));
+        this.itemSelected.gia_vat = this.itemSelected.gia_full_vat;
+        this.itemSelected.gia_ban = Math.round(this.itemSelected.gia_vat / (1 + this.itemSelected.thue_suat / 100));
+        this.itemSelected.thanh_toan = this.itemSelected.gia_vat * this.itemSelected.so_luong_imei;
+        this.itemSelected.thanh_tien = this.itemSelected.gia_ban * this.itemSelected.so_luong_imei;
         this.itemSelected.tien_thue = Math.max(this.itemSelected.thanh_toan - this.itemSelected.thanh_tien, 0);
         this.saleWholeService.calcMoney();
       }

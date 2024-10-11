@@ -1,0 +1,63 @@
+{
+  "width": 400,
+  "height": 600,
+  "control": [
+    [
+      {
+        "name": "ma_nvbh",
+        "label": "Mã NVBH",
+        "isLookup": "true",
+        "control": "dmnvbh",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nvbh", "ten_nvbh"],
+        "class": "basis-1/3"
+      },
+      {
+        "name": "ten_nvbh",
+        "label": "Tên NVBH",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ],
+    [
+      {
+        "name": "ma_cuahang",
+        "label": "Mã cửa hàng",
+        "isLookup": "true",
+        "control": "dmcuahang",
+        "value": "@@shop",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_cuahang", "ten_cuahang"],
+        "class": "basis-1/3",
+        "hidden": true
+      },
+      {
+        "name": "ten_cuahang",
+        "label": "Tên cửa hàng",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1",
+        "hidden": true
+      }
+    ],
+    [
+      {
+        "name": "ma_bp",
+        "label": "Mã bộ phận",
+        "isLookup": "true",
+        "control": "dmbp",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_bp", "ten_bp"],
+        "class": "basis-1/3"
+      },
+      {
+        "name": "ten_bp",
+        "label": "Tên bộ phận",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ]
+  ]
+}

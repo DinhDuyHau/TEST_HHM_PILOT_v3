@@ -59,6 +59,7 @@ export class InputCustomV2Component implements OnChanges, OnInit {
   @Input('reference') reference!: any;
   @Input('mapper') mapper!: any;
   @Input('invalid') invalid = false;
+  @Input('isChoose') isChoose!: boolean;
 
   status = true;
   previousValue!: string;
@@ -343,7 +344,10 @@ export class InputCustomV2Component implements OnChanges, OnInit {
             return item;
           });
           res.filter = [...res.filter, ...this.filter];
-          dialogConfig.data = res;
+          if (this.value !== undefined) {
+            var currentValue = this.value.split(',').map((item: any) => item.trim());
+          }
+          dialogConfig.data = { ...res, currentValue: currentValue, isChoose: this.isChoose, code: this.name };
         }
         dialogRef = this.dialog.open(LookupV2Component, dialogConfig);
       }
@@ -361,9 +365,8 @@ export class InputCustomV2Component implements OnChanges, OnInit {
                 list_control.push({ control: this.mapper[item], value: result[item] || (typeof (result[item.name]) == 'boolean' ? false : '') });
               }
               else {
-                list_control.push({ control: item, value: result[item] || (typeof (result[item.name]) == 'boolean' ? false : '') });
+                list_control.push({ control: item, value: result || (typeof (result[item.name]) == 'boolean' ? false : '') });
               }
-
             }
           });
 

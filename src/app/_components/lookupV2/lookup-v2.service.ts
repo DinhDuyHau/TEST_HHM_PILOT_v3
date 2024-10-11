@@ -12,7 +12,7 @@ import { LookupData } from './lookup-v2.model';
 @Injectable({
   providedIn: 'root'
 })
-export class LookupV2Service implements IGridServiceV2<any>{
+export class LookupV2Service implements IGridServiceV2<any> {
   lookupData!: LookupData;
   constructor(private http: HttpClient, public dialog: MatDialog) {
 

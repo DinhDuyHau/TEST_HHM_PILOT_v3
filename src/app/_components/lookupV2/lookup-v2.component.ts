@@ -32,6 +32,7 @@ export class LookupV2Component {
   filter?: ItemFilter[];
   gridType = GridType.Lookup;
   lookupService!: LookupV2Service;
+  codeLookup: any;
   constructor(
     public dialogRef: MatDialogRef<LookupV2Component>,
     @Inject(MAT_DIALOG_DATA) public data: LookupData,
@@ -43,10 +44,15 @@ export class LookupV2Component {
     this.lookupData = data;
     this.lookupService.initData(data);
     this.lookupService.getFields().pipe().subscribe(fields => {
-      this.fields = fields;
+      if (data.isChoose == true) {
+        this.fields = fields;
+      }
+      else {
+        this.fields = fields.filter(item => item.name !== 'choose');
+      }
+      this.codeLookup = this.fields.filter(item => item.isPrimaryKey).map(item => item.name);
       this.init();
     });
-
     // this.multipleChoose = data.multipleChoose;
   }
   ngOnInit(): void {
@@ -54,7 +60,17 @@ export class LookupV2Component {
   }
 
   onClickItemLookup(event: { item: any }) {
-    this.dialogRef.close(event.item);
+    const existingItem = this.dataSource.filteredData.find((e: any) => e[this.codeLookup[0]] === event.item[this.codeLookup[0]]);
+    if (existingItem) {
+      existingItem.choose = true;
+    }
+    const items = this.dataSource.filteredData.filter(((item: any) => item.choose)).map((item: any) => item[this.codeLookup[0]]).join(', ') || [];
+    if (items.length > 0) {
+      this.dialogRef.close(items);
+    }
+    else {
+      this.dialogRef.close(event.item);
+    }
   }
 
   onNoClick(): void {
@@ -84,6 +100,13 @@ export class LookupV2Component {
   }, sort?: ItemSort, filter?: ItemFilter[]): void {
     this.lookupService.getItems(page, filter || [], sort || { name: '', direction: '' }).subscribe(res => {
       this.dataSource = new MatTableDataSource<any>(res.result.items);
+
+      this.dataSource.filteredData = this.dataSource.filteredData.map((item: any) => {
+        const selectedStock = Array.isArray(this.data.currentValue) ? this.data.currentValue : [];
+        item.choose = selectedStock.includes(item[this.codeLookup[0]]);
+        return item;
+      })
+
       this.totalItems = res.result.recordCount;
       this.pageCount = res.result.pageCount;
       // this.pageIndex = res.result.pageIndex;

@@ -37,23 +37,25 @@
     ],
     [
       {
+        "name": "ma_ctr",
+        "label": "Chương trình cọc",
+        "isLookup": "true",
+        "control": "phctrmoban",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_ctr"]
+      }
+    ],
+    [
+      {
         "name": "ma_cuahang",
         "label": "Mã cửa hàng",
         "isLookup": "true",
         "control": "zcdmcuahang",
         "value": "@@shop",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_cuahang", "ten_cuahang"],
-        "class": "basis-1/4",
-        "hidden": false
-      },
-      {
-        "name": "ten_cuahang",
-        "label": "Tên cửa hàng",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1",
-        "hidden": false
+        "reference": ["ma_cuahang"],
+        "hidden": false,
+        "isChoose": true
       }
     ],
     [
@@ -83,15 +85,7 @@
         "control": "dmvt",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_vt", "ten_vt"],
-        "class": "basis-1/3",
         "required": false
-      },
-      {
-        "name": "ten_vt",
-        "label": "Tên hàng",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
       }
     ],
     [

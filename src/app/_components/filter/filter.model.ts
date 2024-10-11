@@ -30,4 +30,5 @@ export class Control {
     des!: string;
     optionValue?: any;
     optionDes!: string;
+    isChoose?: boolean = false;
 }

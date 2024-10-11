@@ -51,7 +51,7 @@ export class SaleWholeService {
     //#endregion setter
 
     // #region init
-    loadData(data: VoucherDto) {
+    loadData(data: VoucherDto, mode = 1) {
         const sub_merchandise: Merchandise[] = [];
         this.ticket.masterInfo = this.commonService.convertMasterInfoFromVoucher(data.masterInfo, MasterInfo);
         this.customerApiService.getOneById(data.masterInfo.ma_kh).subscribe(result => {
@@ -91,27 +91,39 @@ export class SaleWholeService {
             }
         });
 
-        this.loadDataFromContract(this.ticket.contractInfo.stt_rec_hd, sub_merchandise);
+        this.loadDataFromContract(this.ticket.contractInfo.stt_rec_hd, sub_merchandise, mode);
     }
 
-    loadDataFromContract(stt_rec_hd: string, sub_merchandise: Merchandise[]) {
+    loadDataFromContract(stt_rec_hd: string, sub_merchandise: Merchandise[], mode = 1) {
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.CONTRACT, stt_rec_hd).subscribe((data: any) => {
             if (data && data.success) {
                 const merchandiseList = data.result.details[0].data.filter((item1: any) => sub_merchandise.map((item2) => item2.ma_vt).includes(item1.ma_vt));
+
                 this.ticket.merchandise = merchandiseList.map((item: any) => {
                     const merchandiseItem = new Merchandise(item);
 
-                    const merchandiseByContract = sub_merchandise.filter(mer => mer.ma_vt === merchandiseItem.ma_vt);
-
-
+                    const merchandiseByContract = sub_merchandise.filter(mer => mer.ma_vt === merchandiseItem.ma_vt && mer.ma_imei.trim() !== '');
                     merchandiseItem.ma_imei = merchandiseByContract.map(mer => mer.ma_imei).join(', ');
 
-                    merchandiseItem.so_luong_imei = merchandiseByContract.length;
-                    merchandiseItem.gia_ban = Math.round(item.gia_nt2);
+                    //mode = ADDNEW
+                    if (mode === 0) {
+                        merchandiseItem.so_luong_imei = merchandiseByContract.length;
+                        merchandiseItem.gia_ban = Math.round(item.gia_nt2);
 
-                    merchandiseItem.thanh_tien = merchandiseByContract.reduce((pre, cur) => pre + cur.thanh_tien, 0);
-                    merchandiseItem.tien_thue = merchandiseByContract.reduce((pre, cur) => pre + cur.tien_thue, 0);
-                    merchandiseItem.thanh_toan = merchandiseByContract.reduce((pre, cur) => pre + cur.thanh_toan, 0);
+                        merchandiseItem.thanh_tien = merchandiseByContract.reduce((pre, cur) => pre + cur.thanh_tien, 0);
+                        merchandiseItem.tien_thue = merchandiseByContract.reduce((pre, cur) => pre + cur.tien_thue, 0);
+                        merchandiseItem.thanh_toan = merchandiseByContract.reduce((pre, cur) => pre + cur.thanh_toan, 0);
+                    }
+                    else {      //mode = UPDATE | VIEW
+                        merchandiseItem.so_luong_imei = merchandiseByContract.length;
+                        merchandiseItem.gia_ban = merchandiseByContract[0].gia_ban;
+                        merchandiseItem.gia_vat = merchandiseByContract[0].gia_vat;
+                        merchandiseItem.gia2 = merchandiseByContract[0].gia2;
+                        merchandiseItem.gia_nt2 = merchandiseByContract[0].gia_nt2;
+                        merchandiseItem.thanh_tien = merchandiseByContract.reduce((pre, cur) => pre + cur.tien2, 0);
+                        merchandiseItem.thanh_toan = merchandiseByContract.reduce((pre, cur) => pre + cur.tt, 0);
+                        merchandiseItem.tien_thue = merchandiseByContract.reduce((pre, cur) => pre + cur.tien_thue, 0);
+                    }
                     return merchandiseItem;
                 });
             }
@@ -195,8 +207,11 @@ export class SaleWholeService {
                     const mer = { ...merchandise };
                     mer.ma_imei = imei;
                     mer.thanh_tien = mer.gia_ban;
-                    mer.tien_thue = mer.thanh_tien * mer.thue_suat / 100;
-                    mer.thanh_toan = mer.thanh_tien + mer.tien_thue;
+                    // mer.tien_thue = mer.thanh_tien * mer.thue_suat / 100;
+                    // mer.thanh_toan = mer.thanh_tien + mer.tien_thue;
+                    mer.thanh_toan = mer.gia_vat;
+                    mer.tien_thue = mer.thanh_toan - mer.thanh_tien;
+                    mer.tien_thue = mer.tien_thue < 0 ? 0 : mer.tien_thue;
                     return mer;
                 });
             }
@@ -274,9 +289,16 @@ export class SaleWholeService {
     //#region other
     calcMoneyMerchandise(merchandise: Merchandise) {
         merchandise.so_luong_imei += 1;
+        // merchandise.thanh_tien = merchandise.gia_ban * merchandise.so_luong_imei;
+        // merchandise.tien_thue = merchandise.thanh_tien * merchandise.thue_suat / 100;
+        // merchandise.thanh_toan = merchandise.thanh_tien + merchandise.tien_thue;
+
+        merchandise.gia_vat = merchandise.gia_full_vat;
+        merchandise.gia_ban = Math.round(merchandise.gia_vat / (1 + (merchandise.thue_suat / 100)));
+        merchandise.thanh_toan = merchandise.gia_vat * merchandise.so_luong_imei;
         merchandise.thanh_tien = merchandise.gia_ban * merchandise.so_luong_imei;
-        merchandise.tien_thue = merchandise.thanh_tien * merchandise.thue_suat / 100;
-        merchandise.thanh_toan = merchandise.thanh_tien + merchandise.tien_thue;
+        merchandise.tien_thue = merchandise.thanh_toan - merchandise.thanh_tien;
+        merchandise.tien_thue = merchandise.tien_thue < 0 ? 0 : merchandise.tien_thue;
     }
 
     calcMoney() {

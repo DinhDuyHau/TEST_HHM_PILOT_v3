@@ -1,0 +1,12 @@
+{
+  "title": "Danh mục khách hàng",
+  "entity": "dmkh",
+  "filter": [
+    {
+      "name": "ma_kh",
+      "operator": "like",
+      "value": "%%"
+    }
+  ],
+  "multipleChoose": false
+}

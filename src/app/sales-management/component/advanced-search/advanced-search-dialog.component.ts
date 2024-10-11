@@ -361,7 +361,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
     }, 'search-style-dialog')
       .afterClosed().subscribe(result => {
         if (result) {
-          (this.filters as any)[ma_kho] = result.map((item: any) => item.ma_kho).join(', ');;
+          (this.filters as any)[ma_kho] = result.map((item: any) => item.ma_kho).join(', ');
         }
       });
   }

@@ -1,0 +1,40 @@
+{
+  "width": 650,
+  "height": 300,
+  "control": [
+    [
+      {
+        "name": "tu_ngay",
+        "label": "Từ ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      },
+      {
+        "name": "den_ngay",
+        "label": "Đến ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      }
+    ],
+    [
+      {
+        "name": "ma_cuahang",
+        "label": "Mã cửa hàng",
+        "isLookup": "true",
+        "control": "zcdmcuahang",
+        "value": "@@shop",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_cuahang", "ten_cuahang"],
+        "class": "basis-1/3",
+        "hidden": false
+      },
+      {
+        "name": "ten_cuahang",
+        "label": "Tên cửa hàng",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ]
+  ]
+}

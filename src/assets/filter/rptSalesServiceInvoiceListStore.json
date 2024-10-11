@@ -25,15 +25,9 @@
         "isLookup": "true",
         "control": "dmdichvu",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_dv", "ten_dv"],
-        "class": "basis-1/4"
-      },
-      {
-        "name": "ten_dv",
-        "label": "Tên dịch vụ",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
+        "reference": [
+          "ma_dv"
+        ]
       }
     ],
     [
@@ -44,15 +38,10 @@
         "control": "zcdmcuahang",
         "value": "@@shop",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_cuahang", "ten_cuahang"],
-        "class": "basis-1/4"
-      },
-      {
-        "name": "ten_cuahang",
-        "label": "Tên cửa hàng",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
+        "reference": [
+          "ma_cuahang"
+        ],
+        "isChoose": true
       }
     ],
     [
@@ -62,7 +51,10 @@
         "isLookup": "true",
         "control": "dmca",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_ca", "ten_ca"],
+        "reference": [
+          "ma_ca",
+          "ten_ca"
+        ],
         "class": "basis-1/4"
       },
       {
@@ -80,7 +72,10 @@
         "isLookup": "true",
         "control": "dmkh",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_kh", "ten_kh"],
+        "reference": [
+          "ma_kh",
+          "ten_kh"
+        ],
         "class": "basis-1/4"
       },
       {

@@ -1,0 +1,11 @@
+{
+  "title": "Danh mục nhóm vật tư",
+  "entity": "dmnhvt",
+  "filter": [
+    {
+      "name": "loai_nh",
+      "operator": "=",
+      "value": "4"
+    }
+  ]
+}

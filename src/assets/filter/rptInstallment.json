@@ -1,26 +1,37 @@
 {
-  "width": 650,
-  "height": 400,
+  "width": 700,
+  "height": 500,
   "control": [
     [
       {
-        "name": "ngay_ct1",
+        "name": "tu_ngay",
         "label": "Từ ngày",
         "type": "date",
         "dataFormatString": "datetimeFormat",
         "class": "basis-1/3",
         "required": true,
         "value": "new Date()"
-        
       },
       {
-        "name": "ngay_ct2",
+        "name": "den_ngay",
         "label": "Đến ngày",
         "type": "date",
         "dataFormatString": "datetimeFormat",
         "class": "basis-1/3",
         "required": true,
         "value": "new Date()"
+      }
+    ],
+    [
+      {
+        "name": "ma_cuahang",
+        "label": "Mã cửa hàng",
+        "isLookup": "true",
+        "control": "zcdmcuahang",
+        "value": "@@shop",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_cuahang"],
+        "isChoose": true
       }
     ],
     [
@@ -48,15 +59,17 @@
         "isLookup": "true",
         "control": "dmkh",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_kh", "ten_kh"],
-        "class": "basis-1/3"
-      },
+        "reference": ["ma_kh"]
+      }
+    ],
+    [
       {
-        "name": "ten_kh",
-        "label": "Tên khách",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
+        "name": "ma_dvtg",
+        "label": "Đơn vị trả góp",
+        "isLookup": "true",
+        "control": "dmdvtragop",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_dvtg"]
       }
     ]
   ]

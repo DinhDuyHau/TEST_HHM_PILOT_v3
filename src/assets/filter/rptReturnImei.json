@@ -1,6 +1,6 @@
 {
   "width": 600,
-  "height": 1300,
+  "height": 1000,
   "control": [
     [
       {
@@ -53,15 +53,7 @@
         "isLookup": "true",
         "control": "dmnhkho",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"],
-        "class": "basis-1/3"
-      },
-      {
-        "name": "ten_nh",
-        "label": "Tên nhóm",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
+        "reference": ["ma_nh"]
       }
     ],
     [
@@ -71,15 +63,8 @@
         "isLookup": "true",
         "control": "dmkho",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_kho", "ten_kho"],
-        "class": "basis-1/3"
-      },
-      {
-        "name": "ten_kho",
-        "label": "Tên kho",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
+        "reference": ["ma_kho"],
+        "isChoose": true
       }
     ],
     [
@@ -89,15 +74,7 @@
         "isLookup": "true",
         "control": "dmvt",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_vt", "ten_vt"],
-        "class": "basis-1/3"
-      },
-      {
-        "name": "ten_vt",
-        "label": "Tên hàng",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
+        "reference": ["ma_vt"]
       }
     ],
     [
@@ -114,15 +91,7 @@
         "isLookup": "true",
         "control": "dmcuahang",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_cuahang", "ten_cuahang"],
-        "class": "basis-1/3"
-      },
-      {
-        "name": "ten_cuahang",
-        "label": "Tên cửa hàng",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
+        "reference": ["ma_cuahang"]
       }
     ],
     [
@@ -152,9 +121,7 @@
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh"],
         "mapper": {"ma_nh": "nh_vt1"}
-      }
-    ],
-    [
+      },
       {
         "name": "nh_vt2",
         "label": "Hãng sản xuất",
@@ -174,9 +141,7 @@
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh"],
         "mapper": {"ma_nh": "nh_vt3"}
-      }
-    ],
-    [
+      },
       {
         "name": "nh_vt4",
         "label": "Dung lượng",
@@ -196,9 +161,7 @@
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh"],
         "mapper": {"ma_nh": "nh_vt5"}
-      }
-    ],
-    [
+      },
       {
         "name": "ma_nganh",
         "label": "Ngành hàng",

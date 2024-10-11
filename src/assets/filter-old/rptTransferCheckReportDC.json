@@ -1,0 +1,70 @@
+{
+  "width": 600,
+  "height": 600,
+  "control": [
+    [
+      {
+        "name": "tu_ngay",
+        "label": "Từ ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      },
+      {
+        "name": "den_ngay",
+        "label": "Đến ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      }
+    ],
+    [
+      {
+        "name": "so_ct1",
+        "label": "Chứng từ từ",
+        "dataFormatString": "uppercaseFormat"
+      },
+      {
+        "name": "so_ct2",
+        "label": "Đến số",
+        "dataFormatString": "uppercaseFormat"
+      }
+    ],
+    [
+      {
+        "name": "ma_khox",
+        "label": "Mã kho xuất",
+        "isLookup": "true",
+        "control": "dmkhoAll",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_kho", "ten_kho"],
+        "mapper": {"ma_kho": "ma_khox", "ten_kho": "ten_khox"},
+        "class": "basis-1/3"
+      },
+      {
+        "name": "ten_khox",
+        "label": "Tên kho xuất",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ],
+    [
+      {
+        "name": "ma_khon",
+        "label": "Mã kho nhập",
+        "isLookup": "true",
+        "control": "dmkhoAll",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_kho", "ten_kho"],
+        "mapper": {"ma_kho": "ma_khon", "ten_kho": "ten_khon"},
+        "class": "basis-1/3"
+      },
+      {
+        "name": "ten_khon",
+        "label": "Tên kho nhập",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ]
+  ]
+}

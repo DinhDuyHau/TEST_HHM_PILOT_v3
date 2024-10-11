@@ -34,6 +34,7 @@
             [reference]="item.reference"
             [mapper]="item.mapper"
             [disabled]="item.disabled || false"
+            [isChoose]="item.isChoose || false"
             [filterOther]="filter"
             [invalid]="
               (!filter[item.name] || true) && (item.required || false) && submit
@@ -55,7 +56,6 @@
           <div *ngIf="item.type === 'select'">
             <select-custom
               *ngIf="item.type === 'select'"
-              [label]="item.label"
               [options]="item.options"
               [optionValue]="item.optionValue"
               [optionDes]="item.optionDes"

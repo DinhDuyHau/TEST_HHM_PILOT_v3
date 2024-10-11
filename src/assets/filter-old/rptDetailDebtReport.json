@@ -1,0 +1,136 @@
+{
+  "width": 600,
+  "height": 800,
+  "control": [
+    [
+      {
+        "name": "ngay_ht1",
+        "label": "Hạch toán từ ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat",
+        "required": true,
+        "value": "new Date()"
+      },
+      {
+        "name": "ngay_ht2",
+        "label": "Đến ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat",
+        "required": true,
+        "value": "new Date()"
+      }
+    ],
+    [
+      {
+        "name": "ngay_ct1",
+        "label": "Hóa đơn từ ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat",
+        "required": true,
+        "value": "new Date()"
+      },
+      {
+        "name": "ngay_ct2",
+        "label": "Đến ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat",
+        "required": true,
+        "value": "new Date()"
+      }
+    ],
+    [
+      {
+        "name": "ngay_tt",
+        "label": "Được tt đến ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat",
+        "required": true,
+        "value": "new Date()"
+      }
+    ],
+    [
+      {
+        "name": "ma_kh",
+        "label": "Khách hàng",
+        "isLookup": "true",
+        "control": "dmkh",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_kh", "ten_kh"],
+        "class": "basis-1/3"
+      },
+      {
+        "name": "ten_kh",
+        "label": "Tên khách hàng",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ],
+    [
+      {
+        "name": "ma_nh1",
+        "label": "Nhóm khách 1",
+        "isLookup": "true",
+        "control": "dmnhkh1",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nh", "ten_nh"],
+        "mapper": {
+          "ma_nh": "nh_kh1",
+          "ten_nh": "ten_kh1"
+        },
+        "class": "basis-1/3"
+      },
+      {
+        "name": "ten_kh1",
+        "label": "Tên nhóm khách 1",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ],
+    [
+      {
+        "name": "ma_nh2",
+        "label": "Nhóm khách 2",
+        "isLookup": "true",
+        "control": "dmnhkh2",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nh", "ten_nh"],
+        "mapper": {
+          "ma_nh": "nh_kh2",
+          "ten_nh": "ten_kh2"
+        },
+        "class": "basis-1/3"
+      },
+      {
+        "name": "ten_kh2",
+        "label": "Tên nhóm khách 2",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ],
+    [
+      {
+        "name": "ma_nh3",
+        "label": "Nhóm khách 3",
+        "isLookup": "true",
+        "control": "dmnhkh3",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nh", "ten_nh"],
+        "mapper": {
+          "ma_nh": "nh_kh3",
+          "ten_nh": "ten_kh3"
+        },
+        "class": "basis-1/3"
+      },
+      {
+        "name": "ten_kh3",
+        "label": "Tên nhóm khách 3",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ]
+  ]
+}
