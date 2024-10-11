@@ -45,11 +45,9 @@ export class LookupV2Component {
     this.lookupService.initData(data);
     this.lookupService.getFields().pipe().subscribe(fields => {
       if (data.isChoose == true) {
-        this.fields = fields;
+        fields.find(item => item.hidden = false);
       }
-      else {
-        this.fields = fields.filter(item => item.name !== 'choose');
-      }
+      this.fields = fields;
       this.codeLookup = this.fields.filter(item => item.isPrimaryKey).map(item => item.name);
       this.init();
     });

@@ -362,7 +362,11 @@ export class InputCustomV2Component implements OnChanges, OnInit {
             }
             else {
               if (this.mapper) {
-                list_control.push({ control: this.mapper[item], value: result || (typeof (result[item.name]) == 'boolean' ? false : '') });
+                if (typeof result == 'object') {
+                  list_control.push({ control: this.mapper[item], value: result[item] || (typeof (result[item.name]) == 'boolean' ? false : '') });
+                }
+                else
+                  list_control.push({ control: this.mapper[item], value: result || (typeof (result[item.name]) == 'boolean' ? false : '') });
               }
               else {
                 if (typeof result == 'object') {
