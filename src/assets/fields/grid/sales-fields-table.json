@@ -2216,5 +2216,77 @@
             "dataType": "number",
             "align": "right"
         }
-    ]
+    ],
+    "MERCHANDISE_COMPENSATION_LIST": [
+        {
+          "name": "ma_vt",
+          "title": "Mã vật tư"
+        },
+        {
+          "name": "ten_vt",
+          "title": "Tên vật tư",
+          "width": "300px"
+        },
+        {
+          "name": "ma_imei",
+          "title": "Imei",
+          "align": "center"
+        },
+        {
+          "name": "dvt",
+          "title": "Đvt",
+          "align": "center"
+        },
+        {
+          "name": "ma_kho",
+          "title": "Mã kho",
+          "align": "center"
+        },
+        {
+          "name": "gia_ban",
+          "title": "Giá bán",
+          "format": "moneyView2Digit",
+          "align": "right",
+          "dataType": "number"
+        },
+        {
+          "name": "so_luong",
+          "title": "Số lượng",
+          "format": "moneyViewNoDigit",
+          "align": "center"
+        },
+        {
+          "name": "thanh_tien",
+          "title": "Thành tiền (chưa VAT)",
+          "align": "right",
+          "format": "moneyView2Digit",
+          "dataType": "number"
+        },
+        {
+          "name": "thue_suat",
+          "title": "Thuế suất(%)",
+          "align": "center"
+        },
+        {
+          "name": "tien_thue",
+          "title": "Tiền thuế",
+          "format": "moneyView2Digit",
+          "align": "right",
+          "dataType": "number"
+        },
+        {
+          "name": "tien_ck",
+          "title": "Tiền chiết khấu",
+          "format": "moneyViewNoDigit",
+          "align": "right",
+          "dataType": "number"
+        },
+        {
+          "name": "thanh_toan",
+          "title": "Tổng tiền",
+          "format": "moneyViewNoDigit",
+          "align": "right",
+          "dataType": "number"
+        }
+      ]
 }

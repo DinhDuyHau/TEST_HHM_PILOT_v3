@@ -40,7 +40,12 @@ export const TICKET_CODE = {
     STOCK_OTHER_RECEIPT: 'PTK',
     DEPOSIST_RETURN_PAYMENT: 'PCH',
     CLOSE_SHIFT_PAYMENT: 'PCC',
-    OTHER_PAYMENT: 'PCK'
+    OTHER_PAYMENT: 'PCK',
+
+    //phiếu xuất đền bù hàng hóa
+    STOCK_COMPENSATION: 'XD1',
+    //phiếu xuất đền bù dịch vụ
+    SERVICE_COMPENSATION: 'XD2',
 };
 
 export const TICKET_ENTITY = {
@@ -82,6 +87,11 @@ export const TICKET_ENTITY = {
     STOCK_OTHER_RECEIPT: 'ORTran',
     DEPOSIST_RETURN_PAYMENT: 'CDTran_PCH',
     CLOSE_SHIFT_PAYMENT: 'PCCTran',
-    OTHER_PAYMENT: 'OPTran'
+    OTHER_PAYMENT: 'OPTran',
+
+    //phiếu xuất đền bù hàng hóa
+    STOCK_COMPENSATION: 'SVTran_XD1',
+    //phiếu xuất đền bù dịch vụ
+    SERVICE_COMPENSATION: 'SVTran_XD2',
 };
 
