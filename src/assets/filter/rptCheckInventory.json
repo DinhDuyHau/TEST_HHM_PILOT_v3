@@ -1,6 +1,6 @@
 {
   "width": 700,
-  "height": 650,
+  "height": 720,
   "control": [
     [
       {
@@ -96,6 +96,17 @@
         "class": "flex-1",
         "isChoose": true
       }
-    ]
+    ],
+    [
+      {
+        "name": "ma_nganh",
+        "label": "Ngành hàng",
+        "isLookup": "true",
+        "control": "dmnganhhang",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nganh"],
+        "isChoose": true
+      }
+    ] 
   ]
 }

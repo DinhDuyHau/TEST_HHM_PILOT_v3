@@ -1,6 +1,6 @@
 {
   "width": 700,
-  "height": 650,
+  "height": 700,
   "control": [
     [
       {
@@ -38,7 +38,7 @@
     [
       {
         "name": "nh_vt1",
-        "label": "Nhóm vật tư 1",
+        "label": "Chủng loại",
         "isLookup": "true",
         "control": "dmnhvt1",
         "dataFormatString": "uppercaseFormat",
@@ -51,7 +51,7 @@
     [
       {
         "name": "nh_vt2",
-        "label": "Nhóm vật tư 2",
+        "label": "Hãng sản xuất",
         "isLookup": "true",
         "control": "dmnhvt2",
         "dataFormatString": "uppercaseFormat",
@@ -64,7 +64,7 @@
     [
       {
         "name": "nh_vt3",
-        "label": "Nhóm vật tư 3",
+        "label": "Loại nhóm hàng",
         "isLookup": "true",
         "control": "dmnhvt3",
         "dataFormatString": "uppercaseFormat",
@@ -73,6 +73,17 @@
         "class": "flex-1",
         "isChoose": true
       }
-    ]
+    ],
+    [
+      {
+        "name": "ma_nganh",
+        "label": "Ngành hàng",
+        "isLookup": "true",
+        "control": "dmnganhhang",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nganh"],
+        "isChoose": true
+      }
+    ] 
   ]
 }
