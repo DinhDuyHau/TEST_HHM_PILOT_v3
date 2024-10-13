@@ -29,15 +29,9 @@
             "isLookup": "true",
             "control": "dmvt",
             "dataFormatString": "uppercaseFormat",
-            "reference": ["ma_vt", "ten_vt"],
-            "class": "basis-1/3"
-          },
-          {
-            "name": "ten_vt",
-            "label": "Tên vật tư",
-            "disabled": true,
-            "isExternalField": true,
-            "class": "flex-1"
+            "reference": ["ma_vt"],
+            "class": "flex-1",
+            "isChoose": true
           }
         ],
         [
@@ -47,15 +41,9 @@
             "isLookup": "true",
             "control": "dmnhvt3",
             "dataFormatString": "uppercaseFormat",
-            "reference": ["nh_vt3", "ten_nhvt3"],
-            "class": "basis-1/3"
-          },
-          {
-            "name": "ten_nhvt3",
-            "label": "Tên model",
-            "disabled": true,
-            "isExternalField": true,
-            "class": "flex-1"
+            "reference": ["nh_vt3"],
+            "class": "flex-1",
+            "isChoose": true
           }
         ]
     ]

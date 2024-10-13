@@ -3,7 +3,8 @@
     "name": "choose",
     "title": "Chọn",
     "width": 80,
-    "type": "select"
+    "type": "select",
+    "hidden": true
   },
   {
     "name": "ma_cuahang",

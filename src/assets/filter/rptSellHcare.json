@@ -1,5 +1,5 @@
 {
-  "width": 650,
+  "width": 700,
   "height": 600,
   "control": [
     [
@@ -45,7 +45,12 @@
         "isLookup": "true",
         "control": "dmnhvt1",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh"]
+        "reference": ["ma_nh"],
+        "mapper": {
+          "ma_nh": "nh_vt1"
+        },
+        "class": "flex-1",
+        "isChoose": true
       },
       {
         "name": "nh_vt2",
@@ -53,7 +58,12 @@
         "isLookup": "true",
         "control": "dmnhvt2",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh"]
+        "reference": ["ma_nh"],
+        "mapper": {
+          "ma_nh": "nh_vt2"
+        },
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [
@@ -63,7 +73,12 @@
         "isLookup": "true",
         "control": "dmnhvt3",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh"]
+        "reference": ["ma_nh"],
+        "mapper": {
+          "ma_nh": "nh_vt4"
+        },
+        "class": "flex-1",
+        "isChoose": true
       },
       {
         "name": "nh_vt4",
@@ -71,7 +86,12 @@
         "isLookup": "true",
         "control": "dmnhvt4",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh"]
+        "reference": ["ma_nh"],
+        "mapper": {
+          "ma_nh": "nh_vt4"
+        },
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [
@@ -81,7 +101,12 @@
         "isLookup": "true",
         "control": "dmnhvt5",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh"]
+        "reference": ["ma_nh"],
+        "mapper": {
+          "ma_nh": "nh_vt4"
+        },
+        "class": "flex-1",
+        "isChoose": true
       },
       {
         "name": "ma_nganh",
@@ -89,7 +114,8 @@
         "isLookup": "true",
         "control": "dmnganhhang",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nganh", "ten_nganh"]
+        "reference": ["ma_nganh", "ten_nganh"],
+        "class": "flex-1"
       }
     ]
   ]

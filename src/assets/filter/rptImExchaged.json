@@ -97,10 +97,10 @@
         "control": "dmvt",
         "dataFormatString": "uppercaseFormat",
         "reference": [
-          "ma_vt",
-          "ten_vt"
+          "ma_vt"
         ],
-        "required": false
+        "required": false,
+        "isChoose": true
       }
     ],
     [
@@ -111,9 +111,10 @@
         "control": "dmnhvt1",
         "dataFormatString": "uppercaseFormat",
         "reference": [
-          "ma_nh",
-          "ten_nh"
-        ]
+          "ma_nh"
+        ],
+        "mapper": {"ma_nh": "nh_vt1"},
+        "isChoose": true
       },
       {
         "name": "nh_vt2",
@@ -122,9 +123,10 @@
         "control": "dmnhvt2",
         "dataFormatString": "uppercaseFormat",
         "reference": [
-          "ma_nh",
-          "ten_nh"
-        ]
+          "ma_nh"
+        ],
+        "mapper": {"ma_nh": "nh_vt2"},
+        "isChoose": true
       }
     ],
     [
@@ -135,9 +137,10 @@
         "control": "dmnhvt3",
         "dataFormatString": "uppercaseFormat",
         "reference": [
-          "ma_nh",
-          "ten_nh"
-        ]
+          "ma_nh"
+        ],
+        "mapper": {"ma_nh": "nh_vt3"},
+        "isChoose": true
       },
       {
         "name": "nh_vt4",
@@ -146,9 +149,10 @@
         "control": "dmnhvt4",
         "dataFormatString": "uppercaseFormat",
         "reference": [
-          "ma_nh",
-          "ten_nh"
-        ]
+          "ma_nh"
+        ],
+        "mapper": {"ma_nh": "nh_vt4"},
+        "isChoose": true
       }
     ],
     [
@@ -159,9 +163,10 @@
         "control": "dmnhvt5",
         "dataFormatString": "uppercaseFormat",
         "reference": [
-          "ma_nh",
-          "ten_nh"
-        ]
+          "ma_nh"
+        ],
+        "mapper": {"ma_nh": "nh_vt5"},
+        "isChoose": true
       },
       {
         "name": "ma_nganh",

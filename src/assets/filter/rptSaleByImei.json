@@ -87,16 +87,10 @@
         "isLookup": "true",
         "control": "dmvt",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_vt", "ten_vt"],
-        "class": "basis-1/3",
-        "required": false
-      },
-      {
-        "name": "ten_vt",
-        "label": "Tên vật tư",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
+        "reference": ["ma_vt"],
+        "required": false,
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [
@@ -125,7 +119,10 @@
         "isLookup": "true",
         "control": "dmnhvt1",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": ["ma_nh"],
+        "class": "flex-1",
+        "isChoose": true
+        
       },
       {
         "name": "nh_vt2",
@@ -133,7 +130,9 @@
         "isLookup": "true",
         "control": "dmnhvt2",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": ["ma_nh"],
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [
@@ -143,7 +142,9 @@
         "isLookup": "true",
         "control": "dmnhvt3",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": ["ma_nh"],
+        "class": "flex-1",
+        "isChoose": true
       },
       {
         "name": "nh_vt4",
@@ -151,7 +152,9 @@
         "isLookup": "true",
         "control": "dmnhvt4",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": ["ma_nh"],
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [
@@ -161,7 +164,9 @@
         "isLookup": "true",
         "control": "dmnhvt5",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": ["ma_nh"],
+        "class": "flex-1",
+        "isChoose": true
       },
       {
         "name": "ma_nganh",

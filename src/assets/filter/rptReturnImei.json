@@ -1,5 +1,5 @@
 {
-  "width": 600,
+  "width": 700,
   "height": 1000,
   "control": [
     [
@@ -74,7 +74,8 @@
         "isLookup": "true",
         "control": "dmvt",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_vt"]
+        "reference": ["ma_vt"],
+        "isChoose": true
       }
     ],
     [
@@ -91,7 +92,8 @@
         "isLookup": "true",
         "control": "dmcuahang",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_cuahang"]
+        "reference": ["ma_cuahang"],
+        "isChoose": true
       }
     ],
     [
@@ -120,7 +122,8 @@
         "control": "dmnhvt1",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh"],
-        "mapper": {"ma_nh": "nh_vt1"}
+        "mapper": {"ma_nh": "nh_vt1"},
+        "isChoose": true
       },
       {
         "name": "nh_vt2",
@@ -129,7 +132,8 @@
         "control": "dmnhvt2",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh"],
-        "mapper": {"ma_nh": "nh_vt2"}
+        "mapper": {"ma_nh": "nh_vt2"},
+        "isChoose": true
       }
     ],
     [
@@ -140,7 +144,8 @@
         "control": "dmnhvt3",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh"],
-        "mapper": {"ma_nh": "nh_vt3"}
+        "mapper": {"ma_nh": "nh_vt3"},
+        "isChoose": true
       },
       {
         "name": "nh_vt4",
@@ -149,7 +154,8 @@
         "control": "dmnhvt4",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh"],
-        "mapper": {"ma_nh": "nh_vt4"}
+        "mapper": {"ma_nh": "nh_vt4"},
+        "isChoose": true
       }
     ],
     [
@@ -160,7 +166,8 @@
         "control": "dmnhvt5",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh"],
-        "mapper": {"ma_nh": "nh_vt5"}
+        "mapper": {"ma_nh": "nh_vt5"},
+        "isChoose": true
       },
       {
         "name": "ma_nganh",

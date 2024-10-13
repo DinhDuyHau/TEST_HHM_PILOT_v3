@@ -131,7 +131,9 @@
         "isLookup": "true",
         "control": "dmvt",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_vt"]
+        "reference": ["ma_vt"],
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [
@@ -141,7 +143,10 @@
         "isLookup": "true",
         "control": "dmnhvt1",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": ["ma_nh"],
+        "mapper": {"ma_nh": "nh_vt1"},
+        "class": "flex-1",
+        "isChoose": true
       },
       {
         "name": "nh_vt2",
@@ -149,7 +154,10 @@
         "isLookup": "true",
         "control": "dmnhvt2",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": ["ma_nh"],
+        "mapper": {"ma_nh": "nh_vt2"},
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [
@@ -159,7 +167,10 @@
         "isLookup": "true",
         "control": "dmnhvt3",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": ["ma_nh"],
+        "mapper": {"ma_nh": "nh_vt3"},
+        "class": "flex-1",
+        "isChoose": true
       },
       {
         "name": "nh_vt4",
@@ -167,7 +178,10 @@
         "isLookup": "true",
         "control": "dmnhvt4",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": ["ma_nh"],
+        "mapper": {"ma_nh": "nh_vt4"},
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [
@@ -177,7 +191,10 @@
         "isLookup": "true",
         "control": "dmnhvt5",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": ["ma_nh"],
+        "mapper": {"ma_nh": "nh_vt5"},
+        "class": "flex-1",
+        "isChoose": true
       },
       {
         "name": "nh_vt6",
@@ -185,7 +202,10 @@
         "isLookup": "true",
         "control": "dmnhvt6",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nh", "ten_nh"]
+        "reference": ["ma_nh"],
+        "mapper": {"ma_nh": "nh_vt6"},
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [
