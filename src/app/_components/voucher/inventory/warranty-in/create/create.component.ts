@@ -53,6 +53,9 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
   imei = '';
   imei_xuat = '';
   so_ct_px = '';
+  stt_rec_px = '';
+  ngay_ct_px: Date | undefined;
+
   data!: Receipt;
   statusList: StatusTicket[] = [];
   voucherCode = 'PNW';
@@ -421,11 +424,15 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
     const result = await lastValueFrom(this.imeiService.getWarrantyOutInfo(imei, this.ma_cuahang));
     if (result && result.result && result.result.length > 0) {
       this.so_ct_px = result.result[0].so_ct_px;
+      this.stt_rec_px = result.result[0].stt_rec_px;
+      this.ngay_ct_px = result.result[0].ngay_ct_px;
     }
     else {
       this.commonService.showMessageByName('lblWarningNotFoundWarrantyOut');
       this.imei_xuat = '';
       this.so_ct_px = '';
+      this.stt_rec_px = '';
+      this.ngay_ct_px = undefined;
     }
   }
 
@@ -467,10 +474,10 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
     //kiểm tra thông tin xuất bảo hành từ imei nhập input
     let result = await lastValueFrom(this.imeiService.getWarrantyOutInfo(imei, this.ma_cuahang));
 
-    //Nếu tồn tại thông tin xuất bảo hành tương ứng với imei nhập imei => imei trả bảo hành khớp với imei xuất ra đi bảo hành
+    //Nếu tồn tại thông tin xuất bảo hành tương ứng với imei nhập => imei trả bảo hành khớp với imei xuất ra đi bảo hành
     if (result && result.result && result.result.length > 0) {
       //add imei vào grid
-      this.addItem(imei, imei, '', result, false).then((flag) => {
+      this.addItem(imei, imei, this.so_ct_px, this.stt_rec_px, this.ngay_ct_px, result, false).then((flag) => {
         if (flag) {
           this.imei = '';
           this.site_code = '';
@@ -481,7 +488,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
       //trường hợp trả bảo hành là imei mới không phải là imei xuất đi bảo hành
       //lấy thông tin imei xuất và số c.từ px nhập trên form để mapping vào trong grid chi tiết
       result = await lastValueFrom(this.imeiService.getWarrantyOutInfo(this.imei_xuat, this.ma_cuahang));
-      this.addItem(imei, this.imei_xuat, this.so_ct_px, result, true).then((flag) => {
+      this.addItem(imei, this.imei_xuat, this.so_ct_px, this.stt_rec_px, this.ngay_ct_px, result, true).then((flag) => {
         if (flag) {
           this.imei = '';
           this.site_code = '';
@@ -492,7 +499,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
 
   }
 
-  async addItem(imei: string, imei_px: string, so_ct_px?: string, out_data?: any, doi_bh_yn?: boolean) {
+  async addItem(imei: string, imei_px: string, so_ct_px?: string, stt_rec_px?: string, ngay_ct_px?: Date, out_data?: any, doi_bh_yn?: boolean) {
     if (this.site_code == '') {
       this.commonService.showMessageByName('lblWarningInvalidSite');
       return;
@@ -506,11 +513,13 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
       const map = new Map();
       map.set('exists_yn', true);
       map.set('in_store_yn', false);
-      map.set('xuat_yn', true);
       map.set('dieu_chuyen_yn', false);
       map.set('dat_hang_yn', false);
       map.set('ban_hang_yn', false);
       map.set('tra_ncc_yn', false);
+      map.set('xuat_yn', true);
+      map.set('baohanh_yn', true);
+
       const message = this.imeiService.GetMessageStatusImei(map, res.result[0]);
       if (message) {
         this.commonService.showMessage(this.imeiService.GetMessageStatusImei(map, res.result[0]));
@@ -544,10 +553,12 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
         tien_nt: response.tien_nt,
         ma_imei_x: imei_px,
         so_ct_px: (so_ct_px && so_ct_px !== '' ? so_ct_px : response.so_ct_px),
+        stt_rec_px: stt_rec_px,
         doi_bh_yn: doi_bh_yn!,
       });
       this.calcTotal();
       this.dataSource.data = this.data.details[0].data;
+      this.imei_xuat = '';
       return true;
     }
     this.commonService.showMessageByName('lblWarningInvalidImei');
