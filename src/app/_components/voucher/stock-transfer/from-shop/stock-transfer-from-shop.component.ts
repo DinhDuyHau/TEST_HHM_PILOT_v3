@@ -21,6 +21,8 @@ import { IMEIService } from '@app/_services/imei.service';
 import { Customer } from '@app/_components/category/customer/customer.model';
 import { DeliveryEmployeeApiService } from '@app/sales-management/api/delivery-employee-api.service';
 
+import { AuthenticationService, StatusVoucher } from '@app/_services';
+
 const {
   MERCHANDISE_LIST
 } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json');
@@ -81,7 +83,8 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
     private commonService: CommonService,
     private merchandiseService: MerchandiseService,
     private imeiService: IMEIService,
-    private deliveryEmployeeApiService: DeliveryEmployeeApiService
+    private deliveryEmployeeApiService: DeliveryEmployeeApiService,
+    private statusVoucher: StatusVoucher
   ) {
     localStorage.setItem('useGridCached', '1');
     this.stockTransferService.setTicket(this.ticket, this.option);
@@ -120,8 +123,11 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
     });
 
     const getStatusList = () => {
-      this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: STOCK_TRANSFER_TICKET_CODE }]).subscribe(result => {
-        this.statusList = result.result.items as StatusTicket[];
+      // this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: STOCK_TRANSFER_TICKET_CODE }]).subscribe(result => {
+      //   this.statusList = result.result.items as StatusTicket[];
+      // });
+      this.statusVoucher.getStatus('PXB').subscribe(result => {
+        this.statusList = result;
       });
     };
 
