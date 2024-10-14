@@ -10,3 +10,5 @@ export * from './ImeiState';
 export * from './Banking';
 export * from './menu_report';
 export * from './payment';
+export * from './Result';
+export * from './dashboard';

@@ -1,18 +1,81 @@
 ﻿import { Component } from '@angular/core';
-import { first } from 'rxjs/operators';
+import { DashboardSales, DashboardTopSelling, Result } from '@app/_models';
+import { DashboardService } from '@app/_services/dashboard.service';
+import { formatNumber } from '@angular/common';
 
-import { User } from '@app/_models';
-import { UserService } from '@app/_services';
-
-@Component({ templateUrl: 'home.component.html' })
+@Component({
+  templateUrl: 'home.component.html',
+  styleUrls: ['./home.component.scss']
+})
 export class HomeComponent {
-    loading = false;
-    users?: User[];
-    month = new Date().getMonth() + 1;
-    public customer = '';
-    constructor(private userService: UserService) { }
+  loading = false;
+  month = new Date().getMonth() + 1;
+  itemsTopSelling: { ten_vt: string, ma_vt: string, sl_xuat: number }[] = [];
+  salesData: DashboardSales | null = null;
+  constructor(private dashboardService: DashboardService) { }
 
-    ngOnInit() {
-        this.loading = true;
+  ngOnInit() {
+    this.loading = true;
+    this.getDashboardTopSelling();
+    this.getDashboardSales();
+  }
+
+  //lấy top 5 sp
+  getDashboardTopSelling() {
+    this.dashboardService.getDashboardTopSelling().subscribe({
+      next: (data: Result<DashboardTopSelling>) => {
+        this.itemsTopSelling = data.result.items;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching dashboard data:', error);
+        this.loading = false;
+      }
+    });
+  }
+  // end
+
+  //lấy doanh thu
+  getDashboardSales() {
+    this.dashboardService.getDashboardSales().subscribe({
+      next: (data: Result<DashboardSales>) => {
+        if (data.result.items && data.result.items.length > 0) {
+          this.salesData = data.result.items[0];
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching dashboard data:', error);
+        this.loading = false;
+      }
+    });
+  }
+  // end
+
+  onReload() {
+    this.getDashboardTopSelling();
+    this.getDashboardSales();
+  }
+
+  formatNumber(value: number | null): string {
+    if (value === null || value === undefined) {
+      return '0';
     }
+
+    return value.toLocaleString('de-DE');
+  }
+
+  formatShortNumber(value: number): string {
+    if (value === 0) return '0';
+
+    const units = ['', ' nghìn', ' triệu', ' tỷ', ' nghìn tỷ', ' triệu tỷ', ' tỷ tỷ'];
+    const unitIndex = Math.floor(Math.log10(value) / 3);
+    const divisor = Math.pow(10, unitIndex * 3);
+
+    // Lấy phần nguyên của giá trị sau khi chia, không lấy số thập phân
+    const shortValue = Math.floor(value / divisor);
+
+    return shortValue.toLocaleString('en-US') + units[unitIndex];
+  }
+
 }
