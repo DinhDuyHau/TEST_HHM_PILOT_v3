@@ -165,20 +165,9 @@
         "isLookup": "true",
         "control": "dmnganhhang",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_nganh", "ten_nganh"],
-        "mapper": {
-          "ma_nh": "ma_nganh",
-          "ten_nh": "ten_nganh"
-        },
-        "class": "basis-1/4"
-      },
-      {
-        "name": "ten_nganh",
-        "label": "Tên ngành hàng",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
+        "reference": ["ma_nganh"],
+        "isChoose": true
       }
-    ]
+    ] 
   ]
 }

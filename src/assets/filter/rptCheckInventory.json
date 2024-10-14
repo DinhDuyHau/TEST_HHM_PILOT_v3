@@ -1,6 +1,6 @@
 {
   "width": 700,
-  "height": 720,
+  "height": 800,
   "control": [
     [
       {
@@ -22,6 +22,18 @@
         "reference": ["ma_cuahang"],
         "class": "flex-1",
         "hidden": false,
+        "isChoose": true
+      }
+    ],
+    [
+      {
+        "name": "ma_kho",
+        "label": "Mã kho",
+        "isLookup": "true",
+        "control": "dmkho",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_kho"],
+        "class": "flex-1",
         "isChoose": true
       }
     ],
@@ -70,7 +82,7 @@
     [
       {
         "name": "nh_vt3",
-        "label": "Model",
+        "label": "Loại nhóm hàng",
         "isLookup": "true",
         "control": "dmnhvt3",
         "dataFormatString": "uppercaseFormat",

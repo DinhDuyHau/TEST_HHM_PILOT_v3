@@ -100,13 +100,24 @@
         </div>
       </div>
       <div class="flex gap-2">
-        <app-input-custom-v2
+        <!-- <app-input-custom-v2
           [label]="getLabel('lbl_so_ct_px')"
           class="flex-1"
           [readonly]="true"
           name="so_ct_px"
           [value]="so_ct_px"
-          ></app-input-custom-v2>
+          ></app-input-custom-v2> -->
+        <app-input-custom-v2
+          [label]="getLabel('lbl_dien_giai')"
+          class="flex-1"
+          [disabled]="disabled"
+          (handleEnter)="onEnter($event)"
+          name="dien_giai"
+          (handleChange)="handleInputChange('dien_giai', $event)"
+          [value]="f['dien_giai'].value"
+          [invalid]="
+            submitted && f['dien_giai'].errors != null
+          "></app-input-custom-v2>
       </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-3 pb-2">
@@ -148,17 +159,7 @@
         </div>
       </div>
       <div class="flex gap-2">
-        <app-input-custom-v2
-          [label]="getLabel('lbl_dien_giai')"
-          class="flex-1"
-          [disabled]="disabled"
-          (handleEnter)="onEnter($event)"
-          name="dien_giai"
-          (handleChange)="handleInputChange('dien_giai', $event)"
-          [value]="f['dien_giai'].value"
-          [invalid]="
-            submitted && f['dien_giai'].errors != null
-          "></app-input-custom-v2>
+        &nbsp;
       </div>
     </div>
     <tabs-custom class="pt-2">
