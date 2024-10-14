@@ -21,6 +21,8 @@ import { IMEIService } from '@app/_services/imei.service';
 import { Customer } from '@app/_components/category/customer/customer.model';
 import { DeliveryEmployeeApiService } from '@app/sales-management/api/delivery-employee-api.service';
 
+import { AuthenticationService, StatusVoucher } from '@app/_services';
+
 const {
   MERCHANDISE_LIST
 } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json');
@@ -81,7 +83,8 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
     private commonService: CommonService,
     private merchandiseService: MerchandiseService,
     private imeiService: IMEIService,
-    private deliveryEmployeeApiService: DeliveryEmployeeApiService
+    private deliveryEmployeeApiService: DeliveryEmployeeApiService,
+    private statusVoucher: StatusVoucher
   ) {
     localStorage.setItem('useGridCached', '1');
     this.stockTransferService.setTicket(this.ticket, this.option);
@@ -120,8 +123,11 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
     });
 
     const getStatusList = () => {
-      this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: STOCK_TRANSFER_TICKET_CODE }]).subscribe(result => {
-        this.statusList = result.result.items as StatusTicket[];
+      // this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: STOCK_TRANSFER_TICKET_CODE }]).subscribe(result => {
+      //   this.statusList = result.result.items as StatusTicket[];
+      // });
+      this.statusVoucher.getStatus('PXB').subscribe(result => {
+        this.statusList = result;
       });
     };
 
@@ -198,8 +204,10 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
 
   openImportInventorySearchDialog() {
     let ma_loai = this.ma_loai;
+    let stock_operator = '=';
     if (this.ma_loai === "HH") {
-      ma_loai = "HD";
+      stock_operator = 'in'
+      ma_loai = "HH,HD";
     }
     else if (this.ma_loai === "HD") {
       ma_loai = "HH";
@@ -212,13 +220,31 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
     }
     else {
       ma_loai = '';
+      if (this.ticket.masterInfo.fnote2 === '2') {
+        // hàng trôi bảo hành được phép điều chuyển về 2 loại kho: trôi bảo hành, trải nghiệm
+        if (this.ma_loai === 'TBH') {
+          stock_operator = 'in'
+          ma_loai = 'TBH,TN';
+        }
+        // hàng cũ, hàng lỗi, hàng trải nghiệm
+        // được phép điều chuyển về 2 loại kho: hàng cũ, trôi bảo hành
+        if (this.ma_loai === 'HC' || this.ma_loai === 'TL' || this.ma_loai === 'TN') {
+          stock_operator = 'in'
+          ma_loai = 'HC,TBH';
+        }
+        // hàng kinh doanh được phép điều chuyển về 3 loại kho: hàng cũ, trôi bảo hành, trải nghiệm
+        if (this.ma_loai === 'KD') {
+          stock_operator = 'in'
+          ma_loai = 'HC,TBH,TN';
+        }
+      }
     }
 
     let filter: any[] = [];
     if (ma_loai !== '') {
       filter = [{
         name: 'ma_loai',
-        operator: "=",
+        operator: stock_operator,
         value: ma_loai
       },
       {
