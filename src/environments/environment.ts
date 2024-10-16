@@ -3,24 +3,24 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+    production: false,
 
-  // apiUrl: 'https://test-hhm-ketnoi.genbyte.net',
-  apiUrl: 'http://localhost:5000',
-  accountingUrl: 'http://test-hhm-ketoan.genbyte.net', // link 130
-  // accountingUrl: 'http://hhm-qt.genbyte.net', // link 115
+    apiUrl: 'https://test-hhm-ketnoi.genbyte.net',
+    // apiUrl: 'http://localhost:5000',
+    accountingUrl: 'http://test-hhm-ketoan.genbyte.net', // link 130
+    // accountingUrl: 'http://hhm-qt.genbyte.net', // link 115
 
 
-  //Khóa công khai của người nhận
-  receiverPublicKey: `-----BEGIN PUBLIC KEY-----
+    //Khóa công khai của người nhận
+    receiverPublicKey: `-----BEGIN PUBLIC KEY-----
     MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHyTiwTAOZtUqSMVNF3kzScCRdKj
     gF8W48gHiEZ/fjN3TFjQwQzwR4LuyJyeUZVPR7OufWHk5nXej+VioyHTMW5EZ6pD
     yvlGuWnOhK41dOA7aCzazEkqskA3psqVKTN5dbLEPDTXKYukZbz0XmegThKyIMru
     b+NCdxa1fDRlSRifAgMBAAE=
     -----END PUBLIC KEY-----`,
 
-  //Khóa bí mật của người gửi
-  senderPrivateKey: `-----BEGIN RSA PRIVATE KEY-----
+    //Khóa bí mật của người gửi
+    senderPrivateKey: `-----BEGIN RSA PRIVATE KEY-----
     MIICXAIBAAKBgQDQOc4/7Oeqtz1i57FygAA9b1SY6G6rLJOT1kFOdSNasoih6aUV
     bjNTiZwl7OvlXsOB+dlVImhiB1rD1GwILDivikafavNRODDe90tWFBD87/QpHD3o
     7Hu0AsClFZRhns6GYgUT1sNC/ha5L9R9MiE9+H5+iVymBIHo2IjwUPqIbQIDAQAB
@@ -36,25 +36,25 @@ export const environment = {
     pW3P8AtbBQp+HUuqhHmUju+8ngjoOY06cRrP2wMP0s4=
     -----END RSA PRIVATE KEY-----`,
 
-  /*
-  //Khóa công khai của người gửi
-  senderPublicKey: `-----BEGIN PUBLIC KEY-----
-  MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDQOc4/7Oeqtz1i57FygAA9b1SY
-  6G6rLJOT1kFOdSNasoih6aUVbjNTiZwl7OvlXsOB+dlVImhiB1rD1GwILDivikaf
-  avNRODDe90tWFBD87/QpHD3o7Hu0AsClFZRhns6GYgUT1sNC/ha5L9R9MiE9+H5+
-  iVymBIHo2IjwUPqIbQIDAQAB
-  -----END PUBLIC KEY-----`
-  */
-  firebaseConfig: {
-    apiKey: 'AIzaSyCvLowDyeacumDN_1ZvPudSUnXlUTxMpbM',
-    authDomain: 'hoanghamobile-genbyte.firebaseapp.com',
-    projectId: 'hoanghamobile-genbyte',
-    storageBucket: 'hoanghamobile-genbyte.appspot.com',
-    messagingSenderId: '631018483609',
-    appId: '1:631018483609:web:2ad56f451d132ebd806d08',
-    measurementId: 'G-YMLVYF6NCQ'
-  },
-  licenseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJweW91LmNvbSIsInN1YiI6ImFkbWluQHB5b3UuY29tIiwiaWF0IjoxNjI4Mjk1MzYxLCJpc3MiOiJBZG1pbiIsImV4cCI6MTYyODI3NjM2MSwidmVyc2lvbiI6MSwiY2FwYWJpbGl0aWVzIjp7Im9mZmxpbmUiOnRydWUsImFuYWx5dGljc09wdE91dCI6dHJ1ZSwiY3VzdG9tT3ZlcmxheUxvZ28iOnRydWV9fQ.ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345678912345672312312sdsdsssda-'
+    /* 
+    //Khóa công khai của người gửi
+    senderPublicKey: `-----BEGIN PUBLIC KEY-----
+    MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDQOc4/7Oeqtz1i57FygAA9b1SY
+    6G6rLJOT1kFOdSNasoih6aUVbjNTiZwl7OvlXsOB+dlVImhiB1rD1GwILDivikaf
+    avNRODDe90tWFBD87/QpHD3o7Hu0AsClFZRhns6GYgUT1sNC/ha5L9R9MiE9+H5+
+    iVymBIHo2IjwUPqIbQIDAQAB
+    -----END PUBLIC KEY-----`
+    */
+    firebaseConfig: {
+        apiKey: 'AIzaSyCvLowDyeacumDN_1ZvPudSUnXlUTxMpbM',
+        authDomain: 'hoanghamobile-genbyte.firebaseapp.com',
+        projectId: 'hoanghamobile-genbyte',
+        storageBucket: 'hoanghamobile-genbyte.appspot.com',
+        messagingSenderId: '631018483609',
+        appId: '1:631018483609:web:2ad56f451d132ebd806d08',
+        measurementId: 'G-YMLVYF6NCQ'
+    },
+    licenseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJweW91LmNvbSIsInN1YiI6ImFkbWluQHB5b3UuY29tIiwiaWF0IjoxNjI4Mjk1MzYxLCJpc3MiOiJBZG1pbiIsImV4cCI6MTYyODI3NjM2MSwidmVyc2lvbiI6MSwiY2FwYWJpbGl0aWVzIjp7Im9mZmxpbmUiOnRydWUsImFuYWx5dGljc09wdE91dCI6dHJ1ZSwiY3VzdG9tT3ZlcmxheUxvZ28iOnRydWV9fQ.ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345678912345672312312sdsdsssda-'
 };
 
 /*
