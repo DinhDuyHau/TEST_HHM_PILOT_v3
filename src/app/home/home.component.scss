@@ -1,6 +1,12 @@
 .btn-reload {
   background-color: var(--primary02) !important;
   color: #fff;
+  &::before {
+    content: '\f021';
+    font-family: 'Font Awesome 5 free';
+    font-weight: 900;
+    font-size: 14px;
+  }
 }
 
 /* hiển thị 2 dòng test... */
@@ -34,3 +40,4 @@
   opacity: 0.7; /* Thay đổi độ mờ nếu muốn */
   font-size: 14px;
 }
+
