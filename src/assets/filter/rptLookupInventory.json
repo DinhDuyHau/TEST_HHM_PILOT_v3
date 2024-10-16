@@ -44,7 +44,8 @@
         "isLookup": "true",
         "control": "dmloaikho",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_loai", "ten_loai"]
+        "reference": ["ma_loai"],
+        "isChoose": true
       }
     ],
     [

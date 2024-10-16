@@ -1,6 +1,6 @@
 {
   "width": 700,
-  "height": 720,
+  "height": 700,
   "control": [
     [
       {
@@ -39,6 +39,17 @@
     ],
     [
       {
+        "name": "ma_loai",
+        "label": "Loại kho",
+        "isLookup": "true",
+        "control": "dmloaikho",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_loai"],
+        "isChoose": true
+      }
+    ],
+    [
+      {
         "name": "ma_vt",
         "label": "Mã hàng",
         "isLookup": "true",
@@ -60,9 +71,7 @@
         "mapper": {"ma_nh": "nh_vt1"},
         "class": "flex-1",
         "isChoose": true
-      }
-    ],
-    [
+      },
       {
         "name": "nh_vt2",
         "label": "Hãng sản xuất",
@@ -86,9 +95,7 @@
         "mapper": {"ma_nh": "nh_vt3"},
         "class": "flex-1",
         "isChoose": true
-      }
-    ],
-    [
+      },
       {
         "name": "ma_nganh",
         "label": "Ngành hàng",
@@ -98,6 +105,6 @@
         "reference": ["ma_nganh"],
         "isChoose": true
       }
-    ] 
+    ]
   ]
 }

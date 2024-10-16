@@ -1,5 +1,12 @@
 [
   {
+    "name": "choose",
+    "title": "Chọn",
+    "width": 80,
+    "type": "select",
+    "hidden": true
+  },
+  {
     "name": "ma_loai",
     "title": "Mã loại",
     "isPrimaryKey": true,
