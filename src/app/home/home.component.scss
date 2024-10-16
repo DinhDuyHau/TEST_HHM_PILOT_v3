@@ -3,7 +3,7 @@
   color: #fff;
 }
 
-/* hiển thị 2 dòng ... */
+/* hiển thị 2 dòng test... */
 .text-short-li {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -12,6 +12,7 @@
   -webkit-box-orient: vertical;
   padding: 4.8px var(--bs-list-group-item-padding-x) !important;
 }
+/* end ... */
 
 .item-grid {
   display: grid;
@@ -33,4 +34,3 @@
   opacity: 0.7; /* Thay đổi độ mờ nếu muốn */
   font-size: 14px;
 }
-
