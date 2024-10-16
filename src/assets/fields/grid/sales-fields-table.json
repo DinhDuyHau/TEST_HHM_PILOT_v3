@@ -1214,6 +1214,10 @@
             "title": "Số hóa đơn"
         },
         {
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
+        },
+        {
             "name": "ma_vt",
             "title": "Mã vật tư"
         },
