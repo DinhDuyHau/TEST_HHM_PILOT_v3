@@ -52,6 +52,7 @@ export class Merchandise {
   dvt = '';
   so_luong = 1;
   line_nbr = 0;
+  ma_td3 = '';
 
   constructor(obj?: any) {
     Object.assign(this, obj);
