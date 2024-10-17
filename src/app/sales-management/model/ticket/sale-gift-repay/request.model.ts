@@ -12,6 +12,7 @@ export class MerchandiseRequest extends BaseEntity {
     dvt = '';
     so_luong = 0;
     line_nbr = 0;
+    ma_td3 = '';
     constructor(obj?: any) {
         super();
         Object.assign(this, obj);

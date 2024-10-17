@@ -20,6 +20,7 @@ export interface ReceiptDetail {
     xstatus_name?: string,
     so_ct_px?: string,
     ngay_ct_px?: string,
+    ma_td3?: string,
 }
 
 export interface DetailInfo {

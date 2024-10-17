@@ -494,6 +494,7 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
         stt_rec0px: response.stt_rec0,
         so_ct_px: response.so_ct,
         ngay_ct_px: response.ngay_ct,
+        ma_td3: response.ma_cuahang,
       });
       this.calcTotal();
       this.dataSource.data = this.data.details[0].data;
