@@ -184,7 +184,8 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
                 tien_nt: 0,
                 tt_nt: 0,
                 con_lai: item.cl_nt,
-                dien_giai: item.dien_giai
+                dien_giai: item.dien_giai,
+                ma_td3: item.ma_cuahang
               });
             });
             console.log(this.data.details[0].data)
@@ -560,6 +561,7 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
             t_tien += item.tien_cl;
           })
           this.dataSource.data = item;
+          console.log('this.dataSource1', this.dataSource.data)
           this.data.details[0].data = item;
           this.data.masterInfo.t_tien_nt = 0;
           this.data.masterInfo.t_tt_nt = 0;

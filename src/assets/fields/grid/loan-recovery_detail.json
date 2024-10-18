@@ -6,6 +6,12 @@
     "width": 120
   },
   {
+    "name": "ma_td3",
+    "title": "Cửa hàng",
+    "dataFormatString": "upperCaseFormat",
+    "width": 100
+  },
+  {
     "name": "ngay_ct_px",
     "title": "Ngày PX",
     "width": 100,

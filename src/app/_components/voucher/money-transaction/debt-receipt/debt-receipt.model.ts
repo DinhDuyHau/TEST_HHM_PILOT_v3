@@ -17,6 +17,7 @@ export interface ReceiptDetail {
     tien_cl?: number,
     con_lai?: number,
     dien_giai?: string,
+    ma_td3?: string,
     [key: string]: any
 }
 
@@ -57,5 +58,6 @@ export interface MasterInfo {
     t_da_tra?: number,
     s4?: number,
     s5?: number,
+    ma_td3?: string,
     [key: string]: any
 }
