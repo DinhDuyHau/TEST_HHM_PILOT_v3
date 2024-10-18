@@ -1,9 +1,15 @@
 .btn-reload {
   background-color: var(--primary02) !important;
   color: #fff;
+  &::before {
+    content: '\f021';
+    font-family: 'Font Awesome 5 free';
+    font-weight: 900;
+    font-size: 14px;
+  }
 }
 
-/* hiển thị 2 dòng ... */
+/* hiển thị 2 dòng test... */
 .text-short-li {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -12,6 +18,7 @@
   -webkit-box-orient: vertical;
   padding: 4.8px var(--bs-list-group-item-padding-x) !important;
 }
+/* end ... */
 
 .item-grid {
   display: grid;
