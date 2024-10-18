@@ -62,7 +62,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       value: 1
     },
     {
-      label: "2-Chuyển hàng về kho tổng",
+      label: "2-Chuyển hàng về kho tổng, online, shop",
       value: 2
     }
   ]
@@ -190,10 +190,16 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   openSearchShopDialog() {
     let data = this.shops;
     if (this.ticket.masterInfo.fnote2 === '2') {
+      /**
+       * 2024-10-16: tạm comment code dưới, mở full cửa hàng để các shop chủ động điều chuyển trong giai đoạn chạy pilot-v4
+       
       data = this.shops.filter((x: { ma_cuahang: string; }) => {
         const ma_cuahang = x.ma_cuahang.trim().toUpperCase();
-        return ma_cuahang === 'HN000' || ma_cuahang === 'SG000' || ma_cuahang === 'HN008'
+        return ma_cuahang === 'HN000' || ma_cuahang === 'SG000' || ma_cuahang === 'HN008' || ma_cuahang === 'HN007' || ma_cuahang === 'SG007'
       });
+      */
+      // code thay thế
+      data = this.shops;
     }
     this.commonService.openDialog(SearchDialogComponent, { dataSource: data, componentName: SEARCH_COMPONENT_NAME.SHOP_INFO })
       .afterClosed().subscribe(result => {
@@ -558,11 +564,16 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
         this.commonService.showMessage('Chưa nhập cửa hàng nhận');
         return;
       }
+      /**
+       * 2024-10-16: tạm bỏ qua check cửa hàng nhận trong giai đoạn chạy pilot-v4
+       * => cho phép các shop chủ động điều chuyển cho nhau
+       *
       if (store_in.trim().toUpperCase() !== 'HN000' && store_in.trim().toUpperCase() !== 'SG000'
         && store_in.trim().toUpperCase() !== 'HN008') {
         this.commonService.showMessage('Giao dịch chuyển hàng về kho tổng, cửa hàng nhận phải là 1 trong các mã sau: HN000, SG000, HN008');
         return;
       }
+      */
     }
 
     //check valid các trường số lượng và tiền trong grid hàng hóa và dịch vụ

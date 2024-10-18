@@ -1064,10 +1064,15 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
                 }
                 else {
                   sale_item!.tien_ht = tien_ht;
-                  sale_item!.gia_vat -= tien_ht;
+
+                  // sale_item!.gia_vat -= tien_ht;
+                  // sửa lại công thức: giá vat = giá niêm yết - tiền hỗ trợ
+                  sale_item!.gia_vat = sale_item!.s4 - tien_ht;
 
                   //tính lại tiền trước thuế và tiền thuế
                   sale_item!.gia_ban = Math.round(sale_item!.gia_vat / (1 + (sale_item!.thue_suat / 100)));
+                  console.log(sale_item!.gia_ban)
+
                   sale_item!.tien_thue = sale_item!.gia_vat - sale_item!.gia_ban;
                   if (sale_item!.tien_thue < 0) sale_item!.tien_thue = 0;
                   sale_item!.gia_ck = sale_item!.gia_ban;

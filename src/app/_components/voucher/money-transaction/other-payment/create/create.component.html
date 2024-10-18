@@ -210,7 +210,7 @@
       </div>
       <div class="flex gap-2">
         <div class="flex-1">
-          <app-input-custom-v2
+          <app-input-custom-v2 *ngIf="data.masterInfo.fcode3?.trim()?.toUpperCase() !== 'THUONGNONG'"
             class="flex-1"
             [label]="getLabel('lbl_so_tien')"
             name="tien"

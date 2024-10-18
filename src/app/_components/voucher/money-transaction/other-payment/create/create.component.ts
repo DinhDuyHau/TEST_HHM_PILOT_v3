@@ -459,6 +459,10 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
     }
   }
   onEnterItem() {
+    if (this.data.masterInfo.fcode3 && this.data.masterInfo.fcode3!.trim().toUpperCase() === 'THUONGNONG') {
+      return;
+    }
+
     if (this.tien == '' || this.tien == '0') {
       this.commonService.showMessageByName('lblWarningNotValidMoney');
       return;

@@ -139,7 +139,7 @@ const routes: Routes = [
       { path: 'view', component: CreateReceiptComponent, canActivate: [AuthGuard] },
     ]
   },
-  {
+  /* {
     path: 'voucher/receipt2', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
       { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.RECEIPT2 },
@@ -147,7 +147,7 @@ const routes: Routes = [
       { path: 'update', component: CreateReceiptComponent, canActivate: [AuthGuard] },
       { path: 'view', component: CreateReceiptComponent, canActivate: [AuthGuard] },
     ]
-  },
+  }, */
   {
     path: 'voucher/stock-tranfer', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [

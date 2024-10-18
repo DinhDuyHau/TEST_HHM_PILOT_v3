@@ -297,7 +297,8 @@ export class MerchandiseService {
         //#region Chiết khấu 06
         const markerArray06 = merchandises.filter(x => !x.km_yn).map(x => { return { ma_imei: x.ma_imei, ma_vt: x.ma_vt, gia_ban: x.gia_ban, marker: false }; }).sort((a: any, b: any) => b.gia_ban - a.gia_ban);
         // Lấy chiết khấu loại 06: Chiết khấu combo phụ kiện theo thứ tự giảm dần đồ ưu tiên
-        const discountForMerchandise06 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO).sort((a: any, b: any) => { return -a.uu_tien + b.uu_tien; });
+        const discountForMerchandise06 = ticket.discount.filter(
+            (e: any) => e.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO).sort((a: any, b: any) => { return -a.uu_tien + b.uu_tien; });
         const discount_valid: any[] = [];
         (discountForMerchandise06 as any).forEach((discount: any) => {
             let flag = true;
@@ -373,7 +374,12 @@ export class MerchandiseService {
                         }
                         if (detail) {
                             // Tiền chiết khấu sẽ phân bổ sẽ là tiền chiết khấu hoặc tièn chiết khấu sau khi tính toán với tỉ lệ
-                            const discountMoneyTotal = discount.tien_ck || discount.tien_ck_tl;
+                            let discountMoneyTotal = discount.tien_ck || discount.tien_ck_tl;
+                            if (discountMoneyTotal > discount.tien_ck_max) {
+                                discountMoneyTotal = discount.tien_ck_max;
+                                discount.tien_ck = discountMoneyTotal;
+                            }
+
                             // Tiền đã được phân bổ vào trong chi tiết - dùng để phân bổ cho dòng cuối cùng
                             let total = 0;
                             // Lấy danh sách hàng bán có trong chiết khấu

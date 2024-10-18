@@ -68,6 +68,7 @@ export interface MasterInfo {
     ma_thanhtoan?: string,
     fcode1?: string,
     fcode2?: string,
+    fcode3?: string,
     s7?: Date,
     [key: string]: any
 }
