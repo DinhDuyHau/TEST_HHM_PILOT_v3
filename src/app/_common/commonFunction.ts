@@ -21,7 +21,7 @@ export function checkValidImei(imei: string): boolean {
 /**
  * convert chuỗi tiếng việt có dấu thành không dấu
  * @param text chuỗi input cần convert
- * @returns 
+ * @returns
  */
 export function convertToSlug(text: string): string {
     return text
@@ -304,7 +304,7 @@ export function parseMenu(data: MenuItem[]): any {
         // Create a map of all menu items
         data.forEach(item => {
             item.children = [];
-            map.set(item.menu_id, item);
+            map.set(item.wmenu_id, item);
         });
 
         // Build the tree

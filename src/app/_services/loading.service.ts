@@ -41,6 +41,16 @@ export class LoadingService {
     }));
   }
   getMenu(): Observable<Stock[]> {
+    // reset local storage trước khi call api
+    localStorage.setItem('menu', JSON.stringify([]));
+
+    const apiUri = `${environment.apiUrl}/menuright/get_menu_rights`;
+    return this.http.get<ResultNoPaging<Shop>>(apiUri).pipe(map(res => {
+      localStorage.setItem('menu', JSON.stringify(res.result));
+      return res.result;
+    }));
+  }
+  getMenu_old(): Observable<Stock[]> {
     const apiUri = `${environment.apiUrl}/category/listall/menu_api`;
     return this.http.get<ResultNoPaging<Shop>>(apiUri).pipe(map(res => {
       localStorage.setItem('menu', JSON.stringify(res.result));
