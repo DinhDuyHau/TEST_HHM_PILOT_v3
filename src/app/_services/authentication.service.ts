@@ -84,12 +84,14 @@ export class AuthenticationService {
                 }))
             .subscribe({
                 next: () => {
+                    localStorage.removeItem('menu');
                     localStorage.removeItem('user');
                     this.userSubject.next(null);
                     this.stopRefreshTokenTimer();
                     this.router.navigate(['/login']);
                 },
                 error: (error) => {
+                    localStorage.removeItem('menu');
                     localStorage.removeItem('user');
                     this.stopRefreshTokenTimer();
                     this.router.navigate(['/login']);

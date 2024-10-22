@@ -1,7 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SidebarService } from '@app/_components/_shared/sidebar/sidebar.service';
 import { Customer } from '@app/_components/category/customer/customer.model';
 import { ItemFilter, ItemSort, Result } from '@app/_components/grid/grid.model';
+import { MenuItem } from '@app/_components/_shared/sidebar/header.model';
 import { Resource, Shop, Stock, User } from '@app/_models';
 import { ResultNoPaging } from '@app/_models/Result';
 import { environment } from '@environments/environment';
@@ -14,7 +16,7 @@ import { first, map } from 'rxjs/operators';
 export class LoadingService {
   private userSubject: BehaviorSubject<any | null>;
   public user: Observable<any | null>;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private sidebarService: SidebarService) {
     this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('customer')!));
     this.user = this.userSubject.asObservable();
   }
@@ -40,13 +42,12 @@ export class LoadingService {
       return res.result;
     }));
   }
-  getMenu(): Observable<Stock[]> {
-    // reset local storage trước khi call api
-    localStorage.setItem('menu', JSON.stringify([]));
-
+  getMenu(): Observable<MenuItem[]> {
     const apiUri = `${environment.apiUrl}/menuright/get_menu_rights`;
-    return this.http.get<ResultNoPaging<Shop>>(apiUri).pipe(map(res => {
-      localStorage.setItem('menu', JSON.stringify(res.result));
+    return this.http.get<ResultNoPaging<MenuItem>>(apiUri).pipe(map(res => {
+      const newMenu = res.result;
+      localStorage.setItem('menu', JSON.stringify(newMenu));
+      this.sidebarService.updateMenu(newMenu);
       return res.result;
     }));
   }
