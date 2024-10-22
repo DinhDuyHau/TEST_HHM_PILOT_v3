@@ -27,4 +27,11 @@ export class SidebarService {
   getMenuFromLocalStorage2(): Observable<any> {
     return getMenuFromLocalStorage2();
   }
+
+  updateMenu(newMenu: MenuItem[]): void {
+    localStorage.setItem('menu', JSON.stringify(newMenu));
+
+    // Cập nhật giá trị cho BehaviorSubject
+    this.menuSubject.next(newMenu);
+  }
 }
