@@ -67,6 +67,8 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
   cancelButtonTitle = '';
 
   site_code = '';
+  item_code = '';
+  item_name = ' ';
   [key: string]: any;
   entity = VOUCHER_TYPE.WARRANTY_IN.sysid;
 
@@ -473,14 +475,16 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
   async checkImeiWarrantyIn(imei: string) {
     //kiểm tra thông tin xuất bảo hành từ imei nhập input
     let result = await lastValueFrom(this.imeiService.getWarrantyOutInfo(imei, this.ma_cuahang));
-
     //Nếu tồn tại thông tin xuất bảo hành tương ứng với imei nhập => imei trả bảo hành khớp với imei xuất ra đi bảo hành
     if (result && result.result && result.result.length > 0) {
       //add imei vào grid
-      this.addItem(imei, imei, this.so_ct_px, this.stt_rec_px, this.ngay_ct_px, result, false).then((flag) => {
+      this.addItem(imei, imei, this.so_ct_px, this.stt_rec_px, this.ngay_ct_px, result, false, this.item_code, this.item_name).then((flag) => {
         if (flag) {
           this.imei = '';
           this.site_code = '';
+          this.data.masterInfo['ten_kho'] = '';
+          this.item_code = '';
+          this.item_name = '';
         }
       });
     }
@@ -488,10 +492,13 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
       //trường hợp trả bảo hành là imei mới không phải là imei xuất đi bảo hành
       //lấy thông tin imei xuất và số c.từ px nhập trên form để mapping vào trong grid chi tiết
       result = await lastValueFrom(this.imeiService.getWarrantyOutInfo(this.imei_xuat, this.ma_cuahang));
-      this.addItem(imei, this.imei_xuat, this.so_ct_px, this.stt_rec_px, this.ngay_ct_px, result, true).then((flag) => {
+      this.addItem(imei, this.imei_xuat, this.so_ct_px, this.stt_rec_px, this.ngay_ct_px, result, true, this.item_code, this.item_name).then((flag) => {
         if (flag) {
           this.imei = '';
           this.site_code = '';
+          this.data.masterInfo['ten_kho'] = '';
+          this.item_code = '';
+          this.item_name = '';
         }
       });
     }
@@ -499,9 +506,14 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
 
   }
 
-  async addItem(imei: string, imei_px: string, so_ct_px?: string, stt_rec_px?: string, ngay_ct_px?: Date, out_data?: any, doi_bh_yn?: boolean) {
+  async addItem(imei: string, imei_px: string, so_ct_px?: string, stt_rec_px?: string, ngay_ct_px?: Date, out_data?: any, doi_bh_yn?: boolean, item_code?: string, item_name?: string) {
+    console.log('Run1', doi_bh_yn)
     if (this.site_code == '') {
       this.commonService.showMessageByName('lblWarningInvalidSite');
+      return;
+    }
+    if (this.item_code == '') {
+      this.commonService.showMessage('Mã vật tư không được để trống');
       return;
     }
     if (!doi_bh_yn && this.data.details[0].data.find(x => x.ma_imei.trim() === imei.trim())) {
@@ -555,6 +567,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
         so_ct_px: (so_ct_px && so_ct_px !== '' ? so_ct_px : response.so_ct_px),
         stt_rec_px: stt_rec_px,
         doi_bh_yn: doi_bh_yn!,
+        ma_td1: item_code
       });
       this.calcTotal();
       this.dataSource.data = this.data.details[0].data;
