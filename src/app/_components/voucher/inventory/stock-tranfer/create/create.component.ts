@@ -355,8 +355,10 @@ export class StockTranferCreateComponent extends Grid<ReceiptDetail> implements 
     //   item.ma_imei = item.ma_imei?.join(', ');
     // });
     this.loading = true;
+    this.disabled = true;
     this.stockTranferService.update(this.data).subscribe((item: any) => {
       this.loading = false;
+      this.disabled = false;
       if (item.success) {
         this.router.navigate(['..'], { relativeTo: this.route });
         this.commonService.showMessageByName(item.message ? item.message : 'edit_success');

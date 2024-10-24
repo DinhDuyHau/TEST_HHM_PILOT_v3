@@ -72,7 +72,7 @@ export class EWalletComponent implements OnInit {
 
   }
   onDeleteItem(event: { item: any }) {
-    this.data.eWallet.detail = this.data.eWallet.detail.filter((x => x.thong_tin != event.item.thong_tin));
+    this.data.eWallet.detail = this.data.eWallet.detail.filter((x => !(x.thong_tin == event.item.thong_tin && x.so_hd_vnpay === event.item.so_hd_vnpay)));
     this.data.eWallet.tien -= event.item.tien;
     this.dataSource = this.data.eWallet.detail;
   }

@@ -545,6 +545,10 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       if (result && result.success && result.result) {
         this.onReload();
       } else {
+        if (result && !result.success && result.message && result.message !== '') {
+          this.commonService.showMessageByName(result.message, []);
+          return;
+        }
         this.commonService.showMessage('Xóa voucher không thành công');
       }
     });
@@ -563,6 +567,10 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
               if (result && result.success && result.result) {
                 this.onReload();
               } else {
+                if (result && !result.success && result.message && result.message !== '') {
+                  this.commonService.showMessageByName(result.message);
+                  return;
+                }
                 this.commonService.showMessage('Xóa voucher không thành công');
               }
             });

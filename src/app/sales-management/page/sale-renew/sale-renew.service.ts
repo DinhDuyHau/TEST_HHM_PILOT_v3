@@ -396,7 +396,8 @@ export class SaleRenewService {
 
     // #region service
     addServiceForMerchandise(item: Merchandise, ticket: RenewSaleTicketCreate) {
-        this.commonService.openDialog(ServiceForImeiComponent, { ma_imei: item.ma_imei, gia_ban: item.gia_ban, ma_vt: item.ma_vt, gia_vat: item.gia_vat }, 'service-imei-style')
+        const gia_niem_yet_vat = item.s4;
+        this.commonService.openDialog(ServiceForImeiComponent, { ma_imei: item.ma_imei, gia_ban: item.gia_ban, ma_vt: item.ma_vt, gia_vat: gia_niem_yet_vat }, 'service-imei-style')
             .afterClosed().subscribe(result => {
                 if (result) {
                     this.serviceOfMerchandiseService.addNew(item.ma_imei, result, ticket.service);
