@@ -60,7 +60,8 @@ export class InputDateComponent implements OnChanges, OnInit, AfterViewInit {
         }
 
         this.date_value = this.convertString2Date(input_date, '/');
-        this.date_text = this.convert2ddMMyyyy(this.date_value!);
+        if (this.date_value)
+            this.date_text = this.convert2ddMMyyyy(this.date_value);
     }
 
     public get shortDateString() {

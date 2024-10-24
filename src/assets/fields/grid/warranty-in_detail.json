@@ -30,6 +30,15 @@
     "width": 100
   },
   {
+    "name": "ma_td1",
+    "title": "Mã VT xuất",
+    "isLockingColumn": true,
+    "width": 120,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
     "name": "ma_imei_x",
     "title": "Imei xuất",
     "isLockingColumn": true,
