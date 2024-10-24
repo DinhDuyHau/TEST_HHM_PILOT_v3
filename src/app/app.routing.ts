@@ -65,6 +65,7 @@ import { StockShopCheckComponent } from './_components/voucher/stock-shop-check/
 
 import { VoucherCompensationComponent } from './sales-management/page/voucher-compensation';
 import { ServiceCompensationComponent } from './sales-management/page/voucher-service-compensation';
+import { ChangepassComponent } from './pages/changepass/changepass.component';
 
 const homeModule = () => import('./home/home.module').then(x => x.HomeModule);
 const customer = () => import('./sales-management/component/customer/customer-create-dialog/customer-create-dialog.module').then(x => x.CustomerCreateDialogModule);
@@ -108,6 +109,12 @@ const routes: Routes = [
     path: 'setting', component: AppLayoutComponent, canActivate: [AuthGuard], data: { title: 'Cài đặt' },
     children: [
       { path: '', component: SettingComponent, canActivate: [AuthGuard] },
+    ]
+  },
+  {
+    path: 'changepass', component: AppLayoutComponent, canActivate: [AuthGuard], data: { title: 'Đổi mật khẩu' },
+    children: [
+      { path: '', component: ChangepassComponent, canActivate: [AuthGuard] },
     ]
   },
   {

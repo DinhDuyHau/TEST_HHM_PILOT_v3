@@ -1,1 +1,76 @@
-<p>changepass works!</p>
+<div class="px-1 md:px-2 lg:px-4 flex-1 bg-white position-relative password-change-container">
+  <div class="d-flex flex-column gap-2 mt-5 flex-1">
+    <form [formGroup]="changePassForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-group pt-2">
+        <label class="text-sm text-neutrals03_color font-normal pb-1" for="username">Tên tài khoản</label>
+        <div class="input-icon">
+          <fa-icon [icon]="['fas', 'user']" size="lg"></fa-icon>
+        </div>
+        <input id="username" type="text" ng-model="username" class="form-control bg-neutrals09_color"
+          placeholder="Tên tài khoản" disabled  [value]="f['username'].value" />
+      </div>
+
+      <div class="form-group">
+        <label class="text-sm text-neutrals03_color font-normal pb-1" for="oldPassword">Mật khẩu cũ</label>
+        <div class="input-icon">
+          <fa-icon [icon]="['fas', 'lock']" size="lg"></fa-icon>
+        </div>
+        <input id="oldPassword" #oldPassword type="password" formControlName="oldPassword"
+          class="form-control bg-neutrals09_color" placeholder="Mật khẩu cũ"
+          [ngClass]="{'is-invalid': submitted && f['oldPassword'].errors}"
+          (keydown)="moveToNext(newPassword, $event)"/>
+        <div *ngIf="submitted && f['oldPassword'].errors" class="invalid-feedback">
+          <div *ngIf="f['oldPassword'].errors['required']">
+            Chưa nhập mật khẩu cũ
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="text-sm text-neutrals03_color font-normal pb-1" for="newPassword">Mật khẩu mới</label>
+        <div class="input-icon">
+          <fa-icon [icon]="['fas', 'lock']" size="lg"></fa-icon>
+        </div>
+        <input id="newPassword" #newPassword type="password" formControlName="newPassword"
+          class="form-control bg-neutrals09_color" placeholder="Mật khẩu mới"
+          [ngClass]="{'is-invalid': submitted && f['newPassword'].errors}"
+          (keydown)="moveToNext(confirmPassword, $event)" />
+        <div *ngIf="submitted && f['newPassword'].errors" class="invalid-feedback">
+          <div *ngIf="f['newPassword'].errors['required']">
+            Chưa nhập mật khẩu mới
+          </div>
+          <div *ngIf="f['newPassword'].errors['minlength']">
+            Mật khẩu mới phải ít nhất 8 ký tự
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="text-sm text-neutrals03_color font-normal pb-1" for="confirmPassword">Xác nhận mật khẩu</label>
+        <div class="input-icon">
+          <fa-icon [icon]="['fas', 'lock']" size="lg"></fa-icon>
+        </div>
+        <input id="confirmPassword" #confirmPassword type="password" formControlName="confirmPassword"
+          class="form-control bg-neutrals09_color" placeholder="Xác nhận mật khẩu"
+          [ngClass]="{'is-invalid': submitted && (f['confirmPassword'].errors || f['newPassword'].value !== f['confirmPassword'].value)}"
+          (keydown)="moveToNext(btnSave, $event)" />
+        <div *ngIf="submitted" class="invalid-feedback">
+          <div *ngIf="f['confirmPassword'].errors?.['required']">
+            Chưa nhập xác nhận mật khẩu
+          </div>
+          <div *ngIf="f['newPassword'].value !== f['confirmPassword'].value">
+            Mật khẩu xác nhận không khớp
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group pt-2">
+        <button #btnSave type="submit" class="bg-primary02_color py-2 w-full flex justify-center items-center">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1 text-white text-base"></span>
+          <div class="text-white text-base">Lưu &nbsp;</div>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
