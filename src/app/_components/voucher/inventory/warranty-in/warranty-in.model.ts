@@ -21,6 +21,7 @@ export interface ReceiptDetail {
     ma_imei_x: string,
     so_ct_px: string,
     doi_bh_yn: boolean,
+    ma_td1?: any
 }
 
 export interface DetailInfo {

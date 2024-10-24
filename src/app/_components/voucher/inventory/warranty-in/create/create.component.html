@@ -134,7 +134,7 @@
           (handleEnter)="onEnter($event)"
           [control]="stockService"
           [lookup]="true"
-          [reference]="[ma_kho]"></app-input-custom-v2>
+          [reference]="[ma_kho,ten_kho]"></app-input-custom-v2>
         <app-input-custom-v2
           class="flex-1"
           [label]="getLabel('lbl_ten_kho_n')"
@@ -157,6 +157,28 @@
             (handleScanner)="scanORCode($event)"
             (handleEnter)="onEnterIMEI($event)"></app-input-custom-v2>
         </div>
+      </div>
+      <div class="flex gap-2">
+        <app-input-custom-v2
+          class="flex-1"
+          [label]="getLabel('lbl_ma_vt')"
+          #ma_vt_x
+          name="ma_vt"
+          [value]="item_code"
+          [disabled]="disabled"
+          [readonly]="true"
+          (handleChange)="this.item_code = $event"
+          (handleEnter)="onEnter($event)"
+          [control]="itemService"
+          [lookup]="true"
+          [reference]="[ma_vt_x,ten_vt_x]"></app-input-custom-v2>
+        <app-input-custom-v2
+          class="flex-1"
+          [label]="getLabel('lbl_ten_vt')"
+          #ten_vt_x
+          name="ten_vt"
+          [value]="item_name"
+          [disabled]="true || disabled"></app-input-custom-v2>
       </div>
       <div class="flex gap-2">
         &nbsp;
