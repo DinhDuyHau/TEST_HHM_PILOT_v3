@@ -71,8 +71,8 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   ma_loai = "";
   stocks: any[] = JSON.parse(localStorage.getItem('stock') || "[]");
   shops = JSON.parse(localStorage.getItem('shop') || "[]");
-
   ten_nvvc = '';
+  disable = false;
 
   constructor(
     private router: Router,
@@ -213,35 +213,53 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
     let stock_operator = '=';
     if (this.ma_loai === "HH") {
       stock_operator = 'in'
-      ma_loai = "HH,HD";
+      //2024-10-23: tạm mở thêm loại kho TN
+      ma_loai = "HH,HD,TN";
     }
     else if (this.ma_loai === "HD") {
       ma_loai = "HH";
     }
     else if (this.ma_loai === "HL") {
-      ma_loai = "BH";
+      ma_loai = "BH,HL";
+      stock_operator = 'in';
     }
     else if (this.ma_loai === "BH") {
-      ma_loai = "HL";
+      //2024-10-23: tạm mở thêm loại kho TBH
+      ma_loai = "HL,TBH";
+      stock_operator = 'in';
+
+      //tạm xử lý mở để chuyển kho tại cửa hàng HN008
+      if (this.ticket.masterInfo.ma_cuahang_n === 'HN008') {
+        ma_loai = 'HL,TBH,HH';
+        stock_operator = 'in';
+      }
     }
     else {
       ma_loai = '';
       if (this.ticket.masterInfo.fnote2 === '2') {
         // hàng trôi bảo hành được phép điều chuyển về 2 loại kho: trôi bảo hành, trải nghiệm
+        // 2024-10-24: mở thêm luồng TBH về HH
         if (this.ma_loai === 'TBH') {
           stock_operator = 'in'
-          ma_loai = 'TBH,TN';
+          ma_loai = 'TBH,TN,HH';
         }
         // hàng cũ, hàng lỗi, hàng trải nghiệm
         // được phép điều chuyển về 2 loại kho: hàng cũ, trôi bảo hành
-        if (this.ma_loai === 'HC' || this.ma_loai === 'TL' || this.ma_loai === 'TN') {
+        if (this.ma_loai === 'HC' || this.ma_loai === 'TL') {
           stock_operator = 'in'
           ma_loai = 'HC,TBH';
         }
-        // hàng kinh doanh được phép điều chuyển về 3 loại kho: hàng cũ, trôi bảo hành, trải nghiệm
-        if (this.ma_loai === 'KD') {
+        // hàng trải nghiệm
+        // được phép điều chuyển về các loại kho: hàng cũ, trôi bảo hành, hàng trải nghiệm
+        if (this.ma_loai === 'TN') {
           stock_operator = 'in'
           ma_loai = 'HC,TBH,TN';
+        }
+        // hàng kinh doanh được phép điều chuyển về 3 loại kho: hàng cũ, trôi bảo hành, trải nghiệm
+        // 2024-10-19: bổ sung thêm kho KD
+        if (this.ma_loai === 'KD') {
+          stock_operator = 'in'
+          ma_loai = 'HC,TBH,TN,KD';
         }
       }
     }
@@ -340,16 +358,19 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
               const ma_loai_in = _stock.ma_loai.trim().toUpperCase();
 
               //loại kho xuất là HH -> loại kho nhận phải là HH hoặc HD
-              if (ma_loai_out === 'HH' && ma_loai_in !== 'HH' && ma_loai_in !== 'HD') {
-                this.commonService.showMessage("Mã kho xuất loại HH thì mã kho nhận phải là loại HH hoặc HD");
+              //2024-10-23: tạm mở thêm loại kho TN
+              if (ma_loai_out === 'HH' && ma_loai_in !== 'HH' && ma_loai_in !== 'HD' && ma_loai_in !== 'TN') {
+                this.commonService.showMessage("Mã kho xuất loại HH thì mã kho nhận phải là loại HH hoặc HD hoặc TN");
                 this.ticket.masterInfo.ma_khon = '';
                 this.ticket.masterInfo.ten_khon = '';
                 return;
               }
 
               //loại kho xuất là BH -> loại kho nhận phải là HL
-              if (ma_loai_out === 'BH' && ma_loai_in !== 'HL') {
-                this.commonService.showMessage("Mã kho xuất loại BH thì mã kho nhận phải là loại HL");
+              //TẠM CHO PHÉP ĐỐI VỚI CỬA HÀNG HN008
+              //2024-10-23: tạm mở thêm loại kho TBH
+              if (this.ticket.masterInfo.ma_cuahang_n !== 'HN008' && ma_loai_out === 'BH' && ma_loai_in !== 'HL' && ma_loai_in !== 'TBH') {
+                this.commonService.showMessage("Mã kho xuất loại BH thì mã kho nhận phải là loại HL hoặc TBH");
                 this.ticket.masterInfo.ma_khon = '';
                 this.ticket.masterInfo.ten_khon = '';
                 return;
@@ -387,6 +408,9 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
         this.ticket.masterInfo.ma_kho = result?.ma_kho;
         this.ticket.masterInfo.ten_kho = result?.ten_kho;
         this.ma_loai = result.ma_loai;
+
+        //reset mã kho nhập
+        this.ticket.masterInfo.ma_khon = '';
       });
   }
 
@@ -406,6 +430,9 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       if (result.success && result.result.items) {
         this.ticket.masterInfo.ma_kho = result?.result.items[0]?.ma_kho;
         this.ticket.masterInfo.ten_kho = result?.result.items[0]?.ten_kho;
+
+        //reset mã kho nhập
+        this.ticket.masterInfo.ma_khon = '';
       }
       else {
         this.ticket.masterInfo.ten_kho = '';
@@ -595,8 +622,10 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       this.route.queryParams.subscribe((data: any) => {
         if (this.mode === MODE.UPDATE && !this.isSaving) {
           this.isSaving = true;
+          this.disable = true;
           this.ticketApiService.updateVoucher(STOCK_TRANSFER_TICKET_ENTITY, voucherDto).subscribe(result => {
             this.isSaving = false;
+            this.disable = false;
             if (result.success) {
               this.commonService.showMessage(Language.content.Update_Completed);
               if (this.ticket.masterInfo.status == '2') {
@@ -621,8 +650,10 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
           this.isSaving = true;
+          this.disable = true;
           this.ticketApiService.addNewVoucher(STOCK_TRANSFER_TICKET_ENTITY, voucherDto).subscribe(result => {
             this.isSaving = false;
+            this.disable = false;
             if (result.success) {
               this.commonService.showMessage(Language.content.Successful_Create);
               this.router.navigate(['voucher/stock-tranfer-from-shop']);

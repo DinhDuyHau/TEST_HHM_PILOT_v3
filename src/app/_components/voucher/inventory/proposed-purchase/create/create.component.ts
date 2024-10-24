@@ -354,9 +354,11 @@ export class ProposedPurchaseCreateComponent extends Grid<ReceiptDetail> impleme
     this.data.masterInfo.ma_cuahang = this.data.masterInfo.ma_cuahang_n;
 
     this.loading = true;
+    this.disabled = true;
     if (this.mode == MODE.UPDATE) {
       this.proposedPurchase.update(this.data).subscribe((item: any) => {
         this.loading = false;
+        this.disabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
@@ -374,6 +376,7 @@ export class ProposedPurchaseCreateComponent extends Grid<ReceiptDetail> impleme
     else if (this.mode == MODE.CREATE) {
       this.proposedPurchase.create(this.data).subscribe((item: any) => {
         this.loading = false;
+        this.disabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');

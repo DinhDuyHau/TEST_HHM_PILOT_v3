@@ -447,6 +447,9 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
     if (result.success && result.result) {
       const response = result.result[0];
 
+      //2024-10-24: tuananhnl
+      //tạm bỏ qua check mã nhà cung cấp trong giai đoạn đầu do có những imei đổ tồn đầu không có thông tin ncc
+      /*
       if (!response.ma_ncc) {
         this.commonService.showMessageByName('imei_notfound_supplier_import');
         return false;
@@ -456,6 +459,7 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
         this.commonService.showMessageByNameAdvance('imei_invalid_supplier_import', { name: '%imei', value: imei });
         return false;
       }
+      */
 
       this.data.masterInfo.ma_kh = response.ma_ncc.trim();
       this.f['ma_kh'].setValue(response.ma_ncc.trim());

@@ -33,6 +33,7 @@ import { Option } from '@app/sales-management/model/ticket/common-model/option.m
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
 import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
 import { Transport } from '../../model/common/delivery.mode';
+import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 
 const {
   DISCOUNT_LIST,
@@ -244,6 +245,21 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
   // #region customer
   handleAddCustomer(customer: Customer) {
+    const ma_kh_old = this.ticket.masterInfo.ma_kh ? this.ticket.masterInfo.ma_kh : '';
+    const ma_kh_new = customer ? customer.ma_kh : '';
+    const msg_confirm_change = 'Có thay đổi mã khách, hệ thống sẽ tự động xóa các chương trình chiết khấu đã áp dụng trên phiếu. Xác nhận thực hiện?';
+    const style_css = 'font-size:16px;';
+    if (ma_kh_old !== '' && ma_kh_old !== ma_kh_new) {
+      this.commonService.openDialog(DialogConfirmComponent, { title: msg_confirm_change, style_css: style_css })
+        .afterClosed().subscribe(result => {
+          if (!result) {
+            //không xác nhận => reset về mã cũ
+            this.ticket.masterInfo.ma_kh = ma_kh_old;
+            return;
+          }
+        });
+    }
+
     this.commonService.focusControl(this.tabIndex.nvvc);
     this.retailService.removeDiscountForCustomer();
     this.retailService.setInfoCustomer(customer);
@@ -403,6 +419,11 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
 
   onEnterImeiCode(ma_imei: string) {
+    if (!this.ticket.masterInfo.ma_kh || this.ticket.masterInfo.ma_kh === '') {
+      this.commonService.showMessage('Cần nhập mã khách trước khi nhập imei');
+      return;
+    }
+
     this.retailService.getImeiInStore(ma_imei).subscribe(result => {
       if (result.success && result.result.length) {
         if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise)) {
@@ -440,6 +461,11 @@ export class RetailComponent implements OnInit, AfterViewInit {
 
   // #region merchandise
   openMerchandiseDialog(ma_vt?: string) {
+    if (!this.ticket.masterInfo.ma_kh || this.ticket.masterInfo.ma_kh === '') {
+      this.commonService.showMessage('Cần nhập mã khách trước khi chọn hàng hóa');
+      return;
+    }
+
     this.commonService.openDialog(SearchDialogComponent, {
       keyword: ma_vt || '',
       componentName: SEARCH_COMPONENT_NAME.MERCHANDISE,
@@ -492,9 +518,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
     if (current_discount && current_discount.length > 0) {
       const ma_ck = current_discount[0].ma_ck.trim();
       const rec = current_discount[0].rec;
-
-      console.log(current_discount)
-      console.log(rec)
       this.commonService.openDialog(PromotionSelectComponent, { ma_vt: event.item.ma_vt, ma_imei: current_imei, ma_ck: ma_ck, rec: rec })
         .afterClosed().subscribe((selected: Merchandise) => {
           const merchandise = this.ticket.merchandise.find(e => e.ma_imei === event.item.ma_imei);

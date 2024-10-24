@@ -60,7 +60,7 @@
       </div>
       <form-select-custom
         class="box order-dynamic-1 width-full"
-        [isDisable]="readonly || disableSelectStatus"
+        [isDisable]="false"
         [label]="getLabel('lbl_trang_thai')"
         [options]="statusList"
         optionDes="statusname"
@@ -209,12 +209,13 @@
         <div class="btn-responsive btn-cancel" (click)="onCancel()">
           {{ cancelButtonTitle }}
         </div>
-        <div
+        <button
           class="btn-responsive btn-add"
+          [disabled]="disable"
           (click)="onSave()"
           *ngIf="!readonly">
           {{ submitButtonTitle }}
-        </div>
+        </button>
       </div>
     </div>
   </div>

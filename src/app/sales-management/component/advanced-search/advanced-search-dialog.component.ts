@@ -461,6 +461,16 @@ export class AdvancedSearchDialogComponent implements OnInit {
       });
   }
 
+  openSearchShop2Dialog() {
+    this.commonService.openDialog(SearchDialogComponent, { dataSource: this.shop, componentName: SEARCH_COMPONENT_NAME.SHOP_INFO })
+      .afterClosed().subscribe(result => {
+        if (result?.ma_cuahang) {
+          this.filters.ma_cuahang2 = result?.ma_cuahang;
+          this.ten_cuahang2 = result?.ten_cuahang;
+        }
+      });
+  }
+
   onBlurDateStart(event: any, ref: any) {
     this.filters.ngay_bd = ref.isoDateString.toString();
   }

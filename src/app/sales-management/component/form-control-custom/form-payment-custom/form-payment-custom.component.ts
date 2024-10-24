@@ -75,19 +75,25 @@ export class FormPaymentCustomComponent implements OnChanges, OnInit {
           value = this.max;
           this.commonService.showMessageByContent('Không được nhập quá ' + this.formatValue(this.max));
         }
-        this.focusNext(event.target);
-
       }
+      this.focusNext(event.target);
       this.handleEnterInput.emit(value);
     }
   }
   focusNext(input: any) {
     const currentNode = input;
     const container = currentNode.closest('.ticket-container');
-    if (!container) {
+    const search_dialog_container = currentNode.closest('.search-dialog-container');
+
+    if (!container && !search_dialog_container) {
       return;
     }
-    const inputs = container.querySelectorAll('input');
+    const inputs = container
+      ? container.querySelectorAll('input')
+      : search_dialog_container
+        ? search_dialog_container.querySelectorAll('input')
+        : null;
+
     let foundCurrentInput = false;
     let nextInput = null;
     for (let i = 0; i < inputs.length; i++) {
