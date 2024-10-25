@@ -1,5 +1,5 @@
-<div class="px-1 md:px-2 lg:px-4 flex-1 bg-white position-relative password-change-container">
-  <div class="d-flex flex-column gap-2 mt-5 flex-1">
+<div class="px-1 md:px-2 lg:px-4 mt-5 flex-1 bg-white position-relative password-change-container">
+  <div class="d-flex flex-column gap-2 mt-5 flex-1 form-change-pass p-5">
     <form [formGroup]="changePassForm" (ngSubmit)="onSubmit()">
 
       <div class="form-group pt-2">
@@ -59,7 +59,7 @@
           <div *ngIf="f['confirmPassword'].errors?.['required']">
             Chưa nhập xác nhận mật khẩu
           </div>
-          <div *ngIf="f['newPassword'].value !== f['confirmPassword'].value">
+          <div *ngIf="f['newPassword'].value && f['confirmPassword'].value && f['newPassword'].value !== f['confirmPassword'].value">
             Mật khẩu xác nhận không khớp
           </div>
         </div>
