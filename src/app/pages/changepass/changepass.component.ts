@@ -48,7 +48,7 @@ export class ChangepassComponent implements OnInit {
     this.changePassForm = this.formBuilder.group({
       username: [''],
       oldPassword: ['', Validators.required],
-      newPassword: [null, [Validators.required, Validators.minLength(8)]],
+      newPassword: [null, [Validators.required, Validators.minLength(6)]],
       confirmPassword: [null, Validators.required],
     });
 
@@ -87,8 +87,12 @@ export class ChangepassComponent implements OnInit {
     const newPassword = this.changePassForm.value.newPassword;
 
     this.changePassService.changePass(username, oldPassword, newPassword).subscribe((res: any) => {
-      console.log(res);
-      if (res.success) {
+      if (!res.success) {
+        this.commonService.showMessageByName(res.message ? res.message : 'change_pwd_exception ');
+
+        this.submitted = true;
+        this.loading = true;
+      } else {
         // hiển thị thông báo khi thành công
         this.commonService.showMessage("Đổi mật khẩu thành công");
 
@@ -101,18 +105,13 @@ export class ChangepassComponent implements OnInit {
 
         this.submitted = false;
         this.loading = false;
-      } else {
-        this.commonService.showMessage(res.message || 'Không xác định');
-
-        this.submitted = true;
-        this.loading = true;
       }
     });
   }
 
   validatePasswords(): boolean {
     return this.changePassForm.value.newPassword === this.changePassForm.value.confirmPassword &&
-      this.changePassForm.value.newPassword?.length >= 8;
+      this.changePassForm.value.newPassword?.length >= 6;
   }
 
   moveToNext(next: any, event: KeyboardEvent) {
