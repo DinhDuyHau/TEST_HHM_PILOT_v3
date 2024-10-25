@@ -87,7 +87,8 @@ export class ChangepassComponent implements OnInit {
     const newPassword = this.changePassForm.value.newPassword;
 
     this.changePassService.changePass(username, oldPassword, newPassword).subscribe((res: any) => {
-      if(res.success) {
+      console.log(res);
+      if (res.success) {
         // hiển thị thông báo khi thành công
         this.commonService.showMessage("Đổi mật khẩu thành công");
 
@@ -111,7 +112,7 @@ export class ChangepassComponent implements OnInit {
 
   validatePasswords(): boolean {
     return this.changePassForm.value.newPassword === this.changePassForm.value.confirmPassword &&
-           this.changePassForm.value.newPassword?.length >= 8;
+      this.changePassForm.value.newPassword?.length >= 8;
   }
 
   moveToNext(next: any, event: KeyboardEvent) {

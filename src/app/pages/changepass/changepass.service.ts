@@ -41,20 +41,20 @@ export class ChangepassService {
     const data_signed_newPass = sender_privateKey.sign(mdNewPass);
     const signature_newPass: string = window.btoa(data_signed_newPass);
 
-    return this.http.post<any>(`${environment.apiUrl}/users/change-password`, {
-      username: username,
-      oldPassword: encryptedOldPassword,
-      newPassword: encryptedNewPassword,
-      signature_oldPass: signature_oldPass,
-      signature_newPass: signature_newPass
-    }, { withCredentials: true} )
-    .pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError((error: any) => {
-        return of({ success: false, message: error });
-      })
-    );
+    return this.http.post<any>(`${environment.apiUrl}/users/changepwd`, {
+      Username: username,
+      OldPassword: encryptedOldPassword,
+      OldPwdSign: signature_oldPass,
+      NewPassword: encryptedNewPassword,
+      NewPwdSign: signature_newPass
+    }, { withCredentials: true })
+      .pipe(
+        map((response) => {
+          return response;
+        }),
+        catchError((error: any) => {
+          return of({ success: false, message: error });
+        })
+      );
   }
 }
