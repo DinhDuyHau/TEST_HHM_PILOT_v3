@@ -77,6 +77,7 @@ export class Merchandise extends BaseMerchandise {
   tien_ht = 0;
   gc_td1 = '';
   ma_cttc = '';
+  ma_td3 = '';
 
   constructor(obj?: any) {
     super();
