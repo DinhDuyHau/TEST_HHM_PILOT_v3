@@ -87,7 +87,6 @@ export class ChangepassComponent implements OnInit {
     const newPassword = this.changePassForm.value.newPassword;
 
     this.changePassService.changePass(username, oldPassword, newPassword).subscribe((res: any) => {
-      console.log(res);
       if (res.success) {
         // hiển thị thông báo khi thành công
         this.commonService.showMessage("Đổi mật khẩu thành công");
