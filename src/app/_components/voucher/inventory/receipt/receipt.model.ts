@@ -66,5 +66,6 @@ export interface MasterInfo {
     fnote3?: string,
     t_ck?: number,
     t_ck_nt?: number,
+    s4?: number, // thuế suất ck
     [key: string]: any
 }

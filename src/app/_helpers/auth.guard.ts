@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
             const currentUrl = state.url; // URL hiện tại
             const menu = this.sidebarService.getMenuFromLocalStorage().filter(item => item.link !== '' && currentUrl.includes(item.link));
             // Nếu không tìm thấy menu tương ứng và hiện tại không phải trang chủ hoặc setting
-            if (menu.length === 0 && currentUrl !== '/' && currentUrl !== '/setting') {
+            if (menu.length === 0 && currentUrl !== '/' && currentUrl !== '/setting' && currentUrl !== '/changepass') {
               this.router.navigate(['/']);  // Điều hướng về trang chủ
               return false;  // Không cho phép truy cập
             }

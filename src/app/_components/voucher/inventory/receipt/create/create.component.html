@@ -125,7 +125,7 @@
           [value]="data.masterInfo.status"
           (handleChangeValue)="onStatusChange($event)"
         />
-        
+
         <app-input-custom-v2
           [label]="getLabel('lbl_ngay_nhap_kho')"
           class="flex-1"
@@ -341,7 +341,7 @@
       </tab-custom>
     </tabs-custom>
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-x-1 lg:gap-x-10 gap-y-1 lg:gap-y-3">
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-x-1 lg:gap-x-10 gap-y-1 lg:gap-y-3">
       <!-- <div class="hidden lg:flex"></div> -->
       <div class="flex">
         <app-input-custom-v2
@@ -355,6 +355,19 @@
           (handleEnter)="onEnterDiscount($event)"
           (handleChange)="onDiscountChange($event);"
         ></app-input-custom-v2>
+      </div>
+      <div class="flex">
+        <app-input-custom-v2
+          [label]="getLabel('lbl_chiet_khau')"
+          class="flex-1 discount-wrap"
+          name="s4"
+          [dataFormatString]="'normalQuantity'"
+          type="number"
+          [align]="'right'"
+          [value]="data.masterInfo.s4"
+          (handleEnter)="onEnterTaxRate($event)"
+          (handleChange)="onTaxRateChange($event);"
+          ></app-input-custom-v2>
       </div>
       <div class="flex">
         <app-input-custom-v2

@@ -33,7 +33,7 @@ export class HeaderComponent {
       }
     });
     this.shift = this.authenticationService.shiftValue?.find(x => x.ma_ca == this.user.shift);
-    if (this.route.url !== '/' && this.route.url != '/setting') {
+    if (this.route.url !== '/' && this.route.url != '/setting' && this.route.url != '/changepass') {
       const menu = this.sidebarService.getMenuFromLocalStorage().filter(item => item.link !== '' && this.route.url.includes(item.link));
       if (menu.length > 1) {
         menu.sort((x, y) => y.link.length - x.link.length);
