@@ -59,7 +59,7 @@
           <div *ngIf="f['confirmPassword'].errors?.['required']">
             Chưa nhập xác nhận mật khẩu
           </div>
-          <div *ngIf="f['newPassword'].value !== f['confirmPassword'].value">
+          <div *ngIf="f['newPassword'].value && f['confirmPassword'].value && f['newPassword'].value !== f['confirmPassword'].value">
             Mật khẩu xác nhận không khớp
           </div>
         </div>
