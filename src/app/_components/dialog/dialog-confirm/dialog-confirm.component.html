@@ -3,24 +3,25 @@
     <div class="icon">
       <i class="fas fa-exclamation"></i>
     </div>
-    <div class="title">Bạn có chắc không?</div>
+    <div class="title" [style]="style_css">{{ title }}</div>
   </div>
   <div class="actions">
     <button
-      class="btn-confirm"
+      class="btn-common btn-confirm"
       (click)="onClickConfirm()"
       mat-icon-button
       mat-dialog-close
       aria-label="Close">
-      Xác nhận!
+      Xác nhận
     </button>
+    &nbsp;
     <button
-      class="btn-cancel"
+      class="btn-common btn-cancel"
       (click)="onClickClose()"
       mat-icon-button
       mat-dialog-close
       aria-label="Close">
-      Hủy bỏ!
+      Hủy bỏ
     </button>
   </div>
 </div>

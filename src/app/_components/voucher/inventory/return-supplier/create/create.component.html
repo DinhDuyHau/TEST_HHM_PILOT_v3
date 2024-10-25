@@ -42,7 +42,7 @@
             [label]="getLabel('lbl_ma_ncc')"
             #ma_kh
             name="ma_kh"
-            [disabled]="true || disabled"
+            [disabled]="false"
             [value]="f['ma_kh'].value"
             [invalid]="submitted && f['ma_kh'].errors != null"
             (handleChange)="handleInputChange('ma_kh', $event)"

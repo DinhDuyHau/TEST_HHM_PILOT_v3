@@ -261,6 +261,7 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
         t_tt_nt: 0,
         t_thue_nt: 0,
         t_ck_nt: 0,
+        // s4: 0, // thuế suất ck
       },
       details: [
         {
@@ -606,13 +607,27 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
   calcTotal() {
     let t_tien_nt = 0;
     let t_thue_nt = 0;
+
+    // tổng tiền
     this.data.details[0].data.forEach((item) => {
       t_tien_nt += item.tien_nt || 0;
     });
+    let t_thue_suat_ck = this.data.masterInfo.s4 || 0;
+    t_tien_nt = t_tien_nt - t_thue_suat_ck;
+
+    // tổng thuế
+    let t_ck_nt = this.data.masterInfo.t_ck_nt || 0;
     t_thue_nt = this.extend.t_thue_nt || 0;
+    t_thue_nt = t_thue_nt - ((t_ck_nt * t_thue_suat_ck) / 100)
+
     this.data.masterInfo = {
-      ...this.data.masterInfo, t_tien_nt: t_tien_nt, t_tien: t_tien_nt, t_thue_nt: t_thue_nt, t_thue: t_thue_nt,
-      t_tt_nt: t_tien_nt + t_thue_nt - this.data.masterInfo.t_ck_nt!, t_tt: t_tien_nt + t_thue_nt - this.data.masterInfo.t_ck_nt!
+      ...this.data.masterInfo,
+      t_tien_nt: t_tien_nt,
+      t_tien: t_tien_nt,
+      t_thue_nt: t_thue_nt,
+      t_thue: t_thue_nt,
+      t_tt_nt: t_tien_nt + t_thue_nt,
+      t_tt: t_tien_nt + t_thue_nt - this.data.masterInfo.t_ck_nt!
     };
   }
   calcTax() {
@@ -643,4 +658,12 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
     this.calcTotal();
   }
 
+  onTaxRateChange($event: any) {
+    this.data.masterInfo.s4 = $event;
+  }
+
+  onEnterTaxRate(event: any) {
+    event.preventDefault(); // Ngăn chặn hành động mặc định của nút Enter (submit form)
+    this.calcTotal();
+  }
 }
