@@ -16,6 +16,7 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     gia_bl = 0;
     gia_bl_vat = 0;
     s4 = 0;
+    ma_td3 = '';
 
     constructor(obj?: any) {
         super();
