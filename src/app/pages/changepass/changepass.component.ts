@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
@@ -25,6 +25,8 @@ export class ChangepassComponent implements OnInit {
   submitted = false;
   changePassForm!: FormGroup;
   loading = false;
+  @ViewChild('oldPassword', { static: false }) oldPassword!: ElementRef;
+  actualOldPassword: string = '';
 
   constructor(
     private changePassService: ChangepassService,
@@ -56,8 +58,34 @@ export class ChangepassComponent implements OnInit {
     this.changePassForm.patchValue({ username: username });
   }
 
-  onChangeOldPassword($event: any) {
-    this.changePassForm.patchValue({ oldPassword: $event });
+  onChangeOldPassword($event: Event) {
+    const input = this.oldPassword.nativeElement;
+    const value = input.value;
+
+    // Kiểm tra nếu người dùng xóa toàn bộ văn bản hoặc bôi đen và nhập lại toàn bộ
+    if (value.length === 0) {
+      this.actualOldPassword = '';
+    } else if (Math.abs(value.length - this.actualOldPassword.length) > 1) {
+      // Trường hợp này xảy ra khi người dùng chọn toàn bộ văn bản và dán nội dung mới
+      this.actualOldPassword = value;
+    } else if (value.length < this.actualOldPassword.length - 1 || value.length > this.actualOldPassword.length + 1) {
+      // Trường hợp này xảy ra khi người dùng chọn toàn bộ văn bản và nhập lại
+      this.actualOldPassword = value;
+    } else if (value.length < this.actualOldPassword.length) {
+      // Nếu độ dài giảm, tức là người dùng đã xóa một ký tự
+      this.actualOldPassword = this.actualOldPassword.slice(0, -1);
+    } else {
+      // Nếu độ dài tăng, tức là người dùng đã nhập thêm một ký tự
+      const newChar = value[value.length - 1]; // Ký tự mới nhất
+      this.actualOldPassword += newChar;
+    }
+
+    this.changePassForm.patchValue({ oldPassword: this.actualOldPassword });
+
+    input.value = '•'.repeat(this.actualOldPassword.length);
+
+    // Đặt con trỏ ở cuối văn bản
+    this.setCaretToEnd(input);
   }
 
   onChangeNewPassword($event: any) {
@@ -102,6 +130,7 @@ export class ChangepassComponent implements OnInit {
           newPassword: '',
           confirmPassword: ''
         });
+        this.actualOldPassword = ''
 
         this.submitted = false;
         this.loading = false;
@@ -120,5 +149,11 @@ export class ChangepassComponent implements OnInit {
       return false;
     }
     return;
+  }
+
+  setCaretToEnd(el: HTMLTextAreaElement) {
+    el.selectionStart = el.value.length; // Đặt con trỏ ở cuối
+    el.selectionEnd = el.value.length;
+    el.focus();
   }
 }

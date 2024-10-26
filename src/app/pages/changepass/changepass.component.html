@@ -14,16 +14,17 @@
       <div class="form-group">
         <label class="text-sm text-neutrals03_color font-normal pb-1" for="oldPassword">Mật khẩu cũ</label>
         <div class="input-icon">
-          <fa-icon [icon]="['fas', 'lock']" size="lg"></fa-icon>
+            <fa-icon [icon]="['fas', 'lock']" size="lg"></fa-icon>
         </div>
-        <input id="oldPassword" #oldPassword type="password" formControlName="oldPassword"
-          class="form-control bg-neutrals09_color" placeholder="Mật khẩu cũ"
-          [ngClass]="{'is-invalid': submitted && f['oldPassword'].errors}"
-          (keydown)="moveToNext(newPassword, $event)"/>
+        <textarea id="oldPassword" #oldPassword formControlName="oldPassword"
+            class="form-control bg-neutrals09_color" placeholder="Mật khẩu cũ"
+            (input)="onChangeOldPassword($event)"
+            [ngClass]="{'is-invalid': submitted && f['oldPassword'].errors}"
+            (keydown)="moveToNext(newPassword, $event)"></textarea>
         <div *ngIf="submitted && f['oldPassword'].errors" class="invalid-feedback">
-          <div *ngIf="f['oldPassword'].errors['required']">
-            Chưa nhập mật khẩu cũ
-          </div>
+            <div *ngIf="f['oldPassword'].errors['required']">
+                Chưa nhập mật khẩu cũ
+            </div>
         </div>
       </div>
 
