@@ -554,7 +554,7 @@ export class SaleRenewService {
 
 
     adjustBuyPrice(ngay_ct: Date, ma_ncc: string, buy_item: MerchandiseUsed, sale_item: Merchandise): Observable<ResultNoPaging<any>> | undefined {
-        return this.ticketApiService.getRenewAdjustBuyPrice(ngay_ct, sale_item.ma_cttc, ma_ncc, buy_item.ma_loai, buy_item.ma_vt, sale_item.ma_vt, buy_item.gia_ban, buy_item.gia_dc);
+        return this.ticketApiService.getRenewAdjustBuyPrice(ngay_ct, sale_item.ma_cttc, ma_ncc, buy_item.ma_loai, buy_item.ma_vt, sale_item.ma_vt, buy_item.gia_ban, buy_item.gia_dc, sale_item.ma_td3);
 
     }
 }
