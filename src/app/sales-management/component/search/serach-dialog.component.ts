@@ -193,9 +193,9 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         // filter.value = `%${this.data.keyword}%`;
         // this.filters = [filter, { name: 'nh_kh9', operator: '=', value: 'NGKH99' }];
         filter.name = 'nh_kh9';
-        filter.operator = '=';
-        filter.value = 'NGKH99'
-        this.defaultFilters = [filter];
+        filter.value = 'NGKH99';
+        filter.operator = "=";
+        this.filters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.APPROVER_DIRECTOR:
         this.columns = LIST_BGD as any;

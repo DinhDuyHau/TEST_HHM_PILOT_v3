@@ -133,7 +133,7 @@
 
     <div class="deposit" *ngIf="depositMerchandise.length">
       {{ getLabel('lbl_hh_co_tien_coc') }}
-       <span>{{ depositNameList }}</span> 
+       <span>{{ depositNameList }}</span>
       <!--{{ getLabel('lbl_t_tien_dat_coc') }}
       {{ depositTotalPrice | formatData : 'number' : 'normalPrice' }} VNĐ -->
     </div>
@@ -366,12 +366,12 @@
         <div class="btn-responsive btn-cancel" (click)="onCancel()">
           {{ cancelButtonTitle }}
         </div>
-        <div
-          class="btn-responsive btn-add"
+        <button class="btn-responsive btn-add"
+          [disabled]="isDisabled"
           (click)="onSave()"
           *ngIf="!readonly">
           {{ submitButtonTitle }}
-        </div>
+        </button>
       </div>
     </div>
   </div>

@@ -63,6 +63,7 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
   invalid = false;
   isSaving = false;
   isSentRequestToMobifone = false;
+  isDisabled = false;
   tabIndex = {
     ma_kh: 0,
     nvvc: 2,
@@ -455,7 +456,7 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
       if (!this.isSentRequestToMobifone) {
         this.mobifoneApiService.postMobifone(mobifone).subscribe((result) => {
           if (result && result.message) {
-            //api mobifone gửi response success: Disable nút "lập đơn mobifone" 
+            //api mobifone gửi response success: Disable nút "lập đơn mobifone"
             //và gửi request đến Backend cập nhật trạng thái liên kết là "1" (đã lập đơn mobifone)
             this.disabledMobifone = true;
             this.mode = MODE.UPDATE;
@@ -588,6 +589,21 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
 
   // Submit
   onSave() {
+    //Check imei trùng trong grid chi tiết
+    const mechandise_dup = [];
+    const counter: { [key: string]: number } = {};
+    for (const item of this.ticket.merchandise) {
+      counter[item.ma_imei] = (counter[item.ma_imei] || 0) + 1;
+      if (counter[item.ma_imei] > 1) {
+        mechandise_dup.push(item.ma_imei);
+      }
+    }
+    if (mechandise_dup && mechandise_dup.length > 0) {
+      const duplicate_imeis = mechandise_dup.join(',');
+      this.commonService.showMessage(`Các imei xuất hiện nhiều lần trong chi tiết phiếu: ${duplicate_imeis}`);
+      return;
+    }
+
     const message = this.saleAffiliateService.validateTicket(this.ticket);
     this.invalid = this.commonService.isInValidPayment(this.ticket.payment) || this.saleAffiliateService.isInvalidForm(this.ticket.masterInfo);
     this.invalid && this.commonService.showMessage(Language.content.Missing_information);
@@ -598,6 +614,7 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
       this.route.queryParams.subscribe((data: any) => {
         if (this.mode === MODE.UPDATE && !this.isSaving) {
           this.isSaving = true;
+          this.isDisabled = true;
           if (this.ticket.masterInfo.lap_dh_lk === 0) {
             const dataPayment = voucherDto.details.find(e => e.name === TAB_NAME.PAYMENT);
             if (dataPayment && dataPayment.data) {
@@ -606,6 +623,7 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
           }
           this.ticketApiService.updateVoucher(TICKET_ENTITY.AFFILIATE, voucherDto).subscribe(result => {
             this.isSaving = false;
+            this.isDisabled = false;
             if (result.success) {
               // this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Update_Completed);
@@ -643,8 +661,10 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
             });
           } else if (!this.isSaving) {
             this.isSaving = true;
+            this.isDisabled = true;
             this.ticketApiService.addNewVoucher(TICKET_ENTITY.AFFILIATE, voucherDto).subscribe((result: any) => {
               this.isSaving = false;
+              this.isDisabled = false;
               if (result.success && result?.result && result?.result?.stt_rec) {
                 // this.commonService.clearImeiStorage();
                 this.commonService.showMessage(Language.content.Successful_Create);

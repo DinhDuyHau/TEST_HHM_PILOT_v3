@@ -43,6 +43,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
   readonly = false;
   invalid = false;
   isSaving = false;
+  isDisabled = false;
   tabIndex = {
     so_ct_hd: 0,
     imei: 2,
@@ -331,8 +332,10 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
     this.route.queryParams.subscribe((data: any) => {
       if (this.mode === MODE.UPDATE && !this.isSaving) {
         this.isSaving = true;
+        this.isDisabled = true;
         this.ticketApiService.updateVoucher(TICKET_ENTITY.WHOLE, voucherDto).subscribe(result => {
           this.isSaving = false;
+          this.isDisabled = false;
           if (result.success) {
             // this.commonService.clearImeiStorage();
             this.commonService.showMessage(Language.content.Update_Completed);
@@ -348,8 +351,10 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
         });
       } else if (this.mode === MODE.CREATE && !this.isSaving) {
         this.isSaving = true;
+        this.isDisabled = true;
         this.ticketApiService.addNewVoucher(TICKET_ENTITY.WHOLE, voucherDto).subscribe(result => {
           this.isSaving = false;
+          this.isDisabled = false;
           if (result.success) {
             // this.commonService.clearImeiStorage();
             this.commonService.showMessage(Language.content.Successful_Create);

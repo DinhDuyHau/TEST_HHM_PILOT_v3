@@ -44,6 +44,7 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
   readonly = false;
   invalid = false;
   isSaving = false;
+  isDisabled = false;
   tabIndex = {
     so_dh: 1,
   };
@@ -244,8 +245,10 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
       this.route.queryParams.subscribe((data: any) => {
         if (this.mode === MODE.UPDATE && !this.isSaving) {
           this.isSaving = true;
+          this.isDisabled = true;
           this.ticketApiService.updateVoucher(TICKET_ENTITY.RETURN_SERVICE, voucherDto).subscribe(result => {
             this.isSaving = false;
+            this.isDisabled = false;
             if (result.success) {
               this.commonService.showMessage(Language.content.Update_Completed);
               this.router.navigate(['sales/return-service']);
@@ -260,8 +263,10 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
           this.isSaving = true;
+          this.isDisabled = true;
           this.ticketApiService.addNewVoucher(TICKET_ENTITY.RETURN_SERVICE, voucherDto).subscribe(result => {
             this.isSaving = false;
+            this.isDisabled = false;
             if (result.success) {
               this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Successful_Create);

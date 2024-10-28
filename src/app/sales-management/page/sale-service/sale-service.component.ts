@@ -44,6 +44,7 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
     cancelButtonTitle!: string;
     mode!: number;
     isSaving = false;
+    isDisabled = false;
     tabIndex = {
         ma_kh: 0,
         ma_dv: 2,
@@ -248,8 +249,11 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
             this.route.queryParams.subscribe((data: any) => {
                 if (this.mode === MODE.UPDATE && !this.isSaving) {
                     this.isSaving = true;
+                    this.isDisabled = true;
                     this.ticketApiService.updateVoucher(TICKET_ENTITY.SERVICE, voucherDto).subscribe(result => {
                         this.isSaving = false;
+                        this.isDisabled = false;
+
                         if (result.success) {
                             this.commonService.showMessage(Language.content.Update_Completed);
                             if (this.ticket.masterInfo.status == '2') {
@@ -274,8 +278,10 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
                     });
                 } else if (this.mode === MODE.CREATE && !this.isSaving) {
                     this.isSaving = true;
+                    this.isDisabled = true;
                     this.ticketApiService.addNewVoucher(TICKET_ENTITY.SERVICE, voucherDto).subscribe(result => {
                         this.isSaving = false;
+                        this.isDisabled = false;
                         if (result.success) {
                             this.commonService.showMessage(Language.content.Successful_Create);
                             this.router.navigate(['sales/service']);
