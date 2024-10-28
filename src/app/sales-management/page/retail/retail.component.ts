@@ -365,7 +365,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const merchandise = this.merchandiseService.getMerchandiseNotHaveImei(merchandiseResponse.ma_vt, this.ticket.merchandise);
     merchandise && (merchandise.ma_imei = merchandiseResponse.ma_imei) && (merchandise.ma_kho = merchandiseResponse.ma_kho);
 
-    console.log(merchandiseResponse)
     if (!merchandise) {
       this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise, Merchandise);
       this.handleCheckDeposit(merchandiseResponse.ma_vt, true);

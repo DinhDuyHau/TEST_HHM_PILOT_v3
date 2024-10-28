@@ -1174,6 +1174,105 @@
             "align": "center"
         }
     ],
+    "MERCHANDISE_RETURN_ONLINE_LIST": [
+        {
+            "name": "ma_vt",
+            "title": "Mã vật tư"
+        },
+        {
+            "name": "ten_vt",
+            "title": "Tên vật tư",
+            "width": "300px",
+            "min-width": "50px"
+        },
+        {
+            "name": "ma_imei",
+            "title": "Imei",
+            "align": "center"
+        },
+        {
+            "name": "dvt",
+            "title": "Đvt",
+            "align": "center"
+        },
+        {
+            "name": "ma_kho",
+            "title": "Mã kho",
+            "align": "center"
+        },
+        {
+            "name": "km_yn",
+            "title": "Hàng khuyến mãi",
+            "type": "checkbox",
+            "align": "center"
+        },
+        {
+            "name": "tien_giam",
+            "title": "Tiền phí",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "so_luong",
+            "title": "Số lượng",
+            "format": "moneyViewNoDigit",
+            "align": "center"
+        },
+
+        {
+            "name": "gia2",
+            "title": "Giá TL (chưa VAT)",
+            "format": "moneyView2Digit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tien2",
+            "title": "Thành tiền",
+            "align": "right",
+            "format": "moneyView2Digit",
+            "dataType": "number"
+        },
+        {
+            "name": "thue_suat",
+            "title": "Thuế suất(%)",
+            "format": "moneyViewNoDigit",
+            "align": "center"
+        },
+        {
+            "name": "thue",
+            "title": "Tiền thuế",
+            "format": "moneyView2Digit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tt",
+            "title": "Tổng tiền",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "giam_gia_yn",
+            "title": "Giảm giá đặc biệt",
+            "type": "checkbox",
+            "align": "center"
+        },
+        {
+            "name": "ty_le_giam",
+            "title": "Tỷ lệ giảm",
+            "dataType": "number",
+            "format": "moneyView2Digit",
+            "align": "right"
+        },
+        {
+            "name": "ma_asm_duyet",
+            "title": "ASM",
+            "align": "center"
+        }
+    ],
     "MERCHANDISE_PROMOTION_LIST": [
         {
             "name": "ma_vt",
