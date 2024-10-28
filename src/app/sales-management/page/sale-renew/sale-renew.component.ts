@@ -67,7 +67,11 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     dvt: '',
     new_imei_yn: false,
   };
+
+  //mặc định loại kho nhập hàng thu cũ
+  defaultRenew_StockType = 'HC';
   defaultStockRenew = '';
+
   discountCanApply: Discount[] = [];
   uploadImageSuccess = false;
   uploading = true;
@@ -201,7 +205,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       });
     };
     const getDefaultStock = () => {
-      this.ticketApiService.getStockRenew(this.ticket.masterInfo.ma_cuahang, 'KD').subscribe(result => {
+      this.ticketApiService.getStockRenew(this.ticket.masterInfo.ma_cuahang, this.defaultRenew_StockType).subscribe(result => {
         if (result && result.success && result.result.items && result.result.items[0]) {
           this.defaultStockRenew = result.result.items[0].ma_kho;
         }

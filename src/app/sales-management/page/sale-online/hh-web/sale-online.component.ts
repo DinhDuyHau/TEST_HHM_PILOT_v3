@@ -62,6 +62,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     readonly = false;
     invalid = false;
     isSaving = false;
+    isDisabled = false;
     tabIndex = {
         ma_kh: 0,
         nvvc: 2,
@@ -588,8 +589,10 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
             this.route.queryParams.subscribe((data: any) => {
                 if (this.mode === MODE.UPDATE && !this.isSaving) {
                     this.isSaving = true;
+                    this.isDisabled = true;
                     this.ticketApiService.updateVoucher(TICKET_ENTITY.ONLINE, voucherDto).subscribe(result => {
                         this.isSaving = false;
+                        this.isDisabled = false;
                         if (result.success) {
                             this.commonService.showMessage(Language.content.Update_Completed);
                             if (this.ticket.masterInfo.status == '2') {
@@ -614,8 +617,10 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                     });
                 } else if (this.mode === MODE.CREATE && !this.isSaving) {
                     this.isSaving = true;
+                    this.isDisabled = true;
                     this.ticketApiService.addNewVoucher(TICKET_ENTITY.ONLINE, voucherDto).subscribe(result => {
                         this.isSaving = false;
+                        this.isDisabled = false;
                         if (result.success) {
                             this.commonService.showMessage(Language.content.Successful_Create);
                             this.router.navigate(['sales/web-order']);

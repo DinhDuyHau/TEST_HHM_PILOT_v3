@@ -64,8 +64,10 @@ export class SwipeCardComponent implements OnInit {
     }
   }
   onDeleteItem(event: { item: any }) {
-    this.data.card.detail = this.data.card.detail.filter((
-      x => x.ma_chuan_chi != event.item.ma_chuan_chi && x.ma_may_pos != event.item.ma_may_pos && x.so_the != event.item.so_the && x.tien != event.item.tien
+    this.data.card.detail = this.data.card.detail.filter((x => !(x.ma_chuan_chi == event.item.ma_chuan_chi
+      && x.ma_may_pos == event.item.ma_may_pos
+      && x.so_the == event.item.so_the
+      && x.tien == event.item.tien)
     ));
     this.data.card.tien -= event.item.tien;
     this.dataSource = this.data.card.detail;

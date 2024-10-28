@@ -24,7 +24,7 @@ import { Service } from '@app/sales-management/model/ticket/common-model/service
 import { ServiceOfMerchandiseService } from '../common/service.service';
 import { PaymentService } from '../common/payment.service';
 
-const { MERCHANDISE_RETURN_LIST, SERVICE_LIST, SERVICE_LIST_SALE_RETURN } = require('@assets/fields/grid/sales-fields-table.json');
+const { MERCHANDISE_RETURN_ONLINE_LIST, SERVICE_LIST, SERVICE_LIST_SALE_RETURN } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-sale-return-online',
@@ -42,7 +42,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
   discountCanApply: Discount[] = [];
   uploadImageSuccess = false;
   uploading = true;
-  merchandiseColumns = MERCHANDISE_RETURN_LIST;
+  merchandiseColumns = MERCHANDISE_RETURN_ONLINE_LIST;
   mode!: number;
   submitButtonTitle!: string;
   cancelButtonTitle!: string;
@@ -228,7 +228,10 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
                   merchandise[0].tien_giam = this.tien_giam;
                   merchandise[0].giam_gia_yn = this.isSaleDown;
 
+                  console.log(this.ticket.merchandise)
+                  console.log(merchandise[0])
                   this.merchandiseService.convertFromVoucher(merchandise, this.ticket.merchandise, Merchandise);
+                  console.log(this.ticket.merchandise)
 
                   details.map((detail: any) => {
                     switch (detail.name.toLocaleLowerCase()) {

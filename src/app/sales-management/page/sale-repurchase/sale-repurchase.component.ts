@@ -363,10 +363,24 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
 
   // Submit
   onSave() {
+    //Check imei trùng trong grid chi tiết
+    const mechandise_dup = [];
+    const counter: { [key: string]: number } = {};
+    for (const item of this.ticket.merchandise) {
+      counter[item.ma_imei] = (counter[item.ma_imei] || 0) + 1;
+      if (counter[item.ma_imei] > 1) {
+        mechandise_dup.push(item.ma_imei);
+      }
+    }
+    if (mechandise_dup && mechandise_dup.length > 0) {
+      const duplicate_imeis = mechandise_dup.join(',');
+      this.commonService.showMessage(`Các imei xuất hiện nhiều lần trong chi tiết phiếu: ${duplicate_imeis}`);
+      return;
+    }
+
     const message = this.saleRepurchaseService.validateTicket(this.ticket);
     this.invalid = this.saleRepurchaseService.isInvalidForm(this.ticket.masterInfo);
     this.invalid && this.commonService.showMessage(Language.content.Missing_information);
-
     if (message) {
       this.commonService.showMessage(message);
     } else if (!this.invalid && !message) {

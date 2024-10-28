@@ -56,6 +56,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   list_imei_old: string[] = [];
   option: Option = new Option;
   entity = STOCK_TRANSFER_TICKET_ENTITY;
+
   transactionTypeOptions = [
     {
       label: "1-Luân chuyển kho tại cửa hàng",
@@ -66,6 +67,8 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       value: 2
     }
   ]
+  M_QUANTITY_PER_ROW = 200;
+
   kho_nhap_datasource = [];
   kho_xuat_datasource = [];
   ma_loai = "";
@@ -451,10 +454,20 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    const merchandise = this.ticket.merchandise.find(e => e.ma_vt === merchandiseResponse.ma_vt);
-    if (merchandise) {
-      merchandise.ma_imei += `,${merchandiseResponse.ma_imei}`;
-      merchandise.so_luong = merchandise.ma_imei.split(",").length;
+    // const merchandise = this.ticket.merchandise.find(e => e.ma_vt === merchandiseResponse.ma_vt);    
+    // if (merchandise) {
+    //   merchandise.ma_imei += `,${merchandiseResponse.ma_imei}`;
+    //   merchandise.so_luong = merchandise.ma_imei.split(",").length;
+    // }
+    // else {
+    //   this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise, Merchandise);
+    // }
+
+    const merchandise = this.ticket.merchandise.filter(e => e.ma_vt === merchandiseResponse.ma_vt);
+    if (merchandise && merchandise.length > 0 && merchandise[merchandise.length - 1].so_luong < this.M_QUANTITY_PER_ROW) {
+      const i = merchandise.length - 1;
+      merchandise[i].ma_imei += `,${merchandiseResponse.ma_imei}`;
+      merchandise[i].so_luong = merchandise[i].ma_imei.split(",").length;
     }
     else {
       this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise, Merchandise);
