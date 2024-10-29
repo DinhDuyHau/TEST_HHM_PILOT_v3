@@ -72,7 +72,9 @@
         },
         {
             "name": "ma_imei",
-            "title": "Mã imei"
+            "title": "Mã imei",
+            "width": "500px",
+            "min-width": "50px"
         },
         {
             "name": "ghi_chu",
