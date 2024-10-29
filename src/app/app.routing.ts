@@ -67,6 +67,9 @@ import { VoucherCompensationComponent } from './sales-management/page/voucher-co
 import { ServiceCompensationComponent } from './sales-management/page/voucher-service-compensation';
 import { ChangepassComponent } from './pages/changepass/changepass.component';
 
+import { OtherMoneyTransferDetailComponent } from './_components/voucher/money-transaction/other-money-transfer/create/create.component';
+
+
 const homeModule = () => import('./home/home.module').then(x => x.HomeModule);
 const customer = () => import('./sales-management/component/customer/customer-create-dialog/customer-create-dialog.module').then(x => x.CustomerCreateDialogModule);
 const delivery = () => import('./sales-management/component/delivery/infomation/delivery-infomation.module').then(x => x.DeliveryInfomationModule);
@@ -529,6 +532,16 @@ const routes: Routes = [
       { path: 'create', component: ServiceCompensationComponent, canActivate: [AuthGuard] },
       { path: 'update', component: ServiceCompensationComponent, canActivate: [AuthGuard] },
       { path: 'view', component: ServiceCompensationComponent, canActivate: [AuthGuard] },
+    ]
+  },
+  //Edit
+  {
+    path: 'voucher/other-money-transfer', component: AppLayoutComponent, canActivate: [AuthGuard],
+    children: [
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.CLOSE_SHIFT_PAYMENT, reuse: true } },
+      { path: 'create', component: OtherMoneyTransferDetailComponent, canActivate: [AuthGuard] },
+      // { path: 'update', component: CloseShiftPaymentDetailComponent, canActivate: [AuthGuard] },
+      // { path: 'view', component: CloseShiftPaymentDetailComponent, canActivate: [AuthGuard] },
     ]
   },
   {

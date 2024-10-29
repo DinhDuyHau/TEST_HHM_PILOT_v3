@@ -14,6 +14,7 @@ import { OtherPaymentModule } from './money-transaction/other-payment/other-paym
 import { DeposistReceiptModule } from './money-transaction/deposist-receipt/deposist-receipt.module';
 import { RecommentToUseModule } from './inventory/recomment-to-use/recomment-to-use.module';
 import { CloseShiftPaymentModule } from './money-transaction/close-shift-payment/close-shift-payment.module';
+import { OtherMoneyTransferModule } from './money-transaction/other-money-transfer/other-money-transfer.module';
 import { CollectionReceiptModule } from './money-transaction/collection-receipt/collection-receipt.module';
 import { EventGiftModule } from './inventory/event-gift/event-gift.module';
 import { DeposistReturnReceiptModule } from './money-transaction/deposist-return-payment/deposist-return-payment.module';
@@ -57,7 +58,8 @@ import { StockShopCheckComponent } from './stock-shop-check/stock-shop-check.com
     LoanRecoveryModule,
     WarrantyOutModule,
     WarrantyInModule,
-    VoucherGridModule
+    VoucherGridModule,
+    OtherMoneyTransferModule
   ]
 })
 export class VoucherModule { }
