@@ -185,6 +185,8 @@
 
     <ng-container>
       <payment-tab
+        [action]="action"
+        [shop]="shop"
         [pay_hidden]="['tien_dat_coc', 'ma_giam_gia', 'chiet_khau']"
         [invalid]="invalid"
         [hiddenChooseButton]="mode === 2"
@@ -216,12 +218,12 @@
         <div class="btn-responsive btn-cancel" (click)="onCancel()">
           {{ cancelButtonTitle }}
         </div>
-        <div
-          *ngIf="!readonly"
-          class="btn-responsive btn-add"
-          (click)="onSave()">
+        <button class="btn-responsive btn-add"
+          [disabled]="isDisabled"
+          (click)="onSave()"
+          *ngIf="!readonly">
           {{ submitButtonTitle }}
-        </div>
+        </button>
       </div>
     </div>
   </div>

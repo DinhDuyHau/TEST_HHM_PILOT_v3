@@ -76,6 +76,9 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
     { ma_loai: '02', ten_loai: 'Nhập trả lại do hàng lỗi' }
   ];
 
+  action = '';
+  shop = '';
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -108,6 +111,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
             this.mode = MODE.CREATE;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.action = 'create';
             break;
           case 'update':
             this.title = Language.content.edit;
@@ -118,6 +122,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
             this.isDisableCODReturn = true;
             this.isDisableReturnType = true;
             this.isDisableSaleDown = true;
+            this.action = 'update';
             break;
           case 'view':
             this.title = Language.content.view;
@@ -140,6 +145,9 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
         this.disableSelectStatus = false;
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.RETURN, data.key).subscribe((result) => {
           if (result.result) {
+            // set cửa hàng để truyền sang payment tab
+            this.shop = (result.result as any).masterInfo.ma_cuahang;
+
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_RETURN.CREATE) {
               this.router.navigate(['/404']);
             }
@@ -356,6 +364,21 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
 
   // Submit
   onSave() {
+    //Check imei trùng trong grid chi tiết
+    const mechandise_dup = [];
+    const counter: { [key: string]: number } = {};
+    for (const item of this.ticket.merchandise) {
+      counter[item.ma_imei] = (counter[item.ma_imei] || 0) + 1;
+      if (counter[item.ma_imei] > 1) {
+        mechandise_dup.push(item.ma_imei);
+      }
+    }
+    if (mechandise_dup && mechandise_dup.length > 0) {
+      const duplicate_imeis = mechandise_dup.join(',');
+      this.commonService.showMessage(`Các imei xuất hiện nhiều lần trong chi tiết phiếu: ${duplicate_imeis}`);
+      return;
+    }
+
     const message = this.saleReturnService.validateTicket(this.ticket);
 
     if (message) {

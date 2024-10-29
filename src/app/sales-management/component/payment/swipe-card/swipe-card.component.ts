@@ -29,7 +29,7 @@ export class SwipeCardComponent implements OnInit {
   quet_the = new CardDetail;
   invalid = false;
   constructor(public dialogRef: MatDialogRef<SwipeCardComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { card: Card, keyword: string, componentName: number, title: string, ma_ct?: string, filter?: ItemFilter[], disabled: boolean },
+    @Inject(MAT_DIALOG_DATA) public data: { card: Card, keyword: string, shop: string, componentName: number, title: string, ma_ct?: string, filter?: ItemFilter[], disabled: boolean },
     private commonService: CommonService,
     private posService: POSService) {
     this.readonly = data.disabled;
@@ -86,7 +86,7 @@ export class SwipeCardComponent implements OnInit {
 
   openSearchPOSDialog() {
     this.commonService.openDialog(SearchDialogComponent,
-      { keyword: '', componentName: SEARCH_COMPONENT_NAME.POS, title: 'Danh sách máy POS' }, 'search-style-dialog')
+      { shop: this.data.shop, keyword: '', componentName: SEARCH_COMPONENT_NAME.POS, title: 'Danh sách máy POS' }, 'search-style-dialog')
       .afterClosed()
       .subscribe((pos: POSModel) => pos && this.handleAddPOS(pos));
   }

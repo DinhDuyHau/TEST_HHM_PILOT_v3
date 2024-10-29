@@ -63,6 +63,7 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
   readonly = false;
   invalid = false;
   isSaving = false;
+  isDisabled = false;
   tabIndex = {
     job_id: 0,
     ma_kh: 2,
@@ -84,6 +85,8 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
   eInvoiceInfoOutput: EInvoiceInfoOutput = new EInvoiceInfoOutput();
   option: Option = new Option;
   entity = TICKET_ENTITY.ITINERANT;
+  action = '';
+  shop = '';
 
   constructor(
     private router: Router,
@@ -149,6 +152,7 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
             this.mode = MODE.CREATE;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.action = 'create';
             break;
           case 'update':
             this.title = Language.content.edit;
@@ -156,6 +160,7 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
             this.disableSelectStatus = false;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.action = 'update';
             break;
           case 'view':
             this.title = Language.content.view;
@@ -177,6 +182,9 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
       if (data.key) {
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.ITINERANT, data.key).subscribe((result) => {
           if (result.result) {
+            // set cửa hàng để truyền sang payment tab
+            this.shop = (result.result as any).masterInfo.ma_cuahang;
+
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_ITINERANT.CREATE) {
               this.router.navigate(['/404']);
             }
@@ -617,6 +625,21 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
 
   // Submit
   onSave() {
+    //Check imei trùng trong grid chi tiết
+    const mechandise_dup = [];
+    const counter: { [key: string]: number } = {};
+    for (const item of this.ticket.merchandise) {
+      counter[item.ma_imei] = (counter[item.ma_imei] || 0) + 1;
+      if (counter[item.ma_imei] > 1) {
+        mechandise_dup.push(item.ma_imei);
+      }
+    }
+    if (mechandise_dup && mechandise_dup.length > 0) {
+      const duplicate_imeis = mechandise_dup.join(',');
+      this.commonService.showMessage(`Các imei xuất hiện nhiều lần trong chi tiết phiếu: ${duplicate_imeis}`);
+      return;
+    }
+
     const message = this.saleItinerantService.validateTicket(this.ticket);
     this.invalid = this.commonService.isInValidPayment(this.ticket.payment) || this.saleItinerantService.isInvalidForm(this.ticket.masterInfo);
     this.invalid && this.commonService.showMessage(Language.content.Missing_information);
@@ -628,8 +651,10 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
       this.route.queryParams.subscribe((data: any) => {
         if (this.mode === MODE.UPDATE && !this.isSaving) {
           this.isSaving = true;
+          this.isDisabled = true;
           this.ticketApiService.updateVoucher(TICKET_ENTITY.ITINERANT, voucherDto).subscribe(result => {
             this.isSaving = false;
+            this.isDisabled = false;
             if (result.success) {
               // this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Update_Completed);
@@ -655,8 +680,10 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
           this.isSaving = true;
+          this.isDisabled = true;
           this.ticketApiService.addNewVoucher(TICKET_ENTITY.ITINERANT, voucherDto).subscribe(result => {
             this.isSaving = false;
+            this.isDisabled = false;
             if (result.success) {
               // this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Successful_Create);

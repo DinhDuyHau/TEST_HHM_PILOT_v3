@@ -57,7 +57,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
 
   constructor(
     public dialogRef: MatDialogRef<SearchDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { keyword: string, componentName: number, title: string, ma_ct?: string, filter?: ItemFilter[], dataSource: any },
+    @Inject(MAT_DIALOG_DATA) public data: { keyword: string, shop: string, componentName: number, title: string, ma_ct?: string, filter?: ItemFilter[], dataSource: any },
     private customerApiService: CustomerApiService,
     private imeiApiService: ImeiApiService,
     private merchandiseServiceApiService: MerchandiseServiceApiService,
@@ -182,7 +182,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         this.columns = LIST_POS as any;
         filter.name = 'ma_pos';
         filter.value = `%${this.data.keyword}%`;
-        this.defaultFilters = [filter, { name: 'ma_cuahang', operator: '=', value: this.authenticateService.userValue?.shop }];
+        this.defaultFilters = [filter, { name: 'ma_cuahang', operator: '=', value: this.data.shop }];
         break;
       case SEARCH_COMPONENT_NAME.TYPE_RENEW:
         this.columns = LIST_PRICE_RENEW as any;
@@ -193,9 +193,9 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         // filter.value = `%${this.data.keyword}%`;
         // this.filters = [filter, { name: 'nh_kh9', operator: '=', value: 'NGKH99' }];
         filter.name = 'nh_kh9';
-        filter.operator = '=';
-        filter.value = 'NGKH99'
-        this.defaultFilters = [filter];
+        filter.value = 'NGKH99';
+        filter.operator = "=";
+        this.filters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.APPROVER_DIRECTOR:
         this.columns = LIST_BGD as any;

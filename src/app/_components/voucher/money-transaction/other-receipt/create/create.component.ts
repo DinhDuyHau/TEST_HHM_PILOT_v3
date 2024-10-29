@@ -73,6 +73,9 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
   [key: string]: any;
   entity = VOUCHER_TYPE.OTHER_RECEIPT.sysid;
 
+  action = '';
+  shop = '';
+
   override gridType = GridType.GridDetail;
   actionButtons = [button.DeleteButton];
   constructor(
@@ -132,6 +135,9 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
   }
   initData(stt_rec: string) {
     this.OtherReceipt.getItem(stt_rec).subscribe((item => {
+      // set cửa hàng để truyền sang payment tab
+      this.shop = item.masterInfo.ma_cuahang ?? '';
+
       item.masterInfo.ngay_ct = item.masterInfo.ngay_ct?.substring(0, 10);
       this.data = item;
       this.voucherForm = this.formBuilder.group({
@@ -166,12 +172,14 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
             this.mode = MODE.CREATE;
             this.submitButtonTitle = this.commonService.getMessage('btnSubmitAdd');
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelAdd');
+            this.action = 'create';
             break;
           case 'update':
             this.title = this.commonService.getMessage('titleEdit');
             this.mode = MODE.UPDATE;
             this.submitButtonTitle = this.commonService.getMessage('btnSubmitEdit');
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelEdit');
+            this.action = 'update';
             break;
           case 'view':
             this.title = this.commonService.getMessage('titleView');

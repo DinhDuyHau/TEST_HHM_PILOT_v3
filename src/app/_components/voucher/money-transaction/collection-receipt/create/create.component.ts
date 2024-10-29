@@ -92,6 +92,9 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
   [key: string]: any;
   entity = VOUCHER_TYPE.COLLECTION_RECEIPT.sysid;
 
+  action = '';
+  shop = '';
+
   override gridType = GridType.GridDetail;
   actionButtons = [button.DeleteButton];
   constructor(
@@ -158,6 +161,9 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
   }
   initData(stt_rec: string) {
     this.CollectionReceipt.getItem(stt_rec).subscribe((item => {
+      // set cửa hàng để truyền sang payment tab
+      this.shop = item.masterInfo.ma_cuahang ?? '';
+
       item.masterInfo.ngay_ct = item.masterInfo.ngay_ct?.substring(0, 10);
       this.data = item;
 
@@ -196,12 +202,14 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
             this.mode = MODE.CREATE;
             this.submitButtonTitle = this.commonService.getMessage('btnSubmitAdd');
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelAdd');
+            this.action = 'create';
             break;
           case 'update':
             this.title = this.commonService.getMessage('titleEdit');
             this.mode = MODE.UPDATE;
             this.submitButtonTitle = this.commonService.getMessage('btnSubmitEdit');
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelEdit');
+            this.action = 'update';
             break;
           case 'view':
             this.title = this.commonService.getMessage('titleView');
@@ -252,7 +260,6 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
         }
       });
       this.ticketApiService.getVoucherNumber('PTHTran').subscribe(result => {
-        this.data.masterInfo.so_ct = result.result as any;
         this.voucherForm = this.formBuilder.group({
           so_ct: [this.data.masterInfo.so_ct, Validators.required],
           ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
@@ -511,7 +518,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
       this.commonService.showMessageByName('lblWarningLackCollectionCode');
       return;
     }
-    //warning mã dịch vụ thu hộ 
+    //warning mã dịch vụ thu hộ
     if (this.ma_dvth === '') {
       this.commonService.showMessageByName('lblWarningEmpty_PTH_MaDvth');
       return;

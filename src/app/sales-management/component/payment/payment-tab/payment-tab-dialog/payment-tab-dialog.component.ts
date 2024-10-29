@@ -19,6 +19,7 @@ import { PaymentApiService } from '@app/sales-management/api/payment-api.service
 import { formatDate } from '@angular/common';
 import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { AuthenticationService } from '@app/_services';
 
 @Component({
   selector: 'app-payment-tab-dialog',
@@ -65,6 +66,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   ma_kh = '';
   ngay_ct = '';
   reloadDepositOnInit = false;
+  shop: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<PaymentTabDialogComponent>,
@@ -85,7 +87,9 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       approveDiscount: string,
       ma_kh: string,
       ngay_ct: string,
-      reloadDepositOnInit: boolean
+      reloadDepositOnInit: boolean,
+      action: string,
+      shop: string
     },
     private dialog: MatDialog,
     private commonService: CommonService,
@@ -93,7 +97,8 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     private discountProgramService: DiscountProgramService,
     private viewDiscountProgramService: ViewDiscountProgramService,
     private paymentApiService: PaymentApiService,
-    private customerApiService: CustomerApiService
+    private customerApiService: CustomerApiService,
+    private authenticateService: AuthenticationService
   ) {
     this.data = dataPayment.data;
     this.t_tong_tien = dataPayment.t_tong_tien;
@@ -130,6 +135,14 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     }
     this.tong_no = this.t_tong_tien;
     this.onChange();
+
+    // xử lý param shop theo action
+    if(this.dataPayment.action === 'create') {
+      this.shop = this.authenticateService.userValue?.shop ?? '';
+    }
+    if(this.dataPayment.action === 'update') {
+      this.shop = this.dataPayment.shop ?? this.authenticateService.userValue?.shop;
+    }
   }
 
   ngOnInit(): void {
@@ -488,7 +501,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
 
   openSwipeCardDialog() {
     this.commonService.openDialog(SwipeCardComponent,
-      { card: this.data.quet_the, disabled: this.readonly }, 'search-style-dialog')
+      { card: this.data.quet_the, disabled: this.readonly, shop: this.shop }, 'search-style-dialog')
       .afterClosed()
       .subscribe(() => {
         this.onChange();
@@ -526,7 +539,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
 
   openPaymentSearchPOSDialog() {
     this.commonService.openDialog(SearchDialogComponent,
-      { keyword: '', componentName: SEARCH_COMPONENT_NAME.POS, title: 'Danh sách máy POS' }, 'search-style-dialog')
+      { shop: this.shop, keyword: '', componentName: SEARCH_COMPONENT_NAME.POS, title: 'Danh sách máy POS' }, 'search-style-dialog')
       .afterClosed()
       .subscribe((pos: POSModel) => pos && this.handleAddPOS(pos));
   }

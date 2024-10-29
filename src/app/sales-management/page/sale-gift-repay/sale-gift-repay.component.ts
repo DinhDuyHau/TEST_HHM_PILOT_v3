@@ -47,6 +47,7 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
   readonly = false;
   invalid = false;
   isSaving = false;
+  isDisabled = false;
   tabIndex = {
     ma_kh: 0,
     nvvc: 2,
@@ -276,6 +277,21 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
 
   // Submit
   onSave() {
+    //Check imei trùng trong grid chi tiết
+    const mechandise_dup = [];
+    const counter: { [key: string]: number } = {};
+    for (const item of this.ticket.merchandise) {
+      counter[item.ma_imei] = (counter[item.ma_imei] || 0) + 1;
+      if (counter[item.ma_imei] > 1) {
+        mechandise_dup.push(item.ma_imei);
+      }
+    }
+    if (mechandise_dup && mechandise_dup.length > 0) {
+      const duplicate_imeis = mechandise_dup.join(',');
+      this.commonService.showMessage(`Các imei xuất hiện nhiều lần trong chi tiết phiếu: ${duplicate_imeis}`);
+      return;
+    }
+
     const message = this.saleGiftRepayService.validateTicket(this.ticket);
     this.invalid = !this.ticket.masterInfo.ma_kh;
     this.invalid && this.commonService.showMessage(Language.content.Missing_information);
@@ -287,9 +303,11 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
       this.route.queryParams.subscribe((data: any) => {
         if (this.mode === MODE.UPDATE && !this.isSaving) {
           this.isSaving = true;
+          this.isDisabled = true;
           this.ticketApiService.updateVoucher(TICKET_ENTITY.GIFT_REPAY, voucherDto).subscribe(result => {
             if (result.success) {
               this.isSaving = false;
+              this.isDisabled = false;
               // this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Update_Completed);
               this.router.navigate(['sales/gift-repay']);
@@ -304,8 +322,10 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
           this.isSaving = true;
+          this.isDisabled = true;
           this.ticketApiService.addNewVoucher(TICKET_ENTITY.GIFT_REPAY, voucherDto).subscribe(result => {
-            this.isSaving = true;
+            this.isSaving = false;
+            this.isDisabled = false;
             if (result.success) {
               // this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Successful_Create);

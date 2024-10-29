@@ -81,6 +81,9 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
   [key: string]: any;
   entity = VOUCHER_TYPE.DEBT_RECEIPT.sysid;
 
+  action = '';
+  shop = '';
+
   override gridType = GridType.GridDetail;
   actionButtons = [button.EditPriceButton, button.DeleteGridButton];
   constructor(
@@ -210,6 +213,9 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
   }
   initData(stt_rec: string) {
     this.DebtReceipt.getItem(stt_rec).subscribe((item => {
+      // set cửa hàng để truyền sang payment tab
+      this.shop = item.masterInfo.ma_cuahang ?? '';
+
       item.masterInfo.ngay_ct = item.masterInfo.ngay_ct?.substring(0, 10);
       this.data = item;
       this.voucherForm = this.formBuilder.group({
@@ -244,12 +250,14 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
             this.mode = MODE.CREATE;
             this.submitButtonTitle = this.commonService.getMessage('btnSubmitAdd');
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelAdd');
+            this.action = 'create';
             break;
           case 'update':
             this.title = this.commonService.getMessage('titleEdit');
             this.mode = MODE.UPDATE;
             this.submitButtonTitle = this.commonService.getMessage('btnSubmitEdit');
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelEdit');
+            this.action = 'update';
             break;
           case 'view':
             this.title = this.commonService.getMessage('titleView');

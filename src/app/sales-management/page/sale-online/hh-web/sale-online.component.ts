@@ -81,6 +81,8 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     eInvoiceInfoOutput: EInvoiceInfoOutput = new EInvoiceInfoOutput();
     option: Option = new Option;
     entity = TICKET_ENTITY.ONLINE;
+    action = '';
+    shop = '';
 
     constructor(
         private router: Router,
@@ -146,6 +148,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                         this.mode = MODE.CREATE;
                         this.submitButtonTitle = Language.content.save;
                         this.cancelButtonTitle = Language.content.cancel;
+                        this.action = 'create';
                         break;
                     case 'update':
                         this.title = Language.content.edit;
@@ -153,6 +156,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                         this.disableSelectStatus = false;
                         this.submitButtonTitle = Language.content.save;
                         this.cancelButtonTitle = Language.content.cancel;
+                        this.action = 'update';
                         break;
                     case 'view':
                         this.title = Language.content.view;
@@ -174,6 +178,9 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
             if (data.key) {
                 this.ticketApiService.getVoucherByid(TICKET_ENTITY.ONLINE, data.key).subscribe((result) => {
                     if (result.result) {
+                        // set cửa hàng để truyền sang payment tab
+                        this.shop = (result.result as any).masterInfo.ma_cuahang;
+
                         if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_ONLINE.CREATE) {
                             this.router.navigate(['/404']);
                         }
@@ -579,6 +586,21 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
 
     // Submit
     onSave() {
+        //Check imei trùng trong grid chi tiết
+        const mechandise_dup = [];
+        const counter: { [key: string]: number } = {};
+        for (const item of this.ticket.merchandise) {
+          counter[item.ma_imei] = (counter[item.ma_imei] || 0) + 1;
+          if (counter[item.ma_imei] > 1) {
+            mechandise_dup.push(item.ma_imei);
+          }
+        }
+        if (mechandise_dup && mechandise_dup.length > 0) {
+          const duplicate_imeis = mechandise_dup.join(',');
+          this.commonService.showMessage(`Các imei xuất hiện nhiều lần trong chi tiết phiếu: ${duplicate_imeis}`);
+          return;
+        }
+
         const message = this.saleOnlineService.validateTicket(this.ticket);
         this.invalid = this.commonService.isInValidPayment(this.ticket.payment) || this.saleOnlineService.isInvalidForm(this.ticket.masterInfo);
         this.invalid && this.commonService.showMessage(Language.content.Missing_information);

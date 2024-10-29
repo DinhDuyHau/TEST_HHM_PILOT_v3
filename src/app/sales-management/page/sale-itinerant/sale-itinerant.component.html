@@ -313,6 +313,8 @@
 
     <ng-container>
       <payment-tab
+        [action]="action"
+        [shop]="shop"
         [invalid]="invalid"
         [hiddenChooseButton]="mode === 2"
         [readonly]="readonly"
@@ -344,12 +346,12 @@
         <div class="btn-responsive btn-cancel" (click)="onCancel()">
           {{ cancelButtonTitle }}
         </div>
-        <div
-          class="btn-responsive btn-add"
+        <button class="btn-responsive btn-add"
+          [disabled]="isDisabled"
           (click)="onSave()"
           *ngIf="!readonly">
           {{ submitButtonTitle }}
-        </div>
+        </button>
       </div>
     </div>
   </div>

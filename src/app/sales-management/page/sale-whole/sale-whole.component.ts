@@ -43,6 +43,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
   readonly = false;
   invalid = false;
   isSaving = false;
+  isDisabled = false;
   tabIndex = {
     so_ct_hd: 0,
     imei: 2,
@@ -60,6 +61,8 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
   eInvoiceInfoOutput: EInvoiceInfoOutput = new EInvoiceInfoOutput();
   itemSelected!: Merchandise;
   entity = TICKET_ENTITY.WHOLE;
+  action = '';
+  shop = '';
 
   constructor(
     private router: Router,
@@ -90,6 +93,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
             this.mode = MODE.CREATE;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.action = 'create';
             break;
           case 'update':
             this.title = Language.content.edit;
@@ -97,6 +101,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
             this.mode = MODE.UPDATE;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.action = 'update';
             break;
           case 'view':
             this.title = Language.content.view;
@@ -120,6 +125,9 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
 
       if (fromContract) {
         this.ticketApiService.getVoucherByid(ticketEntity, key).subscribe((result: any) => {
+          // set cửa hàng để truyền sang payment tab
+          this.shop = (result.result as any).masterInfo.ma_cuahang;
+
           this.saleWholeService.initTicket(this.ticket);
           getStatusList();
           this.commonService.getPointRateExchange(this.ticket);
@@ -331,8 +339,10 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
     this.route.queryParams.subscribe((data: any) => {
       if (this.mode === MODE.UPDATE && !this.isSaving) {
         this.isSaving = true;
+        this.isDisabled = true;
         this.ticketApiService.updateVoucher(TICKET_ENTITY.WHOLE, voucherDto).subscribe(result => {
           this.isSaving = false;
+          this.isDisabled = false;
           if (result.success) {
             // this.commonService.clearImeiStorage();
             this.commonService.showMessage(Language.content.Update_Completed);
@@ -348,8 +358,10 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
         });
       } else if (this.mode === MODE.CREATE && !this.isSaving) {
         this.isSaving = true;
+        this.isDisabled = true;
         this.ticketApiService.addNewVoucher(TICKET_ENTITY.WHOLE, voucherDto).subscribe(result => {
           this.isSaving = false;
+          this.isDisabled = false;
           if (result.success) {
             // this.commonService.clearImeiStorage();
             this.commonService.showMessage(Language.content.Successful_Create);

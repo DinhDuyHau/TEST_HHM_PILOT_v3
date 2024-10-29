@@ -180,6 +180,8 @@
     </div>
     <ng-container>
       <payment-tab
+        [action]="action"
+        [shop]="shop"
         [pay_hidden]="[
           'quet_the',
           'tra_gop',
@@ -279,12 +281,12 @@
         <div class="btn-responsive btn-cancel" (click)="onCancel()">
           {{ cancelButtonTitle }}
         </div>
-        <div
-          class="btn-responsive btn-add"
+        <button class="btn-responsive btn-add"
+          [disabled]="isDisabled"
           (click)="onSave()"
           *ngIf="!readonly">
           {{ submitButtonTitle }}
-        </div>
+        </button>
       </div>
     </div>
   </div>

@@ -44,6 +44,7 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
     cancelButtonTitle!: string;
     mode!: number;
     isSaving = false;
+    isDisabled = false;
     tabIndex = {
         ma_kh: 0,
         ma_dv: 2,
@@ -54,6 +55,8 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
     conversionPoints = 0;
     eInvoiceInfoOutput: EInvoiceInfoOutput = new EInvoiceInfoOutput();
     entity = TICKET_ENTITY.SERVICE;
+    action = '';
+    shop = '';
 
     constructor(
         private router: Router,
@@ -83,6 +86,7 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
                         this.mode = MODE.CREATE;
                         this.submitButtonTitle = Language.content.save;
                         this.cancelButtonTitle = Language.content.cancel;
+                        this.action = 'create';
                         break;
                     case 'update':
                         this.title = Language.content.edit;
@@ -90,6 +94,7 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
                         this.disableSelectStatus = false;
                         this.submitButtonTitle = Language.content.save;
                         this.cancelButtonTitle = Language.content.cancel;
+                        this.action = 'update';
                         break;
                     case 'view':
                         this.title = Language.content.view;
@@ -112,6 +117,9 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
                 this.disableSelectStatus = false;
                 this.ticketApiService.getVoucherByid(TICKET_ENTITY.SERVICE, data.key).subscribe((result) => {
                     if (result.result) {
+                        // set cửa hàng để truyền sang payment tab
+                        this.shop = (result.result as any).masterInfo.ma_cuahang;
+
                         const hddtTable = (result.result as any).details.find((item: any) => item.id === 10);
                         if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
                             this.eInvoiceInfo = hddtTable.data[0];
@@ -248,8 +256,11 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
             this.route.queryParams.subscribe((data: any) => {
                 if (this.mode === MODE.UPDATE && !this.isSaving) {
                     this.isSaving = true;
+                    this.isDisabled = true;
                     this.ticketApiService.updateVoucher(TICKET_ENTITY.SERVICE, voucherDto).subscribe(result => {
                         this.isSaving = false;
+                        this.isDisabled = false;
+
                         if (result.success) {
                             this.commonService.showMessage(Language.content.Update_Completed);
                             if (this.ticket.masterInfo.status == '2') {
@@ -274,8 +285,10 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
                     });
                 } else if (this.mode === MODE.CREATE && !this.isSaving) {
                     this.isSaving = true;
+                    this.isDisabled = true;
                     this.ticketApiService.addNewVoucher(TICKET_ENTITY.SERVICE, voucherDto).subscribe(result => {
                         this.isSaving = false;
+                        this.isDisabled = false;
                         if (result.success) {
                             this.commonService.showMessage(Language.content.Successful_Create);
                             this.router.navigate(['sales/service']);

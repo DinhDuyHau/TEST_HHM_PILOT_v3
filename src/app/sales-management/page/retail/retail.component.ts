@@ -68,6 +68,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   readonly = false;
   invalid = false;
   isSaving = false;
+  isDisabled = false;
   tabIndex = {
     ma_kh: 1,
     nvvc: 2,
@@ -87,6 +88,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
   list_imei_old: string[] = [];
   option: Option = new Option;
   entity = TICKET_ENTITY.RETAIL;
+  action = '';
+  shop = '';
 
   constructor(
     private router: Router,
@@ -167,6 +170,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
             this.mode = MODE.CREATE;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.action = 'create';
             break;
           case 'update':
             this.title = Language.content.edit;
@@ -174,6 +178,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
             this.disableSelectStatus = false;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.action = 'update';
             break;
           case 'view':
             this.title = Language.content.view;
@@ -195,6 +200,9 @@ export class RetailComponent implements OnInit, AfterViewInit {
       if (data.key) {
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.RETAIL, data.key).subscribe((result) => {
           if (result.result) {
+            // set cửa hàng để truyền sang payment tab
+            this.shop = (result.result as any).masterInfo.ma_cuahang;
+
             this.dataTransport(result.result);
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.RETAIL.CREATE) {
               this.router.navigate(['/404']);
@@ -674,6 +682,21 @@ export class RetailComponent implements OnInit, AfterViewInit {
 
   // Submit
   onSave() {
+    //Check imei trùng trong grid chi tiết
+    const mechandise_dup = [];
+    const counter: { [key: string]: number } = {};
+    for (const item of this.ticket.merchandise) {
+      counter[item.ma_imei] = (counter[item.ma_imei] || 0) + 1;
+      if (counter[item.ma_imei] > 1) {
+        mechandise_dup.push(item.ma_imei);
+      }
+    }
+    if (mechandise_dup && mechandise_dup.length > 0) {
+      const duplicate_imeis = mechandise_dup.join(',');
+      this.commonService.showMessage(`Các imei xuất hiện nhiều lần trong chi tiết phiếu: ${duplicate_imeis}`);
+      return;
+    }
+
     const message = this.retailService.validateTicket(this.ticket);
     this.invalid = this.commonService.isInValidPayment(this.ticket.payment) || this.retailService.isInvalidForm(this.ticket.masterInfo);
 
@@ -715,8 +738,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
       this.route.queryParams.subscribe((data: any) => {
         if (this.mode === MODE.UPDATE && !this.isSaving) {
           this.isSaving = true;
+          this.isDisabled = true;
           this.ticketApiService.updateVoucher(TICKET_ENTITY.RETAIL, voucherDto).subscribe(result => {
             this.isSaving = false;
+            this.isDisabled = false;
             if (result.success) {
               // this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Update_Completed);
@@ -742,8 +767,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
           this.isSaving = true;
+          this.isDisabled = true;
           this.ticketApiService.addNewVoucher(TICKET_ENTITY.RETAIL, voucherDto).subscribe(result => {
             this.isSaving = false;
+            this.isDisabled = false;
             if (result.success) {
               // this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Successful_Create);

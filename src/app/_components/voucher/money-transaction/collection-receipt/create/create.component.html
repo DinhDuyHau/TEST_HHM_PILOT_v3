@@ -310,6 +310,8 @@
 
     <ng-container>
       <payment-tab
+        [action]="action"
+        [shop]="shop"
         [invalid]="invalid"
         [pay_hidden]="[
           'tien_dat_coc',
@@ -329,8 +331,8 @@
           data.masterInfo.t_da_tra = $event.t_da_tra
         " />
     </ng-container>
-    
-    
+
+
     <div class="px-4 py-2 flex flex-1 justify-end">
       <div class="flex">
         <!-- <app-voucher-info
