@@ -115,6 +115,9 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   depositNameList = '';
   depositTotalPrice = 0;
 
+  action = '';
+  shop = '';
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -182,6 +185,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
             this.mode = MODE.CREATE;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.action = 'create';
             break;
           case 'update':
             this.title = Language.content.edit;
@@ -189,6 +193,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
             this.disableSelectSatus = false;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.action = 'update';
             break;
           case 'view':
             this.title = Language.content.view;
@@ -216,6 +221,9 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       if (data.key) {
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.RENEW, data.key).subscribe((result) => {
           if (result.result) {
+            // set cửa hàng để truyền sang payment tab
+            this.shop = (result.result as any).masterInfo.ma_cuahang;
+
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_RENEW.CREATE) {
               this.router.navigate(['/404']);
             }

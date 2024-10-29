@@ -61,6 +61,8 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
   eInvoiceInfoOutput: EInvoiceInfoOutput = new EInvoiceInfoOutput();
   itemSelected!: Merchandise;
   entity = TICKET_ENTITY.WHOLE;
+  action = '';
+  shop = '';
 
   constructor(
     private router: Router,
@@ -91,6 +93,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
             this.mode = MODE.CREATE;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.action = 'create';
             break;
           case 'update':
             this.title = Language.content.edit;
@@ -98,6 +101,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
             this.mode = MODE.UPDATE;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.action = 'update';
             break;
           case 'view':
             this.title = Language.content.view;
@@ -121,6 +125,9 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
 
       if (fromContract) {
         this.ticketApiService.getVoucherByid(ticketEntity, key).subscribe((result: any) => {
+          // set cửa hàng để truyền sang payment tab
+          this.shop = (result.result as any).masterInfo.ma_cuahang;
+
           this.saleWholeService.initTicket(this.ticket);
           getStatusList();
           this.commonService.getPointRateExchange(this.ticket);

@@ -78,7 +78,7 @@
         [value]="ticket.masterInfo.fcode1"
         (handleChangeValue)="onSaleReturnTypeChange($event)" />
       <!-- ticket.masterInfo.fcode1 = $event -->
-      
+
       <div class="d-flex gap-2 box">
         <mat-checkbox
           class="box flex items-end flex-1 justify-start"
@@ -87,7 +87,7 @@
           [disabled]="isDisableCODReturn"
           >Trả lại đơn COD</mat-checkbox>
       </div>
-      
+
       <div class="d-flex gap-2 box">
         <mat-checkbox
           class="box flex items-end flex-1 justify-end"
@@ -96,7 +96,7 @@
           >{{ getLabel('giam_gia_db') }}</mat-checkbox
         >
       </div>
-      
+
       <div class="d-flex gap-2 box">
         <form-input-custom
           class="flex-1"
@@ -327,6 +327,8 @@
 
     <ng-container>
         <payment-tab
+        [action]="action"
+        [shop]="shop"
         [invalid]="invalid"
         [readonly]="readonly"
         [pay_hidden]="[

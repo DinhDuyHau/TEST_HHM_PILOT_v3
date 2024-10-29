@@ -81,6 +81,8 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     eInvoiceInfoOutput: EInvoiceInfoOutput = new EInvoiceInfoOutput();
     option: Option = new Option;
     entity = TICKET_ENTITY.ONLINE;
+    action = '';
+    shop = '';
 
     constructor(
         private router: Router,
@@ -146,6 +148,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                         this.mode = MODE.CREATE;
                         this.submitButtonTitle = Language.content.save;
                         this.cancelButtonTitle = Language.content.cancel;
+                        this.action = 'create';
                         break;
                     case 'update':
                         this.title = Language.content.edit;
@@ -153,6 +156,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                         this.disableSelectStatus = false;
                         this.submitButtonTitle = Language.content.save;
                         this.cancelButtonTitle = Language.content.cancel;
+                        this.action = 'update';
                         break;
                     case 'view':
                         this.title = Language.content.view;
@@ -174,6 +178,9 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
             if (data.key) {
                 this.ticketApiService.getVoucherByid(TICKET_ENTITY.ONLINE, data.key).subscribe((result) => {
                     if (result.result) {
+                        // set cửa hàng để truyền sang payment tab
+                        this.shop = (result.result as any).masterInfo.ma_cuahang;
+
                         if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_ONLINE.CREATE) {
                             this.router.navigate(['/404']);
                         }

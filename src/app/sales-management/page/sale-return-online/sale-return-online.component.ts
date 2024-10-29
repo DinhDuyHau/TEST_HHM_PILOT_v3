@@ -62,6 +62,8 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
   ma_asm = '';
   ten_asm = '';
   entity = TICKET_ENTITY.RETURN_ONLINE;
+  action = '';
+  shop = '';
 
   constructor(
     private router: Router,
@@ -95,6 +97,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
             this.mode = MODE.CREATE;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.action = 'create';
             break;
           case 'update':
             this.title = Language.content.edit;
@@ -102,6 +105,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
             this.disableSelectStatus = false;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.action = 'update';
             break;
           case 'view':
             this.title = Language.content.view;
@@ -124,6 +128,9 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
         this.disableSelectStatus = false;
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.RETURN_ONLINE, data.key).subscribe((result) => {
           if (result.result) {
+            // set cửa hàng để truyền sang payment tab
+            this.shop = (result.result as any).masterInfo.ma_cuahang;
+
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_RETURN_ONLINE.CREATE) {
               this.router.navigate(['/404']);
             }

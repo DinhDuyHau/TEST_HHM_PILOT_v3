@@ -50,6 +50,10 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   //load lại dữ liệu tiền đặt cọc, tạm ứng của khách hàng
   @Input() reloadDepositOnInit = true;
 
+  // biến xác định là update hay save
+  @Input() action: string = '';
+  @Input() shop: string = '';
+
   @Output() handleChangeValue = new EventEmitter<{ t_con_no: number; t_da_tra: number; t_gg: number; nguoi_duyet_ck: string; t_chi_phi: number }>();
   @Output() handleButton = new EventEmitter<string>();
 
@@ -106,7 +110,9 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
         approveDiscount: this.approveDiscount,
         ma_kh: this.ma_kh,
         ngay_ct: this.ngay_ct,
-        reloadDepositOnInit: this.reloadDepositOnInit
+        reloadDepositOnInit: this.reloadDepositOnInit,
+        action: this.action,
+        shop: this.shop
       }, 'search-style-dialog')
       .afterClosed()
       .subscribe((data) => {
@@ -151,16 +157,16 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
         case PAYMENT_CODE.CARDINSTALLMENT:
           return {
             payment: item.ten_thanhtoan,
-            note: `ĐVTG: ${item.ma_dv_tragop} <br> 
+            note: `ĐVTG: ${item.ma_dv_tragop} <br>
               Mã máy POS: ${item.ma_may_pos} <br>
               Số thẻ: ${item.so_the_nh} <br>
               Ngân hàng phát hành: ${item.tk_nh_nhan} <br>
               Mã chuẩn chi: ${item.ma_chuan_chi} <br>
-              Số HĐ: ${item.so_hd_tragop} <br> 
-              Mã giao dịch: ${item.so_hd_vnpay} <br> 
-              Phí bảo hiểm: &nbsp;&nbsp; <strong>${formatNumber(item.tien_phi_bh, 'en-US')}</strong> <br> 
-              Phí quẹt thẻ: &nbsp;&nbsp; <strong>${formatNumber(item.phi_quetthe, 'en-US')}</strong> <br> 
-              Phí chuyển đổi:&nbsp;&nbsp;<strong>${formatNumber(item.phi_chuyendoi, 'en-US')}</strong> <br> 
+              Số HĐ: ${item.so_hd_tragop} <br>
+              Mã giao dịch: ${item.so_hd_vnpay} <br>
+              Phí bảo hiểm: &nbsp;&nbsp; <strong>${formatNumber(item.tien_phi_bh, 'en-US')}</strong> <br>
+              Phí quẹt thẻ: &nbsp;&nbsp; <strong>${formatNumber(item.phi_quetthe, 'en-US')}</strong> <br>
+              Phí chuyển đổi:&nbsp;&nbsp;<strong>${formatNumber(item.phi_chuyendoi, 'en-US')}</strong> <br>
             `,
             money: item.tien
           };
