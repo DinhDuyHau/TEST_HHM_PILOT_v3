@@ -32,6 +32,7 @@ import { WarrantyInService } from '../warranty-in.service';
 import { lastValueFrom } from 'rxjs';
 import { EventService } from '@app/_components/lookup/event/event.service';
 import { CommonService } from '@app/sales-management/page/common/common.service';
+import { SearchImeiWarrantyComponent } from '../search-imei-warranty/search-imei-warranty.component';
 
 @Component({
   selector: 'app-create',
@@ -71,7 +72,6 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
   item_name = ' ';
   [key: string]: any;
   entity = VOUCHER_TYPE.WARRANTY_IN.sysid;
-
 
   override gridType = GridType.GridDetail;
   actionButtons = [button.EditQuantityButton, button.DeleteButton];
@@ -473,6 +473,21 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
   }
 
   async checkImeiWarrantyIn(imei: string) {
+    // bắt buộc nhập kho và dv bảo hành trước khi nhập imei
+    if (this.site_code == '') {
+      this.commonService.showMessageByName('lblWarningInvalidSite');
+      return;
+    }
+    if (!this.voucherForm.controls['ma_kh'].value) {
+      this.commonService.showMessage('Mã ĐV bảo hành không được để trống');
+      return;
+    }
+    // tạm bỏ check vật tư
+    // if (this.item_code == '') {
+    //   this.commonService.showMessage('Mã vật tư không được để trống');
+    //   return;
+    // }
+
     //kiểm tra thông tin xuất bảo hành từ imei nhập input
     let result = await lastValueFrom(this.imeiService.getWarrantyOutInfo(imei, this.ma_cuahang));
     //Nếu tồn tại thông tin xuất bảo hành tương ứng với imei nhập => imei trả bảo hành khớp với imei xuất ra đi bảo hành
@@ -489,37 +504,53 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
       });
     }
     else {
-      //trường hợp trả bảo hành là imei mới không phải là imei xuất đi bảo hành
-      //lấy thông tin imei xuất và số c.từ px nhập trên form để mapping vào trong grid chi tiết
-      result = await lastValueFrom(this.imeiService.getWarrantyOutInfo(this.imei_xuat, this.ma_cuahang));
-      this.addItem(imei, this.imei_xuat, this.so_ct_px, this.stt_rec_px, this.ngay_ct_px, result, true, this.item_code, this.item_name).then((flag) => {
-        if (flag) {
-          this.imei = '';
-          this.site_code = '';
-          this.data.masterInfo['ten_kho'] = '';
-          this.item_code = '';
-          this.item_name = '';
-        }
-      });
+      if (!result.result) {
+        // hiển thị dialog để tìm imei xuất chọn để add vào grid
+        // nếu ma_vt trùng với ma_vt xuất => SearchImeiWarrantyComponent
+        this.commonService.openDialog(SearchImeiWarrantyComponent,
+          { imei_nhap: this.imei }, 'search-style-dialog')
+          .afterClosed()
+          .subscribe(async (response: any) => {
+            // trường hợp trả bảo hành là imei mới không phải là imei xuất đi bảo hành
+            // lấy thông tin imei xuất chọn trong dialog và số c.từ px nhập trên form để mapping vào trong grid chi tiết
+            if (response && response.item && response.item[0].ma_imei) {
+              this.item_code = response.item_code;
+              this.imei_xuat = response.item[0]?.ma_imei;
+              result = await lastValueFrom(this.imeiService.getWarrantyOutInfo(this.imei_xuat, this.ma_cuahang));
+
+              this.addItem(imei, this.imei_xuat, this.so_ct_px, this.stt_rec_px, this.ngay_ct_px, result, true, this.item_code, this.item_name).then((flag) => {
+                if (flag) {
+                  this.imei = '';
+                  this.site_code = '';
+                  this.data.masterInfo['ten_kho'] = '';
+                  this.item_code = '';
+                  this.item_name = '';
+                }
+              });
+            }
+          });
+      }
     }
-
-
   }
 
   async addItem(imei: string, imei_px: string, so_ct_px?: string, stt_rec_px?: string, ngay_ct_px?: Date, out_data?: any, doi_bh_yn?: boolean, item_code?: string, item_name?: string) {
-    console.log('Run1', doi_bh_yn)
-    if (this.site_code == '') {
-      this.commonService.showMessageByName('lblWarningInvalidSite');
-      return;
-    }
-    if (this.item_code == '') {
-      this.commonService.showMessage('Mã vật tư không được để trống');
-      return;
-    }
     if (!doi_bh_yn && this.data.details[0].data.find(x => x.ma_imei.trim() === imei.trim())) {
       this.commonService.showMessageByNameAdvance('lblWarningExistImei', { name: '%imei', value: imei });
       return;
     }
+
+    // check trừng lặp trong chi tiết imei nhập
+    if(this.data.details[0].data.find(x => x.ma_imei.trim() === imei.trim())) {
+      this.commonService.showMessageByNameAdvance('lblWarningExistImei', { name: '%imei', value: imei });
+      return;
+    }
+    // check trừng lặp trong chi tiết imei xuất
+    if(this.data.details[0].data.find(x => x.ma_imei_x.trim() === imei_px.trim())) {
+      this.commonService.showMessageByNameAdvance('lblWarningExistImei', { name: '%imei', value: imei_px });
+      return;
+    }
+
+    // lấy ds thông tin chi tiết theo imei
     const res = await lastValueFrom(this.imeiService.getListImeiInfo([imei]));
     if (!doi_bh_yn && res.success && res.result) {
       const map = new Map();
@@ -551,6 +582,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
       // this.f['ma_kh'].setValue(master.ma_kh);
       // this.f['ong_ba'].setValue(master.ong_ba);
 
+      // đẩy thông tin vào grid
       this.data.details[0].data.push({
         ma_imei: doi_bh_yn ? imei : response.ma_imei,
         stt_rec0: '',

@@ -154,10 +154,8 @@ export class TableCustomComponent implements
     this.handleChangeCheckbox.emit({ item, index, checked: event.target.checked, columnName });
   }
 
-  onChangeSelectCheckbox(item: {}) {
-    const newItem = { ...item };
-    this.handleChangeSelectCheckbox.emit(newItem);
-
+  onChangeSelectCheckbox(item: any) {
+    this.handleChangeSelectCheckbox.emit(item);
   }
 
   onSelectItem(item: any, ref: HTMLElement) {

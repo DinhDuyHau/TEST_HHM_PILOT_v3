@@ -64,6 +64,28 @@
       </div>
       <div class="flex gap-2">
         <app-input-custom-v2
+          class="flex-1"
+          [label]="getLabel('lbl_ma_kho_n')"
+          #ma_kho
+          name="ma_kho"
+          [disabled]="disabled"
+          [readonly]="true"
+          [value]="site_code"
+          (handleChange)="this.site_code = $event"
+          (handleEnter)="onEnter($event)"
+          [control]="stockService"
+          [lookup]="true"
+          [reference]="[ma_kho,ten_kho]"></app-input-custom-v2>
+        <app-input-custom-v2
+          class="flex-1"
+          [label]="getLabel('lbl_ten_kho_n')"
+          #ten_kho
+          name="ten_kho"
+          [value]="this.data.masterInfo['ten_kho']"
+          [disabled]="true || disabled"></app-input-custom-v2>
+      </div>
+      <div class="flex gap-2">
+        <app-input-custom-v2
             [label]="getLabel('lbl_ong_ba_giao')"
             class="flex-1"
             [disabled]="disabled"
@@ -84,7 +106,7 @@
           [value]="data.masterInfo.status"
           (handleChangeValue)="data.masterInfo.status = $event" />
       </div>
-      <div class="flex gap-2">
+      <!-- <div class="flex gap-2">
         <div class="flex flex-1">
           <app-input-custom-v2
             class="flex-1"
@@ -98,7 +120,7 @@
             (handleScanner)="scanORCode_ImeiOut($event)"
             (handleEnter)="onEnter_ImeiOut($event)"></app-input-custom-v2>
         </div>
-      </div>
+      </div> -->
       <div class="flex gap-2">
         <!-- <app-input-custom-v2
           [label]="getLabel('lbl_so_ct_px')"
@@ -122,28 +144,6 @@
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-3 pb-2">
       <div class="flex gap-2">
-        <app-input-custom-v2
-          class="flex-1"
-          [label]="getLabel('lbl_ma_kho_n')"
-          #ma_kho
-          name="ma_kho"
-          [disabled]="disabled"
-          [readonly]="true"
-          [value]="site_code"
-          (handleChange)="this.site_code = $event"
-          (handleEnter)="onEnter($event)"
-          [control]="stockService"
-          [lookup]="true"
-          [reference]="[ma_kho,ten_kho]"></app-input-custom-v2>
-        <app-input-custom-v2
-          class="flex-1"
-          [label]="getLabel('lbl_ten_kho_n')"
-          #ten_kho
-          name="ten_kho"
-          [value]="this.data.masterInfo['ten_kho']"
-          [disabled]="true || disabled"></app-input-custom-v2>
-      </div>
-      <div class="flex gap-2">
         <div class="flex flex-1">
           <app-input-custom-v2
             class="flex-1"
@@ -158,7 +158,8 @@
             (handleEnter)="onEnterIMEI($event)"></app-input-custom-v2>
         </div>
       </div>
-      <div class="flex gap-2">
+      <!-- Tạm bỏ vật tư -->
+      <!-- <div class="flex gap-2">
         <app-input-custom-v2
           class="flex-1"
           [label]="getLabel('lbl_ma_vt')"
@@ -179,7 +180,7 @@
           name="ten_vt"
           [value]="item_name"
           [disabled]="true || disabled"></app-input-custom-v2>
-      </div>
+      </div> -->
       <div class="flex gap-2">
         &nbsp;
       </div>
