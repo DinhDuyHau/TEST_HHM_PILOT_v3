@@ -38,6 +38,13 @@ export class IMEIService {
             ma_imei
         );
     }
+
+    getSingleImeiInfo(ma_imei: string, ma_kho?: string) {
+        let url = `${environment.apiUrl}/imei/get_single_imei_state`;
+        if (ma_kho && ma_kho !== '') url += `?ma_kho=${ma_kho}&imei=${ma_imei}`
+        return this.http.get<ResultNoPaging<ImeiInfo>>(url);
+    }
+
     getSoldInfo(ma_imei: string, ma_cuahang: string) {
         return this.http.get<any>(`${environment.apiUrl}/imei/soldinfo?ma_imei=${ma_imei}&ma_cuahang=${ma_cuahang}`);
     }

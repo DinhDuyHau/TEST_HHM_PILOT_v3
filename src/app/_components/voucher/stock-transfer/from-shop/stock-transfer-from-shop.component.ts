@@ -486,7 +486,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.imeiService.getListImeiInfo([ma_imei], this.ticket.masterInfo.ma_kho).subscribe((result) => {
+    this.imeiService.getSingleImeiInfo(ma_imei, this.ticket.masterInfo.ma_kho).subscribe((result) => {
       if (result.success && result.result.length) {
         result.result.map(merchandise => {
           if (!merchandise.exists_yn) {
@@ -525,6 +525,11 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   }
 
   onOpenInputImeiModal(event?: { item: any }) {
+    if (!this.ticket.masterInfo.ma_kho || this.ticket.masterInfo.ma_kho === '') {
+      this.commonService.showMessage("Chưa chọn mã kho xuất");
+      return;
+    }
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '800px';
     dialogConfig.height = '650px';

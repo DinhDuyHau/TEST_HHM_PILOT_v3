@@ -422,6 +422,11 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     merchandise && (merchandise.ma_imei = merchandiseResponse.ma_imei) && (merchandise.ma_kho = merchandiseResponse.ma_kho);
     if (!merchandise) {
       this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise_new_sale, Merchandise);
+      if (this.ticket.merchandise_new_sale[0].ma_td3 === '') {
+        this.commonService.showMessage('Chương trình hỗ trợ không hợp lệ');
+        this.ticket.merchandise_new_sale = [];
+        return;
+      }
 
       //nếu tiền hỗ trợ lấy từ khai báo trong danh mục giá bán (hàng thu cũ) > 0 => set mã giao dịch TCĐM là '1', ngược lại set = '2'
       this.ticket.merchandise_new_sale[0].ma_gd_tcdm = merchandiseResponse.ma_gd_tcdm;
@@ -858,22 +863,26 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   // #endregion merchandise
 
   // #region discount
-  openCalcDiscountDialog() {
+  openCalcDiscountDialog(isGridItem: boolean = false, event: { item: Merchandise } | null = null, loai_ck: string = '') {
     // if (!this.ticket.masterInfo.ma_kh) {
     //   this.commonService.showMessageByName('invalid_cus_discount');
     //   return;
     // }
-    const openDialog = (dataSource: Discount[], currentItem: Discount[]) => {
+    const openDialog = (dataSource: Discount[], currentItem: Discount[], isGridItem: boolean, currentRow: { item: Merchandise } | null) => {
       this.commonService.openDialog(DiscountSelectComponent, { dataSource: dataSource, currentItem: currentItem })
         .afterClosed().subscribe(discountSelected => {
           if (discountSelected) {
-            this.saleRenewService.updateDiscount(discountSelected);
+            this.saleRenewService.updateDiscount(discountSelected, isGridItem, currentRow ? currentRow!.item : null);
           }
         });
     };
 
-    const discountCurrent = this.discountService.getDiscountCurrent(this.ticket.discount);
-    const rs = this.saleRenewService.calcDiscount();
+    let discountCurrent = this.discountService.getDiscountCurrent(this.ticket.discount);
+    if (loai_ck === '04' && event && event!.item.ma_imei !== '') {
+      //đối với loại ck 04 (ngoại giao) xử lý lọc selected item theo imei đã chọn áp ck
+      discountCurrent = discountCurrent.filter(x => x.ma_imei && x.ma_imei.trim() === event!.item.ma_imei.trim());
+    }
+    const rs = this.saleRenewService.calcDiscount(loai_ck);
     if (rs) {
       rs.subscribe(result => {
         if (result.success) {
@@ -881,11 +890,11 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
           // Lúc chưa chọn thì sẽ chọn chiết khấu nào thì áp dụng với các mã vật tư vào chiết khấu ưu tiên cao nhất để tính ra tiền chiết khấu có lợi nhất cho khách
           // Khi chọn hoặc bỏ chiết khấu thì phải thực hiện tính toán lại tiền chiết khấu tương ứng và tính xem các chiết khấu khác sẽ có áp dụng được không ngay trên lúc thay đổi
           this.discountCanApply = this.discountService.convertDiscountFromList(result.result as any);
-          openDialog(this.discountCanApply, discountCurrent);
+          openDialog(this.discountCanApply, discountCurrent, isGridItem, event);
         }
       });
     } else {
-      openDialog(this.discountCanApply, discountCurrent);
+      openDialog(this.discountCanApply, discountCurrent, isGridItem, event);
     }
   }
 

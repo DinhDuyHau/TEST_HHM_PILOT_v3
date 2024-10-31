@@ -25,6 +25,7 @@ export class ImportImeiComponent {
   dataSource: any[] = [];
   ma_vt = '';
   merchandise = {} as any;
+  ma_kho = '';
 
   constructor(
     public dialogRef: MatDialogRef<DialogIMEIComponent>,
@@ -33,6 +34,7 @@ export class ImportImeiComponent {
     private commonService: CommonService,
   ) {
     this.merchandise = this.data.item;
+    this.ma_kho = this.data.ma_kho;
     if (this.merchandise) {
       this.ma_vt = this.merchandise.ma_vt;
       this.handleAddImei(this.merchandise.ma_imei);
@@ -66,13 +68,13 @@ export class ImportImeiComponent {
             const rs = this.dataSource.find((e: any) => e.ma_imei === item.ma_imei);
             if (!rs) {
               this.dataSource = [...this.dataSource, item];
-              this.dataSource.map((e, index: number) => { e.line_nbr = index });
+              this.dataSource.map((e, index: number) => { e.line_nbr = index + 1 });
             } else {
               this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: item.ma_imei });
             }
           }
           else {
-            this.commonService.showMessage("Trạng thái của imei không hợp lệ");
+            this.commonService.showMessage(`Imei không tồn trong kho ${this.ma_kho}, hoặc trạng thái của imei không hợp lệ: ${item.ma_imei}`);
           }
         });
       }

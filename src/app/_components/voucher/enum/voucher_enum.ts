@@ -207,5 +207,14 @@ export const VOUCHER_TYPE = {
         field: 'other-receipt',
         field_detail: 'other-receipt_detail',
         button: [button.AddButton, button.ViewButton, button.EditButton, button.DeleteButton, button.PrintButton, button.RefreshButton]
+    },
+    OTHER_MONEY_TRANSFER: {
+        reuse: true,
+        sysid: 'PCCTran',
+        voucherCode: 'PCC',
+        title: 'Phiếu chuyển tiền ca khác',
+        field: 'close-shift-payment',
+        field_detail: 'close-shift-payment_detail',
+        button: [button.AddButton, button.ViewButton, button.EditButton, button.DeleteButton, button.PrintButton, button.RefreshButton]
     }
 };

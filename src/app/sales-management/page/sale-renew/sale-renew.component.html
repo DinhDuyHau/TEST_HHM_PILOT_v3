@@ -85,7 +85,7 @@
         [label]="getLabel('lbl_ma_ncc_tc')"
         [tabIndex]="tabIndex.ma_ncc"
         [disabled]="readonly || ticket.merchandise_used.length > 0"
-        [readonly]="true"
+        [readonly]="readonly || ticket.merchandise_used.length > 0"
         [value]="ticket.masterInfo.ma_ncc"
         (handleChangeValue)="onEnterSupplierCode($event)"
         (handleEnterInput)="onEnterSupplierCode($event)"
@@ -218,6 +218,8 @@
           [readonly]="readonly"
           [dataSource]="ticket.merchandise_new_sale"
           [columns]="merchandiseColumns"
+          [isShowDiscountNG]="true"
+          (handleAddDiscountNG)="openCalcDiscountDialog(true, $event, '04')"
           (handleDelete)="onRemoveMerchandise($event)"
           (handleAdd)="onAddService($event)"
           (handleChangeCheckbox)="onChangePromotionalDebt($event)"
@@ -397,8 +399,6 @@
     <div>
       <ng-container>
         <payment-tab
-          [action]="action"
-          [shop]="shop"
           [invalid]="invalid"
           [hiddenChooseButton]="mode === 2"
           [readonly]="readonly"
@@ -435,12 +435,12 @@
         <div class="btn-responsive btn-cancel" (click)="onCancel()">
           {{ cancelButtonTitle }}
         </div>
-        <button class="btn-responsive btn-add"
-          [disabled]="isDisabled"
+        <div
+          class="btn-responsive btn-add"
           (click)="onSave()"
           *ngIf="!readonly">
           {{ submitButtonTitle }}
-        </button>
+        </div>
       </div>
     </div>
   </div>
