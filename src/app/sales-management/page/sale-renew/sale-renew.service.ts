@@ -337,7 +337,7 @@ export class SaleRenewService {
 
     // #region discount
 
-    calcDiscount(): Observable<ResultNoPaging<Discount>> | undefined {
+    calcDiscount(loai_ck = ''): Observable<ResultNoPaging<Discount>> | undefined {
         const ma_cuahang = this.ticket.masterInfo.ma_cuahang;
         const ma_kh = this.ticket.masterInfo.ma_kh;
         const ngay_lap = formatDate(this.ticket.masterInfo.ngay_ct, 'yyyy/MM/dd', 'en_US');
@@ -351,24 +351,36 @@ export class SaleRenewService {
             //lấy giá bán theo giá niêm yết để tính chiết khấu
             renew_merchandise.forEach(x => x.gia_ban = x.s4);
 
-            return this.discountApiService.getDiscountForTicket(entity, renew_merchandise, ma_cuahang, ma_kh, ngay_lap, service);
+            return this.discountApiService.getDiscountForTicket(entity, renew_merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck);
         }
         return;
     }
-    updateDiscount(discounts: Discount[]) {
-        this.discountService.resetDiscount(this.ticket.discount);
+    updateDiscount(discounts: Discount[], isGridItem = false, row_item: Merchandise | null = null, isGridDiscount = false) {
+        this.discountService.resetDiscount(this.ticket.discount, isGridItem, row_item, isGridDiscount);
+        console.log('discounts', discounts)
         discounts.forEach(discount => {
             if (discount.loai_ck === DISCOUNT_TYPE.REDUTION_BY_MERCHANDISE_CODE ||
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_TICKET ||
-                discount.loai_ck == DISCOUNT_TYPE.CROSS_SELLING ||
-                discount.loai_ck == DISCOUNT_TYPE.ACCESSORY_COMBO
+                discount.loai_ck === DISCOUNT_TYPE.CROSS_SELLING ||
+                discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO
             ) {
+                if (discount.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && row_item) {
+                    //Nếu chọn chiết khấu ngoại giao thì cần phải chọn dòng trong grid hàng hóa để áp dụng ck
+                    //add ma_imei cho ck ngoại giao sẽ áp dụng
+                    discount.ma_imei = row_item!.ma_imei;
+                }
                 this.discountService.addNew([discount], this.ticket.discount);
             }
         });
+
+        //Kiểm tra nếu không tồn tại chiết khấu ngoại giao => loại bỏ người duyệt ck
+        const exists_ckng = this.ticket.discount.find(x => x.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER)
+        if (!exists_ckng) this.ticket.masterInfo.nguoi_duyet_ck = '';
+
         this.calcMoney();
     }
+
     addDiscount(discounts: Discount[]) {
         discounts.forEach(discount => {
             if (discount.loai_ck === DISCOUNT_TYPE.REDUTION_BY_MERCHANDISE_CODE ||
