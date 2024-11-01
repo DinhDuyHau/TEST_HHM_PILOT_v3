@@ -66,6 +66,8 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
   submitted = false;
   loading = false;
   disabled = false;
+  isDisabled = false;
+  readonly = false;
 
   mode = 1;
   submitButtonTitle = '';
@@ -239,6 +241,7 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
             this.disabled = true;
             this.mode = MODE.VIEW;
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelView');
+            this.readonly = true;
             break;
         }
       }
@@ -391,9 +394,11 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
       return;
     }
     this.loading = true;
+    this.isDisabled = true;
     if (this.mode == MODE.UPDATE) {
       this.DeposistReturnReceipt.update(this.data).subscribe((item: any) => {
         this.loading = false;
+        this.isDisabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
@@ -404,8 +409,10 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
       });
     }
     else if (this.mode == MODE.CREATE) {
+      this.isDisabled = true;
       this.DeposistReturnReceipt.create(this.data).subscribe((item: any) => {
         this.loading = false;
+        this.isDisabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');

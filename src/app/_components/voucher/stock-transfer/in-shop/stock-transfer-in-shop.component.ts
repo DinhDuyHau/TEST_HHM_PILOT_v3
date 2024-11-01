@@ -37,6 +37,7 @@ export class StockTransferInShopComponent implements OnInit, AfterViewInit {
   submitButtonTitle!: string;
   cancelButtonTitle!: string;
   readonly = false;
+  isDisabled = false;
   invalid = false;
   isSaving = false;
   tabIndex = {
@@ -263,10 +264,12 @@ export class StockTransferInShopComponent implements OnInit, AfterViewInit {
       this.ticket.masterInfo.fnote2 = this.ticket.masterInfo.fnote2;
       const voucherDto = this.StockTransferInShopService.prepareVoucher();
       this.route.queryParams.subscribe((data: any) => {
+        this.isDisabled = true;
         if (this.mode === MODE.UPDATE && !this.isSaving) {
           this.isSaving = true;
           this.ticketApiService.updateVoucher(STOCK_TRANSFER_IN_SHOP_TICKET_ENTITY, voucherDto).subscribe(result => {
             this.isSaving = false;
+            this.isDisabled = false;
             if (result.success) {
               this.commonService.showMessage(Language.content.Update_Completed);
               if (this.ticket.masterInfo.status == '2') {
@@ -291,8 +294,10 @@ export class StockTransferInShopComponent implements OnInit, AfterViewInit {
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
           this.isSaving = true;
+          this.isDisabled = true;
           this.ticketApiService.addNewVoucher(STOCK_TRANSFER_IN_SHOP_TICKET_ENTITY, voucherDto).subscribe(result => {
             this.isSaving = false;
+            this.isDisabled = false;
             if (result.success) {
               this.commonService.showMessage(Language.content.Successful_Create);
               this.router.navigate(['voucher/stock-tranfer-from-shop']);

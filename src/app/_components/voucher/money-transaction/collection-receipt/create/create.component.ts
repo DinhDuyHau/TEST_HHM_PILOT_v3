@@ -82,6 +82,8 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
   submitted = false;
   loading = false;
   disabled = false;
+  isDisabled = false;
+  readonly = false;
 
   invalid = false;
 
@@ -216,6 +218,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
             this.disabled = true;
             this.mode = MODE.VIEW;
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelView');
+            this.readonly = true;
             break;
         }
       }
@@ -346,6 +349,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
       return;
     }
     this.loading = true;
+    this.isDisabled = true;
     if (this.mode == MODE.UPDATE) {
       if (this.data.details.length > 1) {
         this.data.details[1].data = this.paymentServiceShop.convertPaymentToRequest(this.payment, this.data.masterInfo);
@@ -355,6 +359,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
       }
       this.CollectionReceipt.update(this.data).subscribe((item: any) => {
         this.loading = false;
+        this.isDisabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
@@ -365,9 +370,11 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
       });
     }
     else if (this.mode == MODE.CREATE) {
+      this.isDisabled = true;
       this.data.details[1].data = this.paymentServiceShop.convertPaymentToRequest(this.payment, this.data.masterInfo);
       this.CollectionReceipt.create(this.data).subscribe((item: any) => {
         this.loading = false;
+        this.isDisabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');

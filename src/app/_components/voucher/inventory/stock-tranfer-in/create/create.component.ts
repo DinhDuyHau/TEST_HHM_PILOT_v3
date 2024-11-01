@@ -55,6 +55,9 @@ export class StockTranferInCreateComponent extends Grid<ReceiptDetail> implement
   submitted = false;
   loading = false;
   disabled = false;
+  isDisabled = false;
+  readonly = false;
+
   mode = 1;
   submitButtonTitle = '';
   cancelButtonTitle = '';
@@ -213,6 +216,7 @@ export class StockTranferInCreateComponent extends Grid<ReceiptDetail> implement
             this.disabled = true;
             this.mode = MODE.VIEW;
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelView');
+            this.readonly = true;
             break;
         }
       }
@@ -341,9 +345,11 @@ export class StockTranferInCreateComponent extends Grid<ReceiptDetail> implement
       //   item.ma_imei = item.ma_imei?.join(', ');
       // });
       this.loading = true;
+      this.isDisabled = true;
 
       this.stockTranferInService.update(this.data).subscribe((item: any) => {
         this.loading = false;
+        this.isDisabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');

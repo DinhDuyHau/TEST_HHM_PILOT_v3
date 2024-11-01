@@ -57,6 +57,8 @@ export class WarrantyOutDetailComponent extends Grid<ReceiptDetail> implements O
   submitted = false;
   loading = false;
   disabled = false;
+  isDisabled = false;
+  readonly = false;
   mode = 1;
   submitButtonTitle = '';
   cancelButtonTitle = '';
@@ -207,6 +209,7 @@ export class WarrantyOutDetailComponent extends Grid<ReceiptDetail> implements O
             this.disabled = true;
             this.mode = MODE.VIEW;
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelView');
+            this.readonly = true;
             break;
         }
       }
@@ -327,9 +330,11 @@ export class WarrantyOutDetailComponent extends Grid<ReceiptDetail> implements O
       return;
     }
     this.loading = true;
+    this.isDisabled = true;
     if (this.mode == MODE.UPDATE) {
       this.returnSupplier.update(this.data).subscribe((item: any) => {
         this.loading = false;
+        this.isDisabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
@@ -345,8 +350,10 @@ export class WarrantyOutDetailComponent extends Grid<ReceiptDetail> implements O
       });
     }
     else if (this.mode == MODE.CREATE) {
+      this.isDisabled = true;
       this.returnSupplier.create(this.data).subscribe((item: any) => {
         this.loading = false;
+        this.isDisabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');

@@ -49,6 +49,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
   submitButtonTitle!: string;
   cancelButtonTitle!: string;
   readonly = false;
+  isDisabled = false;
   invalid = false;
   isSaving = false;
   isDisableSaleDown = false;
@@ -390,10 +391,12 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
       voucherDto.masterInfo.tra_lai_cod = this.isCODReturn;
 
       this.route.queryParams.subscribe((data: any) => {
+      this.isDisabled = true;
         if (this.mode === MODE.UPDATE && !this.isSaving) {
           this.isSaving = true;
           this.ticketApiService.updateVoucher(TICKET_ENTITY.RETURN, voucherDto).subscribe(result => {
             this.isSaving = false;
+            this.isDisabled = false;
             if (result.success) {
               this.commonService.showMessage(Language.content.Update_Completed);
               this.router.navigate(['sales/return']);
@@ -408,8 +411,10 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
           this.isSaving = true;
+          this.isDisabled = true;
           this.ticketApiService.addNewVoucher(TICKET_ENTITY.RETURN, voucherDto).subscribe(result => {
             this.isSaving = false;
+            this.isDisabled = false;
             if (result.success) {
               this.commonService.showMessage(Language.content.Successful_Create);
               this.router.navigate(['sales/return']);

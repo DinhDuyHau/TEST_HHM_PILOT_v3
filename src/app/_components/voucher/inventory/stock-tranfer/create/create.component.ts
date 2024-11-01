@@ -55,6 +55,8 @@ export class StockTranferCreateComponent extends Grid<ReceiptDetail> implements 
 
   submitted = false;
   loading = false;
+  isDisabled = false;
+  readonly = false;
 
   disabled = false;
   mode = 1;
@@ -221,6 +223,7 @@ export class StockTranferCreateComponent extends Grid<ReceiptDetail> implements 
             this.disabled = true;
             this.mode = MODE.VIEW;
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelView');
+            this.readonly = true;
             break;
         }
       }
@@ -356,10 +359,12 @@ export class StockTranferCreateComponent extends Grid<ReceiptDetail> implements 
     // });
     this.loading = true;
     this.disabled = true;
+    this.isDisabled = true;
     this.stockTranferService.update(this.data).subscribe((item: any) => {
       this.loading = false;
       this.disabled = false;
-      if (item.success) {
+        this.isDisabled = false;
+        if (item.success) {
         this.router.navigate(['..'], { relativeTo: this.route });
         this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         // this.commonService.clearImeiStorage();

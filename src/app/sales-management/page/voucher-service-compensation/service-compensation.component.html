@@ -229,12 +229,13 @@
         <div class="btn-responsive btn-cancel" (click)="onCancel()">
           {{ cancelButtonTitle }}
         </div>
-        <div
+        <button
           *ngIf="!readonly"
+          [disabled]="isDisabled"
           class="btn-responsive btn-add"
           (click)="onSave()">
           {{ submitButtonTitle }}
-        </div>
+        </button>
       </div>
     </div>
   </div>

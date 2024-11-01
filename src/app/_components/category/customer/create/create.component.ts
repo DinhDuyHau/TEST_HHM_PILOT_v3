@@ -35,6 +35,8 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
   disabled = false;
   invalid = false;
   disabled_ma_kh = false;
+  isDisabled = false;
+  readonly = false;
 
   mode = 1;
   submitButtonTitle = '';
@@ -83,6 +85,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
             this.disabled = true;
             this.title = 'Xem';
             this.mode = MODE.VIEW;
+            this.readonly = true;
             this.cancelButtonTitle = 'Thoát';
             break;
         }
@@ -128,9 +131,11 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
     if (this.checkInvalidForm(this.customer))
       return;
     this.loading = true;
+    this.isDisabled = true;
     if (this.mode == MODE.UPDATE) {
       this.customerService.update(this.customer).subscribe((item) => {
         this.loading = false;
+        this.isDisabled = false;
         let mess = 'Sửa danh mục thất bại';
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
@@ -145,8 +150,10 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
       });
     }
     else if (this.mode == MODE.CREATE) {
+      this.isDisabled = true;
       this.customerService.create(this.customer).subscribe((item) => {
         this.loading = false;
+        this.isDisabled = false;
         let mess = 'Thêm danh mục thất bại';
         if (item.success) {
           if (!this.isComponent) {
