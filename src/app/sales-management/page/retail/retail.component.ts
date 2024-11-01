@@ -440,6 +440,12 @@ export class RetailComponent implements OnInit, AfterViewInit {
         }
         const merchandise = result.result[0];
         this.handleAddImei(merchandise);
+
+        // Khi bắn imei thì bỏ tích nợ khuyến mãi
+        this.ticket.merchandise.forEach(item => {
+          if (item.ma_vt.trim() === merchandise.ma_vt.trim())
+            item.no_km_yn = false
+        })
         // this.handleAddGuarantee(merchandise);
 
         // this.commonService.addImeiToStorage(ma_imei);
@@ -521,6 +527,11 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
 
   onSwapPromotionMerchandise(event: { item: Merchandise }) {
+    let merchandise = this.ticket.merchandise.find(e => e.ma_imei === event.item.ma_imei);
+    if (merchandise?.ma_imei !== '') {
+      this.commonService.showMessage('Đã nhập imei vật tư. Không thể thay đổi hàng khuyến mại')
+      return
+    }
     const current_imei = event!.item.imei_mua;
     const current_discount = this.ticket.discount.filter(x => x.ma_imei === current_imei && x.loai_ck === DISCOUNT_TYPE.GIFT) as any;
     if (current_discount && current_discount.length > 0) {
@@ -528,7 +539,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
       const rec = current_discount[0].rec;
       this.commonService.openDialog(PromotionSelectComponent, { ma_vt: event.item.ma_vt, ma_imei: current_imei, ma_ck: ma_ck, rec: rec })
         .afterClosed().subscribe((selected: Merchandise) => {
-          const merchandise = this.ticket.merchandise.find(e => e.ma_imei === event.item.ma_imei);
           if (merchandise) {
             merchandise.ma_vt = selected.ma_vt;
             merchandise.ten_vt = selected.ten_vt;
