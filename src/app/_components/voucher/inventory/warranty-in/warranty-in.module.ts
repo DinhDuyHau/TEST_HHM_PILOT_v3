@@ -24,8 +24,10 @@ import { TabCustomModule } from '@app/sales-management/component/form-control-cu
 import { TabsCustomModule } from '@app/sales-management/component/form-control-custom/tabs/tabs.module';
 import { WarrantyInDetailComponent } from './create/create.component';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
+import { TableCustomModule } from '@app/sales-management/component/form-control-custom/table-custom/table-custom.module';
+import { SearchImeiWarrantyComponent } from './search-imei-warranty/search-imei-warranty.component';
 @NgModule({
-  declarations: [WarrantyInComponent, WarrantyInDetailComponent],
+  declarations: [WarrantyInComponent, WarrantyInDetailComponent, SearchImeiWarrantyComponent],
   imports: [
     CommonModule,
     DirModule,
@@ -48,8 +50,9 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
     ReactiveFormsModule,
     TabCustomModule,
     TabsCustomModule,
-    VoucherInfoModule
+    VoucherInfoModule,
+    TableCustomModule,
   ],
-  exports: [WarrantyInComponent, WarrantyInDetailComponent]
+  exports: [WarrantyInComponent, WarrantyInDetailComponent, SearchImeiWarrantyComponent]
 })
 export class WarrantyInModule { }

@@ -71,7 +71,8 @@ export class ProposedPurchaseCreateComponent extends Grid<ReceiptDetail> impleme
   ten_cuahang = '';
   stockService2!: StockService;
   entity = VOUCHER_TYPE.PROPOSEDPURCHASE.sysid;
-
+  isDisabled = false;
+  readonly = false;
 
   [key: string]: any
   override gridType = GridType.GridDetail;
@@ -215,6 +216,7 @@ export class ProposedPurchaseCreateComponent extends Grid<ReceiptDetail> impleme
             this.disabled = true;
             this.mode = MODE.VIEW;
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelView');
+            this.readonly = true;
             break;
         }
       }
@@ -355,10 +357,12 @@ export class ProposedPurchaseCreateComponent extends Grid<ReceiptDetail> impleme
 
     this.loading = true;
     this.disabled = true;
+    this.isDisabled = true;
     if (this.mode == MODE.UPDATE) {
       this.proposedPurchase.update(this.data).subscribe((item: any) => {
         this.loading = false;
         this.disabled = false;
+        this.isDisabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
@@ -374,9 +378,11 @@ export class ProposedPurchaseCreateComponent extends Grid<ReceiptDetail> impleme
       });
     }
     else if (this.mode == MODE.CREATE) {
+      this.isDisabled = true;
       this.proposedPurchase.create(this.data).subscribe((item: any) => {
         this.loading = false;
         this.disabled = false;
+        this.isDisabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');

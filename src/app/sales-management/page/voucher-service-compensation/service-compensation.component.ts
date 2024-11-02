@@ -33,6 +33,7 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
     statusList: StatusTicket[] = [];
     disableSelectStatus = true;
     readonly = false;
+    isDisabled = false;
     dataFormat = dataFormat;
     title = '';
     discountCanApply: Discount[] = [];
@@ -253,10 +254,12 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
             const voucherDto = this.serviceCompensationService.prepareVoucher();
 
             this.route.queryParams.subscribe((data: any) => {
-                if (this.mode === MODE.UPDATE && !this.isSaving) {
+                  this.isDisabled = true;
+                  if (this.mode === MODE.UPDATE && !this.isSaving) {
                     this.isSaving = true;
                     this.ticketApiService.updateVoucher(TICKET_ENTITY.SERVICE_COMPENSATION, voucherDto).subscribe(result => {
                         this.isSaving = false;
+                        this.isDisabled = false;
                         if (result.success) {
                             this.commonService.showMessage(Language.content.Update_Completed);
                             if (this.ticket.masterInfo.status == '2') {
@@ -281,8 +284,10 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
                     });
                 } else if (this.mode === MODE.CREATE && !this.isSaving) {
                     this.isSaving = true;
+                    this.isDisabled = true;
                     this.ticketApiService.addNewVoucher(TICKET_ENTITY.SERVICE_COMPENSATION, voucherDto).subscribe(result => {
                         this.isSaving = false;
+                        this.isDisabled = false;
                         if (result.success) {
                             this.commonService.showMessage(Language.content.Successful_Create);
                             this.router.navigate(['voucher/service-compensation']);

@@ -54,6 +54,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
   submitButtonTitle!: string;
   cancelButtonTitle!: string;
   readonly = false;
+  isDisabled = false;
   invalid = false;
   invalidMerchandiseInput = { ma_vt: false, gia_nhap_mua: false, loai_hh: false, ma_kh: false };
   isSaving = false;
@@ -393,10 +394,12 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     } else if (!this.invalid && !message) {
       const voucherDto = this.saleRepurchaseService.prepareVoucher();
       this.route.queryParams.subscribe((data: any) => {
+        this.isDisabled = true;
         if (this.mode === MODE.UPDATE && !this.isSaving) {
           this.isSaving = true;
           this.ticketApiService.updateVoucher(TICKET_ENTITY.REPURCHASE, voucherDto).subscribe(result => {
             this.isSaving = false;
+            this.isDisabled = false;
             if (result.success) {
               // this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Update_Completed);
@@ -412,8 +415,10 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
           this.isSaving = true;
+          this.isDisabled = true;
           this.ticketApiService.addNewVoucher(TICKET_ENTITY.REPURCHASE, voucherDto).subscribe(result => {
             this.isSaving = false;
+            this.isDisabled = false;
             if (result.success) {
               // this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Successful_Create);

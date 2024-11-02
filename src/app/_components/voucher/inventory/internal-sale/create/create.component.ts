@@ -73,7 +73,8 @@ export class InternalSaleCreateComponent extends Grid<ReceiptDetail> implements 
   entity = VOUCHER_TYPE.INTERNAL_SALE.sysid;
 
   ten_nvvc = '';
-
+  isDisabled = false;
+  readonly = false;
 
   override gridType = GridType.GridDetail;
   constructor(
@@ -237,6 +238,7 @@ export class InternalSaleCreateComponent extends Grid<ReceiptDetail> implements 
             this.disabled = true;
             this.mode = MODE.VIEW;
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelView');
+            this.readonly = true;
             break;
         }
       }
@@ -366,9 +368,11 @@ export class InternalSaleCreateComponent extends Grid<ReceiptDetail> implements 
       return;
     }
     this.loading = true;
+    this.isDisabled = true;
 
     this.internalSaleService.update(this.data).subscribe((item: any) => {
       this.loading = false;
+      this.isDisabled = false;
       if (item.success) {
         if (this.data.masterInfo.status !== '1') {
           this.router.navigate(['..'], { relativeTo: this.route });

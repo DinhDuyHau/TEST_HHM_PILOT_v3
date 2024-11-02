@@ -64,7 +64,8 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
   site_code = '';
   [key: string]: any;
   entity = VOUCHER_TYPE.LOAN_RECOVERY.sysid;
-
+  isDisabled = false;
+  readonly = false;
 
   override gridType = GridType.GridDetail;
   actionButtons = [button.EditQuantityButton, button.DeleteButton];
@@ -222,6 +223,7 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
             this.disabled = true;
             this.mode = MODE.VIEW;
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelView');
+            this.readonly = true;
             break;
         }
       }
@@ -342,9 +344,11 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
       return;
     }
     this.loading = true;
+    this.isDisabled = true;
     if (this.mode == MODE.UPDATE) {
       this.returnSupplier.update(this.data).subscribe((item: any) => {
         this.loading = false;
+        this.isDisabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
@@ -360,8 +364,10 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
       });
     }
     else if (this.mode == MODE.CREATE) {
+      this.isDisabled = true;
       this.returnSupplier.create(this.data).subscribe((item: any) => {
         this.loading = false;
+        this.isDisabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');

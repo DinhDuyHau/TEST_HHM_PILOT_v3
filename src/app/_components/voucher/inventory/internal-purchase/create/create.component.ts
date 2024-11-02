@@ -57,7 +57,8 @@ export class InternalPurchaseCreateComponent extends Grid<ReceiptDetail> impleme
   title = '';
   submitButtonTitle = '';
   cancelButtonTitle = '';
-
+  isDisabled = false;
+  readonly = false;
   entity = VOUCHER_TYPE.INTERNAL_PURCHASE.sysid;
 
 
@@ -214,6 +215,7 @@ export class InternalPurchaseCreateComponent extends Grid<ReceiptDetail> impleme
             this.disabled = true;
             this.mode = MODE.VIEW;
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelView');
+            this.readonly = true;
             break;
         }
       }
@@ -344,9 +346,11 @@ export class InternalPurchaseCreateComponent extends Grid<ReceiptDetail> impleme
       //   item.ma_imei = item.ma_imei?.join(', ');
       // });
       this.loading = true;
+      this.isDisabled = true;
 
       this.internalPurchaseService.update(this.data).subscribe((item: any) => {
         this.loading = false;
+        this.isDisabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');

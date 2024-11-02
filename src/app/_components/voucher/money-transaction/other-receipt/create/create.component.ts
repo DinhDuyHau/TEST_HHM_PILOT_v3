@@ -63,7 +63,8 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
   submitted = false;
   loading = false;
   disabled = false;
-
+  isDisabled = false;
+  readonly = false;
   invalid = false;
 
   mode = 1;
@@ -186,6 +187,7 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
             this.disabled = true;
             this.mode = MODE.VIEW;
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelView');
+            this.readonly = true;
             break;
         }
       }
@@ -316,6 +318,7 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
       return;
     }
     this.loading = true;
+    this.isDisabled = true;
     if (this.mode == MODE.UPDATE) {
       if (this.data.details.length > 1) {
         this.data.details[1].data = this.paymentServiceShop.convertPaymentToRequest(this.payment, this.data.masterInfo);
@@ -325,6 +328,7 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
       }
       this.OtherReceipt.update(this.data).subscribe((item: any) => {
         this.loading = false;
+        this.isDisabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
@@ -335,9 +339,11 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
       });
     }
     else if (this.mode == MODE.CREATE) {
+      this.isDisabled = true;
       this.data.details[1].data = this.paymentServiceShop.convertPaymentToRequest(this.payment, this.data.masterInfo);
       this.OtherReceipt.create(this.data).subscribe((item: any) => {
         this.loading = false;
+        this.isDisabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');

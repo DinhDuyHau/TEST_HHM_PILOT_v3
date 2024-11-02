@@ -643,7 +643,7 @@
             "align": "right",
             "dataType": "number"
         },
-        {   
+        {
             "name": "gia_tmdt_vat",
             "title": "Giá TMDT sau thuế",
             "align": "right",
@@ -1388,7 +1388,7 @@
             "name": "ten_vt",
             "title": "Tên vật tư",
             "width": "300px",
-            "min-width": "50px"            
+            "min-width": "50px"
         },
         {
             "name": "ngay_ct",
@@ -2391,5 +2391,30 @@
           "align": "right",
           "dataType": "number"
         }
-      ]
+    ],
+      "IMEI_EXPORT_SEARCH": [
+        {
+            "name": "ma_imei",
+            "title": "Mã imei"
+        },
+        {
+            "name": "so_ct_px",
+            "title": "Số phiếu xuất"
+        },
+        {
+            "name": "ngay_ct_px",
+            "title": "Ngày xuất",
+            "format": "datetimeFormat",
+            "dataType": "date",
+            "align": "center"
+        },
+        {
+            "name": "ma_vt",
+            "title": "Mã vật tư"
+        },
+        {
+            "name": "ten_vt",
+            "title": "Tên vật tư"
+        }
+    ]
 }

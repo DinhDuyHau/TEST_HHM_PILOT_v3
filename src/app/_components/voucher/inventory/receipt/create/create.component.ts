@@ -62,6 +62,8 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
   submitted = false;
   loading = false;
   disabled = false;
+  isDisabled = false;
+  readonly = false;
 
   mode = 1;
   submitButtonTitle = '';
@@ -239,6 +241,7 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
             this.disabled = true;
             this.mode = MODE.VIEW;
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelView');
+            this.readonly = true;
             break;
         }
       }
@@ -377,9 +380,11 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
       //   item.ma_imei = item.ma_imei?.join(', ');
       // });
       this.loading = true;
+      this.isDisabled = true;
 
       this.receiptService.update(this.data).subscribe((item: any) => {
         this.loading = false;
+        this.isDisabled = false;
         if (item.success) {
           this.router.navigate(['..'], { relativeTo: this.route });
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
