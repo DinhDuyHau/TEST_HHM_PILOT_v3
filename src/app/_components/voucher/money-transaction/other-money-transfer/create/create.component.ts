@@ -48,6 +48,9 @@ export class OtherMoneyTransferDetailComponent extends Grid<ReceiptDetail> imple
   ma_ca = '';
   ten_ca = '';
 
+  ma_ca_nhan = '02';
+  ten_ca_nhan = 'Ca tối';
+
   ma_cuahang = '';
   ten_cuahang = '';
 
@@ -63,7 +66,7 @@ export class OtherMoneyTransferDetailComponent extends Grid<ReceiptDetail> imple
   paymentList: any = [];
   bankAccountList: any = [];
 
-  voucherCode = 'PCC';
+  voucherCode = 'PCF';
   submitted = false;
   loading = false;
   disabled = false;
@@ -265,7 +268,7 @@ export class OtherMoneyTransferDetailComponent extends Grid<ReceiptDetail> imple
           this.commonService.showMessageByName(res.message);
         }
       });
-      this.ticketApiService.getVoucherNumber('PCCTran').subscribe(result => {
+      this.ticketApiService.getVoucherNumber('CDTran_PCF').subscribe(result => {
         this.data.masterInfo.so_ct = result.result as any;
         this.voucherForm = this.formBuilder.group({
           so_ct: [this.data.masterInfo.so_ct, Validators.required],
@@ -335,6 +338,7 @@ export class OtherMoneyTransferDetailComponent extends Grid<ReceiptDetail> imple
   }
 
   onSubmit() {
+    this.data.masterInfo.fcode2 = this.ma_ca_nhan;
     this.data.masterInfo.t_tien_nt = Number.parseInt(this.tien || '0');
     this.data.masterInfo.t_tt_nt = Number.parseInt(this.tien || '0');
     this.data.details[0].data = [{ ...this.data.details[0].data, line_nbr: 1, dien_giai: this.data.masterInfo.dien_giai, tien_nt: Number.parseInt(this.tien || '0'), tt_nt: Number.parseInt(this.tien || '0') }];

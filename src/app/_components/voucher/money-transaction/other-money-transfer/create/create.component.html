@@ -129,7 +129,7 @@
           [disabled]="disabled"
           [readonly]= "true"
           name="ten_kh"
-          [value]="'Ca tối'">
+          [value]="ma_ca_nhan + ' - ' + ten_ca_nhan">
         </app-input-custom-v2>
       </div>
       <!-- <div class="flex gap-2">
@@ -205,11 +205,11 @@
     <div class="pb-4 border-b-0.5 border-solid border-gray-300"></div>
     <div class="px-4 py-2 flex flex-1 justify-end">
       <div class="flex">
-        <app-voucher-info
+        <!-- <app-voucher-info
           *ngIf="this.mode != 0"
           [entity]="entity"
           class="text-base"
-          [voucherId]="data.masterInfo.stt_rec || ''" />
+          [voucherId]="data.masterInfo.stt_rec || ''" /> -->
         <div
           *ngIf="this.submitButtonTitle !== ''"
           #btnSubmit

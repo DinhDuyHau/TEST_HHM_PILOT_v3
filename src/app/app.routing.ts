@@ -538,10 +538,10 @@ const routes: Routes = [
   {
     path: 'voucher/other-money-transfer', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.CLOSE_SHIFT_PAYMENT, reuse: true } },
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.TRANSFER_SHIFT_PAYMENT, reuse: true } },
       { path: 'create', component: OtherMoneyTransferDetailComponent, canActivate: [AuthGuard] },
-      // { path: 'update', component: CloseShiftPaymentDetailComponent, canActivate: [AuthGuard] },
-      // { path: 'view', component: CloseShiftPaymentDetailComponent, canActivate: [AuthGuard] },
+      { path: 'update', component: OtherMoneyTransferDetailComponent, canActivate: [AuthGuard] },
+      { path: 'view', component: OtherMoneyTransferDetailComponent, canActivate: [AuthGuard] },
     ]
   },
   {

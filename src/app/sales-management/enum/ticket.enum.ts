@@ -44,7 +44,10 @@ export const TICKET_TYPE = {
     STOCK_COMPENSATION: 39,
 
     //xuất đền bù dịch vụ
-    SERVICE_COMPENSATION: 40
+    SERVICE_COMPENSATION: 40,
+
+    //chuyển tiền sang ca sau
+    TRANSFER_SHIFT_PAYMENT: 41
 };
 
 

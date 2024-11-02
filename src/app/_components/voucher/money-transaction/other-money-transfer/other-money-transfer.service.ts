@@ -25,7 +25,7 @@ export class OtherMoneyTransferService implements IGridService<Receipt> {
     const stt_rec = data[0].value;
     if (stt_rec) {
       return this.http.delete<Result<MasterInfo>>(environment.apiUrl +
-        '/voucher/delete/PCCTran?voucherId=' + stt_rec
+        '/voucher/delete/CDTran_PCF?voucherId=' + stt_rec
       ).pipe(map((res: any) => {
         if (res && res.success) {
           this.snack.open('Thực hiện thành công', 'Đóng', { duration: 5000 });
@@ -57,7 +57,7 @@ export class OtherMoneyTransferService implements IGridService<Receipt> {
     }
     if (!filter) {
       return this.http.get<Result<MasterInfo>>(environment.apiUrl +
-        '/voucher/gettop/PCCTran'
+        '/voucher/gettop/CDTran_PCF'
       ).pipe(map((res: any) => {
         res.result = {
           pageIndex: 1,
@@ -75,14 +75,14 @@ export class OtherMoneyTransferService implements IGridService<Receipt> {
         param += `&${item.name}=${item.value}`;
       });
       return this.http.post<Result<Receipt>>(environment.apiUrl +
-        `/voucher/find/PCCTran?page_index=${page.pageIndex + 1}&page_size=${page.pageSize}${param}`, {}
+        `/voucher/find/CDTran_PCF?page_index=${page.pageIndex + 1}&page_size=${page.pageSize}${param}`, {}
       ).pipe();
     }
   }
   getItem(id: string): Observable<Receipt> {
 
     return this.http.get<ResultDetailVoucher<Receipt>>(environment.apiUrl +
-      `/voucher/getbyid/PCCTran?id=${id}`
+      `/voucher/getbyid/CDTran_PCF?id=${id}`
     ).pipe(map((res) => {
       return res.result;
     }));
@@ -95,7 +95,7 @@ export class OtherMoneyTransferService implements IGridService<Receipt> {
   update(data: any): Observable<Receipt> {
 
     return this.http.put<any>(environment.apiUrl +
-      '/voucher/update/PCCTran'
+      '/voucher/update/CDTran_PCF'
       , data).pipe(
         catchError((error: any) => {
           // xử lý lỗi ở đây
@@ -112,7 +112,7 @@ export class OtherMoneyTransferService implements IGridService<Receipt> {
   create(data: any): Observable<Receipt> {
 
     return this.http.post<any>(environment.apiUrl +
-      '/voucher/addnew/PCCTran'
+      '/voucher/addnew/CDTran_PCF'
       , data).pipe(
         catchError((error: any) => {
           // xử lý lỗi ở đây

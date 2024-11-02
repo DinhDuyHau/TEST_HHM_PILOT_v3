@@ -397,6 +397,13 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.entityName = TICKET_ENTITY.CLOSE_SHIFT_PAYMENT;
         this.codeName = TICKET_CODE.CLOSE_SHIFT_PAYMENT;
         break;
+      case TICKET_TYPE.TRANSFER_SHIFT_PAYMENT:
+        this.columns = STOCK_FIELDS.TRANSFER_SHIFT_PAYMENT as Cell[];
+        this.title = 'Phiếu chuyển tiền sang ca sau';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.TRANSFER_SHIFT_PAYMENT;
+        this.codeName = TICKET_CODE.TRANSFER_SHIFT_PAYMENT;
+        break;
       case TICKET_TYPE.OTHER_PAYMENT:
         this.columns = STOCK_FIELDS.OTHER_PAYMENT as Cell[];
         this.title = 'Phiếu chi khác';

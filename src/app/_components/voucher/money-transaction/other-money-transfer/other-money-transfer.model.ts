@@ -47,5 +47,9 @@ export interface MasterInfo {
     t_tien_nt?: number,
     t_chie_nt?: number,
     t_tt_nt?: number,
+
+    //mã ca nhận
+    fcode2?: string,
+
     [key: string]: any
 }

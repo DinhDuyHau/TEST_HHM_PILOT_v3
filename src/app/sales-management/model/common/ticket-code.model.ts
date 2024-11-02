@@ -46,6 +46,9 @@ export const TICKET_CODE = {
     STOCK_COMPENSATION: 'XD1',
     //phiếu xuất đền bù dịch vụ
     SERVICE_COMPENSATION: 'XD2',
+
+    //phiếu chuyển tiền từ ca sáng sang ca tối
+    TRANSFER_SHIFT_PAYMENT: 'CDTran_PCF',
 };
 
 export const TICKET_ENTITY = {
@@ -93,5 +96,8 @@ export const TICKET_ENTITY = {
     STOCK_COMPENSATION: 'SVTran_XD1',
     //phiếu xuất đền bù dịch vụ
     SERVICE_COMPENSATION: 'SVTran_XD2',
+
+    //phiếu chuyển tiền từ ca sáng sang ca tối
+    TRANSFER_SHIFT_PAYMENT: 'CDTran_PCF',
 };
 

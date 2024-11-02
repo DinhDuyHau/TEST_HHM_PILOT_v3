@@ -260,6 +260,12 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
               return;
             }
 
+            //check trả lại đơn COD
+            if (this.isCODReturn && result.result.masterInfo && !result.result.masterInfo.cod_yn) {
+              this.commonService.showMessage('Imei bán ra trên đơn hàng không sử dụng COD, không thể nhập trả lại bằng giao dịch "Trả lại đơn COD"');
+              return;
+            }
+
             this.loadCustomerInfo(result.result.masterInfo.ma_kh);
             const merchandise = result.result.details[0].data;
 
