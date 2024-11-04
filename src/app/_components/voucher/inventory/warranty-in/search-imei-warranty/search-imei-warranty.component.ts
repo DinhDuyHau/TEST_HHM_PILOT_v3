@@ -24,8 +24,10 @@ export class SearchImeiWarrantyComponent implements OnInit {
   imei_xuat = '';
   ma_cuahang = '';
   item_code = '';
+
   isLoading = false;
   disabled = true;
+  isSearching = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { imei_nhap: string },
@@ -49,12 +51,17 @@ export class SearchImeiWarrantyComponent implements OnInit {
   }
 
   onSelect(): void {
-    if(!this.item_code) {
-      this.commonService.showMessage('Vui lòng chọn mã hàng');
+    const item = this.filteredData.filter((e: any) => e.selected);
+
+    if (item.length <= 0) {
+      this.commonService.showMessage('Vui lòng chọn imei');
       return;
     }
 
-    const item = this.filteredData.filter((e: any) => e.selected);
+    if (!this.item_code) {
+      this.commonService.showMessage('Vui lòng chọn mã hàng');
+      return;
+    }
 
     // kết quả trả lại form create
     const result = {
@@ -68,12 +75,12 @@ export class SearchImeiWarrantyComponent implements OnInit {
   async onEnterImeiXuat(event: any) {
     event.preventDefault();
 
-    if(event.target.value.length < 5) {
+    if (event.target.value.length < 5) {
       this.commonService.showMessage('Imei xuất cần ít nhất 5 ký tự để tìm kiếm');
       return;
     }
 
-    if(!event.target.value) {
+    if (!event.target.value) {
       this.commonService.showMessage('Vui lòng nhập imei tìm kiếm');
       return;
     }
@@ -93,36 +100,51 @@ export class SearchImeiWarrantyComponent implements OnInit {
   }
 
   async onSearchImeiExport() {
+    if (this.isSearching) {
+      this.commonService.showMessage('Đang tìm kiếm, vui lòng chờ...');
+      return;
+    }
+
+    this.isSearching = true;  // Bắt đầu tìm kiếm
     const user = this.authenticateService.userValue;
     this.ma_cuahang = user?.shop ?? '';
 
-    // tìm kiếm imei xuất
-    let result = await lastValueFrom(this.imeiService.searchImeiWarranty(this.imei_xuat, this.ma_cuahang));
+    try {
+      // tìm kiếm imei xuất
+      let result = await lastValueFrom(this.imeiService.searchImeiWarranty(this.imei_xuat, this.ma_cuahang));
 
-    if (result && Array.isArray(result.result)) {
-      result.result.forEach((item: any) => {
-        let ma_imei = item.ma_imei;
-        let so_ct_px = item.so_ct_px;
-        let ma_vt = item.ma_vt;
-        let ten_vt = item.ten_vt;
-        let ngay_ct_px = item.ngay_ct_px;
+      if (result && Array.isArray(result.result)) {
+        result.result.forEach((item: any) => {
+          let ma_imei = item.ma_imei;
+          let so_ct_px = item.so_ct_px;
+          let ma_vt = item.ma_vt;
+          let ten_vt = item.ten_vt;
+          let ngay_ct_px = item.ngay_ct_px;
 
-        this.addItem(ma_imei, so_ct_px, ngay_ct_px, ma_vt, ten_vt);
-      });
-    } else {
-      this.commonService.showMessage('Không tìm thấy kết quả phù hợp');
+          this.addItem(ma_imei, so_ct_px, ngay_ct_px, ma_vt, ten_vt);
+        });
+      } else {
+        this.commonService.showMessage('Không tìm thấy kết quả phù hợp');
+      }
+    } catch (error) {
+      this.commonService.showMessage('Có lỗi xảy ra khi tìm kiếm');
+    } finally {
+      this.isSearching = false; // Hoàn tất quá trình tìm kiếm
     }
-
   }
 
   addItem(ma_imei: string, so_ct_px?: string, ngay_ct_px?: Date, ma_vt?: string, ten_vt?: string) {
-    this.dataSource.push({
-      ma_imei,
-      so_ct_px,
-      ngay_ct_px,
-      ma_vt,
-      ten_vt,
-    });
+    // ko được đẩy vào mảng khi trùng ma_imei
+    const isDuplicate = this.dataSource.some(item => item.ma_imei === ma_imei);
+    if (!isDuplicate) {
+      this.dataSource.push({
+        ma_imei,
+        so_ct_px,
+        ngay_ct_px,
+        ma_vt,
+        ten_vt,
+      });
+    }
   }
 
   getLabel(label: string) {
@@ -169,10 +191,17 @@ export class SearchImeiWarrantyComponent implements OnInit {
   }
 
   onItemSelected(selectedItem: any) {
-    this.item_code = selectedItem.ma_vt;
-
-    this.filteredData.forEach((item) => {
-      item.selected = item === selectedItem;
-    });
+    if (this.item_code === selectedItem.ma_vt) {
+      this.item_code = '';
+      this.filteredData.forEach((item) => {
+        item.selected = false;
+      });
+    } else {
+      this.item_code = selectedItem.ma_vt;
+      this.filteredData.forEach((item) => {
+        item.selected = item === selectedItem;
+      });
+    }
   }
+
 }

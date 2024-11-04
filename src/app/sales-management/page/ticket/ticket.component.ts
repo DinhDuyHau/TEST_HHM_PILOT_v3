@@ -57,6 +57,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   isOnpenInFile = false;
   menu_report: MenuReport[] = [];
   select_item_current = '';
+  selected_status_row = '0';
 
   isAdvanceSearch = false;
   params: any;
@@ -527,6 +528,26 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   onClickInvoicePrint(option_report: MenuReport) {
     if (this.select_item_current && option_report.controller && option_report.form_id) {
+      /* Chặn in trạng thái lct theo phiếu */
+      // const ARRAY_VOURCHER = [
+      //   'SVTran_BHA',
+      //   'SVTran_BHC',
+      // ];
+      // if (ARRAY_VOURCHER.includes(option_report.controller)) {
+      //   // trạng thái lct ko được in
+      //   if (this.selected_status_row === '0') {
+      //     this.commonService.showMessage('Không thể in phiếu chưa hoàn thành');
+      //     return;
+      //   }
+      // }
+      /* END */
+
+      // trạng thái lct ko được in
+      if (this.selected_status_row === '0') {
+        this.commonService.showMessage('Không thể in phiếu chưa hoàn thành');
+        return;
+      }
+
       this.isLoading = true;
       option_report.controller = option_report.controller.trim();
       option_report.form_id = option_report.form_id.trim();
@@ -683,6 +704,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   onSelectMerchandise(event: any) {
     if (event.item && event.item.stt_rec) {
       this.select_item_current = event.item.stt_rec;
+      this.selected_status_row = event.item.status;
     }
   }
 }
