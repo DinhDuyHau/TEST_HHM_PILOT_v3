@@ -1,7 +1,7 @@
 [
   {
     "name": "ma_vt",
-    "title": "Mã vật tư",
+    "title": "Mã VT nhập",
     "isLockingColumn": true,
     "width": 120,
     "allowSorting": true,
@@ -10,7 +10,7 @@
   },
   {
     "name": "ten_vt",
-    "title": "Tên vật tư",
+    "title": "Tên VT nhập",
     "isLockingColumn": true,
     "width": 220
   },
