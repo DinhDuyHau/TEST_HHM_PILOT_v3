@@ -51,6 +51,7 @@ export class MerchandiseService {
         merchandiseNew.s5 = 0;
         //imei xuất bán
         merchandiseNew.gc_td1 = merchandise.gc_td1;
+        merchandiseNew.ma_td3 = merchandise.ma_cttc;
         merchandises.push(merchandiseNew);
     }
 

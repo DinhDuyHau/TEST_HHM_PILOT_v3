@@ -423,7 +423,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     if (!merchandise) {
       this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise_new_sale, Merchandise);
       if (this.ticket.merchandise_new_sale[0].ma_td3 === '') {
-        this.commonService.showMessage('Chương trình hỗ trợ không hợp lệ');
+        this.commonService.showMessage('Chương trình hỗ trợ không hợp lệ hoặc đã hết hạn');
         this.ticket.merchandise_new_sale = [];
         return;
       }
@@ -681,6 +681,14 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         const merchandise = result.result[0];
         this.handleAddImei(merchandise);
         // this.handleAddGuarantee(merchandise);
+
+        //update lại mã kho nhập tương ứng với imei trong tab hàng thu cũ
+        const imei_ban = sale_item.ma_imei.trim();
+        const ma_kho_nhap = sale_item.ma_kho_nhap;
+        if (imei_ban && imei_ban !== '' && ma_kho_nhap && ma_kho_nhap !== '') {
+          this.ticket.merchandise_used.find(x => x.gc_td1.trim() === imei_ban)!.ma_kho = ma_kho_nhap;
+        }
+
       } else {
         if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise_new_sale)) {
           this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: ma_imei });
