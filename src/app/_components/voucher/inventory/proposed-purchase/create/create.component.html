@@ -291,7 +291,7 @@
         <button
           *ngIf="this.submitButtonTitle !== '' && !readonly"
           #btnSubmit
-          type="submit"
+          type="button"
           (click)="onSubmit()"
           form=""
           [disabled]="disabled && isDisabled"
