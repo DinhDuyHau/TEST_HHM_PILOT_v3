@@ -68,6 +68,11 @@ export class SearchImeiWarrantyComponent implements OnInit {
   async onEnterImeiXuat(event: any) {
     event.preventDefault();
 
+    if(event.target.value.length < 5) {
+      this.commonService.showMessage('Imei xuất cần ít nhất 5 ký tự để tìm kiếm');
+      return;
+    }
+
     if(!event.target.value) {
       this.commonService.showMessage('Vui lòng nhập imei tìm kiếm');
       return;
@@ -104,6 +109,8 @@ export class SearchImeiWarrantyComponent implements OnInit {
 
         this.addItem(ma_imei, so_ct_px, ngay_ct_px, ma_vt, ten_vt);
       });
+    } else {
+      this.commonService.showMessage('Không tìm thấy kết quả phù hợp');
     }
 
   }
