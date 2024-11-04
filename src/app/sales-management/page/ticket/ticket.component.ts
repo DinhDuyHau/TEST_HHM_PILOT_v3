@@ -528,6 +528,20 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   onClickInvoicePrint(option_report: MenuReport) {
     if (this.select_item_current && option_report.controller && option_report.form_id) {
+      /* Chặn in trạng thái lct theo phiếu */
+      // const ARRAY_VOURCHER = [
+      //   'SVTran_BHA',
+      //   'SVTran_BHC',
+      // ];
+      // if (ARRAY_VOURCHER.includes(option_report.controller)) {
+      //   // trạng thái lct ko được in
+      //   if (this.selected_status_row === '0') {
+      //     this.commonService.showMessage('Không thể in phiếu chưa hoàn thành');
+      //     return;
+      //   }
+      // }
+      /* END */
+
       // trạng thái lct ko được in
       if (this.selected_status_row === '0') {
         this.commonService.showMessage('Không thể in phiếu chưa hoàn thành');
