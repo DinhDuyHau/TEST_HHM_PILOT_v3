@@ -1,7 +1,7 @@
 <div class="search-dialog-container">
     <div class="search-dialog-wrapper px-2">
         <div class="title mb-3">Tìm imei xuất</div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <app-input-custom-v2
                 class="flex-1"
                 [label]="'Imei nhập'"
@@ -9,17 +9,6 @@
                 [value]="data.imei_nhap"
                 name="imei_nhap"
             />
-
-            <app-input-custom-v2
-                class="flex-1"
-                [label]="'Mã hàng nhập'"
-                #ma_vt
-                name="ma_vt"
-                [value]="item_code"
-                [control]="itemService"
-                (handleChange)="this.item_code = $event"
-                [lookup]="true"
-                [reference]="[ma_vt]"></app-input-custom-v2>
 
             <app-input-custom-v2
                 class="flex-1"
@@ -48,8 +37,22 @@
             ></table-custom>
         </div>
 
-        <div class="d-flex justify-end gap-2 px-3">
-            <div class="btn-responsive btn-add" (click)="onSelect()">Chọn</div>
+        <div class="flex justify-content-between align-items-end">
+            <app-input-custom-v2
+              class="flex-1 lookup-vt"
+              [label]="'Mã hàng nhập'"
+              #ma_vt
+              name="ma_vt"
+              [value]="item_code"
+              [control]="itemService"
+              (handleChange)="this.item_code = $event"
+              [lookup]="true"
+              [readonly]="true"
+              [reference]="[ma_vt]"></app-input-custom-v2>
+
+            <div class="d-flex justify-end gap-2 px-3">
+                <div class="btn-responsive btn-add" (click)="onSelect()">Chọn</div>
+            </div>
         </div>
         <div class="close-btn" (click)="onCancel()">
             <i class="fas fa-times"></i>

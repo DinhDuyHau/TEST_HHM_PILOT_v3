@@ -77,7 +77,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
   entity = VOUCHER_TYPE.WARRANTY_IN.sysid;
 
   override gridType = GridType.GridDetail;
-  actionButtons = [button.EditQuantityButton, button.DeleteButton];
+  actionButtons = [button.DeleteButton];
   constructor(
     private formBuilder: FormBuilder,
     public returnSupplierDetailService: WarrantyInDetailService,
@@ -190,6 +190,12 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
   initData(stt_rec: string) {
     this.returnSupplier.getItem(stt_rec).subscribe((item => {
       item.masterInfo.ngay_ct = item.masterInfo.ngay_ct?.substring(0, 10);
+
+      // lấy ma_kho, ten_kho trong detail lên master
+      const firstDetail = item.details?.[0]?.data?.[0];
+      this.site_code = firstDetail?.ma_kho || item.masterInfo.ma_kho;
+      item.masterInfo.ten_kho = firstDetail?.ten_kho || item.masterInfo.ten_kho;
+
       this.data = item;
       this.voucherForm = this.formBuilder.group({
         so_ct: [this.data.masterInfo.so_ct, Validators.required],
@@ -198,6 +204,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
         ma_cuahang: [this.data.masterInfo.ma_cuahang, Validators.required],
         ten_cuahang: [this.ten_cuahang],
         ma_kh: [this.data.masterInfo.ma_kh, Validators.required],
+        ten_kho: [this.data.masterInfo.ten_kho],
         dien_giai: [this.data.masterInfo.dien_giai],
         ong_ba: [this.data.masterInfo.ong_ba],
         t_so_luong: [this.data.masterInfo.t_so_luong, Validators.required],
@@ -205,6 +212,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
         imei: [this.imei],
         detail: [this.data.details || [], Validators.required],
       });
+
       this.dataSource = new MatTableDataSource<ReceiptDetail>(this.data.details[0].data);
     }));
   }
@@ -595,7 +603,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
         ma_imei: doi_bh_yn ? imei : response.ma_imei,
         stt_rec0: '',
         line_nbr: this.data.details[0].data.length + 1,
-        ma_vt: response.ma_vt,
+        ma_vt: item_code || '',
         ten_vt: response.ten_vt,
         dvt: response.dvt,
         ma_kho: this.site_code !== '' ? this.site_code : response.ma_kho,
@@ -607,7 +615,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
         so_ct_px: (so_ct_px && so_ct_px !== '' ? so_ct_px : response.so_ct_px),
         stt_rec_px: stt_rec_px,
         doi_bh_yn: doi_bh_yn!,
-        ma_td1: item_code
+        ma_td1: response.ma_vt
       });
       this.calcTotal();
       this.dataSource.data = this.data.details[0].data;
