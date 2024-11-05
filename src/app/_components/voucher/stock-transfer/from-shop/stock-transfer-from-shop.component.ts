@@ -467,7 +467,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
     const merchandise = this.ticket.merchandise.filter(e => e.ma_vt === merchandiseResponse.ma_vt);
     if (merchandise && merchandise.length > 0 && merchandise[merchandise.length - 1].so_luong < this.M_QUANTITY_PER_ROW) {
       const i = merchandise.length - 1;
-      merchandise[i].ma_imei += `,${merchandiseResponse.ma_imei}`;
+      merchandise[i].ma_imei += (merchandise[i].ma_imei.trim() !== '' ? ',' : '') + merchandiseResponse.ma_imei;
       merchandise[i].so_luong = merchandise[i].ma_imei.split(",").length;
     }
     else {
