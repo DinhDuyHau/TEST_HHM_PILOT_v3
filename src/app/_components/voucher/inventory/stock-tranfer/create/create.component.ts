@@ -363,8 +363,8 @@ export class StockTranferCreateComponent extends Grid<ReceiptDetail> implements 
     this.stockTranferService.update(this.data).subscribe((item: any) => {
       this.loading = false;
       this.disabled = false;
-        this.isDisabled = false;
-        if (item.success) {
+      this.isDisabled = false;
+      if (item.success) {
         this.router.navigate(['..'], { relativeTo: this.route });
         this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         // this.commonService.clearImeiStorage();
