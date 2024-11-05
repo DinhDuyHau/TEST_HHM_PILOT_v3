@@ -263,6 +263,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
         }
       });
       this.ticketApiService.getVoucherNumber('PTHTran').subscribe(result => {
+        this.data.masterInfo.so_ct = result.result as any;
         this.voucherForm = this.formBuilder.group({
           so_ct: [this.data.masterInfo.so_ct, Validators.required],
           ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],

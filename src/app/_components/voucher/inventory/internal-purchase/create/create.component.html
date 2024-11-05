@@ -288,6 +288,7 @@
           type="button"
           (click)="!disabled && onSubmit()"
           [disabled]="disabled && isDisabled"
+          (click)="onSubmit()"
           class="submit px-4 py-1 text-white rounded min-w-button min-h-button bg-primary02_color hover:bg-primary01_color flex items-center justify-center border-0.5 border-solid border-gray-300">
           <span
             *ngIf="loading"
