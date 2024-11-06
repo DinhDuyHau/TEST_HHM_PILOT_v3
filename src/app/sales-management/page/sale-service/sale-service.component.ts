@@ -209,6 +209,10 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
 
     //#region service
     openSearchServiceDialog() {
+        if (this.ticket.masterInfo.ten_kh == '') {
+            this.commonService.showMessage('Mã khách hàng không được để trống');
+            return;
+        }
         this.commonService.openDialog(SearchDialogComponent,
             { keyword: '', componentName: SEARCH_COMPONENT_NAME.SERVICE })
             .afterClosed()
