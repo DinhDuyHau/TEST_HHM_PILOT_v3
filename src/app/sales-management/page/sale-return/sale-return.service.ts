@@ -159,7 +159,12 @@ export class SaleReturnService {
     removeMerchandise(merchandise: Merchandise) {
         this.merchandiseService.removeMerchandise(merchandise, this.ticket.merchandise);
         this.merchandiseService.removePromotionMerchandiseByOrderImei(merchandise.ma_imei, this.ticket.merchandise);
-        this.removeServiceAfterRemoveMerchandise(merchandise)
+
+        /*
+        * khi xóa hàng hóa tạm bỏ xóa dịch vụ
+        * this.removeServiceAfterRemoveMerchandise(merchandise)
+        */
+
         this.calcMoney();
         this.commonService.removeImeiFromStorage(merchandise.ma_imei);
         this.commonService.showMessage(Language.content.Delete_Completed);
@@ -167,7 +172,7 @@ export class SaleReturnService {
 
     // #endregion merchandise
 
-    //#region 
+    //#region
     removeServiceAfterRemoveMerchandise(merchandise: Merchandise) {
         this.serviceOfMerchandiseService.removeServiceAfterRemoveMerchandise(merchandise, this.ticket.service);
         this.calcMoney();
