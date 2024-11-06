@@ -627,6 +627,10 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   onChangeQuickSearchInput(value: string) {
     const params = {} as any;
+    if (this.entityName === TICKET_ENTITY.STOCK_TRANSFER_FROM_SHOP) {
+      params.PXB_2 = "true"
+    }
+    else { params.PXB_2 = "false" }
     params.so_ct = value;
     const userJson = localStorage.getItem('user');
     const userObj = userJson !== null && JSON.parse(userJson);
