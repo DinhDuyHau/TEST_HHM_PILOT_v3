@@ -365,7 +365,10 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
   }
 
   onEnterImeiCode(ma_imei: string) {
-
+    if (this.ticket.masterInfo.ten_kh == '') {
+      this.commonService.showMessage('Mã khách hàng không được để trống');
+      return;
+    }
     this.saleWithTelecomService.getImeiInStore(ma_imei).subscribe(result => {
       if (result.success && result.result.length) {
         if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise)) {
