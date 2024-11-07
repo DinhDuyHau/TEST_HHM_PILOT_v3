@@ -437,18 +437,6 @@ export class MerchandiseService {
         });
         //#endregion
 
-        //#region Chiết khấu 03 (chiết khấu hàng tặng hàng đã quy đổi sang tiền)
-        //áp dụng trực tiếp với các đúng imei được chiết khấu, không thực hiện phân bổ
-        const discountCK03 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.GIFT);
-        (discountCK03 as any).forEach((discount: any) => {
-            const result = (merchandiseUpdate as any[]).filter((merchandise: any) =>
-                this.compareMerchandiseCode(merchandise.ma_imei, discount.ma_imei) && !merchandise.km_yn
-            );
-            if (result && result.length > 0)
-                result[0].tien_ck += discount.tien_ck;
-        });
-        //#endregion
-
         //#region  phân bổ tiền chiết khấu vào trong chi tiết
         const discounts = ticket.discount.filter((e: any) =>
             // Không thực hiện phân bổ chiết khấu ngoại giao
