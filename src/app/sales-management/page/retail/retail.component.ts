@@ -697,7 +697,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const counter: { [key: string]: number } = {};
     for (const item of this.ticket.merchandise) {
       counter[item.ma_imei] = (counter[item.ma_imei] || 0) + 1;
-      if (counter[item.ma_imei] > 1) {
+      if (item.ma_imei && item.ma_imei.trim() !== '' && counter[item.ma_imei] > 1) {
         mechandise_dup.push(item.ma_imei);
       }
     }

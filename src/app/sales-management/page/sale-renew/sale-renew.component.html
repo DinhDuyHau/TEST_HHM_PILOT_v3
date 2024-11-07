@@ -399,6 +399,8 @@
     <div>
       <ng-container>
         <payment-tab
+          [action]="action"
+          [shop]="shop"
           [invalid]="invalid"
           [hiddenChooseButton]="mode === 2"
           [readonly]="readonly"

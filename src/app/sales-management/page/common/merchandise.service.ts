@@ -301,8 +301,9 @@ export class MerchandiseService {
         const discountForMerchandise06 = ticket.discount.filter(
             (e: any) => e.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO).sort((a: any, b: any) => { return -a.uu_tien + b.uu_tien; });
         const discount_valid: any[] = [];
-        (discountForMerchandise06 as any).forEach((discount: any) => {
+        for (const discount of discountForMerchandise06) {
             let flag = true;
+            if (!discount || !discount.details) continue;
 
             // Nhóm chiết khấu lại theo ma_ck, rec
             const group_discount: any[] = [];
@@ -419,7 +420,7 @@ export class MerchandiseService {
                     }
                 }
             }
-        });
+        };
         ticket.discount = ticket.discount.filter((x: any) => x.loai_ck !== DISCOUNT_TYPE.ACCESSORY_COMBO);
         ticket.discount.push(...discount_valid);
         //#endregion
@@ -428,6 +429,18 @@ export class MerchandiseService {
         //áp dụng trực tiếp với các đúng imei được chiết khấu, không thực hiện phân bổ
         const discountCK04 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER);
         (discountCK04 as any).forEach((discount: any) => {
+            const result = (merchandiseUpdate as any[]).filter((merchandise: any) =>
+                this.compareMerchandiseCode(merchandise.ma_imei, discount.ma_imei) && !merchandise.km_yn
+            );
+            if (result && result.length > 0)
+                result[0].tien_ck += discount.tien_ck;
+        });
+        //#endregion
+
+        //#region Chiết khấu 03 (chiết khấu hàng tặng hàng đã quy đổi sang tiền)
+        //áp dụng trực tiếp với các đúng imei được chiết khấu, không thực hiện phân bổ
+        const discountCK03 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.GIFT);
+        (discountCK03 as any).forEach((discount: any) => {
             const result = (merchandiseUpdate as any[]).filter((merchandise: any) =>
                 this.compareMerchandiseCode(merchandise.ma_imei, discount.ma_imei) && !merchandise.km_yn
             );
