@@ -555,6 +555,10 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     });
   }
   onChangeImei($event: any) {
+    if (this.ticket.masterInfo.ten_kh == '') {
+      this.commonService.showMessage('Mã khách hàng không được để trống');
+      return;
+    }
     this.renew.ma_imei = $event;
     this.imeiApiService.getImeisStateAndItem([$event]).subscribe((result) => {
       if (result && result.success && result.result && result.result[0]) {
@@ -578,6 +582,10 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
 
   //#region Enter tại ô imei bán ra
   onEnterImeiNewMerchandiseCode(ma_imei: string) {
+    if (this.ticket.masterInfo.ten_kh == '') {
+      this.commonService.showMessage('Mã khách hàng không được để trống');
+      return;
+    }
     if (this.renew && this.renew.ma_imei && this.renew.ma_imei !== '' && this.renew.ma_vt && this.renew.ma_vt !== ''
       && this.renew.ma_loai && this.renew.ma_loai !== '' && this.ticket.merchandise_used.length > 0) {
       this.commonService.showMessageByName('bhk_exists_old_imei_msg');
