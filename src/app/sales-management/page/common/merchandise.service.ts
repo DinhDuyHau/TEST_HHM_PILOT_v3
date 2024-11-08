@@ -520,8 +520,8 @@ export class MerchandiseService {
         });
 
         serviceUpdate.map((e: Service) => {
-            e.gia_ck = e.gia_ban - (e.tien_ck / (1 + (e.thue_suat / 100)));
-            e.thanh_tien = Math.round(e.gia_ck * e.so_luong);
+            e.gia_ck = Math.round(e.gia_ban - (e.tien_ck / (1 + (e.thue_suat / 100))));
+            e.thanh_tien = e.gia_ck * e.so_luong;
             // e.tien_thue = Math.round(e.thanh_tien * e.thue_suat / 100);
             // e.tien_thue = e.thanh_tien * e.thue_suat / 100;
             // e.tong_tien = this.commonService.rouding(e.thanh_tien + e.tien_thue, option);

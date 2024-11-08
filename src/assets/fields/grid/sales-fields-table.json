@@ -1425,7 +1425,8 @@
         },
         {
             "name": "ten_dv",
-            "title": "Tên dịch vụ"
+            "title": "Tên dịch vụ",
+            "width": "300px"
         },
         {
             "name": "km_yn",
@@ -1450,17 +1451,17 @@
         },
         {
             "name": "gia_ban",
-            "title": "Đơn giá",
-            "format": "moneyView2Digit",
+            "title": "Giá bán",
+            "format": "moneyViewNoDigit",
             "dataType": "number",
             "align": "right"
         },
         {
-            "name": "tien_ck",
-            "title": "Tiền chiết khấu",
-            "format": "moneyView2Digit",
-            "align": "right",
-            "dataType": "number"
+            "name": "gia_ck",
+            "title": "Giá đã CK",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
         },
         {
             "name": "so_luong",
@@ -1471,7 +1472,7 @@
         {
             "name": "thanh_tien",
             "title": "Thành tiền",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number",
             "align": "right"
         },
@@ -1484,9 +1485,16 @@
         {
             "name": "tien_thue",
             "title": "Tiền thuế",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number",
             "align": "right"
+        },
+        {
+            "name": "tien_ck",
+            "title": "Tiền chiết khấu",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
         },
         {
             "name": "tong_tien",
