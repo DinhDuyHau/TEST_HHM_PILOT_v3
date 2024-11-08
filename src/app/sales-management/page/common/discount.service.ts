@@ -79,6 +79,8 @@ export class DiscountService {
                 return this.convertDiscountForCrossSelling(discount);
             case DISCOUNT_TYPE.ACCESSORY_COMBO:
                 return this.convertDiscountForAccessoryCombo(discount);
+            case DISCOUNT_TYPE.SERVICE_DISCOUNT:
+              return this.convertDiscountForService(discount);
             default:
                 break;
         }
@@ -117,7 +119,7 @@ export class DiscountService {
 
         if (!isGridDiscount) {
             if (isGridItem && currentRowitem && currentRowitem.ma_imei) {
-                //Thực hiện gọi tính ck từ item trong grid => loại bỏ ck ngoại giao để thực hiện tính lại 
+                //Thực hiện gọi tính ck từ item trong grid => loại bỏ ck ngoại giao để thực hiện tính lại
                 //đối với các mã ck trong tab chiết khấu có imei áp dụng trùng với imei của dòng đang chọn => giữ lại ck
                 let discount_keep_adv = discounts.filter(e => e.loai_ck !== DISCOUNT_TYPE.GIFT);
                 discount_keep_adv = discount_keep_adv.filter(e => e.loai_ck !== DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||
@@ -238,6 +240,15 @@ export class DiscountService {
             const index = (discount.details as any[]).findIndex(e => e.ma_vt === detail.ma_vt);
             return index >= 0 && index !== i ? false : true;
         });
+        return discount;
+    }
+
+    convertDiscountForService(discount: any) {
+        if (!discount.items) return null;
+        discount.details = [...discount.items];
+        discount.tien_ck = discount.details[0].tien_ck || discount.details[0].tien_ck_tl;
+        delete discount.items;
+        discount.details = [discount.details[0]];
         return discount;
     }
 
