@@ -96,6 +96,8 @@
           [readonly]="readonly"
           [dataSource]="ticket.service"
           [columns]="serviceColumns"
+          [isTicket]="false"
+          (handleUpdate)="onUpdateService($event)"
           (handleDelete)="onRemoveService($event)"
           (handleChangeInput)="onChangeQuantity($event)" />
         <div class="flex gap-0 md:gap-4 lg:gap-8">

@@ -158,6 +158,8 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
         });
     }
 
+
+
     onEnterCustomerCode(ma_kh: string) {
         this.customerApiService.getOneById(ma_kh).subscribe(result => {
             if (result.success && result.result) {
@@ -230,6 +232,17 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
             this.saleServiceService.setInfoService(service);
         }
     }
+    openSaleServiceDialog() {
+        this.commonService.openDialog(SearchDialogComponent,
+            { keyword: '', componentName: SEARCH_COMPONENT_NAME.SERVICE })
+            .afterClosed()
+            .subscribe();
+    }
+
+    onUpdateService(event: { item: Service }) {
+        this.saleServiceService.updateServiceQuantity(event.item);
+    }
+
     // click button add service
     onRemoveService(event: { item: Service }) {
         this.saleServiceService.removeService(event.item, this.ticket);

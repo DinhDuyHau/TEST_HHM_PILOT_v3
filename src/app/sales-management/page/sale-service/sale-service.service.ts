@@ -13,6 +13,7 @@ import { MerchandiseServiceApiService } from '@app/sales-management/api/merchand
 import { MasterInfoRequest, ServiceRequest } from '@app/sales-management/model/ticket/sale-service/request.model';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { formatDate } from '@angular/common';
+import { SaleServiceDialogComponent } from './sale-service-dialog/sale-service-dialog.component';
 
 @Injectable({
     providedIn: 'root'
@@ -218,6 +219,13 @@ export class SaleServiceService {
             return true;
         }
         return false;
+    }
+
+    updateServiceQuantity(item: Service) {
+        this.commonService.openDialog(SaleServiceDialogComponent, { item }, 'fullscreen-dialog')
+            .afterClosed().subscribe(() => {
+                this.calcMoney();
+            });
     }
 
     // #endregion other

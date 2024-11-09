@@ -1,0 +1,28 @@
+<div class="bg-white p-4">
+    <div mat-dialog-title class="title">
+        Chỉnh sửa số lượng bán
+    </div>
+    <div mat-dialog-content>  
+        <div class="box-container mb-4">
+          <div class="box d-flex gap-2">
+            <form-input-custom
+              class="flex-1"
+              [label]="'Số lượng'"
+              [align]="'end'"
+              [value]="quantity"
+              format="normalQuantityVN"
+              dataType="number"
+              (handleChangeValue)="handleQuantity($event)"
+              (handleEnterInput)="onSelect()"/>
+            </div>
+        </div>
+  
+    <div mat-dialog-actions class="gap-3 justify-end ml-5">
+      <div class="d-flex justify-end gap-2 m-2">
+        <div class="btn-responsive btn-cancel" (click)="onCancel()">Hủy bỏ</div>
+        <div class="btn-responsive btn-add" (click)="onSelect()">Chọn</div>
+      </div>
+    </div>
+  </div>
+  
+    

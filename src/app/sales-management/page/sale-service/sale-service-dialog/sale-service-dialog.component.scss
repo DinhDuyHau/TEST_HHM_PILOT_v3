@@ -1,0 +1,51 @@
+.btn-cancel {
+    background-color: #ebedf2;
+    color: #262f3d;
+  }
+  
+  .btn-add {
+    background-color: #005447;
+    color: #fff;
+  }
+  
+  .btn-responsive {
+    font-size: 14px;
+    padding: 6px 27px;
+    border-radius: 5px;
+    white-space: nowrap;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  
+  
+  .search-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .search-input{
+    justify-content: space-between;
+  }
+  .inp-search{
+    margin-right: 8px;
+  }
+  .search-btn{
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .btn-search {
+    background-color: #005447;
+    color: #fff;
+    height: 50%;
+  }
+  .title {
+    font-family: 'Arial', sans-serif; /* Font chữ */
+    font-size: 18px; /* Kích thước chữ */
+    font-weight: bold; /* Đậm chữ */
+    padding-bottom: 10px; /* Khoảng cách dưới chữ */
+    margin-top: 20px; /* Khoảng cách trên chữ */
+}
+  
+  
