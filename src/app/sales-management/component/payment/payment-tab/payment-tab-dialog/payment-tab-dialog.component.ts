@@ -137,10 +137,10 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     this.onChange();
 
     // xử lý param shop theo action
-    if(this.dataPayment.action === 'create') {
+    if (this.dataPayment.action === 'create') {
       this.shop = this.authenticateService.userValue?.shop ?? '';
     }
-    if(this.dataPayment.action === 'update') {
+    if (this.dataPayment.action === 'update') {
       this.shop = this.dataPayment.shop ?? this.authenticateService.userValue?.shop;
     }
   }

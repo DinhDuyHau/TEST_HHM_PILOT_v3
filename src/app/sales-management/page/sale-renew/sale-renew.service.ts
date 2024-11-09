@@ -363,7 +363,8 @@ export class SaleRenewService {
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_TICKET ||
                 discount.loai_ck === DISCOUNT_TYPE.CROSS_SELLING ||
-                discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO
+                discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO ||
+                discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT
             ) {
                 if (discount.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && row_item) {
                     //Nếu chọn chiết khấu ngoại giao thì cần phải chọn dòng trong grid hàng hóa để áp dụng ck
@@ -485,6 +486,7 @@ export class SaleRenewService {
             .map(e => e.gia_ban)
             .reduce((pre, cur) => pre + cur, 0);
 
+        console.log(merchandiseUsedMoney)
         this.ticket.masterInfo.t_tc_tien_nt2 = merchandiseUsedMoney;
         this.ticket.masterInfo.t_tien_thu_cu = merchandiseUsedMoney;
         this.ticket.masterInfo.t_tien_thu_cu_nt = merchandiseUsedMoney;

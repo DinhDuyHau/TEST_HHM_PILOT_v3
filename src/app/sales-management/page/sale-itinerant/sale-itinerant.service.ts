@@ -344,8 +344,9 @@ export class SaleItinerantService {
             if (discount.loai_ck === DISCOUNT_TYPE.REDUTION_BY_MERCHANDISE_CODE ||
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_TICKET ||
-                discount.loai_ck == DISCOUNT_TYPE.CROSS_SELLING ||
-                discount.loai_ck == DISCOUNT_TYPE.ACCESSORY_COMBO
+                discount.loai_ck === DISCOUNT_TYPE.CROSS_SELLING ||
+                discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO ||
+                discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT
             ) {
                 this.discountService.addNew([discount], this.ticket.discount);
             }

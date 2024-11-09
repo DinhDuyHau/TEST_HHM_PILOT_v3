@@ -167,7 +167,7 @@ export class SaleReturnService {
 
     // #endregion merchandise
 
-    //#region 
+    //#region
     removeServiceAfterRemoveMerchandise(merchandise: Merchandise) {
         this.serviceOfMerchandiseService.removeServiceAfterRemoveMerchandise(merchandise, this.ticket.service);
         this.calcMoney();

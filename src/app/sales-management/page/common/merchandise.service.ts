@@ -173,6 +173,30 @@ export class MerchandiseService {
             }
         });
 
+        // Lấy chi tiết chiết khấu loại 08: Chiết khấu giá trị theo mã dịch vụ để cộng vào chi tiết chiết khấu
+        const discountForMerchandise08 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT);
+        (discountForMerchandise08 as any).forEach((discount: any) => {
+            if (discount.details) {
+                discount.details.forEach((detail: any) => {
+                    const { ma_dv } = detail;
+                    const result = (serviceUpdate as any[]).filter((service: any) => this.compareMerchandiseCode(service.ma_dv, ma_dv) && !service.km_yn);
+
+                    // Tổng tiền dịch vụ của phiếu có trong chiết khấu
+                    const t_tien = result.map(e => e.gia_ban * e.so_luong).reduce((pre: any, cur: any) => pre + cur, 0);
+                    let total = 0;
+                    result.forEach((e: Service, index) => {
+                        if (index === serviceUpdate.length - 1) {
+                            e.tien_ck += detail.tien_ck - total;
+                        } else {
+                            const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
+                            e.tien_ck += money;
+                            total += money;
+                        }
+                    });
+                });
+            }
+        });
+
         //#region Chiết khấu 05
         // Lấy chi tiết chiết khấu loại 05: Chiết khấu hàng tặng kèm
         const discountForMerchandise05 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.CROSS_SELLING).sort((a: any, b: any) => { return -a.uu_tien + b.uu_tien; });
@@ -301,8 +325,9 @@ export class MerchandiseService {
         const discountForMerchandise06 = ticket.discount.filter(
             (e: any) => e.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO).sort((a: any, b: any) => { return -a.uu_tien + b.uu_tien; });
         const discount_valid: any[] = [];
-        (discountForMerchandise06 as any).forEach((discount: any) => {
+        for (const discount of discountForMerchandise06) {
             let flag = true;
+            if (!discount || !discount.details) continue;
 
             // Nhóm chiết khấu lại theo ma_ck, rec
             const group_discount: any[] = [];
@@ -419,7 +444,7 @@ export class MerchandiseService {
                     }
                 }
             }
-        });
+        };
         ticket.discount = ticket.discount.filter((x: any) => x.loai_ck !== DISCOUNT_TYPE.ACCESSORY_COMBO);
         ticket.discount.push(...discount_valid);
         //#endregion
@@ -485,7 +510,7 @@ export class MerchandiseService {
             /**
              * 2024-05-15: cài đặt công thức tính tổng thanh toán và tiền thuế như sau
              *      tổng thanh toán = giá full vat x số lượng - tiền chiết khấu
-             *      thuế = tổng thanh toán - thành tiền 
+             *      thuế = tổng thanh toán - thành tiền
              */
             e.thanh_toan = (e.gia_vat * e.so_luong) - e.tien_ck;
             e.tien_thue = e.thanh_toan - e.thanh_tien;
@@ -495,8 +520,8 @@ export class MerchandiseService {
         });
 
         serviceUpdate.map((e: Service) => {
-            e.gia_ck = e.gia_ban - (e.tien_ck / (1 + (e.thue_suat / 100)));
-            e.thanh_tien = Math.round(e.gia_ck * e.so_luong);
+            e.gia_ck = Math.round(e.gia_ban - (e.tien_ck / (1 + (e.thue_suat / 100))));
+            e.thanh_tien = e.gia_ck * e.so_luong;
             // e.tien_thue = Math.round(e.thanh_tien * e.thue_suat / 100);
             // e.tien_thue = e.thanh_tien * e.thue_suat / 100;
             // e.tong_tien = this.commonService.rouding(e.thanh_tien + e.tien_thue, option);
@@ -504,7 +529,7 @@ export class MerchandiseService {
             /**
              * 2024-05-15: cài đặt công thức tính tổng thanh toán và tiền thuế như sau
              *      tổng thanh toán = giá full vat x số lượng - tiền chiết khấu
-             *      thuế = tổng thanh toán - thành tiền 
+             *      thuế = tổng thanh toán - thành tiền
              */
             e.tong_tien = (e.gia_vat * e.so_luong) - e.tien_ck;
             e.tien_thue = e.tong_tien - e.thanh_tien;
@@ -621,6 +646,30 @@ export class MerchandiseService {
                         }
                         // e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
                         // e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
+                    });
+                });
+            }
+        });
+
+        // Lấy chi tiết chiết khấu loại 08: Chiết khấu giá trị theo mã dịch vụ để cộng vào chi tiết chiết khấu
+        const discountForMerchandise08 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT);
+        (discountForMerchandise08 as any).forEach((discount: any) => {
+            if (discount.details) {
+                discount.details.forEach((detail: any) => {
+                    const { ma_dv } = detail;
+                    const result = (serviceUpdate as any[]).filter((service: any) => this.compareMerchandiseCode(service.ma_dv, ma_dv) && !service.km_yn);
+
+                    // Tổng tiền dịch vụ của phiếu có trong chiết khấu
+                    const t_tien = result.map(e => e.gia_ban * e.so_luong).reduce((pre: any, cur: any) => pre + cur, 0);
+                    let total = 0;
+                    result.forEach((e: Service, index) => {
+                        if (index === serviceUpdate.length - 1) {
+                            e.tien_ck += detail.tien_ck - total;
+                        } else {
+                            const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
+                            e.tien_ck += money;
+                            total += money;
+                        }
                     });
                 });
             }
@@ -934,7 +983,7 @@ export class MerchandiseService {
             /**
              * 2024-05-15: cài đặt công thức tính tổng thanh toán và tiền thuế như sau
              *      tổng thanh toán = giá full vat x số lượng - tiền chiết khấu
-             *      thuế = tổng thanh toán - thành tiền 
+             *      thuế = tổng thanh toán - thành tiền
              */
             //e.thanh_toan = (e.gia_vat * e.so_luong) - e.tien_ck;
             //e.tien_thue = e.thanh_toan - e.thanh_tien;
@@ -953,7 +1002,7 @@ export class MerchandiseService {
             /**
              * 2024-05-15: cài đặt công thức tính tổng thanh toán và tiền thuế như sau
              *      tổng thanh toán = giá full vat x số lượng - tiền chiết khấu
-             *      thuế = tổng thanh toán - thành tiền 
+             *      thuế = tổng thanh toán - thành tiền
              */
             e.tong_tien = (e.gia_vat * e.so_luong) - e.tien_ck;
             e.tien_thue = e.tong_tien - e.thanh_tien;
@@ -1005,6 +1054,30 @@ export class MerchandiseService {
                         }
                         // e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
                         // e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
+                    });
+                });
+            }
+        });
+
+        // Lấy chi tiết chiết khấu loại 08: Chiết khấu giá trị theo mã dịch vụ để cộng vào chi tiết chiết khấu
+        const discountForMerchandise08 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT);
+        (discountForMerchandise08 as any).forEach((discount: any) => {
+            if (discount.details) {
+                discount.details.forEach((detail: any) => {
+                    const { ma_dv } = detail;
+                    const result = (serviceUpdate as any[]).filter((service: any) => this.compareMerchandiseCode(service.ma_dv, ma_dv) && !service.km_yn);
+
+                    // Tổng tiền dịch vụ của phiếu có trong chiết khấu
+                    const t_tien = result.map(e => e.gia_ban * e.so_luong).reduce((pre: any, cur: any) => pre + cur, 0);
+                    let total = 0;
+                    result.forEach((e: Service, index) => {
+                        if (index === serviceUpdate.length - 1) {
+                            e.tien_ck += detail.tien_ck - total;
+                        } else {
+                            const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
+                            e.tien_ck += money;
+                            total += money;
+                        }
                     });
                 });
             }
@@ -1329,7 +1402,7 @@ export class MerchandiseService {
             /**
              * 2024-05-15: cài đặt công thức tính tổng thanh toán và tiền thuế như sau
              *      tổng thanh toán = giá full vat x số lượng - tiền chiết khấu
-             *      thuế = tổng thanh toán - thành tiền 
+             *      thuế = tổng thanh toán - thành tiền
              */
             e.tong_tien = (e.gia_vat * e.so_luong) - e.tien_ck;
             e.tien_thue = e.tong_tien - e.thanh_tien;

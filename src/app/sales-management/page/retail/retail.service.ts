@@ -450,7 +450,8 @@ export class RetailService {
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_TICKET ||
                 discount.loai_ck === DISCOUNT_TYPE.CROSS_SELLING ||
-                discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO
+                discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO ||
+                discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT
             ) {
                 if (discount.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && row_item) {
                     //Nếu chọn chiết khấu ngoại giao thì cần phải chọn dòng trong grid hàng hóa để áp dụng ck
@@ -468,7 +469,7 @@ export class RetailService {
         this.calcMoney();
     }
 
-    /* Loại bỏ cách tính chiết khấu khi thêm mới hoặc xoá bỏ của team cũ làm --> thay bằng hàm updateDiscount 
+    /* Loại bỏ cách tính chiết khấu khi thêm mới hoặc xoá bỏ của team cũ làm --> thay bằng hàm updateDiscount
         addDiscount(discounts: Discount[]) {
             discounts.forEach(discount => {
                 if (discount.loai_ck === DISCOUNT_TYPE.REDUTION_BY_MERCHANDISE_CODE ||
@@ -622,11 +623,11 @@ export class RetailService {
         this.ticket.masterInfo.t_thue_nt = serviceTax + merchandiseTax;
         this.ticket.masterInfo.t_ck = this.ticket.discount.map(e => e.tien_ck).reduce((pre, cur) => pre + cur, 0);
         this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt;
-        this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt, this.option);
+        // this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt, this.option);
         this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
 
         this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra - this.ticket.masterInfo.tien_coc;
-        this.ticket.masterInfo.t_con_no = this.commonService.rouding(this.ticket.masterInfo.t_con_no, this.option);
+        // this.ticket.masterInfo.t_con_no = this.commonService.rouding(this.ticket.masterInfo.t_con_no, this.option);
 
         this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);
 
