@@ -22,6 +22,14 @@
     "width": 120
   },
   {
+    "name": "hang_moi_yn",
+    "title": "Hàng mới",
+    "type": "boolean",
+    "align": "center",
+    "dataFormatString": "normalQuantity",
+    "width": 100
+  },
+  {
     "name": "doi_bh_yn",
     "title": "Đổi máy",
     "type": "boolean",

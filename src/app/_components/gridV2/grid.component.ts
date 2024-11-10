@@ -114,6 +114,7 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
   statusList: StatusTicket[] = [];
 
   selected_row_item: any;
+  @Input() enabledCheckboxColumns: string[] = [];
 
   constructor(
     library: FaIconLibrary,

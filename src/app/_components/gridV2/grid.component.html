@@ -319,7 +319,7 @@
                   'hover:text-green-600':
                     (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
                   'font-medium': element['sysbold'] === 1,
-                  
+
                 }"
                 type="text"
                 [name]="column.name"
@@ -342,7 +342,7 @@
                     (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
                   'hover:text-green-600':
                     (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
-                  'font-medium': element['sysbold'] === 1,                  
+                  'font-medium': element['sysbold'] === 1,
                 }"
                 type="text"
                 [name]="column.name"
@@ -424,7 +424,7 @@
                 'hover:text-green-600': (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
               }">
               <mat-checkbox
-                [disabled]="column.type === 'boolean'"
+                [disabled]="column.type === 'boolean' && !enabledCheckboxColumns.includes(column.name)"
                 [(ngModel)]="element[column.name]"
                 (change)="
                   onCheckboxChange(
