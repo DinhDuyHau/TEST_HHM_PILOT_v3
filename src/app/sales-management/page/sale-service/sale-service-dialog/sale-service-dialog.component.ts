@@ -26,10 +26,22 @@ export class SaleServiceDialogComponent {
   handleQuantity(quantity: any) {
     this.quantity = quantity;
   }
+  //Kiểm tra và loại bỏ số '0' ở đầu
+  handleInput(event: any): void {
+    let newValue = event.target.value;
+    if (newValue && newValue[0] === '0' && newValue.length > 1) {
+      newValue = newValue.replace(/^0+/, '');
+    }
+    this.quantity = newValue;
+  }
   onCancel() {
     this.dialogRef.close(0);
   }
   onSelect(): void {
+    if (this.quantity == 0) {
+      this.commonService.showMessage('Số lượng phải lớn hơn 0');
+      return;
+    }
     this.data.item.so_luong = this.quantity;
     this.data.item.thanh_tien = Math.round(this.data.item.gia_ban * this.data.item.so_luong);
     this.data.item.tong_tien = this.data.item.gia_vat * this.data.item.so_luong;
