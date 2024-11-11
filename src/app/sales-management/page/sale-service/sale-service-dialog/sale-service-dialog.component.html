@@ -10,8 +10,9 @@
               [label]="'Số lượng'"
               [align]="'end'"
               [value]="quantity"
-              format="normalQuantityVN"
+              format="'normalQuantityVN'"
               dataType="number"
+              (input)="handleInput($event)"
               (handleChangeValue)="handleQuantity($event)"
               (handleEnterInput)="onSelect()"/>
             </div>
