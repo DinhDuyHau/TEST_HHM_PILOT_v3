@@ -515,8 +515,8 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
       this.addItem(imei, imei, this.so_ct_px, this.stt_rec_px, this.ngay_ct_px, result, false, this.item_code, this.item_name, false).then((flag) => {
         if (flag) {
           this.imei = '';
-          this.site_code = '';
-          this.data.masterInfo['ten_kho'] = '';
+          // this.site_code = '';
+          // this.data.masterInfo['ten_kho'] = '';
           this.item_code = '';
           this.item_name = '';
         }
@@ -541,8 +541,8 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
               this.addItem(imei, this.imei_xuat, this.so_ct_px, this.stt_rec_px, this.ngay_ct_px, result, true, this.item_code, this.item_name, true).then((flag) => {
                 if (flag) {
                   this.imei = '';
-                  this.site_code = '';
-                  this.data.masterInfo['ten_kho'] = '';
+                  // this.site_code = '';
+                  // this.data.masterInfo['ten_kho'] = '';
                   this.item_code = '';
                   this.item_name = '';
                 }
