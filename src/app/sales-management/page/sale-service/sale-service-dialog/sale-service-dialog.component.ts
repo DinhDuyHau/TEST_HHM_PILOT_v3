@@ -20,8 +20,8 @@ export class SaleServiceDialogComponent {
   ) {
   }
   ngOnInit(): void {
-    console.log(this.data.item)
     this.quantity = this.data.item.so_luong;
+    this.data.item.gia_vat = this.data.item.tong_tien / this.data.item.so_luong
   }
   handleQuantity(quantity: any) {
     this.quantity = quantity;
