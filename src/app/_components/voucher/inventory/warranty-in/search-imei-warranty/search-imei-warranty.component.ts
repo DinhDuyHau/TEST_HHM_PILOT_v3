@@ -24,6 +24,7 @@ export class SearchImeiWarrantyComponent implements OnInit {
   imei_xuat = '';
   ma_cuahang = '';
   item_code = '';
+  item_name = '';
 
   isLoading = false;
   disabled = true;
@@ -67,6 +68,7 @@ export class SearchImeiWarrantyComponent implements OnInit {
     const result = {
       item: item,
       item_code: this.item_code,
+      item_name: this.item_name,
     };
 
     this.dialogRef.close(result);
@@ -127,7 +129,8 @@ export class SearchImeiWarrantyComponent implements OnInit {
         this.commonService.showMessage('Không tìm thấy kết quả phù hợp');
       }
     } catch (error) {
-      this.commonService.showMessage('Có lỗi xảy ra khi tìm kiếm');
+      let msg_error = error || 'Runtime_err';
+      this.commonService.showMessageByName(`${msg_error}`);
     } finally {
       this.isSearching = false; // Hoàn tất quá trình tìm kiếm
     }
@@ -193,15 +196,21 @@ export class SearchImeiWarrantyComponent implements OnInit {
   onItemSelected(selectedItem: any) {
     if (this.item_code === selectedItem.ma_vt) {
       this.item_code = '';
+      this.item_name = '';
       this.filteredData.forEach((item) => {
         item.selected = false;
       });
     } else {
       this.item_code = selectedItem.ma_vt;
+      this.item_name = selectedItem.ten_vt;
       this.filteredData.forEach((item) => {
         item.selected = item === selectedItem;
       });
     }
   }
 
+  onSelectedItem(selectedItem: any) {
+    this.item_code = selectedItem.result?.ma_vt || '';
+    this.item_name = selectedItem.result?.ten_vt || '';
+  }
 }

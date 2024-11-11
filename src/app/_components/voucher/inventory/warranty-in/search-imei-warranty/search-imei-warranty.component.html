@@ -45,7 +45,7 @@
               name="ma_vt"
               [value]="item_code"
               [control]="itemService"
-              (handleChange)="this.item_code = $event"
+              (handleChangeResponse)="onSelectedItem($event);"
               [lookup]="true"
               [readonly]="true"
               [reference]="[ma_vt]"></app-input-custom-v2>

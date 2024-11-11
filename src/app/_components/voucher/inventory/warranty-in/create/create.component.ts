@@ -508,8 +508,11 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
     let result = await lastValueFrom(this.imeiService.getWarrantyOutInfo(imei, this.ma_cuahang));
     //Nếu tồn tại thông tin xuất bảo hành tương ứng với imei nhập => imei trả bảo hành khớp với imei xuất ra đi bảo hành
     if (result && result.result && result.result.length > 0) {
+      this.item_code = result.result[0].ma_vt || '';
+      this.item_name = result.result[0].ten_vt || '';
+
       //add imei vào grid
-      this.addItem(imei, imei, this.so_ct_px, this.stt_rec_px, this.ngay_ct_px, result, false, this.item_code, this.item_name).then((flag) => {
+      this.addItem(imei, imei, this.so_ct_px, this.stt_rec_px, this.ngay_ct_px, result, false, this.item_code, this.item_name, false).then((flag) => {
         if (flag) {
           this.imei = '';
           this.site_code = '';
@@ -531,10 +534,11 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
             // lấy thông tin imei xuất chọn trong dialog và số c.từ px nhập trên form để mapping vào trong grid chi tiết
             if (response && response.item && response.item[0].ma_imei) {
               this.item_code = response.item_code;
+              this.item_name = response.item_name;
               this.imei_xuat = response.item[0]?.ma_imei;
               result = await lastValueFrom(this.imeiService.getWarrantyOutInfo(this.imei_xuat, this.ma_cuahang));
 
-              this.addItem(imei, this.imei_xuat, this.so_ct_px, this.stt_rec_px, this.ngay_ct_px, result, true, this.item_code, this.item_name).then((flag) => {
+              this.addItem(imei, this.imei_xuat, this.so_ct_px, this.stt_rec_px, this.ngay_ct_px, result, true, this.item_code, this.item_name, true).then((flag) => {
                 if (flag) {
                   this.imei = '';
                   this.site_code = '';
@@ -549,7 +553,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
     }
   }
 
-  async addItem(imei: string, imei_px: string, so_ct_px?: string, stt_rec_px?: string, ngay_ct_px?: Date, out_data?: any, doi_bh_yn?: boolean, item_code?: string, item_name?: string) {
+  async addItem(imei: string, imei_px: string, so_ct_px?: string, stt_rec_px?: string, ngay_ct_px?: Date, out_data?: any, doi_bh_yn?: boolean, item_code?: string, item_name?: string, hang_moi_yn?: boolean,) {
     if (!doi_bh_yn && this.data.details[0].data.find(x => x.ma_imei.trim() === imei.trim())) {
       this.commonService.showMessageByNameAdvance('lblWarningExistImei', { name: '%imei', value: imei });
       return;
@@ -604,7 +608,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
         stt_rec0: '',
         line_nbr: this.data.details[0].data.length + 1,
         ma_vt: item_code || '',
-        ten_vt: response.ten_vt,
+        ten_vt: item_name || '',
         dvt: response.dvt,
         ma_kho: this.site_code !== '' ? this.site_code : response.ma_kho,
         so_luong: 1,
@@ -615,6 +619,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
         so_ct_px: (so_ct_px && so_ct_px !== '' ? so_ct_px : response.so_ct_px),
         stt_rec_px: stt_rec_px,
         doi_bh_yn: doi_bh_yn!,
+        hang_moi_yn: hang_moi_yn!,
         ma_td1: response.ma_vt
       });
       this.calcTotal();
@@ -656,5 +661,12 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);
+  }
+
+  /*
+  * Enable checkbox in grid
+  */
+  get enabledCheckboxColumns() {
+    return this.disabled ? [] : ['hang_moi_yn'];
   }
 }
