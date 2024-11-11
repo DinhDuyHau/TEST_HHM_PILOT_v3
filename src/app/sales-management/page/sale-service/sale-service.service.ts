@@ -42,7 +42,7 @@ export class SaleServiceService {
         this.ticket.masterInfo = this.commonService.convertMasterInfoFromVoucher(data.masterInfo, MasterInfo);
         this.customerApiService.getOneById(data.masterInfo.ma_kh).subscribe(result => {
             const customer = result.result as any;
-            this.ticket.masterInfo.ten_kh = customer.ma_kh;
+            this.ticket.masterInfo.ten_kh = customer.ten_kh;
             this.ticket.masterInfo.dia_chi = customer.dia_chi;
         });
 
