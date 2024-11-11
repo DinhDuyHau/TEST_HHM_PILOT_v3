@@ -381,7 +381,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
         // const discount = merchandiseResponse.promotions.length && this.discountService.convertDiscount(discount_temp);
         if (discount) {
           this.discountService.attachImeiForDiscount(merchandiseResponse.ma_imei, discount);
-          const discountInDetail = this.ticket.discount.find(x => x.ma_ck.trim() === discount.ma_ck.trim());
+          const discountInDetail = this.ticket.discount.find(x => x.ma_ck.trim() === discount.ma_ck.trim() && x.ma_imei.trim() === discount.ma_imei.trim());
           if (!discountInDetail) {
             this.discountService.addNew([discount], this.ticket.discount);
           }

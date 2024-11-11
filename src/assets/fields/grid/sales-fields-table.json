@@ -82,6 +82,10 @@
             "title": "Tên loại chiết khấu"
         },
         {
+            "name": "ma_imei",
+            "title": "Imei"
+        },
+        {
             "name": "tien_ck",
             "title": "Tiền chiết khấu",
             "dataType": "number",

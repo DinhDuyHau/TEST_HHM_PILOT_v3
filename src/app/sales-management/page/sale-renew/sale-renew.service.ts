@@ -486,7 +486,6 @@ export class SaleRenewService {
             .map(e => e.gia_ban)
             .reduce((pre, cur) => pre + cur, 0);
 
-        console.log(merchandiseUsedMoney)
         this.ticket.masterInfo.t_tc_tien_nt2 = merchandiseUsedMoney;
         this.ticket.masterInfo.t_tien_thu_cu = merchandiseUsedMoney;
         this.ticket.masterInfo.t_tien_thu_cu_nt = merchandiseUsedMoney;

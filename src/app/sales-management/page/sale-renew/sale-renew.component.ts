@@ -1102,7 +1102,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
             if (result && result.success && result.result) {
               const tien_max = Number(result.result[0].tien_dc_max);
               const tien_min = Number(result.result[0].tien_dc_min);
-              const tien_ht = Number(result.result[0].tien_ht);
+              const tien_ht = Math.round(Number(result.result[0].tien_ht));
               const gia_dc = Number(res.gia_dc);
               const ma_gd_tcdm = sale_item?.ma_gd_tcdm;
 

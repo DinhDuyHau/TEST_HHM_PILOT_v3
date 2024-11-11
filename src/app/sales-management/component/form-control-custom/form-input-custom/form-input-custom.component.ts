@@ -51,6 +51,7 @@ export class FormInputCustomComponent implements OnChanges, OnInit {
 
   @Input() isLookup = false;
   @Input() controller = '';
+  @Input() fireChangeWhenBlur = true;
 
   @ViewChild('ref') input!: ElementRef;
 
@@ -70,7 +71,9 @@ export class FormInputCustomComponent implements OnChanges, OnInit {
   }
 
   async onBlur(value: string) {
-    this.onChangeValue();
+    if (this.fireChangeWhenBlur) {
+      this.onChangeValue();
+    }
     let item: any = null;
     if (this.isLookup && this.controller && this.controller !== '') {
       this.lookupService.controller = this.controller;
