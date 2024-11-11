@@ -63,6 +63,15 @@
             "align": "right",
             "format": "moneyView2Digit",
             "dataType": "number"
+        },
+        {
+            "name": "name",
+            "title": "Người lập"
+        },
+        {
+            "name": "datetime0",
+            "title": "Thời gian lập",
+            "format": "fullDateTimeFormat"
         }
     ],
     "SALE_ONLINE": [
@@ -123,10 +132,19 @@
         },
         {
             "name": "t_tt_nt",
-            "title": "Thanh toán ",
+            "title": "Thanh toán hihi",
             "align": "right",
             "format": "moneyView2Digit",
             "dataType": "number"
+        },
+        {
+            "name": "name",
+            "title": "Người lập"
+        },
+        {
+            "name": "datetime0",
+            "title": "Thời gian lập",
+            "format": "fullDateTimeFormat"
         }
     ],
     "SALE_ONLINE_ECOMMERCE": [
@@ -191,6 +209,15 @@
             "align": "right",
             "format": "moneyView2Digit",
             "dataType": "number"
+        },
+        {
+            "name": "name",
+            "title": "Người lập"
+        },
+        {
+            "name": "datetime0",
+            "title": "Thời gian lập",
+            "format": "fullDateTimeFormat"
         }
     ],
     "SALE_WHOLE": [
@@ -315,6 +342,15 @@
             "align": "right",
             "format": "moneyView2Digit",
             "dataType": "number"
+        },
+        {
+            "name": "name",
+            "title": "Người lập"
+        },
+        {
+            "name": "datetime0",
+            "title": "Thời gian lập",
+            "format": "fullDateTimeFormat"
         }
     ],
     "SALE_TELECOM": [
@@ -379,6 +415,15 @@
             "align": "right",
             "format": "moneyView2Digit",
             "dataType": "number"
+        },
+        {
+            "name": "name",
+            "title": "Người lập"
+        },
+        {
+            "name": "datetime0",
+            "title": "Thời gian lập",
+            "format": "fullDateTimeFormat"
         }
     ],
     "SALE_ITINERANT": [
@@ -439,6 +484,15 @@
             "align": "right",
             "format": "moneyView2Digit",
             "dataType": "number"
+        },
+        {
+            "name": "name",
+            "title": "Người lập"
+        },
+        {
+            "name": "datetime0",
+            "title": "Thời gian lập",
+            "format": "fullDateTimeFormat"
         }
     ],
     "SALE_SERVICE": [
@@ -499,6 +553,15 @@
             "align": "right",
             "format": "moneyView2Digit",
             "dataType": "number"
+        },
+        {
+            "name": "name",
+            "title": "Người lập"
+        },
+        {
+            "name": "datetime0",
+            "title": "Thời gian lập",
+            "format": "fullDateTimeFormat"
         }
     ],
     "SALE_RETURN": [
@@ -751,6 +814,15 @@
             "align": "right",
             "format": "moneyView2Digit",
             "dataType": "number"
+        },
+        {
+            "name": "name",
+            "title": "Người lập"
+        },
+        {
+            "name": "datetime0",
+            "title": "Thời gian lập",
+            "format": "fullDateTimeFormat"
         }
     ],
     "SALE_GIFT_REPAY": [
@@ -811,6 +883,15 @@
             "align": "right",
             "format": "moneyView2Digit",
             "dataType": "number"
+        },
+        {
+            "name": "name",
+            "title": "Người lập"
+        },
+        {
+            "name": "datetime0",
+            "title": "Thời gian lập",
+            "format": "fullDateTimeFormat"
         }
     ],
     "SALE_REPURCHASE": [
@@ -935,6 +1016,15 @@
             "align": "right",
             "format": "moneyView2Digit",
             "dataType": "number"
+        },
+        {
+            "name": "name",
+            "title": "Người lập"
+        },
+        {
+            "name": "datetime0",
+            "title": "Thời gian lập",
+            "format": "fullDateTimeFormat"
         }
     ],
     "SALE_CONTRACT": [
