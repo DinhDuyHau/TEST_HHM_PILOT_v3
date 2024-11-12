@@ -44,7 +44,7 @@ export class MerchandiseService {
     addNew(merchandise: any, merchandises: any[], TCreator: { new(): any; }) {
         const merchandiseNew = this.createNewMerchandise(merchandise, TCreator);
         merchandiseNew.gia_ck = merchandiseNew.gia_ban;
-        merchandiseNew.line_nbr = merchandises.length;
+        merchandiseNew.line_nbr = merchandises.length + 1;
         //giá niêm yết (s4)
         merchandiseNew.s4 = merchandise.s4;
         //giá điều chỉnh(s5)
@@ -56,7 +56,9 @@ export class MerchandiseService {
     }
 
     removeMerchandise(item: any, merchandises: any[]) {
-        merchandises.splice(Number(item.line_nbr) - 1, 1);
+        if (!merchandises || merchandises.length <= 0) return;
+        const line_index = merchandises[0].line_nbr == 0 ? Number(item.line_nbr) : Number(item.line_nbr) - 1;
+        merchandises.splice(line_index, 1);
         merchandises.map((e, i) => e.line_nbr = i + 1);
     }
 
