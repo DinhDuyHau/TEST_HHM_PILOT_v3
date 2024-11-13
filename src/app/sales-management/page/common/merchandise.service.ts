@@ -226,8 +226,7 @@ export class MerchandiseService {
         markerArray.push(...serviceUpdate.filter(x => !x.km_yn).map(x => { return { ma_vt: x.ma_dv, marker: false }; }));
 
         const discount_valid05: any[] = [];
-
-        (discountForMerchandise05 as any).forEach((discount: any) => {
+        if (discountForMerchandise05 && discountForMerchandise05.length > 0) for (const discount of discountForMerchandise05) {
             // Kiểm tra và đánh dấu xem các vật tư đã được hưởng chiết khấu từ trước đó hay chưa
             // Nếu các vật tư chưa đánh dấu vẫn thoả mãn điều kiện được hưởng thì vẫn được hưởng
             const detail: any[] = [];
@@ -246,21 +245,45 @@ export class MerchandiseService {
                     const tien_ck = detail.map(e => e.tien_ck || e.tien_ck_tl).reduce((pre, cur) => pre + cur, 0);
                     discount.tien_ck = tien_ck;
                     if (discount.details) {
+                        const arr_imei_ck05: string[] = [];
                         discount.details.forEach((detail: any) => {
-                            const { ma_vt_ad, tien_ck, tien_ck_tl, hangban_yn, dv_yn, ma_dv } = detail;
+                            const { ma_vt_ad, tien_ck, tien_ck_tl, hangban_yn, dv_yn, ma_dv, tien_ck_item } = detail;
                             if (!dv_yn) {
-                                const result = (merchandiseUpdate as any[]).filter((merchandise: any) => this.compareMerchandiseCode(merchandise.ma_vt, ma_vt_ad) && !hangban_yn);
-                                result.forEach((e: Merchandise) => {
-                                    e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
-                                    e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
-                                });
+                                const result = (merchandiseUpdate as any[]).filter((merchandise: any) => !hangban_yn &&
+                                    this.compareMerchandiseCode(merchandise.ma_vt, ma_vt_ad)
+                                );
+
+                                // result.forEach((e: Merchandise) => {
+                                //     e.gia_ck -= tien_ck_item ? tien_ck_item : tien_ck_tl;
+                                //     e.tien_ck += tien_ck_item ? tien_ck_item : tien_ck_tl;
+                                // });
+
+                                for (const item of result) {
+                                    const e = item as Merchandise;
+                                    //Chỉ set tiền ck cho các imei chưa áp dụng ck 05 (không tồn tại trong arr_imei_ck05)
+                                    if (!arr_imei_ck05.includes(e.ma_imei)) {
+                                        e.gia_ck -= tien_ck_item ? tien_ck_item : tien_ck_tl;
+                                        e.tien_ck += tien_ck_item ? tien_ck_item : tien_ck_tl;
+                                        arr_imei_ck05.push(e.ma_imei);
+                                    }
+                                }
                             }
                             else {
                                 const result = (serviceUpdate as any[]).filter((service: any) => this.compareMerchandiseCode(service.ma_dv, ma_dv) && !hangban_yn);
-                                result.forEach((e: Service) => {
-                                    e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
-                                    e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
-                                });
+                                // result.forEach((e: Service) => {
+                                //     e.gia_ck -= tien_ck_item ? tien_ck_item : tien_ck_tl;
+                                //     e.tien_ck += tien_ck_item ? tien_ck_item : tien_ck_tl;
+                                // });
+
+                                for (const item of result) {
+                                    const e = item as Service;
+                                    //Chỉ set tiền ck cho các imei chưa áp dụng ck 05 (không tồn tại trong arr_imei_ck05)
+                                    if (!arr_imei_ck05.includes(e.ma_imei)) {
+                                        e.gia_ck -= tien_ck_item ? tien_ck_item : tien_ck_tl;
+                                        e.tien_ck += tien_ck_item ? tien_ck_item : tien_ck_tl;
+                                        arr_imei_ck05.push(e.ma_imei);
+                                    }
+                                }
                             }
                         });
                     }
@@ -335,7 +358,7 @@ export class MerchandiseService {
                     discount_valid05.push({ ...discount });
                 }
             }
-        });
+        }
         ticket.discount = ticket.discount.filter((x: any) => x.loai_ck !== DISCOUNT_TYPE.CROSS_SELLING);
         ticket.discount.push(...discount_valid05);
         //#endregion
