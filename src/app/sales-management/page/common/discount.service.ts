@@ -80,7 +80,7 @@ export class DiscountService {
             case DISCOUNT_TYPE.ACCESSORY_COMBO:
                 return this.convertDiscountForAccessoryCombo(discount);
             case DISCOUNT_TYPE.SERVICE_DISCOUNT:
-              return this.convertDiscountForService(discount);
+                return this.convertDiscountForService(discount);
             default:
                 break;
         }
@@ -246,9 +246,9 @@ export class DiscountService {
     convertDiscountForService(discount: any) {
         if (!discount.items) return null;
         discount.details = [...discount.items];
-        discount.tien_ck = discount.details[0].tien_ck || discount.details[0].tien_ck_tl;
+        discount.tien_ck = discount.tien_ck || discount.tien_ck_tl;
         delete discount.items;
-        discount.details = [discount.details[0]];
+        // discount.details = [discount.details[0]];
         return discount;
     }
 
