@@ -229,6 +229,9 @@ export class MerchandiseService {
         if (discountForMerchandise05 && discountForMerchandise05.length > 0) for (const discount of discountForMerchandise05) {
             // Kiểm tra và đánh dấu xem các vật tư đã được hưởng chiết khấu từ trước đó hay chưa
             // Nếu các vật tư chưa đánh dấu vẫn thoả mãn điều kiện được hưởng thì vẫn được hưởng
+
+            // 2024-11-13: sửa bỏ đoạn code dưới => cho phép áp dụng bán kèm đồng thời nhiều mã ck
+            /*
             const detail: any[] = [];
             markerArray.filter(x => !x.marker).forEach((item: any) => {
                 const item_discount = discount.details.find((x: any) => x.ma_vt_ad.trim() === item.ma_vt.trim());
@@ -237,6 +240,14 @@ export class MerchandiseService {
                     item.marker = true;
                 }
             });
+            */
+            // => code thay thế đoạn code comment ở trên
+            const detail: any[] = [];
+            for (const item_discount of discount.details) {
+                detail.push(item_discount);
+            }
+            // 2024-11-13: end
+
             if (detail.filter(x => x.hangban_yn).length < discount.details.filter((x: any) => x.hangban_yn).length || detail.filter(x => x.hangban_yn).length == detail.length) {
                 markerArray.filter(marker => detail.find((item: any) => marker.ma_vt.trim() === item.ma_vt_ad.trim())).forEach(x => x.marker = false);
             }
