@@ -311,8 +311,10 @@ export class StockTranferInCreateComponent extends Grid<ReceiptDetail> implement
         all_imei = [...all_imei, ...detail.ma_imei.split(',').map((item: string) => item.trim())];
       }
     });
-    if (this.checkDuplicateIMEI(all_imei) !== '') {
-      this.commonService.showMessage(this.checkDuplicateIMEI(all_imei));
+
+    const dup_imeis = this.checkDuplicateIMEI(all_imei);
+    if (dup_imeis !== '') {
+      this.commonService.showMessage(dup_imeis);
       return;
     }
     const imeiInvalid = this.data.details[0].data.filter((item) => {
@@ -483,19 +485,20 @@ export class StockTranferInCreateComponent extends Grid<ReceiptDetail> implement
           this.commonService.showMessageByNameAdvance('lblWarningNotExistImeiExport', { name: '%ma_vt', value: item.ma_vt });
           return false;
         }
-        else {
-          let list_imei_xuat: string[] = item.ma_imei_xuat.split(',');
-          list_imei_xuat = list_imei_xuat.map((item: any) => {
-            return item.trim();
-          });
-          if (!list_imei_xuat.find(item => item === imei)) {
-            this.commonService.showMessageByNameAdvance('lblWarningNotExistImeiItemExport', { name: '%ma_vt', value: item.ma_vt }, { name: '%imei', value: imei });
-            return false;
-          }
-        }
       }
+
+      //kiểm tra imei nhập vào có khai báo trong trường imei xuất
+      let list_imei_xuat: string[] = item.ma_imei_xuat.split(',');
+      list_imei_xuat = list_imei_xuat.map((x: any) => {
+        return x.trim();
+      });
+      if (!list_imei_xuat.find(x => x.toUpperCase() === imei.toUpperCase())) {
+        this.commonService.showMessageByNameAdvance('lblWarningNotExistImeiItemExport', { name: '%ma_vt', value: item.ma_vt }, { name: '%imei', value: imei });
+        return false;
+      }
+
       if (all_imei.length !== 0) {
-        if (all_imei.find((item: any) => { return item === imei; })) {
+        if (all_imei.find((item: string) => { return item.toUpperCase() === imei.toUpperCase(); })) {
           this.commonService.showMessageByNameAdvance('lblWarningExistImei', { name: '%imei', value: imei });
           return false;
         }
@@ -600,11 +603,12 @@ export class StockTranferInCreateComponent extends Grid<ReceiptDetail> implement
   checkDuplicateIMEI(all_imei: string[]) {
     const map = new Map();
     all_imei.forEach((item) => {
-      if (map.has(item)) {
-        map.set(item, map.get(item) + 1);
+      const ma_imei = item.toUpperCase();
+      if (map.has(ma_imei)) {
+        map.set(ma_imei, map.get(ma_imei) + 1);
       }
       else {
-        map.set(item, 1);
+        map.set(ma_imei, 1);
       }
     });
     let err = '';
