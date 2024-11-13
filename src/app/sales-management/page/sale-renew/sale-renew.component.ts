@@ -827,6 +827,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
 
   onRemoveUsedMerchandise(event: { item: Merchandise }) {
     this.ticket.merchandise_new_sale = [];
+    this.ticket.discount = [];
     this.saleRenewService.removeUsedMerchandise(event.item);
   }
 
