@@ -39,6 +39,9 @@ export class Service {
     gia_tra_lai = 0;
     ck_nt = 0;
     ti_le_giam = 0;
+    //ma_td1 dùng để lưu lý do sửa giá
+    ma_td1 = '';
+    noi_dung = '';
 
     constructor(obj?: any) {
         Object.assign(this, obj);
