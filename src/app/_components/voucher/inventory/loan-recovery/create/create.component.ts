@@ -32,6 +32,7 @@ import { LoanRecoveryService } from '../loan-recovery.service';
 import { lastValueFrom } from 'rxjs';
 import { EventService } from '@app/_components/lookup/event/event.service';
 import { CommonService } from '@app/sales-management/page/common/common.service';
+import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '@app/sales-management/component/search/serach-dialog.component';
 
 @Component({
   selector: 'app-create',
@@ -433,6 +434,17 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
   onEnterIMEI($event: any) {
     $event.preventDefault();
     const imei = $event.target.value;
+
+    if (!this.data.masterInfo.ma_kh || this.data.masterInfo.ma_kh === '') {
+      this.commonService.showMessage('Cần nhập mã khách trước khi nhập imei');
+      return;
+    }
+
+    if(!imei || imei.length < 5) {
+      this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
+      return;
+    }
+
     if (imei) {
       this.addItem(imei).then((flag) => {
         if (flag) {
@@ -466,7 +478,25 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
       map.set('tra_ncc_yn', false);
       const message = this.imeiService.GetMessageStatusImei(map, res.result[0]);
       if (message) {
-        this.commonService.showMessage(this.imeiService.GetMessageStatusImei(map, res.result[0]));
+        /*
+        * Ko đúng imei sẽ mở dialog tìm kiếm
+        */
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        this.commonService.openDialog(SearchDialogComponent, {
+          keyword: imei,
+          shop: user.shop,
+          componentName: SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES,
+          title: 'Danh sách kết quả tìm kiếm imei',
+          isFilter: false
+        }, 'search-style-dialog')
+          .afterClosed().subscribe( async (result) => {
+            if (result && result.ma_imei) {
+              const ma_imei = result.ma_imei;
+              await this.processImeiInfo(ma_imei);
+              this.imei = '';
+            }
+          });
+
         return false;
       }
     }
@@ -538,5 +568,66 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);
+  }
+
+  async processImeiInfo(imei: string): Promise<boolean> {
+    if (this.data.details[0].data.find(x => x.ma_imei.trim() === imei.trim())) {
+      this.commonService.showMessageByNameAdvance('lblWarningExistImei', { name: '%imei', value: imei });
+      return false;
+    }
+    const res = await lastValueFrom(this.imeiService.getListImeiInfo([imei]));
+    if (res.success && res.result) {
+      const map = new Map();
+      map.set('exists_yn', true);
+      map.set('in_store_yn', false);
+      map.set('xuat_yn', true);
+      map.set('dieu_chuyen_yn', false);
+      map.set('dat_hang_yn', false);
+      map.set('ban_hang_yn', false);
+      map.set('tra_ncc_yn', false);
+      const message = this.imeiService.GetMessageStatusImei(map, res.result[0]);
+      if (message) {
+        this.commonService.showMessage(this.imeiService.GetMessageStatusImei(map, res.result[0]));
+        return false;
+      }
+    }
+    const result = await lastValueFrom(this.imeiService.getSoldInfo(imei, this.ma_cuahang));
+    if (result.success && result.result) {
+      const master: MasterInfo = result.result.masterInfo;
+      const response = result.result.details[0].data[0];
+      if (master.ma_ct != 'PXM') {
+        this.commonService.showMessageByName('lblWarningInvalidImei');
+      }
+      this.data.masterInfo.ong_ba = master.ong_ba;
+      this.data.masterInfo.ma_kh = master.ma_kh;
+      this.data.masterInfo.ten_ongba = master.ten_ongba;
+      this.data.masterInfo['ten_kh'] = master['ten_kh'];
+      this.f['ma_kh'].setValue(master.ma_kh);
+      this.f['ong_ba'].setValue(master.ong_ba);
+
+      this.data.details[0].data.push({
+        ma_imei: response.ma_imei,
+        stt_rec0: '',
+        line_nbr: this.data.details[0].data.length + 1,
+        ma_vt: response.ma_vt,
+        ten_vt: response.ten_vt,
+        dvt: response.dvt,
+        ma_kho: this.site_code !== '' ? this.site_code : response.ma_kho,
+        so_luong: response.so_luong,
+        sl_td1: response.gia_nt,
+        gia_nt: response.gia_nt,
+        tien_nt: response.tien_nt,
+        stt_rec_px: response.stt_rec,
+        stt_rec0px: response.stt_rec0,
+        so_ct_px: response.so_ct,
+        ngay_ct_px: response.ngay_ct,
+        ma_td3: response.ma_cuahang,
+      });
+      this.calcTotal();
+      this.dataSource.data = this.data.details[0].data;
+      return true;
+    }
+    this.commonService.showMessageByName('lblWarningInvalidImei');
+    return false;
   }
 }

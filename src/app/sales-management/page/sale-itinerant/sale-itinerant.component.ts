@@ -87,6 +87,7 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
   entity = TICKET_ENTITY.ITINERANT;
   action = '';
   shop = '';
+  ma_imei = '';
 
   constructor(
     private router: Router,
@@ -387,6 +388,12 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
       this.commonService.showMessage('Mã khách hàng không được để trống');
       return;
     }
+
+    if(!ma_imei || ma_imei.length < 5) {
+      this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
+      return;
+    }
+
     this.saleItinerantService.getImeiInStore(ma_imei).subscribe(result => {
       if (result.success && result.result.length) {
         if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise)) {
@@ -404,7 +411,18 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
         //   }
         // });
       } else {
-        this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: ma_imei });
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        this.commonService.openDialog(SearchDialogComponent, {
+          keyword: ma_imei,
+          shop: user.shop,
+          componentName: SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES,
+        }, 'search-style-dialog')
+          .afterClosed().subscribe(result => {
+            if (result && result.ma_imei) {
+              this.ma_imei = result.ma_imei;
+              this.handleProcessImei(this.ma_imei);
+            }
+          });
       }
     });
   }
@@ -419,10 +437,17 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
 
   // #region merchandise
   openMerchandiseDialog(ma_vt?: string) {
+    if (this.ticket.masterInfo.ten_kh == '') {
+      this.commonService.showMessage('Mã khách hàng không được để trống');
+      return;
+    }
+
     this.commonService.openDialog(SearchDialogComponent, { keyword: ma_vt || '', componentName: SEARCH_COMPONENT_NAME.MERCHANDISE }, 'search-style-dialog')
       .afterClosed().subscribe(result => {
         if (result && result.ma_imei) {
-          this.onEnterImeiCode(result.ma_imei);
+          // this.onEnterImeiCode(result.ma_imei);
+          this.ma_imei = result.ma_imei;
+          this.handleProcessImei(this.ma_imei);
         }
       });
   }
@@ -733,6 +758,23 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.t_cp_khac = $event.t_chi_phi;
 
     this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
+  }
+
+  handleProcessImei(ma_imei: string) {
+    this.ma_imei = ma_imei;
+
+    this.saleItinerantService.getImeiInStore(this.ma_imei).subscribe(result => {
+      if (result.success && result.result.length) {
+        if (this.merchandiseService.checkImeiExistMerchandise(this.ma_imei, this.ticket.merchandise)) {
+          this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: this.ma_imei });
+          return;
+        }
+        const merchandise = result.result[0];
+        this.handleAddImei(merchandise);
+      } else {
+        this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: this.ma_imei });
+      }
+    });
   }
 
 }

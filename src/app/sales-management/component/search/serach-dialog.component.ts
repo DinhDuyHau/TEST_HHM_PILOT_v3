@@ -31,7 +31,8 @@ const {
   LIST_PRICE_RENEW,
   LIST_BGD,
   BANK_PUBLISH_CARD_SEARCH,
-  EMPLOYEE_SEARCH
+  EMPLOYEE_SEARCH,
+  IMEI_SEARCH_SALES
 } = require('@assets/fields/grid/sales-fields-table.json');
 
 const { STOCK_LIST, SHOP_INFO } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
@@ -54,10 +55,22 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   keyword = '';
   title = '';
   isLoading = false;
+  isFilter = true;
+  isCheckInventory = true;
 
   constructor(
     public dialogRef: MatDialogRef<SearchDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { keyword: string, shop: string, componentName: number, title: string, ma_ct?: string, filter?: ItemFilter[], dataSource: any },
+    @Inject(MAT_DIALOG_DATA) public data: {
+      keyword: string,
+      shop: string,
+      componentName: number,
+      title: string,
+      ma_ct?: string,
+      filter?: ItemFilter[],
+      dataSource: any,
+      isFilter: boolean,
+      isCheckInventory: boolean
+    },
     private customerApiService: CustomerApiService,
     private imeiApiService: ImeiApiService,
     private merchandiseServiceApiService: MerchandiseServiceApiService,
@@ -71,6 +84,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.isFilter = this.data.isFilter != undefined ? this.data.isFilter : true;
+    this.isCheckInventory = this.data.isCheckInventory!= undefined? this.data.isCheckInventory : true;
     this.title = this.data.title || '';
     this.filters = this.data.filter || [];
     const filter = {
@@ -232,6 +247,9 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.value = `%${this.data.keyword}%`;
         this.defaultFilters = [filter];
         break;
+      case SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES:
+        this.columns = IMEI_SEARCH_SALES as any;
+        break;
       default:
         break;
     }
@@ -306,6 +324,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return this.findDataSourceLocal(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.EMPLOYEE:
         return this.customerApiService.findById(this.filters, this.page_index, this.page_size)
+      case SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES:
+        return this.imeiApiService.findImeiByPrefix(this.page_index, this.page_size, this.data.keyword, this.isCheckInventory, this.data.shop);
       default:
         return of();
     }
@@ -346,6 +366,13 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   handleLoadata() {
     const observer = {
       next: (result: any) => {
+        // Nếu là hợp đồng thì gán dataSource bằng voucher từ res
+        if(this.data.componentName == SEARCH_COMPONENT_NAME.CONTRACT) {
+          this.dataSource = result?.result[0]?.voucher || [];
+          this.recordCount = result.result.recordCount
+          return;
+        }
+
         if (result.result?.items) {
           this.dataSource = result.result.items;
           this.recordCount = result.result.recordCount;
@@ -455,6 +482,7 @@ export const SEARCH_COMPONENT_NAME = {
   DELIVERY_PARNER: 22,
   STOCK_INFO: 23,
   SHOP_INFO: 24,
-  EMPLOYEE: 25
+  EMPLOYEE: 25,
+  IMEI_SEARCH_SALES: 26
 };
 

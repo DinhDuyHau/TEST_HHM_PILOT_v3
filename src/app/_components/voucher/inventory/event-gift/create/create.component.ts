@@ -36,6 +36,7 @@ import { CameraComponent } from '@app/sales-management/component/webcam/webcam.c
 import { Language } from '@app/sales-management/page/common/language';
 import { ViewImageComponent } from '@app/sales-management/component/view-image/view-image.component';
 import { FileService } from '@app/_services/fileService.service';
+import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '@app/sales-management/component/search/serach-dialog.component';
 
 @Component({
   selector: 'app-create',
@@ -465,6 +466,17 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
   onEnterIMEI($event: any) {
     $event.preventDefault();
     const imei = $event.target.value;
+
+    if (!this.data.masterInfo.ma_kh || this.data.masterInfo.ma_kh === '') {
+      this.commonService.showMessage('Cần nhập mã khách trước khi nhập imei');
+      return;
+    }
+
+    if(!imei || imei.length < 5) {
+      this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
+      return;
+    }
+
     if (imei) {
       this.addItem(imei).then((flag) => {
         if (flag)
@@ -494,7 +506,25 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
       map.set('dat_hang_yn', false);
       const message = this.imeiService.GetMessageStatusImei(map, res.result[0]);
       if (message) {
-        this.commonService.showMessage(message);
+        /*
+        * Ko đúng imei sẽ mở dialog tìm kiếm
+        */
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        this.commonService.openDialog(SearchDialogComponent, {
+          keyword: imei,
+          shop: user.shop,
+          componentName: SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES,
+          title: 'Danh sách kết quả tìm kiếm imei',
+          isFilter: false
+        }, 'search-style-dialog')
+          .afterClosed().subscribe( async (result) => {
+            if (result && result.ma_imei) {
+              const ma_imei = result.ma_imei;
+              await this.processImeiInfo(ma_imei);
+              this.imei = '';
+            }
+          });
+
         return false;
       }
     }
@@ -550,5 +580,50 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);
+  }
+
+  async processImeiInfo(imei: string): Promise<boolean> {
+    if (this.data.details[0].data.find(x => x.ma_imei.trim() === imei.trim())) {
+      this.commonService.showMessageByNameAdvance('lblWarningExistImei', { name: '%imei', value: imei });
+      return false;
+    }
+    const res = await lastValueFrom(this.imeiService.getListImeiInfo([imei]));
+    if (res.success && res.result) {
+      const map = new Map();
+      map.set('exists_yn', true);
+      map.set('in_store_yn', true);
+      map.set('xuat_yn', false);
+      map.set('dieu_chuyen_yn', false);
+      map.set('dat_hang_yn', false);
+      const message = this.imeiService.GetMessageStatusImei(map, res.result[0]);
+      if (message) {
+        this.commonService.showMessage(message);
+        return false;
+      }
+    }
+    const result = await lastValueFrom(this.imeiService.getImeiInfo(imei, this.ma_cuahang, this.voucherCode));
+    if (result.success && result.result) {
+      const response = result.result[0];
+      if (!this.list_item_event.find(x => x.ma_sp.trim() == response.ma_vt.trim())) {
+        this.commonService.showMessageByNameAdvance('lblWarningImeiNotExistEvent', { 'name': '%imei', value: imei }, { 'name': '%ten_sk', value: this.ten_sukien });
+        return false;
+      }
+      this.data.details[0].data.push({
+        ma_imei: response.ma_imei,
+        stt_rec0: '',
+        line_nbr: this.data.details[0].data.length + 1,
+        ma_vt: response.ma_vt,
+        ten_vt: response.ten_vt,
+        dvt: response.dvt,
+        ma_kho: response.ma_kho,
+        so_luong: response.so_luong,
+        ma_sukien: this.ma_sukien,
+        ten_sukien: this.ten_sukien,
+      });
+      this.calcTotal();
+      this.dataSource.data = this.data.details[0].data;
+      return true;
+    }
+    return false;
   }
 }
