@@ -47,7 +47,10 @@ export const TICKET_TYPE = {
     SERVICE_COMPENSATION: 40,
 
     //chuyển tiền sang ca sau
-    TRANSFER_SHIFT_PAYMENT: 41
+    TRANSFER_SHIFT_PAYMENT: 41,
+
+    //phiếu mua lại dịch vụ
+    SALE_REPURCHASE_SERVICE: 42
 };
 
 
@@ -136,6 +139,10 @@ export const STATUS_LIST = {
         COMPLETE: '2'
     },
     SERVICE_COMPENSATION: {
+        CREATE: '0',
+        COMPLETE: '2'
+    },
+    SALE_REPURCHASE_SERVICE: {
         CREATE: '0',
         COMPLETE: '2'
     },

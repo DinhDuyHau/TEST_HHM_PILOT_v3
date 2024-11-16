@@ -1,7 +1,7 @@
 import { BaseEntity, BaseMasterInfo, BaseTicket } from '../common-model/base-entity.model';
 import { Payment } from '../common-model/payment.model';
 
-export class ServiceSaleTicket {
+export class ServiceRepurchaseServiceTicket {
   masterInfo: MasterInfo = new MasterInfo;
   service: Service[] = [];
   payment: Payment = new Payment;
@@ -10,8 +10,8 @@ export class ServiceSaleTicket {
 export type ServiceTicketList = BaseTicket
 
 export const TAB_NAME = {
-  SERVICE: 'd521',
-  PAYMENT: 'd521tt'
+  SERVICE: 'd531',
+  PAYMENT: 'd531tt'
 };
 
 export class MasterInfo extends BaseMasterInfo {
@@ -19,6 +19,8 @@ export class MasterInfo extends BaseMasterInfo {
   t_con_no = 0;
   t_da_tra = 0;
   email_nhan_key = '';
+  gia_nhap_mua = 0;
+
   constructor(obj?: any) {
     super();
     Object.assign(this, obj);
@@ -41,9 +43,6 @@ export class Service {
   tong_tien = 0;
   line_nbr = 0;
   gia_vat = 0;
-  // ma_td1: lưu lý do sửa giá
-  ma_td1 = '';
-  noi_dung = '';
 
   constructor(obj?: any) {
     Object.assign(this, obj);

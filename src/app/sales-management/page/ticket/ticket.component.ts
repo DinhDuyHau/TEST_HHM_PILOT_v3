@@ -211,6 +211,13 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.entityName = TICKET_ENTITY.REPURCHASE;
         this.codeName = TICKET_CODE.REPURCHASE;
         break;
+      case TICKET_TYPE.SALE_REPURCHASE_SERVICE:
+        this.columns = TICKET_FIELDS.SALE_REPURCHASE_SERVICE as Cell[];
+        this.title = 'Ticket mua lại dịch vụ';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.REPURCHASE_SERVICE;
+        this.codeName = TICKET_CODE.REPURCHASE_SERVICE;
+        break;
       case TICKET_TYPE.SALE_RENEW:
         this.columns = TICKET_FIELDS.SALE_RENEW as Cell[];
         this.title = 'Ticket thu cũ đổi mới';

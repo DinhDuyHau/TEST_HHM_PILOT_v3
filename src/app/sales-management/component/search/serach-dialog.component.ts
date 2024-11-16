@@ -32,7 +32,8 @@ const {
   LIST_BGD,
   BANK_PUBLISH_CARD_SEARCH,
   EMPLOYEE_SEARCH,
-  IMEI_SEARCH_SALES
+  IMEI_SEARCH_SALES,
+  REASON_SEARCH
 } = require('@assets/fields/grid/sales-fields-table.json');
 
 const { STOCK_LIST, SHOP_INFO } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
@@ -250,6 +251,13 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES:
         this.columns = IMEI_SEARCH_SALES as any;
         break;
+      case SEARCH_COMPONENT_NAME.REASON:
+        this.columns = REASON_SEARCH as any;
+        filter.name = 'ma_lydo';
+        filter.operator = "like";
+        filter.value = `%${this.data.keyword}%`;
+        this.defaultFilters = [filter];
+        break;
       default:
         break;
     }
@@ -326,6 +334,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return this.customerApiService.findById(this.filters, this.page_index, this.page_size)
       case SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES:
         return this.imeiApiService.findImeiByPrefix(this.page_index, this.page_size, this.data.keyword, this.isCheckInventory, this.data.shop);
+      case SEARCH_COMPONENT_NAME.REASON:
+        return this.ticketApiService.getReason(this.filters, this.page_index, this.page_size);
       default:
         return of();
     }
@@ -483,6 +493,7 @@ export const SEARCH_COMPONENT_NAME = {
   STOCK_INFO: 23,
   SHOP_INFO: 24,
   EMPLOYEE: 25,
-  IMEI_SEARCH_SALES: 26
+  REASON: 26,
+  IMEI_SEARCH_SALES: 27
 };
 

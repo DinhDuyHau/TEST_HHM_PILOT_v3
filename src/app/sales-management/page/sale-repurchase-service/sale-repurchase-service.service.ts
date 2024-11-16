@@ -2,10 +2,10 @@ import { Inject, Injectable, Injector } from '@angular/core';
 import { Customer } from '@app/_components/category/customer/customer.model';
 import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
 import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
-import { Service } from '@app/sales-management/model/ticket/sale-service/model';
+import { Service } from '@app/sales-management/model/ticket/sale-repurchase-service/model';
 import { Payment } from '@app/sales-management/model/ticket/common-model/payment.model';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
-import { MasterInfo, ServiceSaleTicket, TAB_NAME } from '@app/sales-management/model/ticket/sale-service/model';
+import { MasterInfo, ServiceRepurchaseServiceTicket, TAB_NAME } from '@app/sales-management/model/ticket/sale-repurchase-service/model';
 import { CommonService } from '../common/common.service';
 import { ServiceOfMerchandiseService } from '../common/service.service';
 import { PaymentService } from '../common/payment.service';
@@ -13,14 +13,13 @@ import { MerchandiseServiceApiService } from '@app/sales-management/api/merchand
 import { MasterInfoRequest, ServiceRequest } from '@app/sales-management/model/ticket/sale-service/request.model';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { formatDate } from '@angular/common';
-import { SaleServiceDialogComponent } from './sale-service-dialog/sale-service-dialog.component';
-import { ServiceApiService } from '@app/sales-management/api/service-api.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class SaleServiceService {
-    ticket!: ServiceSaleTicket;
+export class SaleRepurchaseServiceService {
+    isNeedCalcDiscount = true;
+    ticket!: ServiceRepurchaseServiceTicket;
 
     constructor(
         private customerApiService: CustomerApiService,
@@ -29,12 +28,11 @@ export class SaleServiceService {
         private commonService: CommonService,
         private serviceOfMerchandiseService: ServiceOfMerchandiseService,
         private paymentService: PaymentService,
-        private serviceApiService: ServiceApiService,
     ) {
     }
 
     //#region setter
-    setTicket(ticket: ServiceSaleTicket) {
+    setTicket(ticket: ServiceRepurchaseServiceTicket) {
         this.ticket = ticket;
     }
     //#endregion setter
@@ -52,12 +50,6 @@ export class SaleServiceService {
             switch (e.name) {
                 case TAB_NAME.SERVICE:
                     this.serviceOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
-                    this.ticket.service.map((item: any) => {
-                        this.ticketApiService.getReasonById(item.ma_td1).subscribe(result => {
-                            const reason = result.result as any;
-                            item.noi_dung = reason.noi_dung;
-                        });
-                    });
                     break;
                 case TAB_NAME.PAYMENT:
                     this.paymentService.convertPaymentFromVoucher(e.data, this.ticket.payment);
@@ -79,15 +71,15 @@ export class SaleServiceService {
         return voucherDto;
     }
 
-    initTicket(ticket: ServiceSaleTicket) {
+    initTicket(ticket: ServiceRepurchaseServiceTicket) {
         const userJson = localStorage.getItem('user');
         const userObj = userJson !== null && JSON.parse(userJson);
-        ticket.masterInfo.ma_ct = TICKET_CODE.SERVICE;
+        ticket.masterInfo.ma_ct = TICKET_CODE.REPURCHASE_SERVICE;
         ticket.masterInfo.ma_cuahang = userObj['shop'];
         ticket.masterInfo.ma_ca = userObj['shift'];
         ticket.masterInfo.status = '0';
         ticket.masterInfo.ngay_ct = Date();
-        this.ticketApiService.getVoucherNumber(TICKET_ENTITY.SERVICE).subscribe(result => {
+        this.ticketApiService.getVoucherNumber(TICKET_ENTITY.REPURCHASE_SERVICE).subscribe(result => {
             ticket.masterInfo.so_ct = result.result as any;
         });
     }
@@ -102,47 +94,43 @@ export class SaleServiceService {
         this.ticket.masterInfo.email_nhan_key = customer.email_cn;
 
         //Thông tin khách hàng trên hóa đơn điện tử
-        this.ticket.masterInfo.hd_dia_chi = customer.hoadon_diachi || '';
-        this.ticket.masterInfo.hd_email = customer.hoadon_email || '';
-        this.ticket.masterInfo.hd_mst = customer.hoadon_mst || '';
-        this.ticket.masterInfo.hd_ten_kh = customer.hoadon_tenkh || '';
+        // this.ticket.masterInfo.hd_dia_chi = customer.hoadon_diachi || '';
+        // this.ticket.masterInfo.hd_email = customer.hoadon_email || '';
+        // this.ticket.masterInfo.hd_mst = customer.hoadon_mst || '';
+        // this.ticket.masterInfo.hd_ten_kh = customer.hoadon_tenkh || '';
     }
 
-    resetCustomerInfo(ticket: ServiceSaleTicket) {
+    resetCustomerInfo(ticket: ServiceRepurchaseServiceTicket) {
         ticket.masterInfo.ten_kh = '';
         ticket.masterInfo.dia_chi = '';
-    }
-
-    getConversionPoint() {
-        const ngay_ct = formatDate(this.ticket.masterInfo.ngay_ct, 'yyyy/MM/dd', 'en_US');
-        const { ma_kh } = this.ticket.masterInfo;
-        return this.customerApiService.getConversionPoint(ma_kh, ngay_ct);
     }
 
     //#endregion customer
 
     // #region service
-    setInfoService(service: any) {
+    setInfoService(service: any, ma_kho: string, buy_price: number) {
         this.merchandiseServiceApiService.getOneById(service.ma_dv).subscribe((result: any) => {
             if (result.success) {
-                this.handleAddService(result.result);
+                this.handleAddService(result.result, ma_kho, buy_price);
             }
         });
     }
 
-    handleAddService(service: Service) {
+    handleAddService(service: Service, ma_kho: string, buy_price: number) {
         this.merchandiseServiceApiService.getServicePrice('', service.ma_dv, this.ticket.masterInfo.ma_cuahang).subscribe((result) => {
             if (result.success) {
                 const serviceNew = new Service(service);
                 serviceNew.ma_thue = (result.result as any).ma_thue;
-                serviceNew.gia_ban = (result.result as any).gia_ban;
-                serviceNew.gia_vat = (result.result as any).gia_vat;
+                serviceNew.gia_vat = buy_price;
                 serviceNew.thue_suat = (result.result as any).thue_suat;
 
-                serviceNew.thanh_tien = Math.round(serviceNew.gia_ban * serviceNew.so_luong);
-                // serviceNew.tien_thue = Math.round(serviceNew.thanh_tien * serviceNew.thue_suat / 100);
                 serviceNew.tong_tien = serviceNew.gia_vat * serviceNew.so_luong;
+                serviceNew.gia_ban = Math.round(serviceNew.gia_vat / (1 + (serviceNew.thue_suat / 100)));
+
+                serviceNew.thanh_tien = serviceNew.gia_ban * serviceNew.so_luong;
                 serviceNew.tien_thue = serviceNew.tong_tien - serviceNew.thanh_tien;
+
+                serviceNew.ma_kho = ma_kho;
 
                 this.serviceOfMerchandiseService.addNewServiceSale([serviceNew], this.ticket.service);
                 this.calcMoney();
@@ -156,7 +144,7 @@ export class SaleServiceService {
 
     // #endregion service
     // Remove service
-    removeService(item: Service, ticket: ServiceSaleTicket) {
+    removeService(item: Service, ticket: ServiceRepurchaseServiceTicket) {
         this.serviceOfMerchandiseService.removeService(item, ticket.service);
         this.calcMoney();
         this.commonService.showMessageByNameAdvance('lblSuccessDeleteService', { name: '%ma_dv', value: item.ma_dv });
@@ -186,7 +174,7 @@ export class SaleServiceService {
     }
 
     // validate ticket before create or update
-    validateTicket(ticket: ServiceSaleTicket): string {
+    validateTicket(ticket: ServiceRepurchaseServiceTicket): string {
         let message = '';
         if (!ticket.masterInfo.so_ct) {
             message = this.commonService.getMessage('lbl_invalid_so_ct');
@@ -228,13 +216,5 @@ export class SaleServiceService {
         return false;
     }
 
-    updateServiceQuantity(item: Service) {
-        this.commonService.openDialog(SaleServiceDialogComponent, { item }, 'fullscreen-dialog')
-            .afterClosed().subscribe(() => {
-                this.calcMoney();
-            });
-    }
-
     // #endregion other
-
 }

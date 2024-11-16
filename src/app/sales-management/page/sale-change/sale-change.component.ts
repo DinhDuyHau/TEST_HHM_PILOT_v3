@@ -227,6 +227,12 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
         const src_merchandise = merchandise.filter((x: any) => x.ma_imei.trim() === ma_imei.trim());
         src_merchandise.forEach((x: any) => x.stt_rec_dh = x.stt_rec);
 
+        //kiểm tra thỏa mãn chính sách trả lại vật tư
+        if (src_merchandise && !src_merchandise[0].nhap_tra_lai_yn) {
+          this.commonService.showMessage('Imei không thỏa mãn chính sách trả lại');
+          return;
+        }
+
         this.merchandiseService.convertFromVoucher(src_merchandise, this.ticket.merchandise_return, Merchandise);
         this.serviceOfMerchandiseService.convertFromVoucher(service.filter((x: any) => x.ma_imei.trim() === ma_imei.trim()), this.ticket.service);
         this.ticket.service.forEach(x => {
