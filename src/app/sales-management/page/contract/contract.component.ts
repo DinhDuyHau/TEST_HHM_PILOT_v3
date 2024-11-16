@@ -4,7 +4,7 @@ import { StatusTicket } from '@app/sales-management/model/common/status.model';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { ContractTicketCreate } from '@app/sales-management/model/ticket/contract/model';
 import { ContractService } from './contract.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { CommonService } from '../common/common.service';
@@ -31,6 +31,7 @@ export class ContractComponent implements AfterViewInit, OnInit, OnChanges {
   readonly = false;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private contractService: ContractService,
     private ticketApiService: TicketApiService,
@@ -104,7 +105,9 @@ export class ContractComponent implements AfterViewInit, OnInit, OnChanges {
 
 
   onSave() { }
-  onCancel() { }
+  onCancel() {
+    this.router.navigate(['contract']);
+  }
 
   getLabel(label: string) {
     return this.commonService.getMessage(label);
