@@ -36,6 +36,8 @@ export class ServiceRequest extends BaseEntity {
     line_nbr = 0;
     gia_vat = 0;
     gia_vat_nt = 0;
+    // ma_td1: lưu lý do sửa giá
+    ma_td1 = '';
 
     constructor(obj?: any) {
         super();

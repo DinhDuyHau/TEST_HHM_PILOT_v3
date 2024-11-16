@@ -14,6 +14,7 @@ import { MasterInfoRequest, ServiceRequest } from '@app/sales-management/model/t
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { formatDate } from '@angular/common';
 import { SaleServiceDialogComponent } from './sale-service-dialog/sale-service-dialog.component';
+import { ServiceApiService } from '@app/sales-management/api/service-api.service';
 
 @Injectable({
     providedIn: 'root'
@@ -28,6 +29,7 @@ export class SaleServiceService {
         private commonService: CommonService,
         private serviceOfMerchandiseService: ServiceOfMerchandiseService,
         private paymentService: PaymentService,
+        private serviceApiService: ServiceApiService,
     ) {
     }
 
@@ -50,6 +52,12 @@ export class SaleServiceService {
             switch (e.name) {
                 case TAB_NAME.SERVICE:
                     this.serviceOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
+                    this.ticket.service.map((item: any) => {
+                        this.ticketApiService.getReasonById(item.ma_td1).subscribe(result => {
+                            const reason = result.result as any;
+                            item.noi_dung = reason.noi_dung;
+                        });
+                    });
                     break;
                 case TAB_NAME.PAYMENT:
                     this.paymentService.convertPaymentFromVoucher(e.data, this.ticket.payment);
