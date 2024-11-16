@@ -1609,6 +1609,62 @@
             "align": "right"
         }
     ],
+    "SALE_REPURCHASE_SERVICE": [
+        {
+            "name": "ma_dv",
+            "title": "Mã dịch vụ"
+        },
+        {
+            "name": "ten_dv",
+            "title": "Tên dịch vụ"
+        },
+        {
+            "name": "vt_ton_kho",
+            "title": "Theo dõi kho",
+            "type": "checkbox",
+            "align": "center"
+        },
+        {
+            "name": "dvt",
+            "title": "Đơn vị tính",
+            "align": "center"
+        },
+        {
+            "name": "so_luong",
+            "title": "Số lượng",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
+            "align": "center"
+        },
+        {
+            "name": "gia_ban",
+            "title": "Đơn giá",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "thanh_tien",
+            "title": "Thành tiền",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "tien_thue",
+            "title": "Tiền thuế",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "tong_tien",
+            "title": "Tổng tiền",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        }
+    ],
     "SERVICE_CHANGE_LIST": [
         {
             "name": "ma_dv",

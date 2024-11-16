@@ -23,6 +23,7 @@ import { SaleChangeComponent } from './sales-management/page/sale-change';
 import { SaleGiftRepayComponent } from './sales-management/page/sale-gift-repay';
 import { SaleRepurchaseComponent } from './sales-management/page/sale-repurchase';
 import { SaleRenewComponent } from './sales-management/page/sale-renew';
+import { SaleRepurchaseServiceComponent } from './sales-management/page/sale-repurchase-service';
 
 import { CreateReceiptComponent } from './_components/voucher/inventory/receipt/create/create.component';
 import { SaleOnlineEcommerceComponent } from './sales-management/page/sale-online/ecommerce';
@@ -89,6 +90,7 @@ const saleReturnServiceModule = () => import('./sales-management/page/sale-retur
 const saleChangeModule = () => import('./sales-management/page/sale-change/sale-change.module').then(x => x.SaleChangeModule);
 const saleGiftRepayModule = () => import('./sales-management/page/sale-gift-repay/sale-gift-repay.module').then(x => x.SaleGiftRepayModule);
 const saleRepurchaseModule = () => import('./sales-management/page/sale-repurchase/sale-repurchase.module').then(x => x.SaleRepurchaseModule);
+const saleRepurchaseServiceModule = () => import('./sales-management/page/sale-repurchase-service/sale-repurchase-service.module').then(x => x.SaleRepurchaseServiceModule);
 const saleRenewModule = () => import('./sales-management/page/sale-renew/sale-renew.module').then(x => x.SaleRenewModule);
 const serivceForImeiModule = () => import('./sales-management/component/merchandise-service/service-for-imei/service-for-imei.module').then(x => x.ServiceForImeiModule);
 const serivceOrderModule = () => import('./sales-management/component/merchandise-service/service-order/service-order.module').then(x => x.ServiceOrderModule);
@@ -505,6 +507,15 @@ const routes: Routes = [
       { path: 'create', component: SaleRepurchaseComponent, canActivate: [AuthGuard] },
       { path: 'update', component: SaleRepurchaseComponent, canActivate: [AuthGuard] },
       { path: 'view', component: SaleRepurchaseComponent, canActivate: [AuthGuard] },
+    ]
+  },
+  {
+    path: 'sales/repurchase-service', component: AppLayoutComponent, canActivate: [AuthGuard],
+    children: [
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.SALE_REPURCHASE_SERVICE, reuse: true } },
+      { path: 'create', component: SaleRepurchaseServiceComponent, canActivate: [AuthGuard] },
+      { path: 'update', component: SaleRepurchaseServiceComponent, canActivate: [AuthGuard] },
+      { path: 'view', component: SaleRepurchaseServiceComponent, canActivate: [AuthGuard] },
     ]
   },
   {

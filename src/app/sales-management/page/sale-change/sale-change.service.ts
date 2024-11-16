@@ -153,7 +153,7 @@ export class SaleChangeService {
     }
 
     getSoldInfo(imei: string) {
-        return this.imeiApiService.getSoldInfo(imei, this.ticket.masterInfo.ma_cuahang);
+        return this.imeiApiService.getSoldInfo(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.CHANGE);
     }
 
 

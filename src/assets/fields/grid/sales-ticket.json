@@ -1588,6 +1588,63 @@
             "dataType": "number"
         }
     ],
+    "SALE_REPURCHASE_SERVICE": [
+        {
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
+            "name": "ngay_ct",
+            "title": "Ngày chứng từ",
+            "dataType": "date",
+            "format": "datetimeFormat"
+        },
+        {
+            "name": "so_ct",
+            "title": "Số phiếu"
+        },
+        {
+            "name": "ma_kh",
+            "title": "Mã khách"
+        },
+        {
+            "name": "ten_kh",
+            "title": "Tên khách hàng"
+        },
+        {
+            "name": "dien_giai",
+            "title": "Diễn giải"
+        },
+        {
+            "name": "t_tien_nt",
+            "title": "Tiền đơn hàng",
+            "align": "right",
+            "format": "moneyView2Digit",
+            "dataType": "number"
+        },
+        {
+            "name": "t_thue_nt",
+            "title": "Thuế ",
+            "align": "right",
+            "format": "moneyView2Digit",
+            "dataType": "number"
+        },
+        {
+            "name": "t_tt_nt",
+            "title": "Thanh toán ",
+            "align": "right",
+            "format": "moneyView2Digit",
+            "dataType": "number"
+        }
+    ],
     "SALE_RENEW": [
         {
             "name": "ma_cuahang",

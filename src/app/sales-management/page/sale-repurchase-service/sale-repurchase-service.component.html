@@ -9,8 +9,7 @@
         class="text-base"
         [voucherId]="ticket.masterInfo.stt_rec" />
     </div>
-
-    <!-- <div class="title-content">{{ getLabel('tlt_content') }}</div> -->
+    <div class="title-content">{{ getLabel('tlt_content') }}</div>
     <div class="box-container mb-3">
       <div class="d-flex gap-2 box">
         <form-input-custom
@@ -35,9 +34,9 @@
         [label]="getLabel('lbl_ma_kh')"
         [value]="ticket.masterInfo.ma_kh"
         [tabIndex]="tabIndex.ma_kh"
-        [disabled]="true"
-        [readonly]="readonly"
         [invalid]="invalid"
+        [readonly]="readonly"
+        [fireChangeWhenBlur]="false"
         (handleChangeValue)="onEnterCustomerCode($event)"
         (handleClickOpenDialog)="openSearchCustomerDialog()"
         (handleUploadImage)="openUploadImage()"
@@ -47,61 +46,8 @@
         [name]="'ten_kh'"
         [label]="getLabel('lbl_ten_kh')"
         [value]="ticket.masterInfo.ten_kh"
-        [disabled]="true"
-        (handleClickUploadImage)="openUploadImage()" />
-      <form-input-custom
-        class="box"
-        [name]="'dia_chi'"
-        [label]="getLabel('lbl_dia_chi')"
-        [value]="ticket.masterInfo.dia_chi"
         [disabled]="true" />
-      <form-input-custom
-        class="box order-dynamic-3"
-        [name]="'ma_nvvc'"
-        [label]="getLabel('lbl_ma_nvvc')"
-        [tabIndex]="tabIndex.nvvc"
-        [readonly]="readonly"
-        [value]="ticket.masterInfo.ma_nvvc"
-        (handleChangeValue)="onEnterDECode($event)"
-        (handleClickOpenDialog)="openSearchDEDialog()" />
-      <form-input-custom
-        class="box"
-        [name]="'ten_nvvc'"
-        [label]="getLabel('lbl_ten_nvvc')"
-        [value]="ticket.masterInfo.ten_nvvc"
-        [disabled]="true" />
-      <form-input-custom
-        class="box"
-        [name]="'ghi_chu'"
-        [label]="getLabel('lbl_ghi_chu')"
-        [value]="ticket.masterInfo.dien_giai"
-        (handleChangeValue)="ticket.masterInfo.dien_giai = $event" />
-      <form-input-custom
-        class="box"
-        [name]="'imei_tra'"
-        [label]="getLabel('lbl_imei_tra')"
-        *ngIf="!readonly"
-        [tabIndex]="tabIndex.imei_return"
-        (handleEnterInput)="onEnterImeiReturnCode($event)"
-        (handleClickCodeScanner)="onClickReturnCodeScanner()"
-        [uploadImage]="true" />
-      <form-input-custom
-        class="box"
-        [name]="'imei_doi'"
-        [label]="getLabel('lbl_imei_doi')"
-        *ngIf="!readonly"
-        [tabIndex]="tabIndex.imei_change"
-        (handleEnterInput)="onEnterImeiChangeCode($event)"
-        (handleClickCodeScanner)="onClickChangeCodeScanner()"
-        [uploadImage]="true" />
-      <form-input-custom
-        class="box"
-        name="ma_vt"
-        [label]="getLabel('lbl_checkstock_ma_vt')"
-        *ngIf="!readonly"
-        [tabIndex]="tabIndex.ma_vt"
-        (handleEnterInput)="onEnterMerchandiseCode($event)"
-        (handleClickOpenDialog)="openMerchandiseDialog()" />
+
       <form-select-custom
         class="box"
         [isDisable]="readonly || disableSelectStatus"
@@ -111,36 +57,64 @@
         optionValue="status"
         [value]="ticket.masterInfo.status"
         (handleChangeValue)="ticket.masterInfo.status = $event" />
-    </div>
 
-    <tabs-custom>
-      <tab-custom label="Hàng đổi" class="w-100">
-        <table-custom
-          [readonly]="readonly"
-          [dataSource]="ticket.merchandise_change"
-          [columns]="merchandiseColumns"
-          (handleDelete)="onRemoveMerchandiseChange($event)" />
-      </tab-custom>
-      <tab-custom label="Hàng trả" class="w-100">
-        <table-custom
-          [readonly]="readonly"
-          [dataSource]="ticket.merchandise_return"
-          [columns]="merchandiseColumns"
-          (handleDelete)="onRemoveMerchandiseReturn($event)" />
-      </tab-custom>
-      <tab-custom label="Đổi kèm dịch vụ" class="w-100">
+      <form-input-custom
+        class="box"
+        [name]="'dia_chi'"
+        [label]="getLabel('lbl_dia_chi')"
+        [value]="ticket.masterInfo.dia_chi"
+        [disabled]="true" />
+      <form-input-custom
+        class="box"
+        [name]="'ghi_chu'"
+        [label]="getLabel('lbl_ghi_chu')"
+        [readonly]="readonly"
+        [value]="ticket.masterInfo.dien_giai"
+        (handleChangeValue)="ticket.masterInfo.dien_giai = $event" />
+
+      <form-input-custom
+        class="box"
+        [label]="getLabel('lbl_gia_nhap_mua')"
+        name="gia_nhap_mua"
+        [align]="'end'"
+        [value]="ticket.masterInfo.gia_nhap_mua"
+        [tabIndex]="tabIndex.gia_nhap_mua"
+        *ngIf="!readonly"
+        dataType="number"
+        (handleChangeValue)="onEnterPrice($event)"
+        format="moneyInputFormat" />
+      <form-input-custom
+        class="box"
+        name="ma_dv"
+        [label]="getLabel('lbl_ma_dv')"
+        [tabIndex]="tabIndex.ma_dv"
+        *ngIf="!readonly"
+        [disabled]="readonly"
+        (handleEnterInput)="onEnterService($event)"
+        (handleClickOpenDialog)="openSearchServiceDialog()"  />
+      
+        <div class="d-flex box align-items-end gap-3 mt-3 align-self-end">
+          <button
+            *ngIf="!readonly"
+            class="flex-1 btn act-input-data-btn text-nowrap"
+            (click)="openAddCustomerDialog()">
+            {{ getLabel('lbl_add_customer') }}
+          </button>
+        </div>
+      
+    </div>
+    
+    <tabs-custom title="Thông tin hàng hóa">
+      <tab-custom label="Dịch vụ" class="w-100">
         <table-custom
           [readonly]="readonly"
           [dataSource]="ticket.service"
-          [columns]="serviceColumns" />
+          [columns]="serviceColumns"
+          [isTicket]="false"
+          (handleDelete)="onRemoveService($event)"
+        />
       </tab-custom>
-      <!-- <tab-custom label="Bảo hành" class="w-100">
-        <table-custom
-          [readonly]="readonly"
-          [dataSource]="ticket.guarantee"
-          [columns]="guaranteeColumns" />
-      </tab-custom> -->
-      <tab-custom label="HĐĐT" class="w-100">
+      <!-- <tab-custom label="HĐĐT" class="w-100">
         <div
           class="text-medium font-medium flex flex-1 border-b-0.5 border-dashed border-neutrals07_color">
           {{ getLabel('lbl_tt_xuat_hddt') }}
@@ -153,9 +127,39 @@
           {{ getLabel('lbl_hddt_phat_hanh') }}
         </div>
         <e-invoice-tab [data]="eInvoiceInfo"></e-invoice-tab>
-      </tab-custom>
+      </tab-custom> -->
     </tabs-custom>
-
+    <ng-container>
+      <payment-tab
+        [action]="action"
+        [shop]="shop"
+        [invalid]="invalid"
+        [readonly]="readonly"
+        [pay_hidden]="[
+          'tien_dat_coc',
+          'quet_the',
+          'vi_dien_tu',
+          'vnpay',
+          'tra_gop',
+          'sd_diem',
+          'ma_giam_gia',
+          'chuyen_khoan',
+          'chiet_khau',
+          'giam_gia_crm',
+          'voucher_doi_tac',
+          'quet_the_tra_gop'
+        ]"
+        [hiddenChooseButton]="mode === 2"
+        [isPaymentHH]="true"
+        [t_tong_tien]="ticket.masterInfo.t_tt_nt"
+        [data]="ticket.payment"
+        [t_con_no]="ticket.masterInfo.t_con_no"
+        [t_da_tra]="ticket.masterInfo.t_da_tra"
+        (handleChangeValue)="
+          ticket.masterInfo.t_con_no = $event.t_con_no;
+          ticket.masterInfo.t_da_tra = $event.t_da_tra
+        " />
+    </ng-container>
     <div>
       <div class="title-content p-2">{{ getLabel('lbl_tc_don_hang') }}</div>
       <div class="box-container">
@@ -172,43 +176,18 @@
             [disabled]="true"
             [align]="'end'"
             [label]="getLabel('lbl_thanh_tien')"
-            [value]="ticket.masterInfo.t_tien_nt2"
+            [value]="ticket.masterInfo.t_tt_nt"
             format="moneyViewFormat"
             dataType="number" />
         </div>
-        <form-input-custom
-          class="box"
-          [disabled]="true"
-          [label]="getLabel('lbl_thue')"
-          [align]="'end'"
-          [value]="ticket.masterInfo.t_thue_nt"
-          format="moneyViewFormat"
-          dataType="number" />
-        <form-input-custom
-          class="box"
-          [disabled]="true"
-          [label]="getLabel('lbl_t_tt')"
-          [align]="'end'"
-          [value]="ticket.masterInfo.t_tt_nt"
-          format="moneyViewFormat"
-          dataType="number" />
-        <div class="box hidden md:flex"></div>
-        <form-input-custom
-          class="box"
-          [disabled]="true"
-          [label]="getLabel('lbl_t_gg')"
-          [align]="'end'"
-          [value]="ticket.masterInfo.t_gg"
-          format="moneyViewFormat"
-          dataType="number" />
-        <form-input-custom
+        <!-- <form-input-custom
           class="box"
           [disabled]="true"
           [label]="getLabel('lbl_diem_qd')"
           [align]="'end'"
           [value]="ticket.masterInfo.diem_qd"
           format="moneyViewFormat"
-          dataType="number" />
+          dataType="number" /> -->
       </div>
       <div class="d-flex justify-end gap-2 m-3">
         <app-voucher-info
@@ -222,7 +201,8 @@
         <div class="btn-responsive btn-cancel" (click)="onCancel()">
           {{ cancelButtonTitle }}
         </div>
-        <button class="btn-responsive btn-add"
+        <button
+          class="btn-responsive btn-add"
           [disabled]="isDisabled"
           (click)="onSave()"
           *ngIf="!readonly">
