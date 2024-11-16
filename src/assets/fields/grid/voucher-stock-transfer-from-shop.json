@@ -56,18 +56,22 @@
         },
         {
             "name": "ma_vt",
+			"width": 120,			
             "title": "Mã vật tư"
         },
         {
             "name": "ten_vt",
+			"width": 400,			
             "title": "Tên vật tư"
         },
         {
             "name": "dvt",
+			"width": 60,			
             "title": "Đơn vị tính"
         },
         {
             "name": "so_luong",
+			"width": 80,			
             "title": "Số lượng"
         },
         {
@@ -78,6 +82,7 @@
         },
         {
             "name": "ghi_chu",
+			"width": 300,			
             "title": "Ghi chú"
         }
     ],
@@ -85,31 +90,38 @@
         {
             "name": "ma_kho",
             "title": "Mã kho",
+			"width": 80,
             "isPrimaryKey": true
         },
         {
             "name": "ma_dvcs",
             "title": "Đơn vị",
+			"width": 80,			
             "dataFormatString": "upperCaseFormat"
         },
         {
             "name": "ten_kho",
+			"width": 300,			
             "title": "Tên kho"
         },
         {
             "name": "ten_kho2",
+			"width": 300,			
             "title": "Tên kho 2"
         },
         {
             "name": "ma_loai",
+			"width": 80,			
             "title": "Mã loại"
         },
         {
             "name": "ma_cuahang",
+			"width": 80,			
             "title": "Mã cửa hàng"
         },
         {
             "name": "ghi_chu",
+			"width": 300,			
             "title": "Ghi chú"
         }
     ],
@@ -127,22 +139,27 @@
         {
             "name": "ma_cuahang",
             "title": "Mã cửa hàng",
+			"width": 80,
             "isPrimaryKey": true
         },
         {
             "name": "ten_cuahang",
+			"width": 350,
             "title": "Tên cửa hàng"
         },
         {
             "name": "dia_chi",
+			"width": 400,
             "title": "Địa chỉ"
         },
         {
             "name": "dien_thoai",
+			"width": 100,
             "title": "Điện thoại"
         },
         {
             "name": "ma_tinh",
+			"width": 80,
             "title": "Mã tỉnh"
         }
     ]
