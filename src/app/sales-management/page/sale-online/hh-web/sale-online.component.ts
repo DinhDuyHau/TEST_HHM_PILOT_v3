@@ -617,6 +617,12 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
 
     // Submit
     onSave() {
+        // Check âm tiền nợ
+        if(this.ticket.masterInfo.t_con_no < 0) {
+          this.commonService.showMessage('Tiền nợ không được âm');
+          return;
+        }
+
         //Check imei trùng trong grid chi tiết
         const mechandise_dup = [];
         const counter: { [key: string]: number } = {};

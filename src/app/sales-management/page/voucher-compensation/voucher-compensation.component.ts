@@ -390,7 +390,7 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if(!ma_imei || ma_imei.length < 5) {
+    if (!ma_imei || ma_imei.length < 5) {
       this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
       return;
     }
@@ -661,6 +661,12 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
 
   // Submit
   onSave() {
+    // Check âm tiền nợ
+    if (this.ticket.masterInfo.t_con_no < 0) {
+      this.commonService.showMessage('Tiền nợ không được âm');
+      return;
+    }
+
     const message = this.voucherCompensationService.validateTicket(this.ticket);
     this.invalid = this.commonService.isInValidPayment(this.ticket.payment) || this.voucherCompensationService.isInvalidForm(this.ticket.masterInfo);
 

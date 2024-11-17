@@ -703,24 +703,24 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         }
 
       } else {
-        if(isEnterImei) {
+        if (isEnterImei) {
           /*
           * Ko đúng imei sẽ mở dialog tìm kiếm
           */
-           const user = JSON.parse(localStorage.getItem('user') || '{}');
-           this.commonService.openDialog(SearchDialogComponent, {
-             keyword: ma_imei,
-             shop: user.shop,
-             componentName: SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES,
-             title: 'Danh sách kết quả tìm kiếm imei',
-             isFilter: false
-           }, 'search-style-dialog')
-           .afterClosed().subscribe(result => {
-             if (result && result.ma_imei) {
-               this.ma_imei = result.ma_imei;
-               this.processRenewSale(this.ma_imei, ma_vt_thu_cu, imei_thu_cu, ngay_ct, tien_ho_tro, tien_thu_cu);
-             }
-           });
+          const user = JSON.parse(localStorage.getItem('user') || '{}');
+          this.commonService.openDialog(SearchDialogComponent, {
+            keyword: ma_imei,
+            shop: user.shop,
+            componentName: SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES,
+            title: 'Danh sách kết quả tìm kiếm imei',
+            isFilter: false
+          }, 'search-style-dialog')
+            .afterClosed().subscribe(result => {
+              if (result && result.ma_imei) {
+                this.ma_imei = result.ma_imei;
+                this.processRenewSale(this.ma_imei, ma_vt_thu_cu, imei_thu_cu, ngay_ct, tien_ho_tro, tien_thu_cu);
+              }
+            });
         } else {
           if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise_new_sale)) {
             this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: ma_imei });
@@ -1011,6 +1011,12 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
 
   // Submit
   onSave() {
+    // Check âm tiền nợ
+    if (this.ticket.masterInfo.t_con_no < 0) {
+      this.commonService.showMessage('Tiền nợ không được âm');
+      return;
+    }
+
     //Check imei trùng trong grid chi tiết
     const mechandise_dup = [];
     const counter: { [key: string]: number } = {};

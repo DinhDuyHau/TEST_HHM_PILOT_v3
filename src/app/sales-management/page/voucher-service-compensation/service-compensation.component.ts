@@ -244,6 +244,12 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
 
     // Submit
     onSave() {
+        // Check âm tiền nợ
+        if(this.ticket.masterInfo.t_con_no < 0) {
+          this.commonService.showMessage('Tiền nợ không được âm');
+          return;
+        }
+
         const message = this.serviceCompensationService.validateTicket(this.ticket);
         this.invalid = this.commonService.isInValidPayment(this.ticket.payment) || !this.ticket.masterInfo.ma_kh;
 

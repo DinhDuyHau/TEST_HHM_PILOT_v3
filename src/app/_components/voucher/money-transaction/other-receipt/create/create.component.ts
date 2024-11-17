@@ -288,6 +288,12 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
   }
 
   onSubmit() {
+    // Check âm tiền nợ
+    if (this.data.masterInfo.t_con_no !== undefined && this.data.masterInfo.t_con_no < 0) {
+      this.commonService.showMessage('Tiền nợ không được âm');
+      return;
+    }
+
     this.submitted = true;
     let input_error: any;
     if (this.voucherForm.invalid) {
