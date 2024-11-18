@@ -59,16 +59,16 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
   invalidMerchandiseInput = { ma_vt: false, gia_nhap_mua: false, loai_hh: false, ma_kh: false };
   isSaving = false;
   tabIndex = {
-    ma_kh: 0,
-    nvvc: 2,
-    ma_loai: 3,
-    ma_vt: 4,
-    gia_nhap_mua: 5,
-    imei: 6,
+    ma_kh: 'ma_kh',
+    nvvc: 'nvvc',
+    ma_loai: 'ma_loai',
+    ma_vt: 'ma_vt',
+    gia_nhap_mua: 'gia_nhap_mua',
+    imei: 'imei',
   };
   conversionPoints = 0;
   previewImage = '';
-  tabIndexFocusFirst = 0;
+  tabIndexFocusFirst = 'imei';
   eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
   entity = TICKET_ENTITY.REPURCHASE;
   action = '';
@@ -202,7 +202,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     if (!merchandise) {
       this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise, Merchandise);
       this.saleRepurchaseService.calcMoney();
-      this.commonService.clearText([this.tabIndex.imei, this.tabIndex.ma_vt]);
+      this.commonService.clearText2([this.tabIndex.imei, this.tabIndex.ma_vt]);
     }
   }
 
@@ -255,7 +255,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
               merchandise.ma_imei = imei_info.ma_imei;
               merchandise.dvt = imei_info.dvt;
               this.merchandiseService.addNew(merchandise, this.ticket.merchandise, Merchandise);
-              this.commonService.clearText([this.tabIndex.ma_loai, this.tabIndex.ma_vt, this.tabIndex.gia_nhap_mua]);
+              this.commonService.clearText2([this.tabIndex.ma_loai, this.tabIndex.ma_vt, this.tabIndex.gia_nhap_mua]);
               this.clearData();
               this.saleRepurchaseService.calcMoney();
               // this.commonService.addImeiToStorage(ma_imei);
@@ -285,7 +285,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
             };
 
             this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise, Merchandise);
-            this.commonService.clearText([this.tabIndex.ma_loai, this.tabIndex.ma_vt, this.tabIndex.gia_nhap_mua]);
+            this.commonService.clearText2([this.tabIndex.ma_loai, this.tabIndex.ma_vt, this.tabIndex.gia_nhap_mua]);
             this.clearData();
             this.saleRepurchaseService.calcMoney();
             // this.commonService.addImeiToStorage(ma_imei);
@@ -293,7 +293,8 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
         }
       });
     }
-    this.commonService.clearText([this.tabIndex.imei]);
+    this.commonService.clearText2([this.tabIndex.imei]);
+    this.commonService.focusControl2(this.tabIndex.imei);
     this.invalid && this.commonService.showMessage(Language.content.Missing_information);
   }
   clearData() {

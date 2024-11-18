@@ -90,20 +90,20 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   isSaving = false;
   isDisabled = false;
   tabIndex = {
-    ma_kh: 0,
-    nvvc: 2,
-    ma_loai: 3,
-    ma_vt: 4,
-    ma_vt_new_sale: 5,
-    gia_nt: 6,
-    imei_used: 7,
-    imei_new_sale: 8,
-    ten_vt: 9,
-    ma_ncc: 10,
+    ma_kh: 'ma_kh',
+    nvvc: 'nvvc',
+    ma_loai: 'ma_loai',
+    ma_vt: 'ma_vt',
+    ma_vt_new_sale: 'ma_vt_new_sale',
+    gia_nt: 'gia_nt',
+    imei_used: 'imei_used',
+    imei_new_sale: 'imei_new_sale',
+    ten_vt: 'ten_vt',
+    ma_ncc: 'ma_ncc',
   };
   disableSelectSatus = false;
   previewImage = '';
-  tabIndexFocusFirst = 0;
+  tabIndexFocusFirst = 'ma_kh';
   eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
   conversionPoints = 0;
   eInvoiceInfoOutput: EInvoiceInfoOutput = new EInvoiceInfoOutput();
@@ -260,7 +260,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
 
   // #region customer
   handleAddCustomer(customer: Customer) {
-    this.commonService.focusControl(this.tabIndex.nvvc);
+    this.commonService.focusControl2(this.tabIndex.nvvc);
     this.saleRenewService.removeDiscountForCustomer();
     this.saleRenewService.setInfoCustomer(customer);
     this.handleGetDeposit();
@@ -349,12 +349,12 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   handleAddDeliveryEmpl(empl: any) {
     this.ticket.masterInfo.ma_nvvc = empl.ma_kh;
     this.ticket.masterInfo.ten_nvvc = empl.ten_kh;
-    this.commonService.focusControl(this.tabIndex.imei_used);
+    this.commonService.focusControl2(this.tabIndex.imei_used);
   }
 
   onEnterDECode(ma_nvvc: string) {
     if (!ma_nvvc) {
-      this.commonService.focusControl(this.tabIndex.imei_used);
+      this.commonService.focusControl2(this.tabIndex.imei_used);
       return;
     }
     this.deliveryEmployeeApiService.getOneById(ma_nvvc).subscribe(result => {
@@ -447,7 +447,8 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
           this.saleRenewService.addPromotionMerchandise(discount, merchandiseResponse.ma_imei);
         }
       }
-      this.commonService.clearText([this.tabIndex.imei_new_sale, this.tabIndex.ma_vt_new_sale]);
+      this.commonService.clearText2([this.tabIndex.imei_new_sale, this.tabIndex.ma_vt_new_sale]);
+      this.commonService.focusControl2(this.tabIndex.imei_new_sale);
       this.saleRenewService.setIsNeedCalcDiscount(true);
       this.discountService.resetDiscount(this.ticket.discount);
       this.saleRenewService.calcMoney();
@@ -476,7 +477,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       gc_td1: imei_xuat_ban
     };
     this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise_used, MerchandiseUsed);
-    this.commonService.clearText([this.tabIndex.ma_loai, this.tabIndex.ma_vt, this.tabIndex.ten_vt, this.tabIndex.gia_nt]);
+    this.commonService.clearText2([this.tabIndex.ma_loai, this.tabIndex.ma_vt, this.tabIndex.ten_vt, this.tabIndex.gia_nt]);
     this.onRefreshRenew();
     this.saleRenewService.calcMoney();
     this.commonService.addImeiToStorage(this.renew.ma_imei);
@@ -515,14 +516,14 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
                 return;
               } else {
                 this.addImeiOldMerchandise(ma_imei);
-                this.commonService.clearText([this.tabIndex.imei_used]);
+                this.commonService.clearText2([this.tabIndex.imei_used]);
                 this.onRefreshRenew();
               }
             }
             else {
               this.renew.new_imei_yn = true;
               this.addImeiOldMerchandise(ma_imei);
-              this.commonService.clearText([this.tabIndex.imei_used]);
+              this.commonService.clearText2([this.tabIndex.imei_used]);
               this.onRefreshRenew();
             }
           }
@@ -635,14 +636,14 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
                 return;
               } else {
                 this.addImeiOldMerchandise(ma_imei);
-                this.commonService.clearText([this.tabIndex.imei_used]);
+                this.commonService.clearText2([this.tabIndex.imei_used]);
                 this.onRefreshRenew();
               }
             }
             else {
               this.renew.new_imei_yn = true;
               this.addImeiOldMerchandise(ma_imei);
-              this.commonService.clearText([this.tabIndex.imei_used]);
+              this.commonService.clearText2([this.tabIndex.imei_used]);
               this.onRefreshRenew();
             }
           }

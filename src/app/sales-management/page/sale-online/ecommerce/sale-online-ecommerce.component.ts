@@ -65,10 +65,10 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   isSaving = false;
   isDisabled = false;
   tabIndex = {
-    ma_kh_tmdt: 0,
-    ma_kh: 2,
-    imei: 3,
-    ma_vt: 4
+    ma_kh_tmdt: 'ma_kh_tmdt',
+    ma_kh: 'ma_kh',
+    imei: 'imei',
+    ma_vt: 'ma_vt'
   };
 
   disableSelectStatus = false;
@@ -77,7 +77,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   depositMerchandise: any[] = [];
   depositNameList = '';
   depositTotalPrice = 0;
-  tabIndexFocusFirst = 0;
+  tabIndexFocusFirst = 'ma_kh_tmdt';
   eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
   conversionPoints = 0;
   eInvoiceInfoOutput: EInvoiceInfoOutput = new EInvoiceInfoOutput();
@@ -216,7 +216,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
 
   // #region customer
   handleAddCustomer(customer: Customer) {
-    this.commonService.focusControl(this.tabIndex.ma_vt);
+    this.commonService.focusControl2(this.tabIndex.ma_vt);
     this.saleOnlineEcommerceService.removeDiscountForCustomer();
     this.saleOnlineEcommerceService.setInfoCustomer(customer);
     this.handleGetDeposit();
@@ -327,7 +327,8 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
 
       //mapping các loại phí sàn
       this.handleECommFeeMapping(merchandiseResponse);
-      this.commonService.clearText([this.tabIndex.imei, this.tabIndex.ma_vt]);
+      this.commonService.clearText2([this.tabIndex.imei, this.tabIndex.ma_vt]);
+      this.commonService.focusControl2(this.tabIndex.imei);
       this.saleOnlineEcommerceService.setIsNeedCalcDiscount(true);
       this.discountService.resetDiscount(this.ticket.discount);
       this.saleOnlineEcommerceService.calcMoney();

@@ -46,11 +46,11 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
     isSaving = false;
     isDisabled = false;
     tabIndex = {
-        ma_kh: 0,
-        ma_dv: 2,
+        ma_kh: 'ma_kh',
+        ma_dv: 'ma_dv'
     };
     previewImage = '';
-    tabIndexFocusFirst = 0;
+    tabIndexFocusFirst = 'ma_kh';
     eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
     conversionPoints = 0;
     eInvoiceInfoOutput: EInvoiceInfoOutput = new EInvoiceInfoOutput();
@@ -148,7 +148,7 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
 
     // #region customer
     handleAddCustomer(customer: Customer) {
-        this.commonService.focusControl(this.tabIndex.ma_dv);
+        this.commonService.focusControl2(this.tabIndex.ma_dv);
         this.saleServiceService.setInfoCustomer(customer);
         this.saleServiceService.getConversionPoint().subscribe(result => {
             if (result && result.success && result.result !== null) {
@@ -220,7 +220,7 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
             .afterClosed()
             .subscribe((service: any) => {
                 this.handleAddService(service);
-                this.commonService.clearText([this.tabIndex.ma_dv]);
+                this.commonService.clearText2([this.tabIndex.ma_dv]);
             });
     }
 

@@ -65,11 +65,11 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
   isSaving = false;
   isDisabled = false;
   tabIndex = {
-    job_id: 0,
-    ma_kh: 2,
-    nvvc: 3,
-    imei: 4,
-    ma_vt: 5
+    job_id: 'job_id',
+    ma_kh: 'ma_kh',
+    nvvc: 'nvvc',
+    imei: 'imei',
+    ma_vt: 'ma_vt'
   };
 
   disabledSelectPackage = true;
@@ -79,7 +79,7 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
   depositMerchandise: any[] = [];
   depositNameList = '';
   depositTotalPrice = 0;
-  tabIndexFocusFirst = 0;
+  tabIndexFocusFirst = 'job_id';
   eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
   conversionPoints = 0;
   eInvoiceInfoOutput: EInvoiceInfoOutput = new EInvoiceInfoOutput();
@@ -218,7 +218,7 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
 
   // #region customer
   handleAddCustomer(customer: Customer) {
-    this.commonService.focusControl(this.tabIndex.nvvc);
+    this.commonService.focusControl2(this.tabIndex.nvvc);
     this.saleItinerantService.removeDiscountForCustomer();
     this.saleItinerantService.setInfoCustomer(customer);
     this.handleGetDeposit();
@@ -292,12 +292,12 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
   handleAddDeliveryEmpl(empl: any) {
     this.ticket.masterInfo.ma_nvvc = empl.ma_kh;
     this.ticket.masterInfo.ten_nvvc = empl.ten_kh;
-    this.commonService.focusControl(this.tabIndex.imei);
+    this.commonService.focusControl2(this.tabIndex.imei);
   }
 
   onEnterDECode(ma_nvvc: string) {
     if (!ma_nvvc) {
-      this.commonService.focusControl(this.tabIndex.imei);
+      this.commonService.focusControl2(this.tabIndex.imei);
       return;
     }
     this.deliveryEmployeeApiService.getOneById(ma_nvvc).subscribe(result => {
@@ -351,7 +351,8 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
           this.saleItinerantService.addPromotionMerchandise(discount, merchandiseResponse.ma_imei);
         }
       }
-      this.commonService.clearText([this.tabIndex.imei, this.tabIndex.ma_vt]);
+      this.commonService.clearText2([this.tabIndex.imei, this.tabIndex.ma_vt]);
+      this.commonService.focusControl2(this.tabIndex.imei);
       this.saleItinerantService.setIsNeedCalcDiscount(true);
       this.discountService.resetDiscount(this.ticket.discount);
       this.saleItinerantService.calcMoney();

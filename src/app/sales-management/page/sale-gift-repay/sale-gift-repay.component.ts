@@ -49,12 +49,12 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
   isSaving = false;
   isDisabled = false;
   tabIndex = {
-    ma_kh: 0,
-    nvvc: 2,
-    imei: 3,
+    ma_kh: 'ma_kh',
+    nvvc: 'nvvc',
+    imei: 'imei',
   };
   previewImage = '';
-  tabIndexFocusFirst = 0;
+  tabIndexFocusFirst = 'ma_kh';
   eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
   entity = TICKET_ENTITY.GIFT_REPAY;
   ma_imei = '';
@@ -146,7 +146,7 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
 
   // #region customer
   handleAddCustomer(customer: Customer) {
-    this.commonService.focusControl(this.tabIndex.nvvc);
+    this.commonService.focusControl2(this.tabIndex.nvvc);
     this.saleGiftRepayService.setInfoCustomer(customer);
     this.saleGiftRepayService.calcMoney();
   }
@@ -183,7 +183,8 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
   handleAddImei(merchandiseResponse: any) {
     const merchandise = this.merchandiseService.getMerchandiseNotHaveImei(merchandiseResponse.ma_vt, this.ticket.merchandise);
     merchandise && (merchandise.ma_imei = merchandiseResponse.ma_imei) && (merchandise.ma_kho = merchandiseResponse.ma_kho);
-    this.commonService.clearText([this.tabIndex.imei]);
+    this.commonService.clearText2([this.tabIndex.imei]);
+    this.commonService.focusControl2(this.tabIndex.imei);
   }
 
   onEnterImeiCode(ma_imei: string) {

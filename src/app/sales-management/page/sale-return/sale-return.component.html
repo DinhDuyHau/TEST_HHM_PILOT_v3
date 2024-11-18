@@ -120,7 +120,6 @@
         class="box"
         [name]="'imei'"
         [label]="getLabel('lbl_imei')"
-        [tabIndex]="tabIndex.imei"
         [readonly]="readonly"
         (handleEnterInput)="onEnterImeiCode($event)"
         (handleClickCodeScanner)="!readonly && onClickCodeScanner()"
