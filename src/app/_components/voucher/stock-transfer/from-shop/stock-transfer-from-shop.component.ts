@@ -473,6 +473,10 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
     else {
       this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise, Merchandise);
     }
+
+    //tính lại tổng số lượng
+    this.ticket.masterInfo.t_so_luong = this.ticket?.merchandise?.map(e => e.so_luong).reduce((pre, cur) => pre + cur, 0) || 0;
+
   }
 
   onEnterImeiCode(ma_imei: string) {
