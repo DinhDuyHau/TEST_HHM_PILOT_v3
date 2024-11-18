@@ -24,7 +24,6 @@
         [name]="'ma_kh'"
         [label]="getLabel('lbl_ma_kh')"
         [value]="ticket.masterInfo.ma_kh"
-        [tabIndex]="tabIndex.ma_kh"
         [invalid]="invalid"
         [readonly]="readonly"
         (handleChangeValue)="onEnterCustomerCode($event)"
@@ -59,7 +58,6 @@
         class="box"
         name="ma_dv"
         [label]="getLabel('lbl_ma_dv')"
-        [tabIndex]="tabIndex.ma_dv"
         *ngIf="!readonly"
         (handleEnterInput)="(null)"
         (handleClickOpenDialog)="openSearchServiceDialog()" />

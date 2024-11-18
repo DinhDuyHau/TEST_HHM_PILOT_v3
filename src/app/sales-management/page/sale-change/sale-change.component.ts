@@ -53,14 +53,14 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   isSaving = false;
   isDisabled = false;
   tabIndex = {
-    ma_kh: 0,
-    nvvc: 2,
-    imei_return: 3,
-    imei_change: 4,
-    ma_vt: 5
+    ma_kh: 'ma_kh',
+    nvvc: 'nvvc',
+    imei_return: 'imei_return',
+    imei_change: 'imei_change',
+    ma_vt: 'ma_vt'
   };
   previewImage = '';
-  tabIndexFocusFirst = 0;
+  tabIndexFocusFirst = 'ma_kh';
   eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
   entity = TICKET_ENTITY.CHANGE;
   ma_imei_doi = '';
@@ -199,7 +199,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   // #region imei
   handleAddImei(merchandiseResponse: any, return_or_change: Merchandise[]) {
     this.merchandiseService.addNew(merchandiseResponse, return_or_change, Merchandise);
-    this.commonService.clearText([this.tabIndex.imei_change]);
+    this.commonService.clearText2([this.tabIndex.imei_change]);
     this.saleChangeService.calcMoney();
   }
 
@@ -247,7 +247,8 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
         if (this.ticket.merchandise_change && this.ticket.merchandise_change.length) {
           this.ticket.service.forEach(x => x.ma_imei_doi = this.ticket.merchandise_change[0].ma_imei);
         }
-        this.commonService.clearText([this.tabIndex.imei_return]);
+        this.commonService.clearText2([this.tabIndex.imei_return]);
+        this.commonService.focusControl2(this.tabIndex.imei_return);
         this.saleChangeService.calcMoney();
         // this.imeiApiService.updateImeiState([ma_imei], true, 1).subscribe(result => {
         //   if (result.success && result.result[0].dat_hang_yn) {

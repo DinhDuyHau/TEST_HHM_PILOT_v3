@@ -56,7 +56,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
   isDisableReturnType = false;
   isDisableCODReturn = false;
   tabIndex = {
-    imei: 1
+    imei: 'imei'
   };
   previewImage = '';
 
@@ -312,7 +312,8 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
               //tính số tiền còn nợ
               this.ticket.masterInfo.t_con_no = Math.abs(this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra);
 
-              this.commonService.clearText([this.tabIndex.imei]);
+              this.commonService.clearText2([this.tabIndex.imei]);
+              this.commonService.focusControl2(this.tabIndex.imei);
               // this.commonService.addImeiToStorage(ma_imei);
               this.resetSaleDown();
               //Khóa trường

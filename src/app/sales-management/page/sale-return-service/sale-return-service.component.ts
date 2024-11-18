@@ -46,10 +46,10 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
   isSaving = false;
   isDisabled = false;
   tabIndex = {
-    so_dh: 1,
+    so_dh: 'so_dh',
   };
   previewImage = '';
-  tabIndexFocusFirst = 0;
+  tabIndexFocusFirst = 'so_dh';
   entity = TICKET_ENTITY.WHOLE;
 
   constructor(
@@ -197,7 +197,7 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
               this.ticket.service = [];
             }
             this.serviceOfMerchandiseService.convertReturnServiceFromVoucher(detail, this.ticket.service, Service);
-            this.commonService.clearText([this.tabIndex.so_dh]);
+            this.commonService.clearText2([this.tabIndex.so_dh]);
             this.saleReturnServiceService.calcMoney();
           } else {
             this.commonService.showMessageByName('lblWarningServiceExist');

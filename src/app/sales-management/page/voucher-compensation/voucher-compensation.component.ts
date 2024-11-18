@@ -69,10 +69,10 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
   invalid = false;
   isSaving = false;
   tabIndex = {
-    ma_kh: 1,
-    nvvc: 2,
-    imei: 3,
-    ma_hh: 4
+    ma_kh: 'ma_kh',
+    nvvc: 'nvvc',
+    imei: 'imei',
+    ma_hh: 'ma_hh'
   };
   disableSelectStatus = false;
   previewImage = '';
@@ -81,7 +81,7 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
   depositNameList = '';
   depositTotalPrice = 0;
   imageCutomerFile?: File;
-  tabIndexFocusFirst = 1;
+  tabIndexFocusFirst = 'ma_kh';
   eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
   conversionPoints = 0;
   list_imei_old: string[] = [];
@@ -223,7 +223,7 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
   }
   // #region customer
   handleAddCustomer(customer: Customer) {
-    this.commonService.focusControl(this.tabIndex.nvvc);
+    this.commonService.focusControl2(this.tabIndex.nvvc);
     this.voucherCompensationService.removeDiscountForCustomer();
     this.voucherCompensationService.setInfoCustomer(customer);
     this.handleGetDeposit();
@@ -286,13 +286,13 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
   handleAddDeliveryEmpl(empl: any) {
     this.ticket.masterInfo.ma_nvvc = empl.ma_kh;
     this.ticket.masterInfo.ten_nvvc = empl.ten_kh;
-    this.commonService.focusControl(this.tabIndex.imei);
+    this.commonService.focusControl2(this.tabIndex.imei);
     this.ticket.transport.hhDelivery.ten_nv = empl.ten_kh;
   }
 
   onEnterDECode(ma_nvvc: string) {
     if (!ma_nvvc) {
-      this.commonService.focusControl(this.tabIndex.imei);
+      this.commonService.focusControl2(this.tabIndex.imei);
       return;
     }
     this.deliveryEmployeeApiService.getOneById(ma_nvvc).subscribe(result => {
@@ -349,7 +349,8 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
       }
       */
 
-      this.commonService.clearText([this.tabIndex.imei, this.tabIndex.ma_hh]);
+      this.commonService.clearText2([this.tabIndex.imei, this.tabIndex.ma_hh]);
+      this.commonService.focusControl2(this.tabIndex.imei);
       this.voucherCompensationService.setIsNeedCalcDiscount(true);
       this.discountService.resetDiscount(this.ticket.discount);
       this.voucherCompensationService.calcMoney();
