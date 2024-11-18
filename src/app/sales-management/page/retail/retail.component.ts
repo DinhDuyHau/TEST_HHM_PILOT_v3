@@ -70,10 +70,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
   isSaving = false;
   isDisabled = false;
   tabIndex = {
-    ma_kh: 1,
-    nvvc: 2,
-    imei: 3,
-    ma_hh: 4
+    ma_kh: 'ma_kh',
+    nvvc: 'nvvc',
+    ma_hh: 'ma_hh',
+    imei: 'imei',
   };
   disableSelectStatus = false;
   previewImage = '';
@@ -82,7 +82,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   depositNameList = '';
   depositTotalPrice = 0;
   imageCutomerFile?: File;
-  tabIndexFocusFirst = 1;
+  tabIndexFocusFirst = 'imei';
   eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
   conversionPoints = 0;
   list_imei_old: string[] = [];
@@ -269,7 +269,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
         });
     }
 
-    this.commonService.focusControl(this.tabIndex.nvvc);
+    this.commonService.focusControl2(this.tabIndex.nvvc);
     this.retailService.removeDiscountForCustomer();
     this.retailService.setInfoCustomer(customer);
     this.handleGetDeposit();
@@ -332,13 +332,13 @@ export class RetailComponent implements OnInit, AfterViewInit {
   handleAddDeliveryEmpl(empl: any) {
     this.ticket.masterInfo.ma_nvvc = empl.ma_kh;
     this.ticket.masterInfo.ten_nvvc = empl.ten_kh;
-    this.commonService.focusControl(this.tabIndex.imei);
+    this.commonService.focusControl2(this.tabIndex.imei);
     this.ticket.transport.hhDelivery.ten_nv = empl.ten_kh;
   }
 
   onEnterDECode(ma_nvvc: string) {
     if (!ma_nvvc) {
-      this.commonService.focusControl(this.tabIndex.imei);
+      this.commonService.focusControl2(this.tabIndex.imei);
       return;
     }
     this.deliveryEmployeeApiService.getOneById(ma_nvvc).subscribe(result => {
@@ -392,7 +392,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
           this.retailService.addPromotionMerchandise(discount, merchandiseResponse.ma_imei);
         }
       }
-      this.commonService.clearText([this.tabIndex.imei, this.tabIndex.ma_hh]);
+      this.commonService.clearText2([this.tabIndex.imei, this.tabIndex.ma_hh]);
+      this.commonService.focusControl2(this.tabIndex.imei);
       this.retailService.setIsNeedCalcDiscount(true);
       this.discountService.resetDiscount(this.ticket.discount);
       this.retailService.calcMoney();
