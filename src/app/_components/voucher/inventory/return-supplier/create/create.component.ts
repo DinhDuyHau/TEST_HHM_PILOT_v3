@@ -31,6 +31,7 @@ import { ReturnSupplierDetailService } from './return-supplier-detail.service';
 import { ReturnSupplierService } from '../return-supplier.service';
 import { lastValueFrom } from 'rxjs';
 import { CommonService } from '@app/sales-management/page/common/common.service';
+import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '@app/sales-management/component/search/serach-dialog.component';
 
 @Component({
   selector: 'app-create',
@@ -419,6 +420,17 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
   onEnterIMEI($event: any) {
     $event.preventDefault();
     const imei = $event.target.value;
+
+    if (!this.data.masterInfo.ma_kh || this.data.masterInfo.ma_kh === '') {
+      this.commonService.showMessage('Cần nhập mã NCC trước khi nhập imei');
+      return;
+    }
+
+    if(!imei || imei.length < 5) {
+      this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
+      return;
+    }
+
     if (imei) {
       this.addItem(imei).then((flag) => {
         if (flag)
@@ -446,7 +458,25 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
       const message = this.imeiService.GetMessageStatusImei(map, res.result[0]);
 
       if (message) {
-        this.commonService.showMessage(message);
+        /*
+        * Ko đúng imei sẽ mở dialog tìm kiếm
+        */
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        this.commonService.openDialog(SearchDialogComponent, {
+          keyword: imei,
+          shop: user.shop,
+          componentName: SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES,
+          title: 'Danh sách kết quả tìm kiếm imei',
+          isFilter: false
+        }, 'search-style-dialog')
+          .afterClosed().subscribe( async (result) => {
+            if (result && result.ma_imei) {
+              const ma_imei = result.ma_imei;
+              await this.processImeiInfo(ma_imei);
+              this.imei = '';
+            }
+          });
+
         return false;
       }
     }
@@ -592,5 +622,59 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);
+  }
+
+  async processImeiInfo(imei: string): Promise<boolean> {
+    if (this.data.details[0].data.find(x => x.ma_imei.trim() === imei.trim())) {
+      this.commonService.showMessageByNameAdvance('lblWarningExistImei', { name: '%imei', value: imei });
+      return false;
+    }
+    const res = await lastValueFrom(this.imeiService.getListImeiInfo([imei]));
+    if (res.success && res.result) {
+      const map = new Map();
+      map.set('exists_yn', true);
+      map.set('in_store_yn', true);
+      map.set('xuat_yn', false);
+      map.set('dieu_chuyen_yn', false);
+      map.set('dat_hang_yn', false);
+      const message = this.imeiService.GetMessageStatusImei(map, res.result[0]);
+
+      if (message) {
+        this.commonService.showMessage(message);
+        return false;
+      }
+    }
+    const result = await lastValueFrom(this.imeiService.getImeiInfo(imei, this.ma_cuahang, this.voucherCode));
+    if (result.success && result.result) {
+      const response = result.result[0];
+
+      this.data.masterInfo.ma_kh = response.ma_ncc.trim();
+      this.f['ma_kh'].setValue(response.ma_ncc.trim());
+      this.data.masterInfo['ten_kh'] = response.ten_ncc.trim();
+
+      this.data.details[0].data.push({
+        stt_rec_pn: response.stt_rec_pn,
+        stt_rec0pn: response.stt_rec0pn,
+        pn_so: response.so_ct,
+        ma_imei: response.ma_imei,
+        stt_rec0: '',
+        line_nbr: this.data.details[0].data.length + 1,
+        ma_vt: response.ma_vt,
+        ten_vt: response.ten_vt,
+        dvt: response.dvt,
+        ma_kho: response.ma_kho,
+        ma_thue: response.ma_thue,
+        thue_suat: response.thue_suat,
+        so_luong: response.so_luong,
+        gia_nt: response.gia_ban,
+        tien_nt: response.thanh_tien,
+        thue_nt: response.tien_thue,
+        tt_nt: response.thanh_toan
+      });
+      this.calcTotal();
+      this.dataSource.data = this.data.details[0].data;
+      return true;
+    }
+    return false;
   }
 }

@@ -16,6 +16,7 @@ const GET_IMEI_STATE_URL = `${environment.apiUrl}/imei/getstate`;
 const GET_IMEI_STATE_AND_ITEM_URL = `${environment.apiUrl}/imei/get_state_and_item`;
 const GET_SOLD_INFO_IMEI_URL = `${environment.apiUrl}/imei/soldinfo`;
 const GET_IMEI_PROMOTIONS_URL = `${environment.apiUrl}/imei/change-gift-promotions`;
+const FIND_BY_PREFIX_URL = `${environment.apiUrl}/imei/find_by_prefix`;
 
 @Injectable({
     providedIn: 'root'
@@ -96,4 +97,8 @@ export class ImeiApiService extends ApiService {
     getImeiChangeGiftPromotions(ma_imei: string, ma_ck: string, rec: number) {
         return this.get<ResultNoPaging<Imei>>(GET_IMEI_PROMOTIONS_URL, { ma_imei, ma_ck, rec });
     }
-}   
+
+    findImeiByPrefix(page_index: number, page_size: number, ma_imei: string, isCheckInventory: boolean, ma_cuahang: string) {
+        return this.get<Result<Imei>>(FIND_BY_PREFIX_URL, { ma_imei, ma_cuahang, isCheckInventory, page_index, page_size });
+    }
+}

@@ -381,6 +381,12 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
 
   // Submit
   onSave() {
+    // Check âm tiền nợ
+    if (this.ticket.masterInfo.t_con_no < 0) {
+      this.commonService.showMessage('Tiền nợ không được âm');
+      return;
+    }
+
     const message = this.saleWholeService.validateTicket(this.ticket);
     this.invalid = this.commonService.isInValidPayment(this.ticket.payment) || this.saleWholeService.isInvalidForm(this.ticket.masterInfo);
     this.invalid && this.commonService.showMessage(Language.content.Missing_information);

@@ -89,6 +89,7 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
   entity = TICKET_ENTITY.STOCK_COMPENSATION;
   action = '';
   shop = '';
+  ma_imei = '';
 
   constructor(
     private router: Router,
@@ -384,6 +385,16 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
   }
 
   onEnterImeiCode(ma_imei: string) {
+    if (!this.ticket.masterInfo.ma_kh || this.ticket.masterInfo.ma_kh === '') {
+      this.commonService.showMessage('Cần nhập mã khách trước khi nhập imei');
+      return;
+    }
+
+    if (!ma_imei || ma_imei.length < 5) {
+      this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
+      return;
+    }
+
     this.voucherCompensationService.getImeiInStore(ma_imei).subscribe(result => {
       if (result.success && result.result.length) {
         if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise)) {
@@ -406,7 +417,21 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
         document.getElementById('imei')?.focus();
 
       } else {
-        this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: ma_imei });
+        /*
+        * Ko đúng imei sẽ mở dialog tìm kiếm
+        */
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        this.commonService.openDialog(SearchDialogComponent, {
+          keyword: ma_imei,
+          shop: user.shop,
+          componentName: SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES,
+        }, 'search-style-dialog')
+          .afterClosed().subscribe(result => {
+            if (result && result.ma_imei) {
+              this.ma_imei = result.ma_imei;
+              this.handleProcessImei(this.ma_imei);
+            }
+          });
       }
     });
   }
@@ -428,7 +453,9 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
     }, 'search-style-dialog')
       .afterClosed().subscribe(result => {
         if (result && result.ma_imei) {
-          this.onEnterImeiCode(result.ma_imei);
+          // this.onEnterImeiCode(result.ma_imei);
+          this.ma_imei = result.ma_imei;
+          this.handleProcessImei(this.ma_imei);
         }
       });
   }
@@ -634,6 +661,12 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
 
   // Submit
   onSave() {
+    // Check âm tiền nợ
+    if (this.ticket.masterInfo.t_con_no < 0) {
+      this.commonService.showMessage('Tiền nợ không được âm');
+      return;
+    }
+
     const message = this.voucherCompensationService.validateTicket(this.ticket);
     this.invalid = this.commonService.isInValidPayment(this.ticket.payment) || this.voucherCompensationService.isInvalidForm(this.ticket.masterInfo);
 
@@ -741,6 +774,26 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.t_cp_khac = $event.t_chi_phi;
 
     this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
+  }
+
+  handleProcessImei(ma_imei: string) {
+    this.ma_imei = ma_imei;
+
+    this.voucherCompensationService.getImeiInStore(this.ma_imei).subscribe(result => {
+      if (result.success && result.result.length) {
+        if (this.merchandiseService.checkImeiExistMerchandise(this.ma_imei, this.ticket.merchandise)) {
+          this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: this.ma_imei });
+          return;
+        }
+        const merchandise = result.result[0];
+        this.handleAddImei(merchandise);
+
+        document.getElementById('imei')?.focus();
+
+      } else {
+        this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: this.ma_imei });
+      }
+    });
   }
 }
 

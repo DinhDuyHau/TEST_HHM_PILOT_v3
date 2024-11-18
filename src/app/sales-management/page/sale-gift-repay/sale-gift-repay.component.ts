@@ -57,6 +57,7 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
   tabIndexFocusFirst = 0;
   eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
   entity = TICKET_ENTITY.GIFT_REPAY;
+  ma_imei = '';
 
   constructor(
     private router: Router,
@@ -186,6 +187,15 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
   }
 
   onEnterImeiCode(ma_imei: string) {
+    if (!this.ticket.masterInfo.ma_kh || this.ticket.masterInfo.ma_kh === '') {
+      this.commonService.showMessage('Cần nhập mã khách trước khi nhập imei');
+      return;
+    }
+
+    if(!ma_imei || ma_imei.length < 5) {
+      this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
+      return;
+    }
 
     this.saleGiftRepayService.getImeiInStore(ma_imei).subscribe(result => {
       if (result.success && result.result.length) {
@@ -207,7 +217,18 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
           this.commonService.showMessageByName('lblWarningNotExistItemInDetail');
         }
       } else {
-        this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: ma_imei });
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        this.commonService.openDialog(SearchDialogComponent, {
+          keyword: ma_imei,
+          shop: user.shop,
+          componentName: SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES,
+        }, 'search-style-dialog')
+          .afterClosed().subscribe(result => {
+            if (result && result.ma_imei) {
+              this.ma_imei = result.ma_imei;
+              this.handleProcessImei(result.ma_imei);
+            }
+          });
       }
     });
   }
@@ -363,6 +384,28 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
 
   getLabel(label: string) {
     return this.commonService.getMessage(label);
+  }
+
+  handleProcessImei(ma_imei: string) {
+    this.ma_imei = ma_imei;
+
+    this.saleGiftRepayService.getImeiInStore(this.ma_imei).subscribe(result => {
+      if (result.success && result.result.length) {
+        if (this.merchandiseService.checkImeiExistMerchandise(this.ma_imei, this.ticket.merchandise)) {
+          this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: this.ma_imei });
+          return;
+        }
+        const merchandise = result.result[0];
+        const isExistsMerchandise = this.merchandiseService.getMerchandiseByMaVT(merchandise.ma_vt, this.ticket.merchandise);
+        if (isExistsMerchandise) {
+          this.handleAddImei(merchandise);
+        } else {
+          this.commonService.showMessageByName('lblWarningNotExistItemInDetail');
+        }
+      } else {
+        this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: this.ma_imei });
+      }
+    });
   }
 }
 
