@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpUrlEncodingCodec } from '@angular/common/http';
 
 import { environment } from '@environments/environment';
 import { of } from 'rxjs';
@@ -10,6 +10,8 @@ import { ResultNoPaging } from '@app/_models/Result';
 
 @Injectable({ providedIn: 'root' })
 export class IMEIService {
+    codec = new HttpUrlEncodingCodec;
+
     constructor(private http: HttpClient) { }
 
     getAll() {
@@ -24,7 +26,9 @@ export class IMEIService {
         return of(random % 2 === 0 ? true : false);
     }
     getImeiInfo(ma_imei: string, ma_cuahang: string, ma_ct: string) {
-        return this.http.get<any>(`${environment.apiUrl}/imei/getinstore?ma_imei=${ma_imei}&ma_ct=${ma_ct}&ma_cuahang=${ma_cuahang}`);
+        const encode_imei = this.codec.encodeValue(ma_imei);
+        console.log(encode_imei)
+        return this.http.get<any>(`${environment.apiUrl}/imei/getinstore?ma_imei=${encode_imei}&ma_ct=${ma_ct}&ma_cuahang=${ma_cuahang}`);
     }
     getListImeiState(ma_imei: string[]) {
         return this.http.post<ResultNoPaging<ImeiState>>(`${environment.apiUrl}/imei/getstate`,
@@ -39,9 +43,19 @@ export class IMEIService {
         );
     }
 
-    getSingleImeiInfo(ma_imei: string, ma_kho?: string) {
+    getSingleImeiInfo(ma_imei: string, ma_kho?: string, use_post = false) {
         let url = `${environment.apiUrl}/imei/get_single_imei_state`;
-        if (ma_kho && ma_kho !== '') url += `?ma_kho=${ma_kho}&imei=${ma_imei}`
+        if (ma_kho && ma_kho !== '') url += `?ma_kho=${ma_kho}&imei=${ma_imei}`;
+
+        if (use_post) {
+            const arr_imei = [ma_imei];
+            url = `${environment.apiUrl}/imei/single_imei_state`;
+            if (ma_kho && ma_kho !== '') url += `?ma_kho=${ma_kho}`;
+            return this.http.post<ResultNoPaging<ImeiInfo>>(url,
+                arr_imei
+            );
+        }
+
         return this.http.get<ResultNoPaging<ImeiInfo>>(url);
     }
 

@@ -487,7 +487,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.imeiService.getSingleImeiInfo(ma_imei, this.ticket.masterInfo.ma_kho).subscribe((result) => {
+    this.imeiService.getSingleImeiInfo(ma_imei, this.ticket.masterInfo.ma_kho, true).subscribe((result) => {
       if (result.success && result.result.length) {
         result.result.map(merchandise => {
           if (!merchandise.exists_yn) {
