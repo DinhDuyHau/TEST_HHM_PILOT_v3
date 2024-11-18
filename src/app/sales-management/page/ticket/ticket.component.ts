@@ -482,7 +482,9 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         // localStorage.setItem(`saleSearchData_${this.entityName}`, JSON.stringify(adv_search_data));
 
         if (result.success) {
-          const voucherData = result.result.items[0]?.voucher || [];
+          const voucherData = result?.result?.items[0]?.voucher
+            ?? result?.result?.items
+            ?? [];
           const paymentMethodData = result.result.items[0]?.payment_method || [];
 
           this.dataSource = voucherData.map((voucherRecord: any) => {
@@ -508,7 +510,9 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
     const observer = {
       next: (result: any) => {
         if (result.success) {
-          const voucherData = result.result.items[0]?.voucher || [];
+          const voucherData = result?.result?.items[0]?.voucher
+            ?? result?.result?.items
+            ?? [];
           const paymentMethodData = result.result.items[0]?.payment_method || [];
 
           this.dataSource = voucherData.map((voucherRecord: any) => {
