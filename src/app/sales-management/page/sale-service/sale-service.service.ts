@@ -54,8 +54,10 @@ export class SaleServiceService {
                     this.serviceOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
                     this.ticket.service.map((item: any) => {
                         this.ticketApiService.getReasonById(item.ma_td1).subscribe(result => {
-                            const reason = result.result as any;
-                            item.noi_dung = reason.noi_dung;
+                            if (result.result) {
+                                const reason = result.result as any;
+                                item.noi_dung = reason.noi_dung;
+                            }
                         });
                     });
                     break;

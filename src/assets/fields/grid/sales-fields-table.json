@@ -1893,8 +1893,15 @@
             "align": "center"
         },
         {
+            "name": "gia_vat",
+            "title": "Giá (có VAT)",
+            "format": "moneyView2Digit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
             "name": "gia_ban",
-            "title": "Đơn giá",
+            "title": "Giá (chưa VAT)",
             "format": "moneyView2Digit",
             "dataType": "number",
             "align": "right"

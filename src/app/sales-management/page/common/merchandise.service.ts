@@ -52,6 +52,7 @@ export class MerchandiseService {
         //imei xuất bán
         merchandiseNew.gc_td1 = merchandise.gc_td1;
         merchandiseNew.ma_td3 = merchandise.ma_cttc;
+        merchandiseNew.ma_td2 = merchandise.ma_kb;
         merchandises.push(merchandiseNew);
     }
 

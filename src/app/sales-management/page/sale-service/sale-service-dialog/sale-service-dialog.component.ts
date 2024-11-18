@@ -14,7 +14,7 @@ export class SaleServiceDialogComponent {
   @ViewChild('form') form!: ElementRef;
   disabled = false;
   quantity: any;
-  gia_ban: number = 0;
+  gia_vat: number = 0;
   ma_lydo: string = '';
   noi_dung: string = '';
 
@@ -26,7 +26,7 @@ export class SaleServiceDialogComponent {
   }
   ngOnInit(): void {
     this.quantity = this.data.item.so_luong;
-    this.gia_ban = this.data.item.gia_ban;
+    this.gia_vat = this.data.item.gia_vat;
     this.ma_lydo = this.data.item.ma_td1;
     this.noi_dung = this.data.item.noi_dung;
   }
@@ -46,15 +46,14 @@ export class SaleServiceDialogComponent {
       this.commonService.showMessage('Số lượng phải lớn hơn 0');
       return;
     }
-    if (this.gia_ban != this.data.item.gia_ban && this.ma_lydo == '') {
+    if (this.gia_vat != this.data.item.gia_vat && this.ma_lydo == '') {
       this.commonService.showMessage('Bạn chưa chọn lý do sửa giá');
       return;
     }
-    if (this.quantity != this.data.item.so_luong || this.gia_ban != this.data.item.gia_ban) {
+    if (this.quantity != this.data.item.so_luong || this.gia_vat != this.data.item.gia_vat) {
       this.data.item.so_luong = this.quantity;
-      this.data.item.gia_ban = this.gia_ban;
-
-      this.data.item.gia_vat = Math.round(this.data.item.gia_ban * (1 + this.data.item.thue_suat / 100));
+      this.data.item.gia_vat = this.gia_vat;
+      this.data.item.gia_ban = Math.round(this.data.item.gia_vat / (1 + this.data.item.thue_suat / 100));
       this.data.item.thanh_tien = this.data.item.gia_ban * this.data.item.so_luong;
       this.data.item.tong_tien = this.data.item.gia_vat * this.data.item.so_luong;
       this.data.item.tien_thue = this.data.item.tong_tien - this.data.item.thanh_tien;
