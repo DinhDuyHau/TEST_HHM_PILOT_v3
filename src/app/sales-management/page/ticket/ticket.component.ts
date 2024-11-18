@@ -441,7 +441,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       next: (result: any) => {
 
         if (result.success) {
-          const voucherData = result?.result[0]?.voucher || [];
+          const voucherData = result?.result[0]?.voucher ?? result?.result ?? [];
           const paymentMethodData = result?.result[1]?.payment_method || [];
 
           this.dataSource = voucherData.map((voucherRecord: any) => {
