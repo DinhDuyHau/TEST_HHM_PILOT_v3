@@ -61,7 +61,7 @@ export class ImportImeiComponent {
   handleAddImei(imeis: string) {
     if (!imeis) return;
     const imei_data = this.splitImeiText(imeis);
-    this.imeiService.getListImeiInfo(imei_data, this.data.ma_kho).subscribe((result) => {
+    this.imeiService.checkListImeiInfo(imei_data, this.data.ma_kho).subscribe((result) => {
       if (result.success && result.result.length) {
         result.result.map(item => {
           if (this.isCanAdd(item)) {

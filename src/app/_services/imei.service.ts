@@ -97,4 +97,12 @@ export class IMEIService {
         });
         return res;
     }
+
+    checkListImeiInfo(ma_imei: string[], ma_kho?: string) {
+        let url = `${environment.apiUrl}/imei/state_and_item`;
+        if (ma_kho && ma_kho !== '') url += `?ma_kho=${ma_kho}`
+        return this.http.post<ResultNoPaging<ImeiInfo>>(url,
+            ma_imei
+        );
+    }
 }
