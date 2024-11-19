@@ -440,7 +440,8 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     this.commonService.getDiscountCodeInfo(this.ma_gg).subscribe((result: any) => {
       if (result.success && result.result) {
         this.ma_gg = '';
-        this.data.ma_giam_gia = { ...this.data.ma_giam_gia, ma_gg: result.result.ma_gg, tien: result.result.tien_gg_nt };
+        const tien_gg = Number(result.result.tien_gg_nt) > this.t_con_no ? this.t_con_no : Number(result.result.tien_gg_nt);
+        this.data.ma_giam_gia = { ...this.data.ma_giam_gia, ma_gg: result.result.ma_gg, tien: tien_gg };
         this.onChange();
       } else {
         this.commonService.showMessageByName('discount_code_invalid');
