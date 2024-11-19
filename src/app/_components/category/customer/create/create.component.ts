@@ -123,6 +123,11 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
     }
   }
   onSubmit() {
+    if (this.customer.ma_kh.length < 10) {
+      this.commonService.showMessage('Độ dài mã khách hàng phải từ 10 ký tự trở lên');
+      return;
+    }
+
     this.submitted = true;
     if (this.containsSpecialCharacters(this.customer.ma_kh)) {
       this.commonService.showMessage(Language.content.invalid_ma_kh);
