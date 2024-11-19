@@ -79,10 +79,16 @@ export class ImportImeiComponent {
         });
       }
       else {
-        this.commonService.showMessage("Không tìm thấy thông tin imei");
+        if (result.result.length > 0) {
+          this.commonService.showMessageByNameAdvance('in_stock_yn_no', { name: '%imei', value: result.result[0].ma_imei });
+          return
+        }
+        else
+          this.commonService.showMessage("Không tìm thấy thông tin imei");
       }
+      this.ma_imei = '';
     })
-    this.ma_imei = '';
+
   }
 
   handleImeiInputKeyup(event: any, value: string) {

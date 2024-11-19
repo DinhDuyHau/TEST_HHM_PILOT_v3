@@ -17,6 +17,9 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     gia_bl_vat = 0;
     s4 = 0;
     ma_td3 = '';
+    //ma_td2 dùng để lưu mã khai báo
+    ma_td2 = '';
+
 
     constructor(obj?: any) {
         super();
