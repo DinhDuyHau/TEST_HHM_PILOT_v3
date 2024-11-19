@@ -11,6 +11,7 @@ import { MerchandiseApiService } from '@app/sales-management/api/merchandise-api
 import { POSService } from '@app/sales-management/api/pos-api.service';
 import { AuthenticationService } from '@app/_services';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
+import { CommonService } from '@app/sales-management/page/common/common.service';
 
 const {
   // TICKET_ENTITY,
@@ -80,7 +81,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
     private posService: POSService,
     private merchandiseApiService: MerchandiseApiService,
     private authenticateService: AuthenticationService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private commonService: CommonService
   ) {
   }
 
@@ -333,7 +335,23 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.EMPLOYEE:
         return this.customerApiService.findById(this.filters, this.page_index, this.page_size)
       case SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES:
-        return this.imeiApiService.findImeiByPrefix(this.page_index, this.page_size, this.data.keyword, this.isCheckInventory, this.data.shop);
+        return this.imeiApiService.findImeiByPrefix(this.page_index, this.page_size, this.data.keyword, this.isCheckInventory, this.data.shop)
+        .pipe(
+          tap((res) => {
+            if(res.result.items.length === 0) {
+              this.commonService.showMessage('Không tìm thây imei');
+              return null;
+            }
+
+            if(!res.success) {
+              let msg_error = res.message || 'Runtime_err';
+              this.commonService.showMessageByName(`${msg_error}`);
+              return null;
+            }
+
+            return res;
+          })
+        );
       case SEARCH_COMPONENT_NAME.REASON:
         return this.ticketApiService.getReason(this.filters, this.page_index, this.page_size);
       default:
