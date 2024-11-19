@@ -61,7 +61,7 @@ export class ImportImeiComponent {
   handleAddImei(imeis: string) {
     if (!imeis) return;
     const imei_data = this.splitImeiText(imeis);
-    this.imeiService.checkListImeiInfo(imei_data, this.data.ma_kho).subscribe((result) => {
+    this.imeiService.getListImeiInfo(imei_data, this.data.ma_kho).subscribe((result) => {
       if (result.success && result.result.length) {
         result.result.map(item => {
           if (this.isCanAdd(item)) {
@@ -79,16 +79,10 @@ export class ImportImeiComponent {
         });
       }
       else {
-        if (result.result.length > 0) {
-          this.commonService.showMessageByNameAdvance('in_stock_yn_no', { name: '%imei', value: result.result[0].ma_imei });
-          return
-        }
-        else
-          this.commonService.showMessage("Không tìm thấy thông tin imei");
+        this.commonService.showMessage("Không tìm thấy thông tin imei");
       }
-      this.ma_imei = '';
     })
-
+    this.ma_imei = '';
   }
 
   handleImeiInputKeyup(event: any, value: string) {
