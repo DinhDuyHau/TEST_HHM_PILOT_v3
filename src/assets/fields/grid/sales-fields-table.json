@@ -1986,7 +1986,7 @@
         },
         {
             "name": "naptien_hh_yn",
-            "title": "Nạp tiền tại HHM",
+            "title": "Thu tiền gói cước",
             "align": "center",
             "type": "checkbox"
         },

@@ -434,7 +434,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if(!ma_imei || ma_imei.length < 5) {
+    if (!ma_imei || ma_imei.length < 5) {
       this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
       return;
     }
@@ -719,7 +719,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   // Submit
   onSave() {
     // Check âm tiền nợ
-    if(this.ticket.masterInfo.t_con_no < 0) {
+    if (this.ticket.masterInfo.t_con_no < 0) {
       this.commonService.showMessage('Tiền nợ không được âm');
       return;
     }
@@ -884,6 +884,31 @@ export class RetailComponent implements OnInit, AfterViewInit {
         this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: this.ma_imei });
       }
     });
+  }
+
+  callMoney2() {
+    this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
+    this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra - this.ticket.masterInfo.tien_coc;
+    this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);
+  }
+
+  onChangeCheckbox(data: any) {
+    if (data.checked == true) {
+      this.ticket.masterInfo.t_tien_nt2 += data.item.thanh_tien;
+      this.ticket.masterInfo.t_thue_nt += data.item.tien_thue;
+      this.ticket.masterInfo.t_tt_nt += data.item.tong_tien;
+      this.callMoney2();
+
+      this.ticket.packages.filter(e => e.ma_dv == data.item.ma_dv).forEach(e => e.naptien_hh_yn = data.checked)
+    }
+    else {
+      this.ticket.masterInfo.t_tien_nt2 -= data.item.thanh_tien;
+      this.ticket.masterInfo.t_thue_nt -= data.item.tien_thue;
+      this.ticket.masterInfo.t_tt_nt -= data.item.tong_tien;
+      this.callMoney2();
+
+      this.ticket.packages.filter(e => e.ma_dv == data.item.ma_dv).forEach(e => e.naptien_hh_yn = data.checked)
+    }
   }
 }
 
