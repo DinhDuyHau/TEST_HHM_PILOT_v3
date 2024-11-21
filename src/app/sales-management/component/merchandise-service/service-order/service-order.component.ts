@@ -34,7 +34,14 @@ export class ServiceOrderComponent implements OnInit, OnChanges, AfterViewInit {
 
   constructor(
     public dialogRef: MatDialogRef<ServiceOrderComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { ma_kh: string, ten_kh: string, ma_cuahang: string, dataSource: Service[] },
+    @Inject(MAT_DIALOG_DATA) public data: {
+      ma_kh: string,
+      ten_kh: string,
+      ma_cuahang: string,
+      dataSource: Service[],
+      columns: any,
+      title: string
+    },
     private merchandiseServiceApiService: MerchandiseServiceApiService,
     private commonService: CommonService,
     private ticketApiService: TicketApiService,
@@ -48,8 +55,8 @@ export class ServiceOrderComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.columns = SERVICE_ORDER as any as Cell[];
-    this.title = 'Chọn dịch vụ trả lại';
+    this.columns = this.data.columns || SERVICE_ORDER as any as Cell[];
+    this.title = this.data.title || 'Chọn dịch vụ trả lại';
     const userJson = localStorage.getItem('user');
     const userObj = userJson !== null && JSON.parse(userJson);
     this.ma_cuahang = userObj['shop'];
@@ -166,16 +173,14 @@ export class ServiceOrderComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   onCancel() {
-    const item = this.filteredData.filter((e: any) => e.selected);
-
-    this.dialogRef.close(item);
+    this.dialogRef.close(this.dataOrderAdded);
   }
 
   onSelect() {
     const item = this.filteredData.filter((e: any) => e.selected);
 
     if (item.length <= 0) {
-      this.commonService.showMessage('Vui lòng chọn dịch vụ trả lại');
+      this.commonService.showMessage('Vui lòng chọn dịch vụ');
       return;
     }
 

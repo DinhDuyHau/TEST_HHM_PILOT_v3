@@ -1,0 +1,37 @@
+<div class="bg-white p-4">
+  <div mat-dialog-title class="mb-2 fs-4 fw-bold" style="min-width: 400px;">
+    Nhập giá mua lại
+  </div>
+
+  <div mat-dialog-content>
+    <div class="box-container mb-4">
+      <form-input-custom
+        class="flex-1"
+        [label]="'Giá đã bán'"
+        [align]="'end'"
+        [value]="this.sold_price"
+        format="moneyInputFormat"
+        dataType="number"
+        [readonly]="true"
+      />
+
+      <form-input-custom
+        class="flex-1"
+        [label]="'Giá nhập mua'"
+        [align]="'end'"
+        [value]="this.purchase_price"
+        format="moneyInputFormat"
+        dataType="number"
+        (handleChangeValue)="onchangeValue($event)"
+      />
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="gap-3 justify-end ml-5">
+    <div class="d-flex justify-end gap-2 m-2">
+      <button class="btn-responsive btn-cancel" (click)="onCancel()">Hủy bỏ</button>
+      <button class="btn-responsive btn-add" (click)="onSave()">Lưu</button>
+    </div>
+  </div>
+
+</div>

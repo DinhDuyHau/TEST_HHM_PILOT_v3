@@ -1,0 +1,21 @@
+.btn-cancel {
+  background-color: #ebedf2;
+  color: #262f3d;
+}
+
+.btn-add {
+  background-color: #005447;
+  color: #fff;
+}
+
+.btn-responsive {
+  font-size: 14px;
+  padding: 6px 27px;
+  border-radius: 5px;
+  white-space: nowrap;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+

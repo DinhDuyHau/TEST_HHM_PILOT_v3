@@ -43,6 +43,13 @@ export class Service {
   tong_tien = 0;
   line_nbr = 0;
   gia_vat = 0;
+  key = '';
+  gia_nhap_mua = 0;
+  gia = 0;
+  so_ct_hd = '';
+  ngay_ct_hd = '';
+  stt_rec_hd = '';
+  stt_rec0hd = '';
 
   constructor(obj?: any) {
     Object.assign(this, obj);

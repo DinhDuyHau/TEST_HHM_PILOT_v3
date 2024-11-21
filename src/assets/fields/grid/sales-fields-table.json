@@ -1630,6 +1630,27 @@
             "align": "center"
         },
         {
+            "name": "gia_ban",
+            "title": "Giá đã bán",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "gia_nhap_mua",
+            "title": "Giá nhập mua",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "gia",
+            "title": "Giá nhập (trước VAT)",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
             "name": "so_luong",
             "title": "Số lượng",
             "dataType": "number",
@@ -1637,15 +1658,15 @@
             "align": "center"
         },
         {
-            "name": "gia_ban",
-            "title": "Đơn giá",
+            "name": "thanh_tien",
+            "title": "Thành tiền",
             "format": "moneyViewNoDigit",
             "dataType": "number",
             "align": "right"
         },
         {
-            "name": "thanh_tien",
-            "title": "Thành tiền",
+            "name": "thue_suat",
+            "title": "Thuế suất(%)",
             "format": "moneyViewNoDigit",
             "dataType": "number",
             "align": "right"
@@ -1664,6 +1685,58 @@
             "dataType": "number",
             "align": "right"
         }
+    ],
+    "BUY_BACK_SERVICE": [
+      {
+        "name": "so_ct",
+        "title": "Số phiếu"
+      },
+      {
+          "name": "ngay_ct",
+          "title": "Ngày chứng từ",
+          "dataType": "date",
+          "format": "datetimeFormat"
+      },
+      {
+          "name": "ma_dv",
+          "title": "Mã dịch vụ"
+      },
+      {
+          "name": "ten_dv",
+          "title": "Tên dịch vụ"
+      },
+      {
+          "name": "vt_ton_kho",
+          "title": "Theo dõi kho",
+          "align": "center",
+          "type": "checkbox"
+      },
+      {
+          "name": "dvt",
+          "title": "Đơn vị tính",
+          "align": "center"
+      },
+      {
+          "name": "gia_ban",
+          "title": "Giá bán",
+          "format": "moneyViewNoDigit",
+          "dataType": "number",
+          "align": "right"
+      },
+      {
+          "name": "so_luong",
+          "title": "Số lượng",
+          "dataType": "number",
+          "format": "moneyViewNoDigit",
+          "align": "center"
+      },
+      {
+          "name": "thue_suat",
+          "title": "Thuế suất(%)",
+          "dataType": "number",
+          "format": "moneyViewNoDigit",
+          "align": "center"
+      }
     ],
     "SERVICE_CHANGE_LIST": [
         {

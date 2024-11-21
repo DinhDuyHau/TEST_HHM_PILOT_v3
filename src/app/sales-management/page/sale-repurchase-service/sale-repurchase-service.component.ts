@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { SaleRepurchaseServiceService } from './sale-repurchase-service.service';
-import { ServiceRepurchaseServiceTicket } from '@app/sales-management/model/ticket/sale-repurchase-service/model';
+import { Service, ServiceRepurchaseServiceTicket } from '@app/sales-management/model/ticket/sale-repurchase-service/model';
 import dataFormat from '@app/_common/dataFormat';
 import { MatDialog } from '@angular/material/dialog';
 import { Customer } from '@app/_components/category/customer/customer.model';
@@ -13,15 +13,16 @@ import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
-import { Service } from '@app/sales-management/model/ticket/sale-service/model';
 import { CommonService } from '../common/common.service';
 import { MODE } from '@app/sales-management/enum/ticket.enum';
 import { CameraComponent } from '@app/sales-management/component/webcam/webcam.component';
 import { ViewImageComponent } from '@app/sales-management/component/view-image/view-image.component';
 import { Language } from '../common/language';
 import { EInvoiceInfo, EInvoiceInfoOutput } from '@app/sales-management/model/dto/einvoice.dto';
+import { ServiceOrderComponent } from '@app/sales-management/component/merchandise-service/service-order/service-order.component';
+import { PurchasePriceDialogComponent } from './purchase-price-dialog/purchase-price-dialog.component';
 
-const { SALE_REPURCHASE_SERVICE } = require('@assets/fields/grid/sales-fields-table.json');
+const { SALE_REPURCHASE_SERVICE, BUY_BACK_SERVICE } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-sale-repurchase',
@@ -59,6 +60,7 @@ export class SaleRepurchaseServiceComponent implements OnInit, AfterViewInit {
   action = '';
   shop = '';
   input_store_id = '';
+  dataOrderAdded: Service[] = [];
 
   constructor(
     private router: Router,
@@ -140,6 +142,8 @@ export class SaleRepurchaseServiceComponent implements OnInit, AfterViewInit {
             getStatusList();
             this.commonService.getPointRateExchange(this.ticket);
             this.tabIndexFocusFirst = this.tabIndex.ma_dv;
+
+            this.dataOrderAdded = this.ticket.service;
           }
         });
       } else {
@@ -210,11 +214,60 @@ export class SaleRepurchaseServiceComponent implements OnInit, AfterViewInit {
   //#endregion customer
 
   //#region service
+  openSearchOrderDialog() {
+    if (!this.ticket.masterInfo.ma_kh) {
+      this.commonService.showMessage('Cần chọn mã khách trước khi chọn dịch vụ trả lại');
+      return;
+    }
+
+    this.commonService.openDialog(ServiceOrderComponent,
+      {
+        ma_kh: this.ticket.masterInfo.ma_kh,
+        ten_kh: this.ticket.masterInfo.ten_kh,
+        ma_cuahang: this.ticket.masterInfo.ma_cuahang,
+        dataSource: this.dataOrderAdded,
+        columns: BUY_BACK_SERVICE,
+        title: 'Chọn dịch vụ mua lại'
+      },
+      'search-style-dialog')
+      .afterClosed()
+      .subscribe((services: any) => {
+        /*
+        * gán dữ liệu đã add vào detail
+        * để khi thực hiện mở lại dialog
+        * những cái nào đã được add thì checked = true
+        */
+        this.dataOrderAdded = services;
+
+        // Tìm các mã dịch vụ hiện tại và mới
+        const currentServices = this.ticket.service.map((e: any) => e.ma_dv);
+        const newServices = services.map((e: any) => e.ma_dv);
+
+        // **Xóa các dịch vụ bị bỏ chọn**
+        this.ticket.service = this.ticket.service.filter((service: any) => newServices.includes(service.ma_dv));
+
+        // **Thêm các dịch vụ mới**
+        services.forEach((newService: any) => {
+          if (!currentServices.includes(newService.ma_dv)) {
+            this.saleServiceService.handleAddService(newService);
+          }
+        });
+
+        this.saleServiceService.calcMoney();
+      });
+  }
+
+  /*
+  * Tạm ko dùng
+  */
   onEnterService(service: any) {
     this.handleAddService(service);
     this.commonService.clearText([this.tabIndex.ma_dv]);
   }
 
+  /*
+  * Tạm ko dùng
+  */
   openSearchServiceDialog() {
     if (this.ticket.masterInfo.ten_kh == '') {
       this.commonService.showMessage('Mã khách hàng không được để trống');
@@ -229,6 +282,9 @@ export class SaleRepurchaseServiceComponent implements OnInit, AfterViewInit {
       });
   }
 
+  /*
+  * Tạm ko dùng
+  */
   handleAddService(service: any) {
     if (this.ticket.masterInfo.gia_nhap_mua <= 0) {
       this.commonService.showMessage('Chưa nhập giá nhập mua hoặc giá trị không hợp lệ');
@@ -246,6 +302,10 @@ export class SaleRepurchaseServiceComponent implements OnInit, AfterViewInit {
     //reset giá nhập
     this.ticket.masterInfo.gia_nhap_mua = 0;
   }
+
+  /*
+  * Tạm ko dùng
+  */
   openSaleServiceDialog() {
     this.commonService.openDialog(SearchDialogComponent,
       { keyword: '', componentName: SEARCH_COMPONENT_NAME.SERVICE })
@@ -255,15 +315,27 @@ export class SaleRepurchaseServiceComponent implements OnInit, AfterViewInit {
 
   // click button add service
   onRemoveService(event: { item: Service }) {
-    this.saleServiceService.removeService(event.item, this.ticket);
+    this.dataOrderAdded = this.dataOrderAdded.filter(item => item.key !== event.item.key);
+    this.saleServiceService.removeService(event.item as any, this.ticket);
   }
   // #endregion service
 
   // Submit
   onSave() {
     // Check âm tiền nợ
-    if(this.ticket.masterInfo.t_con_no < 0) {
+    if (this.ticket.masterInfo.t_con_no < 0) {
       this.commonService.showMessage('Tiền nợ không được âm');
+      return;
+    }
+
+    // Check giá nhập mua
+    const arrError = this.ticket.service
+      .filter(e => e.gia_nhap_mua <= 0)
+      .map(e => e.ma_dv);
+    if (arrError.length > 0) {
+      let error = 'Chưa có giá nhập mua cho mã dịch vụ: ';
+      const errMsg = arrError.map(maDv => `${maDv}`).join(',\n');
+      this.commonService.showMessage(error + errMsg);
       return;
     }
 
@@ -344,6 +416,22 @@ export class SaleRepurchaseServiceComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.gia_nhap_mua = gia_nhap_mua;
   }
 
+  onOpenPricePurchase($event: any) {
+    // lấy giá nhập nếu có
+    let purchase_price = $event.item.gia_nhap_mua || 0;
+    // lấy giá bán
+    let sold_price = $event.item.gia_ban || 0;
+
+    this.commonService.openDialog(PurchasePriceDialogComponent, { sold_price: sold_price, purchase_price: purchase_price }, 'fullscreen-dialog')
+      .afterClosed().subscribe((price = 0) => {
+        const service = this.ticket.service.find(item => item.ma_dv === $event.item.ma_dv);
+
+        if (service) {
+          service.gia_nhap_mua = price;
+          this.saleServiceService.handleEditPurchasePriceService(service, this.input_store_id, price);
+        }
+      });
+  }
 }
 
 
