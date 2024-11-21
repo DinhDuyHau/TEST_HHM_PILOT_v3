@@ -177,7 +177,6 @@
               class="flex-1"
               name="email"
               [label]="getLabel('lbl_email_key')"
-              *ngIf="!readonly"
               [value]="ticket.masterInfo.email_nhan_key"
               [invalid]="invalid"
               (handleChangeValue)="ticket.masterInfo.email_nhan_key = $event" />
@@ -189,21 +188,8 @@
           [dataSource]="ticket.packages"
           [columns]="packageColumns"
           [readonly]="readonly"
-          (handleDelete)="onRemovePackage($event)" />
-        <div class="flex gap-0 md:gap-4 lg:gap-8">
-          <div class="flex-1 hidden lg:block"></div>
-          <div class="flex-1 hidden md:block"></div>
-          <div class="flex flex-1">
-            <form-input-custom
-              class="flex-1"
-              name="email"
-              [label]="getLabel('lbl_email_key')"
-              *ngIf="!readonly"
-              [value]="ticket.masterInfo.email_nhan_key"
-              [invalid]="invalid"
-              (handleChangeValue)="ticket.masterInfo.email_nhan_key = $event" />
-          </div>
-        </div>
+          (handleChangeCheckbox)="onChangeCheckbox($event)"
+          (handleDelete)="onRemovePackage($event)"/>
       </tab-custom>
       <tab-custom label="Chiết khấu" class="w-100">
         <table-custom
