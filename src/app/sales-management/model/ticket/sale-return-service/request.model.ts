@@ -29,6 +29,9 @@ export class ServiceRequest extends BaseEntity {
     line_nbr = 0;
     gia_ban = 0;
     gia_tra_lai = 0;
+    vt_ton_kho = '';
+    gia2 = 0;
+    gia_nt2 = 0;
 
     constructor(obj?: any) {
         super();

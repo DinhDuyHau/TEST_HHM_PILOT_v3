@@ -151,13 +151,20 @@ export class ServiceOfMerchandiseService {
                     (serviceNew as any)[key] = e[key];
                 }
             });
+            serviceNew.so_ct = e.so_ct;
+            serviceNew.ngay_ct = e.ngay_ct;
             serviceNew.ma_thue = e.ma_thue;
             serviceNew.stt_rec_hd1 = e.stt_rec;
             serviceNew.stt_rec0hd1 = e.stt_rec0;
             serviceNew.gia_ban = e.gia;
-            serviceNew.thanh_tien = e.tien2;
-            serviceNew.tien_thue = e.thue;
-            serviceNew.tong_tien = e.tt;
+            serviceNew.thanh_tien = e.thanh_tien;
+            serviceNew.thue = e.tien_thue;
+            serviceNew.tong_tien = e.tong_tien;
+            serviceNew.gia2 = e.gia_tra_lai;
+            serviceNew.gia_nt2 = e.gia_tra_lai;
+            serviceNew.vt_ton_kho = e.vt_ton_kho;
+            serviceNew.tien_giam = e.tien_giam;
+            serviceNew.tl_giam = e.tl_giam;
             serviceNew.line_nbr = i;
             return serviceNew;
         });

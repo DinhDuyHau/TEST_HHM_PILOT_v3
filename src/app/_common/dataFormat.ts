@@ -23,7 +23,6 @@ const moneyInputFormat = '###,###,###,###';
 const moneyNegativeInputFormat = '-###,###,###,###';
 const moneyViewNoDigit = '###,###,###,##0';
 const moneyView2Digit = '###,###,###,###.00';
-const moneyView0Digit = '###,###,###,###';
 const moneyViewThousandRound = '###,###,###,000';
 const normalQuantity = 'normalQuantity';
 const normalQuantityVN = 'normalQuantityVN';
@@ -58,7 +57,6 @@ export default {
   moneyNegativeInputFormat,
   moneyViewNoDigit,
   moneyView2Digit,
-  moneyView0Digit,
   moneyViewThousandRound,
   normalPrice,
   normalQuantity,

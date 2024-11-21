@@ -40,98 +40,98 @@
             "name": "t_tien_nt",
             "title": "Tiền đơn hàng",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_ck_nt",
             "title": "Chiết khấu",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_thue_nt",
             "title": "Thuế ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_tt_nt",
             "title": "Thanh toán ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_dat_coc",
             "title": "Tiền đặt cọc",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tien_mat",
             "title": "Tiền mặt",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the",
             "title": "Quẹt thẻ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the_tgop",
             "title": "Quẹt thẻ trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "chuyen_khoan",
             "title": "Chuyển khoản",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vi_dien_tu",
             "title": "Ví điện tử",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vnpay",
             "title": "VNPAY",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tr_gop",
             "title": "Trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "sd_diem",
             "title": "Sử dụng điểm",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "voucher_doi_tac",
             "title": "Voucher đối tác",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
@@ -183,98 +183,98 @@
             "name": "t_tien_nt",
             "title": "Tiền đơn hàng",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_ck_nt",
             "title": "Chiết khấu",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_thue_nt",
             "title": "Thuế ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_tt_nt",
             "title": "Thanh toán",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_dat_coc",
             "title": "Tiền đặt cọc",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tien_mat",
             "title": "Tiền mặt",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the",
             "title": "Quẹt thẻ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the_tgop",
             "title": "Quẹt thẻ trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "chuyen_khoan",
             "title": "Chuyển khoản",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vi_dien_tu",
             "title": "Ví điện tử",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vnpay",
             "title": "VNPAY",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tr_gop",
             "title": "Trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "sd_diem",
             "title": "Sử dụng điểm",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "voucher_doi_tac",
             "title": "Voucher đối tác",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
@@ -326,98 +326,98 @@
             "name": "t_tien_nt",
             "title": "Tiền đơn hàng",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_ck_nt",
             "title": "Chiết khấu",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_thue_nt",
             "title": "Thuế ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_tt_nt",
             "title": "Thanh toán ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_dat_coc",
             "title": "Tiền đặt cọc",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tien_mat",
             "title": "Tiền mặt",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the",
             "title": "Quẹt thẻ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the_tgop",
             "title": "Quẹt thẻ trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "chuyen_khoan",
             "title": "Chuyển khoản",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vi_dien_tu",
             "title": "Ví điện tử",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vnpay",
             "title": "VNPAY",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tr_gop",
             "title": "Trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "sd_diem",
             "title": "Sử dụng điểm",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "voucher_doi_tac",
             "title": "Voucher đối tác",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
@@ -465,98 +465,98 @@
             "name": "t_tien_nt",
             "title": "Tiền đơn hàng",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_ck_nt",
             "title": "Chiết khấu",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_thue_nt",
             "title": "Thuế ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_tt_nt",
             "title": "Thanh toán ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_dat_coc",
             "title": "Tiền đặt cọc",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tien_mat",
             "title": "Tiền mặt",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the",
             "title": "Quẹt thẻ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the_tgop",
             "title": "Quẹt thẻ trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "chuyen_khoan",
             "title": "Chuyển khoản",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vi_dien_tu",
             "title": "Ví điện tử",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vnpay",
             "title": "VNPAY",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tr_gop",
             "title": "Trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "sd_diem",
             "title": "Sử dụng điểm",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "voucher_doi_tac",
             "title": "Voucher đối tác",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         }
     ],
@@ -599,98 +599,98 @@
             "name": "t_tien_nt",
             "title": "Tiền đơn hàng",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_ck_nt",
             "title": "Chiết khấu",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_thue_nt",
             "title": "Thuế ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_tt_nt",
             "title": "Thanh toán ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_dat_coc",
             "title": "Tiền đặt cọc",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tien_mat",
             "title": "Tiền mặt",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the",
             "title": "Quẹt thẻ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the_tgop",
             "title": "Quẹt thẻ trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "chuyen_khoan",
             "title": "Chuyển khoản",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vi_dien_tu",
             "title": "Ví điện tử",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vnpay",
             "title": "VNPAY",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tr_gop",
             "title": "Trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "sd_diem",
             "title": "Sử dụng điểm",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "voucher_doi_tac",
             "title": "Voucher đối tác",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
@@ -742,98 +742,98 @@
             "name": "t_tien_nt",
             "title": "Tiền đơn hàng",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_ck_nt",
             "title": "Chiết khấu",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_thue_nt",
             "title": "Thuế ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_tt_nt",
             "title": "Thanh toán ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_dat_coc",
             "title": "Tiền đặt cọc",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tien_mat",
             "title": "Tiền mặt",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the",
             "title": "Quẹt thẻ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the_tgop",
             "title": "Quẹt thẻ trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "chuyen_khoan",
             "title": "Chuyển khoản",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vi_dien_tu",
             "title": "Ví điện tử",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vnpay",
             "title": "VNPAY",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tr_gop",
             "title": "Trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "sd_diem",
             "title": "Sử dụng điểm",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "voucher_doi_tac",
             "title": "Voucher đối tác",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
@@ -881,98 +881,98 @@
             "name": "t_tien_nt",
             "title": "Tiền đơn hàng",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_ck_nt",
             "title": "Chiết khấu",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_thue_nt",
             "title": "Thuế ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_tt_nt",
             "title": "Thanh toán ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_dat_coc",
             "title": "Tiền đặt cọc",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tien_mat",
             "title": "Tiền mặt",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the",
             "title": "Quẹt thẻ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the_tgop",
             "title": "Quẹt thẻ trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "chuyen_khoan",
             "title": "Chuyển khoản",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vi_dien_tu",
             "title": "Ví điện tử",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vnpay",
             "title": "VNPAY",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tr_gop",
             "title": "Trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "sd_diem",
             "title": "Sử dụng điểm",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "voucher_doi_tac",
             "title": "Voucher đối tác",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
@@ -1020,98 +1020,98 @@
             "name": "t_tien_nt",
             "title": "Tiền đơn hàng",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_ck_nt",
             "title": "Chiết khấu",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_thue_nt",
             "title": "Thuế ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_tt_nt",
             "title": "Thanh toán ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_dat_coc",
             "title": "Tiền đặt cọc",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tien_mat",
             "title": "Tiền mặt",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the",
             "title": "Quẹt thẻ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the_tgop",
             "title": "Quẹt thẻ trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "chuyen_khoan",
             "title": "Chuyển khoản",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vi_dien_tu",
             "title": "Ví điện tử",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vnpay",
             "title": "VNPAY",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tr_gop",
             "title": "Trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "sd_diem",
             "title": "Sử dụng điểm",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "voucher_doi_tac",
             "title": "Voucher đối tác",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
@@ -1351,98 +1351,98 @@
             "name": "t_tien_nt",
             "title": "Tiền đơn hàng",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_ck_nt",
             "title": "Chiết khấu",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_thue_nt",
             "title": "Thuế ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_tt_nt",
             "title": "Thanh toán ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_dat_coc",
             "title": "Tiền đặt cọc",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tien_mat",
             "title": "Tiền mặt",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the",
             "title": "Quẹt thẻ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the_tgop",
             "title": "Quẹt thẻ trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "chuyen_khoan",
             "title": "Chuyển khoản",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vi_dien_tu",
             "title": "Ví điện tử",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vnpay",
             "title": "VNPAY",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tr_gop",
             "title": "Trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "sd_diem",
             "title": "Sử dụng điểm",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "voucher_doi_tac",
             "title": "Voucher đối tác",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
@@ -1490,28 +1490,28 @@
             "name": "t_tien_nt",
             "title": "Tiền đơn hàng",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_ck_nt",
             "title": "Chiết khấu",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_thue_nt",
             "title": "Thuế ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_tt_nt",
             "title": "Thanh toán ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
@@ -1680,98 +1680,98 @@
             "name": "t_tien_nt",
             "title": "Tiền đơn hàng",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_ck_nt",
             "title": "Chiết khấu",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_thue_nt",
             "title": "Thuế ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_tt_nt",
             "title": "Thanh toán ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "t_dat_coc",
             "title": "Tiền đặt cọc",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tien_mat",
             "title": "Tiền mặt",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the",
             "title": "Quẹt thẻ",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "quet_the_tgop",
             "title": "Quẹt thẻ trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "chuyen_khoan",
             "title": "Chuyển khoản",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vi_dien_tu",
             "title": "Ví điện tử",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "vnpay",
             "title": "VNPAY",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "tr_gop",
             "title": "Trả góp",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "sd_diem",
             "title": "Sử dụng điểm",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
             "name": "voucher_doi_tac",
             "title": "Voucher đối tác",
             "align": "right",
-            "format": "moneyView0Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
