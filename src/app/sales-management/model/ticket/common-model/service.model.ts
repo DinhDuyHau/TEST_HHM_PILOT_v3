@@ -42,6 +42,7 @@ export class Service {
     //ma_td1 dùng để lưu lý do sửa giá
     ma_td1 = '';
     noi_dung = '';
+    key = '';
 
     constructor(obj?: any) {
         Object.assign(this, obj);
@@ -79,7 +80,7 @@ export class ServiceRequest extends BaseEntity {
     gia_ban0 = 0;
     gia_ban_nt0 = 0;
 
-    //sale return 
+    //sale return
     ck_nt = 0;
     ti_le_giam = 0;
 

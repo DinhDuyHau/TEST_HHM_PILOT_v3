@@ -28,15 +28,51 @@
           [disabled]="true" />
       </div>
 
+      <div class="d-flex gap-2 box align-items-end">
+        <form-input-custom
+          class="box order-dynamic-2 w-50"
+          [name]="'ma_kh'"
+          [label]="getLabel('lbl_ma_kh')"
+          [value]="ticket.masterInfo.ma_kh"
+          [readonly]="readonly"
+          [invalid]="invalid"
+          [fireChangeWhenBlur]="false"
+          (handleClickOpenDialog)="openSearchCustomerDialog()"
+          (handleChangeValue)="onEnterCustomerCode($event)" />
+
+        <button
+          *ngIf="!readonly"
+          class="flex-1 btn act-input-data-btn text-nowrap w-50"
+          style="height: 38px !important;"
+          (click)="openSearchOrderDialog()">
+          Chọn dịch vụ trả lại
+        </button>
+      </div>
+
       <form-input-custom
         class="box"
+        [name]="'ten_kh'"
+        [label]="getLabel('lbl_ten_kh')"
+        [value]="ticket.masterInfo.ten_kh"
+        [disabled]="true"
+        (handleClickUploadImage)="openUploadImage()" />
+
+      <form-input-custom
+        class="box"
+        [name]="'dia_chi'"
+        [label]="getLabel('lbl_dia_chi')"
+        [value]="ticket.masterInfo.dia_chi"
+        [disabled]="true" />
+
+      <!-- <form-input-custom
+        class="box"
         [name]="'so_dh'"
-        [label]="getLabel('lbl_so_dh_ban')"
+        [label]="'Dịch vụ trả lại'"
         [value]="ticket.masterInfo.so_dh"
         [readonly]="readonly || true"
         [invalid]="invalid"
         (handleChangeValue)="onEnterSalesOrderNumber($event)"
-        (handleClickOpenDialog)="openSearchOrderDialog()" />
+        (handleClickOpenDialog)="openSearchOrderDialog()" /> -->
 
       <form-select-custom
         class="box"
@@ -48,30 +84,6 @@
         [value]="ticket.masterInfo.status"
         (handleChangeValue)="ticket.masterInfo.status = $event" />
 
-      <form-input-custom
-        class="box"
-        [name]="'ma_kh'"
-        [label]="getLabel('lbl_ma_kh')"
-        [value]="ticket.masterInfo.ma_kh"
-        [readonly]="readonly"
-        [invalid]="invalid"
-        [disabled]="true"
-        (handleChangeValue)="onEnterCustomerCode($event)"
-        (handleUploadImage)="openUploadImage()"
-        (handleUViewPhoto)="openImage()" />
-      <form-input-custom
-        class="box"
-        [name]="'ten_kh'"
-        [label]="getLabel('lbl_ten_kh')"
-        [value]="ticket.masterInfo.ten_kh"
-        [disabled]="true"
-        (handleClickUploadImage)="openUploadImage()" />
-      <form-input-custom
-        class="box"
-        [name]="'dia_chi'"
-        [label]="getLabel('lbl_dia_chi')"
-        [value]="ticket.masterInfo.dia_chi"
-        [disabled]="true" />
       <form-input-custom
         class="box"
         [name]="'dien_giai'"

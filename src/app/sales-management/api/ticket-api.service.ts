@@ -44,6 +44,7 @@ const GET_PRICE_RENEW = `${environment.apiUrl}/price/get_renew_price`;
 const GET_STOCK_BY_SHOP = `${environment.apiUrl}/category/find/dmkho`;
 const GET_SOLD_SERVICE_ORDER = `${environment.apiUrl}/service/get_sold_service_order`;
 const GET_SOLD_SERVICE_ORDERS = `${environment.apiUrl}/service/get_sold_service_orders`;
+const GET_ORDERS_SERVICE_RETURN = `${environment.apiUrl}/service/get_orders_service_return`;
 const GET_VOUCHER_STATUS_URL = `${environment.apiUrl}/voucher/getvoucherstatus/`;
 const GET_REASON_URL = `${environment.apiUrl}/category/find/dmlydo`;
 const GET_REASON_BY_ID = `${environment.apiUrl}/category/getbyid/dmlydo`;
@@ -143,6 +144,11 @@ export class TicketApiService extends ApiService {
     }
     getSoldServiceOrders(params: {}): Observable<ResultNoPaging<any>> {
         const url = GET_SOLD_SERVICE_ORDERS;
+        return this.get<ResultNoPaging<any>>(url, params);
+    }
+
+    getOrdersServiceReturn(params: {}): Observable<ResultNoPaging<any>> {
+        const url = GET_ORDERS_SERVICE_RETURN;
         return this.get<ResultNoPaging<any>>(url, params);
     }
 
