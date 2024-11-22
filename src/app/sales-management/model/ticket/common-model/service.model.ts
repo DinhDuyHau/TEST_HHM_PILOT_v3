@@ -42,7 +42,17 @@ export class Service {
     //ma_td1 dùng để lưu lý do sửa giá
     ma_td1 = '';
     noi_dung = '';
+
+    // key dùng set checkbox
     key = '';
+
+    // mua lại dv
+    gia_nhap_mua = 0;
+    gia = 0;
+    so_ct_hd = '';
+    ngay_ct_hd = '';
+    stt_rec_hd = '';
+    stt_rec0hd = '';
 
     constructor(obj?: any) {
         Object.assign(this, obj);

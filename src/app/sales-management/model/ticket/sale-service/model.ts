@@ -44,6 +44,7 @@ export class Service {
   // ma_td1: lưu lý do sửa giá
   ma_td1 = '';
   noi_dung = '';
+  key = '';
 
   constructor(obj?: any) {
     Object.assign(this, obj);

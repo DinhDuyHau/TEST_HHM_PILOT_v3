@@ -34,6 +34,12 @@ export class ServiceOfMerchandiseService {
                     (serviceNew as any)[key] = e[key];
                 }
             });
+            serviceNew.gia_nhap_mua = e.gia_nhap_mua;
+            serviceNew.gia = e.gia;
+            serviceNew.so_ct_hd = e.so_ct_hd;
+            serviceNew.ngay_ct_hd = e.ngay_ct_hd;
+            serviceNew.stt_rec_hd = e.stt_rec_hd;
+            serviceNew.stt_rec0hd = e.stt_rec0hd;
             return serviceNew;
         });
         des.push(...rs);
@@ -136,6 +142,8 @@ export class ServiceOfMerchandiseService {
             serviceNew.thanh_tien = e.tien2;
             serviceNew.tien_thue = e.thue;
             serviceNew.tong_tien = e.tt;
+            serviceNew.key = e.stt_rec_hd + e.stt_rec0hd;
+            serviceNew.gia_nhap_mua = e.gia_vat;
             serviceNew.line_nbr = i;
             return serviceNew;
         });
@@ -153,15 +161,18 @@ export class ServiceOfMerchandiseService {
             });
             serviceNew.so_ct = e.so_ct;
             serviceNew.ngay_ct = e.ngay_ct;
+            serviceNew.so_ct_hd1 = e.so_ct;
+            serviceNew.ngay_ct_hd1 = e.ngay_ct;
+            serviceNew.ngay_ct = e.ngay_ct;
             serviceNew.ma_thue = e.ma_thue;
             serviceNew.stt_rec_hd1 = e.stt_rec;
             serviceNew.stt_rec0hd1 = e.stt_rec0;
-            serviceNew.gia_ban = e.gia;
+            serviceNew.gia_ban = e.gia_ban;
             serviceNew.thanh_tien = e.thanh_tien;
             serviceNew.thue = e.tien_thue;
             serviceNew.tong_tien = e.tong_tien;
-            serviceNew.gia2 = e.gia_tra_lai;
-            serviceNew.gia_nt2 = e.gia_tra_lai;
+            serviceNew.gia2 = e.gia_tra_lai || e.gia2;
+            serviceNew.gia_nt2 = e.gia_tra_lai || e.gia2;
             serviceNew.vt_ton_kho = e.vt_ton_kho;
             serviceNew.tien_giam = e.tien_giam;
             serviceNew.tl_giam = e.tl_giam;
@@ -171,4 +182,45 @@ export class ServiceOfMerchandiseService {
         rs.map((e, i) => { e.line_nbr = i; });
         des.push(...rs);
     }
+
+    convertBuyBackServiceToRequest = (services: any, masterInfo: any, TCreator: { new(): any; }) => {
+        const result = services.map((service: any) => {
+            const rs = new TCreator();
+            Object.keys(rs).map((key: string) => {
+                if (service.hasOwnProperty(key)) {
+                    (rs as any)[key] = service[key];
+                }
+            });
+            rs.gia = service.gia; // giá nhập trước thuế
+            rs.gia_nt = service.gia; // giá nhập trước thuế
+            rs.gia2 = service.gia_ban;
+            rs.gia_nt2 = service.gia_ban;
+            rs.gia_ck = service.gia_ck;
+            rs.gia_ck_nt = service.gia_ck;
+            rs.ck = service.tien_ck;
+            rs.ck_nt = service.tien_ck;
+            rs.tien2 = service.thanh_tien;
+            rs.tien_nt2 = service.thanh_tien;
+            rs.tien = service.thanh_tien;
+            rs.tien_nt = service.thanh_tien;
+            rs.thue_suat = service.thue_suat;
+            rs.thue = service.tien_thue;
+            rs.thue_nt = service.tien_thue;
+            rs.tt = service.tong_tien;
+            rs.tt_nt = service.tong_tien;
+            rs.km_yn = service.km_yn ? 1 : 0;
+            rs.gia_vat = service.gia_vat; // giá nhập mua sau thuế
+            rs.gia_vat_nt = service.gia_vat; // giá nhập mua sau thuế
+            rs.s4 = service.gia_ban; // giá đã bán
+            rs.stt_rec_hd = service.stt_rec_hd;
+            rs.stt_rec0hd = service.stt_rec0hd;
+            rs.so_ct_hd = service.so_ct_hd;
+            rs.ngay_ct_hd = service.ngay_ct_hd;
+
+            return rs;
+        });
+
+        this.commonService.updateBaseInfo(masterInfo, result);
+        return result;
+    };
 }

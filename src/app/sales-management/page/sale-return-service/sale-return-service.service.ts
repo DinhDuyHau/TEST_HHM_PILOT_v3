@@ -121,6 +121,8 @@ export class SaleReturnServiceService {
             returnService.vt_ton_kho = item.vt_ton_kho;
             returnService.gia2 = item.gia2;
             returnService.gia_nt2 = item.gia_nt2;
+            returnService.ngay_ct_hd1 = item.ngay_ct_hd1;
+            returnService.so_ct_hd1 = item.so_ct_hd1;
             res.push(returnService);
         });
         return res;

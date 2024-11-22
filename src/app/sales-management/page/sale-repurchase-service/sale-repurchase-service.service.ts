@@ -65,7 +65,7 @@ export class SaleRepurchaseServiceService {
         const voucherDto: VoucherDto = new VoucherDto;
         voucherDto.details = [];
         voucherDto.masterInfo = this.commonService.convertMasterInfo(this.ticket.masterInfo, MasterInfoRequest);
-        voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.SERVICE, data: this.serviceOfMerchandiseService.convertServiceToRequest(this.ticket.service, voucherDto.masterInfo, ServiceRequest) }];
+        voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.SERVICE, data: this.serviceOfMerchandiseService.convertBuyBackServiceToRequest(this.ticket.service, voucherDto.masterInfo, ServiceRequest) }];
         voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
 
         return voucherDto;
@@ -111,28 +111,61 @@ export class SaleRepurchaseServiceService {
     setInfoService(service: any, ma_kho: string, buy_price: number) {
         this.merchandiseServiceApiService.getOneById(service.ma_dv).subscribe((result: any) => {
             if (result.success) {
-                this.handleAddService(result.result, ma_kho, buy_price);
+                this.handleAddService(result.result);
             }
         });
     }
 
-    handleAddService(service: Service, ma_kho: string, buy_price: number) {
+    handleAddService(service: any) {
+        const serviceNew = new Service(service);
+
+        serviceNew.tong_tien = 0;
+        serviceNew.gia_ban = service.gia_ban;
+        serviceNew.thanh_tien = 0;
+        serviceNew.tien_thue = 0;
+        serviceNew.gia_nhap_mua = 0
+        serviceNew.gia = 0;
+        serviceNew.key = service.key;
+        serviceNew.thue_suat = service.thue_suat;
+        serviceNew.so_ct_hd = service.so_ct;
+        serviceNew.ngay_ct_hd = service.ngay_ct;
+        serviceNew.stt_rec_hd = service.stt_rec;
+        serviceNew.stt_rec0hd = service.stt_rec0;
+
+        this.serviceOfMerchandiseService.addNewServiceSale([serviceNew], this.ticket.service);
+        this.calcMoney();
+    }
+
+    /*
+    * Sửa hàm cũ thành hàm tính toán tiền
+    */
+    handleEditPurchasePriceService(service: Service, ma_kho: string, buy_price: number) {
         this.merchandiseServiceApiService.getServicePrice('', service.ma_dv, this.ticket.masterInfo.ma_cuahang).subscribe((result) => {
             if (result.success) {
                 const serviceNew = new Service(service);
                 serviceNew.ma_thue = (result.result as any).ma_thue;
-                serviceNew.gia_vat = buy_price;
                 serviceNew.thue_suat = (result.result as any).thue_suat;
-
+                // giá nhập mua
+                serviceNew.gia_vat = buy_price;
+                // giá đã bán
+                serviceNew.gia_ban = service.gia_ban;
+                // giá nhập trước vat
+                serviceNew.gia = Math.round(service.gia_nhap_mua / (1 + (serviceNew.thue_suat / 100)));
+                // thành tiền
+                serviceNew.thanh_tien = serviceNew.gia * serviceNew.so_luong;
+                // tổng tiền
                 serviceNew.tong_tien = serviceNew.gia_vat * serviceNew.so_luong;
-                serviceNew.gia_ban = Math.round(serviceNew.gia_vat / (1 + (serviceNew.thue_suat / 100)));
-
-                serviceNew.thanh_tien = serviceNew.gia_ban * serviceNew.so_luong;
+                // tiền thuế
                 serviceNew.tien_thue = serviceNew.tong_tien - serviceNew.thanh_tien;
 
                 serviceNew.ma_kho = ma_kho;
+                serviceNew.key = service.key
 
-                this.serviceOfMerchandiseService.addNewServiceSale([serviceNew], this.ticket.service);
+                const ticketService = this.ticket.service.find(item => item.ma_dv === serviceNew.ma_dv);
+                if (ticketService) {
+                  Object.assign(ticketService, serviceNew); // Gán tất cả các trường từ serviceNew vào ticketService
+                }
+
                 this.calcMoney();
                 return;
             }
