@@ -41,12 +41,39 @@
         (handleClickOpenDialog)="openSearchCustomerDialog()"
         (handleUploadImage)="openUploadImage()"
         (handleUViewPhoto)="openImage()" />
+
       <form-input-custom
         class="box"
         [name]="'ten_kh'"
         [label]="getLabel('lbl_ten_kh')"
         [value]="ticket.masterInfo.ten_kh"
         [disabled]="true" />
+
+      <form-input-custom
+        class="box"
+        [name]="'dia_chi'"
+        [label]="getLabel('lbl_dia_chi')"
+        [value]="ticket.masterInfo.dia_chi"
+        [disabled]="true" />
+
+      <div class="d-flex gap-2 box align-items-end mt-4">
+        <button
+          *ngIf="!readonly"
+          class="flex-1 btn act-input-data-btn text-nowrap w-50"
+          style="height: 38px !important;"
+          (click)="openSearchOrderDialog()"
+        >
+          Chọn dịch vụ trả lại
+        </button>
+
+        <button
+          *ngIf="!readonly"
+          class="flex-1 btn act-input-data-btn text-nowrap w-50"
+          style="height: 38px !important;"
+          (click)="openAddCustomerDialog()">
+          {{ getLabel('lbl_add_customer') }}
+        </button>
+      </div>
 
       <form-select-custom
         class="box"
@@ -60,19 +87,13 @@
 
       <form-input-custom
         class="box"
-        [name]="'dia_chi'"
-        [label]="getLabel('lbl_dia_chi')"
-        [value]="ticket.masterInfo.dia_chi"
-        [disabled]="true" />
-      <form-input-custom
-        class="box"
         [name]="'ghi_chu'"
         [label]="getLabel('lbl_ghi_chu')"
         [readonly]="readonly"
         [value]="ticket.masterInfo.dien_giai"
         (handleChangeValue)="ticket.masterInfo.dien_giai = $event" />
 
-      <form-input-custom
+      <!-- <form-input-custom
         class="box"
         [label]="getLabel('lbl_gia_nhap_mua')"
         name="gia_nhap_mua"
@@ -82,8 +103,9 @@
         *ngIf="!readonly"
         dataType="number"
         (handleChangeValue)="onEnterPrice($event)"
-        format="moneyInputFormat" />
-      <form-input-custom
+        format="moneyInputFormat" /> -->
+
+      <!-- <form-input-custom
         class="box"
         name="ma_dv"
         [label]="getLabel('lbl_ma_dv')"
@@ -91,19 +113,10 @@
         *ngIf="!readonly"
         [disabled]="readonly"
         (handleEnterInput)="onEnterService($event)"
-        (handleClickOpenDialog)="openSearchServiceDialog()"  />
-      
-        <div class="d-flex box align-items-end gap-3 mt-3 align-self-end">
-          <button
-            *ngIf="!readonly"
-            class="flex-1 btn act-input-data-btn text-nowrap"
-            (click)="openAddCustomerDialog()">
-            {{ getLabel('lbl_add_customer') }}
-          </button>
-        </div>
-      
+        (handleClickOpenDialog)="openSearchServiceDialog()"  /> -->
+
     </div>
-    
+
     <tabs-custom title="Thông tin hàng hóa">
       <tab-custom label="Dịch vụ" class="w-100">
         <table-custom
@@ -111,6 +124,7 @@
           [dataSource]="ticket.service"
           [columns]="serviceColumns"
           [isTicket]="false"
+          (handleUpdate)="onOpenPricePurchase($event)"
           (handleDelete)="onRemoveService($event)"
         />
       </tab-custom>

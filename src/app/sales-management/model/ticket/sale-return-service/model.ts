@@ -42,6 +42,13 @@ export class Service {
   ma_imei = '';
   vt_ton_kho = '';
   line_nbr = 0;
+  thue = 0;
+  gia2 = 0;
+  gia_nt2 = 0;
+  so_ct = '';
+  key = '';
+  ngay_ct_hd1 = '';
+  so_ct_hd1 = '';
 
   constructor(obj?: any) {
     Object.assign(this, obj);
