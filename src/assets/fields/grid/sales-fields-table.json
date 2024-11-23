@@ -1985,12 +1985,6 @@
             "title": "Mã imei"
         },
         {
-            "name": "naptien_hh_yn",
-            "title": "Thu tiền gói cước",
-            "align": "center",
-            "type": "checkbox"
-        },
-        {
             "name": "dvt",
             "title": "Đơn vị tính",
             "align": "center"
