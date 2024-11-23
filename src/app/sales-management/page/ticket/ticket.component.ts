@@ -68,6 +68,13 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
     delete: true
   }
 
+  isDisabled = {
+    create: true,
+    view: true,
+    edit: true,
+    delete: true
+  }
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -444,6 +451,19 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           const voucherData = result?.result[0]?.voucher ?? result?.result ?? [];
           const paymentMethodData = result?.result[1]?.payment_method || [];
 
+          // chỉ xử lý bán lẻ
+          if(this.entityName === 'SVTran') {
+            const authorizationData = result?.result[2]?.authorization[0] || [];
+            this.saveAuthorization(authorizationData);
+            this.setAuthorization();
+          } else {
+            // bỏ check all authorization
+            this.isDisabled.create = false;
+            this.isDisabled.view = false;
+            this.isDisabled.edit = false;
+            this.isDisabled.delete = false;
+          }
+
           this.dataSource = voucherData.map((voucherRecord: any) => {
             this.processPayments(voucherRecord, paymentMethodData);
             return voucherRecord;
@@ -629,6 +649,11 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           this.commonService.showMessageByName(result.message, []);
           return;
         }
+        let msg = result.toString();
+        if (msg) {
+          this.commonService.showMessageByName(msg);
+          return
+        }
         this.commonService.showMessage('Xóa voucher không thành công');
       }
     });
@@ -650,6 +675,11 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
                 if (result && !result.success && result.message && result.message !== '') {
                   this.commonService.showMessageByName(result.message);
                   return;
+                }
+                let msg = result.toString();
+                if (msg) {
+                  this.commonService.showMessageByName(msg);
+                  return
                 }
                 this.commonService.showMessage('Xóa voucher không thành công');
               }
@@ -795,5 +825,35 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         voucherRecord[fieldName] = payment.tien;
       }
     });
+  }
+
+  /*
+  * Lưu quyền vào localstorage
+  */
+  saveAuthorization(authorizationData: any) {
+    localStorage.removeItem('authorization');
+    localStorage.setItem('authorization', JSON.stringify(authorizationData));
+  }
+
+
+  /*
+  * Đọc quyền từ localstorage
+  */
+  getAuthorization() {
+    const authorization = localStorage.getItem('authorization') || '{}';
+    return JSON.parse(authorization);
+  }
+
+  /*
+  * Đặt quyền cho button
+  */
+  setAuthorization() {
+    console.log('okokkokokok');
+
+    const authorization = this.getAuthorization();
+    this.isDisabled.create = !authorization.add_yn ? true : false;
+    this.isDisabled.view = !authorization.access_yn ? true : false;
+    this.isDisabled.edit = !authorization.edit_yn ? true : false;
+    this.isDisabled.delete = !authorization.del_yn ? true : false;
   }
 }
