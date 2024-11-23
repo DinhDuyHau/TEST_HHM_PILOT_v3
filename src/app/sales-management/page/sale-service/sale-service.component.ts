@@ -99,7 +99,6 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
                     case 'view':
                         this.title = Language.content.view;
                         this.mode = MODE.VIEW;
-                        this.readonly = true;
                         this.cancelButtonTitle = Language.content.exit;
                         break;
                 }
@@ -262,9 +261,9 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
     // Submit
     onSave() {
         // Check âm tiền nợ
-        if(this.ticket.masterInfo.t_con_no < 0) {
-          this.commonService.showMessage('Tiền nợ không được âm');
-          return;
+        if (this.ticket.masterInfo.t_con_no < 0) {
+            this.commonService.showMessage('Tiền nợ không được âm');
+            return;
         }
 
         const message = this.saleServiceService.validateTicket(this.ticket);
