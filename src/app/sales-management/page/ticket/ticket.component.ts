@@ -848,8 +848,6 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   * Đặt quyền cho button
   */
   setAuthorization() {
-    console.log('okokkokokok');
-
     const authorization = this.getAuthorization();
     this.isDisabled.create = !authorization.add_yn ? true : false;
     this.isDisabled.view = !authorization.access_yn ? true : false;
