@@ -345,9 +345,9 @@ export class InputCustomV2Component implements OnChanges, OnInit {
           });
           res.filter = [...res.filter, ...this.filter];
           if (this.value !== undefined) {
-            var currentValue = this.value.split(',').map((item: any) => item.trim());
+            var arraySelected = this.value.split(',').map((item: any) => item.trim());
           }
-          dialogConfig.data = { ...res, currentValue: currentValue, isChoose: this.isChoose, code: this.name };
+          dialogConfig.data = { ...res, arraySelected: arraySelected, isChoose: this.isChoose, code: this.name };
         }
         dialogRef = this.dialog.open(LookupV2Component, dialogConfig);
       }

@@ -63,7 +63,7 @@ export class LookupV2Component {
       existingItem.choose = true;
     }
     const items = this.dataSource.filteredData.filter(((item: any) => item.choose)).map((item: any) => item[this.codeLookup[0]]).join(', ') || [];
-    if (this.data.isChoose == true) {
+    if (this.data.isChoose === true) {
       this.dialogRef.close(items);
     }
     else {
@@ -82,6 +82,8 @@ export class LookupV2Component {
     indexColumn: number;
     indexRow: number;
   }): void {
+    if (event.item.choose === true)
+      this.data.arraySelected = [...this.data.arraySelected, event.item[this.codeLookup[0]]]
     this.lookupService.handleService(event, this.dataSource.data, 'checkboxChange');
   }
 
@@ -99,7 +101,7 @@ export class LookupV2Component {
     this.lookupService.getItems(page, filter || [], sort || { name: '', direction: '' }).subscribe(res => {
       this.dataSource = new MatTableDataSource<any>(res.result.items);
       this.dataSource.filteredData = this.dataSource.filteredData.map((item: any) => {
-        const selectedStock = Array.isArray(this.data.currentValue) ? this.data.currentValue : [];
+        const selectedStock = Array.isArray(this.data.arraySelected) ? this.data.arraySelected : [];
         item.choose = selectedStock.includes(item[this.codeLookup[0]]);
         return item;
       })
