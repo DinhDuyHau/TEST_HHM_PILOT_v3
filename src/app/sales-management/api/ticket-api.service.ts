@@ -48,6 +48,7 @@ const GET_ORDERS_SERVICE_RETURN = `${environment.apiUrl}/service/get_orders_serv
 const GET_VOUCHER_STATUS_URL = `${environment.apiUrl}/voucher/getvoucherstatus/`;
 const GET_REASON_URL = `${environment.apiUrl}/category/find/dmlydo`;
 const GET_REASON_BY_ID = `${environment.apiUrl}/category/getbyid/dmlydo`;
+const GET_VOUCHER_DATE_URL = `${environment.apiUrl}/voucher/getdate`;
 
 @Injectable({
     providedIn: 'root'
@@ -303,4 +304,9 @@ export class TicketApiService extends ApiService {
         };
         return this.post<Result<any>>(GET_REASON_BY_ID, body);
     }
+
+    getVoucherDate(): Observable<ResultNoPaging<string>> {
+      const url = GET_VOUCHER_DATE_URL;
+      return this.get<ResultNoPaging<string>>(url);
+  }
 }

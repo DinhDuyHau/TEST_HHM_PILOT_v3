@@ -95,6 +95,9 @@ export class SaleReturnOnlineService {
         this.ticketApiService.getVoucherNumber(TICKET_ENTITY.RETURN_ONLINE).subscribe(result => {
             ticket.masterInfo.so_ct = result.result as any;
         });
+        this.ticketApiService.getVoucherDate().subscribe(result => {
+            ticket.masterInfo.ngay_ct = result?.result as any || Date();
+        });
     }
 
     //#endregion init
@@ -166,7 +169,7 @@ export class SaleReturnOnlineService {
 
     // #endregion merchandise
 
-    //#region 
+    //#region
     removeServiceAfterRemoveMerchandise(merchandise: Merchandise) {
         this.serviceOfMerchandiseService.removeServiceAfterRemoveMerchandise(merchandise, this.ticket.service);
         this.calcMoney();
