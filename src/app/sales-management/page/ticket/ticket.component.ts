@@ -77,6 +77,26 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   useEdit = false;
   useDelete = false;
+  entityNamesAuthorization = [
+    "SVTran",
+    "SVTran_BHC",
+    "SVTran_BHW",
+    "SVTran_DXA",
+    "SVTran_BHB",
+    "SVTran_BHD",
+    "SVTran_BHE",
+    "SVTran_BHF",
+    "SVTran_DV1",
+    "SVTran_BHG",
+    "SVTran_BHI",
+    "SVTran_BHK",
+    "PR3Tran",
+    "ITTran",
+    "IPTran",
+    "ITNTran",
+    "IPNTran",
+    "ITTran_PXB2",
+  ];
 
   constructor(
     private router: Router,
@@ -454,8 +474,8 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           const voucherData = result?.result[0]?.voucher ?? result?.result ?? [];
           const paymentMethodData = result?.result[1]?.payment_method || [];
 
-          // chỉ xử lý bán lẻ
-          if(this.entityName === 'SVTran') {
+          // chỉ xử lý các phiếu chỉ định
+          if(this.entityNamesAuthorization.includes(this.entityName)) {
             const authorizationData = result?.result[2]?.authorization[0] || [];
             this.saveAuthorization(authorizationData);
             this.setAuthorization();

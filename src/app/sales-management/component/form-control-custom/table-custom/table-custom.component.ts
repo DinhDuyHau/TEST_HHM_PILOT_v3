@@ -79,6 +79,26 @@ export class TableCustomComponent implements
   isAddCellBoder = false
   pageIndexRange: number[] = []
   pageIndexTotal!: number
+  entityNamesAuthorization = [
+    "SVTran",
+    "SVTran_BHC",
+    "SVTran_BHW",
+    "SVTran_DXA",
+    "SVTran_BHB",
+    "SVTran_BHD",
+    "SVTran_BHE",
+    "SVTran_BHF",
+    "SVTran_DV1",
+    "SVTran_BHG",
+    "SVTran_BHI",
+    "SVTran_BHK",
+    "PR3Tran",
+    "ITTran",
+    "IPTran",
+    "ITNTran",
+    "IPNTran",
+    "ITTran_PXB2",
+  ];
 
   constructor(
     public commonService: CommonService,
@@ -277,7 +297,7 @@ export class TableCustomComponent implements
     if (this.handleUpdate.observers.length === 0) {
       return false;
     }
-    if(this.entityName == "SVTran") {
+    if(this.entityNamesAuthorization.includes(this.entityName)) {
       if(!this.useEdit) {
         return false;
       }
@@ -316,7 +336,7 @@ export class TableCustomComponent implements
       return false;
     }
 
-    if(this.entityName == "SVTran") {
+    if(this.entityNamesAuthorization.includes(this.entityName)) {
       if(!this.useDelete) {
         return false;
       }
