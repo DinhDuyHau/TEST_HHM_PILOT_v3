@@ -120,9 +120,11 @@
         "control": "dmnhvt1",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh"],
+        "mapper": {
+          "ma_nh": "nh_vt1"
+        },
         "class": "flex-1",
         "isChoose": true
-        
       },
       {
         "name": "nh_vt2",
@@ -131,6 +133,9 @@
         "control": "dmnhvt2",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh"],
+        "mapper": {
+          "ma_nh": "nh_vt2"
+        },
         "class": "flex-1",
         "isChoose": true
       }
@@ -143,6 +148,9 @@
         "control": "dmnhvt3",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh"],
+        "mapper": {
+          "ma_nh": "nh_vt3"
+        },
         "class": "flex-1",
         "isChoose": true
       },
@@ -153,6 +161,9 @@
         "control": "dmnhvt4",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh"],
+        "mapper": {
+          "ma_nh": "nh_vt4"
+        },
         "class": "flex-1",
         "isChoose": true
       }
@@ -165,6 +176,9 @@
         "control": "dmnhvt5",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nh"],
+        "mapper": {
+          "ma_nh": "nh_vt5"
+        },
         "class": "flex-1",
         "isChoose": true
       },
