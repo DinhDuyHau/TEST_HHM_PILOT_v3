@@ -889,28 +889,14 @@ export class RetailComponent implements OnInit, AfterViewInit {
     });
   }
 
-  callMoney2() {
-    this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
-    this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra - this.ticket.masterInfo.tien_coc;
-    this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);
-  }
-
   onChangeCheckbox(data: any) {
     if (data.checked == true) {
-      this.ticket.masterInfo.t_tien_nt2 += data.item.thanh_tien;
-      this.ticket.masterInfo.t_thue_nt += data.item.tien_thue;
-      this.ticket.masterInfo.t_tt_nt += data.item.tong_tien;
-      this.callMoney2();
-
       this.ticket.packages.filter(e => e.ma_dv == data.item.ma_dv).forEach(e => e.naptien_hh_yn = data.checked)
+      this.retailService.calcMoney();
     }
     else {
-      this.ticket.masterInfo.t_tien_nt2 -= data.item.thanh_tien;
-      this.ticket.masterInfo.t_thue_nt -= data.item.tien_thue;
-      this.ticket.masterInfo.t_tt_nt -= data.item.tong_tien;
-      this.callMoney2();
-
       this.ticket.packages.filter(e => e.ma_dv == data.item.ma_dv).forEach(e => e.naptien_hh_yn = data.checked)
+      this.retailService.calcMoney();
     }
   }
 }
