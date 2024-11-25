@@ -75,6 +75,9 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
     delete: true
   }
 
+  useEdit = false;
+  useDelete = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -853,5 +856,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
     this.isDisabled.view = !authorization.access_yn ? true : false;
     this.isDisabled.edit = !authorization.edit_yn ? true : false;
     this.isDisabled.delete = !authorization.del_yn ? true : false;
+    this.useEdit = authorization.edit_yn ? true : false;
+    this.useDelete = authorization.del_yn ? true : false;
   }
 }
