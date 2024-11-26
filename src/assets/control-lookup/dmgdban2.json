@@ -1,0 +1,11 @@
+{
+  "title": "Danh mục mã giao dịch",
+  "entity": "dmgdban",
+  "filter": [
+    {
+      "name": "loai_ct",
+      "operator": "=",
+      "value": "2"
+    }
+  ]
+}
