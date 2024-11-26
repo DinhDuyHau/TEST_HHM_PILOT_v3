@@ -962,7 +962,8 @@
         {
             "name": "ma_imei",
             "title": "Imei",
-            "align": "center"
+            "align": "left",
+            "width": "400px"
         },
         {
             "name": "dvt",
