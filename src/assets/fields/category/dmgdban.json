@@ -1,0 +1,20 @@
+[
+  {
+    "name": "ma_loaigd",
+    "title": "Mã giao dịch",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_loaigd",
+    "title": "Tên giao dịch",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 400
+  }
+]

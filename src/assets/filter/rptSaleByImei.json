@@ -1,6 +1,6 @@
 {
   "width": 700,
-  "height": 850,
+  "height": 950,
   "control": [
     [
       {
@@ -189,6 +189,18 @@
         "control": "dmnganhhang",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_nganh", "ten_nganh"]
+      }
+    ],
+    [
+      {
+        "name": "ma_loaigd",
+        "label": "Mã giao dịch",
+        "isLookup": "true",
+        "control": "dmgdban2",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_loaigd"],
+        "class": "flex-1",
+        "isChoose": true
       }
     ]
   ]
