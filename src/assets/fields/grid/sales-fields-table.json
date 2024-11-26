@@ -1225,9 +1225,9 @@
         },
 
         {
-            "name": "gia2",
-            "title": "Giá TL (chưa VAT)",
-            "format": "moneyView2Digit",
+            "name": "gia_tra_lai",
+            "title": "Giá trả lại",
+            "format": "moneyViewNoDigit",
             "align": "right",
             "dataType": "number"
         },
@@ -1235,7 +1235,7 @@
             "name": "tien2",
             "title": "Thành tiền",
             "align": "right",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
@@ -1247,7 +1247,7 @@
         {
             "name": "thue",
             "title": "Tiền thuế",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
             "align": "right",
             "dataType": "number"
         },

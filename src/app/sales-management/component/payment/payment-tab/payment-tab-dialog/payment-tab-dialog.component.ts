@@ -597,21 +597,27 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   }
 
   validateFail() {
-    if (this.data.quet_the_tra_gop.selected) {
-      if (!this.data.quet_the_tra_gop.ma_may_pos.trim()) this.invalid.quet_the_tra_gop.ma_may_pos = true;
-      if (!this.data.quet_the_tra_gop.so_the.trim()) this.invalid.quet_the_tra_gop.so_the = true;
-      if (!this.data.quet_the_tra_gop.ma_dv_tragop.trim()) this.invalid.quet_the_tra_gop.ma_dv_tragop = true;
-      if (!this.data.quet_the_tra_gop.ma_chuan_chi.trim()) this.invalid.quet_the_tra_gop.ma_chuan_chi = true;
-      if (!this.data.quet_the_tra_gop.so_hd_tragop.trim()) this.invalid.quet_the_tra_gop.so_hd_tragop = true;
-      if (!this.data.quet_the_tra_gop.tk_nh_nhan.trim()) this.invalid.quet_the_tra_gop.tk_nh_nhan = true;
+    if (this.data.quet_the_tra_gop.selected && !this.data.quet_the_tra_gop.ma_may_pos.trim()
+      && !this.data.quet_the_tra_gop.ma_dv_tragop.trim() && !this.data.quet_the_tra_gop.so_the.trim()
+      && !this.data.quet_the_tra_gop.ma_chuan_chi.trim() && !this.data.quet_the_tra_gop.so_hd_tragop.trim()
+      && !this.data.quet_the_tra_gop.tk_nh_nhan.trim()
+    ) {
+      this.invalid.quet_the_tra_gop.ma_may_pos = true;
+      this.invalid.quet_the_tra_gop.ma_dv_tragop = true;
+      this.invalid.quet_the_tra_gop.so_the = true;
+      this.invalid.quet_the_tra_gop.ma_chuan_chi = true;
+      this.invalid.quet_the_tra_gop.so_hd_tragop = true;
+      this.invalid.quet_the_tra_gop.tk_nh_nhan = true;
 
       return true;
     }
-    if (this.data.tra_gop.selected) {
-      if (!this.data.tra_gop.so_hd_tragop.trim()) this.invalid.tra_gop.so_hd_tragop = true;
-      if (!this.data.tra_gop.ma_dv_tragop.trim()) this.invalid.tra_gop.ma_dv_tragop = true;
+
+    if (this.data.tra_gop.selected && !this.data.tra_gop.ma_dv_tragop.trim() && !this.data.tra_gop.so_hd_tragop.trim()) {
+      this.invalid.tra_gop.ma_dv_tragop = true;
+      this.invalid.tra_gop.ma_dv_tragop = true;
       return true;
     }
+
     if (this.data.voucher_doi_tac.selected && !this.data.voucher_doi_tac.ma_ctr.trim()) {
       this.invalid.voucher_doi_tac.ma_ctr = true;
       return true;
