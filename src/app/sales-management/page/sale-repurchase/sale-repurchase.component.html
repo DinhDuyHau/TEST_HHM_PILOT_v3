@@ -33,7 +33,6 @@
         [name]="'ma_kh'"
         [label]="getLabel('lbl_ma_kh')"
         [value]="ticket.masterInfo.ma_kh"
-        [tabIndex]="tabIndex.ma_kh"
         [invalid]="invalid"
         [readonly]="readonly"
         [invalid]="invalidMerchandiseInput.ma_kh"
@@ -68,7 +67,6 @@
         [invalid]="invalidMerchandiseInput.loai_hh"
         *ngIf="!readonly"
         [value]="repurchase.loai_hh"
-        [tabIndex]="tabIndex.ma_loai"
         (handleClickOpenDialog)="openSearchTypeMerchandiseDialog()" />
       <form-input-custom
         class="box"
@@ -76,7 +74,6 @@
         [label]="getLabel('lbl_ma_vt')"
         [value]="repurchase.ma_vt"
         [invalid]="invalidMerchandiseInput.ma_vt"
-        [tabIndex]="tabIndex.ma_vt"
         *ngIf="!readonly"
         [disabled]="readonly"
         (handleClickOpenDialog)="openTypeMerchandiseDialog()" />
@@ -86,7 +83,6 @@
         name="gia_nhap_mua"
         [align]="'end'"
         [value]="ticket.masterInfo.gia_nhap_mua"
-        [tabIndex]="tabIndex.gia_nhap_mua"
         [invalid]="invalidMerchandiseInput.gia_nhap_mua"
         *ngIf="!readonly"
         dataType="number"
@@ -97,7 +93,6 @@
         [name]="'imei'"
         [label]="getLabel('lbl_imei')"
         *ngIf="!readonly"
-        [tabIndex]="tabIndex.imei"
         (handleEnterInput)="onEnterImeiCode($event)"
         [uploadImage]="true" />
       <form-select-custom
@@ -162,7 +157,7 @@
           'quet_the_tra_gop'
         ]"
         [hiddenChooseButton]="mode === 2"
-        [isPaymentHH]="true"
+        [isPaymentHH]="false"
         [t_tong_tien]="ticket.masterInfo.t_tt_nt"
         [data]="ticket.payment"
         [t_con_no]="ticket.masterInfo.t_con_no"

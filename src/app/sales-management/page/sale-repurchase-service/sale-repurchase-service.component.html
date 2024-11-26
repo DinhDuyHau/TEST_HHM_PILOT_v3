@@ -1,0 +1,242 @@
+<div
+  class="px-1 md:px-2 lg:px-4 flex-1 bg-white position-relative ticket-container">
+  <div class="d-flex flex-column gap-2 mt-5 flex-1">
+    <div class="title-page pb-2 flex justify-between items-center">
+      <h5 class="">{{ title }}</h5>
+      <app-voucher-info
+        *ngIf="this.mode != 0"
+        [entity]="entity"
+        class="text-base"
+        [voucherId]="ticket.masterInfo.stt_rec" />
+    </div>
+    <div class="title-content">{{ getLabel('tlt_content') }}</div>
+    <div class="box-container mb-3">
+      <div class="d-flex gap-2 box">
+        <form-input-custom
+          class="flex-1"
+          [name]="'so_ct'"
+          [label]="getLabel('lbl_so_ct')"
+          [value]="ticket.masterInfo.so_ct"
+          [disabled]="true" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ngay_ct'"
+          [label]="getLabel('lbl_ngay_ct')"
+          [value]="ticket.masterInfo.ngay_ct"
+          format="datetimeFormat"
+          dataType="date"
+          [disabled]="true" />
+      </div>
+
+      <form-input-custom
+        class="box"
+        [name]="'ma_kh'"
+        [label]="getLabel('lbl_ma_kh')"
+        [value]="ticket.masterInfo.ma_kh"
+        [tabIndex]="tabIndex.ma_kh"
+        [invalid]="invalid"
+        [readonly]="readonly"
+        [fireChangeWhenBlur]="false"
+        (handleChangeValue)="onEnterCustomerCode($event)"
+        (handleClickOpenDialog)="openSearchCustomerDialog()"
+        (handleUploadImage)="openUploadImage()"
+        (handleUViewPhoto)="openImage()" />
+
+      <form-input-custom
+        class="box"
+        [name]="'ten_kh'"
+        [label]="getLabel('lbl_ten_kh')"
+        [value]="ticket.masterInfo.ten_kh"
+        [disabled]="true" />
+
+      <form-input-custom
+        class="box"
+        [name]="'dia_chi'"
+        [label]="getLabel('lbl_dia_chi')"
+        [value]="ticket.masterInfo.dia_chi"
+        [disabled]="true" />
+
+      <div class="d-flex gap-2 box align-items-end mt-4">
+        <button
+          *ngIf="!readonly"
+          class="flex-1 btn act-input-data-btn text-nowrap w-50"
+          style="height: 38px !important;"
+          (click)="openSearchOrderDialog()"
+        >
+          Chọn dịch vụ trả lại
+        </button>
+
+        <button
+          *ngIf="!readonly"
+          class="flex-1 btn act-input-data-btn text-nowrap w-50"
+          style="height: 38px !important;"
+          (click)="openAddCustomerDialog()">
+          {{ getLabel('lbl_add_customer') }}
+        </button>
+      </div>
+
+      <form-select-custom
+        class="box"
+        [isDisable]="readonly || disableSelectStatus"
+        [label]="getLabel('lbl_trang_thai')"
+        [options]="statusList"
+        optionDes="statusname"
+        optionValue="status"
+        [value]="ticket.masterInfo.status"
+        (handleChangeValue)="ticket.masterInfo.status = $event" />
+
+      <form-input-custom
+        class="box"
+        [name]="'ghi_chu'"
+        [label]="getLabel('lbl_ghi_chu')"
+        [readonly]="readonly"
+        [value]="ticket.masterInfo.dien_giai"
+        (handleChangeValue)="ticket.masterInfo.dien_giai = $event" />
+
+      <!-- <form-input-custom
+        class="box"
+        [label]="getLabel('lbl_gia_nhap_mua')"
+        name="gia_nhap_mua"
+        [align]="'end'"
+        [value]="ticket.masterInfo.gia_nhap_mua"
+        [tabIndex]="tabIndex.gia_nhap_mua"
+        *ngIf="!readonly"
+        dataType="number"
+        (handleChangeValue)="onEnterPrice($event)"
+        format="moneyInputFormat" /> -->
+
+      <!-- <form-input-custom
+        class="box"
+        name="ma_dv"
+        [label]="getLabel('lbl_ma_dv')"
+        [tabIndex]="tabIndex.ma_dv"
+        *ngIf="!readonly"
+        [disabled]="readonly"
+        (handleEnterInput)="onEnterService($event)"
+        (handleClickOpenDialog)="openSearchServiceDialog()"  /> -->
+
+    </div>
+
+    <tabs-custom title="Thông tin hàng hóa">
+      <tab-custom label="Dịch vụ" class="w-100">
+        <table-custom
+          [readonly]="readonly"
+          [dataSource]="ticket.service"
+          [columns]="serviceColumns"
+          [isTicket]="false"
+          (handleUpdate)="onOpenPricePurchase($event)"
+          (handleDelete)="onRemoveService($event)"
+        />
+      </tab-custom>
+      <!-- <tab-custom label="HĐĐT" class="w-100">
+        <div
+          class="text-medium font-medium flex flex-1 border-b-0.5 border-dashed border-neutrals07_color">
+          {{ getLabel('lbl_tt_xuat_hddt') }}
+        </div>
+        <e-invoice-info
+          [data]="ticket.masterInfo"
+          [disabled]="readonly"></e-invoice-info>
+        <div
+          class="text-medium font-medium flex flex-1 border-b-0.5 border-dashed border-neutrals07_color pt-1 md:pt-3 lg:pt-7">
+          {{ getLabel('lbl_hddt_phat_hanh') }}
+        </div>
+        <e-invoice-tab [data]="eInvoiceInfo"></e-invoice-tab>
+      </tab-custom> -->
+    </tabs-custom>
+    <ng-container>
+      <payment-tab
+        [action]="action"
+        [shop]="shop"
+        [invalid]="invalid"
+        [readonly]="readonly"
+        [pay_hidden]="[
+          'tien_dat_coc',
+          'quet_the',
+          'vi_dien_tu',
+          'vnpay',
+          'tra_gop',
+          'sd_diem',
+          'ma_giam_gia',
+          'chuyen_khoan',
+          'chiet_khau',
+          'giam_gia_crm',
+          'voucher_doi_tac',
+          'quet_the_tra_gop'
+        ]"
+        [hiddenChooseButton]="mode === 2"
+        [isPaymentHH]="false"
+        [t_tong_tien]="ticket.masterInfo.t_tt_nt"
+        [data]="ticket.payment"
+        [t_con_no]="ticket.masterInfo.t_con_no"
+        [t_da_tra]="ticket.masterInfo.t_da_tra"
+        (handleChangeValue)="
+          ticket.masterInfo.t_con_no = $event.t_con_no;
+          ticket.masterInfo.t_da_tra = $event.t_da_tra
+        " />
+    </ng-container>
+    <div>
+      <div class="title-content p-2">{{ getLabel('lbl_tc_don_hang') }}</div>
+      <div class="box-container">
+        <div class="box d-flex gap-2">
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_so_luong')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.t_so_luong" />
+
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [align]="'end'"
+            [label]="getLabel('lbl_thanh_tien')"
+            [value]="ticket.masterInfo.t_tt_nt"
+            format="moneyViewFormat"
+            dataType="number" />
+        </div>
+        <!-- <form-input-custom
+          class="box"
+          [disabled]="true"
+          [label]="getLabel('lbl_diem_qd')"
+          [align]="'end'"
+          [value]="ticket.masterInfo.diem_qd"
+          format="moneyViewFormat"
+          dataType="number" /> -->
+      </div>
+      <div class="d-flex justify-end gap-2 m-3">
+        <app-voucher-info
+          *ngIf="this.mode != 0"
+          [entity]="entity"
+          class="text-base"
+          [voucherId]="ticket.masterInfo.stt_rec" />
+        <div class="btn-responsive btn-in-file">
+          <span>{{ getLabel('btnPrint') }}</span>
+        </div>
+        <div class="btn-responsive btn-cancel" (click)="onCancel()">
+          {{ cancelButtonTitle }}
+        </div>
+        <button
+          class="btn-responsive btn-add"
+          [disabled]="isDisabled"
+          (click)="onSave()"
+          *ngIf="!readonly">
+          {{ submitButtonTitle }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="isSaving"
+    class="position-absolute start-0 top-0 opacity-50"
+    style="width: 100%; height: 100%; background-color: rgb(193, 193, 193)">
+    <div class="position-absolute top-50 start-50 translate-middle">
+      <div class="d-flex flex-column">
+        <div class="spinner-border text-dark align-self-center" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Đang lưu</p>
+      </div>
+    </div>
+  </div>
+</div>

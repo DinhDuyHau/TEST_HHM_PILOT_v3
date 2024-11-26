@@ -25,15 +25,23 @@ export class ServiceOrderComponent implements OnInit, OnChanges, AfterViewInit {
   ma_vt = '';
   columns!: Cell[];
   dataSource: Service[] = [];
+  filteredData!: any[];
   title!: string;
   value!: string;
   ma_cuahang!: string;
-
   preious_quantity: number[] = [];
+  dataOrderAdded: Service[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<ServiceOrderComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { ma_kh: string, ten_kh: string, ma_cuahang: string },
+    @Inject(MAT_DIALOG_DATA) public data: {
+      ma_kh: string,
+      ten_kh: string,
+      ma_cuahang: string,
+      dataSource: Service[],
+      columns: any,
+      title: string
+    },
     private merchandiseServiceApiService: MerchandiseServiceApiService,
     private commonService: CommonService,
     private ticketApiService: TicketApiService,
@@ -47,11 +55,16 @@ export class ServiceOrderComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.columns = SERVICE_ORDER as any as Cell[];
-    this.title = 'Chọn đơn hàng';
+    this.columns = this.data.columns || SERVICE_ORDER as any as Cell[];
+    this.title = this.data.title || 'Chọn dịch vụ trả lại';
     const userJson = localStorage.getItem('user');
     const userObj = userJson !== null && JSON.parse(userJson);
     this.ma_cuahang = userObj['shop'];
+    this.dataOrderAdded = this.data.dataSource || [];
+    this.filteredData = this.dataSource;
+
+    // when init dialog load orders
+    this.filterOrder();
   }
 
   ngOnChanges(): void {
@@ -115,10 +128,15 @@ export class ServiceOrderComponent implements OnInit, OnChanges, AfterViewInit {
       this.commonService.showMessageByName('lblWarningNotValidCustomer');
       return;
     }
-    this.ticketApiService.getSoldServiceOrders({ ma_kh: this.ma_kh, ma_cuahang: this.ma_cuahang }).subscribe((result) => {
+    this.ticketApiService.getOrdersServiceReturn({ ma_kh: this.ma_kh, ma_cuahang: this.ma_cuahang }).subscribe((result) => {
       if (result && result.success) {
         if (result.result && result.result.length) {
           this.dataSource = result.result;
+
+          // gán dữ liệu cho filteredData
+          this.filteredData = [...this.dataSource];
+          // load selected
+          this.loadSelected(this.dataSource, this.filteredData);
         }
         else {
           this.commonService.showMessageByName('lblWarningNotFoundReturnService');
@@ -155,11 +173,47 @@ export class ServiceOrderComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   onCancel() {
-    this.dialogRef.close();
+    this.dialogRef.close(this.dataOrderAdded);
   }
 
   onSelect() {
-    this.dialogRef.close(this.dataSource);
+    const item = this.filteredData.filter((e: any) => e.selected);
+
+    if (item.length <= 0) {
+      this.commonService.showMessage('Vui lòng chọn dịch vụ');
+      return;
+    }
+
+    this.dialogRef.close(item);
+  }
+
+  onItemSelected(selectedItem: any) {
+    const foundItem = this.filteredData.find((item) => item === selectedItem);
+
+    if (foundItem) {
+      foundItem.selected = foundItem.selected;
+    }
+  }
+
+  loadSelected(itemsSelected: any, items: any[]) {
+    const codeSelected = new Set<string>(
+      itemsSelected
+        .filter((e: { selected: any; }) => e.selected)
+        .map((e: { key: string; }) => e.key?.trim())
+        .filter(Boolean)
+    );
+
+    items.forEach((e: any) => {
+      if (e.selected === true) { }
+      e.selected = codeSelected.has(e.key?.trim());
+    });
+
+    items.forEach((e: any) => {
+      e.selected = this.dataOrderAdded.some(
+        (order: Service) =>
+          order.key?.trim() === e.key?.trim()
+      );
+    });
   }
 
 }

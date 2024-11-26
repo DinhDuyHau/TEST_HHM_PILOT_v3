@@ -1609,6 +1609,135 @@
             "align": "right"
         }
     ],
+    "SALE_REPURCHASE_SERVICE": [
+        {
+            "name": "ma_dv",
+            "title": "Mã dịch vụ"
+        },
+        {
+            "name": "ten_dv",
+            "title": "Tên dịch vụ"
+        },
+        {
+            "name": "vt_ton_kho",
+            "title": "Theo dõi kho",
+            "type": "checkbox",
+            "align": "center"
+        },
+        {
+            "name": "dvt",
+            "title": "Đơn vị tính",
+            "align": "center"
+        },
+        {
+            "name": "gia_ban",
+            "title": "Giá đã bán",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "gia_nhap_mua",
+            "title": "Giá nhập mua",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "gia",
+            "title": "Giá nhập (trước VAT)",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "so_luong",
+            "title": "Số lượng",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
+            "align": "center"
+        },
+        {
+            "name": "thanh_tien",
+            "title": "Thành tiền",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "thue_suat",
+            "title": "Thuế suất(%)",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "tien_thue",
+            "title": "Tiền thuế",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "tong_tien",
+            "title": "Tổng tiền",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        }
+    ],
+    "BUY_BACK_SERVICE": [
+      {
+        "name": "so_ct",
+        "title": "Số phiếu"
+      },
+      {
+          "name": "ngay_ct",
+          "title": "Ngày chứng từ",
+          "dataType": "date",
+          "format": "datetimeFormat"
+      },
+      {
+          "name": "ma_dv",
+          "title": "Mã dịch vụ"
+      },
+      {
+          "name": "ten_dv",
+          "title": "Tên dịch vụ"
+      },
+      {
+          "name": "vt_ton_kho",
+          "title": "Theo dõi kho",
+          "align": "center",
+          "type": "checkbox"
+      },
+      {
+          "name": "dvt",
+          "title": "Đơn vị tính",
+          "align": "center"
+      },
+      {
+          "name": "gia_ban",
+          "title": "Giá bán",
+          "format": "moneyViewNoDigit",
+          "dataType": "number",
+          "align": "right"
+      },
+      {
+          "name": "so_luong",
+          "title": "Số lượng",
+          "dataType": "number",
+          "format": "moneyViewNoDigit",
+          "align": "center"
+      },
+      {
+          "name": "thue_suat",
+          "title": "Thuế suất(%)",
+          "dataType": "number",
+          "format": "moneyViewNoDigit",
+          "align": "center"
+      }
+    ],
     "SERVICE_CHANGE_LIST": [
         {
             "name": "ma_dv",
@@ -1704,14 +1833,14 @@
         {
             "name": "gia_ban",
             "title": "Giá bán",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number",
             "align": "right"
         },
         {
-            "name": "gia_tra_lai",
+            "name": "gia2",
             "title": "Giá trả lại",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number",
             "align": "right"
         },
@@ -1725,7 +1854,7 @@
         {
             "name": "thanh_tien",
             "title": "Thành tiền",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number",
             "align": "right"
         },
@@ -1739,7 +1868,7 @@
         {
             "name": "tien_thue",
             "title": "Tiền thuế",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number",
             "align": "right"
         },
@@ -1752,61 +1881,98 @@
         }
     ],
     "SERVICE_ORDER": [
-        {
-            "name": "so_ct",
-            "title": "Số phiếu",
-            "isPrimaryKey": true
-        },
-        {
-            "name": "ngay_ct",
-            "title": "Ngày chứng từ",
-            "dataType": "date",
-            "format": "datetimeFormat"
-        },
-        {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
-        },
-        {
-            "name": "ma_kh",
-            "title": "Mã khách"
-        },
-        {
-            "name": "ten_kh",
-            "title": "Tên khách hàng"
-        },
-        {
-            "name": "dien_giai",
-            "title": "Diễn giải"
-        },
-        {
-            "name": "t_tien_nt",
-            "title": "Tiền đơn hàng",
-            "align": "right",
-            "format": "moneyView2Digit",
-            "dataType": "number"
-        },
-        {
-            "name": "t_ck_nt",
-            "title": "Chiết khấu",
-            "align": "right",
-            "format": "moneyView2Digit",
-            "dataType": "number"
-        },
-        {
-            "name": "t_thue_nt",
-            "title": "Thuế ",
-            "align": "right",
-            "format": "moneyView2Digit",
-            "dataType": "number"
-        },
-        {
-            "name": "t_tt_nt",
-            "title": "Thanh toán ",
-            "align": "right",
-            "format": "moneyViewNoDigit",
-            "dataType": "number"
-        }
+      {
+          "name": "so_ct",
+          "title": "Số phiếu"
+      },
+      {
+          "name": "ngay_ct",
+          "title": "Ngày chứng từ",
+          "dataType": "date",
+          "format": "datetimeFormat"
+      },
+      {
+          "name": "ma_dv",
+          "title": "Mã dịch vụ"
+      },
+      {
+          "name": "ten_dv",
+          "title": "Tên dịch vụ"
+      },
+      {
+          "name": "vt_ton_kho",
+          "title": "Theo dõi kho",
+          "align": "center",
+          "type": "checkbox"
+      },
+      {
+          "name": "dvt",
+          "title": "Đơn vị tính",
+          "align": "center"
+      },
+      {
+          "name": "gia_ban",
+          "title": "Giá bán",
+          "format": "moneyViewNoDigit",
+          "dataType": "number",
+          "align": "right"
+      },
+      {
+          "name": "tl_giam",
+          "title": "Tỉ lệ giảm(%)",
+          "format": "moneyViewNoDigit",
+          "dataType": "number",
+          "align": "center"
+      },
+      {
+          "name": "tien_giam",
+          "title": "Tiền giảm",
+          "format": "moneyViewNoDigit",
+          "dataType": "number",
+          "align": "right"
+      },
+      {
+          "name": "gia_tra_lai",
+          "title": "Giá trả lại",
+          "format": "moneyViewNoDigit",
+          "dataType": "number",
+          "align": "right"
+      },
+      {
+          "name": "so_luong",
+          "title": "Số lượng",
+          "dataType": "number",
+          "format": "moneyViewNoDigit",
+          "align": "center"
+      },
+      {
+          "name": "thanh_tien",
+          "title": "Thành tiền",
+          "format": "moneyViewNoDigit",
+          "dataType": "number",
+          "align": "right"
+      },
+      {
+          "name": "thue_suat",
+          "title": "Thuế suất(%)",
+          "dataType": "number",
+          "format": "moneyViewNoDigit",
+          "align": "center"
+      },
+      {
+          "name": "tien_thue",
+          "title": "Tiền thuế",
+          "format": "moneyViewNoDigit",
+          "dataType": "number",
+          "align": "right"
+      },
+      {
+          "name": "tong_tien",
+          "title": "Tổng tiền",
+          "format": "moneyViewNoDigit",
+          "dataType": "number",
+          "align": "right"
+      }
     ],
     "SERVICE_SELECT_LIST": [
         {
@@ -1824,13 +1990,28 @@
             "type": "checkbox"
         },
         {
+            "name": "ma_td1",
+            "title": "Mã lý do"
+        },
+        {
+            "name": "noi_dung",
+            "title": "Nội dung"
+        },
+        {
             "name": "dvt",
             "title": "Đơn vị tính",
             "align": "center"
         },
         {
+            "name": "gia_vat",
+            "title": "Giá (có VAT)",
+            "format": "moneyView2Digit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
             "name": "gia_ban",
-            "title": "Đơn giá",
+            "title": "Giá (chưa VAT)",
             "format": "moneyView2Digit",
             "dataType": "number",
             "align": "right"
@@ -1915,9 +2096,10 @@
         },
         {
             "name": "naptien_hh_yn",
-            "title": "Nạp tiền tại HHM",
+            "title": "Thu tiền gói cước",
             "align": "center",
-            "type": "checkbox"
+            "type": "checkbox",
+            "hiden": "true"
         },
         {
             "name": "dvt",
@@ -1974,12 +2156,6 @@
         {
             "name": "ten_dv",
             "title": "Tên dịch vụ"
-        },
-        {
-            "name": "naptien_hh_yn",
-            "title": "Nạp tiền tại HHM",
-            "align": "center",
-            "type": "checkbox"
         },
         {
             "name": "dvt",
@@ -2428,5 +2604,139 @@
             "name": "ten_vt",
             "title": "Tên vật tư"
         }
-    ]
+    ],
+    "MERCHANDISE_WEBSITE_LIST": [
+      {
+        "name": "ma_vt",
+        "title": "Mã vật tư"
+      },
+      {
+          "name": "ten_vt",
+          "title": "Tên vật tư",
+          "width": "300px",
+          "min-width": "50px"
+      },
+      {
+        "name": "ma_imei",
+        "title": "Imei",
+        "align": "center"
+      },
+      {
+        "name": "dvt",
+        "title": "Đvt",
+        "align": "center"
+      },
+      {
+        "name": "ma_kho",
+        "title": "Mã kho",
+        "align": "center"
+      },
+      {
+        "name": "no_km_yn",
+        "title": "Nợ khuyến mãi",
+        "type": "checkbox",
+        "align": "center"
+      },
+      {
+        "name": "gia_vat",
+        "title": "Giá niêm yết",
+        "format": "moneyViewNoDigit",
+        "align": "right",
+        "dataType": "number"
+      },
+      {
+          "name": "s5",
+          "title": "Tiền điều chỉnh",
+          "format": "moneyViewNoDigit",
+          "align": "right",
+          "dataType": "number"
+      },
+      {
+          "name": "tien_ck",
+          "title": "Tiền chiết khấu",
+          "format": "moneyViewNoDigit",
+          "align": "right",
+          "dataType": "number"
+      },
+      {
+        "name": "gia_ck",
+        "title": "Giá bán",
+        "format": "moneyView2Digit",
+        "align": "right",
+        "dataType": "number"
+      },
+      {
+        "name": "so_luong",
+        "title": "Số lượng",
+        "format": "moneyViewNoDigit",
+        "align": "center"
+      },
+      {
+        "name": "thanh_tien",
+        "title": "Thành tiền (chưa VAT)",
+        "align": "right",
+        "format": "moneyView2Digit",
+        "dataType": "number"
+      },
+      {
+        "name": "thue_suat",
+        "title": "Thuế suất(%)",
+        "align": "center"
+      },
+      {
+        "name": "tien_thue",
+        "title": "Tiền thuế",
+        "format": "moneyView2Digit",
+        "align": "right",
+        "dataType": "number"
+      },
+      {
+        "name": "thanh_toan",
+        "title": "Tổng tiền",
+        "format": "moneyViewNoDigit",
+        "align": "right",
+        "dataType": "number"
+      }
+    ],
+    "REASON_SEARCH": [
+      {
+        "name": "ma_lydo",
+        "title": "Mã lý do",
+        "isPrimaryKey": true
+      },
+      {
+        "name": "noi_dung",
+        "title": "Nội dung",
+        "width": "300px"
+       }
+    ],
+    "IMEI_SEARCH_SALES": [
+      {
+          "name": "ma_imei",
+          "title": "Mã imei",
+          "isPrimaryKey": true
+      },
+      {
+          "name": "ma_vt",
+          "title": "Mã vật tư"
+      },
+      {
+          "name": "ten_vt",
+          "title": "Tên vật tư",
+          "width": "300px",
+          "min-width": "50px"
+      },
+      {
+          "name": "ma_kho",
+          "title": "Mã kho"
+      },
+      {
+          "name": "ten_kho",
+          "title": "Tên kho",
+          "width": "300px",
+          "min-width": "50px"
+      }
+  ]
+
+
 }

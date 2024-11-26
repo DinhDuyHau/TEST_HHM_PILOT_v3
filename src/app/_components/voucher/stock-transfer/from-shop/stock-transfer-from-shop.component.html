@@ -163,9 +163,16 @@
       </tab-custom>
     </tabs-custom>
 
-    <div style="font-size: 18px;">Tổng số lượng: {{ticket.masterInfo.t_so_luong}}</div>
     <div class="transport d-flex flex-1 gap-3">
       <div class="d-flex gap-3 col-6">
+        <form-input-custom
+          class="flex-1"
+          [disabled]="true"
+          [label]="'Tổng số lượng'"
+          [align]="'end'"
+          [value]="ticket.masterInfo.t_so_luong"
+          format="moneyViewFormat"
+          dataType="number" />
         <form-input-custom
           class="flex-1"
           [name]="'so_dh_vc'"

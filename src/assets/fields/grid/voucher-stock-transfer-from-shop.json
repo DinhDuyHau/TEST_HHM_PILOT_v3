@@ -45,7 +45,7 @@
             "title": "Người lập"
         },
         {
-            "name": "cocomment2mment",
+            "name": "comment2",
             "title": "Người sửa"
         }
     ],
@@ -56,18 +56,22 @@
         },
         {
             "name": "ma_vt",
+			"width": "120px",			
             "title": "Mã vật tư"
         },
         {
             "name": "ten_vt",
+			"width": "400px",			
             "title": "Tên vật tư"
         },
         {
             "name": "dvt",
+			"width": "60px",			
             "title": "Đơn vị tính"
         },
         {
             "name": "so_luong",
+			"width": "80px",			
             "title": "Số lượng"
         },
         {
@@ -78,6 +82,7 @@
         },
         {
             "name": "ghi_chu",
+			"width": "300px",			
             "title": "Ghi chú"
         }
     ],
@@ -85,31 +90,38 @@
         {
             "name": "ma_kho",
             "title": "Mã kho",
+			"width": "80px",
             "isPrimaryKey": true
         },
         {
             "name": "ma_dvcs",
             "title": "Đơn vị",
+			"width": "80px",			
             "dataFormatString": "upperCaseFormat"
         },
         {
             "name": "ten_kho",
+			"width": "300px",			
             "title": "Tên kho"
         },
         {
             "name": "ten_kho2",
+			"width": "300px",			
             "title": "Tên kho 2"
         },
         {
             "name": "ma_loai",
+			"width": "80px",			
             "title": "Mã loại"
         },
         {
             "name": "ma_cuahang",
+			"width": "80px",			
             "title": "Mã cửa hàng"
         },
         {
             "name": "ghi_chu",
+			"width": "300px",			
             "title": "Ghi chú"
         }
     ],
@@ -127,22 +139,27 @@
         {
             "name": "ma_cuahang",
             "title": "Mã cửa hàng",
+			"width": "80px",
             "isPrimaryKey": true
         },
         {
             "name": "ten_cuahang",
+			"width": "350px",
             "title": "Tên cửa hàng"
         },
         {
             "name": "dia_chi",
+			"width": "400px",
             "title": "Địa chỉ"
         },
         {
             "name": "dien_thoai",
+			"width": "100px",
             "title": "Điện thoại"
         },
         {
             "name": "ma_tinh",
+			"width": "80px",
             "title": "Mã tỉnh"
         }
     ]

@@ -133,6 +133,10 @@
                 [label]="'Số thẻ'"
                 [value]="data.quet_the_tra_gop.so_the"
                 [disabled]="readonly"
+                [invalid]="
+                  data.quet_the_tra_gop.selected &&
+                  invalid.quet_the_tra_gop.so_the
+                "
                 [highlightBox]="
                   data.quet_the_tra_gop.tien > 0 &&
                   (!data.quet_the_tra_gop.so_the ||
@@ -170,6 +174,10 @@
                 [label]="'Mã chuẩn chi'"
                 [value]="data.quet_the_tra_gop.ma_chuan_chi"
                 [disabled]="readonly"
+                [invalid]="
+                  data.quet_the_tra_gop.selected &&
+                  invalid.quet_the_tra_gop.ma_chuan_chi
+                "
                 [highlightBox]="
                   data.quet_the_tra_gop.tien > 0 &&
                   (!data.quet_the_tra_gop.ma_chuan_chi ||
@@ -186,6 +194,10 @@
                 [name]="'qttg_so_hd_tragop'"
                 [label]="'Mã hợp đồng'"
                 [value]="data.quet_the_tra_gop.so_hd_tragop"
+                [invalid]="
+                  data.quet_the_tra_gop.selected &&
+                  invalid.quet_the_tra_gop.so_hd_tragop
+                "
                 [highlightBox]="
                   data.quet_the_tra_gop.tien > 0 &&
                   (!data.quet_the_tra_gop.so_hd_tragop ||
@@ -202,6 +214,15 @@
                 class="flex-1"
                 [align]="'left'"
                 [value]="this.data.quet_the_tra_gop.tk_nh_nhan"
+                [invalid]="
+                  data.quet_the_tra_gop.selected &&
+                  invalid.quet_the_tra_gop.tk_nh_nhan
+                "
+                [highlightBox]="
+                  data.quet_the_tra_gop.tien > 0 &&
+                  (!data.quet_the_tra_gop.tk_nh_nhan ||
+                    data.quet_the_tra_gop.tk_nh_nhan === '')
+                "
                 (handleChangeValue)="data.quet_the_tra_gop.tk_nh_nhan = $event"
                 (handleClickOpenDialog)="onOpenSearchBankPublishCard()" />
             </div>
@@ -490,6 +511,9 @@
                 [name]="'so_hd_tragop'"
                 [label]="'Mã hợp đồng'"
                 [value]="data.tra_gop.so_hd_tragop"
+                [invalid]="
+                  data.tra_gop.selected && invalid.tra_gop.so_hd_tragop
+                "
                 [highlightBox]="
                   data.tra_gop.tien > 0 &&
                   (!data.tra_gop.so_hd_tragop ||
@@ -815,7 +839,7 @@
             <button
               style="width: 150px; align-self: flex-start"
               class="flex-1 btn act-deposit-btn text-nowrap"
-              (click)="onCancel()">
+              (click)="onSubmit()">
               Nhận
             </button>
           </div>

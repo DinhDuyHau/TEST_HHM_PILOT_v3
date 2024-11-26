@@ -65,11 +65,11 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
   isSaving = false;
   isDisabled = false;
   tabIndex = {
-    job_id: 0,
-    ma_kh: 2,
-    nvvc: 3,
-    imei: 4,
-    ma_vt: 5
+    job_id: 'job_id',
+    ma_kh: 'ma_kh',
+    nvvc: 'nvvc',
+    imei: 'imei',
+    ma_vt: 'ma_vt'
   };
 
   disabledSelectPackage = true;
@@ -79,7 +79,7 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
   depositMerchandise: any[] = [];
   depositNameList = '';
   depositTotalPrice = 0;
-  tabIndexFocusFirst = 0;
+  tabIndexFocusFirst = 'job_id';
   eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
   conversionPoints = 0;
   eInvoiceInfoOutput: EInvoiceInfoOutput = new EInvoiceInfoOutput();
@@ -87,6 +87,7 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
   entity = TICKET_ENTITY.ITINERANT;
   action = '';
   shop = '';
+  ma_imei = '';
 
   constructor(
     private router: Router,
@@ -217,7 +218,7 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
 
   // #region customer
   handleAddCustomer(customer: Customer) {
-    this.commonService.focusControl(this.tabIndex.nvvc);
+    this.commonService.focusControl2(this.tabIndex.nvvc);
     this.saleItinerantService.removeDiscountForCustomer();
     this.saleItinerantService.setInfoCustomer(customer);
     this.handleGetDeposit();
@@ -291,12 +292,12 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
   handleAddDeliveryEmpl(empl: any) {
     this.ticket.masterInfo.ma_nvvc = empl.ma_kh;
     this.ticket.masterInfo.ten_nvvc = empl.ten_kh;
-    this.commonService.focusControl(this.tabIndex.imei);
+    this.commonService.focusControl2(this.tabIndex.imei);
   }
 
   onEnterDECode(ma_nvvc: string) {
     if (!ma_nvvc) {
-      this.commonService.focusControl(this.tabIndex.imei);
+      this.commonService.focusControl2(this.tabIndex.imei);
       return;
     }
     this.deliveryEmployeeApiService.getOneById(ma_nvvc).subscribe(result => {
@@ -350,7 +351,8 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
           this.saleItinerantService.addPromotionMerchandise(discount, merchandiseResponse.ma_imei);
         }
       }
-      this.commonService.clearText([this.tabIndex.imei, this.tabIndex.ma_vt]);
+      this.commonService.clearText2([this.tabIndex.imei, this.tabIndex.ma_vt]);
+      this.commonService.focusControl2(this.tabIndex.imei);
       this.saleItinerantService.setIsNeedCalcDiscount(true);
       this.discountService.resetDiscount(this.ticket.discount);
       this.saleItinerantService.calcMoney();
@@ -387,6 +389,12 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
       this.commonService.showMessage('Mã khách hàng không được để trống');
       return;
     }
+
+    if(!ma_imei || ma_imei.length < 5) {
+      this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
+      return;
+    }
+
     this.saleItinerantService.getImeiInStore(ma_imei).subscribe(result => {
       if (result.success && result.result.length) {
         if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise)) {
@@ -404,7 +412,18 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
         //   }
         // });
       } else {
-        this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: ma_imei });
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        this.commonService.openDialog(SearchDialogComponent, {
+          keyword: ma_imei,
+          shop: user.shop,
+          componentName: SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES,
+        }, 'search-style-dialog')
+          .afterClosed().subscribe(result => {
+            if (result && result.ma_imei) {
+              this.ma_imei = result.ma_imei;
+              this.handleProcessImei(this.ma_imei);
+            }
+          });
       }
     });
   }
@@ -419,10 +438,17 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
 
   // #region merchandise
   openMerchandiseDialog(ma_vt?: string) {
+    if (this.ticket.masterInfo.ten_kh == '') {
+      this.commonService.showMessage('Mã khách hàng không được để trống');
+      return;
+    }
+
     this.commonService.openDialog(SearchDialogComponent, { keyword: ma_vt || '', componentName: SEARCH_COMPONENT_NAME.MERCHANDISE }, 'search-style-dialog')
       .afterClosed().subscribe(result => {
         if (result && result.ma_imei) {
-          this.onEnterImeiCode(result.ma_imei);
+          // this.onEnterImeiCode(result.ma_imei);
+          this.ma_imei = result.ma_imei;
+          this.handleProcessImei(this.ma_imei);
         }
       });
   }
@@ -628,6 +654,12 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
 
   // Submit
   onSave() {
+    // Check âm tiền nợ
+    if(this.ticket.masterInfo.t_con_no < 0) {
+      this.commonService.showMessage('Tiền nợ không được âm');
+      return;
+    }
+
     //Check imei trùng trong grid chi tiết
     const mechandise_dup = [];
     const counter: { [key: string]: number } = {};
@@ -733,6 +765,23 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.t_cp_khac = $event.t_chi_phi;
 
     this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
+  }
+
+  handleProcessImei(ma_imei: string) {
+    this.ma_imei = ma_imei;
+
+    this.saleItinerantService.getImeiInStore(this.ma_imei).subscribe(result => {
+      if (result.success && result.result.length) {
+        if (this.merchandiseService.checkImeiExistMerchandise(this.ma_imei, this.ticket.merchandise)) {
+          this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: this.ma_imei });
+          return;
+        }
+        const merchandise = result.result[0];
+        this.handleAddImei(merchandise);
+      } else {
+        this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: this.ma_imei });
+      }
+    });
   }
 
 }

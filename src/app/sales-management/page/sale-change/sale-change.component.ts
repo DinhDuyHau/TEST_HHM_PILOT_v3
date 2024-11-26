@@ -53,17 +53,17 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   isSaving = false;
   isDisabled = false;
   tabIndex = {
-    ma_kh: 0,
-    nvvc: 2,
-    imei_return: 3,
-    imei_change: 4,
-    ma_vt: 5
+    ma_kh: 'ma_kh',
+    nvvc: 'nvvc',
+    imei_return: 'imei_return',
+    imei_change: 'imei_change',
+    ma_vt: 'ma_vt'
   };
   previewImage = '';
-  tabIndexFocusFirst = 0;
+  tabIndexFocusFirst = 'ma_kh';
   eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
   entity = TICKET_ENTITY.CHANGE;
-
+  ma_imei_doi = '';
 
   constructor(
     private router: Router,
@@ -199,7 +199,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   // #region imei
   handleAddImei(merchandiseResponse: any, return_or_change: Merchandise[]) {
     this.merchandiseService.addNew(merchandiseResponse, return_or_change, Merchandise);
-    this.commonService.clearText([this.tabIndex.imei_change]);
+    this.commonService.clearText2([this.tabIndex.imei_change]);
     this.saleChangeService.calcMoney();
   }
 
@@ -212,6 +212,10 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
       this.commonService.showMessageByName('lbl_invalid_merchandise_return_change');
       return;
     }
+    if (!this.ticket.masterInfo.ma_kh || this.ticket.masterInfo.ma_kh === '') {
+      this.commonService.showMessage('Cần nhập mã khách trước khi nhập imei');
+      return;
+    }
     this.saleChangeService.getSoldInfo(ma_imei).subscribe((result: any) => {
       if (result && result.success && result.result && result.result.details) {
         if (!this.ticket.masterInfo.ma_kh) {
@@ -222,6 +226,12 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
         const service = result.result.details[1].data;
         const src_merchandise = merchandise.filter((x: any) => x.ma_imei.trim() === ma_imei.trim());
         src_merchandise.forEach((x: any) => x.stt_rec_dh = x.stt_rec);
+
+        //kiểm tra thỏa mãn chính sách trả lại vật tư
+        if (src_merchandise && !src_merchandise[0].nhap_tra_lai_yn) {
+          this.commonService.showMessage('Imei không thỏa mãn chính sách trả lại');
+          return;
+        }
 
         this.merchandiseService.convertFromVoucher(src_merchandise, this.ticket.merchandise_return, Merchandise);
         this.serviceOfMerchandiseService.convertFromVoucher(service.filter((x: any) => x.ma_imei.trim() === ma_imei.trim()), this.ticket.service);
@@ -237,7 +247,8 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
         if (this.ticket.merchandise_change && this.ticket.merchandise_change.length) {
           this.ticket.service.forEach(x => x.ma_imei_doi = this.ticket.merchandise_change[0].ma_imei);
         }
-        this.commonService.clearText([this.tabIndex.imei_return]);
+        this.commonService.clearText2([this.tabIndex.imei_return]);
+        this.commonService.focusControl2(this.tabIndex.imei_return);
         this.saleChangeService.calcMoney();
         // this.imeiApiService.updateImeiState([ma_imei], true, 1).subscribe(result => {
         //   if (result.success && result.result[0].dat_hang_yn) {
@@ -262,6 +273,15 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
       this.commonService.showMessageByName('lbl_invalid_merchandise_return_change');
       return;
     }
+    if (!this.ticket.masterInfo.ma_kh || this.ticket.masterInfo.ma_kh === '') {
+      this.commonService.showMessage('Cần nhập mã khách trước khi nhập imei');
+      return;
+    }
+    if(!ma_imei || ma_imei.length < 5) {
+      this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
+      return;
+    }
+
     this.saleChangeService.getImeiInStore(ma_imei).subscribe(result => {
       if (result && result.success && result.result.length) {
         const merchandise = result.result[0];
@@ -276,7 +296,18 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
         //   }
         // });
       } else {
-        this.commonService.showMessageByName('lblWarningNotExsitImei');
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        this.commonService.openDialog(SearchDialogComponent, {
+          keyword: ma_imei,
+          shop: user.shop,
+          componentName: SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES,
+        }, 'search-style-dialog')
+          .afterClosed().subscribe(result => {
+            if (result && result.ma_imei) {
+              this.ma_imei_doi = result.ma_imei;
+              this.handleProcessImei(this.ma_imei_doi);
+            }
+          });
       }
     });
   }
@@ -351,6 +382,11 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
 
   // #region merchandise
   openMerchandiseDialog(ma_vt?: string) {
+    if (!this.ticket.masterInfo.ma_kh || this.ticket.masterInfo.ma_kh === '') {
+      this.commonService.showMessage('Cần nhập mã khách trước khi nhập imei');
+      return;
+    }
+
     this.commonService.openDialog(SearchDialogComponent, {
       keyword: ma_vt || '',
       componentName: SEARCH_COMPONENT_NAME.MERCHANDISE,
@@ -358,7 +394,9 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
     }, 'search-style-dialog')
       .afterClosed().subscribe(result => {
         if (result && result.ma_imei) {
-          this.onEnterImeiChangeCode(result.ma_imei);
+          // this.onEnterImeiChangeCode(result.ma_imei);
+          this.ma_imei_doi = result.ma_imei;
+          this.handleProcessImei(this.ma_imei_doi);
         }
       });
   }
@@ -371,6 +409,12 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
 
   // Submit
   onSave() {
+    // Check âm tiền nợ
+    if(this.ticket.masterInfo.t_con_no < 0) {
+      this.commonService.showMessage('Tiền nợ không được âm');
+      return;
+    }
+
     //Check imei trùng trong grid chi tiết
     const mechandise_dup = [];
     const counter: { [key: string]: number } = {};
@@ -452,6 +496,19 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
     return this.commonService.getMessage(label);
   }
 
+  handleProcessImei(ma_imei: string) {
+    this.ma_imei_doi = ma_imei;
+
+    this.saleChangeService.getImeiInStore(ma_imei).subscribe(result => {
+      if (result && result.success && result.result.length) {
+        const merchandise = result.result[0];
+        this.handleAddImei(merchandise, this.ticket.merchandise_change);
+        this.ticket.service.forEach(item => item.ma_imei_doi = ma_imei);
+      } else {
+        this.commonService.showMessageByName('lblWarningNotExsitImei');
+      }
+    });
+  }
 }
 
 

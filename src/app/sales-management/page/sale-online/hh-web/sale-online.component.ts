@@ -64,10 +64,10 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     isSaving = false;
     isDisabled = false;
     tabIndex = {
-        ma_kh: 0,
-        nvvc: 2,
-        imei: 3,
-        ma_vt: 4
+        ma_kh: 'ma_kh',
+        nvvc: 'nvvc',
+        imei: 'imei',
+        ma_vt: 'ma_vt'
     };
     disableSelectStatus = false;
     previewImage = '';
@@ -75,7 +75,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     depositMerchandise: any[] = [];
     depositNameList = '';
     depositTotalPrice = 0;
-    tabIndexFocusFirst = 0;
+    tabIndexFocusFirst = 'ma_kh';
     eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
     conversionPoints = 0;
     eInvoiceInfoOutput: EInvoiceInfoOutput = new EInvoiceInfoOutput();
@@ -83,6 +83,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     entity = TICKET_ENTITY.ONLINE;
     action = '';
     shop = '';
+    ma_imei = '';
 
     constructor(
         private router: Router,
@@ -215,7 +216,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
 
     // #region customer
     handleAddCustomer(customer: Customer) {
-        this.commonService.focusControl(this.tabIndex.nvvc);
+        this.commonService.focusControl2(this.tabIndex.nvvc);
         this.saleOnlineService.removeDiscountForCustomer();
         this.saleOnlineService.setInfoCustomer(customer);
         this.handleGetDeposit();
@@ -275,12 +276,12 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     handleAddDeliveryEmpl(empl: any) {
         this.ticket.masterInfo.ma_nvvc = empl.ma_kh;
         this.ticket.masterInfo.ten_nvvc = empl.ten_kh;
-        this.commonService.focusControl(this.tabIndex.imei);
+        this.commonService.focusControl2(this.tabIndex.imei);
     }
 
     onEnterDECode(ma_nvvc: string) {
         if (!ma_nvvc) {
-            this.commonService.focusControl(this.tabIndex.imei);
+            this.commonService.focusControl2(this.tabIndex.imei);
             return;
         }
         this.deliveryEmployeeApiService.getOneById(ma_nvvc).subscribe(result => {
@@ -334,7 +335,8 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                     this.saleOnlineService.addPromotionMerchandise(discount, merchandiseResponse.ma_imei);
                 }
             }
-            this.commonService.clearText([this.tabIndex.imei, this.tabIndex.ma_vt]);
+            this.commonService.clearText2([this.tabIndex.imei, this.tabIndex.ma_vt]);
+            this.commonService.focusControl2(this.tabIndex.imei);
             this.saleOnlineService.setIsNeedCalcDiscount(true);
             this.discountService.resetDiscount(this.ticket.discount);
             this.saleOnlineService.calcMoney();
@@ -367,26 +369,49 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     }
 
     onEnterImeiCode(ma_imei: string) {
+        if (!this.ticket.masterInfo.ma_kh || this.ticket.masterInfo.ma_kh === '') {
+          this.commonService.showMessage('Cần nhập mã khách trước khi nhập imei');
+          return;
+        }
+
+        if(!ma_imei || ma_imei.length < 5) {
+          this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
+          return;
+        }
 
         this.saleOnlineService.getImeiInStore(ma_imei).subscribe(result => {
-            if (result.success && result.result.length) {
-                if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise)) {
-                    this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: ma_imei });
-                    return;
+          if (result.success && result.result.length) {
+              if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise)) {
+                  this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: ma_imei });
+                  return;
+              }
+              const merchandise = result.result[0];
+              this.handleAddImei(merchandise);
+              // this.handleAddGuarantee(merchandise);
+              // this.imeiApiService.updateImeiState([ma_imei], true).subscribe(result => {
+              //     if (result.success && result.result[0].dat_hang_yn) {
+              //         this.handleAddImei(merchandise);
+              //         this.handleAddGuarantee(merchandise);
+              //         this.commonService.addImeiToStorage(ma_imei);
+              //     }
+              // });
+          } else {
+            /*
+            * Ko đúng imei sẽ mở dialog tìm kiếm
+            */
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            this.commonService.openDialog(SearchDialogComponent, {
+              keyword: ma_imei,
+              shop: user.shop,
+              componentName: SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES,
+            }, 'search-style-dialog')
+              .afterClosed().subscribe(result => {
+                if (result && result.ma_imei) {
+                  this.ma_imei = result.ma_imei;
+                  this.handleProcessImei(this.ma_imei);
                 }
-                const merchandise = result.result[0];
-                this.handleAddImei(merchandise);
-                // this.handleAddGuarantee(merchandise);
-                // this.imeiApiService.updateImeiState([ma_imei], true).subscribe(result => {
-                //     if (result.success && result.result[0].dat_hang_yn) {
-                //         this.handleAddImei(merchandise);
-                //         this.handleAddGuarantee(merchandise);
-                //         this.commonService.addImeiToStorage(ma_imei);
-                //     }
-                // });
-            } else {
-                this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: ma_imei });
-            }
+              });
+          }
         });
     }
 
@@ -400,16 +425,23 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
 
     // #region merchandise
     openMerchandiseDialog(ma_vt?: string) {
+        if (!this.ticket.masterInfo.ma_kh || this.ticket.masterInfo.ma_kh === '') {
+          this.commonService.showMessage('Cần nhập mã khách trước khi nhập imei');
+          return;
+        }
+
         this.commonService.openDialog(SearchDialogComponent, {
             keyword: ma_vt || '',
             componentName: SEARCH_COMPONENT_NAME.MERCHANDISE,
             ma_ct: this.ticket.masterInfo.ma_ct
         }, 'search-style-dialog')
-            .afterClosed().subscribe(result => {
-                if (result && result.ma_imei) {
-                    this.onEnterImeiCode(result.ma_imei);
-                }
-            });
+          .afterClosed().subscribe(result => {
+              if (result && result.ma_imei) {
+                  // this.onEnterImeiCode(result.ma_imei);
+                  this.ma_imei = result.ma_imei;
+                  this.handleProcessImei(this.ma_imei);
+              }
+          });
     }
 
     onEnterMerchandiseCode(ma_vt: string) {
@@ -586,6 +618,12 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
 
     // Submit
     onSave() {
+        // Check âm tiền nợ
+        if(this.ticket.masterInfo.t_con_no < 0) {
+          this.commonService.showMessage('Tiền nợ không được âm');
+          return;
+        }
+
         //Check imei trùng trong grid chi tiết
         const mechandise_dup = [];
         const counter: { [key: string]: number } = {};
@@ -685,6 +723,22 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
         this.ticket.masterInfo.dien_giai = event;
     }
 
+    handleProcessImei(ma_imei: string) {
+      this.ma_imei = ma_imei;
+
+      this.saleOnlineService.getImeiInStore(this.ma_imei).subscribe(result => {
+        if (result.success && result.result.length) {
+            if (this.merchandiseService.checkImeiExistMerchandise(this.ma_imei, this.ticket.merchandise)) {
+                this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: this.ma_imei });
+                return;
+            }
+            const merchandise = result.result[0];
+            this.handleAddImei(merchandise);
+        } else {
+            this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: this.ma_imei });
+        }
+      });
+    }
 }
 
 

@@ -23,7 +23,6 @@
         [name]="'ma_kh'"
         [label]="getLabel('lbl_ma_kh')"
         [value]="ticket.masterInfo.ma_kh"
-        [tabIndex]="tabIndex.ma_kh"
         [disabled]="readonly"
         [invalid]="invalid"
         [fireChangeWhenBlur]="false"
@@ -36,7 +35,6 @@
         class="box order-dynamic-3"
         [name]="'ma_nvvc'"
         [label]="getLabel('lbl_ma_nvvc')"
-        [tabIndex]="tabIndex.nvvc"
         [disabled]="readonly"
         [value]="ticket.masterInfo.ma_nvvc"
         (handleEnterInput)="onEnterDECode($event)"
@@ -84,7 +82,6 @@
         class="box order-dynamic-3"
         [name]="'ma_ncc'"
         [label]="getLabel('lbl_ma_ncc_tc')"
-        [tabIndex]="tabIndex.ma_ncc"
         [disabled]="readonly || ticket.merchandise_used.length > 0"
         [readonly]="readonly || ticket.merchandise_used.length > 0"
         [value]="ticket.masterInfo.ma_ncc"
@@ -103,7 +100,6 @@
             class=""
             [name]="'imei_used'"
             [label]="getLabel('lbl_imei')"
-            [tabIndex]="tabIndex.imei_used"
             [disabled]="readonly"
             [value]="renew.ma_imei"
             [fireChangeWhenBlur]="false"
@@ -119,7 +115,6 @@
               [isLookup]="true"
               [controller]="'dmvt'"
               [value]="renew.ma_vt"
-              [tabIndex]="tabIndex.ma_vt"
               [invalid]="invalidMerchandiseInput.ma_vt"
               (handleBlur)="onBlurTypeMerchandiseCode($event)"
               (handleEnterInput)="onEnterTypeMerchandiseCode($event)"
@@ -131,7 +126,6 @@
               #ten_vt_mua
               [label]="getLabel('lbl_ten_vt')"
               [value]="renew.ten_vt"
-              [tabIndex]="tabIndex.ten_vt"
               [disabled]="true" />
           </div>
           <div class="flex flex-1 gap-2">
@@ -143,7 +137,6 @@
               [readonly]="true"
               [disabled]="readonly"
               [invalid]="invalidMerchandiseInput.loai_hh"
-              [tabIndex]="tabIndex.ma_loai"
               (handleClickOpenDialog)="openSearchTypeMerchandiseDialog()" />
             <form-input-custom
               class="basis-3/5"
@@ -151,7 +144,6 @@
               [label]="getLabel('lbl_gia_nhap_mua')"
               [align]="'end'"
               [value]="renew.gia_nt"
-              [tabIndex]="tabIndex.gia_nt"
               [disabled]="readonly"
               [invalid]="invalidMerchandiseInput.gia_nt"
               dataType="number"
@@ -184,7 +176,6 @@
             class=""
             [name]="'imei_new_sale'"
             [label]="getLabel('lbl_imei')"
-            [tabIndex]="tabIndex.imei_new_sale"
             [disabled]="readonly"
             (handleEnterInput)="onEnterImeiNewMerchandiseCode($event)"
             (handleClickCodeScanner)="onClickCodeScanner()"
@@ -193,7 +184,6 @@
             class=""
             name="ma_vt_new_sale"
             [label]="getLabel('lbl_ma_vt')"
-            [tabIndex]="tabIndex.ma_vt_new_sale"
             (handleEnterInput)="onEnterMerchandiseCode($event)"
             (handleClickOpenDialog)="openMerchandiseDialog()" />
           <div class="d-flex box align-items-end gap-3 mt-5 align-self-end">

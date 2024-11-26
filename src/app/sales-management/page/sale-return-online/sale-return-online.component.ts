@@ -51,7 +51,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
   isSaving = false;
   isDisabled = false;
   tabIndex = {
-    imei: 1
+    imei: 'imei'
   };
   previewImage = '';
 
@@ -257,7 +257,8 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
                     }
                   })
 
-                  this.commonService.clearText([this.tabIndex.imei]);
+                  this.commonService.clearText2([this.tabIndex.imei]);
+                  this.commonService.focusControl2(this.tabIndex.imei);
                   this.commonService.addImeiToStorage(ma_imei);
                   this.resetSaleDown();
                 } else {
@@ -303,6 +304,12 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
 
   // Submit
   onSave() {
+    // Check âm tiền nợ
+    if(this.ticket.masterInfo.t_con_no < 0) {
+      this.commonService.showMessage('Tiền nợ không được âm');
+      return;
+    }
+
     //Check imei trùng trong grid chi tiết
     const mechandise_dup = [];
     const counter: { [key: string]: number } = {};

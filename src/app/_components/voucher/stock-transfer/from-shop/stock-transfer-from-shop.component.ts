@@ -473,6 +473,10 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
     else {
       this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise, Merchandise);
     }
+
+    //tính lại tổng số lượng
+    this.ticket.masterInfo.t_so_luong = this.ticket?.merchandise?.map(e => e.so_luong).reduce((pre, cur) => pre + cur, 0) || 0;
+
   }
 
   onEnterImeiCode(ma_imei: string) {
@@ -487,7 +491,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.imeiService.getSingleImeiInfo(ma_imei, this.ticket.masterInfo.ma_kho).subscribe((result) => {
+    this.imeiService.getSingleImeiInfo(ma_imei, this.ticket.masterInfo.ma_kho, true).subscribe((result) => {
       if (result.success && result.result.length) {
         result.result.map(merchandise => {
           if (!merchandise.exists_yn) {

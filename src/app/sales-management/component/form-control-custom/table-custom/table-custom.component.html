@@ -30,7 +30,7 @@
               {{ column['title'] }}
             </div>
             <form-input-custom
-              *ngIf="handleFilter.observers.length"
+              *ngIf="useFilter"
               [name]="column.name"
               (handleChangeValue)="onChangeFilter($event, column.name)"
               (handleEnterInput)="onClickSearch()"

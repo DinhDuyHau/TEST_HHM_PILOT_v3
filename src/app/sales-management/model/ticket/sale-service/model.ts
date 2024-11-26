@@ -41,6 +41,10 @@ export class Service {
   tong_tien = 0;
   line_nbr = 0;
   gia_vat = 0;
+  // ma_td1: lưu lý do sửa giá
+  ma_td1 = '';
+  noi_dung = '';
+  key = '';
 
   constructor(obj?: any) {
     Object.assign(this, obj);

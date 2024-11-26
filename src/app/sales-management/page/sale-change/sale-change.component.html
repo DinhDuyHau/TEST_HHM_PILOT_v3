@@ -34,7 +34,7 @@
         [name]="'ma_kh'"
         [label]="getLabel('lbl_ma_kh')"
         [value]="ticket.masterInfo.ma_kh"
-        [tabIndex]="tabIndex.ma_kh"
+        [disabled]="true"
         [readonly]="readonly"
         [invalid]="invalid"
         (handleChangeValue)="onEnterCustomerCode($event)"
@@ -58,7 +58,6 @@
         class="box order-dynamic-3"
         [name]="'ma_nvvc'"
         [label]="getLabel('lbl_ma_nvvc')"
-        [tabIndex]="tabIndex.nvvc"
         [readonly]="readonly"
         [value]="ticket.masterInfo.ma_nvvc"
         (handleChangeValue)="onEnterDECode($event)"
@@ -80,7 +79,6 @@
         [name]="'imei_tra'"
         [label]="getLabel('lbl_imei_tra')"
         *ngIf="!readonly"
-        [tabIndex]="tabIndex.imei_return"
         (handleEnterInput)="onEnterImeiReturnCode($event)"
         (handleClickCodeScanner)="onClickReturnCodeScanner()"
         [uploadImage]="true" />
@@ -89,7 +87,6 @@
         [name]="'imei_doi'"
         [label]="getLabel('lbl_imei_doi')"
         *ngIf="!readonly"
-        [tabIndex]="tabIndex.imei_change"
         (handleEnterInput)="onEnterImeiChangeCode($event)"
         (handleClickCodeScanner)="onClickChangeCodeScanner()"
         [uploadImage]="true" />
@@ -98,7 +95,6 @@
         name="ma_vt"
         [label]="getLabel('lbl_checkstock_ma_vt')"
         *ngIf="!readonly"
-        [tabIndex]="tabIndex.ma_vt"
         (handleEnterInput)="onEnterMerchandiseCode($event)"
         (handleClickOpenDialog)="openMerchandiseDialog()" />
       <form-select-custom

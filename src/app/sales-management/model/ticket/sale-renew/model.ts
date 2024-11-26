@@ -78,6 +78,8 @@ export class Merchandise extends BaseMerchandise {
   gc_td1 = '';
   ma_cttc = '';
   ma_td3 = '';
+  //ma_td2 dùng để lưu mã khai báo
+  ma_td2 = '';
 
   constructor(obj?: any) {
     super();

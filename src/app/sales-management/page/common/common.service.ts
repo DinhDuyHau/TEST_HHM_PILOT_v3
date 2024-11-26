@@ -198,6 +198,19 @@ export class CommonService {
         });
     }
 
+    focusControl2(id: any) {
+        (document.querySelector(`input[id='${id}']`) as HTMLElement)?.focus();
+    }
+
+    clearText2(tabIndexs: any[]) {
+        tabIndexs.forEach(e => {
+            const inputElement = document.querySelector(`input[id='${e}']`) as HTMLInputElement;
+            if (inputElement) {
+                inputElement.value = '';
+            }
+        });
+    }
+
     updateBaseInfo = (masterInfo: any, model: any[]) => {
         model.forEach(e => {
             e.stt_rec = masterInfo.stt_rec;

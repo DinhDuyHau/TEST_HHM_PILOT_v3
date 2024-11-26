@@ -302,7 +302,7 @@
                   (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
                 'hover:text-green-600':
                   (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
-                'font-medium': element['sysbold'] === 1,
+                'font-semibold': element['sysbold'] === 1,
               }">
               <input
                 *ngIf="!column.multipleLine"
@@ -318,7 +318,7 @@
                   (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
                   'hover:text-green-600':
                     (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
-                  'font-medium': element['sysbold'] === 1,
+                  'font-semibold': element['sysbold'] === 1,
 
                 }"
                 type="text"
@@ -342,7 +342,7 @@
                     (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
                   'hover:text-green-600':
                     (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
-                  'font-medium': element['sysbold'] === 1,
+                  'font-semibold': element['sysbold'] === 1,
                 }"
                 type="text"
                 [name]="column.name"

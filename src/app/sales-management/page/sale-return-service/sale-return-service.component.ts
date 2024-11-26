@@ -46,11 +46,12 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
   isSaving = false;
   isDisabled = false;
   tabIndex = {
-    so_dh: 1,
+    so_dh: 'so_dh',
   };
   previewImage = '';
-  tabIndexFocusFirst = 0;
+  tabIndexFocusFirst = 'so_dh';
   entity = TICKET_ENTITY.WHOLE;
+  dataOrderAdded: Service[] = [];
 
   constructor(
     private router: Router,
@@ -116,6 +117,8 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
             this.commonService.getPointRateExchange(this.ticket);
             this.saleReturnServiceService.loadData(result.result as any as VoucherDto);
             this.tabIndexFocusFirst = this.tabIndex.so_dh;
+
+            this.dataOrderAdded = this.ticket.service;
           }
         });
       } else {
@@ -134,6 +137,7 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
   }
 
   onEnterCustomerCode(ma_kh: string) {
+    this.ticket.masterInfo.ma_kh = ma_kh || '';
     this.customerApiService.getOneById(ma_kh).subscribe(result => {
       if (result.success && result.result) {
         const customer: any = result.result;
@@ -149,7 +153,10 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
     this.commonService.openDialog(SearchDialogComponent,
       { keyword: '', componentName: SEARCH_COMPONENT_NAME.CUSTOMER, title: this.getLabel('tlt_customer_list') }, 'search-style-dialog')
       .afterClosed()
-      .subscribe((customer: Customer) => customer && this.handleAddCustomer(customer));
+      .subscribe((customer: Customer) => {
+        customer && this.handleAddCustomer(customer)
+        this.ticket.masterInfo.ma_kh = customer.ma_kh || '';
+      });
   }
   openAddCustomerDialog(ma_kh = ''): void {
     this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh }, 'fullscreen-dialog')
@@ -161,28 +168,36 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
   //#endregion
 
   openSearchOrderDialog() {
+    if (!this.ticket.masterInfo.ma_kh) {
+      this.commonService.showMessage('Cần chọn mã khách trước khi chọn dịch vụ trả lại');
+      return;
+    }
+
     this.commonService.openDialog(ServiceOrderComponent,
-      { ma_kh: this.ticket.masterInfo.ma_kh, ten_kh: this.ticket.masterInfo.ten_kh, ma_cuahang: this.ticket.masterInfo.ma_cuahang }, 'search-style-dialog')
+      {
+        ma_kh: this.ticket.masterInfo.ma_kh,
+        ten_kh: this.ticket.masterInfo.ten_kh,
+        ma_cuahang: this.ticket.masterInfo.ma_cuahang,
+        dataSource: this.dataOrderAdded
+      },
+      'search-style-dialog')
       .afterClosed()
-      .subscribe((order: any) => order && this.addOrder(order));
+      .subscribe((orders: any) => {
+        /*
+        * gán dữ liệu đã add vào detail
+        * để khi thực hiện mở lại dialog
+        * những cái nào đã được add thì checked = true
+        */
+        this.dataOrderAdded = orders;
+
+        orders && this.addOrder(orders)
+      });
   }
 
-  addOrder(order: any) {
-    const { prime, detail } = order;
+  addOrder(orders: any) {
     this.ticket.service = [];
-    this.ticket.masterInfo.so_dh = prime.so_ct;
-    if (!this.ticket.service.find(ser => ser.stt_rec_hd1 === prime.stt_rec)) {
-      if (this.ticket.masterInfo.ma_kh !== prime.ma_kh.trim()) {
-        this.ticket.masterInfo.ma_kh = prime.ma_kh.trim();
-        this.onEnterCustomerCode(prime.ma_kh);
-        this.ticket.service = [];
-      }
-      this.serviceOfMerchandiseService.convertReturnServiceFromVoucher(detail, this.ticket.service, Service);
-      // this.commonService.clearText([this.tabIndex.so_dh]);
-      this.saleReturnServiceService.calcMoney();
-    } else {
-      this.commonService.showMessageByName('lblWarningServiceExist');
-    }
+    this.serviceOfMerchandiseService.convertReturnServiceFromVoucher(orders, this.ticket.service, Service);
+    this.saleReturnServiceService.calcMoney();
   }
 
   onEnterSalesOrderNumber(order: string) {
@@ -197,7 +212,7 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
               this.ticket.service = [];
             }
             this.serviceOfMerchandiseService.convertReturnServiceFromVoucher(detail, this.ticket.service, Service);
-            this.commonService.clearText([this.tabIndex.so_dh]);
+            this.commonService.clearText2([this.tabIndex.so_dh]);
             this.saleReturnServiceService.calcMoney();
           } else {
             this.commonService.showMessageByName('lblWarningServiceExist');
@@ -211,6 +226,8 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
 
   // #region service
   onRemoveService(event: { item: any }) {
+    this.dataOrderAdded = this.dataOrderAdded.filter(item => item.so_ct !== event.item.so_ct);
+
     this.serviceOfMerchandiseService.removeService(event.item, this.ticket.service);
     this.saleReturnServiceService.calcMoney();
   }

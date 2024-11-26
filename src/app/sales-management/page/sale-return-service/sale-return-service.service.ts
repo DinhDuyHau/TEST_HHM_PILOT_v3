@@ -39,7 +39,7 @@ export class SaleReturnServiceService {
         this.ticket.masterInfo = this.commonService.convertMasterInfoFromVoucher(data.masterInfo, MasterInfo);
         this.customerApiService.getOneById(data.masterInfo.ma_kh).subscribe(result => {
             const customer = result.result as any;
-            this.ticket.masterInfo.ten_kh = customer.ma_kh;
+            this.ticket.masterInfo.ten_kh = customer.ten_kh;
             this.ticket.masterInfo.dia_chi = customer.dia_chi;
         });
 
@@ -79,6 +79,7 @@ export class SaleReturnServiceService {
             serviceNew.thanh_tien = e.tien2;
             serviceNew.tien_thue = e.thue;
             serviceNew.tong_tien = e.tt;
+            serviceNew.key = e.stt_rec_hd1 + e.stt_rec0hd1;
             serviceNew.line_nbr = i;
             return serviceNew;
         });
@@ -117,6 +118,11 @@ export class SaleReturnServiceService {
             returnService.ma_cuahang = masterInfo.ma_cuahang;
             returnService.ma_ca = masterInfo.ma_ca;
             returnService.ma_dvcs = masterInfo.ma_dvcs;
+            returnService.vt_ton_kho = item.vt_ton_kho;
+            returnService.gia2 = item.gia2;
+            returnService.gia_nt2 = item.gia_nt2;
+            returnService.ngay_ct_hd1 = item.ngay_ct_hd1;
+            returnService.so_ct_hd1 = item.so_ct_hd1;
             res.push(returnService);
         });
         return res;
@@ -173,13 +179,16 @@ export class SaleReturnServiceService {
 
     //#region other
     calcMoney() {
+        // số lượng
         this.ticket.masterInfo.t_so_luong = this.ticket.service.length;
-
-        const serviceTax = this.ticket.service.map(e => e.tien_thue).reduce((pre, cur) => pre + cur, 0);
-        this.ticket.masterInfo.t_thue_nt = this.commonService.rouding(serviceTax);
-        this.ticket.masterInfo.t_tien_nt2 = this.commonService.rouding(this.ticket.service.map(e => e.thanh_tien).reduce((pre, cur) => pre + cur, 0));
+        // tiền thuế
+        const serviceTax = this.ticket.service.map(e => e.thue).reduce((pre, cur) => pre + cur, 0);
+        this.ticket.masterInfo.t_thue_nt = Math.round(serviceTax);
+        // thành tiền
+        this.ticket.masterInfo.t_tien_nt2 = Math.round(this.ticket.service.map(e => e.thanh_tien).reduce((pre, cur) => pre + cur, 0));
+        // tổng thanh toán
         this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt;
-
+        // điểm quy đổi
         this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);
     }
 

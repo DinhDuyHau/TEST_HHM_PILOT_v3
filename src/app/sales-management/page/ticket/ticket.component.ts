@@ -211,6 +211,13 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.entityName = TICKET_ENTITY.REPURCHASE;
         this.codeName = TICKET_CODE.REPURCHASE;
         break;
+      case TICKET_TYPE.SALE_REPURCHASE_SERVICE:
+        this.columns = TICKET_FIELDS.SALE_REPURCHASE_SERVICE as Cell[];
+        this.title = 'Ticket mua lại dịch vụ';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.REPURCHASE_SERVICE;
+        this.codeName = TICKET_CODE.REPURCHASE_SERVICE;
+        break;
       case TICKET_TYPE.SALE_RENEW:
         this.columns = TICKET_FIELDS.SALE_RENEW as Cell[];
         this.title = 'Ticket thu cũ đổi mới';
@@ -431,7 +438,18 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   getTop() {
     const observer = {
-      next: (result: any) => { this.dataSource = result.result; },
+      next: (result: any) => {
+
+        if (result.success) {
+          const voucherData = result?.result[0]?.voucher ?? result?.result ?? [];
+          const paymentMethodData = result?.result[1]?.payment_method || [];
+
+          this.dataSource = voucherData.map((voucherRecord: any) => {
+            this.processPayments(voucherRecord, paymentMethodData);
+            return voucherRecord;
+          });
+        }
+      },
       error: () => { },
       complete: () => this.isLoading = false
     };
@@ -463,8 +481,18 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         // };
         // localStorage.setItem(`saleSearchData_${this.entityName}`, JSON.stringify(adv_search_data));
 
-        this.dataSource = result.result.items;
-        this.recordCount = result.result.recordCount;
+        if (result.success) {
+          const voucherData = result?.result?.items?.[0]?.voucher
+            ?? result?.result?.items
+            ?? [];
+          const paymentMethodData = result?.result?.items?.[0]?.payment_method || [];
+
+          this.dataSource = voucherData.map((voucherRecord: any) => {
+            this.processPayments(voucherRecord, paymentMethodData);
+            return voucherRecord;
+          });
+          this.recordCount = result.result.recordCount;
+        }
       },
       error: () => { },
       complete: () => this.isLoading = false
@@ -480,7 +508,20 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   quickSearch(params: any) {
     const observer = {
-      next: (result: any) => { this.dataSource = result.result.items; this.recordCount = result.result.recordCount; },
+      next: (result: any) => {
+        if (result.success) {
+          const voucherData = result?.result?.items[0]?.voucher
+            ?? result?.result?.items
+            ?? [];
+          const paymentMethodData = result.result.items[0]?.payment_method || [];
+
+          this.dataSource = voucherData.map((voucherRecord: any) => {
+            this.processPayments(voucherRecord, paymentMethodData);
+            return voucherRecord;
+          });
+          this.recordCount = result.result.recordCount;
+        }
+      },
       error: () => { },
       complete: () => this.isLoading = false
     };
@@ -496,7 +537,18 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.isLoading = true;
         this.hiddenPagination = true;
         this.ticketApiService.getTop(this.entityName).subscribe({
-          next: (x: any) => { this.dataSource = x.result; this.recordCount = x.result.length; },
+          next: (x: any) => {
+            if (x.success) {
+              const voucherData = x?.result[0]?.voucher || [];
+              const paymentMethodData = x?.result[1]?.payment_method || [];
+
+              this.dataSource = voucherData.map((voucherRecord: any) => {
+                this.processPayments(voucherRecord, paymentMethodData);
+                return voucherRecord;
+              });
+              this.recordCount = x?.result[0]?.voucher.length;
+            }
+          },
           error: () => { },
           complete: () => this.isLoading = false
         });
@@ -710,5 +762,38 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       this.select_item_current = event.item.stt_rec;
       this.selected_status_row = event.item.status;
     }
+  }
+
+  /*
+  * Hàm xử lý các thêm các trường tiền thanh toán cho phiếu
+  */
+  processPayments(voucherRecord: any, paymentMethodData: any[]): void {
+    const paymentFieldMap: { [key: string]: string } = {
+      "TIENCOC": "t_dat_coc",
+      "TM": "tien_mat",
+      "ATM": "quet_the",
+      "QTTG": "quet_the_tgop",
+      "CHUYENKHOAN": "chuyen_khoan",
+      "VIDT": "vi_dien_tu",
+      "VNPAY": "vnpay",
+      "TRAGOP": "tr_gop",
+      "DIEMQD": "sd_diem",
+      "VOUCHERDOITAC": "voucher_doi_tac",
+    };
+
+    Object.values(paymentFieldMap).forEach(fieldName => {
+      voucherRecord[fieldName] = 0;
+    });
+
+    const relatedPayments = paymentMethodData.filter(
+      (payment: any) => payment.stt_rec === voucherRecord.stt_rec
+    );
+
+    relatedPayments.forEach((payment: any) => {
+      const fieldName = paymentFieldMap[payment.ma_thanhtoan];
+      if (fieldName) {
+        voucherRecord[fieldName] = payment.tien;
+      }
+    });
   }
 }

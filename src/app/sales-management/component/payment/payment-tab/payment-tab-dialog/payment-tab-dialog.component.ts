@@ -53,9 +53,14 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   invalid = {
     quet_the_tra_gop: {
       ma_may_pos: false,
-      ma_dv_tragop: false
+      so_the: false,
+      ma_dv_tragop: false,
+      ma_chuan_chi: false,
+      so_hd_tragop: false,
+      tk_nh_nhan: false
     },
     tra_gop: {
+      so_hd_tragop: false,
       ma_dv_tragop: false
     },
     voucher_doi_tac: {
@@ -440,7 +445,8 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     this.commonService.getDiscountCodeInfo(this.ma_gg).subscribe((result: any) => {
       if (result.success && result.result) {
         this.ma_gg = '';
-        this.data.ma_giam_gia = { ...this.data.ma_giam_gia, ma_gg: result.result.ma_gg, tien: result.result.tien_gg_nt };
+        const tien_gg = Number(result.result.tien_gg_nt) > this.t_con_no ? this.t_con_no : Number(result.result.tien_gg_nt);
+        this.data.ma_giam_gia = { ...this.data.ma_giam_gia, ma_gg: result.result.ma_gg, tien: tien_gg };
         this.onChange();
       } else {
         this.commonService.showMessageByName('discount_code_invalid');
@@ -591,13 +597,19 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   }
 
   validateFail() {
-    if (this.data.quet_the_tra_gop.selected && !this.data.quet_the_tra_gop.ma_may_pos.trim() && !this.data.quet_the_tra_gop.ma_dv_tragop.trim()) {
-      this.invalid.quet_the_tra_gop.ma_may_pos = true;
-      this.invalid.quet_the_tra_gop.ma_dv_tragop = true;
+    if (this.data.quet_the_tra_gop.selected) {
+      if (!this.data.quet_the_tra_gop.ma_may_pos.trim()) this.invalid.quet_the_tra_gop.ma_may_pos = true;
+      if (!this.data.quet_the_tra_gop.so_the.trim()) this.invalid.quet_the_tra_gop.so_the = true;
+      if (!this.data.quet_the_tra_gop.ma_dv_tragop.trim()) this.invalid.quet_the_tra_gop.ma_dv_tragop = true;
+      if (!this.data.quet_the_tra_gop.ma_chuan_chi.trim()) this.invalid.quet_the_tra_gop.ma_chuan_chi = true;
+      if (!this.data.quet_the_tra_gop.so_hd_tragop.trim()) this.invalid.quet_the_tra_gop.so_hd_tragop = true;
+      if (!this.data.quet_the_tra_gop.tk_nh_nhan.trim()) this.invalid.quet_the_tra_gop.tk_nh_nhan = true;
+
       return true;
     }
-    if (this.data.tra_gop.selected && !this.data.tra_gop.ma_dv_tragop.trim()) {
-      this.invalid.tra_gop.ma_dv_tragop = true;
+    if (this.data.tra_gop.selected) {
+      if (!this.data.tra_gop.so_hd_tragop.trim()) this.invalid.tra_gop.so_hd_tragop = true;
+      if (!this.data.tra_gop.ma_dv_tragop.trim()) this.invalid.tra_gop.ma_dv_tragop = true;
       return true;
     }
     if (this.data.voucher_doi_tac.selected && !this.data.voucher_doi_tac.ma_ctr.trim()) {
@@ -608,17 +620,20 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       this.commonService.showMessage("Tiền còn nợ không được là số âm");
       return true;
     }
+
     return false;
   }
 
   onCancel() {
+    this.dialogRef.close();
+  }
+  onSubmit() {
     if (this.validateFail()) {
       return;
     } else {
       this.dialogRef.close({ t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, nguoi_duyet_ck: this.approveDiscount, t_chi_phi: this.t_tien_phi });
     }
   }
-
 
 }
 

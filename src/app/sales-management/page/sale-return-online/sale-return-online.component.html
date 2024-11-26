@@ -33,7 +33,6 @@
         class="box"
         [name]="'imei'"
         [label]="getLabel('lbl_imei')"
-        [tabIndex]="tabIndex.imei"
         [readonly]="readonly"
         (handleEnterInput)="onEnterImeiCode($event)"
         (handleClickCodeScanner)="!readonly && onClickCodeScanner()"
@@ -294,7 +293,9 @@
           'ma_giam_gia',
           'chuyen_khoan',
           'chiet_khau',
-          'giam_gia_crm'
+          'giam_gia_crm',
+          'voucher_doi_tac',
+          'quet_the_tra_gop'
         ]"
         [hiddenChooseButton]="mode === 2"
         [isPaymentHH]="true"
