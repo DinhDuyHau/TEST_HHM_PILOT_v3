@@ -1,0 +1,12 @@
+{
+  "title": "Danh mục khách hàng",
+  "entity": "dmkh",
+  "filter": [
+    {
+      "name": "nh_kh9",
+      "operator": "=",
+      "value": "NGKH60"
+    }
+  ],
+  "multipleChoose": false
+}
