@@ -212,10 +212,10 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
       this.commonService.showMessageByName('lbl_invalid_merchandise_return_change');
       return;
     }
-    if (!this.ticket.masterInfo.ma_kh || this.ticket.masterInfo.ma_kh === '') {
-      this.commonService.showMessage('Cần nhập mã khách trước khi nhập imei');
-      return;
-    }
+    // if (!this.ticket.masterInfo.ma_kh || this.ticket.masterInfo.ma_kh === '') {
+    //   this.commonService.showMessage('Cần nhập mã khách trước khi nhập imei');
+    //   return;
+    // }
     this.saleChangeService.getSoldInfo(ma_imei).subscribe((result: any) => {
       if (result && result.success && result.result && result.result.details) {
         if (!this.ticket.masterInfo.ma_kh) {
@@ -277,7 +277,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
       this.commonService.showMessage('Cần nhập mã khách trước khi nhập imei');
       return;
     }
-    if(!ma_imei || ma_imei.length < 5) {
+    if (!ma_imei || ma_imei.length < 5) {
       this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
       return;
     }
@@ -410,7 +410,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   // Submit
   onSave() {
     // Check âm tiền nợ
-    if(this.ticket.masterInfo.t_con_no < 0) {
+    if (this.ticket.masterInfo.t_con_no < 0) {
       this.commonService.showMessage('Tiền nợ không được âm');
       return;
     }

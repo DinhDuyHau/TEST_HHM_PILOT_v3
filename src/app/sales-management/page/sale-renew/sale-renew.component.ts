@@ -588,7 +588,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       this.commonService.showMessage('Mã khách hàng không được để trống');
       return;
     }
-    if(!ma_imei || ma_imei.length < 5) {
+    if (!ma_imei || ma_imei.length < 5) {
       this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
       return;
     }
@@ -1130,7 +1130,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       .afterClosed().subscribe(res => {
         if (res) {
           //lọc tìm item theo imei xuất bán (gc_td1)
-          const sale_item = this.ticket.merchandise_new_sale.find(x => x.ma_imei.trim() === event.item.gc_td1.trim());
+          const sale_item = this.ticket.merchandise_new_sale.find(x => x.ma_imei.toString().toUpperCase().trim() === event.item.gc_td1.toUpperCase().trim());
           const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
           this.saleRenewService.adjustBuyPrice(ngay_ct, this.ticket.masterInfo.ma_ncc, res, sale_item!)?.pipe().subscribe(result => {
             if (result && result.success && result.result) {

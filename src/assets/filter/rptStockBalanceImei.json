@@ -17,7 +17,6 @@
         "label": "Mã cửa hàng",
         "isLookup": "true",
         "control": "zcdmcuahang",
-        "value": "@@shop",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_cuahang"],
         "class": "flex-1",
