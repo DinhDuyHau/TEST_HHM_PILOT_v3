@@ -1,0 +1,31 @@
+{
+  "width": 700,
+  "height": 300,
+  "control": [
+    [
+      {
+        "name": "tu_ngay",
+        "label": "Từ ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      },
+      {
+        "name": "den_ngay",
+        "label": "Đến ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      }
+    ],
+    [
+      {
+        "name": "ma_nvbh",
+        "label": "Mã nhân viên",
+        "isLookup": "true",
+        "control": "dmnvbh",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nvbh"],
+        "isChoose": true
+      }
+    ]
+  ]
+}
