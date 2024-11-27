@@ -6,6 +6,7 @@ import { CommonService } from '@app/sales-management/page/common/common.service'
 import { checkValidImei } from '@app/_common/commonFunction';
 import { MerchandiseService } from '@app/sales-management/page/common/merchandise.service';
 import { SaleWholeService } from '@app/sales-management/page/sale-whole/sale-whole.service';
+import { ImeiApiService } from '@app/sales-management/api/imei-api.service';
 
 @Component({
   selector: 'app-dialog-imei',
@@ -26,8 +27,7 @@ export class DialogIMEIComponent {
     private snackBar: MatSnackBar,
     private imeiService: IMEIService,
     private commonService: CommonService,
-    private merchandiseService: MerchandiseService,
-    private saleWholeService: SaleWholeService
+    private imeiApiService: ImeiApiService
   ) {
     if (data.ma_imei) {
       this.ma_imei = data.ma_imei.join('\n');
@@ -105,7 +105,7 @@ export class DialogIMEIComponent {
       */
       let imeiErrorList: string[] = [];
       const imeiChecks = this.imei_data.map((imei) => {
-        return this.saleWholeService.getImeiInStore(imei).toPromise().then((result: any) => {
+        return this.imeiApiService.getImeiInStore(imei, this.data.ma_cuahang || '', this.data.ma_ct || '').toPromise().then((result: any) => {
           if (result.success && result.result.length) {
             const imeiInfo = result.result[0];
             if (this.data.ma_vt.trim() != imeiInfo.ma_vt.trim() || this.data.ma_kho.trim() != imeiInfo.ma_kho.trim()) {

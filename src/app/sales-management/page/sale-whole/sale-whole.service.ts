@@ -103,27 +103,32 @@ export class SaleWholeService {
                     const merchandiseItem = new Merchandise(item);
 
                     const merchandiseByContract = sub_merchandise.filter(mer => mer.ma_vt === merchandiseItem.ma_vt);
-                    const arr_imeis = merchandiseByContract.map(mer => mer.ma_imei.trim());
+
+                    // Lọc các bản ghi từ merchandiseByContract theo s4 (dựa trên line_nbr)
+                    const matchedMerchandise = merchandiseByContract.filter(mer => mer.s4 === item.line_nbr);
+
+                    // Lấy ma_imei cho dòng tương ứng (dựa trên line_nbr và s4)
+                    const arr_imeis = matchedMerchandise.map(mer => mer.ma_imei.trim());
                     merchandiseItem.ma_imei = arr_imeis.filter(x => x !== '').join(', ');
 
                     //mode = ADDNEW
                     if (mode === 0) {
-                        merchandiseItem.so_luong_imei = merchandiseByContract.length;
+                        merchandiseItem.so_luong_imei = matchedMerchandise.length || merchandiseByContract.length;
                         merchandiseItem.gia_ban = Math.round(item.gia_nt2);
 
-                        merchandiseItem.thanh_tien = merchandiseByContract.reduce((pre, cur) => pre + cur.thanh_tien, 0);
-                        merchandiseItem.tien_thue = merchandiseByContract.reduce((pre, cur) => pre + cur.tien_thue, 0);
-                        merchandiseItem.thanh_toan = merchandiseByContract.reduce((pre, cur) => pre + cur.thanh_toan, 0);
+                        merchandiseItem.thanh_tien = matchedMerchandise.reduce((pre, cur) => pre + cur.thanh_tien, 0) || merchandiseByContract.reduce((pre, cur) => pre + cur.thanh_tien, 0);
+                        merchandiseItem.tien_thue = matchedMerchandise.reduce((pre, cur) => pre + cur.tien_thue, 0) || merchandiseByContract.reduce((pre, cur) => pre + cur.tien_thue, 0);
+                        merchandiseItem.thanh_toan = matchedMerchandise.reduce((pre, cur) => pre + cur.thanh_toan, 0) || merchandiseByContract.reduce((pre, cur) => pre + cur.thanh_toan, 0);
                     }
                     else {      //mode = UPDATE | VIEW
-                        merchandiseItem.so_luong_imei = merchandiseByContract[0].so_luong;
-                        merchandiseItem.gia_ban = merchandiseByContract[0].gia_ban;
-                        merchandiseItem.gia_vat = merchandiseByContract[0].gia_vat;
-                        merchandiseItem.gia2 = merchandiseByContract[0].gia2;
-                        merchandiseItem.gia_nt2 = merchandiseByContract[0].gia_nt2;
-                        merchandiseItem.thanh_tien = merchandiseByContract.reduce((pre, cur) => pre + cur.tien2, 0);
-                        merchandiseItem.thanh_toan = merchandiseByContract.reduce((pre, cur) => pre + cur.tt, 0);
-                        merchandiseItem.tien_thue = merchandiseByContract.reduce((pre, cur) => pre + cur.tien_thue, 0);
+                        merchandiseItem.so_luong_imei = arr_imeis.filter(x => x !== '').length || merchandiseByContract[0].so_luong;
+                        merchandiseItem.gia_ban = matchedMerchandise[0]?.gia_ban || merchandiseByContract[0]?.gia_ban;
+                        merchandiseItem.gia_vat = matchedMerchandise[0]?.gia_vat || merchandiseByContract[0]?.gia_vat;
+                        merchandiseItem.gia2 = matchedMerchandise[0]?.gia2 || merchandiseByContract[0]?.gia2;
+                        merchandiseItem.gia_nt2 = matchedMerchandise[0]?.gia_nt2 || merchandiseByContract[0]?.gia_nt2;
+                        merchandiseItem.thanh_tien = matchedMerchandise.reduce((pre, cur) => pre + cur.tien2, 0) || merchandiseByContract.reduce((pre, cur) => pre + cur.tien2, 0);
+                        merchandiseItem.thanh_toan = matchedMerchandise.reduce((pre, cur) => pre + cur.tt, 0) || merchandiseByContract.reduce((pre, cur) => pre + cur.tt, 0);
+                        merchandiseItem.tien_thue = matchedMerchandise.reduce((pre, cur) => pre + cur.tien_thue, 0) || merchandiseByContract.reduce((pre, cur) => pre + cur.tien_thue, 0);
                     }
                     return merchandiseItem;
                 });
@@ -213,6 +218,7 @@ export class SaleWholeService {
                     mer.thanh_toan = mer.gia_vat;
                     mer.tien_thue = mer.thanh_toan - mer.thanh_tien;
                     mer.tien_thue = mer.tien_thue < 0 ? 0 : mer.tien_thue;
+                    mer.s4 = mer.line_nbr;
                     return mer;
                 });
             }
