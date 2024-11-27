@@ -12,6 +12,7 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
 
 export class MerchandiseRequest extends BaseMerchandiseRequest {
     gia_vat = 0;
+    s4 = 0;
 
     constructor(obj?: any) {
         super();
