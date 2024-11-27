@@ -236,10 +236,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
                   merchandise[0].tien_giam = this.tien_giam;
                   merchandise[0].giam_gia_yn = this.isSaleDown;
 
-                  console.log(this.ticket.merchandise)
-                  console.log(merchandise[0])
                   this.merchandiseService.convertFromVoucher(merchandise, this.ticket.merchandise, Merchandise);
-                  console.log(this.ticket.merchandise)
 
                   details.map((detail: any) => {
                     switch (detail.name.toLocaleLowerCase()) {
@@ -261,6 +258,15 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
                   this.commonService.focusControl2(this.tabIndex.imei);
                   this.commonService.addImeiToStorage(ma_imei);
                   this.resetSaleDown();
+
+                  //Tính tổng tiền
+                  // let t_tt = this.ticket.merchandise.map(e => e.tt || e.tt_nt).reduce((pre: any, cur: any) => pre + cur, 0);
+                  // if (this.ticket.service && this.ticket.service.length) {
+                  //   t_tt += this.ticket.service.map(e => e.tt || e.tt_nt).reduce((pre: any, cur: any) => pre + cur, t_tt);
+                  // }
+                  // console.log(t_tt);
+                  // this.ticket.masterInfo.t_tt_nt = t_tt;
+
                 } else {
                   this.commonService.showMessageByName('lblWarningProductExist');
                 }
@@ -305,7 +311,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
   // Submit
   onSave() {
     // Check âm tiền nợ
-    if(this.ticket.masterInfo.t_con_no < 0) {
+    if (this.ticket.masterInfo.t_con_no < 0) {
       this.commonService.showMessage('Tiền nợ không được âm');
       return;
     }
