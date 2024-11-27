@@ -5,8 +5,8 @@
 export const environment = {
     production: false,
 
-    apiUrl: 'https://test-hhm-ketnoi.genbyte.net',
-    // apiUrl: 'http://localhost:5000',
+    // apiUrl: 'https://test-hhm-ketnoi-v2.genbyte.net',
+    apiUrl: 'http://localhost:5000',
     accountingUrl: 'http://test-hhm-ketoan.genbyte.net', // link 130
     // accountingUrl: 'http://hhm-qt.genbyte.net', // link 115
 
@@ -36,7 +36,7 @@ export const environment = {
     pW3P8AtbBQp+HUuqhHmUju+8ngjoOY06cRrP2wMP0s4=
     -----END RSA PRIVATE KEY-----`,
 
-    /* 
+    /*
     //Khóa công khai của người gửi
     senderPublicKey: `-----BEGIN PUBLIC KEY-----
     MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDQOc4/7Oeqtz1i57FygAA9b1SY
