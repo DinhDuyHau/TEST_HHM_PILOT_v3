@@ -445,6 +445,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           const paymentMethodData = result?.result[1]?.payment_method || [];
 
           this.dataSource = voucherData.map((voucherRecord: any) => {
+            this.sanitizeRecord(voucherRecord);
             this.processPayments(voucherRecord, paymentMethodData);
             return voucherRecord;
           });
@@ -488,6 +489,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           const paymentMethodData = result?.result?.items?.[0]?.payment_method || [];
 
           this.dataSource = voucherData.map((voucherRecord: any) => {
+            this.sanitizeRecord(voucherRecord);
             this.processPayments(voucherRecord, paymentMethodData);
             return voucherRecord;
           });
@@ -516,6 +518,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           const paymentMethodData = result.result.items[0]?.payment_method || [];
 
           this.dataSource = voucherData.map((voucherRecord: any) => {
+            this.sanitizeRecord(voucherRecord);
             this.processPayments(voucherRecord, paymentMethodData);
             return voucherRecord;
           });
@@ -543,6 +546,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
               const paymentMethodData = x?.result[1]?.payment_method || [];
 
               this.dataSource = voucherData.map((voucherRecord: any) => {
+                this.sanitizeRecord(voucherRecord);
                 this.processPayments(voucherRecord, paymentMethodData);
                 return voucherRecord;
               });
@@ -795,5 +799,19 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         voucherRecord[fieldName] = payment.tien;
       }
     });
+  }
+
+  /*
+  * Hàm xử lý các các trường trong dữ liệu trả ra
+  * nếu là {} thì đổi nó thành '' tránh hiển thị object trên giao diện
+  */
+  sanitizeRecord(record: any): any {
+    Object.keys(record).forEach(key => {
+      const field = record[key];
+      record[key] = typeof field === 'object' && field !== null
+        ? '' // Nếu là object, chuyển thành chuỗi rỗng
+        : field ?? ''; // Nếu null/undefined, chuyển thành chuỗi rỗng
+    });
+    return record;
   }
 }
