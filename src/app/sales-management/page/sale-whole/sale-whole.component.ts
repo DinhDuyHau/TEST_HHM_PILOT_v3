@@ -288,13 +288,27 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
 
     this.saleWholeService.openDialogIMEI(this.itemSelected).subscribe((value) => {
       if (value) {
+        /*
+        * check trùng imei
+        */
+        // Tách tất cả IMEI từ merchandise
+        const existingIMEIs = this.ticket.merchandise
+          .flatMap(item => (item.ma_imei ? item.ma_imei.split(',').map((imei: any) => imei.trim()) : []));
+        // Tìm các giá trị IMEI bị trùng
+        const duplicateIMEIs = value.filter((imei: any) => existingIMEIs.includes(imei));
+        if(duplicateIMEIs.length > 0) {
+          this.commonService.showMessage(`Các imei sau đã tồn tại trong chi tiết: ${duplicateIMEIs.join(', ')}`);
+          return;
+        }
+        /*END*/
+
         this.itemSelected.ma_imei = value.join(', ');
         this.itemSelected.so_luong_imei = value.length;
         this.itemSelected.gia_vat = this.itemSelected.gia_full_vat;
         this.itemSelected.gia_ban = Math.round(this.itemSelected.gia_vat / (1 + this.itemSelected.thue_suat / 100));
-        this.itemSelected.thanh_toan = this.itemSelected.gia_vat * this.itemSelected.so_luong_imei;
         this.itemSelected.thanh_tien = this.itemSelected.gia_ban * this.itemSelected.so_luong_imei;
-        this.itemSelected.tien_thue = Math.max(this.itemSelected.thanh_toan - this.itemSelected.thanh_tien, 0);
+        this.itemSelected.tien_thue = Math.round((this.itemSelected.thanh_tien * this.itemSelected.thue_suat) / 100);
+        this.itemSelected.thanh_toan = this.itemSelected.thanh_tien + this.itemSelected.tien_thue;
         this.saleWholeService.calcMoney();
       }
       else {
