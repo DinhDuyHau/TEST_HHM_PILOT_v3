@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { MessagingService } from './_services/message.service';
 import { slideInOutAnimation } from './_animation/slide-in-out.animation';
 import { Notification } from './_components/_notification/notification.model';
-import { catchError, map, Observable, switchMap, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Component({ selector: 'app-root', templateUrl: 'app.component.html', animations: [slideInOutAnimation], })
 export class AppComponent {
     notification: Notification = {
@@ -14,28 +12,12 @@ export class AppComponent {
     };
     animationState = 'out'; // Ban đầu ẩn
 
-    constructor(private messagingService: MessagingService, private http: HttpClient) {
+    constructor(private messagingService: MessagingService) {
         // const app = initializeApp(environment.firebaseConfig);
     }
     ngOnInit() {
         // this.messagingService.requestPermission();
         this.messagingService.receiveMessage((message: any) => this.showMessage(message));
-        // this.getUserIpv6().subscribe();
-        // this.getUserIpv4().subscribe();
-    }
-
-    getUserIpv4(): Observable<any> {
-      const apiUrl = 'https://api64.ipify.org/?format=json';
-      return this.http.get<any>(apiUrl).pipe(map(res => {
-        return res.ip;
-      }));
-    }
-
-    getUserIpv6(): Observable<any> {
-        const apiUrl = 'https://api4.ipify.org/?format=json';
-        return this.http.get<any>(apiUrl).pipe(map(res => {
-          return res.ip;
-        }));
     }
 
     showMessage(message: any) {

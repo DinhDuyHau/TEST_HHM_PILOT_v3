@@ -2,7 +2,7 @@ export const environment = {
     production: true,
 
     /* URL HỆ THỐNG TEST */
-    apiUrl: 'https://test-hhm-ketnoi-v2.genbyte.net',
+    apiUrl: 'https://test-hhm-ketnoi.genbyte.net',
     accountingUrl: 'http://test-hhm-ketoan.genbyte.net',
 
 
