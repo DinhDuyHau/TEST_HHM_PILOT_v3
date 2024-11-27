@@ -45,6 +45,7 @@ const GET_STOCK_BY_SHOP = `${environment.apiUrl}/category/find/dmkho`;
 const GET_SOLD_SERVICE_ORDER = `${environment.apiUrl}/service/get_sold_service_order`;
 const GET_SOLD_SERVICE_ORDERS = `${environment.apiUrl}/service/get_sold_service_orders`;
 const GET_ORDERS_SERVICE_RETURN = `${environment.apiUrl}/service/get_orders_service_return`;
+const GET_ORDERS_BUYBACK_SERVICE = `${environment.apiUrl}/service/get_orders_buyback_service`;
 const GET_VOUCHER_STATUS_URL = `${environment.apiUrl}/voucher/getvoucherstatus/`;
 const GET_REASON_URL = `${environment.apiUrl}/category/find/dmlydo`;
 const GET_REASON_BY_ID = `${environment.apiUrl}/category/getbyid/dmlydo`;
@@ -150,6 +151,26 @@ export class TicketApiService extends ApiService {
     getOrdersServiceReturn(params: {}): Observable<ResultNoPaging<any>> {
         const url = GET_ORDERS_SERVICE_RETURN;
         return this.get<ResultNoPaging<any>>(url, params);
+    }
+
+    /*
+    * type:
+    * - 1 là nhập lại dv
+    * - 2 là mua lại dv
+    */
+    getOrdersService(params: {}, type: string): Observable<ResultNoPaging<any>> {
+        let url;
+        switch (type) {
+          case '1':
+            url = GET_ORDERS_SERVICE_RETURN;
+            return this.get<ResultNoPaging<any>>(url, params);
+          case '2':
+            url = GET_ORDERS_BUYBACK_SERVICE;
+            return this.get<ResultNoPaging<any>>(url, params);
+          default:
+            url = GET_ORDERS_SERVICE_RETURN;
+            return this.get<ResultNoPaging<any>>(url, params);
+        }
     }
 
     getDebitByCustomer(params: {}): Observable<ResultNoPaging<any>> {
