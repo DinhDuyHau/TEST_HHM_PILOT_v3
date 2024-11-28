@@ -51,8 +51,6 @@ export class TableCustomComponent implements
   @Input() hiddenAddServiceButton = false;
   @Input() hasButton = { create: true, delete: true, view: true, edit: true };
   @Input() useFilter: boolean = false;
-  @Input() useEdit: boolean = false;
-  @Input() useDelete: boolean = false;
 
   pageSizeOptions: number[] = [10, 20, 50, 100, 150, 200];
 
@@ -79,26 +77,6 @@ export class TableCustomComponent implements
   isAddCellBoder = false
   pageIndexRange: number[] = []
   pageIndexTotal!: number
-  entityNamesAuthorization = [
-    "SVTran",
-    "SVTran_BHC",
-    "SVTran_BHW",
-    "SVTran_DXA",
-    "SVTran_BHB",
-    "SVTran_BHD",
-    "SVTran_BHE",
-    "SVTran_BHF",
-    "SVTran_DV1",
-    "SVTran_BHG",
-    "SVTran_BHI",
-    "SVTran_BHK",
-    "PR3Tran",
-    "ITTran",
-    "IPTran",
-    "ITNTran",
-    "IPNTran",
-    "ITTran_PXB2",
-  ];
 
   constructor(
     public commonService: CommonService,
@@ -297,11 +275,6 @@ export class TableCustomComponent implements
     if (this.handleUpdate.observers.length === 0) {
       return false;
     }
-    if(this.entityNamesAuthorization.includes(this.entityName)) {
-      if(!this.useEdit) {
-        return false;
-      }
-    }
     if (this.entityName === TICKET_ENTITY.CONTRACT) {
       return false;
     }
@@ -334,12 +307,6 @@ export class TableCustomComponent implements
   showDeleteButton(record: any) {
     if (this.handleDelete.observers.length === 0) {
       return false;
-    }
-
-    if(this.entityNamesAuthorization.includes(this.entityName)) {
-      if(!this.useDelete) {
-        return false;
-      }
     }
 
     if (this.readonly) {
