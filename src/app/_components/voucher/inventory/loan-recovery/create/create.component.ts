@@ -279,9 +279,6 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
           detail: [this.data.details || [], Validators.required],
         });
       });
-      this.ticketApiService.getVoucherDate().subscribe(result => {
-        this.data.masterInfo.ngay_ct = result?.result as any || Date();
-      });
     }
     else {
       this.transactionService.setItemFilter([{ name: 'ma_ct', value: this.voucherCode }]);

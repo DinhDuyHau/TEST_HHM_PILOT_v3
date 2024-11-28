@@ -95,9 +95,6 @@ export class SaleReturnOnlineService {
         this.ticketApiService.getVoucherNumber(TICKET_ENTITY.RETURN_ONLINE).subscribe(result => {
             ticket.masterInfo.so_ct = result.result as any;
         });
-        this.ticketApiService.getVoucherDate().subscribe(result => {
-            ticket.masterInfo.ngay_ct = result?.result as any || Date();
-        });
     }
 
     //#endregion init
@@ -169,7 +166,7 @@ export class SaleReturnOnlineService {
 
     // #endregion merchandise
 
-    //#region
+    //#region 
     removeServiceAfterRemoveMerchandise(merchandise: Merchandise) {
         this.serviceOfMerchandiseService.removeServiceAfterRemoveMerchandise(merchandise, this.ticket.service);
         this.calcMoney();
@@ -213,9 +210,8 @@ export class SaleReturnOnlineService {
         this.ticket.masterInfo.t_tien_tnk = incomeMoney + serviceIncomMoney;
         this.ticket.masterInfo.t_tien_nt2 = merchandiseMoney + serviceMoney;
         this.ticket.masterInfo.t_ck = discountMoney + seviceDiscountMoney;
-        this.ticket.masterInfo.t_thue_nt = this.commonService.rouding(merchandiseTax) + serviceTaxMoney;
-        this.ticket.masterInfo.t_tt_nt = totalMoney + serviceTotalMoney;
-        this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt);
+        this.ticket.masterInfo.t_thue_nt = Math.round(merchandiseTax) + serviceTaxMoney;
+        this.ticket.masterInfo.t_tt_nt = Math.round(totalMoney + serviceTotalMoney);
 
         this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);
     }

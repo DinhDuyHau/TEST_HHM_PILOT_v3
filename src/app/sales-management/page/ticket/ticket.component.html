@@ -21,33 +21,25 @@
         <button
           class="btn-responsive btn-add"
           (click)="onCreate()"
-          *ngIf="hasButton.create"
-          [disabled]="isDisabled.create"
-        >
+          *ngIf="hasButton.create">
           Thêm
         </button>
         <button
           class="btn-responsive btn-view"
           (click)="btnViewClickHandle()"
-          *ngIf="hasButton.view"
-          [disabled]="isDisabled.view"
-        >
+          *ngIf="hasButton.view">
           Xem
         </button>
         <button
           class="btn-responsive btn-edit"
           (click)="btnUpdateClickHandle()"
-          *ngIf="hasButton.edit"
-          [disabled]="isDisabled.edit"
-        >
+          *ngIf="hasButton.edit">
           Sửa
         </button>
         <button
           class="btn-responsive btn-delete"
           (click)="btnDeleteClickHandle()"
-          *ngIf="hasButton.delete"
-          [disabled]="isDisabled.delete"
-        >
+          *ngIf="hasButton.delete">
           Xóa
         </button>
         <div
@@ -84,8 +76,6 @@
         [page_index]="page_index"
         [size]="page_size"
         [isChangeColorWhenSelected]="true"
-        [useEdit]="useEdit"
-        [useDelete]="useDelete"
         [hiddenPagination]="hiddenPagination"
         (handleUpdate)="onUpdateItem($event)"
         (handleDelete)="onDeleteItem($event)"

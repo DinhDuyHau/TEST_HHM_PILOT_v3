@@ -265,9 +265,6 @@ export class WarrantyOutDetailComponent extends Grid<ReceiptDetail> implements O
           detail: [this.data.details || [], Validators.required],
         });
       });
-      this.ticketApiService.getVoucherDate().subscribe(result => {
-        this.data.masterInfo.ngay_ct = result?.result as any || Date();
-      });
     }
     else {
       this.transactionService.setItemFilter([{ name: 'ma_ct', value: this.voucherCode }]);

@@ -1,0 +1,62 @@
+{
+  "width": 700,
+  "height": 600,
+  "control": [
+    [
+      {
+        "name": "tu_ngay",
+        "label": "Từ ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      },
+      {
+        "name": "den_ngay",
+        "label": "Đến ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      }
+    ],
+    [
+      {
+        "name": "ma_kh",
+        "label": "Đối tượng thu hộ",
+        "isLookup": "true",
+        "control": "dmkh",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_kh"]
+      }
+    ],
+    [
+      {
+        "name": "ma_dvth",
+        "label": "Dịch vụ",
+        "isLookup": "true",
+        "control": "dmdvthuho",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_dvth"]
+      }
+    ],
+    [
+      {
+        "name": "ma_td",
+        "label": "Loại dịch vụ",
+        "isLookup": "true",
+        "control": "dmtd2",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_td"]
+      }
+    ],
+    [
+      {
+        "name": "ma_cuahang",
+        "label": "Mã cửa hàng",
+        "isLookup": "true",
+        "control": "zcdmcuahang",
+        "value": "@@shop",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_cuahang"],
+        "isChoose": true
+      }
+    ]
+  ]
+}

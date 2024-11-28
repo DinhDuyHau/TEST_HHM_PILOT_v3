@@ -279,9 +279,6 @@ export class ProposedPurchaseCreateComponent extends Grid<ReceiptDetail> impleme
           detail: [this.data.details || [], Validators.required],
         });
       });
-      this.ticketApiService.getVoucherDate().subscribe(result => {
-        this.data.masterInfo.ngay_ct = result?.result as any || Date();
-      });
     }
     else {
       this.route.queryParams.subscribe((params: any) => {

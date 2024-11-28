@@ -1,0 +1,7 @@
+{
+  "title": "Danh mục cửa hàng",
+  "entity": "dmcuahang",
+  "entityLookupField": "dmcuahangv2",
+  "filter": [],
+  "multipleChoose": false
+}
