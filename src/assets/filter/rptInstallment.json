@@ -67,9 +67,13 @@
         "name": "ma_dvtg",
         "label": "Đơn vị trả góp",
         "isLookup": "true",
-        "control": "dmdvtragop",
+        "control": "dmdvtg",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_dvtg"]
+        "reference": ["ma_kh"],
+        "class": "flex-1",
+        "mapper": {
+          "ma_kh": "ma_dvtg"
+        }
       }
     ]
   ]
