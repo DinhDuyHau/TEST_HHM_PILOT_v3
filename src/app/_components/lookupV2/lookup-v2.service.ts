@@ -63,26 +63,14 @@ export class LookupV2Service implements IGridServiceV2<any> {
 
   getFields(): Observable<Field[]> {
     const randomParam = new Date().getTime();
-    if (this.lookupData.entityLookupField) {
-      return this.http.get<Field[]>(`assets/fields/lookup/${this.lookupData.entityLookupField}.json?r=${randomParam}`).pipe(
-        switchMap(data => {
-          data = data.map((item) => {
-            return { ...new Field(), ...item, dataFormatString: (dataFormat as any)[item.dataFormatString === undefined ? '' : item.dataFormatString] };
-          });
-          return of(data);
-        })
-      );
-    }
-    else {
-      return this.http.get<Field[]>(`assets/fields/lookup/${this.lookupData.entity}.json?r=${randomParam}`).pipe(
-        switchMap(data => {
-          data = data.map((item) => {
-            return { ...new Field(), ...item, dataFormatString: (dataFormat as any)[item.dataFormatString === undefined ? '' : item.dataFormatString] };
-          });
-          return of(data);
-        })
-      );
-    }
+    return this.http.get<Field[]>(`assets/fields/lookup/${this.lookupData.entity}.json?r=${randomParam}`).pipe(
+      switchMap(data => {
+        data = data.map((item) => {
+          return { ...new Field(), ...item, dataFormatString: (dataFormat as any)[item.dataFormatString === undefined ? '' : item.dataFormatString] };
+        });
+        return of(data);
+      })
+    );
   }
 
   openDialog(type: number): void {

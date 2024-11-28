@@ -254,7 +254,6 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
                     }
                   })
 
-                  this.saleReturnOnlineService.calcMoney();
                   this.commonService.clearText2([this.tabIndex.imei]);
                   this.commonService.focusControl2(this.tabIndex.imei);
                   this.commonService.addImeiToStorage(ma_imei);

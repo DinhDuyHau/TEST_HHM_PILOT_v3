@@ -1620,16 +1620,6 @@
             "title": "Tên dịch vụ"
         },
         {
-          "name": "so_ct_hd",
-          "title": "Số phiếu"
-        },
-        {
-            "name": "ngay_ct_hd",
-            "title": "Ngày chứng từ",
-            "dataType": "date",
-            "format": "datetimeFormat"
-        },
-        {
             "name": "vt_ton_kho",
             "title": "Theo dõi kho",
             "type": "checkbox",

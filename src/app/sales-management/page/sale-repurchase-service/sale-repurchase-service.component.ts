@@ -227,8 +227,7 @@ export class SaleRepurchaseServiceComponent implements OnInit, AfterViewInit {
         ma_cuahang: this.ticket.masterInfo.ma_cuahang,
         dataSource: this.dataOrderAdded,
         columns: BUY_BACK_SERVICE,
-        title: 'Chọn dịch vụ mua lại',
-        type_api: '2'
+        title: 'Chọn dịch vụ mua lại'
       },
       'search-style-dialog')
       .afterClosed()

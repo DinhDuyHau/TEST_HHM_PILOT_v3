@@ -40,8 +40,7 @@ export class ServiceOrderComponent implements OnInit, OnChanges, AfterViewInit {
       ma_cuahang: string,
       dataSource: Service[],
       columns: any,
-      title: string,
-      type_api: string // ko truyền mặc định là nhập lại dv, 1: nhập lại dv, 2: mua lại dv
+      title: string
     },
     private merchandiseServiceApiService: MerchandiseServiceApiService,
     private commonService: CommonService,
@@ -129,27 +128,21 @@ export class ServiceOrderComponent implements OnInit, OnChanges, AfterViewInit {
       this.commonService.showMessageByName('lblWarningNotValidCustomer');
       return;
     }
-
-    const apiType = this.data.type_api || '';
-    const serviceMethod = apiType === '2'
-    ? this.ticketApiService.getOrdersService({ ma_kh: this.ma_kh, ma_cuahang: this.ma_cuahang }, '2')
-    : this.ticketApiService.getOrdersService({ ma_kh: this.ma_kh, ma_cuahang: this.ma_cuahang }, '1');
-
-    serviceMethod.subscribe((result) => {
+    this.ticketApiService.getOrdersServiceReturn({ ma_kh: this.ma_kh, ma_cuahang: this.ma_cuahang }).subscribe((result) => {
       if (result && result.success) {
         if (result.result && result.result.length) {
           this.dataSource = result.result;
 
-          // Gán dữ liệu cho filteredData
+          // gán dữ liệu cho filteredData
           this.filteredData = [...this.dataSource];
-          // Load selected
+          // load selected
           this.loadSelected(this.dataSource, this.filteredData);
-        } else {
+        }
+        else {
           this.commonService.showMessageByName('lblWarningNotFoundReturnService');
         }
-      } else {
-        this.commonService.showMessageByName(result.message);
       }
+      else this.commonService.showMessageByName(result.message);
     });
     //
   }
