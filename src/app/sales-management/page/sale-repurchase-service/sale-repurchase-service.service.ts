@@ -82,6 +82,9 @@ export class SaleRepurchaseServiceService {
         this.ticketApiService.getVoucherNumber(TICKET_ENTITY.REPURCHASE_SERVICE).subscribe(result => {
             ticket.masterInfo.so_ct = result.result as any;
         });
+        this.ticketApiService.getVoucherDate().subscribe(result => {
+            ticket.masterInfo.ngay_ct = result?.result as any || Date();
+        });
     }
 
     //#endregion init

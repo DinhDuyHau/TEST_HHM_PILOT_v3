@@ -1,0 +1,172 @@
+[
+  {
+    "name": "stt",
+    "title": "Stt",
+    "isLockingColumn": true,
+    "type": "number",
+    "dataFormatString": "countingFormat",
+    "align": "center",
+    "width": 50
+  },
+  {
+    "name": "ma_dvcs",
+    "title": "Mã ĐVCS",
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_cuahang",
+    "title": "Cửa hàng",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_ca",
+    "title": "Mã ca",
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "so_ct",
+    "title": "Số ct",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày ct",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 280
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã vật tư",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên vật tư",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 280
+  },
+  {
+    "name": "ma_imei",
+    "title": "Số Imei",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_dv",
+    "title": "Mã dịch vụ",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_dv",
+    "title": "Tên dịch vụ",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 280
+  },
+  {
+    "name": "gia_may",
+    "allowFilter": true,
+    "title": "Tiền hàng",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "so_luong",
+    "allowFilter": true,
+    "title": "Số lượng",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "gia_hcare",
+    "allowFilter": true,
+    "title": "Tiền Hcare",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tl_cl",
+    "allowFilter": true,
+    "title": "Tỷ lệ (%)",
+    "type": "number",
+    "dataFormatString": "moneyView2Digit",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "ma_nvbh",
+    "title": "Mã NVBH",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "nhap_tl",
+    "title": "Nhập TL",
+    "isLockingColumn": true,
+    "type": "boolean",
+    "dataFormatString": "countingFormat",
+    "align": "center",
+    "width": 50
+  },
+  {
+    "name": "ngay_nhap_tl",
+    "title": "Ngày nhập TL",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  }
+]

@@ -8,4 +8,5 @@ export interface LookupData {
     multipleChoose: boolean;
     isChoose: boolean;
     code: string;
+    entityLookupField: string;
 }
