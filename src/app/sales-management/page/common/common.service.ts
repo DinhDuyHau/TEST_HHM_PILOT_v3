@@ -518,35 +518,6 @@ export class CommonService {
         const dialogRef = this.dialog.open(LookupComponent, dialogConfig);
         return dialogRef.afterClosed();
     }
-
-    // #region check authorization
-    /*
-    * Kiểm tra quyền từng màn hình ticket
-    */
-    processAuthorization() {
-      const currentUrl = this.router.url;
-      const getAuthorization = JSON.parse(localStorage.getItem('authorization') || '{}');
-
-      // Kiểm tra quyền truy cập
-      const canAdd = getAuthorization.add_yn; // Quyền thêm
-      const canEdit = getAuthorization.edit_yn; // Quyền chỉnh sửa
-      const canView = getAuthorization.access_yn; // Quyền xem
-
-      if (currentUrl.endsWith('/create') && !canAdd) {
-        this.router.navigate(['/']);
-        return;
-      }
-
-      if (currentUrl.includes('/update') && !canEdit) {
-        this.router.navigate(['/']);
-        return;
-      }
-
-      if (currentUrl.includes('/view') && !canView) {
-        this.router.navigate(['/']);
-        return;
-      }
-    }
 }
 
 

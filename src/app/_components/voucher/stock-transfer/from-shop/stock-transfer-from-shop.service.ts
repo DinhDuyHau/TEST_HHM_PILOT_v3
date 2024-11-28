@@ -81,9 +81,6 @@ export class StockTransferService {
         this.ticketApiService.getVoucherNumber(STOCK_TRANSFER_TICKET_ENTITY).subscribe(result => {
             ticket.masterInfo.so_ct = result.result as any;
         });
-        this.ticketApiService.getVoucherDate().subscribe(result => {
-            this.ticket.masterInfo.ngay_ct = result?.result as any || Date();
-        });
     }
 
     getShopName(ma_cuahang: string) {
