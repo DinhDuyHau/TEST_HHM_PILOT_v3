@@ -58,17 +58,14 @@ export class LookupV2Component {
   }
 
   onClickItemLookup(event: { item: any }) {
-    const existingItem = this.dataSource.filteredData.find((e: any) => e[this.codeLookup[0]] === event.item[this.codeLookup[0]]);
-    if (existingItem) {
-      existingItem.choose = true;
-    }
-    const items = this.dataSource.filteredData.filter(((item: any) => item.choose)).map((item: any) => item[this.codeLookup[0]]).join(', ') || [];
-    if (this.data.isChoose === true) {
-      this.dialogRef.close(items);
-    }
-    else {
-      this.dialogRef.close(event.item);
-    }
+    const itemName = event.item[this.codeLookup[0]];
+    const existingItem = this.data.arraySelected.filter((item: any) => item === itemName);
+    let result = '';
+    if (!existingItem.length)
+      this.data.arraySelected = [...this.data.arraySelected, event.item[this.codeLookup[0]]];
+    result = this.data.arraySelected.map((item: any) => item).join(', ') || []
+
+    this.dialogRef.close(result);
   }
 
   onNoClick(): void {
@@ -83,7 +80,7 @@ export class LookupV2Component {
     indexRow: number;
   }): void {
     if (event.item.choose === true)
-      this.data.arraySelected = [...this.data.arraySelected, event.item[this.codeLookup[0]]]
+      this.data.arraySelected = [...this.data.arraySelected, event.item[this.codeLookup[0]]];
     this.lookupService.handleService(event, this.dataSource.data, 'checkboxChange');
   }
 
@@ -98,6 +95,7 @@ export class LookupV2Component {
     pageIndex: number
     pageSize: number
   }, sort?: ItemSort, filter?: ItemFilter[]): void {
+    if (!this.data.arraySelected) this.data.arraySelected = [];
     this.lookupService.getItems(page, filter || [], sort || { name: '', direction: '' }).subscribe(res => {
       this.dataSource = new MatTableDataSource<any>(res.result.items);
       this.dataSource.filteredData = this.dataSource.filteredData.map((item: any) => {
