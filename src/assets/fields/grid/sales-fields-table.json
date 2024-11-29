@@ -2732,6 +2732,25 @@
         "width": "300px"
        }
     ],
+    "TELESALE_SEARCH": [
+      {
+        "name": "ma_nvbh",
+        "title": "Mã nhân viên",
+        "isPrimaryKey": true
+      },
+      {
+        "name": "ten_nvbh",
+        "title": "Tên nhân viên"
+      },
+      {
+        "name": "ma_cuahang",
+        "title": "Cửa hàng"
+      },
+      {
+        "name": "ma_bp",
+        "title": "Mã bộ phận"
+      }
+    ],
     "IMEI_SEARCH_SALES": [
       {
           "name": "ma_imei",

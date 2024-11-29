@@ -11,12 +11,23 @@
     </div>
     <div class="title-content">{{ getLabel('tlt_content') }}</div>
     <div class="box-container mb-3">
-      <form-input-custom
-        class="box order-dynamic-1"
+      <div class="box order-dynamic-2 flex gap-2">
+        <form-input-custom
+        class="flex-1"
         [name]="'so_ct'"
         [label]="getLabel('lbl_so_ct')"
         [value]="ticket.masterInfo.so_ct"
         [disabled]="true" />
+
+        <form-input-custom
+        class="flex-1"
+        [name]="'ngay_ct'"
+        [label]="getLabel('lbl_ngay_ct')"
+        [value]="ticket.masterInfo.ngay_ct"
+        format="datetimeFormat"
+        dataType="date"
+        [disabled]="true" />
+      </div>
 
       <form-input-custom
         class="box order-dynamic-2"
@@ -47,20 +58,14 @@
         [disabled]="true" />
 
       <form-input-custom
-        class="box order-dynamic-1"
-        [name]="'ngay_ct'"
-        [label]="getLabel('lbl_ngay_ct')"
-        [value]="ticket.masterInfo.ngay_ct"
-        format="datetimeFormat"
-        dataType="date"
-        [disabled]="true" />
-
-      <!-- <form-input-custom
-        class="box order-dynamic-3"
-        [name]="'ten_nvvc'"
-        [label]="getLabel('lbl_ten_nvvc')"
-        [value]="ticket.masterInfo.ten_nvvc"
-        [disabled]="true" /> -->
+        class="box order-dynamic-2"
+        [name]="'ma_nv_telesale'"
+        [label]="'NV telesale'"
+        [value]="ticket.masterInfo.fcode1"
+        [readonly]="readonly"
+        [invalid]="invalid"
+        (handleChangeValue)="ticket.masterInfo.fcode1 = $event"
+        (handleClickOpenDialog)="openSearchTelesaleDialog()"/>
 
       <form-input-custom
         class="box"
