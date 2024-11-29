@@ -383,7 +383,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
   }
 
   onCancel() {
-    this.router.navigate(['sales/return']);
+    this.router.navigate(['sales/return-online']);
     // const imeis = this.ticket.merchandise.filter(e => e.ma_imei).map(e => e.ma_imei);
     // if (imeis.length > 0) {
     //   this.imeiApiService.updateImeiState(imeis, false).subscribe(result => {
