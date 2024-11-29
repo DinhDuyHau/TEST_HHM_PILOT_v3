@@ -28,6 +28,8 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     tien_dat_coc = 0;
     ma_nvvc = '';
     email_nhan_key = '';
+    //Mã nhân viên telesale
+    fcode1 = '';
 
     constructor(obj?: any) {
         super();
