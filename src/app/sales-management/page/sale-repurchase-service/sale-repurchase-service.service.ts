@@ -140,7 +140,7 @@ export class SaleRepurchaseServiceService {
     * Sửa hàm cũ thành hàm tính toán tiền
     */
     handleEditPurchasePriceService(service: Service, ma_kho: string, buy_price: number) {
-        this.merchandiseServiceApiService.getServicePrice('', service.ma_dv, this.ticket.masterInfo.ma_cuahang).subscribe((result) => {
+        this.merchandiseServiceApiService.getTaxServiceBuyback(service.ma_dv).subscribe((result) => {
             if (result.success) {
                 const serviceNew = new Service(service);
                 serviceNew.ma_thue = (result.result as any).ma_thue;
