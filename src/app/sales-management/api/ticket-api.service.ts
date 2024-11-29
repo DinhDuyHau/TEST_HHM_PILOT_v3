@@ -50,6 +50,7 @@ const GET_VOUCHER_STATUS_URL = `${environment.apiUrl}/voucher/getvoucherstatus/`
 const GET_REASON_URL = `${environment.apiUrl}/category/find/dmlydo`;
 const GET_REASON_BY_ID = `${environment.apiUrl}/category/getbyid/dmlydo`;
 const GET_VOUCHER_DATE_URL = `${environment.apiUrl}/voucher/getdate`;
+const GET_TELESALE_URL = `${environment.apiUrl}/category/find/vdmnvls`;
 
 @Injectable({
     providedIn: 'root'
@@ -162,15 +163,15 @@ export class TicketApiService extends ApiService {
     getOrdersService(params: {}, type: string): Observable<ResultNoPaging<any>> {
         let url;
         switch (type) {
-          case '1':
-            url = GET_ORDERS_SERVICE_RETURN;
-            return this.get<ResultNoPaging<any>>(url, params);
-          case '2':
-            url = GET_ORDERS_BUYBACK_SERVICE;
-            return this.get<ResultNoPaging<any>>(url, params);
-          default:
-            url = GET_ORDERS_SERVICE_RETURN;
-            return this.get<ResultNoPaging<any>>(url, params);
+            case '1':
+                url = GET_ORDERS_SERVICE_RETURN;
+                return this.get<ResultNoPaging<any>>(url, params);
+            case '2':
+                url = GET_ORDERS_BUYBACK_SERVICE;
+                return this.get<ResultNoPaging<any>>(url, params);
+            default:
+                url = GET_ORDERS_SERVICE_RETURN;
+                return this.get<ResultNoPaging<any>>(url, params);
         }
     }
 
@@ -327,7 +328,12 @@ export class TicketApiService extends ApiService {
     }
 
     getVoucherDate(): Observable<ResultNoPaging<string>> {
-      const url = GET_VOUCHER_DATE_URL;
-      return this.get<ResultNoPaging<string>>(url);
-  }
+        const url = GET_VOUCHER_DATE_URL;
+        return this.get<ResultNoPaging<string>>(url);
+    }
+
+    getTelesale(body: any, page_index: number, page_size: number): Observable<Result<any>> {
+        const url = GET_TELESALE_URL;
+        return this.post<Result<any>>(url, body, { page_index, page_size });
+    }
 }
