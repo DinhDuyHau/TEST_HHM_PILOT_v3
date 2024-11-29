@@ -616,7 +616,7 @@ export class RetailService {
         this.ticket.packages.forEach(item => {
             if (item.naptien_hh_yn == true) {
                 packages_thanh_tien += item.thanh_tien;
-                packages_thanh_tien += item.tien_thue;
+                packages_tien_thue += item.tien_thue;
                 packages_tong_tien += item.tong_tien;
             }
         })

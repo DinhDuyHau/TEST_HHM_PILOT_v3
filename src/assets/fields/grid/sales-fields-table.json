@@ -1181,6 +1181,17 @@
     ],
     "MERCHANDISE_RETURN_ONLINE_LIST": [
         {
+            "name": "hd_so",
+            "title": "Số PX"
+        },
+        {
+            "name": "s7",
+            "title": "Ngày PX",
+            "format": "datetimeFormat",
+            "dataType": "date",
+            "align": "center"
+        },
+        {
             "name": "ma_vt",
             "title": "Mã vật tư"
         },

@@ -17,6 +17,8 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     tien_giam?: number = 0;
     giam_gia_yn?: boolean = false;
     gia_tra_lai?: number = 0;
+    hd_so = '';
+    s7 = '';
 
     constructor(obj?: any) {
         super();

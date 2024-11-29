@@ -647,6 +647,8 @@ export class MerchandiseService {
             rs.tien_thue = merchandise.thue || merchandise.thue_nt;
             rs.thanh_toan = merchandise.tt || merchandise.tt_nt;
             rs.stt_rec_dh = merchandise.stt_rec_dh;
+            rs.hd_so = merchandise.so_ct || '';
+            rs.s7 = merchandise.ngay_ct || '';
 
             Object.keys(rs).forEach(key => {
                 if (rs[key] === undefined) {
@@ -658,6 +660,30 @@ export class MerchandiseService {
         result.map((e, i) => { e.line_nbr = i + 1; });
         des.push(...result);
     }
+
+    convertFromVoucherView(src: any[], des: any[], TCreator: { new(): any; }) {
+      const result = src.map(merchandise => {
+          const rs = this.createNewMerchandise(merchandise, TCreator);
+          rs.gia_ban = merchandise.gia_ban || merchandise.gia_ban_nt || merchandise.gia_nt;
+          rs.gia_ck = merchandise.gia_ck || merchandise.gia_ck_nt;
+          rs.tien_ck = merchandise.ck || merchandise.ck_nt;
+          rs.thanh_tien = merchandise.tien2 || merchandise.tien_nt2 || merchandise.tien_nt;
+          rs.tien_thue = merchandise.thue || merchandise.thue_nt;
+          rs.thanh_toan = merchandise.tt || merchandise.tt_nt;
+          rs.stt_rec_dh = merchandise.stt_rec_dh;
+          rs.hd_so = merchandise.hd_so || '';
+          rs.s7 = merchandise.s7 || '';
+
+          Object.keys(rs).forEach(key => {
+              if (rs[key] === undefined) {
+                  delete rs[key];
+              }
+          });
+          return rs;
+      });
+      result.map((e, i) => { e.line_nbr = i + 1; });
+      des.push(...result);
+  }
 
     updatePriceForEcommerce(ticket: any, merchandises: any[], service?: any[]) {
         //update lại chiết khấu = 0 hết
