@@ -6,6 +6,7 @@ import { getDate, getFirstDayOfMonth, getLastDayOfMonth } from '@app/_common/com
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from '@app/_services';
 import { Platform } from '@angular/cdk/platform';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-filter',
@@ -125,6 +126,28 @@ export class FilterComponent implements OnInit {
   onEnterDate(event: any, controlName: string) {
     if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13)
       this.onEnter(event);
+  }
+  handleCheck(event: any) {
+    console.log(event.source.name)
+    this.controls.flat().find((item: any) => {
+      if (item.name === event.source.name) {
+        if (event.checked === true) {
+          this.controls.flat().find((e: any) => {
+            if (e.name === item.linkName) {
+              e.hidden = false;
+            }
+          })
+        }
+        else {
+          this.filter[item.linkName] = '';
+          this.controls.flat().find((e: any) => {
+            if (e.name === item.linkName) {
+              e.hidden = true;
+            }
+          })
+        }
+      }
+    })
   }
 
 }

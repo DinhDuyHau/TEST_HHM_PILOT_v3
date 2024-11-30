@@ -64,6 +64,15 @@
             </select-custom>
           </div>
 
+          <div *ngIf="item.type === 'checkbox'">
+            <mat-checkbox
+            *ngIf="item.type === 'checkbox'"
+            [id]="item.name"
+            [name]="item.name"
+            (change)="handleCheck($event)"
+            >{{item.label}}</mat-checkbox>
+          </div>
+
         </div>
       </ng-container>
     </div>
