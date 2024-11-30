@@ -21,7 +21,7 @@
             (item.class ? item.class : 'flex-1') +
             (item.hidden ? ' hidden' : '')
           ">
-          <app-input-custom-v2 *ngIf="item.type !== 'date'"
+          <app-input-custom-v2 *ngIf="item.type !== 'date' && item.type !== 'checkbox'"
             [label]="item.label"
             class="flex-1"
             [id]="item.name"
