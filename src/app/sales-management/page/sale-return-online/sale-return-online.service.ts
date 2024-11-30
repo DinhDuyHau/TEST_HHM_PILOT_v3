@@ -55,7 +55,7 @@ export class SaleReturnOnlineService {
         data.details.forEach(e => {
             switch (e.name) {
                 case TAB_NAME.MERCHANDISE:
-                    this.merchandiseService.convertFromVoucher(e.data, this.ticket.merchandise, Merchandise);
+                    this.merchandiseService.convertFromVoucherView(e.data, this.ticket.merchandise, Merchandise);
                     break;
                 case TAB_NAME.ELECTRONIC_BILL:
                     this.ticket.electronic_bill = this.commonService.convertDateOfModelFromVoucher(e.data[0]);
@@ -166,7 +166,7 @@ export class SaleReturnOnlineService {
 
     // #endregion merchandise
 
-    //#region 
+    //#region
     removeServiceAfterRemoveMerchandise(merchandise: Merchandise) {
         this.serviceOfMerchandiseService.removeServiceAfterRemoveMerchandise(merchandise, this.ticket.service);
         this.calcMoney();

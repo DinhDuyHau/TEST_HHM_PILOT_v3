@@ -62,6 +62,8 @@ export class Merchandise extends BaseMerchandise {
   email_nhan_key = '';
   gia_tra_lai = 0;
   s6 = 0;
+  hd_so = '';
+  s7 = '';
 
   constructor(obj?: any) {
     super();

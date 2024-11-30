@@ -319,6 +319,10 @@
             "title": "Tên khách hàng"
         },
         {
+            "name": "ma_tmdt",
+            "title": "Sàn TMĐT"
+        },
+        {
             "name": "dien_giai",
             "title": "Diễn giải"
         },
