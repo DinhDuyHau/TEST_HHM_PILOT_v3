@@ -472,8 +472,8 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
       return;
     }
 
-    if(!imei || imei.length < 5) {
-      this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
+    if(!imei || imei.length < 4) {
+      this.commonService.showMessage('Imei cần ít nhất 4 ký tự để tìm kiếm');
       return;
     }
 
