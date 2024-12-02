@@ -11,6 +11,8 @@ import { SelectCustomComponent } from './select-custom/select-custom.component';
 import { DataFormatPipe, DataFormatPipeModule } from '@app/_pipe/dataFormat/data-format.pipe';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InputDateComponent } from './input-date/input-date.component';
+import { CheckboxComponent } from './checkbox/checkbox.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -20,11 +22,12 @@ import { InputDateComponent } from './input-date/input-date.component';
     InputCustomV2Component,
     SelectCustomComponent,
     InputDateComponent,
+    CheckboxComponent
   ],
   imports: [
-    CommonModule, FormsModule, ReactiveFormsModule, MatIconModule, MatProgressSpinnerModule, DataFormatPipeModule, FontAwesomeModule
+    CommonModule, FormsModule, ReactiveFormsModule, MatIconModule, MatProgressSpinnerModule, DataFormatPipeModule, FontAwesomeModule, MatCheckboxModule
   ],
   providers: [DecimalPipe, DataFormatPipe],
-  exports: [LookupDirective, InputComponent, InputCustomV2Component, SelectCustomComponent, InputDateComponent]
+  exports: [LookupDirective, InputComponent, InputCustomV2Component, SelectCustomComponent, InputDateComponent, CheckboxComponent]
 })
 export class ControlsModule { }

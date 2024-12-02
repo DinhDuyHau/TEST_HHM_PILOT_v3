@@ -28,6 +28,7 @@ export class FilterComponent implements OnInit {
   isMobile = false;
   formControlName: any = [];
   isChoose = false;
+  checked = true;
 
   constructor(public dialogRef: MatDialogRef<FilterComponent>,
     private platform: Platform,
@@ -127,8 +128,9 @@ export class FilterComponent implements OnInit {
     if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13)
       this.onEnter(event);
   }
+
   handleCheck(event: any) {
-    console.log(event.source.name)
+    this.checked = event.checked;
     this.controls.flat().find((item: any) => {
       if (item.name === event.source.name) {
         if (event.checked === true) {
@@ -147,6 +149,7 @@ export class FilterComponent implements OnInit {
           })
         }
       }
+      this.filter[event.source.name] = event.checked;
     })
   }
 
