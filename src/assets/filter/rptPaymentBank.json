@@ -1,10 +1,10 @@
 {
   "width": 700,
-  "height": 450,
+  "height": 900,
   "control": [
     [
       {
-        "name": "ngay_ct1",
+        "name": "tu_ngay",
         "label": "Từ ngày",
         "type": "date",
         "dataFormatString": "datetimeFormat",
@@ -12,12 +12,24 @@
         "value": ""
       },
       {
-        "name": "ngay_ct2",
+        "name": "den_ngay",
         "label": "Đến ngày",
         "type": "date",
         "dataFormatString": "datetimeFormat",
         "required": true,
         "value": ""
+      }
+    ],
+    [
+      {
+        "name": "so_ct1",
+        "label": "Chứng từ từ",
+        "dataFormatString": "uppercaseFormat"
+      },
+      {
+        "name": "so_ct2",
+        "label": "Đến số",
+        "dataFormatString": "uppercaseFormat"
       }
     ],
     [
@@ -52,32 +64,90 @@
     ],
     [
       {
-        "name": "tk",
-        "label": "Tài khoản",
-        "isLookup": "true",
-        "control": "dmtk",
-        "dataFormatString": "uppercaseFormat",
-        "reference": ["tk", "ten_tk"],
-        "class": "basis-1/3",
-        "hidden": true
-      },
-      {
-        "name": "ten_tk",
-        "label": "Tên tài khoản",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1",
-        "hidden": true
-      }
-    ],
-    [
-      {
         "name": "ma_kh",
-        "label": "Mã khách",
+        "label": "Khách hàng",
         "isLookup": "true",
         "control": "dmkh",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_kh"]
+      }
+    ],
+    [
+      {
+        "name": "ck_yn",
+        "linkName": "tk",
+        "type": "checkbox",
+        "label": "Ngân hàng"
+      }
+    ],
+    [
+      {
+        "name": "tk",
+        "isLookup": "true",
+        "control": "dmtknh2",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["tk"]
+      }
+    ],
+    [
+      {
+        "name": "qt_yn",
+        "linkName": "ma_posqt",
+        "type": "checkbox",
+        "label": "Máy POS"
+      }
+    ],
+    [
+      {
+        "name": "ma_posqt",
+        "isLookup": "true",
+        "control": "dmmaypos",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_pos"]
+      }
+    ],
+    [
+      {
+        "name": "qttg_yn",
+        "linkName": "ma_pos_tg",
+        "type": "checkbox",
+        "label": "Máy POSTG"
+      }
+    ],
+    [
+      {
+        "name": "ma_pos_tg",
+        "isLookup": "true",
+        "control": "dmmaypos",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_pos_tg"]
+      }
+    ],
+    [
+      {
+        "name": "ma_khqttg",
+        "label": "Đv trả góp",
+        "isLookup": "true",
+        "control": "dmkhtg",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_khqttg"]
+      }
+    ],
+    [
+      {
+        "name": "vdt_yn",
+        "linkName": "ma_khvdt",
+        "type": "checkbox",
+        "label": "Thông tin ví"
+      }
+    ],
+    [
+      {
+        "name": "ma_khvdt",
+        "isLookup": "true",
+        "control": "dmkh",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_khvdt"]
       }
     ]
   ]

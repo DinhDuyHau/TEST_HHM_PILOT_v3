@@ -1,0 +1,16 @@
+{
+  "title": "Danh mục tài khoản ngân hàng",
+  "entity": "dmtknh",
+  "filter": [
+    {
+      "name": "s1",
+      "operator": "=",
+      "value": "1"
+    },
+    {
+      "name": "ma_thanhtoan",
+      "operator": "=",
+      "value": "CHUYENKHOAN"
+    }
+  ]
+}

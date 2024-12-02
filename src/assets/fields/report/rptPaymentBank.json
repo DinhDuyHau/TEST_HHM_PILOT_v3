@@ -1,208 +1,258 @@
 [
-    {
-        "name": "stt",
-        "title": "Stt",
-        "isLockingColumn": true,
-        "align": "center",
-        "width": 50
-    },
-    {
-      "name": "ma_dvcs",
-      "title": "Mã ĐVCS",
-      "allowFilter": true,
-      "width": 80,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "ma_cuahang",
-      "title": "Mã cửa hàng",
-      "allowFilter": true,
-      "width": 100,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "ma_ca",
-      "title": "Mã ca",
-      "allowFilter": true,
-      "width": 80,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "ma_ct",
-      "title": "Mã ct",
-      "allowFilter": true,
-      "width": 80,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "so_ct",
-      "title": "Số ct",
-      "allowFilter": true,
-      "width": 120,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "ngay_ct",
-      "title": "Ngày ct",
-      "allowFilter": true,
-      "width": 100,
-      "dataFormatString": "datetimeFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "dien_giai",
-      "title": "Diễn giải",
-      "allowFilter": true,
-      "width": 180,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "tk",
-      "title": "Tài khoản",
-      "allowFilter": true,
-      "width": 120,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "ten_tk",
-      "title": "Tên tài khoản",
-      "allowFilter": true,
-      "width": 200,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "tk_nh_pos",
-      "title": "TK ngân hàng",
-      "allowFilter": true,
-      "width": 150,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "tien",
-      "title": "Số tiền",
-      "type": "number",
-      "dataFormatString": "moneyView2Digit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_chuyen_khoan",
-      "title": "Tiền chuyển khoản",
-      "type": "number",
-      "dataFormatString": "moneyView2Digit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_quet_the",
-      "title": "Tiền quẹt thẻ thường",
-      "type": "number",
-      "dataFormatString": "moneyView2Digit",
-      "align": "right",
-      "width": 150
-    },
-    {
-      "name": "ma_cc_thuong",
-      "title": "Mã chuẩn chi",
-      "allowFilter": true,
-      "width": 120,
-      "isLockingColumn": true
-    },
-    {
-      "name": "ma_pos_thuong",
-      "title": "Mã máy POS",
-      "allowFilter": true,
-      "width": 120,
-      "isLockingColumn": true
-    },
-    {
-      "name": "so_the_thuong",
-      "title": "Số thẻ",
-      "allowFilter": true,
-      "width": 120,
-      "isLockingColumn": true
-    },
-    {
-      "name": "t_tra_gop",
-      "title": "Tiền QT trả góp",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "ma_cc_tg",
-      "title": "Mã chuẩn chi",
-      "allowFilter": true,
-      "width": 120,
-      "isLockingColumn": true
-    },
-    {
-      "name": "ma_pos_tg",
-      "title": "Mã máy POS",
-      "allowFilter": true,
-      "width": 120,
-      "isLockingColumn": true
-    },
-    {
-      "name": "so_the_tg",
-      "title": "Số thẻ",
-      "allowFilter": true,
-      "width": 120,
-      "isLockingColumn": true
-    },
-    {
-      "name": "ma_hd",
-      "title": "Mã hợp đồng",
-      "allowFilter": true,
-      "width": 120,
-      "isLockingColumn": true
-    },
-    {
-      "name": "ngan_hang",
-      "title": "NH phát hành thẻ",
-      "allowFilter": true,
-      "width": 150,
-      "isLockingColumn": true
-    },
-    {
-      "name": "ma_dvtg",
-      "title": "ĐV trả góp",
-      "allowFilter": true,
-      "width": 120,
-      "isLockingColumn": true
-    },
-    {
-      "name": "t_vdt",
-      "title": "Tiền ví điện tử",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "thong_tin_vi",
-      "title": "Thông tin ví",
-      "allowFilter": true,
-      "width": 120,
-      "isLockingColumn": true
-    },
-    {
-      "name": "t_vnpay",
-      "title": "Tiền VNPAY",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    }
-  ]
-  
+  {
+    "name": "stt",
+    "title": "Stt",
+    "isLockingColumn": true,
+    "align": "center",
+    "width": 50
+  },
+  {
+    "name": "ma_dvcs",
+    "title": "Mã ĐVCS",
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_cuahang",
+    "title": "Mã cửa hàng",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_ca",
+    "title": "Mã ca",
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_loaigd",
+    "title": "Tên giao dịch",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_ct",
+    "title": "Mã ct",
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "so_ct",
+    "title": "Số ct",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày ct",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "datetimeFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách",
+    "allowFilter": true,
+    "width": 200,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "dien_giai",
+    "title": "Diễn giải",
+    "allowFilter": true,
+    "width": 180,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "tk",
+    "title": "Tài khoản",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_tk",
+    "title": "Tên tài khoản",
+    "allowFilter": true,
+    "width": 200,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "tk_nh_pos",
+    "title": "TK ngân hàng",
+    "allowFilter": true,
+    "width": 150,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "s1",
+    "title": "Hình thức TT",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "tien",
+    "title": "Số tiền",
+    "type": "number",
+    "dataFormatString": "moneyView2Digit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_chuyen_khoan",
+    "title": "Tiền chuyển khoản",
+    "type": "number",
+    "dataFormatString": "moneyView2Digit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_quet_the",
+    "title": "Tiền Quẹt thẻ (QT)",
+    "type": "number",
+    "dataFormatString": "moneyView2Digit",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "ma_cc_thuong",
+    "title": "Mã chuẩn chi (QT)",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_pos_thuong",
+    "title": "Mã máy POS (QT)",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "so_the_thuong",
+    "title": "Số thẻ (QT)",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "t_tra_gop",
+    "title": "Tiền QT trả góp (QTTG)",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "ma_cc_tg",
+    "title": "Mã chuẩn chi (QTTG)",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_pos_tg",
+    "title": "Mã máy POS (QTTG)",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "so_the_tg",
+    "title": "Số thẻ (QTTG)",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_hd",
+    "title": "Mã hợp đồng (QTTG)",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ngan_hang",
+    "title": "NH phát hành thẻ (QTTG)",
+    "allowFilter": true,
+    "width": 150,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_dvtg",
+    "title": "ĐV trả góp (QTTG)",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "t_vdt",
+    "title": "Tiền ví điện tử (VĐT)",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "thong_tin_vi",
+    "title": "Mã VĐT",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_gd",
+    "title": "Thông tin ví (VĐT)",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "so_hd_vdt",
+    "title": "Số hóa đơn (VĐT)",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "t_vnpay",
+    "title": "Tiền VNPAY (VNPAY)",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "so_hd_vnpay",
+    "title": "Số hóa đơn (VNPAY)",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  }
+]
