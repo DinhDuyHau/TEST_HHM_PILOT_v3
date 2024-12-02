@@ -67,6 +67,13 @@ export class FilterComponent implements OnInit {
   }
   ngOnInit(): void {
     this.isMobile = this.platform.IOS || this.platform.ANDROID;
+    this.controls.forEach(control => {
+      control.forEach(item => {
+        if (item.type == 'checkbox') {
+          this.filter[item.name] = this.checked;
+        }
+      })
+    })
   }
   onSave() {
     this.submit = true;
@@ -130,7 +137,6 @@ export class FilterComponent implements OnInit {
   }
 
   handleCheck(event: any) {
-    this.checked = event.checked;
     this.controls.flat().find((item: any) => {
       if (item.name === event.source.name) {
         if (event.checked === true) {
