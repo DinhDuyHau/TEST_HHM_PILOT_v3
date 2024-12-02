@@ -225,6 +225,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
           if (result && result.success && result.result && result.result.details) {
             this.loadCustomerInfo(result.result.masterInfo.ma_kh);
             const merchandise = result.result.details[0].data;
+            const ext = result.result.details[5].data;
             const details = result.result.details
             this.imeiApiService.updateImeiState([ma_imei], true, 1).subscribe(result => {
               if (result.success && result.result[0].dat_hang_yn) {
@@ -236,7 +237,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
                   merchandise[0].tien_giam = this.tien_giam;
                   merchandise[0].giam_gia_yn = this.isSaleDown;
 
-                  this.merchandiseService.convertFromVoucher(merchandise, this.ticket.merchandise, Merchandise);
+                  this.merchandiseService.convertFromVoucher(merchandise, this.ticket.merchandise, Merchandise, ext);
 
                   details.map((detail: any) => {
                     switch (detail.name.toLocaleLowerCase()) {

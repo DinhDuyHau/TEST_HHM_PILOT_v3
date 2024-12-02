@@ -1192,6 +1192,18 @@
             "align": "center"
         },
         {
+            "name": "ma_td1",
+            "title": "Mã sàn"
+        },
+        {
+            "name": "gc_td1",
+            "title": "Mã đơn hàng"
+        },
+        {
+            "name": "gc_td2",
+            "title": "Mã vận đơn"
+        },
+        {
             "name": "ma_vt",
             "title": "Mã vật tư"
         },

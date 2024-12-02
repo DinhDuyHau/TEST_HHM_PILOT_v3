@@ -637,7 +637,7 @@ export class MerchandiseService {
         return result;
     };
 
-    convertFromVoucher(src: any[], des: any[], TCreator: { new(): any; }) {
+    convertFromVoucher(src: any[], des: any[], TCreator: { new(): any; }, ext: any[] = []) {
         const result = src.map(merchandise => {
             const rs = this.createNewMerchandise(merchandise, TCreator);
             rs.gia_ban = merchandise.gia_ban || merchandise.gia_ban_nt || merchandise.gia_nt;
@@ -649,6 +649,16 @@ export class MerchandiseService {
             rs.stt_rec_dh = merchandise.stt_rec_dh;
             rs.hd_so = merchandise.so_ct || '';
             rs.s7 = merchandise.ngay_ct || '';
+
+            // Kiểm tra nếu có truyền mảng ext và tìm đối tượng trong ext có stt_rec giống với stt_rec_dh1 của merchandise
+            if (ext.length > 0) {
+                const extItem = ext.find(item => item.stt_rec === merchandise.stt_rec_hd1);
+                if (extItem) {
+                    rs.ma_td1 = extItem.ma_kh_tmdt || '';
+                    rs.gc_td1 = extItem.ma_dh || '';
+                    rs.gc_td2 = extItem.ma_van_don || '';
+                }
+            }
 
             Object.keys(rs).forEach(key => {
                 if (rs[key] === undefined) {
@@ -673,6 +683,9 @@ export class MerchandiseService {
           rs.stt_rec_dh = merchandise.stt_rec_dh;
           rs.hd_so = merchandise.hd_so || '';
           rs.s7 = merchandise.s7 || '';
+          rs.ma_td1 = merchandise.ma_td1 || '';
+          rs.gc_td1 = merchandise.gc_td1 || '';
+          rs.gc_td2 = merchandise.gc_td2 || '';
 
           Object.keys(rs).forEach(key => {
               if (rs[key] === undefined) {
