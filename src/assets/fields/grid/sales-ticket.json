@@ -311,16 +311,16 @@
             "title": "Số phiếu"
         },
         {
+            "name": "ma_tmdt",
+            "title": "Sàn TMĐT"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
         {
             "name": "ten_kh",
             "title": "Tên khách hàng"
-        },
-        {
-            "name": "ma_tmdt",
-            "title": "Sàn TMĐT"
         },
         {
             "name": "dien_giai",

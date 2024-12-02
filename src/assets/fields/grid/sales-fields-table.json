@@ -2237,8 +2237,8 @@
             "title": "Tên dịch vụ"
         },
         {
-            "name": "naptien_hh_yn",
-            "title": "Nạp tiền tại HHM",
+            "name": "vt_ton_kho",
+            "title": "Theo dõi kho",
             "align": "center",
             "type": "checkbox"
         },
