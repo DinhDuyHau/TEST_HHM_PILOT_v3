@@ -37,6 +37,7 @@ export interface MasterInfo {
     ma_cuahang?: string,
     ma_gd?: string,
     ma_kh?: string,
+    ten_kh?: string,
     ma_kho?: string,
     ong_ba?: string,
     dien_giai?: string,
