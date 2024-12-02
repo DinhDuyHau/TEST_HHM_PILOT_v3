@@ -472,8 +472,8 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
       return;
     }
 
-    if(!imei || imei.length < 5) {
-      this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
+    if(!imei || imei.length < 5 && imei.length != 4) {
+      this.commonService.showMessage('Imei cần ít nhất 5 ký tự hoặc phải bằng 4 ký tự để tìm kiếm');
       return;
     }
 
@@ -496,6 +496,34 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
       this.commonService.showMessageByNameAdvance('lblWarningExistImei', { name: '%imei', value: imei });
       return;
     }
+
+    if(imei.length == 4) {
+      const result = await lastValueFrom(this.imeiService.getImeiInfo(imei, this.ma_cuahang, this.voucherCode));
+      if (result.success && result.result) {
+        const response = result.result[0];
+        if (!this.list_item_event.find(x => x.ma_sp.trim() == response.ma_vt.trim())) {
+          this.commonService.showMessageByNameAdvance('lblWarningImeiNotExistEvent', { 'name': '%imei', value: imei }, { 'name': '%ten_sk', value: this.ten_sukien });
+          return false;
+        }
+        this.data.details[0].data.push({
+          ma_imei: response.ma_imei,
+          stt_rec0: '',
+          line_nbr: this.data.details[0].data.length + 1,
+          ma_vt: response.ma_vt,
+          ten_vt: response.ten_vt,
+          dvt: response.dvt,
+          ma_kho: response.ma_kho,
+          so_luong: response.so_luong,
+          ma_sukien: this.ma_sukien,
+          ten_sukien: this.ten_sukien,
+        });
+        this.calcTotal();
+        this.dataSource.data = this.data.details[0].data;
+        return true;
+      }
+      return false;
+    }
+
     const res = await lastValueFrom(this.imeiService.getListImeiInfo([imei]));
     if (res.success && res.result) {
       const map = new Map();
@@ -527,29 +555,6 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
 
         return false;
       }
-    }
-    const result = await lastValueFrom(this.imeiService.getImeiInfo(imei, this.ma_cuahang, this.voucherCode));
-    if (result.success && result.result) {
-      const response = result.result[0];
-      if (!this.list_item_event.find(x => x.ma_sp.trim() == response.ma_vt.trim())) {
-        this.commonService.showMessageByNameAdvance('lblWarningImeiNotExistEvent', { 'name': '%imei', value: imei }, { 'name': '%ten_sk', value: this.ten_sukien });
-        return false;
-      }
-      this.data.details[0].data.push({
-        ma_imei: response.ma_imei,
-        stt_rec0: '',
-        line_nbr: this.data.details[0].data.length + 1,
-        ma_vt: response.ma_vt,
-        ten_vt: response.ten_vt,
-        dvt: response.dvt,
-        ma_kho: response.ma_kho,
-        so_luong: response.so_luong,
-        ma_sukien: this.ma_sukien,
-        ten_sukien: this.ten_sukien,
-      });
-      this.calcTotal();
-      this.dataSource.data = this.data.details[0].data;
-      return true;
     }
     return false;
   }
