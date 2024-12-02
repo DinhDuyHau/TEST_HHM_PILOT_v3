@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FilterComponent } from './filter.component';
 import { ControlsModule } from '../controls/controls.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -13,7 +13,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   imports: [
     CommonModule,
     ControlsModule,
-    DragDropModule
+    DragDropModule,
+    MatCheckboxModule
   ],
   exports: [
     FilterComponent

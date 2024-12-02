@@ -1,0 +1,11 @@
+<div>
+    <label>
+        <mat-checkbox
+            [id]="name"
+            [(ngModel)]="value"
+            [name]="name"
+            (change)="onChangeValue($event)"
+        ></mat-checkbox>
+      {{ label }}
+    </label>
+  </div>

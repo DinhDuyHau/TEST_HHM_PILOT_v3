@@ -6,6 +6,7 @@ import { getDate, getFirstDayOfMonth, getLastDayOfMonth } from '@app/_common/com
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from '@app/_services';
 import { Platform } from '@angular/cdk/platform';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-filter',
@@ -27,6 +28,7 @@ export class FilterComponent implements OnInit {
   isMobile = false;
   formControlName: any = [];
   isChoose = false;
+  checked = true;
 
   constructor(public dialogRef: MatDialogRef<FilterComponent>,
     private platform: Platform,
@@ -65,6 +67,13 @@ export class FilterComponent implements OnInit {
   }
   ngOnInit(): void {
     this.isMobile = this.platform.IOS || this.platform.ANDROID;
+    this.controls.forEach(control => {
+      control.forEach(item => {
+        if (item.type == 'checkbox') {
+          this.filter[item.name] = this.checked;
+        }
+      })
+    })
   }
   onSave() {
     this.submit = true;
@@ -125,6 +134,29 @@ export class FilterComponent implements OnInit {
   onEnterDate(event: any, controlName: string) {
     if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13)
       this.onEnter(event);
+  }
+
+  handleCheck(event: any) {
+    this.controls.flat().find((item: any) => {
+      if (item.name === event.source.name) {
+        if (event.checked === true) {
+          this.controls.flat().find((e: any) => {
+            if (e.name === item.linkName) {
+              e.hidden = false;
+            }
+          })
+        }
+        else {
+          this.filter[item.linkName] = '';
+          this.controls.flat().find((e: any) => {
+            if (e.name === item.linkName) {
+              e.hidden = true;
+            }
+          })
+        }
+      }
+      this.filter[event.source.name] = event.checked;
+    })
   }
 
 }
