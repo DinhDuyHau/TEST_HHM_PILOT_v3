@@ -37,6 +37,13 @@
     "width": 100
   },
   {
+    "name": "ngay_kt",
+    "title": "Ngày kết thúc",
+    "type": "date",
+    "dataFormatString": "datetimeFormat",
+    "width": 100
+  },
+  {
     "name": "gio_kt",
     "title": "Giờ kết thúc",
     "width": 100
