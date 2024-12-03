@@ -1,5 +1,12 @@
 [
   {
+    "name": "choose",
+    "title": "Chọn",
+    "width": 80,
+    "type": "select",
+    "hidden": true
+  },
+  {
     "name": "tk",
     "title": "Tài khoản",
     "isLockingColumn": true,
