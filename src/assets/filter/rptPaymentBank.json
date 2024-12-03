@@ -86,7 +86,8 @@
         "isLookup": "true",
         "control": "dmtknh2",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["tk"]
+        "reference": ["tk"],
+        "isChoose": true
       }
     ],
     [
@@ -103,7 +104,8 @@
         "isLookup": "true",
         "control": "dmmaypos",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_pos"]
+        "reference": ["ma_pos"],
+        "isChoose": true
       }
     ],
     [
@@ -120,7 +122,8 @@
         "isLookup": "true",
         "control": "dmmaypos",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_pos_tg"]
+        "reference": ["ma_pos_tg"],
+        "isChoose": true
       }
     ],
     [
@@ -130,7 +133,8 @@
         "isLookup": "true",
         "control": "dmkhtg",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_khqttg"]
+        "reference": ["ma_khqttg"],
+        "isChoose": true
       }
     ],
     [
@@ -147,7 +151,8 @@
         "isLookup": "true",
         "control": "dmkh",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_khvdt"]
+        "reference": ["ma_khvdt"],
+        "isChoose": true
       }
     ]
   ]

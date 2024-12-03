@@ -139,24 +139,25 @@ export class FilterComponent implements OnInit {
   handleCheck(event: any) {
     this.controls.flat().find((item: any) => {
       if (item.name === event.source.name) {
-        if (event.checked === true) {
-          this.controls.flat().find((e: any) => {
-            if (e.name === item.linkName) {
-              e.hidden = false;
-            }
-          })
-        }
-        else {
-          this.filter[item.linkName] = '';
-          this.controls.flat().find((e: any) => {
-            if (e.name === item.linkName) {
-              e.hidden = true;
-            }
-          })
-        }
+        item.linkName.forEach((i: any) => {
+          if (event.checked === true) {
+            this.controls.flat().find((e: any) => {
+              if (e.name == i) {
+                e.hidden = false;
+              }
+            })
+          }
+          else {
+            this.filter[i] = '';
+            this.controls.flat().find((e: any) => {
+              if (e.name === i) {
+                e.hidden = true;
+              }
+            })
+          }
+        })
+        this.filter[event.source.name] = event.checked;
       }
-      this.filter[event.source.name] = event.checked;
     })
   }
-
 }

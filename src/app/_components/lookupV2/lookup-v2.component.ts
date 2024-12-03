@@ -63,7 +63,7 @@ export class LookupV2Component {
     let result = '';
     if (!existingItem.length)
       this.data.arraySelected = [...this.data.arraySelected, event.item[this.codeLookup[0]]];
-    result = this.data.arraySelected.map((item: any) => item).join(', ') || []
+    result = this.data.arraySelected.map((item: any) => item).join(', ') || [];
 
     this.dialogRef.close(result);
   }
@@ -95,7 +95,7 @@ export class LookupV2Component {
     pageIndex: number
     pageSize: number
   }, sort?: ItemSort, filter?: ItemFilter[]): void {
-    if (!this.data.arraySelected) this.data.arraySelected = [];
+    if (!this.data.arraySelected || this.data.arraySelected == '') this.data.arraySelected = [];
     this.lookupService.getItems(page, filter || [], sort || { name: '', direction: '' }).subscribe(res => {
       this.dataSource = new MatTableDataSource<any>(res.result.items);
       this.dataSource.filteredData = this.dataSource.filteredData.map((item: any) => {

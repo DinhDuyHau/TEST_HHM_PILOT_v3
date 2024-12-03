@@ -1,5 +1,12 @@
 [
   {
+    "name": "choose",
+    "title": "Chọn",
+    "width": 80,
+    "type": "select",
+    "hidden": true
+  },
+  {
     "name": "ma_sukien",
     "title": "Mã sự kiện",
     "isLockingColumn": true,
@@ -27,6 +34,13 @@
   {
     "name": "gio_bd",
     "title": "Giờ bắt đầu",
+    "width": 100
+  },
+  {
+    "name": "ngay_kt",
+    "title": "Ngày kết thúc",
+    "type": "date",
+    "dataFormatString": "datetimeFormat",
     "width": 100
   },
   {

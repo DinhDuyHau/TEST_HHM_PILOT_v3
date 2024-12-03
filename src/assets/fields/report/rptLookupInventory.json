@@ -77,5 +77,14 @@
     "dataFormatString": "normalPrice",
     "align": "center",
     "width": 120
+  },
+  {
+    "name": "t_so_luong",
+    "allowFilter": true,
+    "title": "Tổng số lượng",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "center",
+    "width": 120
   }
 ]
