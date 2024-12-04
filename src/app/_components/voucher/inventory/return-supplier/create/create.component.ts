@@ -426,7 +426,7 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
       return;
     }
 
-    if(!imei || imei.length < 5) {
+    if (!imei || imei.length < 5) {
       this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
       return;
     }
@@ -469,7 +469,7 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
           title: 'Danh sách kết quả tìm kiếm imei',
           isFilter: false
         }, 'search-style-dialog')
-          .afterClosed().subscribe( async (result) => {
+          .afterClosed().subscribe(async (result) => {
             if (result && result.ma_imei) {
               const ma_imei = result.ma_imei;
               await this.processImeiInfo(ma_imei);
@@ -498,8 +498,10 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
       }
       */
 
-      this.data.masterInfo.ma_kh = response.ma_ncc.trim();
-      this.f['ma_kh'].setValue(response.ma_ncc.trim());
+      if (response && response.ma_ncc && response.ma_ncc != '') {
+        this.data.masterInfo.ma_kh = response.ma_ncc.trim();
+        this.f['ma_kh'].setValue(response.ma_ncc.trim());
+      }
       this.data.masterInfo['ten_kh'] = response.ten_ncc.trim();
 
       this.data.details[0].data.push({
