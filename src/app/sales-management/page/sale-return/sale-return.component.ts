@@ -287,9 +287,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
               // merchandise[0].ty_le_giam = Number.parseFloat(this.rate);
               // merchandise[0].tien_giam = this.tien_giam;
               merchandise[0].giam_gia_yn = this.isSaleDown;
-
               this.merchandiseService.convertFromVoucher(merchandise, this.ticket.merchandise, Merchandise);
-
               result.result.details.map((detail: any) => {
                 switch (detail.name.toLocaleLowerCase()) {
                   case 'services':
@@ -315,6 +313,8 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
               this.commonService.clearText2([this.tabIndex.imei]);
               this.commonService.focusControl2(this.tabIndex.imei);
               // this.commonService.addImeiToStorage(ma_imei);
+              this.saleReturnService.calcMoney();
+
               this.resetSaleDown();
               //Khóa trường
               this.isDisableCODReturn = true;
@@ -373,7 +373,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
   // Submit
   onSave() {
     // Check âm tiền nợ
-    if(this.ticket.masterInfo.t_con_no < 0) {
+    if (this.ticket.masterInfo.t_con_no < 0) {
       this.commonService.showMessage('Tiền nợ không được âm');
       return;
     }
@@ -404,7 +404,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
       voucherDto.masterInfo.tra_lai_cod = this.isCODReturn;
 
       this.route.queryParams.subscribe((data: any) => {
-      this.isDisabled = true;
+        this.isDisabled = true;
         if (this.mode === MODE.UPDATE && !this.isSaving) {
           this.isSaving = true;
           this.ticketApiService.updateVoucher(TICKET_ENTITY.RETURN, voucherDto).subscribe(result => {

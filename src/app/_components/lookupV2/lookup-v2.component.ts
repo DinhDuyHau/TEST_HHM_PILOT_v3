@@ -81,6 +81,9 @@ export class LookupV2Component {
   }): void {
     if (event.item.choose === true)
       this.data.arraySelected = [...this.data.arraySelected, event.item[this.codeLookup[0]]];
+    else
+      this.data.arraySelected = this.data.arraySelected.filter(((item: any) => item != event.item.ma_cuahang))
+
     this.lookupService.handleService(event, this.dataSource.data, 'checkboxChange');
   }
 
