@@ -1,5 +1,5 @@
 ﻿import { Component } from '@angular/core';
-import { DashboardSales, DashboardTopSelling, Result } from '@app/_models';
+import { DashboardSales, DashboardSalesCommission, DashboardTopSelling, Result } from '@app/_models';
 import { DashboardService } from '@app/_services/dashboard.service';
 import { formatNumber } from '@angular/common';
 
@@ -12,12 +12,21 @@ export class HomeComponent {
   month = new Date().getMonth() + 1;
   itemsTopSelling: { ten_vt: string, ma_vt: string, sl_xuat: number }[] = [];
   salesData: DashboardSales | null = null;
+  salesCommission: DashboardSalesCommission | null = null;
+  username: any;
+
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
     this.loading = true;
+
+    const userJson = localStorage.getItem('user');
+    const userObj = userJson !== null && JSON.parse(userJson);
+    this.username = userObj.username || '';
+
     this.getDashboardTopSelling();
     this.getDashboardSales();
+    this.getDashboardSalesCommission();
   }
 
   //lấy top 5 sp
@@ -52,9 +61,27 @@ export class HomeComponent {
   }
   // end
 
+  //lấy kết quả bán hàng => hoa hồng
+  getDashboardSalesCommission() {
+    this.dashboardService.getDashboardSalesCommission().subscribe({
+      next: (data: Result<DashboardSalesCommission>) => {
+        if (data.result.items && data.result.items.length > 0) {
+          this.salesCommission = data.result.items[0];
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching dashboard data:', error);
+        this.loading = false;
+      }
+    });
+  }
+  // end
+
   onReload() {
     this.getDashboardTopSelling();
     this.getDashboardSales();
+    this.getDashboardSalesCommission();
   }
 
   formatNumber(value: number | null): string {

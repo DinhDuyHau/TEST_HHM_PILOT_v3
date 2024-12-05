@@ -37,6 +37,9 @@ import { Language } from '@app/sales-management/page/common/language';
 import { ViewImageComponent } from '@app/sales-management/component/view-image/view-image.component';
 import { FileService } from '@app/_services/fileService.service';
 import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '@app/sales-management/component/search/serach-dialog.component';
+import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
+import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
+import { Customer } from '@app/_components/category/customer/customer.model';
 
 @Component({
   selector: 'app-create',
@@ -100,7 +103,8 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
     private commonService: CommonService,
     private fileService: FileService,
     private el: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private customerApiService: CustomerApiService
   ) {
     localStorage.setItem('useGridCached', '1');
     super(eventGiftDetailService);
@@ -448,21 +452,32 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
 
   // #endregion upload image
   onEnter(event: any) {
-    event.preventDefault(); // Ngăn chặn hành động mặc định của nút Enter (submit form)
-    const form = this.el.nativeElement.closest('form');
-    const inputs = this.form.nativeElement.querySelectorAll('input:not([readonly])');
-    for (let i = 0; i < inputs.length; i++) {
-      if (inputs[i] === event.target) {
-        if (i < inputs.length - 1) {
-          inputs[i + 1].focus(); // Focus vào phần tử tiếp theo
-          break;
-        }
-        else {
-          this.btnSubmit.nativeElement.focus();
-        }
+    event.preventDefault();
+    let ma_kh = event.target.value;
+
+    this.customerApiService.getOneById(ma_kh).subscribe(result => {
+      if (result.success && result.result) {
+        const customer: any = result.result;
+        this.data.masterInfo.ma_kh = customer.ma_kh;
+        this.data.masterInfo.ten_kh = customer.ten_kh;
+      } else {
+        this.commonService.showMessageByContent(Language.content.exists_customer_yn_no, ma_kh);
+        this.openAddCustomerDialog(ma_kh);
       }
-    }
+    });
   }
+
+  openAddCustomerDialog(ma_kh = ''): void {
+    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh }, 'fullscreen-dialog')
+      .afterClosed()
+      .subscribe((customer: Customer) => {
+        console.log(customer);
+
+        this.data.masterInfo.ma_kh = customer.ma_kh || '';
+        this.data.masterInfo.ten_kh = customer.ten_kh || '';
+      });
+  }
+
   onEnterIMEI($event: any) {
     $event.preventDefault();
     const imei = $event.target.value;
