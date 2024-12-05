@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { RetailService } from './retail.service';
-import { Merchandise, RetailSaleTicket } from '@app/sales-management/model/ticket/retail/model';
+import { Merchandise, RetailSaleTicket, TAB_NAME } from '@app/sales-management/model/ticket/retail/model';
 import dataFormat from '@app/_common/dataFormat';
 import { MatDialog } from '@angular/material/dialog';
 import { Customer } from '@app/_components/category/customer/customer.model';
@@ -91,6 +91,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   action = '';
   shop = '';
   ma_imei = '';
+  table_name = '';
 
   constructor(
     private router: Router,
@@ -239,6 +240,9 @@ export class RetailComponent implements OnInit, AfterViewInit {
         this.commonService.getPointRateExchange(this.ticket, this.option);
       }
     });
+
+    // dùng để truyền sang navigation call api lấy trang prev and next
+    this.table_name = TAB_NAME.MERCHANDISE;
   }
   // Lấy file ảnh từ khách hàng
   getImageCustomerFile(image: string) {

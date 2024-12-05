@@ -518,6 +518,27 @@ export class CommonService {
         const dialogRef = this.dialog.open(LookupComponent, dialogConfig);
         return dialogRef.afterClosed();
     }
+
+    /*
+    * Lưu dữ liệu ticket vào localStorage khi: loading, advance search, quick search
+    */
+    saveTicketToLocalStorage(data: any) {
+      const sttRecArray = data.map((item: any) => item.stt_rec);
+      localStorage.removeItem('ticketData');
+      localStorage.setItem('ticketData', JSON.stringify(sttRecArray) || '[]');
+    }
+
+    /*
+    * Lấy dữ liệu ticket từ localStorage để dùng chuyển trang
+    */
+    getTicketFromLocalStorage() {
+      const ticketData = localStorage.getItem('ticketData');
+      if(!ticketData) {
+        return [];
+      } else {
+        return JSON.parse(ticketData);
+      }
+    }
 }
 
 
