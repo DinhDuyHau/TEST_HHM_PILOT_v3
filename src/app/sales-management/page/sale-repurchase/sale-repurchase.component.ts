@@ -378,6 +378,13 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    // check mã kho rỗng
+    const allHasMaKho = this.ticket.merchandise.every(item => item.ma_kho);
+    if(!allHasMaKho) {
+      this.commonService.showMessage('Mã kho không được để trống')
+      return;
+    }
+
     //Check imei trùng trong grid chi tiết
     const mechandise_dup = [];
     const counter: { [key: string]: number } = {};
