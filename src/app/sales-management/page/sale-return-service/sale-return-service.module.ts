@@ -19,6 +19,8 @@ import { FormInputCustomModule } from '@app/sales-management/component/form-cont
 import { FormSelectCustomModule } from '@app/sales-management/component/form-control-custom/form-select-custom/form-select-custom.module';
 import { TableCustomModule } from '@app/sales-management/component/form-control-custom/table-custom/table-custom.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
+import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
+import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 
 @NgModule({
     imports: [
@@ -40,7 +42,9 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
         FormCheckboxCustomModule,
         FormSelectCustomModule,
         TableCustomModule,
-        VoucherInfoModule
+        VoucherInfoModule,
+        NavigationVoucheModule,
+        VoucherInfoHeaderModule
     ],
     declarations: [
         SaleReturnServiceComponent

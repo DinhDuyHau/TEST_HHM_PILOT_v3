@@ -1,5 +1,6 @@
 <div *ngIf="disabled" class="d-flex" style="font-size: 16px !important;">
   <button
+    type="button"
     (click)="onClickPrev()"
     class="btn-navigation p-2 bg-slate-300 rounded hover:opacity-80 me-1" style="width: 50px;"
     [disabled]="this.is_prev"
@@ -10,6 +11,7 @@
       size="lg"></fa-icon>
   </button>
   <button
+    type="button"
     (click)="onClickNext()"
     class="btn-navigation p-2 bg-slate-300 rounded hover:opacity-80 ms-1" style="width: 50px;"
     [disabled]="this.is_next"
