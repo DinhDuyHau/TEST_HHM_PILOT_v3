@@ -57,6 +57,12 @@ export class LookupV2Service implements IGridServiceV2<any> {
       `/Category/find/${this.lookupData.entity}?order_by=${order_by}&page_index=${page.pageIndex + 1}&page_size=${page.pageSize}`, body
     ).pipe();
   }
+
+  getAll() {
+    return this.http.get<Result<any>>(environment.apiUrl +
+      `/Category/listall/${this.lookupData.entity}`).pipe();
+  }
+
   getItem(id: string): Observable<any> {
     return new Observable<any>(res => res);
   }
