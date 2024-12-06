@@ -1,0 +1,23 @@
+<div *ngIf="disabled" class="d-flex" style="font-size: 16px !important;">
+  <button
+    (click)="onClickPrev()"
+    class="btn-navigation p-2 bg-slate-300 rounded hover:opacity-80 me-1" style="width: 50px;"
+    [disabled]="this.is_prev"
+  >
+    <fa-icon
+      class="flex justify-center items-center bg-transparent text-blue-500"
+      [icon]="['fas', 'left-long']"
+      size="lg"></fa-icon>
+  </button>
+  <button
+    (click)="onClickNext()"
+    class="btn-navigation p-2 bg-slate-300 rounded hover:opacity-80 ms-1" style="width: 50px;"
+    [disabled]="this.is_next"
+  >
+    <fa-icon
+      class="flex justify-center items-center bg-transparent text-blue-500"
+      [icon]="['fas', 'right-long']"
+      size="lg"></fa-icon>
+  </button>
+</div>
+

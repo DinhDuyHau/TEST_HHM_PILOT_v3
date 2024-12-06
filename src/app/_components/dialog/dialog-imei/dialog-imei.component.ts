@@ -30,6 +30,7 @@ export class DialogIMEIComponent {
     private imeiApiService: ImeiApiService
   ) {
     if (data.ma_imei) {
+      this.imeiOld = data.ma_imei;
       this.ma_imei = data.ma_imei.join('\n');
       this.splitImeiText(this.ma_imei);
     }
@@ -39,6 +40,7 @@ export class DialogIMEIComponent {
     if (data.imeiOld) {
       this.imeiOld = data.imeiOld;
     }
+
 
     //danh sách imei đang có trong grid (loại trừ dòng hiện tại)
     if (data.gridImeis && data.gridImeis !== '') {
@@ -213,7 +215,7 @@ export class DialogIMEIComponent {
             }
             if (!flag) {
               const imei_new = list_imei.filter(x => !this.imeiOld.find(imei => imei.trim() == x.trim()));
-              if (!imei_new) {
+              if (imei_new.length == 0) {
                 this.dialogRef.close(list_imei);
                 return;
               }

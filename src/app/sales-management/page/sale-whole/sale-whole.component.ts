@@ -289,18 +289,28 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
     this.saleWholeService.openDialogIMEI(this.itemSelected).subscribe((value) => {
       if (value) {
         /*
-        * check trùng imei
+        * Kiểm tra trùng IMEI
         */
-        // Tách tất cả IMEI từ merchandise
+        // Lấy danh sách tất cả IMEI đã tồn tại từ merchandise
         const existingIMEIs = this.ticket.merchandise
-          .flatMap(item => (item.ma_imei ? item.ma_imei.split(',').map((imei: any) => imei.trim()) : []));
-        // Tìm các giá trị IMEI bị trùng
-        const duplicateIMEIs = value.filter((imei: any) => existingIMEIs.includes(imei));
-        if(duplicateIMEIs.length > 0) {
+          .flatMap(item => (Array.isArray(item.ma_imei) ? item.ma_imei : []));
+
+        // Lấy danh sách IMEI đã có trong `itemSelected`
+        const currentIMEIs = Array.isArray(this.itemSelected.ma_imei)
+          ? this.itemSelected.ma_imei
+          : this.itemSelected.ma_imei.split(',').map((imei: string) => imei.trim());
+
+        // Lọc ra danh sách IMEI mới để kiểm tra
+        const newIMEIs = value.filter((imei: any) => !currentIMEIs.includes(imei));
+
+        // Tìm các IMEI bị trùng chỉ trong danh sách IMEI mới
+        const duplicateIMEIs = newIMEIs.filter((imei: any) => existingIMEIs.includes(imei));
+
+        if (duplicateIMEIs.length > 0) {
           this.commonService.showMessage(`Các imei sau đã tồn tại trong chi tiết: ${duplicateIMEIs.join(', ')}`);
           return;
         }
-        /*END*/
+        /* END */
 
         this.itemSelected.ma_imei = value.join(', ');
         this.itemSelected.so_luong_imei = value.length;
