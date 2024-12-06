@@ -30,6 +30,8 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
 import { DebtListComponent } from './create/debt-list/debt-list.component';
 import { TableCustomModule } from '@app/sales-management/component/form-control-custom/table-custom/table-custom.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
+import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 
 @NgModule({
   declarations: [DebtReceiptComponent, DebtReceiptDetailComponent, DebtListComponent],
@@ -59,7 +61,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     PaymentTabModule,
     VoucherInfoModule,
     TableCustomModule,
-    MatDialogModule
+    MatDialogModule,
+    NavigationVoucheModule,
+    VoucherInfoHeaderModule
   ],
   exports: [DebtReceiptComponent, DebtReceiptDetailComponent, DebtListComponent]
 })

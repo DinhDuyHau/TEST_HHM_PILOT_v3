@@ -25,6 +25,8 @@ import { EInvoiceTabModule } from '@app/sales-management/component/e-invoice/e-i
 import { EInvoiceInfoModule } from '@app/sales-management/component/e-invoice/e-invoice-info/e-invoice-info.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
 import { EcommerceDialogComponent } from './ecommerce-dialog/ecommerce-dialog.component';
+import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
+import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 
 @NgModule({
   imports: [
@@ -50,7 +52,9 @@ import { EcommerceDialogComponent } from './ecommerce-dialog/ecommerce-dialog.co
     TabCustomModule,
     EInvoiceTabModule,
     EInvoiceInfoModule,
-    VoucherInfoModule
+    VoucherInfoModule,
+    NavigationVoucheModule,
+    VoucherInfoHeaderModule
   ],
   declarations: [
     SaleOnlineEcommerceComponent,

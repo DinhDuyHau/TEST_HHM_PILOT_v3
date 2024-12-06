@@ -1,12 +1,17 @@
 <div
   class="px-1 lg:px-5 lg:mx-5 lg:my-4 lg:py-1 content bg-white ticket-container">
   <div class="title-page pb-2 flex justify-between items-center">
-    <h5 class="">{{ title }}</h5>
-    <app-voucher-info
-      *ngIf="this.mode != 0"
-      [entity]="entity"
-      class="text-base"
-      [voucherId]="data.masterInfo.stt_rec || ''" />
+    <div class="flex">
+      <h5 class="">{{ title }}</h5>
+      <app-voucher-info-header
+        [entity]="entity"
+        [voucherId]="data.masterInfo.stt_rec || ''"
+      />
+    </div>
+    <app-navigation-voucher
+      [mode]="this.mode"
+      [voucherId]="this.data.masterInfo.stt_rec || ''"
+    />
   </div>
   <form action="" [formGroup]="voucherForm" #form>
     <div
@@ -221,28 +226,34 @@
     </div>
     <div class="pb-4 border-b-0.5 border-solid border-gray-300"></div>
     <div class="px-4 py-2 flex flex-1 justify-end">
-      <div class="flex">
-        <app-voucher-info
-          *ngIf="this.mode != 0"
-          [entity]="entity"
-          class="text-base"
-          [voucherId]="data.masterInfo.stt_rec || ''" />
-        <button class="submit px-4 py-1 text-white rounded min-w-button min-h-button bg-primary02_color hover:bg-primary01_color flex items-center justify-center border-0.5 border-solid border-gray-300"
-          *ngIf="submitButtonTitle !== '' && !readonly"
-          #btnSubmit
-          type="button"
-          [disabled]="isDisabled"
-          (click)="!disabled && onSubmit()">
-          <span
-            *ngIf="loading"
-            class="spinner-border spinner-border-sm mr-1"></span>
-          {{ submitButtonTitle }}
-        </button>
-        <div
-          (click)="onCancel()"
-          form=""
-          class="px-4 ml-2 rounded min-w-button min-h-button bg-neutrals08_color hover:bg-slate-200 py-1 flex items-center justify-center border-0.5 border-solid border-gray-300">
-          {{ cancelButtonTitle }}
+      <div class="flex w-100 justify-content-between gap-2 m-3">
+        <app-navigation-voucher
+          [mode]="this.mode"
+          [voucherId]="this.data.masterInfo.stt_rec || ''"
+        />
+        <div class="d-flex gap-2 ms-auto">
+          <app-voucher-info
+            *ngIf="this.mode != 0"
+            [entity]="entity"
+            class="text-base"
+            [voucherId]="data.masterInfo.stt_rec || ''" />
+          <button class="submit px-4 py-1 text-white rounded min-w-button min-h-button bg-primary02_color hover:bg-primary01_color flex items-center justify-center border-0.5 border-solid border-gray-300"
+            *ngIf="submitButtonTitle !== '' && !readonly"
+            #btnSubmit
+            type="button"
+            [disabled]="isDisabled"
+            (click)="!disabled && onSubmit()">
+            <span
+              *ngIf="loading"
+              class="spinner-border spinner-border-sm mr-1"></span>
+            {{ submitButtonTitle }}
+          </button>
+          <div
+            (click)="onCancel()"
+            form=""
+            class="px-4 ml-2 rounded min-w-button min-h-button bg-neutrals08_color hover:bg-slate-200 py-1 flex items-center justify-center border-0.5 border-solid border-gray-300">
+            {{ cancelButtonTitle }}
+          </div>
         </div>
       </div>
     </div>
