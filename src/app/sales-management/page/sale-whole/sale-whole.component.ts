@@ -411,6 +411,27 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    //Check imei trùng trong grid chi tiết
+    const mechandise_dup = [];
+    let lineNumber = 0;
+    for (const item of this.ticket.merchandise) {
+      lineNumber++;
+      // Tách từng IMEI từ ma_imei
+      const imeis = item.ma_imei ? item.ma_imei.split(',').map((imei: string) => imei.trim()) : [];
+      const duplicates = imeis.filter((imei: any, index: any) => imeis.indexOf(imei) !== index);
+
+      if (duplicates.length > 0) {
+        mechandise_dup.push({ line: lineNumber, duplicates });
+      }
+    }
+    if (mechandise_dup.length > 0) {
+      const message = mechandise_dup
+        .map(dup => `Dòng ${dup.line} có các IMEI sau bị trùng: ${dup.duplicates.join(', ')}`)
+        .join('\n'); // Gộp các dòng thành một thông báo duy nhất
+      this.commonService.showMessage(message);
+      return;
+    }
+
     const message = this.saleWholeService.validateTicket(this.ticket);
     this.invalid = this.commonService.isInValidPayment(this.ticket.payment) || this.saleWholeService.isInvalidForm(this.ticket.masterInfo);
     this.invalid && this.commonService.showMessage(Language.content.Missing_information);
