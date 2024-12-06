@@ -92,6 +92,14 @@ export class HomeComponent {
     return value.toLocaleString('de-DE');
   }
 
+  formatNumberPercentage(value: number | null): string {
+    if (value === null || value === undefined) {
+      return '0';
+    }
+
+    return value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
   formatShortNumber(value: number): string {
     if (value === 0) return '0';
 

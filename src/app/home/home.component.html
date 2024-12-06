@@ -237,7 +237,7 @@
           <button class="btn btn-sm btn-reload" (click)="onReload()" matTooltip="Làm mới tất cả"></button>
         </div>
       </div>
-      <ul class="list-group list-group-flush h-full grid grid-rows-5">
+      <ul class="list-group list-group-flush h-full grid grid-rows-7">
         <li class="list-group-item list-group-item-action text-short-li">
           <div class="d-flex justify-content-between">
             <span>Mã NVBH:</span>
@@ -246,26 +246,38 @@
         </li>
         <li class="list-group-item list-group-item-action text-short-li">
           <div class="d-flex justify-content-between">
-            <span>Doanh số:</span>
-            <span>{{ formatNumber(this.salesCommission?.doanh_so || 0) }}</span>
+            <span>DS bán trong ngày:</span>
+            <span>{{ formatNumber(this.salesCommission?.ds_ngay_ht || 0) }}</span>
           </div>
         </li>
         <li class="list-group-item list-group-item-action text-short-li">
           <div class="d-flex justify-content-between">
-            <span>Hoa hồng:</span>
+            <span>DS bán từ đầu tháng:</span>
+            <span>{{ formatNumber(this.salesCommission?.ds_thang || 0) }}</span>
+          </div>
+        </li>
+        <li class="list-group-item list-group-item-action text-short-li">
+          <div class="d-flex justify-content-between">
+            <span>Hoa hồng từ đầu tháng:</span>
             <span>{{ formatNumber(this.salesCommission?.hoa_hong || 0) }}</span>
           </div>
         </li>
         <li class="list-group-item list-group-item-action text-short-li">
           <div class="d-flex justify-content-between">
-            <span>SL hàng bán:</span>
+            <span>SL sản phẩm có thể bán hcare:</span>
             <span>{{ formatNumber(this.salesCommission?.sl_hangban || 0) }}</span>
           </div>
         </li>
         <li class="list-group-item list-group-item-action text-short-li">
           <div class="d-flex justify-content-between">
-            <span>SL hcare:</span>
+            <span>SL hcare đã bán:</span>
             <span>{{ formatNumber(this.salesCommission?.sl_hcare || 0) }}</span>
+          </div>
+        </li>
+        <li class="list-group-item list-group-item-action text-short-li">
+          <div class="d-flex justify-content-between">
+            <span>Tỷ lệ chuyển đổi:</span>
+            <span>{{ formatNumberPercentage(this.salesCommission?.tl_chuyendoi || 0) }}%</span>
           </div>
         </li>
       </ul>
