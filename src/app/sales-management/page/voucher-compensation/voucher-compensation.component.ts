@@ -129,6 +129,9 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
     this.onEnterDECode(result.masterInfo.ma_nvvc);
   }
   ngOnInit() {
+    // check quyền truy cập
+    this.commonService.processAuthorization();
+
     this.route.url.subscribe(urlSegment => {
       const path = urlSegment[0].path;
       if (urlSegment[0].path) {

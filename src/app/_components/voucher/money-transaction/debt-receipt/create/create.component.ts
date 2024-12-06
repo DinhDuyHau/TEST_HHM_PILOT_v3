@@ -239,6 +239,9 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
     }));
   }
   ngOnInit() {
+    // check quyền truy cập
+    this.commonService.processAuthorization();
+
     const userJson = localStorage.getItem('user');
     const userObj = userJson !== null && JSON.parse(userJson);
     this.ma_cuahang = userObj['shop'];

@@ -169,6 +169,9 @@ export class OtherMoneyTransferDetailComponent extends Grid<ReceiptDetail> imple
     }));
   }
   ngOnInit() {
+    // check quyền truy cập
+    this.commonService.processAuthorization();
+
     const userJson = localStorage.getItem('user');
     const userObj = userJson !== null && JSON.parse(userJson);
     this.shift = userObj.shift;

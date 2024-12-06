@@ -186,6 +186,9 @@ export class LoanOutDetailComponent extends Grid<ReceiptDetail> implements OnIni
     }));
   }
   ngOnInit() {
+    // check quyền truy cập
+    this.commonService.processAuthorization();
+
     const userJson = localStorage.getItem('user');
     const userObj = userJson !== null && JSON.parse(userJson);
     this.ma_cuahang = userObj['shop'];
