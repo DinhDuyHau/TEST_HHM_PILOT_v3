@@ -52,7 +52,7 @@
   border-right: var(--border_style);
   // border-left: 1px solid var(--neutrals08);
   &:not(:nth-child(1)) {
-    padding: 0 10px;
+    //padding: 0 10px;
   }
   &:last-child {
     border-right: var(--neutrals08);
@@ -74,7 +74,7 @@
   border-right: 1px solid var(--neutrals07);
   // border-left: 1px solid var(--neutrals08);
   &:not(:nth-child(1)) {
-    padding: 0 10px;
+    //padding: 0 10px;
   }
   &:last-child {
     border-right: var(--neutrals08);
@@ -93,7 +93,7 @@
 }
 ::ng-deep .table_content__not_grid.mat-mdc-table {
   .mdc-data-table__row:nth-child(odd) {
-    background-color: var(--table_row_even_color);
+    background-color: var(--neutrals08);
   }
   .mdc-data-table__row:nth-child(even) {
     background-color: var(--table_row_odd_color);
@@ -175,9 +175,10 @@
     border-right: 1px solid var(--neutrals08);
   }
   // .example-container .mdc-data-table__cell,
-  // .mdc-data-table__header-cell {
-  //   border: 1px solid var(--neutrals08);
-  // }
+   .mdc-data-table__header-cell {
+     padding: 16px 0 0 0;
+     position: relative
+   }
   // .mdc-data-table__row:nth-child(even) {
   //   background-color: var(--table_row_even_color);
   // }
@@ -281,7 +282,7 @@
   }
 }
 .form-control {
-  background-color: #f8f8f8;
+  background-color: #fefabe;
   border-radius: 5px;
   border: none;
   &:focus {
