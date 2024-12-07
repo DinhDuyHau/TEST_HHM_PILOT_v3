@@ -294,18 +294,16 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
         // Lấy danh sách tất cả IMEI đã tồn tại từ merchandise
         const existingIMEIs = this.ticket.merchandise
           .flatMap(item => (Array.isArray(item.ma_imei) ? item.ma_imei : []));
-
         // Lấy danh sách IMEI đã có trong `itemSelected`
-        const currentIMEIs = Array.isArray(this.itemSelected.ma_imei)
-          ? this.itemSelected.ma_imei
-          : this.itemSelected.ma_imei.split(',').map((imei: string) => imei.trim());
-
+        const currentIMEIs = this.itemSelected && this.itemSelected.ma_imei
+          ? (Array.isArray(this.itemSelected.ma_imei)
+              ? this.itemSelected.ma_imei
+              : this.itemSelected.ma_imei.split(',').map((imei: string) => imei.trim()))
+          : [];
         // Lọc ra danh sách IMEI mới để kiểm tra
         const newIMEIs = value.filter((imei: any) => !currentIMEIs.includes(imei));
-
         // Tìm các IMEI bị trùng chỉ trong danh sách IMEI mới
         const duplicateIMEIs = newIMEIs.filter((imei: any) => existingIMEIs.includes(imei));
-
         if (duplicateIMEIs.length > 0) {
           this.commonService.showMessage(`Các imei sau đã tồn tại trong chi tiết: ${duplicateIMEIs.join(', ')}`);
           return;

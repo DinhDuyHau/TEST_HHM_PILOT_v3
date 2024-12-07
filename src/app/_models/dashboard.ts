@@ -19,8 +19,10 @@ export interface DashboardSales {
 export interface DashboardSalesCommission {
   fullname: string;
   username: string;
-  doanh_so: number;
+  ds_thang: number;
   hoa_hong: number;
   sl_hangban: number;
   sl_hcare: number;
+  ds_ngay_ht: number;
+  tl_chuyendoi: number;
 }
