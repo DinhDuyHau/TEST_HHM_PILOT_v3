@@ -24,6 +24,8 @@ import { TabCustomModule } from '@app/sales-management/component/form-control-cu
 import { TabsCustomModule } from '@app/sales-management/component/form-control-custom/tabs/tabs.module';
 import { WarrantyOutDetailComponent } from './create/create.component';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
+import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
+import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 @NgModule({
   declarations: [WarrantyOutComponent, WarrantyOutDetailComponent],
   imports: [
@@ -48,7 +50,9 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
     ReactiveFormsModule,
     TabCustomModule,
     TabsCustomModule,
-    VoucherInfoModule
+    VoucherInfoModule,
+    NavigationVoucheModule,
+    VoucherInfoHeaderModule
   ],
   exports: [WarrantyOutComponent, WarrantyOutDetailComponent]
 })

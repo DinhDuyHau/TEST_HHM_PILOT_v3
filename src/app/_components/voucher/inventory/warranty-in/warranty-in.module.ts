@@ -26,6 +26,8 @@ import { WarrantyInDetailComponent } from './create/create.component';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
 import { TableCustomModule } from '@app/sales-management/component/form-control-custom/table-custom/table-custom.module';
 import { SearchImeiWarrantyComponent } from './search-imei-warranty/search-imei-warranty.component';
+import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
+import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 @NgModule({
   declarations: [WarrantyInComponent, WarrantyInDetailComponent, SearchImeiWarrantyComponent],
   imports: [
@@ -52,6 +54,8 @@ import { SearchImeiWarrantyComponent } from './search-imei-warranty/search-imei-
     TabsCustomModule,
     VoucherInfoModule,
     TableCustomModule,
+    NavigationVoucheModule,
+    VoucherInfoHeaderModule
   ],
   exports: [WarrantyInComponent, WarrantyInDetailComponent, SearchImeiWarrantyComponent]
 })

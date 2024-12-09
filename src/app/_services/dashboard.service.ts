@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import { DashboardSales, DashboardSalesCommission, DashboardTopSelling, Result } from '@app/_models';
+import { DashboardSales, DashboardSalesCommission, DashboardSalesStats, DashboardTopSelling, Result } from '@app/_models';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
@@ -56,6 +56,26 @@ export class DashboardService {
     return this.http.post<Result<DashboardSalesCommission>>(`${environment.apiUrl}/report/rptDashboardSalesCommission`, body).pipe(
       catchError(error => {
         console.error('Error fetching DashboardSalesCommission data', error);
+        return of({
+          success: false,
+          message: 'Error fetching data',
+          result: {
+            pageIndex: 0,
+            pageCount: 0,
+            pageSize: 0,
+            recordCount: 0,
+            items: []
+          }
+        });
+      })
+    );
+  }
+
+  getDashboardSalesStats(): Observable<Result<DashboardSalesStats>> {
+    const body = {};
+    return this.http.post<Result<DashboardSalesStats>>(`${environment.apiUrl}/report/rptDashboardSalesStats`, body).pipe(
+      catchError(error => {
+        console.error('Error fetching DashboardSalesStats data', error);
         return of({
           success: false,
           message: 'Error fetching data',

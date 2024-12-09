@@ -127,6 +127,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
       if (data.key) {
         this.disableSelectStatus = false;
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.RETURN_ONLINE, data.key).subscribe((result) => {
+          console.log(result.result)
           if (result.result) {
             // set cửa hàng để truyền sang payment tab
             this.shop = (result.result as any).masterInfo.ma_cuahang;
@@ -210,6 +211,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
         map.set('in_store_yn', false);
         map.set('xuat_yn', true);
         map.set('dieu_chuyen_yn', false);
+        map.set('tra_ncc_yn', false);
         // map.set('dat_hang_yn', false);
         const message = this.imeiService.GetMessageStatusImei(map, result.result[0]);
         if (message) {

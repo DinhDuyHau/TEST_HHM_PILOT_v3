@@ -2,12 +2,17 @@
   class="px-1 md:px-2 lg:px-4 flex-1 bg-white position-relative ticket-container">
   <div class="d-flex flex-column gap-2 mt-5 flex-1">
     <div class="title-page pb-2 flex justify-between items-center">
-      <h5 class="">{{ title }}</h5>
-      <app-voucher-info
-        *ngIf="this.mode != 0"
-        [entity]="entity"
-        class="text-base"
-        [voucherId]="ticket.masterInfo.stt_rec" />
+      <div class="flex">
+        <h5 class="">{{ title }}</h5>
+        <app-voucher-info-header
+          [entity]="entity"
+          [voucherId]="ticket.masterInfo.stt_rec"
+        />
+      </div>
+      <app-navigation-voucher
+        [mode]="this.mode"
+        [voucherId]="this.ticket.masterInfo.stt_rec"
+      />
     </div>
     <div class="title-content">{{ getLabel('tlt_content') }}</div>
     <div class="box-container mb-3">
@@ -64,6 +69,7 @@
         [name]="'loai_hh'"
         [label]="getLabel('lbl_loai_hh')"
         [disabled]="readonly"
+        [readonly]="true"
         [invalid]="invalidMerchandiseInput.loai_hh"
         *ngIf="!readonly"
         [value]="repurchase.loai_hh"
@@ -196,25 +202,32 @@
           format="moneyViewFormat"
           dataType="number" /> -->
       </div>
-      <div class="d-flex justify-end gap-2 m-3">
-        <app-voucher-info
-          *ngIf="this.mode != 0"
-          [entity]="entity"
-          class="text-base"
-          [voucherId]="ticket.masterInfo.stt_rec" />
-        <div class="btn-responsive btn-in-file">
-          <span>{{ getLabel('btnPrint') }}</span>
+      <div class="d-flex justify-content-between gap-2 m-3">
+        <app-navigation-voucher
+          [mode]="this.mode"
+          [voucherId]="this.ticket.masterInfo.stt_rec"
+        />
+
+        <div class="d-flex gap-2 ms-auto">
+          <app-voucher-info
+            *ngIf="this.mode != 0"
+            [entity]="entity"
+            class="text-base"
+            [voucherId]="ticket.masterInfo.stt_rec" />
+          <div class="btn-responsive btn-in-file">
+            <span>{{ getLabel('btnPrint') }}</span>
+          </div>
+          <div class="btn-responsive btn-cancel" (click)="onCancel()">
+            {{ cancelButtonTitle }}
+          </div>
+          <button
+            class="btn-responsive btn-add"
+            [disabled]="isDisabled"
+            (click)="onSave()"
+            *ngIf="!readonly">
+            {{ submitButtonTitle }}
+          </button>
         </div>
-        <div class="btn-responsive btn-cancel" (click)="onCancel()">
-          {{ cancelButtonTitle }}
-        </div>
-        <button
-          class="btn-responsive btn-add"
-          [disabled]="isDisabled"
-          (click)="onSave()"
-          *ngIf="!readonly">
-          {{ submitButtonTitle }}
-        </button>
       </div>
     </div>
   </div>

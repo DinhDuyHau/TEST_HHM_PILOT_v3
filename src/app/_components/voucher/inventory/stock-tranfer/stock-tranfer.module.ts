@@ -26,6 +26,8 @@ import { FormSelectCustomModule } from '@app/sales-management/component/form-con
 import { TabCustomModule } from '@app/sales-management/component/form-control-custom/tab/tab.module';
 import { TabsCustomModule } from '@app/sales-management/component/form-control-custom/tabs/tabs.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
+import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
+import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 @NgModule({
   declarations: [StockTranferComponent, StockTranferCreateComponent],
   imports: [
@@ -51,7 +53,9 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
     TabCustomModule,
     TabsCustomModule,
     VoucherInfoModule,
-    FormInputCustomModule
+    FormInputCustomModule,
+    NavigationVoucheModule,
+    VoucherInfoHeaderModule
   ],
   exports: [StockTranferComponent, StockTranferCreateComponent]
 })

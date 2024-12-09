@@ -23,6 +23,8 @@ import { GridV2Module } from '@app/_components/gridV2/gridV2.module';
 import { TabCustomModule } from '@app/sales-management/component/form-control-custom/tab/tab.module';
 import { TabsCustomModule } from '@app/sales-management/component/form-control-custom/tabs/tabs.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
+import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
+import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 @NgModule({
   declarations: [ProposedPurchaseCreateComponent],
   imports: [
@@ -47,7 +49,9 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
     ReactiveFormsModule,
     TabCustomModule,
     TabsCustomModule,
-    VoucherInfoModule
+    VoucherInfoModule,
+    NavigationVoucheModule,
+    VoucherInfoHeaderModule
   ],
   exports: [ProposedPurchaseCreateComponent]
 })

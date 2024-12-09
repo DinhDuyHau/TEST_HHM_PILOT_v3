@@ -237,7 +237,7 @@
           <button class="btn btn-sm btn-reload" (click)="onReload()" matTooltip="Làm mới tất cả"></button>
         </div>
       </div>
-      <ul class="list-group list-group-flush h-full grid grid-rows-5">
+      <ul class="list-group list-group-flush h-full grid grid-rows-7">
         <li class="list-group-item list-group-item-action text-short-li">
           <div class="d-flex justify-content-between">
             <span>Mã NVBH:</span>
@@ -246,44 +246,60 @@
         </li>
         <li class="list-group-item list-group-item-action text-short-li">
           <div class="d-flex justify-content-between">
-            <span>Doanh số:</span>
-            <span>{{ formatNumber(this.salesCommission?.doanh_so || 0) }}</span>
+            <span>DS bán trong ngày:</span>
+            <span>{{ formatNumber(this.salesCommission?.ds_ngay_ht || 0) }}</span>
           </div>
         </li>
         <li class="list-group-item list-group-item-action text-short-li">
           <div class="d-flex justify-content-between">
-            <span>Hoa hồng:</span>
+            <span>DS bán từ đầu tháng:</span>
+            <span>{{ formatNumber(this.salesCommission?.ds_thang || 0) }}</span>
+          </div>
+        </li>
+        <li class="list-group-item list-group-item-action text-short-li">
+          <div class="d-flex justify-content-between">
+            <span>Hoa hồng từ đầu tháng:</span>
             <span>{{ formatNumber(this.salesCommission?.hoa_hong || 0) }}</span>
           </div>
         </li>
         <li class="list-group-item list-group-item-action text-short-li">
           <div class="d-flex justify-content-between">
-            <span>SL hàng bán:</span>
+            <span>SL sản phẩm có thể bán hcare:</span>
             <span>{{ formatNumber(this.salesCommission?.sl_hangban || 0) }}</span>
           </div>
         </li>
         <li class="list-group-item list-group-item-action text-short-li">
           <div class="d-flex justify-content-between">
-            <span>SL hcare:</span>
+            <span>SL hcare đã bán:</span>
             <span>{{ formatNumber(this.salesCommission?.sl_hcare || 0) }}</span>
+          </div>
+        </li>
+        <li class="list-group-item list-group-item-action text-short-li">
+          <div class="d-flex justify-content-between">
+            <span>Tỷ lệ chuyển đổi:</span>
+            <span>{{ formatNumberPercentage(this.salesCommission?.tl_chuyendoi || 0) }}%</span>
           </div>
         </li>
       </ul>
     </div>
   </div>
   <div class="lg:flex flex-1 gap-4 pt-4">
-    <!-- Danh mục chiết khấu - Ẩn trên màn nhỏ -->
-    <div class="w-full lg:w-1/2 py-4 h-128 hidden lg:block">
-      <app-category
+    <!-- Chỉ số bán hàng trong tháng của cửa hàng - Ẩn trên màn nhỏ -->
+    <div class="w-full lg:w-3/5 py-4 h-128 hidden lg:block">
+      <app-sales-stats
+        [data]="this.salesStats"
+        [month]="this.month"
+      />
+      <!-- <app-category
         [entity]="'dmck2'"
         [title]="'Danh mục chiết khấu'"
         [name]="'ma_ck'"
         [buttons]="[]">
-      </app-category>
+      </app-category> -->
     </div>
 
     <!-- Sản phẩm bán chạy tháng -->
-    <div class="w-full lg:w-1/2 py-4 h-128">
+    <div class="w-full lg:w-2/5 py-4 h-128">
       <div class="flex flex-col bg-white px-4 py-4 h-full">
         <div class="justify-between pb-2">
           <div class="text-neutrals02_color font-medium text-xl">
@@ -299,7 +315,7 @@
           </li>
         </ul>
         <ng-template #noItems>
-          <p class="text-center txt-no-record">Không có sản phẩm nào.</p>
+          <p class="text-center txt-no-record">Chưa có dữ liệu</p>
         </ng-template>
       </div>
 
