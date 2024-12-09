@@ -31,8 +31,8 @@ export class VoucherInfoHeaderComponent implements OnChanges {
       this.ticketApiService.getVoucherInfomation(this.entity, this.voucherId).subscribe(result => {
         if (result && result.success) {
           this.data = result.result;
-          this.created_at = getDateTimeFormat(new Date(this.data.updateAt));
-          this.updated_at = getDateTimeFormat(new Date(this.data.createAt));
+          this.created_at = getDateTimeFormat(new Date(this.data.createAt));
+          this.updated_at = getDateTimeFormat(new Date(this.data.updateAt));
           this.created_by = this.data.createBy;
           this.updated_by = this.data.updateBy;
         }
