@@ -10,6 +10,7 @@ const GET_MANY_URL = `${environment.apiUrl}/Category/find/dmvt`
 const GET_ONE_URL = `${environment.apiUrl}/category/getbyid/dmvt`
 const GET_MANY_TYPE_MERCHANDISE_URL = `${environment.apiUrl}/category/find/dmloaikho`
 const GET_MANY_WAREHOUSE_URL = `${environment.apiUrl}/category/find/dmkho`
+const GET_MANY_TYPE_MERCHANDISE_BY_STORE_URL = `${environment.apiUrl}/category/find/vdmkho`
 
 @Injectable({
     providedIn: 'root'
@@ -22,6 +23,10 @@ export class MerchandiseApiService extends ApiService {
 
     getManyTypeMerchadise(body: {}): Observable<Result<any>> {
         return this.post<Result<any>>(GET_MANY_TYPE_MERCHANDISE_URL, body);
+    }
+
+    getManyTypeMerchadiseByStore(body: {}): Observable<Result<any>> {
+        return this.post<Result<any>>(GET_MANY_TYPE_MERCHANDISE_BY_STORE_URL, body);
     }
 
     getOneById(ma_vt: string): Observable<ResultNoPaging<Merchandise>> {

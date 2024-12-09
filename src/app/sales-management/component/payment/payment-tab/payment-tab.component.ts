@@ -132,7 +132,7 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
       });
   }
   initViewPayment() {
-    this.viewPayment = this.paymentService.convertPaymentRequest(this.data).filter(x => x.tien !== 0).map((item) => {
+    this.viewPayment = this.paymentService.convertPaymentRequest(this.data).filter(x => x.tien >= 0).map((item) => {
       switch (item.ma_thanhtoan) {
         case PAYMENT_CODE.CASH:
           return { payment: item.ten_thanhtoan, note: '', money: item.tien };

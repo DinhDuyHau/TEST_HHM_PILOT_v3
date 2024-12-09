@@ -319,7 +319,10 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
   }
 
   openSearchTypeMerchandiseDialog() {
-    this.commonService.openDialog(SearchDialogComponent, { keyword: '', componentName: SEARCH_COMPONENT_NAME.TYPE_INVENTORY })
+    this.commonService.openDialog(SearchDialogComponent, {
+      keyword: this.ticket.masterInfo.ma_cuahang,
+      componentName: SEARCH_COMPONENT_NAME.REPURCHASE_TYPE_INVENTORY
+    })
       .afterClosed().subscribe(result => {
         if (result) {
           this.repurchase.loai_hh = result.ten_loai;
@@ -380,7 +383,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
 
     // check mã kho rỗng
     const allHasMaKho = this.ticket.merchandise.every(item => item.ma_kho);
-    if(!allHasMaKho) {
+    if (!allHasMaKho) {
       this.commonService.showMessage('Mã kho không được để trống')
       return;
     }
