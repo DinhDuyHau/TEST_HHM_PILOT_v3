@@ -140,7 +140,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   }
 
   testData() {
-    // this.onEnterCustomerCode('001098025044');
+    // this.onEnterCustomerCode('gen');
     // this.onEnterImeiNewMerchandiseCode('11SC662VNA00009');
     // this.onEnterImeiNewMerchandiseCode('11SC664VNA001');
     // this.onEnterImeiNewMerchandiseCode('0100270081A00015');
@@ -170,7 +170,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (!environment.production) {
-      //this.testData();
+      // this.testData();
     }
     // this.commonService.focusControl(this.tabIndexFocusFirst);
   }
@@ -425,7 +425,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise_new_sale, Merchandise);
       if (this.ticket.merchandise_new_sale[0].ma_td3 === '') {
         this.commonService.showMessage('Chương trình hỗ trợ không hợp lệ hoặc đã hết hạn');
-        this.ticket.merchandise_new_sale = [];
+        this.resetDetail();
         return;
       }
 
@@ -447,6 +447,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
           this.saleRenewService.addPromotionMerchandise(discount, merchandiseResponse.ma_imei);
         }
       }
+      this.updateImeiSale();
       this.commonService.clearText2([this.tabIndex.imei_new_sale, this.tabIndex.ma_vt_new_sale]);
       this.commonService.focusControl2(this.tabIndex.imei_new_sale);
       this.saleRenewService.setIsNeedCalcDiscount(true);
@@ -1220,7 +1221,10 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         const imei_ban = sale_item.ma_imei.trim();
         const ma_kho_nhap = sale_item.ma_kho_nhap;
         if (imei_ban && imei_ban !== '' && ma_kho_nhap && ma_kho_nhap !== '') {
-          this.ticket.merchandise_used.find(x => x.gc_td1.trim() === imei_ban)!.ma_kho = ma_kho_nhap;
+          const foundItem = this.ticket.merchandise_used.find(x => x.gc_td1.trim() === imei_ban);
+          if (foundItem) {
+            foundItem.ma_kho = ma_kho_nhap;
+          }
         }
 
       } else {
@@ -1229,6 +1233,27 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
           return;
         }
         this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: ma_imei });
+      }
+    });
+  }
+
+  resetDetail() {
+    this.ticket.merchandise_new_sale = [];
+    this.ticket.merchandise_used = [];
+    this.ticket.discount = [];
+    this.ticket.service = [];
+    this.ticket.packages = [];
+    this.ticket.guarantee = [];
+  }
+
+  updateImeiSale() {
+    this.ticket.merchandise_new_sale.map(newSaleItem => {
+      const correspondingUsedItem = this.ticket.merchandise_used.find(
+        usedItem => usedItem.line_nbr === newSaleItem.line_nbr
+      );
+
+      if (correspondingUsedItem) {
+        correspondingUsedItem.gc_td1 = this.ma_imei || newSaleItem.ma_imei;
       }
     });
   }
