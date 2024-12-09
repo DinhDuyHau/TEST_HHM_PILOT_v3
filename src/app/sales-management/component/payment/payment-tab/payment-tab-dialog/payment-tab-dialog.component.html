@@ -468,7 +468,7 @@
               </div>
               <div
                 class="discount flex items-center"
-                *ngIf="data.ma_giam_gia.tien > 0">
+                *ngIf="data && data.ma_giam_gia && data.ma_giam_gia.ma_gg !== '' && data.ma_giam_gia.tien >= 0">
                 Mã giảm giá: {{ data.ma_giam_gia.ma_gg }} / Tiền giảm giá:&nbsp;
                 <span>
                   {{

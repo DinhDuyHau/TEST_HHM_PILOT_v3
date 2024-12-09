@@ -275,7 +275,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       }
 
       //Mã giảm giá HH
-      if (this.data.ma_giam_gia.ma_gg && this.data.ma_giam_gia.tien) {
+      if (this.data.ma_giam_gia.ma_gg && this.data.ma_giam_gia.tien >= 0) {
         this.t_con_no -= this.data.ma_giam_gia.tien;
         this.t_gg += this.data.ma_giam_gia.tien;
       }

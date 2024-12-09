@@ -183,6 +183,12 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.value = `%${this.data.keyword}%`;
         this.defaultFilters = [filter];
         break;
+      case SEARCH_COMPONENT_NAME.REPURCHASE_TYPE_INVENTORY:
+        this.columns = TYPE_INVENTORY as any;
+        filter.name = 'ma_cuahang';
+        filter.value = `%${this.data.keyword}%`;
+        this.defaultFilters = [filter];
+        break;
       case SEARCH_COMPONENT_NAME.WAREHOUSE:
         this.columns = WAREHOUSE_LIST as any;
         filter.name = 'ma_vt';
@@ -320,6 +326,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return this.merchandiseApiService.getMany(this.filters);
       case SEARCH_COMPONENT_NAME.TYPE_INVENTORY:
         return this.merchandiseApiService.getManyTypeMerchadise(this.filters);
+      case SEARCH_COMPONENT_NAME.REPURCHASE_TYPE_INVENTORY:
+        return this.merchandiseApiService.getManyTypeMerchadiseByStore(this.defaultFilters);
       case SEARCH_COMPONENT_NAME.WAREHOUSE:
         return this.merchandiseApiService.getManyWarehouse(this.filters);
       case SEARCH_COMPONENT_NAME.INVOICE:
@@ -523,6 +531,7 @@ export const SEARCH_COMPONENT_NAME = {
   EMPLOYEE: 25,
   REASON: 26,
   IMEI_SEARCH_SALES: 27,
-  TELESALE_SEARCH: 28
+  TELESALE_SEARCH: 28,
+  REPURCHASE_TYPE_INVENTORY: 29
 };
 

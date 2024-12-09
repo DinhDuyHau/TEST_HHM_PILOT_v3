@@ -63,6 +63,9 @@ export class SaleReturnOnlineService {
                 case TAB_NAME.PAYMENT:
                     this.paymentService.convertPaymentFromVoucher(e.data, this.ticket.payment);
                     break;
+                case TAB_NAME.SERVICE:
+                    this.serviceOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
+                    break;
                 default:
                     break;
             }
@@ -78,6 +81,7 @@ export class SaleReturnOnlineService {
         // voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.ELECTRONIC_BILL, data: [] }];
         voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.ELECTRONIC_BILL, data: [this.commonService.convertDateOfModelToRequest(this.ticket.electronic_bill, voucherDto.masterInfo)] }];
         voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
+        voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.SERVICE, data: this.serviceOfMerchandiseService.convertServiceToRequest(this.ticket.service, voucherDto.masterInfo, ServiceRequest) }];
         return voucherDto;
     }
 
