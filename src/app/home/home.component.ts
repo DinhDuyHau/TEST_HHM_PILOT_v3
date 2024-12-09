@@ -1,5 +1,5 @@
 ﻿import { Component } from '@angular/core';
-import { DashboardSales, DashboardSalesCommission, DashboardTopSelling, Result } from '@app/_models';
+import { DashboardSales, DashboardSalesCommission, DashboardSalesStats, DashboardTopSelling, Result } from '@app/_models';
 import { DashboardService } from '@app/_services/dashboard.service';
 import { formatNumber } from '@angular/common';
 
@@ -13,6 +13,7 @@ export class HomeComponent {
   itemsTopSelling: { ten_vt: string, ma_vt: string, sl_xuat: number }[] = [];
   salesData: DashboardSales | null = null;
   salesCommission: DashboardSalesCommission | null = null;
+  salesStats: any;
   username: any;
 
   constructor(private dashboardService: DashboardService) { }
@@ -27,6 +28,7 @@ export class HomeComponent {
     this.getDashboardTopSelling();
     this.getDashboardSales();
     this.getDashboardSalesCommission();
+    this.getDashboardSalesStats();
   }
 
   //lấy top 5 sp
@@ -37,7 +39,7 @@ export class HomeComponent {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error fetching dashboard data:', error);
+        // console.error('Error fetching dashboard data:', error);
         this.loading = false;
       }
     });
@@ -48,13 +50,11 @@ export class HomeComponent {
   getDashboardSales() {
     this.dashboardService.getDashboardSales().subscribe({
       next: (data: Result<DashboardSales>) => {
-        if (data.result.items && data.result.items.length > 0) {
-          this.salesData = data.result.items[0];
-        }
+        this.salesData = data.result.items[0];
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error fetching dashboard data:', error);
+        // console.error('Error fetching dashboard data:', error);
         this.loading = false;
       }
     });
@@ -65,13 +65,27 @@ export class HomeComponent {
   getDashboardSalesCommission() {
     this.dashboardService.getDashboardSalesCommission().subscribe({
       next: (data: Result<DashboardSalesCommission>) => {
-        if (data.result.items && data.result.items.length > 0) {
-          this.salesCommission = data.result.items[0];
-        }
+        this.salesCommission = data.result.items[0];
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error fetching dashboard data:', error);
+        // console.error('Error fetching dashboard data:', error);
+        this.loading = false;
+      }
+    });
+  }
+  // end
+
+  //lấy kết quả bán hàng => hoa hồng
+  getDashboardSalesStats() {
+    this.dashboardService.getDashboardSalesStats().subscribe({
+      next: (data: Result<DashboardSalesStats>) => {
+        this.salesStats = data.result.items || [];
+        this.loading = false;
+      },
+      error: (error) => {
+        // console.error('Error fetching dashboard data:', error);
+        this.salesStats = [];
         this.loading = false;
       }
     });
@@ -82,6 +96,7 @@ export class HomeComponent {
     this.getDashboardTopSelling();
     this.getDashboardSales();
     this.getDashboardSalesCommission();
+    this.getDashboardSalesStats();
   }
 
   formatNumber(value: number | null): string {
