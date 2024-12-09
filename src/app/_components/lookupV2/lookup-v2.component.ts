@@ -180,9 +180,19 @@ export class LookupV2Component {
     // console.log('checkbox change');
   }
   onSelectColumn(event: { index: number }) {
-    this.dataSource.data.map((value: any) => {
-      return (value[this.fields[event.index].name] =
-        !value[this.fields[event.index].name]);
+    this.lookupService.getAll().subscribe((res: any) => {
+      if (res.result.length === this.data.arraySelected.length) {
+        this.data.arraySelected = [];
+        this.dataSource.data.forEach((item: any) => {
+          item.choose = false;
+        })
+      }
+      else {
+        this.data.arraySelected = res.result.map((item: any) => item[this.codeLookup[0]]);
+        this.dataSource.data.forEach((item: any) => {
+          item.choose = true;
+        })
+      }
     });
   }
   onSortColumn(event: { name: string; direction: string }) {
