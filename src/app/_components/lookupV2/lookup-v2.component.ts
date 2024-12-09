@@ -82,7 +82,7 @@ export class LookupV2Component {
     if (event.item.choose === true)
       this.data.arraySelected = [...this.data.arraySelected, event.item[this.codeLookup[0]]];
     else
-      this.data.arraySelected = this.data.arraySelected.filter(((item: any) => item != event.item.ma_cuahang))
+      this.data.arraySelected = this.data.arraySelected.filter(((item: any) => item != event.item[this.codeLookup[0]]))
 
     this.lookupService.handleService(event, this.dataSource.data, 'checkboxChange');
   }
@@ -180,20 +180,20 @@ export class LookupV2Component {
     // console.log('checkbox change');
   }
   onSelectColumn(event: { index: number }) {
-    this.lookupService.getAll().subscribe((res: any) => {
-      if (res.result.length === this.data.arraySelected.length) {
-        this.data.arraySelected = [];
-        this.dataSource.data.forEach((item: any) => {
-          item.choose = false;
-        })
-      }
-      else {
-        this.data.arraySelected = res.result.map((item: any) => item[this.codeLookup[0]]);
-        this.dataSource.data.forEach((item: any) => {
-          item.choose = true;
-        })
-      }
-    });
+    const checkChoose = this.dataSource.data.filter((item: any) => !item.choose)
+    if (checkChoose.length > 0) {
+      this.dataSource.data.forEach((item: any) => {
+        if (!item.choose)
+          this.data.arraySelected = [...this.data.arraySelected, item[this.codeLookup[0]]]
+        item.choose = true;
+      })
+    }
+    else {
+      this.dataSource.data.forEach((item: any) => {
+        this.data.arraySelected = this.data.arraySelected.filter((e: any) => e != item[this.codeLookup[0]])
+        item.choose = false;
+      })
+    }
   }
   onSortColumn(event: { name: string; direction: string }) {
     this.sort = { name: event.name, direction: event.direction };
