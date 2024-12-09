@@ -284,18 +284,22 @@
     </div>
   </div>
   <div class="lg:flex flex-1 gap-4 pt-4">
-    <!-- Danh mục chiết khấu - Ẩn trên màn nhỏ -->
-    <div class="w-full lg:w-1/2 py-4 h-128 hidden lg:block">
-      <app-category
+    <!-- Chỉ số bán hàng trong tháng của cửa hàng - Ẩn trên màn nhỏ -->
+    <div class="w-full lg:w-3/5 py-4 h-128 hidden lg:block">
+      <app-sales-stats
+        [data]="this.salesStats"
+        [month]="this.month"
+      />
+      <!-- <app-category
         [entity]="'dmck2'"
         [title]="'Danh mục chiết khấu'"
         [name]="'ma_ck'"
         [buttons]="[]">
-      </app-category>
+      </app-category> -->
     </div>
 
     <!-- Sản phẩm bán chạy tháng -->
-    <div class="w-full lg:w-1/2 py-4 h-128">
+    <div class="w-full lg:w-2/5 py-4 h-128">
       <div class="flex flex-col bg-white px-4 py-4 h-full">
         <div class="justify-between pb-2">
           <div class="text-neutrals02_color font-medium text-xl">
@@ -311,7 +315,7 @@
           </li>
         </ul>
         <ng-template #noItems>
-          <p class="text-center txt-no-record">Không có sản phẩm nào.</p>
+          <p class="text-center txt-no-record">Chưa có dữ liệu</p>
         </ng-template>
       </div>
 

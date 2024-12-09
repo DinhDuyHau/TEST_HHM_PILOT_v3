@@ -10,6 +10,7 @@ import { FilterModule } from '@app/_components/filter/filter.module';
 import { ReportModule } from '@app/_components/report/report.module';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SalesStatsModule } from '@app/_components/sales-stats/sales-stats.module';
 
 @NgModule({
     imports: [
@@ -20,6 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         FilterModule,
         ReportModule,
         MatTooltipModule,
+        SalesStatsModule
     ],
     declarations: [
         HomeComponent
