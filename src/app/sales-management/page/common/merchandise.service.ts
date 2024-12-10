@@ -274,8 +274,8 @@ export class MerchandiseService {
                                     const e = item as Merchandise;
                                     //Chỉ set tiền ck cho các imei chưa áp dụng ck 05 (không tồn tại trong arr_imei_ck05)
                                     if (!arr_imei_ck05.includes(e.ma_imei)) {
-                                        e.gia_ck -= tien_ck_item ? tien_ck_item : tien_ck_tl;
-                                        e.tien_ck += tien_ck_item ? tien_ck_item : tien_ck_tl;
+                                        e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
+                                        e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
                                         arr_imei_ck05.push(e.ma_imei);
                                     }
                                 }
@@ -291,8 +291,8 @@ export class MerchandiseService {
                                     const e = item as Service;
                                     //Chỉ set tiền ck cho các imei chưa áp dụng ck 05 (không tồn tại trong arr_imei_ck05)
                                     if (!arr_imei_ck05.includes(e.ma_imei)) {
-                                        e.gia_ck -= tien_ck_item ? tien_ck_item : tien_ck_tl;
-                                        e.tien_ck += tien_ck_item ? tien_ck_item : tien_ck_tl;
+                                        e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
+                                        e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
                                         arr_imei_ck05.push(e.ma_imei);
                                     }
                                 }
