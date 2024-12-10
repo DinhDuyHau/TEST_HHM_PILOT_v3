@@ -646,7 +646,8 @@ export class MerchandiseService {
             rs.thanh_tien = merchandise.tien2 || merchandise.tien_nt2 || merchandise.tien_nt;
             rs.tien_thue = merchandise.thue || merchandise.thue_nt;
             rs.thanh_toan = merchandise.tt || merchandise.tt_nt;
-            rs.stt_rec_dh = merchandise.stt_rec_dh;
+            rs.stt_rec_hd = merchandise.stt_rec;
+            rs.stt_rec0hd = merchandise.stt_rec0;
             rs.hd_so = merchandise.so_ct || '';
             rs.s7 = merchandise.ngay_ct || '';
 

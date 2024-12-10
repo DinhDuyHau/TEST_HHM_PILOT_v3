@@ -127,7 +127,6 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
       if (data.key) {
         this.disableSelectStatus = false;
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.RETURN_ONLINE, data.key).subscribe((result) => {
-          console.log(result.result)
           if (result.result) {
             // set cửa hàng để truyền sang payment tab
             this.shop = (result.result as any).masterInfo.ma_cuahang;
