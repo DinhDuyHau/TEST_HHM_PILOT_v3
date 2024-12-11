@@ -274,8 +274,8 @@ export class MerchandiseService {
                                     const e = item as Merchandise;
                                     //Chỉ set tiền ck cho các imei chưa áp dụng ck 05 (không tồn tại trong arr_imei_ck05)
                                     if (!arr_imei_ck05.includes(e.ma_imei)) {
-                                        e.gia_ck -= tien_ck_item ? tien_ck_item : tien_ck_tl;
-                                        e.tien_ck += tien_ck_item ? tien_ck_item : tien_ck_tl;
+                                        e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
+                                        e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
                                         arr_imei_ck05.push(e.ma_imei);
                                     }
                                 }
@@ -291,8 +291,8 @@ export class MerchandiseService {
                                     const e = item as Service;
                                     //Chỉ set tiền ck cho các imei chưa áp dụng ck 05 (không tồn tại trong arr_imei_ck05)
                                     if (!arr_imei_ck05.includes(e.ma_imei)) {
-                                        e.gia_ck -= tien_ck_item ? tien_ck_item : tien_ck_tl;
-                                        e.tien_ck += tien_ck_item ? tien_ck_item : tien_ck_tl;
+                                        e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
+                                        e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
                                         arr_imei_ck05.push(e.ma_imei);
                                     }
                                 }
@@ -646,7 +646,8 @@ export class MerchandiseService {
             rs.thanh_tien = merchandise.tien2 || merchandise.tien_nt2 || merchandise.tien_nt;
             rs.tien_thue = merchandise.thue || merchandise.thue_nt;
             rs.thanh_toan = merchandise.tt || merchandise.tt_nt;
-            rs.stt_rec_dh = merchandise.stt_rec_dh;
+            rs.stt_rec_hd = merchandise.stt_rec;
+            rs.stt_rec0hd = merchandise.stt_rec0;
             rs.hd_so = merchandise.so_ct || '';
             rs.s7 = merchandise.ngay_ct || '';
 

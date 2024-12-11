@@ -22,6 +22,8 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     ma_td1 = '';
     gc_td1 = '';
     gc_td2 = '';
+    stt_rec_hd = '';
+    stt_rec0hd = '';
 
     constructor(obj?: any) {
         super();
