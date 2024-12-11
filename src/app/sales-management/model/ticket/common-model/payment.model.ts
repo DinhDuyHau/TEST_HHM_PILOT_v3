@@ -180,6 +180,7 @@ export class TransferDetail extends BaseModelPayment {
 export class EWalletDetail extends BaseModelPayment {
     thong_tin = '';
     so_hd_vnpay = '';
+    index = 0;
 }
 
 export class VNPayDetail extends BaseModelPayment {
