@@ -45,6 +45,12 @@ export class EWalletComponent implements OnInit {
       },
     ] as any;
     this.columns = col;
+
+    // Gán index cho mỗi phần tử trong 'detail' khi khởi tạo
+    this.data.eWallet.detail = this.data.eWallet.detail.map((item, idx) => {
+      item.index = idx; // Gán chỉ mục mới dựa trên vị trí trong mảng
+      return item;
+    });
     this.dataSource = this.data.eWallet.detail;
   }
   onOpenSearchWallet() {
