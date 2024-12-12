@@ -706,9 +706,6 @@
             ">
             <div class="d-flex gap-2">
               <form-payment-custom
-                [highlightBox]="
-                  data.voucher_doi_tac.tien == 0
-                "
                 class="flex-1"
                 [readonly]="readonly"
                 label="Số tiền"
@@ -727,9 +724,8 @@
                 [value]="data.voucher_doi_tac.ma_chuan_chi"
                 [disabled]="readonly"
                 [highlightBox]="
-                  data.voucher_doi_tac.tien > 0 &&
-                  (!data.voucher_doi_tac.ma_chuan_chi ||
-                    data.voucher_doi_tac.ma_chuan_chi === '')
+                  !data.voucher_doi_tac.ma_chuan_chi ||
+                  data.voucher_doi_tac.ma_chuan_chi === ''
                 "
                 (handleChangeValue)="
                   data.voucher_doi_tac.ma_chuan_chi = $event; onChange()
@@ -743,9 +739,8 @@
                 [label]="'Mã voucher'"
                 [value]="data.voucher_doi_tac.ma_gg"
                 [highlightBox]="
-                  data.voucher_doi_tac.tien > 0 &&
-                  (!data.voucher_doi_tac.ma_gg ||
-                    data.voucher_doi_tac.ma_gg === '')
+                  !data.voucher_doi_tac.ma_gg ||
+                    data.voucher_doi_tac.ma_gg === ''
                 "
                 (handleChangeValue)="
                   data.voucher_doi_tac.ma_gg = $event; onChange()
@@ -762,9 +757,8 @@
                   invalid.voucher_doi_tac.ma_ctr
                 "
                 [highlightBox]="
-                  data.voucher_doi_tac.tien > 0 &&
-                  (!data.voucher_doi_tac.ma_ctr ||
-                    data.voucher_doi_tac.ma_ctr === '')
+                  !data.voucher_doi_tac.ma_ctr ||
+                    data.voucher_doi_tac.ma_ctr === ''
                 "
                 (handleChangeValue)="
                   data.voucher_doi_tac.ma_ctr = $event; onChange()

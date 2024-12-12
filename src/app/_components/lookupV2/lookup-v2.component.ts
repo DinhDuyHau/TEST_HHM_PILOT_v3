@@ -58,7 +58,12 @@ export class LookupV2Component {
   }
 
   onClickItemLookup(event: { item: any }) {
-    this.dialogRef.close(this.data.arraySelected.map((item: any) => item).join(', ') || []);
+    if (this.data.isChoose == true) {
+      this.dialogRef.close(this.data.arraySelected.map((item: any) => item).join(', ') || []);
+    }
+    else {
+      this.dialogRef.close(event.item);
+    }
   }
 
   onNoClick(): void {

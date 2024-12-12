@@ -291,6 +291,12 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       if (this.data.voucher_doi_tac.selected && this.data.voucher_doi_tac.tien) {
         this.t_con_no -= this.data.voucher_doi_tac.tien;
       }
+      // set rỗng các input khi bỏ selected
+      if(!this.data.voucher_doi_tac.selected) {
+        this.data.voucher_doi_tac.ma_chuan_chi = '';
+        this.data.voucher_doi_tac.ma_gg = '';
+        this.data.voucher_doi_tac.ma_ctr = '';
+      }
 
       //Tổng tiền phí
       this.t_tien_phi += (this.data.quet_the_tra_gop.selected && this.data.quet_the_tra_gop.phi_chuyendoi) ?
@@ -624,8 +630,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     const isMaCtrEmpty = !this.data.voucher_doi_tac.ma_ctr.trim();
     const isMaChuanChiEmpty = !this.data.voucher_doi_tac.ma_chuan_chi.trim();
     const isMaGgEmpty = !this.data.voucher_doi_tac.ma_gg.trim();
-    const isTienZero = this.data.voucher_doi_tac.tien == 0;
-    if (isSelected && (isMaCtrEmpty || isMaChuanChiEmpty || isMaGgEmpty || isTienZero)) {
+    if (isSelected && (isMaCtrEmpty || isMaChuanChiEmpty || isMaGgEmpty)) {
       if (isMaCtrEmpty) {
         this.invalid.voucher_doi_tac.ma_ctr = true;
       }
