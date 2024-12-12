@@ -64,6 +64,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       ma_dv_tragop: false
     },
     voucher_doi_tac: {
+      tien: false,
       ma_ctr: false
     }
   };
@@ -618,10 +619,20 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       return true;
     }
 
-    if (this.data.voucher_doi_tac.selected && !this.data.voucher_doi_tac.ma_ctr.trim()) {
-      this.invalid.voucher_doi_tac.ma_ctr = true;
+    // kiểm tra voucher đối tác
+    const isSelected = this.data.voucher_doi_tac.selected;
+    const isMaCtrEmpty = !this.data.voucher_doi_tac.ma_ctr.trim();
+    const isMaChuanChiEmpty = !this.data.voucher_doi_tac.ma_chuan_chi.trim();
+    const isMaGgEmpty = !this.data.voucher_doi_tac.ma_gg.trim();
+    const isTienZero = this.data.voucher_doi_tac.tien == 0;
+    if (isSelected && (isMaCtrEmpty || isMaChuanChiEmpty || isMaGgEmpty || isTienZero)) {
+      if (isMaCtrEmpty) {
+        this.invalid.voucher_doi_tac.ma_ctr = true;
+      }
       return true;
     }
+
+
     if (this.t_con_no < 0) {
       this.commonService.showMessage("Tiền còn nợ không được là số âm");
       return true;

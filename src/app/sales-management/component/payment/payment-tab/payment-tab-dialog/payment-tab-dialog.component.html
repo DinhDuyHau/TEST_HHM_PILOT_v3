@@ -706,6 +706,9 @@
             ">
             <div class="d-flex gap-2">
               <form-payment-custom
+                [highlightBox]="
+                  data.voucher_doi_tac.tien == 0
+                "
                 class="flex-1"
                 [readonly]="readonly"
                 label="Số tiền"
