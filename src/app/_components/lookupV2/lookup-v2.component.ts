@@ -58,14 +58,7 @@ export class LookupV2Component {
   }
 
   onClickItemLookup(event: { item: any }) {
-    const itemName = event.item[this.codeLookup[0]];
-    const existingItem = this.data.arraySelected.filter((item: any) => item === itemName);
-    let result = '';
-    if (!existingItem.length)
-      this.data.arraySelected = [...this.data.arraySelected, event.item[this.codeLookup[0]]];
-    result = this.data.arraySelected.map((item: any) => item).join(', ') || [];
-
-    this.dialogRef.close(result);
+    this.dialogRef.close(this.data.arraySelected.map((item: any) => item).join(', ') || []);
   }
 
   onNoClick(): void {
