@@ -17,7 +17,10 @@ export class FeeService implements IGridService<Fee>{
   filter!: ItemFilter[];
   name?: string;
   constructor(private http: HttpClient, public dialog: MatDialog) {
-
+    this.filter = [
+      { name: 'status', operator: '=', value: '1' },
+      { name: 'nh_phi3', operator: '=', value: 'CHI' }
+    ];
   }
   setItemFilter(item: ItemFilter[]) {
     this.filter = item;

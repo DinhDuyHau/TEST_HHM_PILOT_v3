@@ -120,6 +120,11 @@ export class StockTransferService {
             message = this.commonService.getMessage('lbl_invalid_ngay_ct');
         } else if (!ticket.masterInfo.ma_dvcs) {
             message = this.commonService.getMessage('lbl_invalid_ma_dvcs');
+        } else if (this.ticket.masterInfo.ma_cuahang == this.ticket.masterInfo.ma_cuahang_n &&
+          this.ticket.masterInfo.ma_kho == this.ticket.masterInfo.ma_khon &&
+          this.ticket.masterInfo.fnote2 != '1')
+        {
+          message = this.commonService.getMessage('store_warehouse_mismatch');
         }
         return message;
     }
