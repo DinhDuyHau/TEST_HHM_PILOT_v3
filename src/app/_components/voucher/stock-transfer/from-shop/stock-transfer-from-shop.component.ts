@@ -224,8 +224,14 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
       ma_loai = "HH";
     }
     else if (this.ma_loai === "HL") {
-      ma_loai = "BH,HL";
-      stock_operator = 'in';
+      const cuahang_valid = ['HN008','HN028','SG000'];
+      if (cuahang_valid.includes(this.ticket.masterInfo.ma_cuahang_n)) {
+        ma_loai = 'BH,HL,TBH,HC';
+        stock_operator = 'in';
+      } else {
+        ma_loai = "BH,HL";
+        stock_operator = 'in';
+      }
     }
     else if (this.ma_loai === "BH") {
       //2024-10-23: tạm mở thêm loại kho TBH
