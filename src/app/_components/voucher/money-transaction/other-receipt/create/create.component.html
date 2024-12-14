@@ -136,6 +136,40 @@
           "></app-input-custom-v2>
       </div>
       <div class="flex gap-2">
+        <div class="flex basis-1/3">
+          <app-input-custom-v2
+            class="flex-1"
+            [label]="getLabel('lbl_ma_cp')"
+            #ma_phi
+            name="ma_phi"
+            [disabled]="disabled"
+            [readonly]="true"
+            [value]="fee.ma_phi"
+            (handleChangeLookup)="handleInputLookupChangeFee($event)"
+            (handleEnter)="onEnter($event)"
+            [control]="feeService"
+            [lookup]="true || disabled"
+            [reference]="[ma_phi, ten_phi, tk_cp]"></app-input-custom-v2>
+        </div>
+        <div class="flex-1">
+          <app-input-custom-v2
+            class="flex-1"
+            [label]="getLabel('lbl_ten_cp')"
+            #ten_phi
+            name="ten_phi"
+            [value]="fee.ten_phi"
+            [disabled]="true || disabled"></app-input-custom-v2>
+        </div>
+        <div class="hidden">
+          <app-input-custom-v2
+            class="flex-1"
+            [label]="getLabel('lbl_tk_cp')"
+            #tk_cp
+            name="tk_cp"
+            [disabled]="true || disabled"></app-input-custom-v2>
+        </div>
+      </div>
+      <div class="flex gap-2">
         <div class="flex-1">
           <app-input-custom-v2
             class="flex-1"

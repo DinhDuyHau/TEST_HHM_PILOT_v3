@@ -104,6 +104,11 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
     private el: ElementRef,
     private renderer: Renderer2
   ) {
+    const filterItem = [
+      { name: 'status', operator: '=', value: '1' },
+      { name: 'nh_phi3', operator: '=', value: 'CHI' }
+    ];
+    feeService.setItemFilter(filterItem);
     localStorage.setItem('useGridCached', '1');
     super(OtherPaymentDetailService);
     const user = authenticateService.userValue;

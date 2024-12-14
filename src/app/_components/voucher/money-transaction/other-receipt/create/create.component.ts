@@ -37,6 +37,7 @@ import { CommonService } from '@app/sales-management/page/common/common.service'
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { Customer } from '@app/_components/category/customer/customer.model';
 import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
+import { FeeService } from '@app/_components/lookup/Fee/fee.service';
 
 @Component({
   selector: 'app-create',
@@ -77,6 +78,9 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
   action = '';
   shop = '';
 
+  fee: Fee = new Fee;
+
+
   override gridType = GridType.GridDetail;
   actionButtons = [button.DeleteButton];
   constructor(
@@ -105,8 +109,14 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
     private paymentServiceShop: PaymentServiceShop,
     private el: ElementRef,
     private renderer: Renderer2,
-    private customerApiService: CustomerApiService
+    private customerApiService: CustomerApiService,
+    public feeService: FeeService
   ) {
+    const filterItem = [
+      { name: 'status', operator: '=', value: '1' },
+      { name: 'nh_phi3', operator: '=', value: 'THU' }
+    ];
+    feeService.setItemFilter(filterItem);
     localStorage.setItem('useGridCached', '1');
     super(OtherReceiptDetailService);
     const user = authenticateService.userValue;
@@ -409,7 +419,9 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
       line_nbr: this.data.details[0].data.length + 1,
       tien_nt: Number.parseInt(this.tien),
       tt_nt: Number.parseInt(this.tien),
-      dien_giai: this.data.masterInfo.dien_giai
+      dien_giai: this.data.masterInfo.dien_giai,
+      ma_phi: this.fee.ma_phi,
+      ten_phi: this.fee.ten_phi
     });
     this.calcTotal();
     this.dataSource.data = this.data.details[0].data;
@@ -457,4 +469,16 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
   }
   //#endregion
 
+  handleInputLookupChangeFee($event: any): void {
+    $event.forEach((item: any) => {
+      this.fee[item.control] = item.value;
+    });
+  }
+}
+
+class Fee {
+  ma_phi = '';
+  ten_phi = '';
+  tk_cp = '';
+  [key: string]: any
 }
