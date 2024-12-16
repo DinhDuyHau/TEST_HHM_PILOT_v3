@@ -5,6 +5,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -49,6 +53,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -101,6 +109,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -149,6 +161,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -209,6 +225,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -257,6 +277,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -327,6 +351,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -379,6 +407,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -435,6 +467,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -481,6 +517,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -537,6 +577,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -583,6 +627,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -658,6 +706,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -710,6 +762,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -795,6 +851,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -876,6 +936,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -961,6 +1025,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -1044,6 +1112,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -1090,6 +1162,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -1140,6 +1216,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -1186,6 +1266,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
