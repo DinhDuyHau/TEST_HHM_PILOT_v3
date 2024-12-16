@@ -5,6 +5,10 @@
             "title": "Mã đơn vị"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",

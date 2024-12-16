@@ -440,6 +440,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "statusname",
             "title": "Trạng thái"
         },
@@ -713,6 +717,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "statusname",
             "title": "Trạng thái"
         },
@@ -856,6 +864,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "statusname",
             "title": "Trạng thái"
         },
@@ -993,6 +1005,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "statusname",
@@ -1266,6 +1282,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "statusname",
             "title": "Trạng thái"
         },
@@ -1324,6 +1344,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "statusname",
@@ -1463,6 +1487,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "statusname",
@@ -1653,6 +1681,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "statusname",
@@ -1919,6 +1951,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "statusname",

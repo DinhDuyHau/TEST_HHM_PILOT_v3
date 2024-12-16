@@ -5,6 +5,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -56,22 +60,22 @@
         },
         {
             "name": "ma_vt",
-			"width": "120px",			
+			"width": "120px",
             "title": "Mã vật tư"
         },
         {
             "name": "ten_vt",
-			"width": "400px",			
+			"width": "400px",
             "title": "Tên vật tư"
         },
         {
             "name": "dvt",
-			"width": "60px",			
+			"width": "60px",
             "title": "Đơn vị tính"
         },
         {
             "name": "so_luong",
-			"width": "80px",			
+			"width": "80px",
             "title": "Số lượng"
         },
         {
@@ -82,7 +86,7 @@
         },
         {
             "name": "ghi_chu",
-			"width": "300px",			
+			"width": "300px",
             "title": "Ghi chú"
         }
     ],
@@ -96,32 +100,32 @@
         {
             "name": "ma_dvcs",
             "title": "Đơn vị",
-			"width": "80px",			
+			"width": "80px",
             "dataFormatString": "upperCaseFormat"
         },
         {
             "name": "ten_kho",
-			"width": "300px",			
+			"width": "300px",
             "title": "Tên kho"
         },
         {
             "name": "ten_kho2",
-			"width": "300px",			
+			"width": "300px",
             "title": "Tên kho 2"
         },
         {
             "name": "ma_loai",
-			"width": "80px",			
+			"width": "80px",
             "title": "Mã loại"
         },
         {
             "name": "ma_cuahang",
-			"width": "80px",			
+			"width": "80px",
             "title": "Mã cửa hàng"
         },
         {
             "name": "ghi_chu",
-			"width": "300px",			
+			"width": "300px",
             "title": "Ghi chú"
         }
     ],
