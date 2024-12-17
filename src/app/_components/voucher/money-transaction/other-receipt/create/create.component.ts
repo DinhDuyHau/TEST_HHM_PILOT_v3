@@ -79,6 +79,16 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
   shop = '';
 
   fee: Fee = new Fee;
+  payment_hidden: string[] = [
+    'tien_dat_coc',
+    'tra_gop',
+    'sd_diem',
+    'ma_giam_gia',
+    'giam_gia_crm',
+    'chiet_khau',
+    'voucher_doi_tac',
+    'quet_the_tra_gop'
+  ];
 
 
   override gridType = GridType.GridDetail;
@@ -473,6 +483,22 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
     $event.forEach((item: any) => {
       this.fee[item.control] = item.value;
     });
+
+    // nếu có ma_phi thì ẩn: vi_dien_tu, vnpay
+    if(this.fee.ma_phi) {
+      this.payment_hidden = [
+        'vi_dien_tu',
+        'vnpay',
+        'tien_dat_coc',
+        'tra_gop',
+        'sd_diem',
+        'ma_giam_gia',
+        'giam_gia_crm',
+        'chiet_khau',
+        'voucher_doi_tac',
+        'quet_the_tra_gop'
+      ];
+    }
   }
 }
 
