@@ -27,7 +27,6 @@ export class IMEIService {
     }
     getImeiInfo(ma_imei: string, ma_cuahang: string, ma_ct: string) {
         const encode_imei = this.codec.encodeValue(ma_imei);
-        console.log(encode_imei)
         return this.http.get<any>(`${environment.apiUrl}/imei/getinstore?ma_imei=${encode_imei}&ma_ct=${ma_ct}&ma_cuahang=${ma_cuahang}`);
     }
     getListImeiState(ma_imei: string[]) {

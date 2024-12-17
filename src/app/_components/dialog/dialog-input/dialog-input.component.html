@@ -10,22 +10,12 @@
       [align]="'right'"
       (handleChange)="this.value = $event"></app-input-custom-v2>
   </div>
-  <div class="w-full relative flex justify-between px-2 pb-2 items-end">
-    <button
-      class="btn_close outline-none btn-primary btn"
-      (click)="onClickSave()"
-      mat-icon-button
-      mat-dialog-close
-      aria-label="Close">
-      OK
-    </button>
-    <button
-      class="btn_close outline-none btn-danger btn"
-      (click)="onClickClose()"
-      mat-icon-button
-      mat-dialog-close
-      aria-label="Close">
-      Hủy
-    </button>
+
+  <div mat-dialog-actions class="gap-3 justify-end ml-5">
+    <div class="d-flex justify-end gap-2 m-2">
+      <button class="btn-responsive btn-cancel" (click)="onClickClose()">Hủy bỏ</button>
+      <button class="btn-responsive btn-add" (click)="onClickSave()">Lưu</button>
+    </div>
   </div>
+
 </div>
