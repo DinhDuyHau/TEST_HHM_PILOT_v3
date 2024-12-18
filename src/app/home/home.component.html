@@ -306,16 +306,18 @@
             Sản phẩm bán chạy tháng {{ month }}
           </div>
         </div>
-        <ul class="list-group list-group-flush" *ngIf="itemsTopSelling.length > 0; else noItems">
-          <li class="list-group-item list-group-item-action text-short-li" *ngFor="let item of itemsTopSelling; let i = index">
-            <div class="item-grid">
-              <span class="item-name">{{ i + 1 }}. {{ item.ten_vt }}</span>
-              <span class="item-code">({{ item.ma_vt }})</span>
-            </div>
-          </li>
-        </ul>
+        <div class="overflow-x-auto overflow-y-auto max-h-96 h-full">
+          <ul class="list-group list-group-flush" *ngIf="itemsTopSelling.length > 0; else noItems">
+            <li class="list-group-item list-group-item-action text-short-li" *ngFor="let item of itemsTopSelling; let i = index">
+              <div class="item-grid">
+                <span class="item-name">{{ i + 1 }}. {{ item.ten_vt }}</span>
+                <span class="item-code">({{ item.ma_vt }})</span>
+              </div>
+            </li>
+          </ul>
+        </div>
         <ng-template #noItems>
-          <p class="text-center txt-no-record">Chưa có dữ liệu</p>
+          <p class="text-center txt-no-record justify-content-center">Chưa có dữ liệu</p>
         </ng-template>
       </div>
 
