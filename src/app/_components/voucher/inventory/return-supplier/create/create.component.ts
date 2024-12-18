@@ -68,7 +68,7 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
 
 
   override gridType = GridType.GridDetail;
-  actionButtons = [button.DeleteButton];
+  actionButtons = [button.EditPriceButton, button.DeleteButton];
   constructor(
     private formBuilder: FormBuilder,
     public returnSupplierDetailService: ReturnSupplierDetailService,
@@ -105,7 +105,7 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
     }
     // this.initData();
   }
-  onHandleActionButton(event: { buttonId: string; data?: any; }) {
+  onHandleActionButton(event: { buttonId: string; data?: any; index: number }) {
     switch (event.buttonId) {
       case button.DeleteButton.id:
         this.data.details[0].data = this.data.details[0].data.filter((item) => {
@@ -116,6 +116,20 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
         });
         this.calcTotal();
         this.dataSource.data = this.data.details[0].data;
+        break;
+      case button.EditPriceButton.id:
+        this.returnSupplierDetailService.openDialogEditPrice({
+          label: 'Giá nhập (trước thuế)', value: event.data.gia_nt
+        }).subscribe((res: any) => {
+          if (res) {
+            const item = this.data.details[0].data[event.index];
+            item.gia_nt = res;
+            item.tien_nt = item.gia_nt * item.so_luong;
+            item.thue_nt = Math.round((item.tien_nt * item.thue_suat) / 100);
+            item.tt_nt = item.tien_nt + item.thue_nt;
+            this.calcTotal();
+          }
+        });
         break;
       default:
         break;

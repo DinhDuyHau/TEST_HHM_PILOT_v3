@@ -4,7 +4,7 @@
     "title": "Số hóa đơn",
     "isLockingColumn": true,
     "align": "center",
-    "width": 100
+    "width": 150
   },
   {
     "name": "ma_vt",
