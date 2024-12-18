@@ -1,0 +1,79 @@
+[
+  {
+    "name": "ma_hoahong",
+    "title": "Mã hoa hồng",
+    "width": 140
+  },
+  {
+    "name": "ten_hoahong",
+    "title": "Tên hoa hồng",
+    "width": 200
+  },
+  {
+    "name": "ngay_hl",
+    "title": "Hiệu lực từ",
+    "type": "date",
+    "dataFormatString": "datetimeFormat",
+    "width": 110
+  },
+  {
+    "name": "ngay_hl2",
+    "title": "Đến ngày",
+    "type": "date",
+    "dataFormatString": "datetimeFormat",
+    "width": 110
+  },
+  {
+    "name": "ma_sphh",
+    "title": "Mã sản phẩm",
+    "width": 120
+  },
+  {
+    "name": "ten_sphh",
+    "title": "Tên sản phẩm",
+    "width": 250
+  },
+  {
+    "name": "ma_imei",
+    "title": "Imei",
+    "width": 120
+  },
+  {
+    "name": "ma_phanloai",
+    "title": "Phân loại",
+    "width": 100
+  },
+  {
+    "name": "ten_phanloai",
+    "allowFilter": true,
+    "title": "Tên phân loại",
+    "width": 150
+  },
+  {
+    "name": "ma_kenh",
+    "title": "Mã kênh",
+    "width": 100
+  },
+  {
+    "name": "ten_kenh",
+    "allowFilter": true,
+    "title": "Tên kênh bán hàng",
+    "width": 250
+  },
+  {
+    "name": "tl_trich",
+    "title": "Tỉ lệ trích HH",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "tien_trich",
+    "title": "Tiền trích HH",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  }
+]
