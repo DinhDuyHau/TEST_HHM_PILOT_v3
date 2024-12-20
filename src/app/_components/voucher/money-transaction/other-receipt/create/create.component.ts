@@ -483,10 +483,11 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
     $event.forEach((item: any) => {
       this.fee[item.control] = item.value;
     });
-
     // nếu có ma_phi thì ẩn: vi_dien_tu, vnpay
     if(this.fee.ma_phi) {
       this.payment_hidden = [
+        't_tien_phi',
+        'quet_the',
         'vi_dien_tu',
         'vnpay',
         'tien_dat_coc',
@@ -499,6 +500,7 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
         'quet_the_tra_gop'
       ];
     }
+
   }
 }
 

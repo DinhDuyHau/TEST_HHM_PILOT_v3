@@ -782,7 +782,8 @@
               format="moneyViewFormat" />
           </div>
         </div>
-        <div class="box">
+        <div *ngIf="!(pay_hidden && pay_hidden.includes('t_tien_phi'))"
+          class="box">
           <div>
             <div class="title">Tổng tiền phí</div>
             <form-payment-custom
