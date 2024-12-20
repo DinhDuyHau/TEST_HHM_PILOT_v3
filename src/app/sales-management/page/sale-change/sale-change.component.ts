@@ -228,7 +228,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
         src_merchandise.forEach((x: any) => x.stt_rec_dh = x.stt_rec);
 
         //kiểm tra thỏa mãn chính sách trả lại vật tư
-        if (src_merchandise && !src_merchandise[0].nhap_tra_lai_yn) {
+        if (src_merchandise && src_merchandise[0] && !src_merchandise[0].nhap_tra_lai_yn) {
           this.commonService.showMessage('Imei không thỏa mãn chính sách trả lại');
           return;
         }
