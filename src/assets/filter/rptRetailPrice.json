@@ -5,7 +5,13 @@
     [
       {
         "name": "tu_ngay",
-        "label": "Ngày hiệu lực",
+        "label": "Từ ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      },
+      {
+        "name": "den_ngay",
+        "label": "Đến ngày",
         "type": "date",
         "dataFormatString": "datetimeFormat"
       }
