@@ -37,18 +37,26 @@ export class SwipeCardComponent implements OnInit {
   }
   ngOnInit(): void {
     const col = [
-      { name: 'so_the', title: 'Số thẻ' },
-      {
-        name: 'tien', title: 'Số tiền', type: 'texbox',
-        dataType: 'number',
-        format: 'moneyViewFormat',
-        align: 'right'
-      },
       {
         name: 'ma_may_pos',
         title: 'Mã máy pos'
       },
-      { name: 'ma_chuan_chi', title: 'Mã chuẩn chi', },
+      {
+        name: 'ma_chuan_chi',
+        title: 'Mã chuẩn chi'
+      },
+      {
+        name: 'so_the',
+        title: 'Số thẻ'
+      },
+      {
+        name: 'tien', title: 'Số tiền',
+        type: 'texbox',
+        dataType: 'number',
+        format: 'moneyViewFormat',
+        align: 'right'
+      },
+
     ] as any;
     this.columns = col;
     this.dataSource = this.data.card.detail;

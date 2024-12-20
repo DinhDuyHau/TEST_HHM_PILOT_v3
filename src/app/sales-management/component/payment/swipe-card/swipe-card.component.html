@@ -6,15 +6,6 @@
         <form-payment-custom
           [readonly]="readonly"
           class="flex-1"
-          [name]="'ma_chuan_chi'"
-          [label]="'Mã chuẩn chi'"
-          [value]="quet_the.ma_chuan_chi"
-          [invalid]="invalid"
-          [disabled]="readonly"
-          (handleChangeValue)="quet_the.ma_chuan_chi = $event" />
-        <form-payment-custom
-          [readonly]="readonly"
-          class="flex-1"
           [name]="'ma_may_pos'"
           [label]="'Mã máy POS'"
           [value]="quet_the.ma_may_pos"
@@ -22,6 +13,15 @@
           [disabled]="true"
           (handleChangeValue)="onEnterPOSCode($event)"
           (handleClickOpenDialog)="openSearchPOSDialog()" />
+        <form-payment-custom
+          [readonly]="readonly"
+          class="flex-1"
+          [name]="'ma_chuan_chi'"
+          [label]="'Mã chuẩn chi'"
+          [value]="quet_the.ma_chuan_chi"
+          [invalid]="invalid"
+          [disabled]="readonly"
+          (handleChangeValue)="quet_the.ma_chuan_chi = $event" />
       </div>
       <div class="d-flex gap-2">
         <form-payment-custom
