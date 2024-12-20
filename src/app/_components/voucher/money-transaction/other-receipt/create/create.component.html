@@ -224,16 +224,7 @@
         [action]="action"
         [shop]="shop"
         [invalid]="invalid"
-        [pay_hidden]="[
-          'tien_dat_coc',
-          'tra_gop',
-          'sd_diem',
-          'ma_giam_gia',
-          'giam_gia_crm',
-          'chiet_khau',
-          'voucher_doi_tac',
-          'quet_the_tra_gop'
-        ]"
+        [pay_hidden]="payment_hidden"
         [readonly]="disabled"
         [t_tong_tien]="data.masterInfo.t_tt_nt || 0"
         [data]="payment"
