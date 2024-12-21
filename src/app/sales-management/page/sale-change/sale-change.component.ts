@@ -224,7 +224,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
 
         const merchandise = result.result.details[0].data;
         const service = result.result.details[1].data;
-        const src_merchandise = merchandise.filter((x: any) => x.ma_imei.trim() === ma_imei.trim());
+        const src_merchandise = merchandise.filter((x: any) => x.ma_imei.toLowerCase().trim() === ma_imei.toLowerCase().trim());
         src_merchandise.forEach((x: any) => x.stt_rec_dh = x.stt_rec);
 
         //kiểm tra thỏa mãn chính sách trả lại vật tư
