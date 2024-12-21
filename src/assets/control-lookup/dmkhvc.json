@@ -1,0 +1,12 @@
+{
+  "title": "Danh mục đơn vị vận chuyển",
+  "entity": "dmkh",
+  "filter": [
+    {
+      "name": "nh_kh9",
+      "operator": "=",
+      "value": "NGKH20"
+    }
+  ],
+  "multipleChoose": false
+}

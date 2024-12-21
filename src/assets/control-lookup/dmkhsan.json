@@ -1,0 +1,12 @@
+{
+  "title": "Danh mục sàn TMĐT",
+  "entity": "dmkh",
+  "filter": [
+    {
+      "name": "nh_kh9",
+      "operator": "=",
+      "value": "NGKH77"
+    }
+  ],
+  "multipleChoose": false
+}

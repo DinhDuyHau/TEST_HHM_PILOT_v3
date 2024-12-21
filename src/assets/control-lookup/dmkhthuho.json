@@ -1,0 +1,12 @@
+{
+  "title": "Danh mục thu hộ",
+  "entity": "dmkh",
+  "filter": [
+    {
+      "name": "nh_kh9",
+      "operator": "=",
+      "value": "NGKH86"
+    }
+  ],
+  "multipleChoose": false
+}
