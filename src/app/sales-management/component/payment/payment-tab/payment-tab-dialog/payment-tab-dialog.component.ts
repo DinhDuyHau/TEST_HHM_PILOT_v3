@@ -196,19 +196,73 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     this.t_gg = 0;
     this.t_tien_phi = 0;
 
-    //reset
+    /**
+     * Author: nduydu
+     * Reset tất cả các trường khi bỏ selected để
+     * tránh vẫn còn vết thanh toán khi lưu !
+     */
     if (!this.data.tien_mat.selected) this.data.tien_mat.tien = 0;
-    if (!this.data.tien_dat_coc.selected) this.data.tien_dat_coc.tien = 0;
-    if (!this.data.chuyen_khoan.selected) this.data.chuyen_khoan.tien = 0;
-    if (!this.data.quet_the.selected) this.data.quet_the.tien = 0;
-    if (!this.data.vnpay.selected) this.data.vnpay.tien = 0;
-    if (!this.data.vi_dien_tu.selected) this.data.vi_dien_tu.tien = 0;
-    if (!this.data.tra_gop.selected) this.data.tra_gop.tien = 0;
-    if (!this.data.sd_diem.selected) this.data.sd_diem.tien = 0;
-    if (!this.data.ma_giam_gia.selected) this.data.ma_giam_gia.tien = 0;
-    if (!this.data.giam_gia_crm.selected) this.data.giam_gia_crm.tien = 0;
-    if (!this.data.quet_the_tra_gop.selected) this.data.quet_the_tra_gop.tien = 0;
-    if (!this.data.voucher_doi_tac.selected) this.data.voucher_doi_tac.tien = 0;
+    if (!this.data.tien_dat_coc.selected) {
+      this.data.tien_dat_coc.tien = 0;
+      this.data.tien_dat_coc.detail = [];
+    }
+    if (!this.data.chuyen_khoan.selected) {
+      this.data.chuyen_khoan.tien = 0;
+      this.data.chuyen_khoan.detail = [];
+    }
+    if (!this.data.quet_the.selected) {
+      this.data.quet_the.tien = 0;
+      this.data.quet_the.detail = [];
+    }
+    if (!this.data.vnpay.selected) {
+      this.data.vnpay.tien = 0;
+      this.data.vnpay.detail = [];
+    }
+    if (!this.data.vi_dien_tu.selected) {
+      this.data.vi_dien_tu.tien = 0;
+      this.data.vi_dien_tu.detail = [];
+    }
+    if (!this.data.tra_gop.selected) {
+      this.data.tra_gop.tien = 0;
+      this.data.tra_gop.so_hd_tragop = '';
+      this.data.tra_gop.phi_bao_hiem = 0;
+      this.data.tra_gop.ma_dv_tragop = '';
+      this.data.tra_gop.phi_cd_tragop = 0;
+      this.data.tra_gop.tk_nh_nhan = '';
+    }
+    if (!this.data.sd_diem.selected) {
+      this.data.sd_diem.tien = 0;
+      this.data.sd_diem.diem_qd = 0;
+    }
+    if (!this.data.ma_giam_gia.selected) {
+      this.data.ma_giam_gia.tien = 0;
+      this.data.ma_giam_gia.ma_gg = '';
+    }
+
+    if (!this.data.giam_gia_crm.selected) {
+      this.data.giam_gia_crm.tien = 0;
+      this.data.giam_gia_crm.detail = [];
+    }
+    if (!this.data.quet_the_tra_gop.selected) {
+      this.data.quet_the_tra_gop.tien = 0;
+      this.data.quet_the_tra_gop.so_the = '';
+      this.data.quet_the_tra_gop.ma_chuan_chi = '';
+      this.data.quet_the_tra_gop.ma_may_pos = '';
+      this.data.quet_the_tra_gop.so_hd_tragop = '';
+      this.data.quet_the_tra_gop.ma_dv_tragop = '';
+      this.data.quet_the_tra_gop.phi_bao_hiem = 0;
+      this.data.quet_the_tra_gop.phi_quetthe = 0;
+      this.data.quet_the_tra_gop.phi_chuyendoi = 0;
+      this.data.quet_the_tra_gop.tk_nh_nhan = '';
+      this.data.quet_the_tra_gop.so_hd_vnpay = '';
+    }
+    if (!this.data.voucher_doi_tac.selected) {
+      this.data.voucher_doi_tac.tien = 0;
+      this.data.voucher_doi_tac.ma_gg = '';
+      this.data.voucher_doi_tac.ma_ctr = '';
+      this.data.voucher_doi_tac.ma_chuan_chi = '';
+    }
+    // END
 
     if (this.data.sd_diem.diem_qd >= 0 && this.he_so_qd) {
       this.data.sd_diem.tien = this.commonService.calcExchangeMoney(this.data.sd_diem.diem_qd, this.he_so_qd);
@@ -219,8 +273,6 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
 
       //Tiền đặt cọc
       if (this.data.tien_dat_coc.selected && this.data.tien_dat_coc.tien) {
-        console.log(this.data.tien_dat_coc);
-        console.log(this.t_dat_coc_max);
         this.data.tien_dat_coc.tien <= this.t_dat_coc_max ?
           this.t_con_no -= this.data.tien_dat_coc.tien :
           this.t_con_no -= this.t_dat_coc_max;
@@ -290,12 +342,6 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       //Voucher đối tác
       if (this.data.voucher_doi_tac.selected && this.data.voucher_doi_tac.tien) {
         this.t_con_no -= this.data.voucher_doi_tac.tien;
-      }
-      // set rỗng các input khi bỏ selected
-      if(!this.data.voucher_doi_tac.selected) {
-        this.data.voucher_doi_tac.ma_chuan_chi = '';
-        this.data.voucher_doi_tac.ma_gg = '';
-        this.data.voucher_doi_tac.ma_ctr = '';
       }
 
       //Tổng tiền phí
@@ -636,7 +682,6 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       }
       return true;
     }
-
 
     if (this.t_con_no < 0) {
       this.commonService.showMessage("Tiền còn nợ không được là số âm");

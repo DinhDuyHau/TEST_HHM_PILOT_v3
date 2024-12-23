@@ -44,6 +44,11 @@ export class VNPayComponent implements OnInit {
       },
     ] as any;
     this.columns = col;
+    // Gán index cho mỗi phần tử trong 'detail' khi khởi tạo
+    this.data.vnpay.detail = this.data.vnpay.detail.map((item, idx) => {
+      item.index = idx; // Gán chỉ mục mới dựa trên vị trí trong mảng
+      return item;
+    });
     this.dataSource = this.data.vnpay.detail;
   }
   addDetail() {
@@ -51,16 +56,24 @@ export class VNPayComponent implements OnInit {
       this.invalid = true;
       return;
     }
+    // Gắn thêm index vào vnpay
+    this.detail.index = this.data.vnpay.detail.length;
     this.data.vnpay.detail.push(this.detail);
     this.data.vnpay.tien += this.detail.tien;
     this.dataSource = this.data.vnpay.detail;
     this.detail = new VNPayDetail;
     this.invalid = false;
   }
-  onDeleteItem(event: { item: any }) {
-    this.data.vnpay.detail = this.data.vnpay.detail.filter((x => x.so_hd_vnpay != event.item.so_hd_vnpay));
-    this.data.vnpay.tien -= event.item.tien;
-    this.dataSource = this.data.vnpay.detail;
+  // onDeleteItem(event: { item: any }) {
+  //   this.data.vnpay.detail = this.data.vnpay.detail.filter((x => x.so_hd_vnpay != event.item.so_hd_vnpay));
+  //   this.data.vnpay.tien -= event.item.tien;
+  //   this.dataSource = this.data.vnpay.detail;
+  // }
+  onDeleteItem(event: any) {
+    const index = this.data.vnpay.detail.findIndex(x => x.index === event.item.index);
+    this.data.vnpay.tien -= this.data.vnpay.detail[index].tien;
+    this.data.vnpay.detail.splice(index, 1);
+    this.dataSource = [...this.data.vnpay.detail];
   }
   onCancel() {
     this.dialogRef.close();
