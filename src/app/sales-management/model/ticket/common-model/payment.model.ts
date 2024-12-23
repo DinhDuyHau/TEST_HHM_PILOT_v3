@@ -185,4 +185,5 @@ export class EWalletDetail extends BaseModelPayment {
 
 export class VNPayDetail extends BaseModelPayment {
     so_hd_vnpay = '';
+    index = 0;
 }
