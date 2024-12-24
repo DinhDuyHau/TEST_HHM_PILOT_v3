@@ -313,17 +313,31 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
               this.invalidMerchandiseInput.ma_vt = true;
               return;
             }
+
+            // Tính toán các giá trị trước
+            const thue_suat = this.ticket.masterInfo.fcode1 == "2" ? this.ticket.masterInfo.fqty1 : 0;
+            const gia_ban = this.ticket.masterInfo.fcode1 == "2"
+              ? this.ticket.masterInfo.gia_nhap_mua / (1 + (thue_suat / 100))
+              : this.ticket.masterInfo.gia_nhap_mua;
+            const s4 = this.ticket.masterInfo.gia_nhap_mua;
+            const thanh_tien = gia_ban * 1;
+            const tt = s4 * 1;
+            const tien_thue = tt - thanh_tien;
+
             const merchandiseResponse = {
+              thue_suat: thue_suat,
+              gia_ban: gia_ban,
+              s4: s4,
+              thanh_tien: thanh_tien,
+              tt: tt,
+              tien_thue: tien_thue,
               ma_vt: this.repurchase.ma_vt,
               ten_vt: this.repurchase.ten_vt,
               ma_loai: this.repurchase.ma_loai,
               dvt: this.repurchase.dvt,
               ma_imei: ma_imei,
               new_imei_yn: true,
-              ma_kho: this.repurchase.ma_kho,
-              gia_ban: this.ticket.masterInfo.gia_nhap_mua,
-              thanh_tien: this.ticket.masterInfo.gia_nhap_mua,
-              thanh_toan: this.ticket.masterInfo.gia_nhap_mua,
+              ma_kho: this.repurchase.ma_kho
             };
 
             this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise, Merchandise);
