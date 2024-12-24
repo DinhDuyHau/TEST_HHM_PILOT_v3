@@ -650,17 +650,49 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   }
 
   validateFail() {
-    if (this.data.quet_the_tra_gop.selected && !this.data.quet_the_tra_gop.ma_may_pos.trim()
-      && !this.data.quet_the_tra_gop.ma_dv_tragop.trim() && !this.data.quet_the_tra_gop.so_the.trim()
-      && !this.data.quet_the_tra_gop.ma_chuan_chi.trim() && !this.data.quet_the_tra_gop.so_hd_tragop.trim()
-      && !this.data.quet_the_tra_gop.tk_nh_nhan.trim()
+    // if (this.data.quet_the_tra_gop.selected && !this.data.quet_the_tra_gop.ma_may_pos.trim()
+    //   && !this.data.quet_the_tra_gop.ma_dv_tragop.trim() && !this.data.quet_the_tra_gop.so_the.trim()
+    //   && !this.data.quet_the_tra_gop.ma_chuan_chi.trim() && !this.data.quet_the_tra_gop.so_hd_tragop.trim()
+    //   && !this.data.quet_the_tra_gop.tk_nh_nhan.trim()
+    // ) {
+    //   this.invalid.quet_the_tra_gop.ma_may_pos = true;
+    //   this.invalid.quet_the_tra_gop.ma_dv_tragop = true;
+    //   this.invalid.quet_the_tra_gop.so_the = true;
+    //   this.invalid.quet_the_tra_gop.ma_chuan_chi = true;
+    //   this.invalid.quet_the_tra_gop.so_hd_tragop = true;
+    //   this.invalid.quet_the_tra_gop.tk_nh_nhan = true;
+
+    //   return true;
+    // }
+    // Kiểm tra quét thẻ trả góp
+    const isQuetTheTraGopSelected = this.data.quet_the_tra_gop.selected;
+    const isMaMayPosEmpty = !this.data.quet_the_tra_gop.ma_may_pos.trim();
+    const isMaDvTraGopEmpty = !this.data.quet_the_tra_gop.ma_dv_tragop.trim();
+    const isSoTheEmpty = !this.data.quet_the_tra_gop.so_the.trim();
+    const isMaChuanChiEmpty = !this.data.quet_the_tra_gop.ma_chuan_chi.trim();
+    const isSoHdTraGopEmpty = !this.data.quet_the_tra_gop.so_hd_tragop.trim();
+    const isTkNhNhanEmpty = !this.data.quet_the_tra_gop.tk_nh_nhan.trim();
+    if (isQuetTheTraGopSelected &&
+      (isMaMayPosEmpty || isMaDvTraGopEmpty || isSoTheEmpty || isMaChuanChiEmpty || isSoHdTraGopEmpty || isTkNhNhanEmpty)
     ) {
-      this.invalid.quet_the_tra_gop.ma_may_pos = true;
-      this.invalid.quet_the_tra_gop.ma_dv_tragop = true;
-      this.invalid.quet_the_tra_gop.so_the = true;
-      this.invalid.quet_the_tra_gop.ma_chuan_chi = true;
-      this.invalid.quet_the_tra_gop.so_hd_tragop = true;
-      this.invalid.quet_the_tra_gop.tk_nh_nhan = true;
+      if (isMaMayPosEmpty) {
+        this.invalid.quet_the_tra_gop.ma_may_pos = true;
+      }
+      if (isMaDvTraGopEmpty) {
+        this.invalid.quet_the_tra_gop.ma_dv_tragop = true;
+      }
+      if (isSoTheEmpty) {
+        this.invalid.quet_the_tra_gop.so_the = true;
+      }
+      if (isMaChuanChiEmpty) {
+        this.invalid.quet_the_tra_gop.ma_chuan_chi = true;
+      }
+      if (isSoHdTraGopEmpty) {
+        this.invalid.quet_the_tra_gop.so_hd_tragop = true;
+      }
+      if (isTkNhNhanEmpty) {
+        this.invalid.quet_the_tra_gop.tk_nh_nhan = true;
+      }
 
       return true;
     }
@@ -674,9 +706,9 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     // kiểm tra voucher đối tác
     const isSelected = this.data.voucher_doi_tac.selected;
     const isMaCtrEmpty = !this.data.voucher_doi_tac.ma_ctr.trim();
-    const isMaChuanChiEmpty = !this.data.voucher_doi_tac.ma_chuan_chi.trim();
+    const isMaChuanChiEmptyVoucher = !this.data.voucher_doi_tac.ma_chuan_chi.trim();
     const isMaGgEmpty = !this.data.voucher_doi_tac.ma_gg.trim();
-    if (isSelected && (isMaCtrEmpty || isMaChuanChiEmpty || isMaGgEmpty)) {
+    if (isSelected && (isMaCtrEmpty || isMaChuanChiEmptyVoucher || isMaGgEmpty)) {
       if (isMaCtrEmpty) {
         this.invalid.voucher_doi_tac.ma_ctr = true;
       }
