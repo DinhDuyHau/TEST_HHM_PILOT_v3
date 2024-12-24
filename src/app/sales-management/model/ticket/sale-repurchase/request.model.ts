@@ -7,6 +7,7 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     tien = 0;
     tien_nt = 0;
     new_imei_yn = false;
+    s4 = 0;
 
     constructor(obj?: any) {
         super();
@@ -20,6 +21,7 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     email_nhan_key = '';
     t_con_no = 0;
     t_da_tra = 0;
+    fcode1 = '';
 
     constructor(obj?: any) {
         super();
