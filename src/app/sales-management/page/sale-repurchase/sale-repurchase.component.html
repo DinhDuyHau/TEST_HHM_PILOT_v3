@@ -51,19 +51,21 @@
         [label]="getLabel('lbl_ten_kh')"
         [value]="ticket.masterInfo.ten_kh"
         [disabled]="true" />
+      <form-select-custom
+        class="box"
+        [isDisable]="readonly || disableSelectStatus"
+        [label]="getLabel('lbl_trang_thai')"
+        [options]="statusList"
+        optionDes="statusname"
+        optionValue="status"
+        [value]="ticket.masterInfo.status"
+        (handleChangeValue)="ticket.masterInfo.status = $event" />
       <form-input-custom
         class="box"
         [name]="'dia_chi'"
         [label]="getLabel('lbl_dia_chi')"
         [value]="ticket.masterInfo.dia_chi"
         [disabled]="true" />
-      <form-input-custom
-        class="box"
-        [name]="'ghi_chu'"
-        [label]="getLabel('lbl_ghi_chu')"
-        [readonly]="readonly"
-        [value]="ticket.masterInfo.dien_giai"
-        (handleChangeValue)="ticket.masterInfo.dien_giai = $event" />
       <form-input-custom
         class="box"
         [name]="'loai_hh'"
@@ -122,15 +124,13 @@
         *ngIf="!readonly"
         (handleEnterInput)="onEnterImeiCode($event)"
         [uploadImage]="true" />
-      <form-select-custom
+      <form-input-custom
         class="box"
-        [isDisable]="readonly || disableSelectStatus"
-        [label]="getLabel('lbl_trang_thai')"
-        [options]="statusList"
-        optionDes="statusname"
-        optionValue="status"
-        [value]="ticket.masterInfo.status"
-        (handleChangeValue)="ticket.masterInfo.status = $event" />
+        [name]="'ghi_chu'"
+        [label]="getLabel('lbl_ghi_chu')"
+        [readonly]="readonly"
+        [value]="ticket.masterInfo.dien_giai"
+        (handleChangeValue)="ticket.masterInfo.dien_giai = $event" />
     </div>
     <div class="d-flex box align-items-end gap-3 mt-3 align-self-end">
       <button
