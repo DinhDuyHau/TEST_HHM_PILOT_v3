@@ -24,6 +24,7 @@ export class MasterInfo extends BaseMasterInfo {
     dien_giai = '';
     gia_nhap_mua = 0;
     email_nhan_key = '';
+    fcode1 = '';
     constructor(obj?: any) {
         super();
         Object.assign(this, obj);
@@ -34,6 +35,7 @@ export class Merchandise extends BaseMerchandise {
     new_imei_yn = false;
     ma_loai = '';
     imei_mua = '';
+    tt = 0;
 
     constructor(obj?: any) {
         super();

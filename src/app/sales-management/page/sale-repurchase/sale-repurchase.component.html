@@ -74,6 +74,15 @@
         *ngIf="!readonly"
         [value]="repurchase.loai_hh"
         (handleClickOpenDialog)="openSearchTypeMerchandiseDialog()" />
+      <form-select-custom
+        class="box order-dynamic-1 width-full"
+        [isDisable]="readonly || this.mode !== 0"
+        [label]="'Loại giao dịch'"
+        [options]="transactionTypeOptions"
+        optionDes="label"
+        optionValue="value"
+        [value]="ticket.masterInfo.fcode1"
+        (handleChangeValue)="onChangeTransactionType($event)" />
       <form-input-custom
         class="box"
         name="ma_vt"
@@ -83,17 +92,29 @@
         *ngIf="!readonly"
         [disabled]="readonly"
         (handleClickOpenDialog)="openTypeMerchandiseDialog()" />
-      <form-input-custom
-        class="box"
-        [label]="getLabel('lbl_gia_nhap_mua')"
-        name="gia_nhap_mua"
-        [align]="'end'"
-        [value]="ticket.masterInfo.gia_nhap_mua"
-        [invalid]="invalidMerchandiseInput.gia_nhap_mua"
-        *ngIf="!readonly"
-        dataType="number"
-        (handleChangeValue)="onEnterPrice($event)"
-        format="moneyInputFormat" />
+      <div class="d-flex gap-2 box">
+        <form-select-custom
+          *ngIf="ticket.masterInfo.fcode1 == '2'"
+          class="flex-1"
+          [isDisable]="readonly || this.mode !== 0"
+          [label]="'Thuế suất(%)'"
+          [options]="thuesuatOptions"
+          optionDes="label"
+          optionValue="value"
+          [value]="ticket.masterInfo.fqty1"
+          (handleChangeValue)="onChangeThueSuat($event)" />
+        <form-input-custom
+          class="flex-1"
+          [label]="'Giá nhập mua (Full VAT)'"
+          name="gia_nhap_mua"
+          [align]="'end'"
+          [value]="ticket.masterInfo.gia_nhap_mua"
+          [invalid]="invalidMerchandiseInput.gia_nhap_mua"
+          *ngIf="!readonly"
+          dataType="number"
+          (handleChangeValue)="onEnterPrice($event)"
+          format="moneyInputFormat" />
+      </div>
       <form-input-custom
         class="box"
         [name]="'imei'"

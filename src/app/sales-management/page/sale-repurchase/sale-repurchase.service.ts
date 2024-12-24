@@ -13,6 +13,7 @@ import { MerchandiseRequest, MasterInfoRequest } from '@app/sales-management/mod
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { Language } from '../common/language';
 import { PaymentService } from '../common/payment.service';
+import { getDateFormat } from '@app/_common/commonFunction';
 
 @Injectable({
     providedIn: 'root'
@@ -68,8 +69,8 @@ export class SaleRepurchaseService {
     prepareVoucher(): VoucherDto {
         const voucherDto: VoucherDto = new VoucherDto;
         voucherDto.details = [];
-        voucherDto.masterInfo = this.commonService.convertMasterInfo(this.ticket.masterInfo, MasterInfoRequest);
-        voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.MERCHANDISE, data: this.merchandiseService.convertMerchandiseToRequest(this.ticket.merchandise, voucherDto.masterInfo, MerchandiseRequest) }];
+        voucherDto.masterInfo = this.convertMasterInfo(this.ticket.masterInfo, MasterInfoRequest);
+        voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.MERCHANDISE, data: this.convertMerchandiseToRequest(this.ticket.merchandise, voucherDto.masterInfo, MerchandiseRequest) }];
         voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
         return voucherDto;
     }
@@ -152,7 +153,7 @@ export class SaleRepurchaseService {
         this.ticket.masterInfo.t_so_luong = this.ticket.merchandise.length;
 
         let merchandiseMoney = this.ticket.merchandise
-            .map(e => e.gia_ban)
+            .map(e => e.tt)
             .reduce((pre, cur) => pre + cur, 0);
         merchandiseMoney = this.commonService.rouding(merchandiseMoney);
 
@@ -193,5 +194,73 @@ export class SaleRepurchaseService {
     }
 
     // #endregion other
+    convertMasterInfo = (masterInfo: any, TCreator: { new(): any; }) => {
+        const masterInfoNew = new TCreator();
+        Object.keys(masterInfoNew).forEach(key => {
+            if (masterInfo.hasOwnProperty(key)) {
+                masterInfoNew[key] = masterInfo[key];
+            }
+        });
 
+        masterInfoNew.t_ck_nt = masterInfoNew.t_ck;
+        masterInfoNew.t_tien = masterInfoNew.t_tien_nt2;
+        masterInfoNew.t_tien_nt = masterInfoNew.t_tien_nt2;
+        masterInfoNew.t_tien2 = masterInfoNew.t_tien_nt2;
+        masterInfoNew.t_thue = masterInfoNew.t_thue_nt;
+        masterInfoNew.t_tt = masterInfoNew.t_tt_nt;
+        masterInfoNew.t_gg_nt = masterInfoNew.t_gg;
+        masterInfoNew.t_cp_khac_nt = masterInfoNew.t_cp_khac;
+        masterInfoNew.ngay_ct = getDateFormat(new Date(masterInfoNew.ngay_ct));
+        masterInfoNew.ngay_lct = masterInfoNew.ngay_ct;
+        masterInfoNew.s4 = masterInfoNew.t_tien_ban;
+        masterInfoNew.fcode1 = masterInfoNew.fcode1;
+        masterInfoNew.fqty1 = masterInfoNew.fqty1;
+
+        Object.keys(masterInfoNew).forEach(key => {
+            if (masterInfoNew[key] === undefined) {
+                delete masterInfoNew[key];
+            }
+        });
+
+        return masterInfoNew;
+    };
+
+    convertMerchandiseToRequest = (merchandises: any, masterInfo: any, TCreator: { new(): any; }) => {
+        const result = (merchandises as any[]).map(merchandise => {
+            // repurchase and renew
+            merchandise.gia = merchandise.gia_ban; // giá trước thuế
+            merchandise.gia_nt = merchandise.gia_ban;
+            merchandise.tien = merchandise.thanh_tien;
+            merchandise.tien_nt = merchandise.thanh_tien;
+
+            // merchandise.gia_ban = merchandise.gia_ban;
+            merchandise.gia_ban_nt = merchandise.gia_ban;
+            merchandise.gia2 = merchandise.gia_ban;
+            merchandise.gia_nt2 = merchandise.gia_ban;
+            // merchandise.gia_ck = merchandise.gia_ck;
+            merchandise.gia_ck_nt = merchandise.gia_ck;
+            merchandise.ck = merchandise.tien_ck;
+            merchandise.ck_nt = merchandise.tien_ck;
+            merchandise.tien2 = merchandise.thanh_tien;
+            merchandise.tien_nt2 = merchandise.thanh_tien;
+            merchandise.thue = merchandise.tien_thue;
+            merchandise.thue_nt = merchandise.tien_thue;
+            merchandise.tt = merchandise.tt;
+            merchandise.tt_nt = merchandise.tt;
+            merchandise.thue_suat = merchandise.thue_suat;
+            merchandise.s4 = merchandise.s4;
+
+            const rs = this.merchandiseService.createNewMerchandise(merchandise, TCreator);
+            rs.km_yn ? rs.km_yn = 1 : rs.km_yn = 0;
+            Object.keys(rs).forEach(key => {
+                if (rs[key] === undefined) {
+                    delete rs[key];
+                }
+            });
+            return rs;
+        });
+
+        this.commonService.updateBaseInfo(masterInfo, result);
+        return result;
+    };
 }

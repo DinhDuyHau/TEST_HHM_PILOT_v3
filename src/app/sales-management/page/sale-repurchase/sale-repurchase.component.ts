@@ -74,6 +74,36 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
   action = '';
   shop = '';
 
+  transactionTypeOptions = [
+    {
+      label: "1-Mua lại từ khách hàng cá nhân",
+      value: 1
+    },
+    {
+      label: "2-Mua lại từ khách hàng doanh nghiệp",
+      value: 2
+    }
+  ]
+
+  thuesuatOptions = [
+    {
+      label: "0",
+      value: 0
+    },
+    {
+      label: "5",
+      value: 5
+    },
+    {
+      label: "8",
+      value: 8
+    },
+    {
+      label: "10",
+      value: 10
+    }
+  ]
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -130,6 +160,9 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
         this.statusList = result.result.items as StatusTicket[];
       });
     };
+
+    this.ticket.masterInfo.fcode1 = '1';
+    this.ticket.masterInfo.fqty1 = 0;
 
     this.route.queryParams.subscribe((data: any) => {
       if (data.key) {
@@ -246,8 +279,17 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
             }
             else {
               const merchandise = new Merchandise;
-              merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua;
-              merchandise.thanh_tien = this.ticket.masterInfo.gia_nhap_mua;
+              // nếu loại giao dịch là 2 thì mới lấy thuế suất
+              if(this.ticket.masterInfo.fcode1 == "2") {
+                merchandise.thue_suat = this.ticket.masterInfo.fqty1;
+                merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua / (1 + (merchandise.thue_suat / 100));
+              } else {
+                merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua;
+              }
+              merchandise.s4 = this.ticket.masterInfo.gia_nhap_mua;
+              merchandise.thanh_tien = merchandise.gia_ban * merchandise.so_luong;
+              merchandise.tt = merchandise.s4 * merchandise.so_luong;
+              merchandise.tien_thue = merchandise.tt - merchandise.thanh_tien;
               merchandise.ma_kho = this.repurchase.ma_kho;
               merchandise.ma_loai = this.repurchase.ma_loai;
               merchandise.ten_vt = imei_info.ten_vt;
@@ -474,6 +516,22 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
   getLabel(label: string) {
     return this.commonService.getMessage(label);
   }
+
+  onChangeTransactionType(event: any) {
+    this.ticket.masterInfo.fcode1 = event
+    // set lại mặc định là 10
+    if (event === "1") {
+      this.ticket.masterInfo.fqty1 = 0;
+    }
+    if (event === "2") {
+      this.ticket.masterInfo.fqty1 = 10;
+    }
+  }
+
+  onChangeThueSuat(event: any) {
+    this.ticket.masterInfo.fqty1 = event
+  }
+
 }
 
 

@@ -169,23 +169,50 @@
             "align": "center"
         },
         {
-            "name": "gia_ban",
-            "title": "Giá bán",
-            "format": "moneyView2Digit",
-            "align": "right",
-            "dataType": "number"
-        },
-        {
             "name": "so_luong",
             "title": "Số lượng",
             "format": "moneyViewNoDigit",
             "align": "center"
         },
         {
+            "name": "s4",
+            "title": "Giá (Full VAT)",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "gia_ban",
+            "title": "Giá trước thuế",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
             "name": "thanh_tien",
             "title": "Thành tiền",
             "align": "right",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "thue_suat",
+            "title": "Thuế suất(%)",
+            "format": "moneyViewNoDigit",
+            "align": "center"
+        },
+        {
+            "name": "tien_thue",
+            "title": "Tiền thuế",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tt",
+            "title": "Tổng tiền",
+            "format": "moneyViewNoDigit",
+            "align": "right",
             "dataType": "number"
         }
     ],
