@@ -546,6 +546,17 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.fqty1 = event
   }
 
+  handleChangeTaxCode(event: string) {
+    this.commonService.getCustomerInfoByTax(event).subscribe((result: any) => {
+      if (result.success) {
+        this.ticket.masterInfo.hd_dia_chi = result.result.dia_chi;
+        this.ticket.masterInfo.hd_ten_kh = result.result.ten_kh;
+      }
+      else {
+        this.commonService.showMessageByName(result.message);
+      }
+    });
+  }
 }
 
 

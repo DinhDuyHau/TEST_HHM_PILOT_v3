@@ -25,6 +25,9 @@ export class MasterInfo extends BaseMasterInfo {
     gia_nhap_mua = 0;
     email_nhan_key = '';
     fcode1 = '';
+    so_ct0 = '';
+    so_seri0 = '';
+    ngay_ct0: string = Date();
     constructor(obj?: any) {
         super();
         Object.assign(this, obj);

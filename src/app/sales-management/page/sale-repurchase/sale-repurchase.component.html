@@ -148,8 +148,8 @@
           [columns]="merchandiseColumns"
           (handleDelete)="onRemoveMerchandise($event)" />
       </tab-custom>
-      <tab-custom label="HĐĐT" class="w-100">
-        <div
+      <tab-custom label="Thuế đầu vào" class="w-100">
+        <!-- <div
           class="text-medium font-medium flex flex-1 border-b-0.5 border-dashed border-neutrals07_color">
           {{ getLabel('lbl_tt_xuat_hddt') }}
         </div>
@@ -160,7 +160,57 @@
           class="text-medium font-medium flex flex-1 border-b-0.5 border-dashed border-neutrals07_color pt-1 md:pt-3 lg:pt-7">
           {{ getLabel('lbl_hddt_phat_hanh') }}
         </div>
-        <e-invoice-tab [data]="eInvoiceInfo"></e-invoice-tab>
+        <e-invoice-tab [data]="eInvoiceInfo"></e-invoice-tab> -->
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-1 lg:gap-x-10 gap-y-1 lg:gap-y-3 pt-0.5 md:pt-1 lg:pt-2">
+          <form-input-custom
+            class="flex-1"
+            [label]="'Số hóa đơn'"
+            [value]="ticket.masterInfo.so_ct0"
+            [disabled]="readonly"
+            (handleChangeValue)="ticket.masterInfo.so_ct0 = $event"></form-input-custom>
+          <form-input-custom
+            class="flex-1"
+            [label]="'Ký hiệu'"
+            [value]="ticket.masterInfo.so_seri0"
+            [disabled]="readonly"
+            (handleChangeValue)="ticket.masterInfo.so_seri0 = $event"></form-input-custom>
+          <app-input-custom-v2
+            [label]="'Ngày hóa đơn'"
+            class="flex-1"
+            type="date"
+            name="ngay_ct0"
+            type="date"
+            [value]="ticket.masterInfo.ngay_ct0"
+            [dataFormatString]="'datetimeFormat'"
+            (handleChange)="ticket.masterInfo.ngay_ct0 = $event"></app-input-custom-v2>
+          <form-input-custom
+            class="flex-1"
+            [label]="'Mã số thuế'"
+            [value]="ticket.masterInfo.hd_mst && ticket.masterInfo.hd_mst.trim()"
+            [disabled]="readonly"
+            (handleChangeValue)="
+              ticket.masterInfo.hd_mst = $event; handleChangeTaxCode($event)
+            "></form-input-custom>
+          <form-input-custom
+            class="flex-1"
+            [label]="'Email'"
+            [value]="ticket.masterInfo.hd_email"
+            [disabled]="readonly"
+            (handleChangeValue)="ticket.masterInfo.hd_email = $event"></form-input-custom>
+          <form-input-custom
+            class="flex-1"
+            [label]="'Tên khách hàng'"
+            [value]="ticket.masterInfo.hd_ten_kh"
+            [disabled]="readonly"
+            (handleChangeValue)="ticket.masterInfo.hd_ten_kh = $event"></form-input-custom>
+          <form-input-custom
+            class="flex-1"
+            [label]="'Địa chỉ'"
+            [value]="ticket.masterInfo.hd_dia_chi"
+            [disabled]="readonly"
+            (handleChangeValue)="ticket.masterInfo.hd_dia_chi = $event"></form-input-custom>
+        </div>
       </tab-custom>
     </tabs-custom>
     <ng-container>

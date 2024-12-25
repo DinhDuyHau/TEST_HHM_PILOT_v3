@@ -155,7 +155,7 @@ export class SaleRepurchaseService {
         let merchandiseMoney = this.ticket.merchandise
             .map(e => e.tt)
             .reduce((pre, cur) => pre + cur, 0);
-        merchandiseMoney = this.commonService.rouding(merchandiseMoney);
+        merchandiseMoney = merchandiseMoney;
 
         this.ticket.masterInfo.t_tien = merchandiseMoney;
         this.ticket.masterInfo.t_tien_nt = merchandiseMoney;
@@ -215,6 +215,9 @@ export class SaleRepurchaseService {
         masterInfoNew.s4 = masterInfoNew.t_tien_ban;
         masterInfoNew.fcode1 = masterInfoNew.fcode1;
         masterInfoNew.fqty1 = masterInfoNew.fqty1;
+        masterInfoNew.so_ct0 = masterInfoNew.so_ct0;
+        masterInfoNew.so_seri0 = masterInfoNew.so_seri0;
+        masterInfoNew.ngay_ct0 = masterInfoNew.ngay_ct0;
 
         Object.keys(masterInfoNew).forEach(key => {
             if (masterInfoNew[key] === undefined) {

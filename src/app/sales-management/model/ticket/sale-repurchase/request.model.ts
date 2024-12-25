@@ -22,6 +22,9 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     t_con_no = 0;
     t_da_tra = 0;
     fcode1 = '';
+    so_ct0 = '';
+    so_seri0 = '';
+    ngay_ct0 = '';
 
     constructor(obj?: any) {
         super();
