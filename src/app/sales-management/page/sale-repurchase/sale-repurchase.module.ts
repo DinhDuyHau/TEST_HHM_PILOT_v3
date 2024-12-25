@@ -24,6 +24,7 @@ import { EInvoiceInfoModule } from '@app/sales-management/component/e-invoice/e-
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
 import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
 import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
+import { ControlsModule } from '@app/_components/controls/controls.module';
 
 @NgModule({
     imports: [
@@ -51,7 +52,8 @@ import { NavigationVoucheModule } from '@app/sales-management/component/navigati
         EInvoiceInfoModule,
         VoucherInfoModule,
         NavigationVoucheModule,
-        VoucherInfoHeaderModule
+        VoucherInfoHeaderModule,
+        ControlsModule
     ],
     declarations: [
         SaleRepurchaseComponent
