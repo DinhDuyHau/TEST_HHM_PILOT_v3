@@ -103,6 +103,7 @@ export class FilterComponent implements OnInit {
       if (inputs[i] === event.target) {
         if (i < inputs.length - 1) {
           inputs[i + 1].focus(); // Focus vào phần tử tiếp theo
+          inputs[i + 1].setSelectionRange(0, 0); // Đặt con trỏ vào đầu của phần tử
           break;
         }
         else {
