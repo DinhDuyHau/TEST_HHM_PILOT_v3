@@ -171,8 +171,8 @@ export class InputDateComponent implements OnChanges, OnInit, AfterViewInit {
     onDateTextboxKeyUp(event: any) {
         if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13) {
             event.preventDefault();
+            this.handleKeyUp.emit(event);
         }
-        this.handleKeyUp.emit(event);
     }
 
     onBlur(event: any, ref: any) {
