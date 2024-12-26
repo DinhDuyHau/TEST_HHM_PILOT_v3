@@ -120,20 +120,6 @@
               submitted && f['ong_ba'].errors != null
             "></app-input-custom-v2>
         </div>
-        <div class="flex flex-1">
-          <app-input-custom-v2
-            [label]="getLabel('lbl_ly_do_chi')"
-            class="flex-1"
-            #input2
-            [disabled]="disabled"
-            (handleEnter)="onEnter($event)"
-            name="ten_kh"
-            (handleChange)="handleInputChange('dien_giai', $event)"
-            [value]="f['dien_giai'].value"
-            [invalid]="
-              submitted && f['dien_giai'].errors != null
-            "></app-input-custom-v2>
-        </div>
       </div>
       <div class="flex gap-2">
         <select-custom
@@ -264,6 +250,20 @@
           ></app-input-custom-v2>
         </div>
         <div class="flex-1">&nbsp;</div>
+      </div>
+      <div class="flex flex-1">
+        <app-input-custom-v2
+          [label]="getLabel('lbl_ly_do_chi')"
+          class="flex-1"
+          #input2
+          [disabled]="disabled"
+          (handleEnter)="onEnter($event)"
+          name="ten_kh"
+          (handleChange)="handleInputChange('dien_giai', $event)"
+          [value]="f['dien_giai'].value"
+          [invalid]="
+            submitted && f['dien_giai'].errors != null
+          "></app-input-custom-v2>
       </div>
 
     </div>
