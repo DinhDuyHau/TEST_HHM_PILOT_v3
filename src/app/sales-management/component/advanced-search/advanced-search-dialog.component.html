@@ -1,7 +1,7 @@
 <div mat-dialog-content class="advanced-search-dialog-container">
   <div class="advanced-search-dialog-wrapper adv-search-form-box">
     <div class="pb-1 title">Tìm kiếm nâng cao</div>
-    <div class="box-container mb-5">
+    <div class="box-container mb-5" #form>
       <div class="d-flex gap-2 box">
         <div class="flex-1 form-type-date">
           <label class="col-form-label" for="ngay_bd">Từ ngày</label>
@@ -11,7 +11,7 @@
             id="ngay_bd"
             [text]="filters.ngay_bd"
             (handleBlur)="onBlurDateStart($event, date_start)"
-            (handleKeyUp)="onEnter($event, date_end)"></app-input-date>
+            (handleKeyUp)="onEnter($event)"></app-input-date>
           <span
             *ngIf="!filters.ngay_bd && invalid"
             style="font-size: 12px; color: #dc3545"
@@ -26,7 +26,7 @@
             id="ngay_kt"
             [text]="filters.ngay_kt"
             (handleBlur)="onBlurDateEnd($event, date_end)"
-            (handleKeyUp)="onEnter($event, so_ct_bd)"></app-input-date>
+            (handleKeyUp)="onEnter($event)"></app-input-date>
           <span
             *ngIf="!filters.ngay_kt && invalid"
             style="font-size: 12px; color: #dc3545"
@@ -41,13 +41,15 @@
           [name]="'so_ct_bd'"
           [label]="'Số hóa đơn từ'"
           [value]="filters.so_ct_bd"
-          (handleChangeValue)="filters.so_ct_bd = $event" />
+          (handleChangeValue)="filters.so_ct_bd = $event"
+          (handleEnterInput)="onEnter($event)"/>
         <form-input-custom
           class="flex-1"
           [name]="'so_ct_kt'"
           [label]="'Số hóa đơn đến'"
           [value]="filters.so_ct_kt"
-          (handleChangeValue)="filters.so_ct_kt = $event" />
+          (handleChangeValue)="filters.so_ct_kt = $event"
+          (handleEnterInput)="onEnter($event)" />
       </div>
       <div class="d-flex gap-2 box" *ngIf="isShowShop()">
         <form-input-custom
@@ -57,7 +59,8 @@
           [label]="lbl_ma_cuahang"
           [value]="filters.ma_cuahang"
           (handleClickOpenDialog)="openSearchShopDialog()"
-          (handleChangeValue)="handleEnterShop($event)" />
+          (handleChangeValue)="handleEnterShop($event)"
+          (handleEnterInput)="onEnter($event)" />
         <form-input-custom
           class="flex-1"
           [name]="'ten_cuahang'"
@@ -81,7 +84,8 @@
           [label]="lbl_ma_cuahang2"
           [value]="filters.ma_cuahang2"
           (handleClickOpenDialog)="openSearchShop2Dialog()"
-          (handleChangeValue)="handleEnterShop2($event)" />
+          (handleChangeValue)="handleEnterShop2($event)"
+          (handleEnterInput)="onEnter($event)" />
         <form-input-custom
           class="flex-1"
           [name]="'ten_cuahang2'"
@@ -106,7 +110,8 @@
           (handleChangeValue)="filters.ma_kh = $event"
           [value]="filters.ma_kh"
           (handleEnterInput)="onEnterCustomerCode($event)"
-          (handleClickOpenDialog)="openSearchCustomerDialog()" />
+          (handleClickOpenDialog)="openSearchCustomerDialog()"
+          (handleEnterInput)="onEnter($event)" />
         <form-input-custom
           class="flex-1"
           [name]="'ten_kh'"
@@ -122,7 +127,8 @@
           [label]="lbl_ma_kho"
           [value]="filters.ma_kho"
           (handleChangeValue)="onEnterWarehouseInput($event)"
-          (handleClickOpenDialog)="openWarehouseDialog2('ma_kho')" />
+          (handleClickOpenDialog)="openWarehouseDialog2('ma_kho')"
+          (handleEnterInput)="onEnter($event)" />
       </div>
       <ng-template #noStockList>
         <div class="d-flex gap-2 box" *ngIf="isShowInventory()">
@@ -132,7 +138,8 @@
             [label]="lbl_ma_kho"
             [value]="filters.ma_kho"
             (handleChangeValue)="onEnterWarehouseInput($event)"
-            (handleClickOpenDialog)="openWarehouseDialog('ma_kho', 'ten_kho')" />
+            (handleClickOpenDialog)="openWarehouseDialog('ma_kho', 'ten_kho')"
+            (handleEnterInput)="onEnter($event)" />
           <form-input-custom
             class="flex-1"
             [name]="'ten_kho'"
@@ -143,16 +150,17 @@
       </ng-template>
 
 
-      <div class="d-flex gap-2 box" *ngIf="isShowStockList(); else noStockList">
+      <div class="d-flex gap-2 box" *ngIf="isShowStockList(); else noStockList2">
         <form-input-custom
           class="flex-1"
           [name]="'ma_kho2'"
           [label]="lbl_ma_kho2"
           [value]="filters.ma_kho2"
           (handleChangeValue)="onEnterWarehouseOutput($event)"
-          (handleClickOpenDialog)="openWarehouseDialog2('ma_kho2')" />
+          (handleClickOpenDialog)="openWarehouseDialog2('ma_kho2')"
+          (handleEnterInput)="onEnter($event)" />
       </div>
-      <ng-template #noStockList>
+      <ng-template #noStockList2>
         <div
               *ngIf="
                 voucherCode === 'PXB' || voucherCode === 'pxb' ||
@@ -168,7 +176,8 @@
                 [label]="lbl_ma_kho2"
                 [value]="filters.ma_kho2"
                 (handleChangeValue)="onEnterWarehouseOutput($event)"
-                (handleClickOpenDialog)="openWarehouseDialog('ma_kho2', 'ten_kho2')" />
+                (handleClickOpenDialog)="openWarehouseDialog('ma_kho2', 'ten_kho2')"
+                (handleEnterInput)="onEnter($event)" />
               <form-input-custom
                 class="flex-1"
                 [name]="'ten_kho2'"
@@ -189,7 +198,8 @@
           [value]="filters.ma_vt"
           (handleChangeValue)="filters.ma_vt = $event"
           (handleEnterInput)="onEnterMerchandiseCode($event)"
-          (handleClickOpenDialog)="openMerchandiseDialog()" />
+          (handleClickOpenDialog)="openMerchandiseDialog()"
+          (handleEnterInput)="onEnter($event)" />
         <form-input-custom
           class="flex-1"
           [name]="'ten_vt'"
@@ -205,7 +215,8 @@
         [name]="'ma_imei'"
         [label]="'Mã imei'"
         [value]="filters.ma_imei"
-        (handleChangeValue)="filters.ma_imei = $event" />
+        (handleChangeValue)="filters.ma_imei = $event"
+        (handleEnterInput)="onEnter($event)" />
       <form-select-custom
         class="flex-1"
         [label]="lbl_trang_thai"
@@ -230,13 +241,14 @@
           optionDes="statusname"
           optionValue="status"
           [value]="filters.status2"
-          (handleChangeValue)="filters.status2 = $event" />
+          (handleChangeValue)="filters.status2 = $event"
+          (handleEnterInput)="onEnter($event)" />
       </div>
 
     </div>
     <div class="d-flex justify-end gap-2">
       <div class="btn-responsive btn-cancel" (click)="onCancel()">Hủy bỏ</div>
-      <div class="btn-responsive btn-add" (click)="onSave()">Tìm kiếm</div>
+      <button class="btn-responsive btn-add" id="btn-add" (click)="onSave()">Tìm kiếm</button>
     </div>
     <div class="close-btn" (click)="onCancel()">
       <i class="fas fa-times"></i>

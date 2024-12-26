@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import dataFormat from '@app/_common/dataFormat';
 import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
@@ -42,6 +42,7 @@ interface IFilter {
   styleUrls: ['./advanced-search-dialog.component.scss'],
 })
 export class AdvancedSearchDialogComponent implements OnInit {
+  @ViewChild('form') form!: ElementRef;
   title = 'Thêm khách hàng';
   dataFormat = dataFormat;
   invalid = false;
@@ -119,7 +120,6 @@ export class AdvancedSearchDialogComponent implements OnInit {
       this.voucherCode = this.data.voucherCode;
 
     const convert = { ...this.data };
-
     //Lấy thông tin params từ localStorage
     const params_string = localStorage.getItem('saleSearchParams')!;
     if (params_string && params_string !== '') {
@@ -420,7 +420,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
         this.filters.ma_vt = res.ma_vt;
         this.filters.ten_vt = res.ten_vt;
       } else {
-        this.commonService.showMessage("Không tìm thấy háng hóa")
+        this.commonService.showMessage("Không tìm thấy hàng hóa")
       }
     })
   }
@@ -479,15 +479,32 @@ export class AdvancedSearchDialogComponent implements OnInit {
     this.filters.ngay_kt = ref.isoDateString.toString();
   }
 
-  onEnter(event: any, next_control: any) {
-    if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13) {
-      if (next_control)
-        if (next_control.input)
-          next_control.input.nativeElement.focus();
-        else
-          next_control.focus();
-    }
+  // onEnter(event: any, next_control: any) {
+  //   if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13) {
+  //     if (next_control)
+  //       if (next_control.input)
+  //         next_control.input.nativeElement.focus();
+  //       else
+  //         next_control.focus();
+  //   }
 
+  // }
+  onEnter(event: any) {
+    //event.preventDefault(); // Ngăn chặn hành động mặc định của nút Enter (submit form)
+    const inputs = this.form.nativeElement.querySelectorAll('input:not([readonly]):not([disabled]):not([type="date"])');
+    for (let i = 0; i < inputs.length; i++) {
+      if (inputs[i] === event.target) {
+        if (i < inputs.length - 1) {
+          inputs[i + 1].focus(); // Focus vào phần tử tiếp theo
+          inputs[i + 1].setSelectionRange(0, 0); // Đặt con trỏ vào đầu của phần tử
+          break;
+        }
+        else {
+          // Phần tử cuối cùng sẽ focus vào button tìm kiếm 
+          document.getElementById('btn-add')?.focus();
+        }
+      }
+    }
   }
 
   onSave() {
