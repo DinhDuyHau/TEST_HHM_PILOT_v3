@@ -137,9 +137,10 @@ export class FormInputCustomComponent implements OnChanges, OnInit {
           this.value.toString().replace(/\D/g, '') || '0';
         value = parseInt(value);
       }
-      // this.focusNext(event.target);
-      // this.moveToNext(event);
+      //this.focusNext(event.target);
+      //this.moveToNext(event);
       this.handleEnterInput.emit(value);
+      this.handleEnterInput.emit(event);
     }
   }
 

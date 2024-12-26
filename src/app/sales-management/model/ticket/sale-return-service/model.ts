@@ -1,9 +1,11 @@
 import { BaseMasterInfo, BaseMerchandise, BaseTicket } from '../common-model/base-entity.model';
+import { Payment } from '../common-model/payment.model';
 
 export class ReturnServiceSaleTicketCreate {
   masterInfo: MasterInfo = new MasterInfo;
   service: Service[] = [];
   electronic_bill: electronic_bill = new electronic_bill;
+  payment: Payment = new Payment;
 }
 
 export type ReturnServiceSaleTicketCreateList = BaseTicket
@@ -11,12 +13,15 @@ export type ReturnServiceSaleTicketCreateList = BaseTicket
 export const TAB_NAME = {
   SERVICE: 'd523',
   ELECTRONIC_BILL: 'm523ext',
+  PAYMENT: 'd523tt',
 };
 
 export class MasterInfo extends BaseMasterInfo {
   so_dh = '';
   dien_giai = '';
   email_nhan_key = '';
+  t_con_no = 0;
+  t_da_tra = 0;
   constructor(obj?: any) {
     super();
     Object.assign(this, obj);
