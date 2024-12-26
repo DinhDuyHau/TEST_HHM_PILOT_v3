@@ -36,6 +36,7 @@ export class InputDateComponent implements OnChanges, OnInit, AfterViewInit {
         const date_textbox: HTMLInputElement = this.input.nativeElement as HTMLInputElement;
         new DateMask(date_textbox, { mask: this.format });
         date_textbox.value = this.date_text;
+        date_textbox.setSelectionRange(0, 0);
     }
 
     public get value(): Date | null {

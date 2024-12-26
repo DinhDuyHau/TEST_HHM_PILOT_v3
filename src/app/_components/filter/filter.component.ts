@@ -65,6 +65,14 @@ export class FilterComponent implements OnInit {
     });
 
   }
+  ngAfterViewInit() {
+    // Tìm input đầu tiên và focus vào nó 
+    const firstInput = this.form.nativeElement.querySelector('input:not([readonly]):not([disabled]):not([type="date"])');
+    if (firstInput) {
+      firstInput.focus();
+      firstInput.setSelectionRange(0, 0); // Đặt con trỏ vào đầu của phần tử 
+    }
+  }
   ngOnInit(): void {
     this.isMobile = this.platform.IOS || this.platform.ANDROID;
     this.controls.forEach(control => {

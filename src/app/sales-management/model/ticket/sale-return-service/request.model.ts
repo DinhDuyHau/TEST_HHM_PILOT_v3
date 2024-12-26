@@ -3,6 +3,8 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     dien_giai = '';
     email_nhan_key = '';
     so_dh = '';
+    t_con_no = 0;
+    tien_dat_coc = 0;
     constructor(obj?: any) {
         super();
         Object.assign(this, obj);

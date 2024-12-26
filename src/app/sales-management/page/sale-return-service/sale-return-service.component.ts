@@ -20,6 +20,7 @@ import { Language } from '../common/language';
 import { ServiceOfMerchandiseService } from '../common/service.service';
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { ServiceOrderComponent } from '@app/sales-management/component/merchandise-service/service-order/service-order.component';
+import { PaymentService } from '../common/payment.service';
 
 const { SALE_SERVICE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
@@ -53,6 +54,10 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
   entity = TICKET_ENTITY.WHOLE;
   dataOrderAdded: Service[] = [];
 
+  action = '';
+  shop = '';
+
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -62,6 +67,7 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
     private ticketApiService: TicketApiService,
     private commonService: CommonService,
     private serviceOfMerchandiseService: ServiceOfMerchandiseService,
+    private paymentService: PaymentService,
   ) {
     localStorage.setItem('useGridCached', '1');
     this.saleReturnServiceService.setTicket(this.ticket);
@@ -82,6 +88,7 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
             this.mode = MODE.CREATE;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.action = 'create';
             break;
           case 'update':
             this.title = Language.content.edit;
@@ -89,6 +96,7 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
             this.disableSelectStatus = false;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.action = 'update';
             break;
           case 'view':
             this.title = Language.content.view;
@@ -110,6 +118,9 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
       if (data.key) {
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.RETURN_SERVICE, data.key).subscribe((result) => {
           if (result.result) {
+            // set cửa hàng để truyền sang payment tab
+            this.shop = (result.result as any).masterInfo.ma_cuahang;
+
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_RETURN_SERVICE.CREATE) {
               this.router.navigate(['/404']);
             }
@@ -183,6 +194,8 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
       'search-style-dialog')
       .afterClosed()
       .subscribe((orders: any) => {
+        //tính lại số tiền còn nợ
+        this.ticket.masterInfo.t_con_no = Math.abs(this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra);
         /*
         * gán dữ liệu đã add vào detail
         * để khi thực hiện mở lại dialog
@@ -253,6 +266,11 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
 
   // Submit
   onSave() {
+    // Check âm tiền nợ
+    if (this.ticket.masterInfo.t_con_no < 0) {
+      this.commonService.showMessage('Tiền nợ không được âm');
+      return;
+    }
     const message = this.saleReturnServiceService.validateTicket(this.ticket);
     if (message) {
       this.commonService.showMessage(message);
