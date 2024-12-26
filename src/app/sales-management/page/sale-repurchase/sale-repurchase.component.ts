@@ -299,6 +299,8 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
               this.merchandiseService.addNew(merchandise, this.ticket.merchandise, Merchandise);
               this.commonService.clearText2([this.tabIndex.ma_loai, this.tabIndex.ma_vt, this.tabIndex.gia_nhap_mua]);
               this.clearData();
+              this.commonService.clearText2([this.tabIndex.imei]);
+              this.commonService.focusControl2(this.tabIndex.imei);
               this.saleRepurchaseService.calcMoney();
               // this.commonService.addImeiToStorage(ma_imei);
             }
@@ -310,6 +312,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
               return;
             }
             if (!this.repurchase.ma_vt) {
+              this.commonService.showMessage('Imei không tồn tại trong hệ thống, vui lòng chọn mã hàng');
               this.invalidMerchandiseInput.ma_vt = true;
               return;
             }
@@ -343,14 +346,14 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
             this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise, Merchandise);
             this.commonService.clearText2([this.tabIndex.ma_loai, this.tabIndex.ma_vt, this.tabIndex.gia_nhap_mua]);
             this.clearData();
+            this.commonService.clearText2([this.tabIndex.imei]);
+            this.commonService.focusControl2(this.tabIndex.imei);
             this.saleRepurchaseService.calcMoney();
             // this.commonService.addImeiToStorage(ma_imei);
           }
         }
       });
     }
-    this.commonService.clearText2([this.tabIndex.imei]);
-    this.commonService.focusControl2(this.tabIndex.imei);
     this.invalid && this.commonService.showMessage(Language.content.Missing_information);
   }
   clearData() {
@@ -371,6 +374,13 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
         this.repurchase.ma_vt = result.ma_vt;
         this.repurchase.ten_vt = result.ten_vt;
         this.repurchase.dvt = result.dvt;
+
+        //get imei from input field
+        const imeiElement = document.getElementById(`${this.tabIndex.imei}`);
+        if (imeiElement) {
+          const imei = (imeiElement as HTMLInputElement).value;
+          this.onEnterImeiCode(imei);
+        }
       });
   }
 
@@ -554,6 +564,29 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
       }
       else {
         this.commonService.showMessageByName(result.message);
+      }
+    });
+  }
+
+  onEnterMerchandiseCode(event: any) {
+    const ma_vt = event;
+
+    this.saleRepurchaseService.getMerchandiseInfo(ma_vt).subscribe(result => {
+      if (result.success && result.result) {
+          const merchandise = result.result as any;
+          this.repurchase.ma_vt = merchandise.ma_vt;
+          this.repurchase.ten_vt = merchandise.ten_vt;
+          this.repurchase.dvt = merchandise.dvt;
+
+          //get imei from input field
+          const imeiElement = document.getElementById(`${this.tabIndex.imei}`);
+          if (imeiElement) {
+            const imei = (imeiElement as HTMLInputElement).value;
+            this.onEnterImeiCode(imei);
+          }
+      }
+      else {
+          this.openTypeMerchandiseDialog();
       }
     });
   }

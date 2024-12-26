@@ -3,7 +3,7 @@
     <table
       [ngClass]="{'table-main': type && type == 'main'}"
       [ngClass]="{'table-search': type && type == 'search-dialog'}">
-      <tr class="table-header sticky top-0 z-20 shadow-md">
+      <tr class="table-header sticky top-0 shadow-md">
         <th *ngIf="selectByCheckbox" class="text-center align-middle">
           <div *ngIf="selectByCheckboxAll; else noselectByCheckboxAll">
           <input

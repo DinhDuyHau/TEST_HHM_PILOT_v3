@@ -68,14 +68,11 @@
         [disabled]="true" />
       <form-input-custom
         class="box"
-        [name]="'loai_hh'"
-        [label]="getLabel('lbl_loai_hh')"
-        [disabled]="readonly"
-        [readonly]="true"
-        [invalid]="invalidMerchandiseInput.loai_hh"
-        *ngIf="!readonly"
-        [value]="repurchase.loai_hh"
-        (handleClickOpenDialog)="openSearchTypeMerchandiseDialog()" />
+        [name]="'ghi_chu'"
+        [label]="getLabel('lbl_ghi_chu')"
+        [readonly]="readonly"
+        [value]="ticket.masterInfo.dien_giai"
+        (handleChangeValue)="ticket.masterInfo.dien_giai = $event" />
       <form-select-custom
         class="box order-dynamic-1 width-full"
         [isDisable]="readonly || this.mode !== 0"
@@ -87,13 +84,15 @@
         (handleChangeValue)="onChangeTransactionType($event)" />
       <form-input-custom
         class="box"
-        name="ma_vt"
-        [label]="getLabel('lbl_ma_vt')"
-        [value]="repurchase.ma_vt"
-        [invalid]="invalidMerchandiseInput.ma_vt"
-        *ngIf="!readonly"
+        [name]="'loai_hh'"
+        [label]="getLabel('lbl_loai_hh')"
         [disabled]="readonly"
-        (handleClickOpenDialog)="openTypeMerchandiseDialog()" />
+        [readonly]="true"
+        [invalid]="invalidMerchandiseInput.loai_hh"
+        *ngIf="!readonly"
+        [value]="repurchase.loai_hh"
+        (handleClickOpenDialog)="openSearchTypeMerchandiseDialog()" />
+      <div class="d-flex gap-2 box">&nbsp;</div>
       <div class="d-flex gap-2 box">
         <form-select-custom
           *ngIf="ticket.masterInfo.fcode1 == '2'"
@@ -119,18 +118,22 @@
       </div>
       <form-input-custom
         class="box"
-        [name]="'imei'"
         [label]="getLabel('lbl_imei')"
+        name="imei"
+        [align]="'end'"
         *ngIf="!readonly"
         (handleEnterInput)="onEnterImeiCode($event)"
         [uploadImage]="true" />
       <form-input-custom
         class="box"
-        [name]="'ghi_chu'"
-        [label]="getLabel('lbl_ghi_chu')"
-        [readonly]="readonly"
-        [value]="ticket.masterInfo.dien_giai"
-        (handleChangeValue)="ticket.masterInfo.dien_giai = $event" />
+        name="ma_vt"
+        [label]="getLabel('lbl_ma_vt')"
+        [value]="repurchase.ma_vt"
+        [invalid]="invalidMerchandiseInput.ma_vt"
+        *ngIf="!readonly"
+        [disabled]="readonly"
+        (handleClickOpenDialog)="openTypeMerchandiseDialog()"
+        (handleEnterInput)="onEnterMerchandiseCode($event)" />
     </div>
     <div class="d-flex box align-items-end gap-3 mt-3 align-self-end">
       <button
