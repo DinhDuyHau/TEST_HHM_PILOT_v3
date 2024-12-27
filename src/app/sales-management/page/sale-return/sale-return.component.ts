@@ -238,9 +238,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
         map.set('tra_ncc_yn', false);
         const message = this.imeiService.GetMessageStatusImei(map, result.result[0]);
         if (message) {
-          // có message rồi hiển thị ra luôn !
-          // this.commonService.showMessage(this.imeiService.GetMessageStatusImei(map, result.result[0]));
-          this.commonService.showMessage(message);
+          this.commonService.showMessage(this.imeiService.GetMessageStatusImei(map, result.result[0]));
           return;
         }
 
