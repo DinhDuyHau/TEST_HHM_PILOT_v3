@@ -137,7 +137,7 @@
   },
   {
     "name": "tien_ban",
-    "title": "Tiền bán ra trước VAT",
+    "title": "Tiền bán ra",
     "allowFilter": true,
     "type": "number",
     "dataFormatString": "normalPrice",
@@ -147,6 +147,15 @@
   {
     "name": "tien_phi",
     "title": "Trừ chính sách",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "cl_gia",
+    "title": "CL giá thị trường",
     "allowFilter": true,
     "type": "number",
     "dataFormatString": "normalPrice",
