@@ -42,14 +42,14 @@
           [label]="'Số hóa đơn từ'"
           [value]="filters.so_ct_bd"
           (handleChangeValue)="filters.so_ct_bd = $event"
-          (handleEnterInput)="onEnter($event)"/>
+          (enterKeyPressed)="onEnter($event)"/>
         <form-input-custom
           class="flex-1"
           [name]="'so_ct_kt'"
           [label]="'Số hóa đơn đến'"
           [value]="filters.so_ct_kt"
           (handleChangeValue)="filters.so_ct_kt = $event"
-          (handleEnterInput)="onEnter($event)" />
+          (enterKeyPressed)="onEnter($event)" />
       </div>
       <div class="d-flex gap-2 box" *ngIf="isShowShop()">
         <form-input-custom
@@ -60,7 +60,7 @@
           [value]="filters.ma_cuahang"
           (handleClickOpenDialog)="openSearchShopDialog()"
           (handleChangeValue)="handleEnterShop($event)"
-          (handleEnterInput)="onEnter($event)" />
+          (enterKeyPressed)="onEnter($event)" />
         <form-input-custom
           class="flex-1"
           [name]="'ten_cuahang'"
@@ -85,7 +85,7 @@
           [value]="filters.ma_cuahang2"
           (handleClickOpenDialog)="openSearchShop2Dialog()"
           (handleChangeValue)="handleEnterShop2($event)"
-          (handleEnterInput)="onEnter($event)" />
+          (enterKeyPressed)="onEnter($event)" />
         <form-input-custom
           class="flex-1"
           [name]="'ten_cuahang2'"
@@ -111,7 +111,7 @@
           [value]="filters.ma_kh"
           (handleEnterInput)="onEnterCustomerCode($event)"
           (handleClickOpenDialog)="openSearchCustomerDialog()"
-          (handleEnterInput)="onEnter($event)" />
+          (enterKeyPressed)="onEnter($event)" />
         <form-input-custom
           class="flex-1"
           [name]="'ten_kh'"
@@ -128,7 +128,7 @@
           [value]="filters.ma_kho"
           (handleChangeValue)="onEnterWarehouseInput($event)"
           (handleClickOpenDialog)="openWarehouseDialog2('ma_kho')"
-          (handleEnterInput)="onEnter($event)" />
+          (enterKeyPressed)="onEnter($event)" />
       </div>
       <ng-template #noStockList>
         <div class="d-flex gap-2 box" *ngIf="isShowInventory()">
@@ -139,7 +139,7 @@
             [value]="filters.ma_kho"
             (handleChangeValue)="onEnterWarehouseInput($event)"
             (handleClickOpenDialog)="openWarehouseDialog('ma_kho', 'ten_kho')"
-            (handleEnterInput)="onEnter($event)" />
+            (enterKeyPressed)="onEnter($event)" />
           <form-input-custom
             class="flex-1"
             [name]="'ten_kho'"
@@ -158,7 +158,7 @@
           [value]="filters.ma_kho2"
           (handleChangeValue)="onEnterWarehouseOutput($event)"
           (handleClickOpenDialog)="openWarehouseDialog2('ma_kho2')"
-          (handleEnterInput)="onEnter($event)" />
+          (enterKeyPressed)="onEnter($event)" />
       </div>
       <ng-template #noStockList2>
         <div
@@ -177,7 +177,7 @@
                 [value]="filters.ma_kho2"
                 (handleChangeValue)="onEnterWarehouseOutput($event)"
                 (handleClickOpenDialog)="openWarehouseDialog('ma_kho2', 'ten_kho2')"
-                (handleEnterInput)="onEnter($event)" />
+                (enterKeyPressed)="onEnter($event)" />
               <form-input-custom
                 class="flex-1"
                 [name]="'ten_kho2'"
@@ -186,9 +186,9 @@
                 [readonly]="true" />
             </div>
       </ng-template>
-      
 
-      
+
+
 
       <div class="d-flex gap-2 box">
         <form-input-custom
@@ -199,7 +199,7 @@
           (handleChangeValue)="filters.ma_vt = $event"
           (handleEnterInput)="onEnterMerchandiseCode($event)"
           (handleClickOpenDialog)="openMerchandiseDialog()"
-          (handleEnterInput)="onEnter($event)" />
+          (enterKeyPressed)="onEnter($event)" />
         <form-input-custom
           class="flex-1"
           [name]="'ten_vt'"
@@ -216,7 +216,7 @@
         [label]="'Mã imei'"
         [value]="filters.ma_imei"
         (handleChangeValue)="filters.ma_imei = $event"
-        (handleEnterInput)="onEnter($event)" />
+        (enterKeyPressed)="onEnter($event)" />
       <form-select-custom
         class="flex-1"
         [label]="lbl_trang_thai"
@@ -242,7 +242,7 @@
           optionValue="status"
           [value]="filters.status2"
           (handleChangeValue)="filters.status2 = $event"
-          (handleEnterInput)="onEnter($event)" />
+          (enterKeyPressed)="onEnter($event)" />
       </div>
 
     </div>
