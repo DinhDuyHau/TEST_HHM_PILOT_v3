@@ -24,6 +24,7 @@ import { CommonService } from '@app/sales-management/page/common/common.service'
 })
 export class FormInputCustomComponent implements OnChanges, OnInit {
   @Output() handleEnterInput = new EventEmitter<any>();
+  @Output() enterKeyPressed = new EventEmitter<any>();
   @Output() handleClickSearch = new EventEmitter<any>();
   @Output() handleClickOpenDialog = new EventEmitter<any>();
   @Output() handleClickUploadImage = new EventEmitter<any>();
@@ -140,7 +141,7 @@ export class FormInputCustomComponent implements OnChanges, OnInit {
       //this.focusNext(event.target);
       //this.moveToNext(event);
       this.handleEnterInput.emit(value);
-      this.handleEnterInput.emit(event);
+      this.enterKeyPressed.emit(event);
     }
   }
 
