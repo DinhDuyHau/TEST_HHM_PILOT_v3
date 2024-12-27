@@ -729,17 +729,16 @@ export class RetailComponent implements OnInit, AfterViewInit {
     }
 
     // check tổng tiền hàng hóa với các tab: hàng hóa, dịch vụ, gói cước
-    if(this.validMoneyMerchandise()) {
+    if (this.validMoneyMerchandise()) {
       this.commonService.showMessage('Tổng tiền hàng chưa đúng, vui lòng kiểm tra lại !');
       return
     }
 
     // check tổng tiền thanh toán với tiền còn nợ và tổng tiền đã thanh toán
-    if(this.validTotalPayment()) {
+    if (this.validTotalPayment()) {
       this.commonService.showMessage('Tổng thanh toán không khớp với các hình thức thanh toán và tiền nợ !');
       return
     }
-
     //Check imei trùng trong grid chi tiết
     const mechandise_dup = [];
     const counter: { [key: string]: number } = {};
