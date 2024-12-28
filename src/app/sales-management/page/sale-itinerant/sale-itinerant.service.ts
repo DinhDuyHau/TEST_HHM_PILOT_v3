@@ -196,8 +196,8 @@ export class SaleItinerantService {
     // #endregion guarantee
 
     // #region imei
-    getImeiInStore(imei: string) {
-        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.ITINERANT);
+    getImeiInStore(imei: string, ngay_ct: Date | null = null) {
+        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.ITINERANT, ngay_ct);
     }
 
     getMerchandiseInfo(ma_vt: string) {

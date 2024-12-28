@@ -200,8 +200,8 @@ export class SaleOnlineEcommerceService {
     // #endregion guarantee
 
     // #region imei
-    getImeiInStore(imei: string, ma_kh = '') {
-        return this.imeiApiService.getImeiInStore_TMDT(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.ONLINE_ECOMMERCE, ma_kh);
+    getImeiInStore(imei: string, ma_kh = '', ngay_ct: Date | null = null) {
+        return this.imeiApiService.getImeiInStore_TMDT(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.ONLINE_ECOMMERCE, ma_kh, ngay_ct);
     }
 
     getMerchandiseInfo(ma_vt: string) {

@@ -186,8 +186,8 @@ export class SaleWithTelecomService {
   // #endregion guarantee
 
   // #region imei
-  getImeiInStore(imei: string) {
-    return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.TELECOM);
+    getImeiInStore(imei: string, ngay_ct: Date | null = null) {
+    return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.TELECOM, ngay_ct);
   }
 
   getMerchandiseInfo(ma_vt: string) {

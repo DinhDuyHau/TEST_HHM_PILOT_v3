@@ -148,8 +148,8 @@ export class SaleChangeService {
     // #endregion guarantee
 
     // #region imei
-    getImeiInStore(imei: string) {
-        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.CHANGE);
+    getImeiInStore(imei: string, ngay_ct: Date | null = null) {
+        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.CHANGE, ngay_ct);
     }
 
     getSoldInfo(imei: string) {

@@ -282,7 +282,8 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.saleChangeService.getImeiInStore(ma_imei).subscribe(result => {
+    const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+    this.saleChangeService.getImeiInStore(ma_imei, ngay_ct).subscribe(result => {
       if (result && result.success && result.result.length) {
         const merchandise = result.result[0];
         this.handleAddImei(merchandise, this.ticket.merchandise_change);
@@ -499,7 +500,8 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   handleProcessImei(ma_imei: string) {
     this.ma_imei_doi = ma_imei;
 
-    this.saleChangeService.getImeiInStore(ma_imei).subscribe(result => {
+    const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+    this.saleChangeService.getImeiInStore(ma_imei, ngay_ct).subscribe(result => {
       if (result && result.success && result.result.length) {
         const merchandise = result.result[0];
         this.handleAddImei(merchandise, this.ticket.merchandise_change);

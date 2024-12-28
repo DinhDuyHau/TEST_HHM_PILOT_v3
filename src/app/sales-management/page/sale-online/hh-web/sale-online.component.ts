@@ -379,7 +379,8 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
             return;
         }
 
-        this.saleOnlineService.getImeiInStore(ma_imei).subscribe(result => {
+        const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+        this.saleOnlineService.getImeiInStore(ma_imei, ngay_ct).subscribe(result => {
             if (result.success && result.result.length) {
                 if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise)) {
                     this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: ma_imei });
@@ -726,7 +727,8 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     handleProcessImei(ma_imei: string) {
         this.ma_imei = ma_imei;
 
-        this.saleOnlineService.getImeiInStore(this.ma_imei).subscribe(result => {
+        const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+        this.saleOnlineService.getImeiInStore(this.ma_imei, ngay_ct).subscribe(result => {
             if (result.success && result.result.length) {
                 if (this.merchandiseService.checkImeiExistMerchandise(this.ma_imei, this.ticket.merchandise)) {
                     this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: this.ma_imei });
