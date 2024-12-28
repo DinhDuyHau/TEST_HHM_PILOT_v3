@@ -75,7 +75,7 @@
     [
       {
         "name": "ck_yn",
-        "linkName": "tk",
+        "linkName": ["tk"],
         "type": "checkbox",
         "label": "Ngân hàng"
       }
@@ -93,7 +93,7 @@
     [
       {
         "name": "qt_yn",
-        "linkName": "ma_posqt",
+        "linkName": ["ma_posqt"],
         "type": "checkbox",
         "label": "Máy POS"
       }
@@ -111,7 +111,7 @@
     [
       {
         "name": "qttg_yn",
-        "linkName": "ma_pos_tg",
+        "linkName": ["ma_pos_tg", "ma_khqttg"],
         "type": "checkbox",
         "label": "Máy POSTG"
       }
@@ -140,7 +140,7 @@
     [
       {
         "name": "vdt_yn",
-        "linkName": "ma_khvdt",
+        "linkName": ["ma_khvdt"],
         "type": "checkbox",
         "label": "Thông tin ví"
       }
