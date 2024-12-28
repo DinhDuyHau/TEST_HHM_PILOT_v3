@@ -445,7 +445,7 @@
         <tr
           mat-row
           *matRowDef="let row; index as i; columns: title"
-          [ngClass]="{'bg-row_focus_color border-0.5': focusRow === i}"
+          [ngClass]="{'bg-row_focus_color border-0.5 selected-row': focusRow === i}"
           (click)="onClickRow(row, i)"
           class="h-table_row_height"></tr>
       </table>
