@@ -443,7 +443,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.retailService.getImeiInStore(ma_imei).subscribe(result => {
+    const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+    this.retailService.getImeiInStore(ma_imei, ngay_ct).subscribe(result => {
       if (result.success && result.result.length) {
         if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise)) {
           this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: ma_imei });

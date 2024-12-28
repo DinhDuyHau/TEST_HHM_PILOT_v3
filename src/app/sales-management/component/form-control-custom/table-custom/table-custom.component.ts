@@ -91,8 +91,24 @@ export class TableCustomComponent implements
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes["dataSource"]?.currentValue?.length > 0) {
-      // chỉ xử lý các phiếu điều chuyển kho
-      const ARRAY_SITE_TRANSFER = ['PR3Tran', 'ITTran', 'IPTran', 'ITNTran', 'IPNTran', 'ITTran_PXB2', 'KKTran', 'SVTran'];
+      // xử lý đổi màu phiếu chỉ định
+      const ARRAY_SITE_TRANSFER = [
+        'PR3Tran',
+        'ITTran',
+        'IPTran',
+        'ITNTran',
+        'IPNTran',
+        'ITTran_PXB2',
+        'KKTran',
+        'SVTran',
+        'SVTran_BHC',
+        'SVTran_BHW',
+        'SVTran_BHB',
+        'SVTran_BHD',
+        'SVTran_DV1',
+        'SVTran_BHK',
+        'PVTran'
+      ];
       if (ARRAY_SITE_TRANSFER.includes(this.entityName)) {
         this.dataSource = this.dataSource.map(item => ({
           ...item,

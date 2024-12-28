@@ -487,7 +487,7 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
       return;
     }
 
-    if(!imei || imei.length < 4) {
+    if (!imei || imei.length < 4) {
       this.commonService.showMessage('Imei cần ít nhất 4 ký tự để tìm kiếm');
       return;
     }
@@ -532,7 +532,7 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
           title: 'Danh sách kết quả tìm kiếm imei',
           isFilter: false
         }, 'search-style-dialog')
-          .afterClosed().subscribe( async (result) => {
+          .afterClosed().subscribe(async (result) => {
             if (result && result.ma_imei) {
               const ma_imei = result.ma_imei;
               await this.processImeiInfo(ma_imei);

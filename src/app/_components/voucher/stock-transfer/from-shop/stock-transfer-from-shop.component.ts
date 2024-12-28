@@ -207,6 +207,10 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
     }
     this.commonService.openDialog(SearchDialogComponent, { dataSource: data, componentName: SEARCH_COMPONENT_NAME.SHOP_INFO })
       .afterClosed().subscribe(result => {
+        // clear kho nhập khi chọn cửa hàng nhập
+        this.ticket.masterInfo.ma_khon = '';
+        this.ticket.masterInfo.ten_khon = '';
+
         this.ticket.masterInfo.ma_cuahang_n = result?.ma_cuahang;
         this.ticket.masterInfo.ten_cuahang_n = result?.ten_cuahang;
       });
@@ -421,6 +425,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
 
         //reset mã kho nhập
         this.ticket.masterInfo.ma_khon = '';
+        this.ticket.masterInfo.ten_khon = '';
       });
   }
 
