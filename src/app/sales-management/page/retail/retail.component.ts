@@ -443,7 +443,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.retailService.getImeiInStore(ma_imei).subscribe(result => {
+    const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+    this.retailService.getImeiInStore(ma_imei, ngay_ct).subscribe(result => {
       if (result.success && result.result.length) {
         if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise)) {
           this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: ma_imei });
@@ -729,13 +730,13 @@ export class RetailComponent implements OnInit, AfterViewInit {
     }
 
     // check tổng tiền hàng hóa với các tab: hàng hóa, dịch vụ, gói cước
-    if(this.validMoneyMerchandise()) {
+    if (this.validMoneyMerchandise()) {
       this.commonService.showMessage('Tổng tiền hàng chưa đúng, vui lòng kiểm tra lại !');
       return
     }
 
     // check tổng tiền thanh toán với tiền còn nợ và tổng tiền đã thanh toán
-    if(this.validTotalPayment()) {
+    if (this.validTotalPayment()) {
       this.commonService.showMessage('Tổng thanh toán không khớp với các hình thức thanh toán và tiền nợ !');
       return
     }
