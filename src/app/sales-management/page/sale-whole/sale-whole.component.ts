@@ -244,7 +244,8 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
         this.commonService.showMessageByNameAdvance('lblWarningExistImei', { name: '%imei', value: ma_imei });
         return;
       }
-      this.saleWholeService.getImeiInStore(ma_imei).subscribe(result => {
+      const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+      this.saleWholeService.getImeiInStore(ma_imei, ngay_ct).subscribe(result => {
         if (result.success && result.result.length) {
           const imeiInfo = result.result[0];
           const merchandise = this.merchandiseService.getMerchandiseByMaVTAndMaKho(imeiInfo.ma_vt, imeiInfo.ma_kho || '', this.ticket.merchandise);
@@ -297,8 +298,8 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
         // Lấy danh sách IMEI đã có trong `itemSelected`
         const currentIMEIs = this.itemSelected && this.itemSelected.ma_imei
           ? (Array.isArray(this.itemSelected.ma_imei)
-              ? this.itemSelected.ma_imei
-              : this.itemSelected.ma_imei.split(',').map((imei: string) => imei.trim()))
+            ? this.itemSelected.ma_imei
+            : this.itemSelected.ma_imei.split(',').map((imei: string) => imei.trim()))
           : [];
         // Lọc ra danh sách IMEI mới để kiểm tra
         const newIMEIs = value.filter((imei: any) => !currentIMEIs.includes(imei));

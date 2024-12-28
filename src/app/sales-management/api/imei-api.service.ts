@@ -34,8 +34,11 @@ export class ImeiApiService extends ApiService {
         }
         return this.get<ResultNoPaging<Imei>>(GET_ONE_URL, { ma_imei, ma_cuahang, ma_ct });
     }
-    getImeiInStore_TMDT(ma_imei: string, ma_cuahang: string, ma_ct: string, ma_kh: string): Observable<ResultNoPaging<Imei>> {
+    getImeiInStore_TMDT(ma_imei: string, ma_cuahang: string, ma_ct: string, ma_kh: string, ngay_ct: Date | null = null): Observable<ResultNoPaging<Imei>> {
         ma_imei = encodeURIComponent(ma_imei);
+        if (ngay_ct) {
+            return this.get<ResultNoPaging<Imei>>(GET_ONE_URL, { ma_imei, ma_cuahang, ma_ct, ma_kh, ngay_ct: ngay_ct.toISOString() });
+        }
         return this.get<ResultNoPaging<Imei>>(GET_ONE_URL, { ma_imei, ma_cuahang, ma_ct, ma_kh });
     }
 
