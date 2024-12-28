@@ -181,6 +181,7 @@
             <form-input-custom
               class="flex-1"
               name="email"
+              [readonly]="readonly"
               [label]="getLabel('lbl_email_key')"
               [value]="ticket.masterInfo.email_nhan_key"
               [invalid]="invalid"
@@ -357,9 +358,14 @@
             [entity]="entity"
             class="text-base"
             [voucherId]="ticket.masterInfo.stt_rec" />
-          <div class="btn-responsive btn-in-file">
+          <!-- <div class="btn-responsive btn-in-file">
             <span>{{ getLabel('btnPrint') }}</span>
-          </div>
+          </div> -->
+
+          <app-print
+          [voucherId]="this.ticket.masterInfo.stt_rec"
+          [entityName]="this.entity"/>
+
           <div class="btn-responsive btn-cancel" (click)="onCancel()">
             {{ cancelButtonTitle }}
           </div>
@@ -369,6 +375,11 @@
             *ngIf="!readonly">
             {{ submitButtonTitle }}
           </button>
+          <app-send-email
+          *ngIf="this.mode == 2"
+          [voucherId]="this.ticket.masterInfo.stt_rec"
+          [email]="this.ticket.masterInfo.email_nhan_key"
+          [status]="this.ticket.masterInfo.status"/>
         </div>
       </div>
     </div>

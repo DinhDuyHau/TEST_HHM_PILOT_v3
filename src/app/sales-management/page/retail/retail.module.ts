@@ -21,7 +21,8 @@ import { PackageForImeiModule } from '@app/sales-management/component/merchandis
 import { DeliveryInfomationModule } from '@app/sales-management/component/delivery/infomation/delivery-infomation.module';
 import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
-
+import { SendEmailModule } from '@app/sales-management/component/send-email/send-email.module';
+import { PrintModule } from '@app/sales-management/component/print/print.module';
 
 @NgModule({
     imports: [
@@ -45,7 +46,9 @@ import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher
         PackageForImeiModule,
         DeliveryInfomationModule,
         NavigationVoucheModule,
-        VoucherInfoHeaderModule
+        VoucherInfoHeaderModule,
+        SendEmailModule,
+        PrintModule
     ],
     declarations: [
         RetailComponent

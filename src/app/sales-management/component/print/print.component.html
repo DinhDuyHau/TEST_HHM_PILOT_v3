@@ -1,0 +1,14 @@
+<div
+  class="dropdown-container"
+  tabindex="0"
+  (click)="toggleOpenOptionInFile()">
+  <button class="btn-responsive btn-in-file">In</button>
+  <div class="print_options" *ngIf="isOnpenInFile">
+    <div
+      class="print_option"
+      *ngFor="let option_report of menu_report"
+      (click)="onClickInvoicePrint(option_report)">
+      {{ option_report.name }}
+    </div>
+  </div>
+</div>

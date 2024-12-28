@@ -740,7 +740,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
       this.commonService.showMessage('Tổng thanh toán không khớp với các hình thức thanh toán và tiền nợ !');
       return
     }
-
     //Check imei trùng trong grid chi tiết
     const mechandise_dup = [];
     const counter: { [key: string]: number } = {};
