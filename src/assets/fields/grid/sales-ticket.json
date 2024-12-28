@@ -34,7 +34,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -177,7 +179,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -324,7 +328,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -467,7 +473,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -601,7 +609,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -748,7 +758,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -891,7 +903,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1034,7 +1048,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1245,7 +1261,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1309,7 +1327,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1373,7 +1393,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1516,7 +1538,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1589,7 +1613,9 @@
         },
         {
             "name": "Dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1653,7 +1679,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1710,7 +1738,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1849,7 +1879,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1916,7 +1948,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1980,7 +2014,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
