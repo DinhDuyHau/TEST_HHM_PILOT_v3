@@ -321,3 +321,7 @@
     }
   }
 }
+.selected-row > td {
+  font-weight: bold !important;
+  font-size: calc(100% + 2px) !important;
+}
