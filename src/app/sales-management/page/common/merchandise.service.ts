@@ -201,20 +201,28 @@ export class MerchandiseService {
         (discountForMerchandise08 as any).forEach((discount: any) => {
             if (discount.details) {
                 discount.details.forEach((detail: any) => {
-                    const { ma_dv } = detail;
+                    const { ma_dv, tien_ck, ma_imei } = detail;
                     const result = (serviceUpdate as any[]).filter((service: any) => this.compareMerchandiseCode(service.ma_dv, ma_dv) && !service.km_yn);
 
                     // Tổng tiền dịch vụ của phiếu có trong chiết khấu
                     const t_tien = result.map(e => e.gia_ban * e.so_luong).reduce((pre: any, cur: any) => pre + cur, 0);
                     let total = 0;
                     result.forEach((e: Service, index) => {
-                        if (index === serviceUpdate.length - 1) {
-                            e.tien_ck += detail.tien_ck - total;
-                        } else {
-                            const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
-                            e.tien_ck += money;
-                            total += money;
+                        // kiểm tra đúng imei và ma_dv thì gán tien_ck
+                        if(e.ma_imei.trim() == ma_imei.trim() && e.ma_dv.trim() == ma_dv.trim()) {
+                          e.gia_ck -= tien_ck ? tien_ck : 0;
+                          e.tien_ck += tien_ck ? tien_ck : 0;
                         }
+                        /**
+                         * Tính phân bổ chưa đúng nên tạm thời bỏ
+                         */
+                        // if (index === serviceUpdate.length - 1) {
+                        //     e.tien_ck += detail.tien_ck - total;
+                        // } else {
+                        //     const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
+                        //     e.tien_ck += money;
+                        //     total += money;
+                        // }
                     });
                 });
             }
@@ -753,20 +761,28 @@ export class MerchandiseService {
         (discountForMerchandise08 as any).forEach((discount: any) => {
             if (discount.details) {
                 discount.details.forEach((detail: any) => {
-                    const { ma_dv } = detail;
+                    const { ma_dv, tien_ck, ma_imei } = detail;
                     const result = (serviceUpdate as any[]).filter((service: any) => this.compareMerchandiseCode(service.ma_dv, ma_dv) && !service.km_yn);
 
                     // Tổng tiền dịch vụ của phiếu có trong chiết khấu
                     const t_tien = result.map(e => e.gia_ban * e.so_luong).reduce((pre: any, cur: any) => pre + cur, 0);
                     let total = 0;
                     result.forEach((e: Service, index) => {
-                        if (index === serviceUpdate.length - 1) {
-                            e.tien_ck += detail.tien_ck - total;
-                        } else {
-                            const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
-                            e.tien_ck += money;
-                            total += money;
+                        // kiểm tra đúng imei và ma_dv thì gán tien_ck
+                        if(e.ma_imei.trim() == ma_imei.trim() && e.ma_dv.trim() == ma_dv.trim()) {
+                          e.gia_ck -= tien_ck ? tien_ck : 0;
+                          e.tien_ck += tien_ck ? tien_ck : 0;
                         }
+                        /**
+                        * Tính phân bổ chưa đúng nên tạm thời bỏ
+                        */
+                        // if (index === serviceUpdate.length - 1) {
+                        //     e.tien_ck += detail.tien_ck - total;
+                        // } else {
+                        //     const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
+                        //     e.tien_ck += money;
+                        //     total += money;
+                        // }
                     });
                 });
             }
@@ -1161,20 +1177,28 @@ export class MerchandiseService {
         (discountForMerchandise08 as any).forEach((discount: any) => {
             if (discount.details) {
                 discount.details.forEach((detail: any) => {
-                    const { ma_dv } = detail;
+                    const { ma_dv, tien_ck, ma_imei } = detail;
                     const result = (serviceUpdate as any[]).filter((service: any) => this.compareMerchandiseCode(service.ma_dv, ma_dv) && !service.km_yn);
 
                     // Tổng tiền dịch vụ của phiếu có trong chiết khấu
                     const t_tien = result.map(e => e.gia_ban * e.so_luong).reduce((pre: any, cur: any) => pre + cur, 0);
                     let total = 0;
                     result.forEach((e: Service, index) => {
-                        if (index === serviceUpdate.length - 1) {
-                            e.tien_ck += detail.tien_ck - total;
-                        } else {
-                            const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
-                            e.tien_ck += money;
-                            total += money;
+                        // kiểm tra đúng imei và ma_dv thì gán tien_ck
+                        if(e.ma_imei.trim() == ma_imei.trim() && e.ma_dv.trim() == ma_dv.trim()) {
+                          e.gia_ck -= tien_ck ? tien_ck : 0;
+                          e.tien_ck += tien_ck ? tien_ck : 0;
                         }
+                        /**
+                        * Tính phân bổ chưa đúng nên tạm thời bỏ
+                        */
+                        // if (index === serviceUpdate.length - 1) {
+                        //     e.tien_ck += detail.tien_ck - total;
+                        // } else {
+                        //     const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
+                        //     e.tien_ck += money;
+                        //     total += money;
+                        // }
                     });
                 });
             }
