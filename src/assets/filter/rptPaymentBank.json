@@ -104,7 +104,7 @@
         "isLookup": "true",
         "control": "dmmaypos",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_pos"],
+        "reference": ["ma_posqt"],
         "isChoose": true
       }
     ],
