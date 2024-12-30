@@ -99,7 +99,7 @@
             [label]="getLabel('lbl_ma_tt')"
             #ma_tt
             name="ma_tt"
-            [disabled]="disabled"
+            [disabled]="true || disabled"
             [value]="f['ma_tt'].value"
             (handleChange)="handleInputChange('ma_tt', $event)"
             (handleEnter)="onEnter($event)"
@@ -150,7 +150,7 @@
             [label]="getLabel('lbl_ma_ncc')"
             #ma_kh
             name="ma_kh"
-            [disabled]="disabled"
+            [disabled]="true || disabled"
             [value]="f['ma_kh'].value"
             [invalid]="submitted && f['ma_kh'].errors != null"
             (handleChange)="handleInputChange('ma_kh', $event)"
@@ -176,7 +176,7 @@
             [label]="getLabel('lbl_so_ct0')"
             class="flex-1"
             name="so_ct0"
-            [disabled]="disabled"
+            [disabled]="true || disabled"
             [dataFormatString]="'upperCaseFormat'"
             type="text"
             [value]="extend.so_ct0?.trim()"
@@ -193,7 +193,8 @@
             [value]="extend.ngay_ct0"
             [dataFormatString]="'datetimeFormat'"
             (handleChange)="extend.ngay_ct0 = $event"
-            (handleEnter)="onEnter($event)"></app-input-custom-v2>
+            (handleEnter)="onEnter($event)"
+            [disabled]="true || disabled"></app-input-custom-v2>
         </div>
       </div>
       <div class="flex gap-2">
@@ -287,15 +288,15 @@
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-0 md:px-2 gap-x-10 gap-y-3 pb-2">
           <div class="flex gap-2">
             <app-input-custom-v2
+            #so_ct0
+            [label]="getLabel('lbl_so_ct0')"
             class="flex-1"
-            [label]="getLabel('lbl_ma_so_thue')"
-            #ma_so_thue0
-            name="ma_so_thue"
-            [disabled]="disabled"
-            [value]="extend.ma_so_thue?.trim()"
-            (handleChange)="
-              extend.ma_so_thue = $event; handleChangeTaxCode($event)
-            "
+            name="so_ct0"
+            [disabled]="true || disabled"
+            [dataFormatString]="'upperCaseFormat'"
+            type="text"
+            [value]="extend.so_ct0?.trim()"
+            (handleChange)="extend.so_ct0 = $event"
             (handleEnter)="onEnter($event)"></app-input-custom-v2>
           </div>
           <div class="flex gap-2">
@@ -304,7 +305,7 @@
               [label]="getLabel('lbl_so_seri0')"
               class="flex-1"
               name="so_seri0"
-              [disabled]="disabled"
+              [disabled]="true || disabled"
               [dataFormatString]="'upperCaseFormat'"
               type="text"
               [value]="extend.so_seri0?.trim()"
@@ -313,13 +314,39 @@
           </div>
           <div class="flex gap-2">
             <app-input-custom-v2
+            [label]="getLabel('lbl_ngay_ct0')"
+            class="flex-1"
+            type="date"
+            name="ngay_ct0"
+            type="date"
+            [value]="extend.ngay_ct0"
+            [dataFormatString]="'datetimeFormat'"
+            (handleChange)="extend.ngay_ct0 = $event"
+            (handleEnter)="onEnter($event)"
+            [disabled]="true || disabled"></app-input-custom-v2>
+          </div>
+          <div class="flex gap-2">
+            <app-input-custom-v2
+            class="flex-1"
+            [label]="getLabel('lbl_ma_so_thue')"
+            #ma_so_thue0
+            name="ma_so_thue"
+            [disabled]="true || disabled"
+            [value]="extend.ma_so_thue?.trim()"
+            (handleChange)="
+              extend.ma_so_thue = $event; handleChangeTaxCode($event)
+            "
+            (handleEnter)="onEnter($event)"></app-input-custom-v2>
+          </div>
+          <div class="flex-1 col-span-full md:col-span-2">
+            <app-input-custom-v2
               class="flex-1"
               [label]="getLabel('lbl_ten_ncc')"
               #ten_ncc0
               name="ten_kh"
               [value]="extend.ten_kh"
               (handleChange)="extend.ten_kh = $event"
-              [disabled]="disabled"></app-input-custom-v2>
+              [disabled]="true || disabled"></app-input-custom-v2>
           </div>
           <div class="flex-1 col-span-full md:col-span-3">
             <app-input-custom-v2
