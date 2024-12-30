@@ -292,7 +292,7 @@
             [label]="getLabel('lbl_so_ct0')"
             class="flex-1"
             name="so_ct0"
-            [disabled]="disabled"
+            [disabled]="true || disabled"
             [dataFormatString]="'upperCaseFormat'"
             type="text"
             [value]="extend.so_ct0?.trim()"
@@ -305,7 +305,7 @@
               [label]="getLabel('lbl_so_seri0')"
               class="flex-1"
               name="so_seri0"
-              [disabled]="disabled"
+              [disabled]="true || disabled"
               [dataFormatString]="'upperCaseFormat'"
               type="text"
               [value]="extend.so_seri0?.trim()"
@@ -323,7 +323,7 @@
             [dataFormatString]="'datetimeFormat'"
             (handleChange)="extend.ngay_ct0 = $event"
             (handleEnter)="onEnter($event)"
-            [disabled]="disabled"></app-input-custom-v2>
+            [disabled]="true || disabled"></app-input-custom-v2>
           </div>
           <div class="flex gap-2">
             <app-input-custom-v2
@@ -331,7 +331,7 @@
             [label]="getLabel('lbl_ma_so_thue')"
             #ma_so_thue0
             name="ma_so_thue"
-            [disabled]="disabled"
+            [disabled]="true || disabled"
             [value]="extend.ma_so_thue?.trim()"
             (handleChange)="
               extend.ma_so_thue = $event; handleChangeTaxCode($event)
@@ -346,7 +346,7 @@
               name="ten_kh"
               [value]="extend.ten_kh"
               (handleChange)="extend.ten_kh = $event"
-              [disabled]="disabled"></app-input-custom-v2>
+              [disabled]="true || disabled"></app-input-custom-v2>
           </div>
           <div class="flex-1 col-span-full md:col-span-3">
             <app-input-custom-v2
