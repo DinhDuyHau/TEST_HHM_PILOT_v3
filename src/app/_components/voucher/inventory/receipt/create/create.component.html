@@ -246,6 +246,7 @@
             [codeScanner]="true"
             type="text"
             (handleChange)="this.imei = $event"
+            (handleFocus)="handleFocus($event)"
             (handleScanner)="scanORCode($event)"
             (handleEnter)="onEnterIMEI($event)"></app-input-custom-v2>
         </div>

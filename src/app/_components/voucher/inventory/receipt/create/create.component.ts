@@ -64,6 +64,7 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
   disabled = false;
   isDisabled = false;
   readonly = false;
+  isFocused = false;
 
   mode = 1;
   submitButtonTitle = '';
@@ -450,7 +451,18 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
 
   scanORCode(imei: string) {
     if (imei)
-      this.addIMEI(imei);
+      if (!checkValidImei(imei)) {
+        this.commonService.showMessageByName('lblWarningImeiInputInvalid');
+        return;
+      }
+    this.addIMEI(imei);
+  }
+
+  handleFocus(event: any) {
+    if (!this.isFocused) {
+      this.commonService.showMessage('Vui lòng đảm bảo rằng Unikey đang ở chế độ gõ tiếng Anh trước khi quét mã IMEI.');
+      this.isFocused = true
+    }
   }
 
 
