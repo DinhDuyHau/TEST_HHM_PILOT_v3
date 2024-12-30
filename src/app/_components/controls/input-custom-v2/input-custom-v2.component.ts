@@ -32,6 +32,7 @@ export class InputCustomV2Component implements OnChanges, OnInit {
   @Output() handleUploadImage = new EventEmitter<any>();
   @Output() handleUViewPhoto = new EventEmitter<any>();
   @Output() handleChangeResponse: EventEmitter<any> = new EventEmitter<any>();
+  @Output() handleFocus = new EventEmitter<any>();
 
   @Input() align!: string;
   @Input() value: any;
@@ -248,6 +249,9 @@ export class InputCustomV2Component implements OnChanges, OnInit {
     }
   }
   onFocus(inputElement: any) {
+    if (inputElement.id == 'imei') {
+      this.handleFocus.emit(inputElement.id);
+    }
     if (this.value == 0) {
       this.renderer.selectRootElement(inputElement).select();
     }

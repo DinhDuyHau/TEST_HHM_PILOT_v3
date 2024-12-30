@@ -345,6 +345,11 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
       this.commonService.showMessageByName('lblWarningLackInformation');
       return;
     }
+    //Kiểm tra ma_phi có tồn tại không
+    if (this.data.details[0].data.find(item => item == "")) {
+      this.commonService.showMessageByName('not_exist_ma_phi');
+      return;
+    }
     if (this.data.details.length == 0 || this.data.details[0].data.length == 0) {
       this.commonService.showMessageByName('lblWarningLackDetail');
       return;
