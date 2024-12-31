@@ -217,6 +217,9 @@ export class SaleReturnOnlineService {
         this.ticket.masterInfo.t_thue_nt = Math.round(merchandiseTax) + serviceTaxMoney;
         this.ticket.masterInfo.t_tt_nt = Math.round(totalMoney + serviceTotalMoney);
 
+        // tiền nợ
+        this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra;
+
         this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);
     }
 
