@@ -40,6 +40,7 @@ import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '@app/sales-managem
 import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { Customer } from '@app/_components/category/customer/customer.model';
+import { ASMService } from '@app/_components/lookup/asm/asm.service';
 
 @Component({
   selector: 'app-create',
@@ -76,6 +77,8 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
   entity = VOUCHER_TYPE.EVENT_GIFT.sysid;
   isDisabled = false;
   readonly = false;
+  ten_nvbh = ''; // ten_asm
+  duyet_yn = false; // dùng để kiểm tra xem có cần chọn asm duyệt hay ko
 
   override gridType = GridType.GridDetail;
   actionButtons = [button.DeleteButton];
@@ -85,6 +88,7 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
     private route: ActivatedRoute,
     private router: Router,
     public customerService: CustomerService,
+    public asmService: ASMService,
     public departmentService: DepartmentService,
     public transactionService: TransactionService,
     public levelService: LevelService,
@@ -192,6 +196,8 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
         t_tien_nt: [this.data.masterInfo.t_tien_nt, Validators.required],
         ma_sukien: [this.ma_sukien],
         ten_sukien: [this.ten_sukien],
+        ma_nvbh: [this.data.masterInfo.fcode3],
+        ten_nvbh: [this.ten_nvbh],
         imei: [this.imei],
         detail: [this.data.details || [], Validators.required],
       });
@@ -284,6 +290,8 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
           t_tien_nt: [this.data.masterInfo.t_tien_nt, Validators.required],
           ma_sukien: [this.ma_sukien],
           ten_sukien: [this.ten_sukien],
+          ma_nvbh: [this.data.masterInfo.fcode3],
+          ten_nvbh: [this.ten_nvbh],
           imei: [this.imei],
           detail: [this.data.details || [], Validators.required],
         });
@@ -320,6 +328,8 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
       t_tien_nt: [this.data.masterInfo.t_tien_nt, Validators.required],
       ma_sukien: [this.ma_sukien],
       ten_sukien: [this.ten_sukien],
+      ma_nvbh: [this.data.masterInfo.fcode3],
+      ten_nvbh: [this.ten_nvbh],
       imei: [this.imei],
       detail: [this.data.details || [], Validators.required],
     });
@@ -355,6 +365,10 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
       this.commonService.showMessageByName('lblWarningLackDetail');
       return;
     }
+    if(this.duyet_yn && !this.data.masterInfo.fcode3) {
+      this.commonService.showMessage('Cần chọn ASM duyệt trước khi lưu');
+      return;
+    }
     this.loading = true;
     this.isDisabled = true;
     if (this.mode == MODE.UPDATE) {
@@ -385,6 +399,17 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
       });
     }
   }
+  handleInputChangeASM($event: any): void {
+    if (typeof $event !== 'string') {
+      $event = $event.target.value;
+    }
+    this.f['ma_nvbh'].setValue($event);
+    this.data.masterInfo.fcode3 = $event;
+
+    this.data.details[0].data.forEach((item: any) => {
+      item.ma_td3 = $event;
+    });
+  }
   handleInputChange(controlName: string, $event: any): void {
     if (typeof $event !== 'string') {
       $event = $event.target.value;
@@ -398,6 +423,9 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
       this.data.masterInfo[item.control] = item.value;
       if (this.f[item.control]) {
         this.f[item.control].setValue(item.value);
+      }
+      if(item.control == 'duyet_yn') {
+        this.duyet_yn = item.value;
       }
       if (item.control == 'ma_sukien') {
         this.eventService.getEventGiveAwayDetail(this.ma_sukien).subscribe((res) => {
@@ -451,7 +479,7 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
   }
 
   // #endregion upload image
-  onEnter(event: any) {
+  onEnterCustomer(event: any) {
     event.preventDefault();
     let ma_kh = event.target.value;
 
@@ -467,12 +495,27 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
     });
   }
 
+  onEnter(event: any) {
+    event.preventDefault(); // Ngăn chặn hành động mặc định của nút Enter (submit form)
+    const form = this.el.nativeElement.closest('form');
+    const inputs = this.form.nativeElement.querySelectorAll('input:not([readonly])');
+    for (let i = 0; i < inputs.length; i++) {
+      if (inputs[i] === event.target) {
+        if (i < inputs.length - 1) {
+          inputs[i + 1].focus(); // Focus vào phần tử tiếp theo
+          break;
+        }
+        else {
+          this.btnSubmit.nativeElement.focus();
+        }
+      }
+    }
+  }
+
   openAddCustomerDialog(ma_kh = ''): void {
     this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh }, 'fullscreen-dialog')
       .afterClosed()
       .subscribe((customer: Customer) => {
-        console.log(customer);
-
         this.data.masterInfo.ma_kh = customer.ma_kh || '';
         this.data.masterInfo.ten_kh = customer.ten_kh || '';
       });

@@ -1,0 +1,43 @@
+[
+  {
+    "name": "choose",
+    "title": "Chọn",
+    "width": 80,
+    "type": "select",
+    "hidden": true
+  },
+  {
+    "name": "ma_nvbh",
+    "title": "Mã ASM",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_nvbh",
+    "title": "Tên ASM",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 380
+  },
+  {
+    "name": "ma_bp",
+    "title": "Mã bộ phận",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 380
+  },
+  {
+    "name": "ma_cuahang",
+    "title": "Mã cửa hàng",
+    "isLockingColumn": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 380
+  }
+]
