@@ -25,14 +25,6 @@
     "width": 380
   },
   {
-    "name": "ma_bp",
-    "title": "Mã bộ phận",
-    "isLockingColumn": true,
-    "allowSorting": true,
-    "allowFilter": true,
-    "width": 380
-  },
-  {
     "name": "ma_cuahang",
     "title": "Mã cửa hàng",
     "isLockingColumn": true,
