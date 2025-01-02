@@ -156,7 +156,7 @@
             (handleEnter)="onEnterIMEI($event)"></app-input-custom-v2>
         </div>
       </div>
-      <div class="d-flex gap-2 box">
+      <div *ngIf="this.duyet_yn" class="d-flex gap-2 box">
         <div class="flex basis-1/3">
           <app-input-custom-v2
             class="flex-1"
