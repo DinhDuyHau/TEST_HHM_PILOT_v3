@@ -56,12 +56,11 @@ export class ASMService implements IGridService<ASM>{
       });
     }
     return this.http.get<Result<ASM>>(environment.apiUrl +
-      `/employee/get_list_asm`, {
+      `/employee/get_list_approver`, {
         params: {
           ma_nvbh: ma_nvbh,
           page_index: (page.pageIndex + 1).toString(),
-          page_size: page.pageSize.toString(),
-          name: 'DUYETTANG'
+          page_size: page.pageSize.toString()
         }
       }).pipe();
   }
