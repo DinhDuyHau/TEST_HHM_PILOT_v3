@@ -60,7 +60,8 @@ export class ASMService implements IGridService<ASM>{
         params: {
           ma_nvbh: ma_nvbh,
           page_index: (page.pageIndex + 1).toString(),
-          page_size: page.pageSize.toString()
+          page_size: page.pageSize.toString(),
+          name: 'DUYETTANG'
         }
       }).pipe();
   }
