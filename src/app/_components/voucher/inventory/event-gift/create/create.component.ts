@@ -210,6 +210,9 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
       });
       this.stockService.setItemFilter([{ name: 'ma_cuahang', value: this.data.masterInfo.ma_cuahang }, { name: 'ma_loai', value: 'HM' }]);
       this.dataSource = new MatTableDataSource<ReceiptDetail>(this.data.details[0].data);
+      if(this.data.masterInfo.fcode3) {
+        this.duyet_yn = true;
+      }
     }));
   }
   ngOnInit() {
