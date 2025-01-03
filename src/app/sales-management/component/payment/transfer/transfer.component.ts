@@ -48,6 +48,13 @@ export class TransferComponent implements OnInit {
       },
     ] as any;
     this.columns = col;
+
+    // Gán index cho mỗi phần tử trong 'detail' khi khởi tạo
+    this.data.transfer.detail = this.data.transfer.detail.map((item, idx) => {
+      item.index = idx; // Gán chỉ mục mới dựa trên vị trí trong mảng
+      return item;
+    });
+
     this.dataSource = this.data.transfer.detail;
 
     //set tiền còn nợ khi mở form
@@ -65,6 +72,9 @@ export class TransferComponent implements OnInit {
       return;
     }
     if (this.chuyen_khoan.ten_ngan_hang.trim() !== '' && this.chuyen_khoan.tien) {
+      // Gắn thêm index vào chuyen_khoan
+      this.chuyen_khoan.index = this.data.transfer.detail.length;
+
       this.data.transfer.detail = [...this.data.transfer.detail, this.chuyen_khoan];
       this.data.transfer.tien += this.chuyen_khoan.tien;
       this.dataSource = this.data.transfer.detail;
@@ -74,10 +84,16 @@ export class TransferComponent implements OnInit {
       this.commonService.showMessage("Ngân hàng chuyển khoản và số tiền không được để trống")
     }
   }
-  onDeleteItem(event: { item: any }) {
-    this.data.transfer.detail = this.data.transfer.detail.filter((x => x.tk_nh_nhan != event.item.tk_nh_nhan && x.ten_ngan_hang != event.item.ten_ngan_hang));
-    this.data.transfer.tien -= event.item.tien;
-    this.dataSource = this.data.transfer.detail;
+  // onDeleteItem(event: { item: any }) {
+  //   this.data.transfer.detail = this.data.transfer.detail.filter((x => x.tk_nh_nhan != event.item.tk_nh_nhan && x.ten_ngan_hang != event.item.ten_ngan_hang));
+  //   this.data.transfer.tien -= event.item.tien;
+  //   this.dataSource = this.data.transfer.detail;
+  // }
+  onDeleteItem(event: any) {
+    const index = this.data.transfer.detail.findIndex(x => x.index === event.item.index);
+    this.data.transfer.tien -= this.data.transfer.detail[index].tien;
+    this.data.transfer.detail.splice(index, 1);
+    this.dataSource = [...this.data.transfer.detail];
   }
   onCancel() {
     this.dialogRef.close();
