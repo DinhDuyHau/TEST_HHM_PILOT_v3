@@ -260,6 +260,9 @@ export class CommonService {
         masterInfoNew.ngay_ct = getDateFormat(new Date(masterInfoNew.ngay_ct));
         masterInfoNew.ngay_lct = masterInfoNew.ngay_ct;
         masterInfoNew.s4 = masterInfoNew.t_tien_ban;
+        masterInfoNew.so_dh_vc = masterInfoNew.so_dh_vc || '';
+        masterInfoNew.ma_nvvc = masterInfoNew.ma_nvvc || '';
+        masterInfoNew.ma_van_don = masterInfoNew.ma_van_don || '';
 
         Object.keys(masterInfoNew).forEach(key => {
             if (masterInfoNew[key] === undefined) {

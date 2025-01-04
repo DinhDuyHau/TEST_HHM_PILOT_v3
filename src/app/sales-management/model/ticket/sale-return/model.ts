@@ -31,6 +31,9 @@ export class MasterInfo extends BaseMasterInfo {
   t_da_tra = 0;
   stt_rec_hd = '';
   tra_lai_cod = false;
+  so_dh_vc = ''; // mã đơn hàng
+  ma_nvvc = ''; // mã đơn vị vận chuyển
+  ma_van_don = ''; // mã vận đơn
 
   constructor(obj?: any) {
     super();
@@ -65,6 +68,9 @@ export class Merchandise extends BaseMerchandise {
   email_nhan_key = '';
   gia_tra_lai = 0;
   s6 = 0;
+  gc_td1 = '';
+  ma_td1 = '';
+  gc_td2 = '';
 
   constructor(obj?: any) {
     super();

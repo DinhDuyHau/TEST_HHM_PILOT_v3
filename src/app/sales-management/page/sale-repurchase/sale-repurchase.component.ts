@@ -386,8 +386,8 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
 
   openSearchTypeMerchandiseDialog() {
     this.commonService.openDialog(SearchDialogComponent, {
-      keyword: this.ticket.masterInfo.ma_cuahang,
-      componentName: SEARCH_COMPONENT_NAME.REPURCHASE_TYPE_INVENTORY
+      // componentName: SEARCH_COMPONENT_NAME.REPURCHASE_TYPE_INVENTORY
+      componentName: SEARCH_COMPONENT_NAME.REPURCHASE_GROUP_INVENTORY
     })
       .afterClosed().subscribe(result => {
         if (result) {
@@ -395,7 +395,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
           this.repurchase.ma_loai = result.ma_loai;
           this.ticketApiService.getStocks2(TICKET_ENTITY.REPURCHASE, {
             ma_cuahang: this.ticket.masterInfo.ma_cuahang,
-            ma_nh: result.ma_loai
+            ma_nh: result.ma_nh
           }).subscribe(result => {
             if (result.success) {
               const { ma_kho } = result.result as any;

@@ -628,6 +628,9 @@ export class MerchandiseService {
             merchandise.thue_nt = merchandise.tien_thue;
             merchandise.tt = merchandise.thanh_toan;
             merchandise.tt_nt = merchandise.thanh_toan;
+            merchandise.gc_td1 = merchandise.gc_td1 || '';
+            merchandise.ma_td1 = merchandise.ma_td1 || '';
+            merchandise.gc_td2 = merchandise.gc_td2 || '';
 
             //
 

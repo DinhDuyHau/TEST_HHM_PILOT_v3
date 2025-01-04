@@ -70,7 +70,8 @@
     "isLockingColumn": true,
     "allowFilter": true,
     "width": 120,
-    "dataFormatString": "upperCaseFormat"
+    "dataFormatString": "upperCaseFormat",
+    "link": true
   },
   {
     "name": "ngay_ct",
