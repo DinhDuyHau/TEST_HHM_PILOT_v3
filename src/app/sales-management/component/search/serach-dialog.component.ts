@@ -35,7 +35,8 @@ const {
   EMPLOYEE_SEARCH,
   IMEI_SEARCH_SALES,
   REASON_SEARCH,
-  TELESALE_SEARCH
+  TELESALE_SEARCH,
+  GROUP_INVENTORY
 } = require('@assets/fields/grid/sales-fields-table.json');
 
 const { STOCK_LIST, SHOP_INFO } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
@@ -189,6 +190,10 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.value = `%${this.data.keyword}%`;
         this.defaultFilters = [filter];
         break;
+      case SEARCH_COMPONENT_NAME.REPURCHASE_GROUP_INVENTORY:
+        this.columns = GROUP_INVENTORY as any;
+        this.defaultFilters = [filter];
+        break;
       case SEARCH_COMPONENT_NAME.WAREHOUSE:
         this.columns = WAREHOUSE_LIST as any;
         filter.name = 'ma_vt';
@@ -328,6 +333,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return this.merchandiseApiService.getManyTypeMerchadise(this.filters);
       case SEARCH_COMPONENT_NAME.REPURCHASE_TYPE_INVENTORY:
         return this.merchandiseApiService.getManyTypeMerchadiseByStore(this.defaultFilters);
+      case SEARCH_COMPONENT_NAME.REPURCHASE_GROUP_INVENTORY:
+        return this.merchandiseApiService.getGroupStock(this.defaultFilters);
       case SEARCH_COMPONENT_NAME.WAREHOUSE:
         return this.merchandiseApiService.getManyWarehouse(this.filters);
       case SEARCH_COMPONENT_NAME.INVOICE:
@@ -532,6 +539,7 @@ export const SEARCH_COMPONENT_NAME = {
   REASON: 26,
   IMEI_SEARCH_SALES: 27,
   TELESALE_SEARCH: 28,
-  REPURCHASE_TYPE_INVENTORY: 29
+  REPURCHASE_TYPE_INVENTORY: 29,
+  REPURCHASE_GROUP_INVENTORY: 30
 };
 
