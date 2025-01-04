@@ -1,5 +1,6 @@
 export const environment = {
     production: true,
+    appVersion: '1.0.1',
 
     /* URL HỆ THỐNG TEST */
     apiUrl: 'https://test-hhm-ketnoi.genbyte.net',

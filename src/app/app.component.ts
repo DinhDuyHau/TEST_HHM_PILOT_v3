@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { MessagingService } from './_services/message.service';
 import { slideInOutAnimation } from './_animation/slide-in-out.animation';
 import { Notification } from './_components/_notification/notification.model';
+import { environment } from '@environments/environment.prod';
+import { TicketApiService } from './sales-management/api/ticket-api.service';
+import { ResultNoPaging } from './_models';
 @Component({ selector: 'app-root', templateUrl: 'app.component.html', animations: [slideInOutAnimation], })
 export class AppComponent {
     notification: Notification = {
@@ -11,13 +14,18 @@ export class AppComponent {
         notification_id: 1
     };
     animationState = 'out'; // Ban đầu ẩn
+	  appVersion: string = environment.appVersion;
 
-    constructor(private messagingService: MessagingService) {
+    constructor(
+        private messagingService: MessagingService,
+        private ticketApiService: TicketApiService
+    ) {
         // const app = initializeApp(environment.firebaseConfig);
     }
     ngOnInit() {
         // this.messagingService.requestPermission();
         this.messagingService.receiveMessage((message: any) => this.showMessage(message));
+        this.checkVersionContinuously();
     }
 
     showMessage(message: any) {
@@ -39,5 +47,30 @@ export class AppComponent {
 
     onClickCancelNotification() {
         this.animationState = 'out';
+    }
+
+    /**
+     * Hàm để lấy phiên bản từ DB
+     * sau đó kiểm tra với FE nếu đã có phiên bản mới
+     * thì tự động reload ko cahce. Kiểm tra 1 phút 1 lần
+     */
+    private checkVersionContinuously() {
+        setInterval(() => {
+            this.ticketApiService.getVersionApp().subscribe({
+                next: (result: ResultNoPaging<string>) => {
+                    if (result && result.success) {
+                        const res_version = result.result as any;
+                        if(this.appVersion && res_version) {
+                            if(this.appVersion != res_version.version) {
+                                window.location.href = window.location.href.split('?')[0] + "?nocache=" + new Date().getTime();
+                            }
+                        }
+                    }
+                },
+                error: (error) => {
+                    console.error('Lỗi khi lấy phiên bản:', error);
+                }
+            });
+        }, 60000);
     }
 }
