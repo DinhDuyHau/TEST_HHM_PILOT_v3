@@ -393,9 +393,9 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
         if (result) {
           this.repurchase.loai_hh = result.ten_loai;
           this.repurchase.ma_loai = result.ma_loai;
-          this.ticketApiService.getStocks(TICKET_ENTITY.REPURCHASE, {
+          this.ticketApiService.getStocks2(TICKET_ENTITY.REPURCHASE, {
             ma_cuahang: this.ticket.masterInfo.ma_cuahang,
-            ma_loai: result.ma_loai
+            ma_nh: result.ma_loai
           }).subscribe(result => {
             if (result.success) {
               const { ma_kho } = result.result as any;

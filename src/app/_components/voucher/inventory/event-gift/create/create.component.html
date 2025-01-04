@@ -51,7 +51,7 @@
             [value]="f['ma_kh'].value"
             [invalid]="submitted && f['ma_kh'].errors != null"
             (handleChange)="handleInputChange('ma_kh', $event)"
-            (handleEnter)="onEnter($event)"
+            (handleEnter)="onEnterCustomer($event)"
             [control]="customerService"
             [lookup]="true || disabled"
             [reference]="[ma_kh, ten_ncc]"></app-input-custom-v2>
@@ -129,7 +129,7 @@
             (handleEnter)="onEnter($event)"
             [control]="eventService"
             [lookup]="true || disabled"
-            [reference]="[ma_sukien, ten_sukien]"></app-input-custom-v2>
+            [reference]="[ma_sukien, ten_sukien, 'duyet_yn']"></app-input-custom-v2>
         </div>
         <div class="flex-1">
           <app-input-custom-v2
@@ -154,6 +154,31 @@
             (handleChange)="this.imei = $event"
             (handleScanner)="scanORCode($event)"
             (handleEnter)="onEnterIMEI($event)"></app-input-custom-v2>
+        </div>
+      </div>
+      <div *ngIf="this.duyet_yn" class="d-flex gap-2 box">
+        <div class="flex basis-1/3">
+          <app-input-custom-v2
+            class="flex-1"
+            [label]="'Mã người duyệt'"
+            #ma_nvbh
+            name="ma_nvbh"
+            [disabled]="disabled"
+            [value]="f['ma_nvbh'].value"
+            [invalid]="submitted && f['ma_nvbh'].errors != null"
+            (handleChange)="handleInputChangeASM($event)"
+            [control]="asmService"
+            [lookup]="true || disabled"
+            [reference]="[ma_nvbh, ten_nvbh]"></app-input-custom-v2>
+        </div>
+        <div class="flex-1">
+          <app-input-custom-v2
+            class="flex-1"
+            [label]="'Tên người duyệt'"
+            #ten_nvbh
+            name="ten_nvbh"
+            [value]="this.data.masterInfo['ten_nvbh']"
+            [disabled]="true || disabled"></app-input-custom-v2>
         </div>
       </div>
     </div>
