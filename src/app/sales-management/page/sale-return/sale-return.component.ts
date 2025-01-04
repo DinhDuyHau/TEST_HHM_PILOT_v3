@@ -253,6 +253,15 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
 
         this.saleReturnService.getSoldInfo(ma_imei, rate, this.tien_giam, this.ticket.masterInfo.fcode1, this.isCODReturn).subscribe((result: any) => {
           if (result && result.success && result.result && result.result.details) {
+
+            // chỉ được nhập trên cùng 1 phiếu xuất bán
+            if (this.ticket.masterInfo.fcode2) {
+              if(this.ticket.masterInfo.fcode2 != result.result.masterInfo.so_ct) {
+                this.commonService.showMessage('Chỉ được nhập trả lại trên cùng 1 phiếu xuất bán');
+                return;
+              }
+            }
+
             const map_tralai = new Map();
             map_tralai.set('nhap_tra_lai_yn', true);
             const message = this.imeiService.GetMessageStatusImei(map_tralai, result.result.details[0].data[0]);
@@ -301,11 +310,23 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
                 }
               })
 
+              // lưu thông tin giao hàng cho chi tiết
+              merchandise.map((x: Merchandise) => {
+                const merchan = this.ticket.merchandise.find((item: any) => item.ma_imei === x.ma_imei);
+                if (merchan) {
+                  merchan.gc_td1 = result.result.masterInfo.so_dh_vc || ''; // mã đơn hàng
+                  merchan.ma_td1 = result.result.masterInfo.ma_nvvc || ''; // mã đơn vị vận chuyển
+                  merchan.gc_td2 = result.result.masterInfo.ma_van_don || ''; // mã vận đơn
+                }
+              });
+
               //Lưu thông tin stt_rec, so_ct, ngay_ct của đơn hàng bán vào phiếu trả lại
               this.ticket.masterInfo.stt_rec_hd = result.result.masterInfo.stt_rec;
               this.ticket.masterInfo.fcode2 = result.result.masterInfo.so_ct;
               this.ticket.masterInfo.fdate2 = result.result.masterInfo.ngay_ct;
-
+              this.ticket.masterInfo.so_dh_vc = result.result.masterInfo.so_dh_vc || '';
+              this.ticket.masterInfo.ma_nvvc = result.result.masterInfo.ma_nvvc || '';
+              this.ticket.masterInfo.ma_van_don = result.result.masterInfo.ma_van_don || '';
 
               //tính số tiền còn nợ
               this.ticket.masterInfo.t_con_no = Math.abs(this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra);

@@ -327,6 +327,28 @@
           </div>
         </div>
       </tab-custom>
+      <tab-custom label="Thông tin giao hàng" class="w-100">
+        <div class="d-flex gap-3 box w-100">
+          <form-input-custom
+            class="flex-1"
+            [name]="'so_dh_vc'"
+            [label]="'Mã đơn hàng'"
+            [value]="ticket.masterInfo.so_dh_vc"
+            [disabled]="true" />
+          <form-input-custom
+            class="flex-1"
+            [name]="'ma_van_don'"
+            [label]="'Mã vận đơn'"
+            [value]="ticket.masterInfo.ma_van_don"
+            [disabled]="true" />
+          <form-input-custom
+            class="flex-1"
+            [name]="'ma_nvvc'"
+            [label]="'Mã đơn vị vận chuyển'"
+            [value]="ticket.masterInfo.ma_nvvc"
+            [disabled]="true" />
+        </div>
+      </tab-custom>
     </tabs-custom>
 
     <ng-container>
