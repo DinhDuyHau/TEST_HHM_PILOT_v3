@@ -65,7 +65,7 @@
             (handleEnter)="onEnter($event);onEnterCustomerCode($event, ma_kh.value);"
             [control]="customerService"
             [lookup]="true || disabled"
-            [reference]="[ma_kh, ten_kh, dia_chi]"></app-input-custom-v2>
+            [reference]="[ma_kh, ten_kh, dia_chi, 'nh_kh3']"></app-input-custom-v2>
         </div>
         <div class="flex-1">
           <app-input-custom-v2
@@ -313,7 +313,7 @@
     </div>
     <div class="pb-4 border-b-0.5 border-solid border-gray-300" style="margin-bottom: 20px;"></div>
 
-    <ng-container>
+    <ng-container *ngIf="this.isValidCustomerGroup3">
       <payment-tab
         [action]="action"
         [shop]="shop"

@@ -13,6 +13,7 @@ export interface Customer {
 
     tk_nh?: string;
     ngan_hang?: string;
+    nh_kh3?: string;
 }
 
 export class CustomerModel {
