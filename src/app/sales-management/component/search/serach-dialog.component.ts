@@ -192,7 +192,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         break;
       case SEARCH_COMPONENT_NAME.REPURCHASE_GROUP_INVENTORY:
         this.columns = GROUP_INVENTORY as any;
-        this.defaultFilters = [];
+        this.defaultFilters = [{ name: 'ma_nh', operator: 'in', value: 'KD,HL,HC' }];
         break;
       case SEARCH_COMPONENT_NAME.WAREHOUSE:
         this.columns = WAREHOUSE_LIST as any;
@@ -334,16 +334,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.REPURCHASE_TYPE_INVENTORY:
         return this.merchandiseApiService.getManyTypeMerchadiseByStore(this.defaultFilters);
       case SEARCH_COMPONENT_NAME.REPURCHASE_GROUP_INVENTORY:
-        return this.merchandiseApiService.getGroupStock(this.defaultFilters)
-          .pipe(
-            tap((res) => {
-              res.result.items = res.result.items.filter(item =>
-                ['HC', 'KD', 'HL'].includes(item.ma_nh)
-              );
-
-              return res;
-            })
-          );
+        return this.merchandiseApiService.getGroupStock(this.defaultFilters);
       case SEARCH_COMPONENT_NAME.WAREHOUSE:
         return this.merchandiseApiService.getManyWarehouse(this.filters);
       case SEARCH_COMPONENT_NAME.INVOICE:
