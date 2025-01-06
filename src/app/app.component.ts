@@ -52,9 +52,9 @@ export class AppComponent {
     /**
      * Hàm để lấy phiên bản từ DB
      * sau đó kiểm tra với FE nếu đã có phiên bản mới
-     * thì tự động reload ko cahce. Kiểm tra 1 phút 1 lần
+     * thì tự động reload ko cache lấy code mới. Kiểm tra 3 phút 1 lần
      */
-    private checkVersionContinuously() {
+    checkVersionContinuously() {
         setInterval(() => {
             this.ticketApiService.getVersionApp().subscribe({
                 next: (result: ResultNoPaging<string>) => {
@@ -71,6 +71,6 @@ export class AppComponent {
                     console.error('Lỗi khi lấy phiên bản:', error);
                 }
             });
-        }, 60000);
+        }, 180000); // 180000 ms = 3 phút
     }
 }
