@@ -34,6 +34,7 @@ import { PromotionSelectComponent } from '@app/sales-management/component/promot
 import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
 import { Transport } from '../../model/common/delivery.mode';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 const {
   DISCOUNT_LIST,
@@ -92,6 +93,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   shop = '';
   ma_imei = '';
   table_name = '';
+  ma_kh_label = 'Mã khách';
 
   constructor(
     private router: Router,
@@ -106,7 +108,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
     private merchandiseService: MerchandiseService,
     private discountService: DiscountService,
     private guaranteeApiService: GuaranteeApiService,
-    private fileService: FileService
+    private fileService: FileService,
+    private sanitizer: DomSanitizer
   ) {
     localStorage.setItem('useGridCached', '1');
     this.retailService.setTicket(this.ticket, this.option);
@@ -228,6 +231,13 @@ export class RetailComponent implements OnInit, AfterViewInit {
               }
             });
 
+            this.ticketApiService.getColorRank({ ma_hang: this.ticket.masterInfo.ma_hang }).subscribe(result => {
+              if (result && result.success) {
+                const { ma_hang, mau_chu } = result.result as any;
+                this.generateLabelWithColor(ma_hang, mau_chu);
+              }
+            });
+
             // if (this.ticket.masterInfo.image) {
             //   this.getImageCustomerFile(this.ticket.masterInfo.image);
             // }
@@ -307,6 +317,12 @@ export class RetailComponent implements OnInit, AfterViewInit {
       if (result.success && result.result) {
         const customer: any = result.result;
         this.handleAddCustomer(customer);
+
+        this.ticketApiService.getRankCustomer({ ma_kh: customer.ma_kh }).subscribe(result => {
+          const { ma_hang, mau_chu } = result.result as any;
+          this.ticket.masterInfo.ma_hang = ma_hang;
+          this.generateLabelWithColor(ma_hang, mau_chu);
+        });
       } else {
         this.commonService.showMessageByContent(Language.content.exists_customer_yn_no, ma_kh);
         this.retailService.resetCustomerInfo(this.ticket);
@@ -319,7 +335,15 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.commonService.openDialog(SearchDialogComponent,
       { keyword: '', componentName: SEARCH_COMPONENT_NAME.CUSTOMER, title: this.getLabel('tlt_customer_list') }, 'search-style-dialog')
       .afterClosed()
-      .subscribe((customer: Customer) => customer && this.handleAddCustomer(customer));
+      .subscribe((customer: Customer) => {
+        customer && this.handleAddCustomer(customer)
+
+        customer && this.ticketApiService.getRankCustomer({ ma_kh: customer.ma_kh }).subscribe(result => {
+          const { ma_hang, mau_chu } = result.result as any;
+          this.ticket.masterInfo.ma_hang = ma_hang;
+          this.generateLabelWithColor(ma_hang, mau_chu);
+        });
+      });
   }
 
   // click button thêm khách hàng
@@ -401,6 +425,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
       this.retailService.setIsNeedCalcDiscount(true);
       this.discountService.resetDiscount(this.ticket.discount);
       this.retailService.calcMoney();
+      // khi add imei xử lý ck 09
+      this.applyDiscount09ForMerchandise(merchandiseResponse);
     }
   }
 
@@ -629,6 +655,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
   onRemoveDiscount(event: { item: Discount }) {
     if (event.item.loai_ck === DISCOUNT_TYPE.GIFT) {
       this.commonService.showMessageByName('lblWarningNotDeleteDiscountGift');
+      return;
+    }
+    if (event.item.loai_ck === '09') {
+      this.commonService.showMessage('Không thể xóa chiết khấu hạng khách hàng');
       return;
     }
     const discountCurrent = this.discountService.getDiscountCurrent(this.ticket.discount.filter(x => x.ma_ck !== event.item.ma_ck));
@@ -947,6 +977,83 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const tienConNo = this.ticket.masterInfo.t_con_no;
 
     return totalPayment != (tienConNo + tienDaTra);
+  }
+
+  /*
+  * Xử lý ck 09
+  */
+  applyDiscount09ForMerchandise(merchandiseResponse: any) {
+    const ma_kh = this.ticket.masterInfo.ma_kh.trim();
+    const ma_hang = this.ticket.masterInfo.ma_hang.trim();
+    const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+    const ma_imei = merchandiseResponse.ma_imei.trim();
+    const ma_vt = merchandiseResponse.ma_vt.trim();
+
+    this.imeiApiService.getDiscountRankCustomer(ma_kh, ma_hang, ngay_ct, ma_imei, ma_vt).subscribe((res: any) => {
+      if (res.success && res.result) {
+        const discount = res.result[0] as any;
+
+        // add tien_ck tl_ck vào tab hàng hóa và tính tiền ck 09
+        this.ticket.merchandise.map((x: any) => {
+          if (x.ma_imei.trim().toLowerCase() === discount.ma_imei.trim().toLowerCase()) {
+            let tien_ck = 0;
+
+            // Trường hợp có tien_ck_tv
+            if (discount.tien_ck_tv) {
+              const tien_ck_raw = discount.tien_ck_tv / (1 + (x.thue_suat / 100)); // Tính giá trị chưa kiểm tra với tien_max và thue_suat
+              const tien_max_adjusted = discount.tien_max / (1 + (x.thue_suat / 100)); // Tính tien_max đã điều chỉnh với thue_suat
+
+              // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
+              tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
+              x.gia_ck -= tien_ck;
+            } else {
+              // Trường hợp không có tien_ck_tv, tính theo tl_ck
+              const tien_ck_raw = x.gia_ck * (discount.tl_ck / 100); // Tính giá trị chưa kiểm tra với tien_max
+              const tien_max_adjusted = discount.tien_max / (1 + (x.thue_suat / 100)); // Tính tien_max đã điều chỉnh với thue_suat
+
+              // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
+              tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
+              x.gia_ck -= tien_ck;
+            }
+
+            // Thêm `tien_ck` đã tính vào đối tượng discount
+            discount.tien_ck = Math.round(tien_ck);
+          }
+        });
+
+        // add vào tab ck
+        this.discountService.addNew([discount], this.ticket.discount);
+        // tính lại tiền
+        this.retailService.calcMoney();
+      }
+    });
+  }
+
+  /*
+  * Xử lý label hạng khách hàng
+  */
+  generateLabelWithColor(ma_hang: any, mau_chu: any) {
+    const rankColors = {
+      'BRONZE': 'white',
+      'DIAMOND': 'white',
+      'GOLD': 'white',
+      'MEMBER': 'white',
+      'STUDENT': 'white',
+    };
+
+    let textColor = rankColors[ma_hang as keyof typeof rankColors] || 'black';
+
+    this.ticket.masterInfo.ma_hang = ma_hang;
+
+    const html = ma_hang ? `
+      Mã khách (Hạng:
+        <span class="bg-blue-100 text-xs font-medium px-2.5 py-0.5 rounded-full"
+              style="background-color: ${mau_chu} !important; color: ${textColor} !important;">
+          ${ma_hang}
+        </span>
+      )` : 'Mã khách';
+
+    this.ma_kh_label = this.sanitizer.bypassSecurityTrustHtml(html) as string;
   }
 }
 

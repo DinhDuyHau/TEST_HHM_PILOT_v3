@@ -249,7 +249,8 @@ export class CommonService {
             }
         });
 
-        masterInfoNew.t_ck_nt = masterInfoNew.t_ck;
+        masterInfoNew.t_ck = masterInfoNew.t_ck || 0;
+        masterInfoNew.t_ck_nt = masterInfoNew.t_ck || 0;
         masterInfoNew.t_tien = masterInfoNew.t_tien_nt2;
         masterInfoNew.t_tien_nt = masterInfoNew.t_tien_nt2;
         masterInfoNew.t_tien2 = masterInfoNew.t_tien_nt2;

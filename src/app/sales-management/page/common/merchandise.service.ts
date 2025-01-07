@@ -196,6 +196,27 @@ export class MerchandiseService {
             }
         });
 
+        // Lấy chi tiết chiết khấu loại 09: Chiết khấu theo giá hạng khách hàng
+        const discountForMerchandise09 = ticket.discount.filter((e: any) => e.loai_ck === '09');
+        (discountForMerchandise09 as any).forEach((discount: any) => {
+            if (discount) {
+                const { ma_vt, tien_ck, tien_ck_tv, tl_ck, ma_imei, tien_max } = discount;
+                const result = (merchandiseUpdate as any[]).filter((merchandise: any) => this.compareMerchandiseCode(merchandise.ma_vt, ma_vt) && !merchandise.km_yn);
+
+                // Tổng tiền hàng bán của phiếu có trong chiết khấu
+                result.forEach((e: Merchandise, index) => {
+                    // kiểm tra đúng imei và ma_vt thì gán tien_ck
+                    if(e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
+                        e.gia_ck -= tien_ck ? tien_ck : 0;
+                        e.tl_ck09 = tl_ck ? tl_ck : 0;
+                        e.tien_kb09 = tien_ck_tv ? tien_ck_tv : 0;
+                        e.tien_max09 = tien_max ? tien_max : 0;
+                        e.tien_ck09 = tien_ck ? tien_ck : 0;
+                    }
+                });
+            }
+        });
+
         // Lấy chi tiết chiết khấu loại 08: Chiết khấu giá trị theo mã dịch vụ để cộng vào chi tiết chiết khấu
         const discountForMerchandise08 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT);
         (discountForMerchandise08 as any).forEach((discount: any) => {
@@ -562,8 +583,12 @@ export class MerchandiseService {
 
         merchandiseUpdate.map((e: any) => {
             e.tien_ck += e.tien_ck_qd;
-            e.gia_ck = e.gia_ban - (e.tien_ck / (1 + (e.thue_suat / 100)));
 
+            e.gia_ck = e.gia_ban - (e.tien_ck / (1 + (e.thue_suat / 100)));
+            // nếu có ck 09 thì xử lý
+            if(e.tien_ck09) {
+                e.gia_ck -= e.tien_ck09;
+            }
             //Xử lý làm tròn giá ck sau khi trừ bị âm hoặc trong khoảng 0-0.49
             e.gia_ck = (e.gia_ck < 0 || (e.gia_ck > 0 && e.gia_ck < 0.5)) ? Math.abs(Math.round(e.gia_ck)) : e.gia_ck;
 
@@ -578,6 +603,10 @@ export class MerchandiseService {
              *      thuế = tổng thanh toán - thành tiền
              */
             e.thanh_toan = (e.gia_vat * e.so_luong) - e.tien_ck;
+            // nếu có ck 09 thì xử lý
+            if(e.tien_ck09) {
+                e.thanh_toan = e.thanh_toan - e.tien_ck09;
+            }
             e.tien_thue = e.thanh_toan - e.thanh_tien;
             // 2024-05-15: end
 
