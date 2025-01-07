@@ -116,7 +116,6 @@ export class DiscountService {
     resetDiscount(discounts: any[], isGridItem: boolean = false, currentRowitem: Merchandise | null = null,
         isGridDiscount: boolean = false, isRemoveMerchandise = false) {
         let discountKeep = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.GIFT);
-        let discount09 = discounts.filter(e => e.loai_ck === '09');
 
         if (!isGridDiscount) {
             if (isGridItem && currentRowitem && currentRowitem.ma_imei) {
@@ -127,7 +126,6 @@ export class DiscountService {
                     (e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && e.ma_imei && e.ma_imei.trim() !== currentRowitem.ma_imei.trim())
                 );
                 discountKeep.push(...discount_keep_adv);
-                discount09.push(...discount_keep_adv);
             }
             else {
                 //Thực hiện gọi tính ck từ button trên form master => giữ lại chiết khấu ngoại giao, tính lại các ck khác
@@ -138,14 +136,14 @@ export class DiscountService {
                     discount_keep_adv = discount_keep_adv.filter(e => e.ma_imei.trim() !== currentRowitem.ma_imei.trim());
                 }
 
-                discountKeep.push(...discount_keep_adv);
-                discount09.push(...discount_keep_adv);
+                // giữ ck 09
+                const discountType09 = discounts.filter(e => e.loai_ck === '09');
+                discountKeep.push(...discount_keep_adv, ...discountType09);
             }
         }
 
         discounts.splice(0, discounts.length);
         discounts.push(...discountKeep);
-        discounts.push(...discount09);
         discounts.map((e, i) => e.line_nbr = i);
 
         // const discountRemoved = discounts.filter(e => e.loai_ck !== DISCOUNT_TYPE.GIFT);
@@ -389,6 +387,7 @@ export class DiscountService {
         const discountForCrossSelling = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.CROSS_SELLING);
         const discountForAccessoryCombo = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO);
         const discountForService = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT);
+        const discountForRankCustomer = src.filter(discount => discount.loai_ck === '09');
 
         const giftDiscountNew = this.handleConvertDiscountFromVoucher(giftDiscount, GiveMerchandiseDiscountDetail);
         const discountForCustomerNew = this.handleConvertDiscountFromVoucher(discountForCustomer, DiscountForCustomerDetail);
@@ -397,6 +396,7 @@ export class DiscountService {
         const discountForCrossSellingNew = this.handleConvertDiscountFromVoucher(discountForCrossSelling, DiscountForMerchandiseDetail);
         const discountForAccessoryComboNew = this.handleConvertDiscountFromVoucher(discountForAccessoryCombo, DiscountForMerchandiseDetail);
         const discountForServiceNew = this.handleConvertDiscountFromVoucher(discountForService, DiscountForMerchandiseDetail);
+        const discountForRankCustomerNew = this.handleConvertDiscountFromVoucher(discountForRankCustomer, DiscountForMerchandiseDetail);
 
         if (giftDiscountNew) {
             des.push(...giftDiscountNew);
@@ -418,6 +418,9 @@ export class DiscountService {
         }
         if (discountForServiceNew) {
             des.push(...discountForServiceNew);
+        }
+        if (discountForRankCustomerNew) {
+            des.push(...discountForRankCustomerNew);
         }
         des.map((e, i) => { e.line_nbr = i; });
     }

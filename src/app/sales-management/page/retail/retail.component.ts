@@ -992,35 +992,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.imeiApiService.getDiscountRankCustomer(ma_kh, ma_hang, ngay_ct, ma_imei, ma_vt).subscribe((res: any) => {
       if (res.success && res.result) {
         const discount = res.result[0] as any;
-
-        // add tien_ck tl_ck vào tab hàng hóa và tính tiền ck 09
-        this.ticket.merchandise.map((x: any) => {
-          if (x.ma_imei.trim().toLowerCase() === discount.ma_imei.trim().toLowerCase()) {
-            let tien_ck = 0;
-
-            // Trường hợp có tien_ck_tv
-            if (discount.tien_ck_tv) {
-              const tien_ck_raw = discount.tien_ck_tv / (1 + (x.thue_suat / 100)); // Tính giá trị chưa kiểm tra với tien_max và thue_suat
-              const tien_max_adjusted = discount.tien_max / (1 + (x.thue_suat / 100)); // Tính tien_max đã điều chỉnh với thue_suat
-
-              // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
-              tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
-              x.gia_ck -= tien_ck;
-            } else {
-              // Trường hợp không có tien_ck_tv, tính theo tl_ck
-              const tien_ck_raw = x.gia_ck * (discount.tl_ck / 100); // Tính giá trị chưa kiểm tra với tien_max
-              const tien_max_adjusted = discount.tien_max / (1 + (x.thue_suat / 100)); // Tính tien_max đã điều chỉnh với thue_suat
-
-              // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
-              tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
-              x.gia_ck -= tien_ck;
-            }
-
-            // Thêm `tien_ck` đã tính vào đối tượng discount
-            discount.tien_ck = Math.round(tien_ck);
-          }
-        });
-
         // add vào tab ck
         if(discount) {
           this.discountService.addNew([discount], this.ticket.discount);
