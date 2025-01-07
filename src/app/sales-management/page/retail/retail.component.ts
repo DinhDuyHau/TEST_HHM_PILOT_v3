@@ -1022,7 +1022,9 @@ export class RetailComponent implements OnInit, AfterViewInit {
         });
 
         // add vào tab ck
-        this.discountService.addNew([discount], this.ticket.discount);
+        if(discount) {
+          this.discountService.addNew([discount], this.ticket.discount);
+        }
         // tính lại tiền
         this.retailService.calcMoney();
       }

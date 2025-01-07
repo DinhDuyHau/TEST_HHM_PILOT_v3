@@ -116,6 +116,7 @@ export class DiscountService {
     resetDiscount(discounts: any[], isGridItem: boolean = false, currentRowitem: Merchandise | null = null,
         isGridDiscount: boolean = false, isRemoveMerchandise = false) {
         let discountKeep = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.GIFT);
+        let discount09 = discounts.filter(e => e.loai_ck === '09');
 
         if (!isGridDiscount) {
             if (isGridItem && currentRowitem && currentRowitem.ma_imei) {
@@ -126,6 +127,7 @@ export class DiscountService {
                     (e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && e.ma_imei && e.ma_imei.trim() !== currentRowitem.ma_imei.trim())
                 );
                 discountKeep.push(...discount_keep_adv);
+                discount09.push(...discount_keep_adv);
             }
             else {
                 //Thực hiện gọi tính ck từ button trên form master => giữ lại chiết khấu ngoại giao, tính lại các ck khác
@@ -137,11 +139,13 @@ export class DiscountService {
                 }
 
                 discountKeep.push(...discount_keep_adv);
+                discount09.push(...discount_keep_adv);
             }
         }
 
         discounts.splice(0, discounts.length);
         discounts.push(...discountKeep);
+        discounts.push(...discount09);
         discounts.map((e, i) => e.line_nbr = i);
 
         // const discountRemoved = discounts.filter(e => e.loai_ck !== DISCOUNT_TYPE.GIFT);
