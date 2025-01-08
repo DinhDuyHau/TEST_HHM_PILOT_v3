@@ -434,6 +434,20 @@
       "dataType": "number"
     },
     {
+      "name": "tl_ck09",
+      "title": "%CK hạng thành viên",
+      "format": "moneyViewNoDigit",
+      "align": "right",
+      "dataType": "number"
+    },
+    {
+      "name": "tien_ck09",
+      "title": "Tiền CK hạng thành viên",
+      "format": "moneyViewNoDigit",
+      "align": "right",
+      "dataType": "number"
+    },
+    {
       "name": "thanh_toan",
       "title": "Tổng tiền",
       "format": "moneyViewNoDigit",

@@ -10,6 +10,10 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     tien_kmqd = 0;
     imei_mua = '';
     gia_vat = 0;
+    tl_ck09 = 0; // tỉ lệ ck 09
+    tien_kb09 = 0; // tiền ck 09
+    tien_max09 = 0; // tiền max ck 09
+    tien_ck09 = 0; // tiền ck được hưởng 09
 
     constructor(obj?: any) {
         super();
@@ -34,6 +38,7 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     ma_van_don = '';
     tien_phi_cod = 0;
     ghi_chu_gh = '';
+    ma_hang = '';
 
     constructor(obj?: any) {
         super();
