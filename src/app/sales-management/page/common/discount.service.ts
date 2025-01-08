@@ -239,7 +239,7 @@ export class DiscountService {
 
         delete discount.items;
         discount.details = (discount.details as any[]).filter((detail, i) => {
-            const index = (discount.details as any[]).findIndex(e => e.ma_vt === detail.ma_vt);
+            const index = (discount.details as any[]).findIndex(e => e.ma_vt === detail.ma_vt && e.ma_imei === detail.ma_imei);
             return index >= 0 && index !== i ? false : true;
         });
         return discount;

@@ -175,20 +175,27 @@ export class MerchandiseService {
         (discountForMerchandise01 as any).forEach((discount: any) => {
             if (discount.details) {
                 discount.details.forEach((detail: any) => {
-                    const { ma_vt, tien_ck, tien_ck_tl } = detail;
+                    const { ma_vt, tien_ck, tien_ck_tl, ma_imei } = detail;
                     const result = (merchandiseUpdate as any[]).filter((merchandise: any) => this.compareMerchandiseCode(merchandise.ma_vt, ma_vt) && !merchandise.km_yn);
 
                     // Tổng tiền hàng bán của phiếu có trong chiết khấu
                     const t_tien = result.map(e => e.gia_ban * e.so_luong).reduce((pre: any, cur: any) => pre + cur, 0);
                     let total = 0;
                     result.forEach((e: Merchandise, index) => {
-                        if (index === merchandiseUpdate.length - 1) {
-                            e.tien_ck += detail.tien_ck - total;
-                        } else {
-                            const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
-                            e.tien_ck += money;
-                            total += money;
+                        if(e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
+                          e.gia_ck -= tien_ck ? tien_ck : 0;
+                          e.tien_ck += tien_ck ? tien_ck : 0;
                         }
+                        /**
+                         * Tính phân bổ chưa đúng nên tạm thời bỏ
+                         */
+                        // if (index === merchandiseUpdate.length - 1) {
+                        //     e.tien_ck += detail.tien_ck - total;
+                        // } else {
+                        //     const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
+                        //     e.tien_ck += money;
+                        //     total += money;
+                        // }
                         // e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
                         // e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
                     });
@@ -209,7 +216,7 @@ export class MerchandiseService {
                     let total = 0;
                     result.forEach((e: Service, index) => {
                         // kiểm tra đúng imei và ma_dv thì gán tien_ck
-                        if(e.ma_imei.trim() == ma_imei.trim() && e.ma_dv.trim() == ma_dv.trim()) {
+                        if(e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_dv.trim().toLowerCase() == ma_dv.trim().toLowerCase()) {
                           e.gia_ck -= tien_ck ? tien_ck : 0;
                           e.tien_ck += tien_ck ? tien_ck : 0;
                         }
@@ -794,20 +801,27 @@ export class MerchandiseService {
         (discountForMerchandise01 as any).forEach((discount: any) => {
             if (discount.details) {
                 discount.details.forEach((detail: any) => {
-                    const { ma_vt, tien_ck, tien_ck_tl } = detail;
+                    const { ma_vt, tien_ck, tien_ck_tl, ma_imei } = detail;
                     const result = (merchandiseUpdate as any[]).filter((merchandise: any) => this.compareMerchandiseCode(merchandise.ma_vt, ma_vt) && !merchandise.km_yn);
 
                     // Tổng tiền hàng bán của phiếu có trong chiết khấu
                     const t_tien = result.map(e => e.gia_ban * e.so_luong).reduce((pre: any, cur: any) => pre + cur, 0);
                     let total = 0;
                     result.forEach((e: Merchandise, index) => {
-                        if (index === merchandiseUpdate.length - 1) {
-                            e.tien_ck += detail.tien_ck - total;
-                        } else {
-                            const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
-                            e.tien_ck += money;
-                            total += money;
+                        if(e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
+                          e.gia_ck -= tien_ck ? tien_ck : 0;
+                          e.tien_ck += tien_ck ? tien_ck : 0;
                         }
+                        /**
+                         * Tính phân bổ chưa đúng nên tạm thời bỏ
+                         */
+                        // if (index === merchandiseUpdate.length - 1) {
+                        //     e.tien_ck += detail.tien_ck - total;
+                        // } else {
+                        //     const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
+                        //     e.tien_ck += money;
+                        //     total += money;
+                        // }
                         // e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
                         // e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
                     });
@@ -1210,20 +1224,27 @@ export class MerchandiseService {
         (discountForMerchandise01 as any).forEach((discount: any) => {
             if (discount.details) {
                 discount.details.forEach((detail: any) => {
-                    const { ma_vt, tien_ck, tien_ck_tl } = detail;
+                    const { ma_vt, tien_ck, tien_ck_tl, ma_imei } = detail;
                     const result = (merchandiseUpdate as any[]).filter((merchandise: any) => this.compareMerchandiseCode(merchandise.ma_vt, ma_vt) && !merchandise.km_yn);
 
                     // Tổng tiền hàng bán của phiếu có trong chiết khấu
                     const t_tien = result.map(e => e.gia_ban * e.so_luong).reduce((pre: any, cur: any) => pre + cur, 0);
                     let total = 0;
                     result.forEach((e: Merchandise, index) => {
-                        if (index === merchandiseUpdate.length - 1) {
-                            e.tien_ck += detail.tien_ck - total;
-                        } else {
-                            const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
-                            e.tien_ck += money;
-                            total += money;
+                        if(e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
+                          e.gia_ck -= tien_ck ? tien_ck : 0;
+                          e.tien_ck += tien_ck ? tien_ck : 0;
                         }
+                        /**
+                         * Tính phân bổ chưa đúng nên tạm thời bỏ
+                         */
+                        // if (index === merchandiseUpdate.length - 1) {
+                        //     e.tien_ck += detail.tien_ck - total;
+                        // } else {
+                        //     const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
+                        //     e.tien_ck += money;
+                        //     total += money;
+                        // }
                         // e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
                         // e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
                     });
