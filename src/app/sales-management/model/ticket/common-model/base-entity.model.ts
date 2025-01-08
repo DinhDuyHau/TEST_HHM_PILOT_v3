@@ -30,6 +30,10 @@ export class BaseMerchandise {
     gia_full_vat = 0;
 
     nh_vt1 = '';
+    tl_ck09 = 0; // tỉ lệ ck 09
+    tien_kb09 = 0; // tiền ck 09
+    tien_max09 = 0; // tiền max ck 09
+    tien_ck09 = 0; // tiền ck được hưởng 09
 }
 
 

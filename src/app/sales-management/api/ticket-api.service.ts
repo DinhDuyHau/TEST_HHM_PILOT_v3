@@ -47,6 +47,8 @@ const GET_SOLD_SERVICE_ORDER = `${environment.apiUrl}/service/get_sold_service_o
 const GET_SOLD_SERVICE_ORDERS = `${environment.apiUrl}/service/get_sold_service_orders`;
 const GET_ORDERS_SERVICE_RETURN = `${environment.apiUrl}/service/get_orders_service_return`;
 const GET_ORDERS_BUYBACK_SERVICE = `${environment.apiUrl}/service/get_orders_buyback_service`;
+const GET_RANK_CUSTOMER = `${environment.apiUrl}/service/get_rank_customer`;
+const GET_COLOR_RANK = `${environment.apiUrl}/service/get_color_rank`;
 const GET_VOUCHER_STATUS_URL = `${environment.apiUrl}/voucher/getvoucherstatus/`;
 const GET_REASON_URL = `${environment.apiUrl}/category/find/dmlydo`;
 const GET_REASON_BY_ID = `${environment.apiUrl}/category/getbyid/dmlydo`;
@@ -157,7 +159,14 @@ export class TicketApiService extends ApiService {
         const url = GET_SOLD_SERVICE_ORDERS;
         return this.get<ResultNoPaging<any>>(url, params);
     }
-
+    getRankCustomer(params: {}): Observable<ResultNoPaging<any>> {
+        const url = GET_RANK_CUSTOMER;
+        return this.get<ResultNoPaging<any>>(url, params);
+    }
+    getColorRank(params: {}): Observable<ResultNoPaging<any>> {
+        const url = GET_COLOR_RANK;
+        return this.get<ResultNoPaging<any>>(url, params);
+    }
     getOrdersServiceReturn(params: {}): Observable<ResultNoPaging<any>> {
         const url = GET_ORDERS_SERVICE_RETURN;
         return this.get<ResultNoPaging<any>>(url, params);

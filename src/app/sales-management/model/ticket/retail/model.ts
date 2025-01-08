@@ -46,6 +46,7 @@ export class MasterInfo extends BaseMasterInfo {
     ma_van_don = '';
     tien_phi_cod = 0;
     ghi_chu_gh = '';
+    ma_hang = '';
 
     constructor(obj?: any) {
         super();

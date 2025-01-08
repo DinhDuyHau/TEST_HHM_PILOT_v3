@@ -136,7 +136,9 @@ export class DiscountService {
                     discount_keep_adv = discount_keep_adv.filter(e => e.ma_imei.trim() !== currentRowitem.ma_imei.trim());
                 }
 
-                discountKeep.push(...discount_keep_adv);
+                // giữ ck 09
+                const discountType09 = discounts.filter(e => e.loai_ck === '09');
+                discountKeep.push(...discount_keep_adv, ...discountType09);
             }
         }
 
@@ -237,7 +239,7 @@ export class DiscountService {
 
         delete discount.items;
         discount.details = (discount.details as any[]).filter((detail, i) => {
-            const index = (discount.details as any[]).findIndex(e => e.ma_vt === detail.ma_vt);
+            const index = (discount.details as any[]).findIndex(e => e.ma_vt === detail.ma_vt && e.ma_imei === detail.ma_imei);
             return index >= 0 && index !== i ? false : true;
         });
         return discount;
@@ -385,6 +387,7 @@ export class DiscountService {
         const discountForCrossSelling = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.CROSS_SELLING);
         const discountForAccessoryCombo = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO);
         const discountForService = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT);
+        const discountForRankCustomer = src.filter(discount => discount.loai_ck === '09');
 
         const giftDiscountNew = this.handleConvertDiscountFromVoucher(giftDiscount, GiveMerchandiseDiscountDetail);
         const discountForCustomerNew = this.handleConvertDiscountFromVoucher(discountForCustomer, DiscountForCustomerDetail);
@@ -393,6 +396,7 @@ export class DiscountService {
         const discountForCrossSellingNew = this.handleConvertDiscountFromVoucher(discountForCrossSelling, DiscountForMerchandiseDetail);
         const discountForAccessoryComboNew = this.handleConvertDiscountFromVoucher(discountForAccessoryCombo, DiscountForMerchandiseDetail);
         const discountForServiceNew = this.handleConvertDiscountFromVoucher(discountForService, DiscountForMerchandiseDetail);
+        const discountForRankCustomerNew = this.handleConvertDiscountFromVoucher(discountForRankCustomer, DiscountForMerchandiseDetail);
 
         if (giftDiscountNew) {
             des.push(...giftDiscountNew);
@@ -414,6 +418,9 @@ export class DiscountService {
         }
         if (discountForServiceNew) {
             des.push(...discountForServiceNew);
+        }
+        if (discountForRankCustomerNew) {
+            des.push(...discountForRankCustomerNew);
         }
         des.map((e, i) => { e.line_nbr = i; });
     }
