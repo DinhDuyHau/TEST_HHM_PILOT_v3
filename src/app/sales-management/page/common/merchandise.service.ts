@@ -580,7 +580,7 @@ export class MerchandiseService {
                         // Trường hợp có tien_ck_tv
                         if (tien_ck_tv) {
                           const tien_ck_raw = tien_ck_tv / (1 + (e.thue_suat / 100)); // Tính giá trị chưa kiểm tra với tien_max và thue_suat
-                          const tien_max_adjusted = tien_max / (1 + (e.thue_suat / 100)); // Tính tien_max đã điều chỉnh với thue_suat
+                          const tien_max_adjusted = tien_max > 0 ? tien_max / (1 + (e.thue_suat / 100)) : tien_ck_raw; // Tính tien_max đã điều chỉnh với thue_suat
 
                           // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
                           tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
@@ -588,7 +588,7 @@ export class MerchandiseService {
                         } else {
                           // Trường hợp không có tien_ck_tv, tính theo tl_ck
                           const tien_ck_raw = e.gia_ck * (tl_ck / 100); // Tính giá trị chưa kiểm tra với tien_max
-                          const tien_max_adjusted = tien_max / (1 + (e.thue_suat / 100)); // Tính tien_max đã điều chỉnh với thue_suat
+                          const tien_max_adjusted = tien_max > 0 ? tien_max / (1 + (e.thue_suat / 100)) : tien_ck_raw; // Tính tien_max đã điều chỉnh với thue_suat
 
                           // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
                           tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
