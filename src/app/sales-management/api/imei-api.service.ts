@@ -109,7 +109,7 @@ export class ImeiApiService extends ApiService {
         return this.get<Result<Imei>>(FIND_BY_PREFIX_URL, { ma_imei, ma_cuahang, isCheckInventory, page_index, page_size });
     }
 
-	  getDiscountRankCustomer(ma_kh: string, ma_hang: string, ngay_ct: Date, ma_imei: any, ma_vt: any): Observable<ResultNoPaging<any>> {
-        return this.get<ResultNoPaging<any>>(GET_DISCOUNT_RANK_CUSTOMER, { ma_kh, ma_hang, ngay_ct: ngay_ct.toISOString(), ma_imei, ma_vt });
+	  getDiscountRankCustomer(ma_kh: string, ma_hang: string, ngay_ct: Date, ma_imei: any, ma_vt: any, ma_ct: any): Observable<ResultNoPaging<any>> {
+        return this.get<ResultNoPaging<any>>(GET_DISCOUNT_RANK_CUSTOMER, { ma_kh, ma_hang, ngay_ct: ngay_ct.toISOString(), ma_imei, ma_vt, ma_ct });
     }
 }
