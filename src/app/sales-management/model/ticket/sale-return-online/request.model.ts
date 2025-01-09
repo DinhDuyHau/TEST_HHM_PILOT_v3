@@ -17,6 +17,13 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     tien_giam?: number = 0;
     giam_gia_yn?: boolean = false;
     gia_tra_lai?: number = 0;
+    hd_so = '';
+    s7 = '';
+    ma_td1 = '';
+    gc_td1 = '';
+    gc_td2 = '';
+    stt_rec_hd = '';
+    stt_rec0hd = '';
 
     constructor(obj?: any) {
         super();

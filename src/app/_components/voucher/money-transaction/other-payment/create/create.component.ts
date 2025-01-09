@@ -104,6 +104,11 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
     private el: ElementRef,
     private renderer: Renderer2
   ) {
+    const filterItem = [
+      { name: 'status', operator: '=', value: '1' },
+      { name: 'nh_phi3', operator: '=', value: 'CHI' }
+    ];
+    feeService.setItemFilter(filterItem);
     localStorage.setItem('useGridCached', '1');
     super(OtherPaymentDetailService);
     const user = authenticateService.userValue;
@@ -344,6 +349,11 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
         this.renderer.selectRootElement(input_error).focus();
       }
       this.commonService.showMessageByName('lblWarningLackInformation');
+      return;
+    }
+    //Kiểm tra ma_phi có tồn tại không
+    if (this.data.details[0].data.find(item => item == "")) {
+      this.commonService.showMessageByName('not_exist_ma_phi');
       return;
     }
     if (this.data.details.length == 0 || this.data.details[0].data.length == 0) {

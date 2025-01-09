@@ -33,14 +33,6 @@
     "dataFormatString": "datetimeFormat"
   },
   {
-    "name": "ma_ct0",
-    "title": "Mã ct",
-    "isLockingColumn": true,
-    "allowFilter": true,
-    "width": 80,
-    "dataFormatString": "upperCaseFormat"
-  },
-  {
     "name": "so_ct",
     "title": "Số ct",
     "isLockingColumn": true,
@@ -54,7 +46,7 @@
     "title": "Mã khách",
     "isLockingColumn": true,
     "allowFilter": true,
-    "width": 100,
+    "width": 120,
     "dataFormatString": "upperCaseFormat"
   },
   {
@@ -69,26 +61,17 @@
     "title": "Mã dịch vụ",
     "isLockingColumn": true,
     "allowFilter": true,
-    "width": 120,
+    "width": 100,
     "dataFormatString": "upperCaseFormat"
   },
   {
-    "name": "tien2",
+    "name": "tien0",
     "allowFilter": true,
-    "title": "Tiền",
+    "title": "Tiền trước CK",
     "type": "number",
     "dataFormatString": "normalPrice",
-    "align": "center",
-    "width": 100
-  },
-  {
-    "name": "thue",
-    "allowFilter": true,
-    "title": "Thuế",
-    "type": "number",
-    "dataFormatString": "normalPrice",
-    "align": "center",
-    "width": 100
+    "align": "right",
+    "width": 120
   },
   {
     "name": "ck",
@@ -96,8 +79,26 @@
     "title": "Chiết khấu",
     "type": "number",
     "dataFormatString": "normalPrice",
-    "align": "center",
-    "width": 100
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "tien2",
+    "allowFilter": true,
+    "title": "Tiền",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "thue",
+    "allowFilter": true,
+    "title": "Thuế",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
   },
   {
     "name": "pt",
@@ -105,8 +106,66 @@
     "title": "Phải thu",
     "type": "number",
     "dataFormatString": "normalPrice",
-    "align": "center",
-    "width": 100
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "ma_dt_vcgg",
+    "title": "Mã đối tác",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_dt_vcgg",
+    "title": "Tên đối tác",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 180,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_vc",
+    "title": "Mã voucher",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "tien_vc",
+    "allowFilter": true,
+    "title": "Giá trị Voucher",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "ma_gg",
+    "title": "Mã giảm giá",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "tien_gg",
+    "allowFilter": true,
+    "title": "Tiền giảm giá",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "dien_giai",
+    "title": "Diễn giải",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 180,
+    "dataFormatString": "upperCaseFormat"
   },
   {
     "name": "ma_nvbh",

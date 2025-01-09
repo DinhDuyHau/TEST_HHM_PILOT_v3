@@ -22,6 +22,7 @@ const UPDATE_VOUCHER_URL = `${environment.apiUrl}/voucher/update/`;
 const GET_PROJECTS_URL = `${environment.apiUrl}/category/find/dmvv`;
 const GET_PACKAGES_URL = `${environment.apiUrl}/voucher/getpackages/`;
 const GET_STOCKS_URL = `${environment.apiUrl}/voucher/getstocks/`;
+const GET_STOCKS_URL_2 = `${environment.apiUrl}/voucher/getstocks2/`;
 const GET_OTHERINFOS_URL = `${environment.apiUrl}/voucher/getOtherInfos/`;
 const GET_DEBIT_BY_CUSTOMER_URL = `${environment.apiUrl}/Voucher/getDebitByCustomer/`;
 const GET_TICKET_QUERY_URL = `${environment.apiUrl}/Voucher/find/`;
@@ -50,6 +51,8 @@ const GET_VOUCHER_STATUS_URL = `${environment.apiUrl}/voucher/getvoucherstatus/`
 const GET_REASON_URL = `${environment.apiUrl}/category/find/dmlydo`;
 const GET_REASON_BY_ID = `${environment.apiUrl}/category/getbyid/dmlydo`;
 const GET_VOUCHER_DATE_URL = `${environment.apiUrl}/voucher/getdate`;
+const GET_TELESALE_URL = `${environment.apiUrl}/category/find/vdmnvls`;
+const GET_VOUCHER_NAVIGATION_URL = `${environment.apiUrl}/voucher/navigation`;
 
 @Injectable({
     providedIn: 'root'
@@ -136,6 +139,11 @@ export class TicketApiService extends ApiService {
         return this.get<ResultNoPaging<any>>(url, params);
     }
 
+    getStocks2(entity: string, params: {}): Observable<ResultNoPaging<any>> {
+        const url = GET_STOCKS_URL_2 + entity;
+        return this.get<ResultNoPaging<any>>(url, params);
+    }
+
     getOtherInfos(entity: string, params: {}): Observable<ResultNoPaging<any>> {
         const url = GET_OTHERINFOS_URL + entity;
         return this.get<ResultNoPaging<any>>(url, params);
@@ -162,15 +170,15 @@ export class TicketApiService extends ApiService {
     getOrdersService(params: {}, type: string): Observable<ResultNoPaging<any>> {
         let url;
         switch (type) {
-          case '1':
-            url = GET_ORDERS_SERVICE_RETURN;
-            return this.get<ResultNoPaging<any>>(url, params);
-          case '2':
-            url = GET_ORDERS_BUYBACK_SERVICE;
-            return this.get<ResultNoPaging<any>>(url, params);
-          default:
-            url = GET_ORDERS_SERVICE_RETURN;
-            return this.get<ResultNoPaging<any>>(url, params);
+            case '1':
+                url = GET_ORDERS_SERVICE_RETURN;
+                return this.get<ResultNoPaging<any>>(url, params);
+            case '2':
+                url = GET_ORDERS_BUYBACK_SERVICE;
+                return this.get<ResultNoPaging<any>>(url, params);
+            default:
+                url = GET_ORDERS_SERVICE_RETURN;
+                return this.get<ResultNoPaging<any>>(url, params);
         }
     }
 
@@ -279,7 +287,7 @@ export class TicketApiService extends ApiService {
     }
 
     getStockRenew(ma_cuahang: string, ma_loai: string): Observable<Result<any>> {
-        return this.post<Result<any>>(GET_STOCK_BY_SHOP, [{ name: 'ma_cuahang', operator: '=', value: ma_cuahang }, { name: 'ma_loai', operator: '=', value: ma_loai }]);
+        return this.post<Result<any>>(GET_STOCK_BY_SHOP, [{ name: 'ma_cuahang', operator: '=', value: ma_cuahang }, { name: 'ma_nh', operator: '=', value: ma_loai }]);
     }
 
     findStocks(body: any, page_index: number, page_size: number): Observable<Result<any>> {
@@ -327,7 +335,17 @@ export class TicketApiService extends ApiService {
     }
 
     getVoucherDate(): Observable<ResultNoPaging<string>> {
-      const url = GET_VOUCHER_DATE_URL;
-      return this.get<ResultNoPaging<string>>(url);
-  }
+        const url = GET_VOUCHER_DATE_URL;
+        return this.get<ResultNoPaging<string>>(url);
+    }
+
+    getTelesale(body: any, page_index: number, page_size: number): Observable<Result<any>> {
+        const url = GET_TELESALE_URL;
+        return this.post<Result<any>>(url, body, { page_index, page_size });
+    }
+
+    navigationVoucher(table_name: string, stt_rec: string, ngay_ct: Date): Observable<ResultNoPaging<any>> {
+        const url = GET_VOUCHER_NAVIGATION_URL;
+        return this.get<ResultNoPaging<any>>(url, { table_name, stt_rec, ngay_ct });
+    }
 }

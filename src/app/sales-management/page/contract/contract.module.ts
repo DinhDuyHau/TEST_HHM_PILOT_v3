@@ -19,6 +19,8 @@ import { TabsCustomModule } from '@app/sales-management/component/form-control-c
 import { TabCustomModule } from '@app/sales-management/component/form-control-custom/tab/tab.module';
 import { TableCustomModule } from '../../component/form-control-custom/table-custom/table-custom.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
+import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
+import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 
 @NgModule({
     declarations: [
@@ -44,7 +46,9 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
         FormSearchSelectCustomModule,
         FormSelectCustomModule,
         TableCustomModule,
-        VoucherInfoModule
+        VoucherInfoModule,
+        NavigationVoucheModule,
+        VoucherInfoHeaderModule
     ]
 })
 export class ContractModule { }

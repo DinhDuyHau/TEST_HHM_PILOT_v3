@@ -38,6 +38,8 @@ export class DialogIMEIComponent {
     }
     if (data.imeiOld) {
       this.imeiOld = data.imeiOld;
+    } else {
+      this.imeiOld = data.ma_imei;
     }
 
     //danh sách imei đang có trong grid (loại trừ dòng hiện tại)
@@ -69,12 +71,26 @@ export class DialogIMEIComponent {
       new_imeis = text.split('\n');
     }
 
-    //add vào danh sách
-    if (new_imeis && new_imeis.length > 0) {
-      arr_imei.push(...new_imeis);
-      for (let i = 0; i < arr_imei.length; i++) {
-        arr_imei[i] = arr_imei[i].trim();
+    new_imeis = new_imeis.map(imei => imei.trim()).filter(imei => imei);
+
+    let imeiErrorList: string[] = [];
+
+    // Kiểm tra trùng lặp và thêm vào danh sách
+    for (let imei of new_imeis) {
+      if (arr_imei.includes(imei)) {
+        // thêm vào mảng imei lỗi
+        imeiErrorList.push(imei);
+      } else {
+        arr_imei.push(imei); // Chỉ thêm nếu không trùng lặp
+        for (let i = 0; i < arr_imei.length; i++) {
+          arr_imei[i] = arr_imei[i].trim();
+        }
       }
+    }
+
+    if (imeiErrorList.length > 0) {
+      const errorMessage = `Các imei sau đã tồn tại: ${imeiErrorList.join(', ')}`;
+      this.commonService.showMessage(errorMessage);
     }
 
     this.ma_imei = '';
@@ -198,8 +214,9 @@ export class DialogIMEIComponent {
               });
             }
             if (!flag) {
-              const imei_new = list_imei.filter(x => !this.imeiOld.find(imei => imei.trim() == x.trim()));
-              if (!imei_new) {
+              const imeiOld = this.imeiOld || [];
+              const imei_new = list_imei.filter(x => !imeiOld.find(imei => imei.trim() == x.trim()));
+              if (imei_new.length == 0) {
                 this.dialogRef.close(list_imei);
                 return;
               }

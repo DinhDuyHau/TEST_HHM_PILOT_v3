@@ -1,267 +1,298 @@
 [
-    {
-        "name": "stt",
-        "title": "Stt",
-        "isLockingColumn": true,
-        "align": "center",
-        "width": 50
-    },
-    {
-      "name": "ma_cuahang",
-      "title": "Mã cửa hàng",
-      "allowFilter": true,
-      "width": 120,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "ma_ca",
-      "title": "Mã ca",
-      "allowFilter": true,
-      "width": 80,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "so_ct",
-      "title": "Số c.từ",
-      "allowFilter": true,
-      "width": 120,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true,
-	  "link": true
-    },
-    {
-      "name": "ngay_ct",
-      "title": "Ngày c.từ",
-      "allowFilter": true,
-      "width": 100,
-      "dataFormatString": "datetimeFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "ten_loaigd",
-      "title": "Tên giao dịch",
-      "allowFilter": true,
-      "width": 150,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "ma_kh",
-      "title": "Mã khách",
-      "allowFilter": true,
-      "width": 120,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "ten_kh",
-      "title": "Tên khách hàng",
-      "allowFilter": true,
-      "width": 250,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "tien_ck",
-      "title": "Tiền đã CK/GG",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_tien",
-      "title": "Tổng tiền sau CK",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "thue",
-      "title": "Thuế",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_phi_tra_gop",
-      "title": "Phí trả góp",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_phi_qttg",
-      "title": "Phí QTTG",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },		
-    {
-      "name": "t_tien_tt",
-      "title": "Tổng phải thanh toán",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 150
-    },
-    {
-      "name": "t_coc",
-      "title": "Tiền cọc",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_mat",
-      "title": "Tiền mặt",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_chuyen_khoan",
-      "title": "Chuyển khoản",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_quet_the",
-      "title": "Quẹt thẻ",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_tien_qttg",
-      "title": "Tiền QTTG",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },	
-    {
-      "name": "t_vdt",
-      "title": "Ví điện tử",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_vnpay",
-      "title": "VNPay",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_tra_gop",
-      "title": "Trả góp",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_coupons",
-      "title": "Coupons",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_voucher_dt",
-      "title": "Voucher",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },	
-    {
-      "name": "t_sd_diem",
-      "title": "Sử dụng điểm",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_crm",
-      "title": "CRM",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_con_no",
-      "title": "Công nợ KH",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "t_doitac",
-      "title": "Công nợ đối tác",
-      "type": "number",
-      "dataFormatString": "moneyViewNoDigit",
-      "align": "right",
-      "width": 120
-    },
-    {
-      "name": "ma_nvbh",
-      "title": "Mã NVBH",
-      "allowFilter": true,
-      "width": 120,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "ten_nvbh",
-      "title": "Tên NVBH",
-      "allowFilter": true,
-      "width": 250,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "dien_giai",
-      "title": "Diễn giải",
-      "allowFilter": true,
-      "width": 250,
-      "dataFormatString": "upperCaseFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "datetime0",
-      "title": "Ngày lập",
-      "allowFilter": true,
-      "width": 100,
-      "dataFormatString": "datetimeFormat",
-      "isLockingColumn": true
-    },
-    {
-      "name": "datetime2",
-      "title": "Ngày sửa",
-      "allowFilter": true,
-      "width": 100,
-      "dataFormatString": "datetimeFormat",
-      "isLockingColumn": true
-    }
-  ]
-  
+  {
+    "name": "stt",
+    "title": "Stt",
+    "isLockingColumn": true,
+    "align": "center",
+    "width": 50
+  },
+  {
+    "name": "ma_cuahang",
+    "title": "Mã cửa hàng",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_ca",
+    "title": "Mã ca",
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "so_ct",
+    "title": "Số c.từ",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true,
+    "link": true
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày c.từ",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "datetimeFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_loaigd",
+    "title": "Tên giao dịch",
+    "allowFilter": true,
+    "width": 150,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách hàng",
+    "allowFilter": true,
+    "width": 250,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_kh9",
+    "title": "COD/TMĐT/Trả góp",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_kh9",
+    "title": "COD/TMĐT/Trả góp",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "so_dh_vc",
+    "title": "Mã đơn hàng",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_van_don",
+    "title": "Mã vận đơn",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "tien_ck",
+    "title": "Tiền đã CK/GG",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_tien",
+    "title": "Tổng tiền sau CK",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "thue",
+    "title": "Thuế",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_phi_tra_gop",
+    "title": "Phí trả góp",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_phi_qttg",
+    "title": "Phí QTTG",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_tien_tt",
+    "title": "Tổng phải thanh toán",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 150
+  },
+  {
+    "name": "t_coc",
+    "title": "Tiền cọc",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_mat",
+    "title": "Tiền mặt",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_chuyen_khoan",
+    "title": "Chuyển khoản",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_quet_the",
+    "title": "Quẹt thẻ",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_tien_qttg",
+    "title": "Tiền QTTG",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_vdt",
+    "title": "Ví điện tử",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_vnpay",
+    "title": "VNPay",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_tra_gop",
+    "title": "Trả góp",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_coupons",
+    "title": "Coupons",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_voucher_dt",
+    "title": "Voucher",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_sd_diem",
+    "title": "Sử dụng điểm",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_crm",
+    "title": "CRM",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_con_no",
+    "title": "Công nợ KH",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "t_doitac",
+    "title": "Công nợ đối tác",
+    "type": "number",
+    "dataFormatString": "moneyViewNoDigit",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "ma_nvbh",
+    "title": "Mã NVBH",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_nvbh",
+    "title": "Tên NVBH",
+    "allowFilter": true,
+    "width": 250,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "dien_giai",
+    "title": "Diễn giải",
+    "allowFilter": true,
+    "width": 250,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "datetime0",
+    "title": "Ngày lập",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "datetimeFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "datetime2",
+    "title": "Ngày sửa",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "datetimeFormat",
+    "isLockingColumn": true
+  }
+]

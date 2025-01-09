@@ -45,6 +45,12 @@ export class EWalletComponent implements OnInit {
       },
     ] as any;
     this.columns = col;
+
+    // Gán index cho mỗi phần tử trong 'detail' khi khởi tạo
+    this.data.eWallet.detail = this.data.eWallet.detail.map((item, idx) => {
+      item.index = idx; // Gán chỉ mục mới dựa trên vị trí trong mảng
+      return item;
+    });
     this.dataSource = this.data.eWallet.detail;
   }
   onOpenSearchWallet() {
@@ -59,6 +65,9 @@ export class EWalletComponent implements OnInit {
       return;
     }
     if (this.vi_dien_tu.thong_tin.trim() !== '' && this.vi_dien_tu.so_hd_vnpay.trim() !== '' && this.vi_dien_tu.tien) {
+      // Gắn thêm index vào vi_dien_tu
+      this.vi_dien_tu.index = this.data.eWallet.detail.length;
+
       this.data.eWallet.detail = [...this.data.eWallet.detail, this.vi_dien_tu];
       this.data.eWallet.tien += this.vi_dien_tu.tien;
       this.dataSource = this.data.eWallet.detail;
@@ -71,11 +80,19 @@ export class EWalletComponent implements OnInit {
 
 
   }
-  onDeleteItem(event: { item: any }) {
-    this.data.eWallet.detail = this.data.eWallet.detail.filter((x => !(x.thong_tin == event.item.thong_tin && x.so_hd_vnpay === event.item.so_hd_vnpay)));
-    this.data.eWallet.tien -= event.item.tien;
-    this.dataSource = this.data.eWallet.detail;
+  // onDeleteItem(event: { item: any }) {
+  //   this.data.eWallet.detail = this.data.eWallet.detail.filter((x => !(x.thong_tin == event.item.thong_tin && x.so_hd_vnpay === event.item.so_hd_vnpay)));
+  //   this.data.eWallet.tien -= event.item.tien;
+  //   this.dataSource = this.data.eWallet.detail;
+  // }
+
+  onDeleteItem(event: any) {
+    const index = this.data.eWallet.detail.findIndex(x => x.index === event.item.index);
+    this.data.eWallet.tien -= this.data.eWallet.detail[index].tien;
+    this.data.eWallet.detail.splice(index, 1);
+    this.dataSource = [...this.data.eWallet.detail];
   }
+
   onCancel() {
     this.dialogRef.close();
   }

@@ -21,7 +21,7 @@
             (item.class ? item.class : 'flex-1') +
             (item.hidden ? ' hidden' : '')
           ">
-          <app-input-custom-v2 *ngIf="item.type !== 'date'"
+          <app-input-custom-v2 *ngIf="item.type !== 'date' && item.type !== 'checkbox'"
             [label]="item.label"
             class="flex-1"
             [id]="item.name"
@@ -62,6 +62,16 @@
               [value]="filter[item.name]"
               (handleChangeValue)="handleInputChange(item.name, $event)">
             </select-custom>
+          </div>
+
+          <div *ngIf="item.type === 'checkbox'">
+            <app-checkbox 
+              [id]="item.name"
+              [name]="item.name"
+              [label]="item.label"
+              [value]="filter[item.name]"
+              (handleChangeValue)="handleCheck($event)">
+            </app-checkbox>
           </div>
 
         </div>

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { RetailService } from './retail.service';
-import { Merchandise, RetailSaleTicket } from '@app/sales-management/model/ticket/retail/model';
+import { Merchandise, RetailSaleTicket, TAB_NAME } from '@app/sales-management/model/ticket/retail/model';
 import dataFormat from '@app/_common/dataFormat';
 import { MatDialog } from '@angular/material/dialog';
 import { Customer } from '@app/_components/category/customer/customer.model';
@@ -91,6 +91,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   action = '';
   shop = '';
   ma_imei = '';
+  table_name = '';
 
   constructor(
     private router: Router,
@@ -242,6 +243,9 @@ export class RetailComponent implements OnInit, AfterViewInit {
         this.commonService.getPointRateExchange(this.ticket, this.option);
       }
     });
+
+    // dùng để truyền sang navigation call api lấy trang prev and next
+    this.table_name = TAB_NAME.MERCHANDISE;
   }
   // Lấy file ảnh từ khách hàng
   getImageCustomerFile(image: string) {
@@ -442,7 +446,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.retailService.getImeiInStore(ma_imei).subscribe(result => {
+    const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+    this.retailService.getImeiInStore(ma_imei, ngay_ct).subscribe(result => {
       if (result.success && result.result.length) {
         if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise)) {
           this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: ma_imei });
@@ -727,6 +732,17 @@ export class RetailComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    // check tổng tiền hàng hóa với các tab: hàng hóa, dịch vụ, gói cước
+    if (this.validMoneyMerchandise()) {
+      this.commonService.showMessage('Tổng tiền hàng chưa đúng, vui lòng kiểm tra lại !');
+      return
+    }
+
+    // check tổng tiền thanh toán với tiền còn nợ và tổng tiền đã thanh toán
+    if (this.validTotalPayment()) {
+      this.commonService.showMessage('Tổng thanh toán không khớp với các hình thức thanh toán và tiền nợ !');
+      return
+    }
     //Check imei trùng trong grid chi tiết
     const mechandise_dup = [];
     const counter: { [key: string]: number } = {};
@@ -866,7 +882,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
   handleProcessImei(ma_imei: string) {
     this.ma_imei = ma_imei;
 
-    this.retailService.getImeiInStore(this.ma_imei).subscribe(result => {
+    const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+    this.retailService.getImeiInStore(this.ma_imei, ngay_ct).subscribe(result => {
       if (result.success && result.result.length) {
         if (this.merchandiseService.checkImeiExistMerchandise(this.ma_imei, this.ticket.merchandise)) {
           this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: this.ma_imei });
@@ -898,6 +915,41 @@ export class RetailComponent implements OnInit, AfterViewInit {
       this.ticket.packages.filter(e => e.ma_dv == data.item.ma_dv).forEach(e => e.naptien_hh_yn = data.checked)
       this.retailService.calcMoney();
     }
+  }
+
+  /*
+  * Kiểm tra tổng tiền trong các tab detail
+  * với tổng tiền hàng
+  */
+  validMoneyMerchandise() {
+    // tông tiền hàng hóa
+    const merchandiseMoney = this.ticket.merchandise
+      .map(e => e.thanh_toan)
+      .reduce((pre, cur) => pre + cur, 0) || 0;
+    // tông tiền dv
+    const serviceMoney = this.ticket.service
+      .map(e => e.tong_tien)
+      .reduce((pre, cur) => pre + cur, 0) || 0;
+    // tông tiền gói cước
+    const packageMoney = this.ticket.packages
+      .filter(e => e.naptien_hh_yn)
+      .map(e => e.tong_tien)
+      .reduce((pre, cur) => pre + cur, 0) || 0;
+
+    const total = merchandiseMoney + serviceMoney + packageMoney;
+
+    return total != this.ticket.masterInfo.t_tt_nt;
+  }
+
+  /*
+  * Kiểm tra tổng tiền thanh toán với tiền còn nợ + tổng tiền các hình thức thanh toán
+  */
+  validTotalPayment() {
+    const totalPayment = this.ticket.masterInfo.fqty1;
+    const tienDaTra = this.ticket.masterInfo.t_da_tra;
+    const tienConNo = this.ticket.masterInfo.t_con_no;
+
+    return totalPayment != (tienConNo + tienDaTra);
   }
 }
 

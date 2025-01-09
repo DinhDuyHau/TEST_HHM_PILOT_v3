@@ -260,6 +260,9 @@ export class CommonService {
         masterInfoNew.ngay_ct = getDateFormat(new Date(masterInfoNew.ngay_ct));
         masterInfoNew.ngay_lct = masterInfoNew.ngay_ct;
         masterInfoNew.s4 = masterInfoNew.t_tien_ban;
+        masterInfoNew.so_dh_vc = masterInfoNew.so_dh_vc || '';
+        masterInfoNew.ma_nvvc = masterInfoNew.ma_nvvc || '';
+        masterInfoNew.ma_van_don = masterInfoNew.ma_van_don || '';
 
         Object.keys(masterInfoNew).forEach(key => {
             if (masterInfoNew[key] === undefined) {
@@ -517,6 +520,27 @@ export class CommonService {
         };
         const dialogRef = this.dialog.open(LookupComponent, dialogConfig);
         return dialogRef.afterClosed();
+    }
+
+    /*
+    * Lưu dữ liệu ticket vào localStorage khi: loading, advance search, quick search
+    */
+    saveTicketToLocalStorage(data: any) {
+      const sttRecArray = data.map((item: any) => item.stt_rec);
+      localStorage.removeItem('ticketData');
+      localStorage.setItem('ticketData', JSON.stringify(sttRecArray) || '[]');
+    }
+
+    /*
+    * Lấy dữ liệu ticket từ localStorage để dùng chuyển trang
+    */
+    getTicketFromLocalStorage() {
+      const ticketData = localStorage.getItem('ticketData');
+      if(!ticketData) {
+        return [];
+      } else {
+        return JSON.parse(ticketData);
+      }
     }
 
     // #region check authorization

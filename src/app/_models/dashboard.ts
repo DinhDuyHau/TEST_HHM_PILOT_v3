@@ -15,3 +15,24 @@ export interface DashboardSales {
   don_hang_nhap_tl: number; // Đơn hàng nhập trả lại
   t_hh_ban_ra: number; // Tổng hàng hóa bán ra
 }
+
+export interface DashboardSalesCommission {
+  fullname: string;
+  username: string;
+  ds_thang: number;
+  hoa_hong: number;
+  sl_hangban: number;
+  sl_hcare: number;
+  ds_ngay_ht: number;
+  tl_chuyendoi: number;
+}
+
+export interface DashboardSalesStats {
+  stt: number;
+  ma_nh: string;
+  ten_nh: string;
+  ds_ban: number;
+  sl_ban: number;
+  sl_hcare_ban: number;
+  sl_ban_hn: number;
+}

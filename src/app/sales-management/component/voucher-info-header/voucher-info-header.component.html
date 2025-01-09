@@ -1,0 +1,18 @@
+<div class="hidden sm:flex items-center space-x-4 ml-2 text-sm h-100" style="margin-top: 7px;">
+  <span *ngIf="this.created_by" class="font-normal">
+    Tạo bởi:
+    <span class="text-gray-500">{{ this.created_by }}</span>
+  </span>
+  <span *ngIf="this.created_at" class="font-normal">
+    Thời gian:
+    <span class="text-gray-500">{{ this.created_at }}</span>
+  </span>
+  <span *ngIf="this.updated_by" class="font-normal">
+    Sửa bởi:
+    <span class="text-gray-500">{{ this.updated_by }}</span>
+  </span>
+  <span *ngIf="this.updated_at" class="font-normal">
+    Thời gian:
+    <span class="text-gray-500">{{ this.updated_at }}</span>
+  </span>
+</div>

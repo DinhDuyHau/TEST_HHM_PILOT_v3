@@ -1,5 +1,5 @@
 ﻿import { Component } from '@angular/core';
-import { DashboardSales, DashboardTopSelling, Result } from '@app/_models';
+import { DashboardSales, DashboardSalesCommission, DashboardSalesStats, DashboardTopSelling, Result } from '@app/_models';
 import { DashboardService } from '@app/_services/dashboard.service';
 import { formatNumber } from '@angular/common';
 
@@ -12,12 +12,23 @@ export class HomeComponent {
   month = new Date().getMonth() + 1;
   itemsTopSelling: { ten_vt: string, ma_vt: string, sl_xuat: number }[] = [];
   salesData: DashboardSales | null = null;
+  salesCommission: DashboardSalesCommission | null = null;
+  salesStats: any;
+  username: any;
+
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
     this.loading = true;
+
+    const userJson = localStorage.getItem('user');
+    const userObj = userJson !== null && JSON.parse(userJson);
+    this.username = userObj.username || '';
+
     this.getDashboardTopSelling();
     this.getDashboardSales();
+    this.getDashboardSalesCommission();
+    this.getDashboardSalesStats();
   }
 
   //lấy top 5 sp
@@ -28,7 +39,7 @@ export class HomeComponent {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error fetching dashboard data:', error);
+        // console.error('Error fetching dashboard data:', error);
         this.loading = false;
       }
     });
@@ -39,13 +50,42 @@ export class HomeComponent {
   getDashboardSales() {
     this.dashboardService.getDashboardSales().subscribe({
       next: (data: Result<DashboardSales>) => {
-        if (data.result.items && data.result.items.length > 0) {
-          this.salesData = data.result.items[0];
-        }
+        this.salesData = data.result.items[0];
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error fetching dashboard data:', error);
+        // console.error('Error fetching dashboard data:', error);
+        this.loading = false;
+      }
+    });
+  }
+  // end
+
+  //lấy kết quả bán hàng => hoa hồng
+  getDashboardSalesCommission() {
+    this.dashboardService.getDashboardSalesCommission().subscribe({
+      next: (data: Result<DashboardSalesCommission>) => {
+        this.salesCommission = data.result.items[0];
+        this.loading = false;
+      },
+      error: (error) => {
+        // console.error('Error fetching dashboard data:', error);
+        this.loading = false;
+      }
+    });
+  }
+  // end
+
+  //lấy kết quả bán hàng => hoa hồng
+  getDashboardSalesStats() {
+    this.dashboardService.getDashboardSalesStats().subscribe({
+      next: (data: Result<DashboardSalesStats>) => {
+        this.salesStats = data.result.items || [];
+        this.loading = false;
+      },
+      error: (error) => {
+        // console.error('Error fetching dashboard data:', error);
+        this.salesStats = [];
         this.loading = false;
       }
     });
@@ -55,6 +95,8 @@ export class HomeComponent {
   onReload() {
     this.getDashboardTopSelling();
     this.getDashboardSales();
+    this.getDashboardSalesCommission();
+    this.getDashboardSalesStats();
   }
 
   formatNumber(value: number | null): string {
@@ -63,6 +105,14 @@ export class HomeComponent {
     }
 
     return value.toLocaleString('de-DE');
+  }
+
+  formatNumberPercentage(value: number | null): string {
+    if (value === null || value === undefined) {
+      return '0';
+    }
+
+    return value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
   formatShortNumber(value: number): string {

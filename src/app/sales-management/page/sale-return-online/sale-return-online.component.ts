@@ -213,6 +213,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
         map.set('in_store_yn', false);
         map.set('xuat_yn', true);
         map.set('dieu_chuyen_yn', false);
+        map.set('tra_ncc_yn', false);
         // map.set('dat_hang_yn', false);
         const message = this.imeiService.GetMessageStatusImei(map, result.result[0]);
         if (message) {
@@ -228,6 +229,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
           if (result && result.success && result.result && result.result.details) {
             this.loadCustomerInfo(result.result.masterInfo.ma_kh);
             const merchandise = result.result.details[0].data;
+            const ext = result.result.details[5].data;
             const details = result.result.details
             this.imeiApiService.updateImeiState([ma_imei], true, 1).subscribe(result => {
               if (result.success && result.result[0].dat_hang_yn) {
@@ -239,7 +241,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
                   merchandise[0].tien_giam = this.tien_giam;
                   merchandise[0].giam_gia_yn = this.isSaleDown;
 
-                  this.merchandiseService.convertFromVoucher(merchandise, this.ticket.merchandise, Merchandise);
+                  this.merchandiseService.convertFromVoucher(merchandise, this.ticket.merchandise, Merchandise, ext);
 
                   details.map((detail: any) => {
                     switch (detail.name.toLocaleLowerCase()) {
@@ -386,7 +388,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
   }
 
   onCancel() {
-    this.router.navigate(['sales/return']);
+    this.router.navigate(['sales/return-online']);
     // const imeis = this.ticket.merchandise.filter(e => e.ma_imei).map(e => e.ma_imei);
     // if (imeis.length > 0) {
     //   this.imeiApiService.updateImeiState(imeis, false).subscribe(result => {

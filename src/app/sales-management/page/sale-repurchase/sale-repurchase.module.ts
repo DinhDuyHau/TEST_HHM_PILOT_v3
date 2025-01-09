@@ -22,6 +22,9 @@ import { TabsCustomModule } from '@app/sales-management/component/form-control-c
 import { EInvoiceTabModule } from '@app/sales-management/component/e-invoice/e-invoice-tab/e-invoice-tab.module';
 import { EInvoiceInfoModule } from '@app/sales-management/component/e-invoice/e-invoice-info/e-invoice-info.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
+import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
+import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
+import { ControlsModule } from '@app/_components/controls/controls.module';
 
 @NgModule({
     imports: [
@@ -47,7 +50,10 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
         PaymentTabModule,
         EInvoiceTabModule,
         EInvoiceInfoModule,
-        VoucherInfoModule
+        VoucherInfoModule,
+        NavigationVoucheModule,
+        VoucherInfoHeaderModule,
+        ControlsModule
     ],
     declarations: [
         SaleRepurchaseComponent

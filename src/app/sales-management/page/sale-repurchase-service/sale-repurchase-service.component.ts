@@ -77,7 +77,7 @@ export class SaleRepurchaseServiceComponent implements OnInit, AfterViewInit {
     const current_shop_id = (JSON.parse(localStorage.getItem('user')!)).shop.trim();
     const stocks = JSON.parse(localStorage.getItem('stock')!);
 
-    this.input_store_id = stocks.find((x: any) => x.ma_cuahang == current_shop_id && x.ma_loai == 'KD').ma_kho;
+    this.input_store_id = stocks.find((x: any) => x.ma_cuahang == current_shop_id && x.ma_loai == 'KD')?.ma_kho || "";
   }
 
   ngAfterViewInit(): void {

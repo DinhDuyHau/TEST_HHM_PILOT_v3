@@ -58,13 +58,8 @@ export class LookupV2Component {
   }
 
   onClickItemLookup(event: { item: any }) {
-    const existingItem = this.dataSource.filteredData.find((e: any) => e[this.codeLookup[0]] === event.item[this.codeLookup[0]]);
-    if (existingItem) {
-      existingItem.choose = true;
-    }
-    const items = this.dataSource.filteredData.filter(((item: any) => item.choose)).map((item: any) => item[this.codeLookup[0]]).join(', ') || [];
-    if (this.data.isChoose === true) {
-      this.dialogRef.close(items);
+    if (this.data.isChoose == true) {
+      this.dialogRef.close(this.data.arraySelected.map((item: any) => item).join(', ') || []);
     }
     else {
       this.dialogRef.close(event.item);
@@ -83,7 +78,10 @@ export class LookupV2Component {
     indexRow: number;
   }): void {
     if (event.item.choose === true)
-      this.data.arraySelected = [...this.data.arraySelected, event.item[this.codeLookup[0]]]
+      this.data.arraySelected = [...this.data.arraySelected, event.item[this.codeLookup[0]]];
+    else
+      this.data.arraySelected = this.data.arraySelected.filter(((item: any) => item != event.item[this.codeLookup[0]]))
+
     this.lookupService.handleService(event, this.dataSource.data, 'checkboxChange');
   }
 
@@ -98,6 +96,7 @@ export class LookupV2Component {
     pageIndex: number
     pageSize: number
   }, sort?: ItemSort, filter?: ItemFilter[]): void {
+    if (!this.data.arraySelected || this.data.arraySelected == '') this.data.arraySelected = [];
     this.lookupService.getItems(page, filter || [], sort || { name: '', direction: '' }).subscribe(res => {
       this.dataSource = new MatTableDataSource<any>(res.result.items);
       this.dataSource.filteredData = this.dataSource.filteredData.map((item: any) => {
@@ -179,10 +178,20 @@ export class LookupV2Component {
     // console.log('checkbox change');
   }
   onSelectColumn(event: { index: number }) {
-    this.dataSource.data.map((value: any) => {
-      return (value[this.fields[event.index].name] =
-        !value[this.fields[event.index].name]);
-    });
+    const checkChoose = this.dataSource.data.filter((item: any) => !item.choose)
+    if (checkChoose.length > 0) {
+      this.dataSource.data.forEach((item: any) => {
+        if (!item.choose)
+          this.data.arraySelected = [...this.data.arraySelected, item[this.codeLookup[0]]]
+        item.choose = true;
+      })
+    }
+    else {
+      this.dataSource.data.forEach((item: any) => {
+        this.data.arraySelected = this.data.arraySelected.filter((e: any) => e != item[this.codeLookup[0]])
+        item.choose = false;
+      })
+    }
   }
   onSortColumn(event: { name: string; direction: string }) {
     this.sort = { name: event.name, direction: event.direction };

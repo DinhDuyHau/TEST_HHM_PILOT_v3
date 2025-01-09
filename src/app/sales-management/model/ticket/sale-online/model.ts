@@ -38,6 +38,8 @@ export class MasterInfo extends BaseMasterInfo {
   t_da_tra = 0;
   email_nhan_key = '';
   dien_giai = '';
+  //Mã nhân viên telesale
+  fcode1 = '';
 
   constructor(obj?: any) {
     super();

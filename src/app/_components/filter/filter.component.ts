@@ -6,6 +6,7 @@ import { getDate, getFirstDayOfMonth, getLastDayOfMonth } from '@app/_common/com
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from '@app/_services';
 import { Platform } from '@angular/cdk/platform';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-filter',
@@ -27,6 +28,7 @@ export class FilterComponent implements OnInit {
   isMobile = false;
   formControlName: any = [];
   isChoose = false;
+  checked = true;
 
   constructor(public dialogRef: MatDialogRef<FilterComponent>,
     private platform: Platform,
@@ -63,8 +65,23 @@ export class FilterComponent implements OnInit {
     });
 
   }
+  ngAfterViewInit() {
+    // Tìm input đầu tiên và focus vào nó 
+    const firstInput = this.form.nativeElement.querySelector('input:not([readonly]):not([disabled]):not([type="date"])');
+    if (firstInput) {
+      firstInput.focus();
+      firstInput.setSelectionRange(0, 0); // Đặt con trỏ vào đầu của phần tử 
+    }
+  }
   ngOnInit(): void {
     this.isMobile = this.platform.IOS || this.platform.ANDROID;
+    this.controls.forEach(control => {
+      control.forEach(item => {
+        if (item.type == 'checkbox') {
+          this.filter[item.name] = this.checked;
+        }
+      })
+    })
   }
   onSave() {
     this.submit = true;
@@ -94,6 +111,7 @@ export class FilterComponent implements OnInit {
       if (inputs[i] === event.target) {
         if (i < inputs.length - 1) {
           inputs[i + 1].focus(); // Focus vào phần tử tiếp theo
+          inputs[i + 1].setSelectionRange(0, 0); // Đặt con trỏ vào đầu của phần tử
           break;
         }
         else {
@@ -127,4 +145,28 @@ export class FilterComponent implements OnInit {
       this.onEnter(event);
   }
 
+  handleCheck(event: any) {
+    this.controls.flat().find((item: any) => {
+      if (item.name === event.source.name) {
+        item.linkName.forEach((i: any) => {
+          if (event.checked === true) {
+            this.controls.flat().find((e: any) => {
+              if (e.name == i) {
+                e.hidden = false;
+              }
+            })
+          }
+          else {
+            this.filter[i] = '';
+            this.controls.flat().find((e: any) => {
+              if (e.name === i) {
+                e.hidden = true;
+              }
+            })
+          }
+        })
+        this.filter[event.source.name] = event.checked;
+      }
+    })
+  }
 }

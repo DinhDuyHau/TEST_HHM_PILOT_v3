@@ -5,6 +5,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -49,6 +53,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -101,6 +109,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -149,6 +161,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -209,6 +225,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -257,6 +277,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -327,6 +351,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -379,6 +407,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -435,6 +467,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -481,6 +517,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -537,6 +577,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -583,6 +627,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -658,6 +706,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -712,6 +764,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -737,7 +793,42 @@
             "name": "t_tt_nt",
             "title": "Thanh toán",
             "align": "right",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "tien_mat",
+            "title": "Tiền mặt",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "quet_the",
+            "title": "Quẹt thẻ",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "chuyen_khoan",
+            "title": "Chuyển khoản",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "vi_dien_tu",
+            "title": "Ví điện tử",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "vnpay",
+            "title": "VNPAY",
+            "align": "right",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
@@ -760,6 +851,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -785,7 +880,42 @@
             "name": "t_tt_nt",
             "title": "Thanh toán",
             "align": "right",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "tien_mat",
+            "title": "Tiền mặt",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "quet_the",
+            "title": "Quẹt thẻ",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "chuyen_khoan",
+            "title": "Chuyển khoản",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "vi_dien_tu",
+            "title": "Ví điện tử",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "vnpay",
+            "title": "VNPAY",
+            "align": "right",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
@@ -808,6 +938,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -833,7 +967,42 @@
             "name": "t_tt_nt",
             "title": "Thanh toán",
             "align": "right",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "tien_mat",
+            "title": "Tiền mặt",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "quet_the",
+            "title": "Quẹt thẻ",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "chuyen_khoan",
+            "title": "Chuyển khoản",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "vi_dien_tu",
+            "title": "Ví điện tử",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "vnpay",
+            "title": "VNPAY",
+            "align": "right",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
@@ -856,6 +1025,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -881,7 +1054,42 @@
             "name": "t_tt_nt",
             "title": "Thanh toán",
             "align": "right",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "tien_mat",
+            "title": "Tiền mặt",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "quet_the",
+            "title": "Quẹt thẻ",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "chuyen_khoan",
+            "title": "Chuyển khoản",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "vi_dien_tu",
+            "title": "Ví điện tử",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "vnpay",
+            "title": "VNPAY",
+            "align": "right",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {
@@ -902,6 +1110,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",
@@ -952,6 +1164,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -1000,6 +1216,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày lập",
             "dataType": "date",
@@ -1046,6 +1266,10 @@
         {
             "name": "ma_cuahang",
             "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
         },
         {
             "name": "ngay_ct",

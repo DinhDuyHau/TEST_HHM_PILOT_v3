@@ -282,8 +282,8 @@ export class SaleWholeService {
     // #endregion guarantee
 
     // #region imei
-    getImeiInStore(imei: string) {
-        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.WHOLE);
+    getImeiInStore(imei: string, ngay_ct: Date | null = null) {
+        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.WHOLE, ngay_ct);
     }
 
     getMerchandiseInfo(ma_vt: string) {

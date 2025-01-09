@@ -55,13 +55,16 @@ export class SaleReturnOnlineService {
         data.details.forEach(e => {
             switch (e.name) {
                 case TAB_NAME.MERCHANDISE:
-                    this.merchandiseService.convertFromVoucher(e.data, this.ticket.merchandise, Merchandise);
+                    this.merchandiseService.convertFromVoucherView(e.data, this.ticket.merchandise, Merchandise);
                     break;
                 case TAB_NAME.ELECTRONIC_BILL:
                     this.ticket.electronic_bill = this.commonService.convertDateOfModelFromVoucher(e.data[0]);
                     break;
                 case TAB_NAME.PAYMENT:
                     this.paymentService.convertPaymentFromVoucher(e.data, this.ticket.payment);
+                    break;
+                case TAB_NAME.SERVICE:
+                    this.serviceOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
                     break;
                 default:
                     break;
@@ -78,6 +81,7 @@ export class SaleReturnOnlineService {
         // voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.ELECTRONIC_BILL, data: [] }];
         voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.ELECTRONIC_BILL, data: [this.commonService.convertDateOfModelToRequest(this.ticket.electronic_bill, voucherDto.masterInfo)] }];
         voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
+        voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.SERVICE, data: this.serviceOfMerchandiseService.convertServiceToRequest(this.ticket.service, voucherDto.masterInfo, ServiceRequest) }];
         return voucherDto;
     }
 
@@ -215,6 +219,9 @@ export class SaleReturnOnlineService {
         this.ticket.masterInfo.t_ck = discountMoney + seviceDiscountMoney;
         this.ticket.masterInfo.t_thue_nt = Math.round(merchandiseTax) + serviceTaxMoney;
         this.ticket.masterInfo.t_tt_nt = Math.round(totalMoney + serviceTotalMoney);
+
+        // tiền nợ
+        this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra;
 
         this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);
     }

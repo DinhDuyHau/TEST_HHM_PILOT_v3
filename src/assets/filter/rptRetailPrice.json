@@ -1,51 +1,56 @@
 {
-    "width": 700,
-    "height": 450,
-    "control": [
-        [
-            {
-              "name": "ngay_hl",
-              "label": "Ngày hiệu lực",
-              "type": "date",
-              "dataFormatString": "datetimeFormat"
-            }
-        ],
-        [
-          {
-            "name": "ma_cuahang",
-            "label": "Mã cửa hàng",
-            "isLookup": "true",
-            "control": "dmcuahang",
-            "dataFormatString": "uppercaseFormat",
-            "reference": ["ma_cuahang"],
-            "class": "flex-1",
-            "isChoose": true
-          }
-        ],
-        [
-          {
-            "name": "ma_vt",
-            "label": "Mã vật tư",
-            "isLookup": "true",
-            "control": "dmvt",
-            "dataFormatString": "uppercaseFormat",
-            "reference": ["ma_vt"],
-            "class": "flex-1",
-            "isChoose": true
-          }
-        ],
-        [
-          {
-            "name": "nh_vt3",
-            "label": "Model",
-            "isLookup": "true",
-            "control": "dmnhvt3",
-            "dataFormatString": "uppercaseFormat",
-            "reference": ["nh_vt3"],
-            "class": "flex-1",
-            "isChoose": true
-          }
-        ]
+  "width": 700,
+  "height": 450,
+  "control": [
+    [
+      {
+        "name": "tu_ngay",
+        "label": "Từ ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      },
+      {
+        "name": "den_ngay",
+        "label": "Đến ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      }
+    ],
+    [
+      {
+        "name": "ma_cuahang",
+        "label": "Mã cửa hàng",
+        "isLookup": "true",
+        "control": "dmcuahang",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_cuahang"],
+        "class": "flex-1",
+        "isChoose": true
+      }
+    ],
+    [
+      {
+        "name": "ma_vt",
+        "label": "Mã vật tư",
+        "isLookup": "true",
+        "control": "dmvt",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_vt"],
+        "class": "flex-1",
+        "isChoose": true
+      }
+    ],
+    [
+      {
+        "name": "nh_vt3",
+        "label": "Model",
+        "isLookup": "true",
+        "control": "dmnhvt3",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["nh_vt3"],
+        "class": "flex-1",
+        "isChoose": true
+      }
     ]
-  }
-  
+  ]
+}

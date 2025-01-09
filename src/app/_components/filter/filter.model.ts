@@ -31,4 +31,6 @@ export class Control {
     optionValue?: any;
     optionDes!: string;
     isChoose?: boolean = false;
+    linkName?: string = '';
+    checked?: boolean = true;
 }

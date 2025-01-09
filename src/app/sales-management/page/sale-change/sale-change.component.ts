@@ -227,11 +227,11 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
 
         const merchandise = result.result.details[0].data;
         const service = result.result.details[1].data;
-        const src_merchandise = merchandise.filter((x: any) => x.ma_imei.trim() === ma_imei.trim());
+        const src_merchandise = merchandise.filter((x: any) => x.ma_imei.toLowerCase().trim() === ma_imei.toLowerCase().trim());
         src_merchandise.forEach((x: any) => x.stt_rec_dh = x.stt_rec);
 
         //kiểm tra thỏa mãn chính sách trả lại vật tư
-        if (src_merchandise && !src_merchandise[0].nhap_tra_lai_yn) {
+        if (src_merchandise && src_merchandise[0] && !src_merchandise[0].nhap_tra_lai_yn) {
           this.commonService.showMessage('Imei không thỏa mãn chính sách trả lại');
           return;
         }
@@ -285,7 +285,8 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.saleChangeService.getImeiInStore(ma_imei).subscribe(result => {
+    const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+    this.saleChangeService.getImeiInStore(ma_imei, ngay_ct).subscribe(result => {
       if (result && result.success && result.result.length) {
         const merchandise = result.result[0];
         this.handleAddImei(merchandise, this.ticket.merchandise_change);
@@ -502,7 +503,8 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   handleProcessImei(ma_imei: string) {
     this.ma_imei_doi = ma_imei;
 
-    this.saleChangeService.getImeiInStore(ma_imei).subscribe(result => {
+    const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+    this.saleChangeService.getImeiInStore(ma_imei, ngay_ct).subscribe(result => {
       if (result && result.success && result.result.length) {
         const merchandise = result.result[0];
         this.handleAddImei(merchandise, this.ticket.merchandise_change);

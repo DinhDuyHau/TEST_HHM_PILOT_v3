@@ -176,12 +176,15 @@ export class TransferDetail extends BaseModelPayment {
     tk_nh_nhan = '';
     ten_nguoi_nhan = '';
     ten_ngan_hang = '';
+    index = 0;
 }
 export class EWalletDetail extends BaseModelPayment {
     thong_tin = '';
     so_hd_vnpay = '';
+    index = 0;
 }
 
 export class VNPayDetail extends BaseModelPayment {
     so_hd_vnpay = '';
+    index = 0;
 }

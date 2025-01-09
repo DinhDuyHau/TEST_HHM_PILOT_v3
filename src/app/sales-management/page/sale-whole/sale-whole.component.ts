@@ -247,7 +247,8 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
         this.commonService.showMessageByNameAdvance('lblWarningExistImei', { name: '%imei', value: ma_imei });
         return;
       }
-      this.saleWholeService.getImeiInStore(ma_imei).subscribe(result => {
+      const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+      this.saleWholeService.getImeiInStore(ma_imei, ngay_ct).subscribe(result => {
         if (result.success && result.result.length) {
           const imeiInfo = result.result[0];
           const merchandise = this.merchandiseService.getMerchandiseByMaVTAndMaKho(imeiInfo.ma_vt, imeiInfo.ma_kho || '', this.ticket.merchandise);
@@ -292,18 +293,26 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
     this.saleWholeService.openDialogIMEI(this.itemSelected).subscribe((value) => {
       if (value) {
         /*
-        * check trùng imei
+        * Kiểm tra trùng IMEI
         */
-        // Tách tất cả IMEI từ merchandise
+        // Lấy danh sách tất cả IMEI đã tồn tại từ merchandise
         const existingIMEIs = this.ticket.merchandise
-          .flatMap(item => (item.ma_imei ? item.ma_imei.split(',').map((imei: any) => imei.trim()) : []));
-        // Tìm các giá trị IMEI bị trùng
-        const duplicateIMEIs = value.filter((imei: any) => existingIMEIs.includes(imei));
-        if(duplicateIMEIs.length > 0) {
+          .flatMap(item => (Array.isArray(item.ma_imei) ? item.ma_imei : []));
+        // Lấy danh sách IMEI đã có trong `itemSelected`
+        const currentIMEIs = this.itemSelected && this.itemSelected.ma_imei
+          ? (Array.isArray(this.itemSelected.ma_imei)
+            ? this.itemSelected.ma_imei
+            : this.itemSelected.ma_imei.split(',').map((imei: string) => imei.trim()))
+          : [];
+        // Lọc ra danh sách IMEI mới để kiểm tra
+        const newIMEIs = value.filter((imei: any) => !currentIMEIs.includes(imei));
+        // Tìm các IMEI bị trùng chỉ trong danh sách IMEI mới
+        const duplicateIMEIs = newIMEIs.filter((imei: any) => existingIMEIs.includes(imei));
+        if (duplicateIMEIs.length > 0) {
           this.commonService.showMessage(`Các imei sau đã tồn tại trong chi tiết: ${duplicateIMEIs.join(', ')}`);
           return;
         }
-        /*END*/
+        /* END */
 
         this.itemSelected.ma_imei = value.join(', ');
         this.itemSelected.so_luong_imei = value.length;
@@ -401,6 +410,27 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
     // Check âm tiền nợ
     if (this.ticket.masterInfo.t_con_no < 0) {
       this.commonService.showMessage('Tiền nợ không được âm');
+      return;
+    }
+
+    //Check imei trùng trong grid chi tiết
+    const mechandise_dup = [];
+    let lineNumber = 0;
+    for (const item of this.ticket.merchandise) {
+      lineNumber++;
+      // Tách từng IMEI từ ma_imei
+      const imeis = item.ma_imei ? item.ma_imei.split(',').map((imei: string) => imei.trim()) : [];
+      const duplicates = imeis.filter((imei: any, index: any) => imeis.indexOf(imei) !== index);
+
+      if (duplicates.length > 0) {
+        mechandise_dup.push({ line: lineNumber, duplicates });
+      }
+    }
+    if (mechandise_dup.length > 0) {
+      const message = mechandise_dup
+        .map(dup => `Dòng ${dup.line} có các IMEI sau bị trùng: ${dup.duplicates.join(', ')}`)
+        .join('\n'); // Gộp các dòng thành một thông báo duy nhất
+      this.commonService.showMessage(message);
       return;
     }
 

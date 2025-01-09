@@ -19,7 +19,10 @@ import { EInvoiceInfoModule } from '@app/sales-management/component/e-invoice/e-
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
 import { PackageForImeiModule } from '@app/sales-management/component/merchandise-service/package-for-imei/package-for-imei.module';
 import { DeliveryInfomationModule } from '@app/sales-management/component/delivery/infomation/delivery-infomation.module';
-
+import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
+import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
+import { SendEmailModule } from '@app/sales-management/component/send-email/send-email.module';
+import { PrintModule } from '@app/sales-management/component/print/print.module';
 
 @NgModule({
     imports: [
@@ -42,6 +45,10 @@ import { DeliveryInfomationModule } from '@app/sales-management/component/delive
         VoucherInfoModule,
         PackageForImeiModule,
         DeliveryInfomationModule,
+        NavigationVoucheModule,
+        VoucherInfoHeaderModule,
+        SendEmailModule,
+        PrintModule
     ],
     declarations: [
         RetailComponent

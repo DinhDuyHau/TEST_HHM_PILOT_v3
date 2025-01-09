@@ -1,7 +1,7 @@
 <div mat-dialog-actions class="flex flex-col h-full bg-white imei-dialog-container">
   <div class="w-full relative flex justify-between p-1">
     <div class="font-medium text-xl">
-      IMEI của <span class="text-green-500">{{ data.ma_vt }}:</span>
+      IMEI của <span class="text-green-500">{{ data.ma_vt }}: </span>
     </div>
   </div>
   <div class="flex w-full p-2">
@@ -24,7 +24,8 @@
         <thead>
           <tr>
             <th style="width:70px;"><div>Stt</div></th>
-            <th style="width:calc(100% - 140px);"><div>Imei</div></th>
+            <th style="width:180px;"><div>Imei</div></th>
+            <th style="width:calc(100% - 320px);"><div>Tên vật tư</div></th>
             <th style="width:70px;"><div>&nbsp;</div></th>
           </tr>
         </thead>
@@ -33,6 +34,7 @@
               [ngClass]="{ odd: odd, even: even }">
             <td>{{ i + 1 }}</td>
             <td><span>{{ imei_item }}</span></td>
+            <td><span>{{ data.ten_vt }}</span></td>
             <td>
               <button (click)="onDeleteItem(i)">
                 <i class="fas fa-trash-alt icon-table text-danger"></i>

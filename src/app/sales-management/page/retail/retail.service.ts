@@ -204,8 +204,8 @@ export class RetailService {
     // #endregion guarantee
 
     // #region imei
-    getImeiInStore(imei: string) {
-        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.RETAIL);
+    getImeiInStore(imei: string, ngay_ct: Date | null = null) {
+        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.RETAIL, ngay_ct);
     }
 
     getMerchandiseInfo(ma_vt: string) {
@@ -612,13 +612,13 @@ export class RetailService {
         const serviceMoney = this.ticket?.service?.map(e => e.thanh_tien).reduce((pre, cur) => pre + cur, 0) || 0;
 
         //lấy tiền gói cước
-        let packages_thanh_tien = 0
-        let packages_tien_thue = 0
-        let packages_tong_tien = 0
+        let packages_thanh_tien = 0;
+        let packages_tien_thue = 0;
+        let packages_tong_tien = 0;
         this.ticket.packages.forEach(item => {
             if (item.naptien_hh_yn == true) {
                 packages_thanh_tien += item.thanh_tien;
-                packages_thanh_tien += item.tien_thue;
+                packages_tien_thue += item.tien_thue;
                 packages_tong_tien += item.tong_tien;
             }
         })
@@ -632,11 +632,11 @@ export class RetailService {
             .map(e => e.tien_thue || 0)
             .reduce((pre, cur) => pre + cur, 0) || 0;
 
-        this.ticket.masterInfo.t_tien_nt2 = merchandiseMoney + serviceMoney + packages_tong_tien;
+        this.ticket.masterInfo.t_tien_nt2 = merchandiseMoney + serviceMoney + packages_thanh_tien;
         // this.ticket.masterInfo.t_thue_nt = this.commonService.rouding(serviceTax + merchandiseTax, option_thue);
         this.ticket.masterInfo.t_thue_nt = serviceTax + merchandiseTax + packages_tien_thue;
         this.ticket.masterInfo.t_ck = this.ticket.discount.map(e => e.tien_ck).reduce((pre, cur) => pre + cur, 0);
-        this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt + packages_tien_thue;
+        this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt;
         // this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt, this.option);
         this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
 

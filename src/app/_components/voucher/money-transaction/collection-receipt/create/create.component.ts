@@ -96,6 +96,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
 
   action = '';
   shop = '';
+  isValidCustomerGroup3 = false;
 
   override gridType = GridType.GridDetail;
   actionButtons = [button.DeleteButton];
@@ -169,6 +170,19 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
       item.masterInfo.ngay_ct = item.masterInfo.ngay_ct?.substring(0, 10);
       this.data = item;
 
+      // Kiểm tra xem có cần hiển tab payment hay ko
+      const ma_kh = this.data.masterInfo.ma_kh;
+      this.customerService.getItem(ma_kh || '').subscribe((data) => {
+        const res = data as any;
+        if(res) {
+          if(res?.nh_kh3 == 'NBHH') {
+            this.isValidCustomerGroup3 = false;
+          } else {
+            this.isValidCustomerGroup3 = true;
+          }
+        }
+      });
+
       this.voucherForm = this.formBuilder.group({
         so_ct: [this.data.masterInfo.so_ct, Validators.required],
         ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
@@ -208,6 +222,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
             this.submitButtonTitle = this.commonService.getMessage('btnSubmitAdd');
             this.cancelButtonTitle = this.commonService.getMessage('btnCancelAdd');
             this.action = 'create';
+            this.isValidCustomerGroup3 = true;
             break;
           case 'update':
             this.title = this.commonService.getMessage('titleEdit');
@@ -357,7 +372,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
       this.commonService.showMessageByName('lblWarningLackDetail');
       return;
     }
-    if (this.data.masterInfo.t_da_tra == 0) {
+    if (this.data.masterInfo.t_da_tra == 0 && this.isValidCustomerGroup3) {
       this.commonService.showMessage("Cần chọn hình thức thanh toán trước khi lưu phiếu");
       return;
     }
@@ -415,6 +430,13 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
       }
       if (item.control == 'ma_td') {
         this.dvthuhoService.setItemFilter([{ name: 'ma_loai', operator: '=', value: item.value }]);
+      }
+      if (item.control == 'nh_kh3') {
+        if(item.value == 'NBHH') {
+          this.isValidCustomerGroup3 = false;
+        } else {
+          this.isValidCustomerGroup3 = true;
+        }
       }
     });
   }
@@ -619,7 +641,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
       t_tien_hoa_hong_nt += item.tien_hoa_hong_nt || 0;
     });
 
-    this.data.masterInfo.t_con_no = t_tien_nt - this.data.masterInfo.t_da_tra!;
+    this.data.masterInfo.t_con_no = t_tien_nt - (this.data.masterInfo.t_da_tra || 0);
 
     this.data.masterInfo = { ...this.data.masterInfo, t_tien_nt: t_tien_nt, t_tt_nt: t_tien_nt, t_tien_hoa_hong_nt: t_tien_hoa_hong_nt };
   }
@@ -634,6 +656,13 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
     this.customerApiService.getOneById(ma_kh).subscribe(result => {
       if (!(result.success && result.result)) {
         this.openAddCustomerDialog(ma_kh);
+      } else {
+        const res = result.result as any;
+        if(res?.nh_kh3 == 'NBHH') {
+          this.isValidCustomerGroup3 = false;
+        } else {
+          this.isValidCustomerGroup3 = true;
+        }
       }
     });
   }

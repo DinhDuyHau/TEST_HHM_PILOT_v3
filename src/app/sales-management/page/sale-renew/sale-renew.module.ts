@@ -23,6 +23,8 @@ import { EInvoiceInfoModule } from '@app/sales-management/component/e-invoice/e-
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
 import { ControlsModule } from '@app/_components/controls/controls.module'
 import { OldProductDialogComponent } from './old-product-dialog.component';
+import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
+import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 
 @NgModule({
     declarations: [
@@ -52,7 +54,9 @@ import { OldProductDialogComponent } from './old-product-dialog.component';
         EInvoiceInfoModule,
         DataFormatPipeModule,
         VoucherInfoModule,
-        ControlsModule
+        ControlsModule,
+        NavigationVoucheModule,
+        VoucherInfoHeaderModule
     ]
 })
 export class SaleRenewModule { }

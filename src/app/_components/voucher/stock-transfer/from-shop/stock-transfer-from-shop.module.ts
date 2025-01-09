@@ -15,6 +15,8 @@ import { ScanQrcodeModule } from '@app/_components/scan-qrcode/scan-qrcode.modul
 import { CameraModule } from '@app/sales-management/component/webcam/webcam.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
 import { ImportImeiModule } from '../import-imei/import-imei.module';
+import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
+import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 
 @NgModule({
     imports: [
@@ -32,7 +34,9 @@ import { ImportImeiModule } from '../import-imei/import-imei.module';
         ScanQrcodeModule,
         CameraModule,
         VoucherInfoModule,
-        ImportImeiModule
+        ImportImeiModule,
+        NavigationVoucheModule,
+        VoucherInfoHeaderModule
     ],
     declarations: [
         StockTransferFromShopComponent,

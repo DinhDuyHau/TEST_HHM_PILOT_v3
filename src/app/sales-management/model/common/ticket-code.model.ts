@@ -49,7 +49,7 @@ export const TICKET_CODE = {
     SERVICE_COMPENSATION: 'XD2',
 
     //phiếu chuyển tiền từ ca sáng sang ca tối
-    TRANSFER_SHIFT_PAYMENT: 'CDTran_PCF',
+    TRANSFER_SHIFT_PAYMENT: 'PCF',
 };
 
 export const TICKET_ENTITY = {

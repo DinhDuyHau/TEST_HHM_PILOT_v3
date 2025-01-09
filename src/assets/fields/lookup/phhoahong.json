@@ -1,0 +1,17 @@
+[
+  {
+    "name": "ma_hoahong",
+    "title": "Mã hoa hồng",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_hoahong",
+    "title": "Tên hoa hồng",
+    "width": 400
+  }
+]

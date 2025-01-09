@@ -34,7 +34,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -177,7 +179,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -311,6 +315,10 @@
             "title": "Số phiếu"
         },
         {
+            "name": "ma_tmdt",
+            "title": "Sàn TMĐT"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
@@ -320,7 +328,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -436,6 +446,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "statusname",
             "title": "Trạng thái"
         },
@@ -459,7 +473,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -593,7 +609,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -709,6 +727,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "statusname",
             "title": "Trạng thái"
         },
@@ -736,7 +758,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -852,6 +876,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "statusname",
             "title": "Trạng thái"
         },
@@ -875,7 +903,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -991,6 +1021,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "statusname",
             "title": "Trạng thái"
         },
@@ -1014,7 +1048,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1225,7 +1261,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1262,6 +1300,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "statusname",
             "title": "Trạng thái"
         },
@@ -1285,7 +1327,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1322,6 +1366,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "statusname",
             "title": "Trạng thái"
         },
@@ -1345,7 +1393,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1461,6 +1511,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "statusname",
             "title": "Trạng thái"
         },
@@ -1484,7 +1538,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1557,7 +1613,9 @@
         },
         {
             "name": "Dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1621,7 +1679,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1651,6 +1711,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "statusname",
             "title": "Trạng thái"
         },
@@ -1674,7 +1738,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1813,7 +1879,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1880,7 +1948,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",
@@ -1917,6 +1987,10 @@
             "title": "Cửa hàng"
         },
         {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
             "name": "statusname",
             "title": "Trạng thái"
         },
@@ -1940,7 +2014,9 @@
         },
         {
             "name": "dien_giai",
-            "title": "Diễn giải"
+            "title": "Diễn giải",
+            "width": "400px",
+            "minWidth": "100px"
         },
         {
             "name": "t_tien_nt",

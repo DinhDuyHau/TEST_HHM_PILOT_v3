@@ -201,20 +201,28 @@ export class MerchandiseService {
         (discountForMerchandise08 as any).forEach((discount: any) => {
             if (discount.details) {
                 discount.details.forEach((detail: any) => {
-                    const { ma_dv } = detail;
+                    const { ma_dv, tien_ck, ma_imei } = detail;
                     const result = (serviceUpdate as any[]).filter((service: any) => this.compareMerchandiseCode(service.ma_dv, ma_dv) && !service.km_yn);
 
                     // Tổng tiền dịch vụ của phiếu có trong chiết khấu
                     const t_tien = result.map(e => e.gia_ban * e.so_luong).reduce((pre: any, cur: any) => pre + cur, 0);
                     let total = 0;
                     result.forEach((e: Service, index) => {
-                        if (index === serviceUpdate.length - 1) {
-                            e.tien_ck += detail.tien_ck - total;
-                        } else {
-                            const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
-                            e.tien_ck += money;
-                            total += money;
+                        // kiểm tra đúng imei và ma_dv thì gán tien_ck
+                        if(e.ma_imei.trim() == ma_imei.trim() && e.ma_dv.trim() == ma_dv.trim()) {
+                          e.gia_ck -= tien_ck ? tien_ck : 0;
+                          e.tien_ck += tien_ck ? tien_ck : 0;
                         }
+                        /**
+                         * Tính phân bổ chưa đúng nên tạm thời bỏ
+                         */
+                        // if (index === serviceUpdate.length - 1) {
+                        //     e.tien_ck += detail.tien_ck - total;
+                        // } else {
+                        //     const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
+                        //     e.tien_ck += money;
+                        //     total += money;
+                        // }
                     });
                 });
             }
@@ -274,8 +282,8 @@ export class MerchandiseService {
                                     const e = item as Merchandise;
                                     //Chỉ set tiền ck cho các imei chưa áp dụng ck 05 (không tồn tại trong arr_imei_ck05)
                                     if (!arr_imei_ck05.includes(e.ma_imei)) {
-                                        e.gia_ck -= tien_ck_item ? tien_ck_item : tien_ck_tl;
-                                        e.tien_ck += tien_ck_item ? tien_ck_item : tien_ck_tl;
+                                        e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
+                                        e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
                                         arr_imei_ck05.push(e.ma_imei);
                                     }
                                 }
@@ -291,8 +299,8 @@ export class MerchandiseService {
                                     const e = item as Service;
                                     //Chỉ set tiền ck cho các imei chưa áp dụng ck 05 (không tồn tại trong arr_imei_ck05)
                                     if (!arr_imei_ck05.includes(e.ma_imei)) {
-                                        e.gia_ck -= tien_ck_item ? tien_ck_item : tien_ck_tl;
-                                        e.tien_ck += tien_ck_item ? tien_ck_item : tien_ck_tl;
+                                        e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
+                                        e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
                                         arr_imei_ck05.push(e.ma_imei);
                                     }
                                 }
@@ -620,6 +628,9 @@ export class MerchandiseService {
             merchandise.thue_nt = merchandise.tien_thue;
             merchandise.tt = merchandise.thanh_toan;
             merchandise.tt_nt = merchandise.thanh_toan;
+            merchandise.gc_td1 = merchandise.gc_td1 || '';
+            merchandise.ma_td1 = merchandise.ma_td1 || '';
+            merchandise.gc_td2 = merchandise.gc_td2 || '';
 
             //
 
@@ -637,7 +648,7 @@ export class MerchandiseService {
         return result;
     };
 
-    convertFromVoucher(src: any[], des: any[], TCreator: { new(): any; }) {
+    convertFromVoucher(src: any[], des: any[], TCreator: { new(): any; }, ext: any[] = []) {
         const result = src.map(merchandise => {
             const rs = this.createNewMerchandise(merchandise, TCreator);
             rs.gia_ban = merchandise.gia_ban || merchandise.gia_ban_nt || merchandise.gia_nt;
@@ -646,7 +657,20 @@ export class MerchandiseService {
             rs.thanh_tien = merchandise.tien2 || merchandise.tien_nt2 || merchandise.tien_nt;
             rs.tien_thue = merchandise.thue || merchandise.thue_nt;
             rs.thanh_toan = merchandise.tt || merchandise.tt_nt;
-            rs.stt_rec_dh = merchandise.stt_rec_dh;
+            rs.stt_rec_hd = merchandise.stt_rec;
+            rs.stt_rec0hd = merchandise.stt_rec0;
+            rs.hd_so = merchandise.so_ct || '';
+            rs.s7 = merchandise.ngay_ct || '';
+
+            // Kiểm tra nếu có truyền mảng ext và tìm đối tượng trong ext có stt_rec giống với stt_rec_dh1 của merchandise
+            if (ext.length > 0) {
+                const extItem = ext.find(item => item.stt_rec === merchandise.stt_rec_hd1);
+                if (extItem) {
+                    rs.ma_td1 = extItem.ma_kh_tmdt || '';
+                    rs.gc_td1 = extItem.ma_dh || '';
+                    rs.gc_td2 = extItem.ma_van_don || '';
+                }
+            }
 
             Object.keys(rs).forEach(key => {
                 if (rs[key] === undefined) {
@@ -658,6 +682,33 @@ export class MerchandiseService {
         result.map((e, i) => { e.line_nbr = i + 1; });
         des.push(...result);
     }
+
+    convertFromVoucherView(src: any[], des: any[], TCreator: { new(): any; }) {
+      const result = src.map(merchandise => {
+          const rs = this.createNewMerchandise(merchandise, TCreator);
+          rs.gia_ban = merchandise.gia_ban || merchandise.gia_ban_nt || merchandise.gia_nt;
+          rs.gia_ck = merchandise.gia_ck || merchandise.gia_ck_nt;
+          rs.tien_ck = merchandise.ck || merchandise.ck_nt;
+          rs.thanh_tien = merchandise.tien2 || merchandise.tien_nt2 || merchandise.tien_nt;
+          rs.tien_thue = merchandise.thue || merchandise.thue_nt;
+          rs.thanh_toan = merchandise.tt || merchandise.tt_nt;
+          rs.stt_rec_dh = merchandise.stt_rec_dh;
+          rs.hd_so = merchandise.hd_so || '';
+          rs.s7 = merchandise.s7 || '';
+          rs.ma_td1 = merchandise.ma_td1 || '';
+          rs.gc_td1 = merchandise.gc_td1 || '';
+          rs.gc_td2 = merchandise.gc_td2 || '';
+
+          Object.keys(rs).forEach(key => {
+              if (rs[key] === undefined) {
+                  delete rs[key];
+              }
+          });
+          return rs;
+      });
+      result.map((e, i) => { e.line_nbr = i + 1; });
+      des.push(...result);
+  }
 
     updatePriceForEcommerce(ticket: any, merchandises: any[], service?: any[]) {
         //update lại chiết khấu = 0 hết
@@ -713,20 +764,28 @@ export class MerchandiseService {
         (discountForMerchandise08 as any).forEach((discount: any) => {
             if (discount.details) {
                 discount.details.forEach((detail: any) => {
-                    const { ma_dv } = detail;
+                    const { ma_dv, tien_ck, ma_imei } = detail;
                     const result = (serviceUpdate as any[]).filter((service: any) => this.compareMerchandiseCode(service.ma_dv, ma_dv) && !service.km_yn);
 
                     // Tổng tiền dịch vụ của phiếu có trong chiết khấu
                     const t_tien = result.map(e => e.gia_ban * e.so_luong).reduce((pre: any, cur: any) => pre + cur, 0);
                     let total = 0;
                     result.forEach((e: Service, index) => {
-                        if (index === serviceUpdate.length - 1) {
-                            e.tien_ck += detail.tien_ck - total;
-                        } else {
-                            const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
-                            e.tien_ck += money;
-                            total += money;
+                        // kiểm tra đúng imei và ma_dv thì gán tien_ck
+                        if(e.ma_imei.trim() == ma_imei.trim() && e.ma_dv.trim() == ma_dv.trim()) {
+                          e.gia_ck -= tien_ck ? tien_ck : 0;
+                          e.tien_ck += tien_ck ? tien_ck : 0;
                         }
+                        /**
+                        * Tính phân bổ chưa đúng nên tạm thời bỏ
+                        */
+                        // if (index === serviceUpdate.length - 1) {
+                        //     e.tien_ck += detail.tien_ck - total;
+                        // } else {
+                        //     const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
+                        //     e.tien_ck += money;
+                        //     total += money;
+                        // }
                     });
                 });
             }
@@ -1121,20 +1180,28 @@ export class MerchandiseService {
         (discountForMerchandise08 as any).forEach((discount: any) => {
             if (discount.details) {
                 discount.details.forEach((detail: any) => {
-                    const { ma_dv } = detail;
+                    const { ma_dv, tien_ck, ma_imei } = detail;
                     const result = (serviceUpdate as any[]).filter((service: any) => this.compareMerchandiseCode(service.ma_dv, ma_dv) && !service.km_yn);
 
                     // Tổng tiền dịch vụ của phiếu có trong chiết khấu
                     const t_tien = result.map(e => e.gia_ban * e.so_luong).reduce((pre: any, cur: any) => pre + cur, 0);
                     let total = 0;
                     result.forEach((e: Service, index) => {
-                        if (index === serviceUpdate.length - 1) {
-                            e.tien_ck += detail.tien_ck - total;
-                        } else {
-                            const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
-                            e.tien_ck += money;
-                            total += money;
+                        // kiểm tra đúng imei và ma_dv thì gán tien_ck
+                        if(e.ma_imei.trim() == ma_imei.trim() && e.ma_dv.trim() == ma_dv.trim()) {
+                          e.gia_ck -= tien_ck ? tien_ck : 0;
+                          e.tien_ck += tien_ck ? tien_ck : 0;
                         }
+                        /**
+                        * Tính phân bổ chưa đúng nên tạm thời bỏ
+                        */
+                        // if (index === serviceUpdate.length - 1) {
+                        //     e.tien_ck += detail.tien_ck - total;
+                        // } else {
+                        //     const money = this.commonService.rouding((e.gia_ban * e.so_luong / t_tien) * detail.tien_ck);
+                        //     e.tien_ck += money;
+                        //     total += money;
+                        // }
                     });
                 });
             }

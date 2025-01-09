@@ -275,20 +275,24 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
     };
     if (this.mode == MODE.CREATE) {
       this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
-        this.statusList = result;
-        if (!this.data.masterInfo.status) {
-          this.data.masterInfo.status = this.statusList[0].status;
-          if (this.f) {
-            this.f['status'].setValue(this.data.masterInfo.status);
+        if(result) {
+          this.statusList = result.filter(x => x.status.trim() === '0' || x.status.trim() == '2');
+          if (!this.data.masterInfo.status) {
+            this.data.masterInfo.status = this.statusList[0].status;
+            if (this.f) {
+              this.f['status'].setValue(this.data.masterInfo.status);
+            }
           }
         }
       });
       this.payment.getPayment().subscribe(result => {
-        this.paymentList = result;
-        if (!this.data.masterInfo.ma_thanhtoan) {
-          this.data.masterInfo.ma_thanhtoan = this.paymentList[0].ma_thanhtoan;
-          if (this.f) {
-            this.f['ma_thanhtoan'].setValue(this.data.masterInfo.ma_thanhtoan);
+        if(result) {
+          this.paymentList = result.filter(payment => payment.ma_thanhtoan.trim() === 'TM');
+          if (!this.data.masterInfo.ma_thanhtoan) {
+            this.data.masterInfo.ma_thanhtoan = this.paymentList[0].ma_thanhtoan;
+            if (this.f) {
+              this.f['ma_thanhtoan'].setValue(this.data.masterInfo.ma_thanhtoan);
+            }
           }
         }
       });
@@ -321,20 +325,24 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
         if (params['key']) {
           this.initData(params['key']);
           this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
-            this.statusList = result;
-            if (!this.data.masterInfo.status) {
-              this.data.masterInfo.status = this.statusList[0].status;
-              if (this.f) {
-                this.f['status'].setValue(this.data.masterInfo.status);
+            if(result) {
+              this.statusList = result.filter(x => x.status.trim() === '0' || x.status.trim() == '2');
+              if (!this.data.masterInfo.status) {
+                this.data.masterInfo.status = this.statusList[0].status;
+                if (this.f) {
+                  this.f['status'].setValue(this.data.masterInfo.status);
+                }
               }
             }
           });
           this.payment.getPayment().subscribe(result => {
-            this.paymentList = result;
-            if (!this.data.masterInfo.ma_thanhtoan) {
-              this.data.masterInfo.ma_thanhtoan = this.paymentList[0].ma_thanhtoan;
-              if (this.f) {
-                this.f['ma_thanhtoan'].setValue(this.data.masterInfo.ma_thanhtoan);
+            if(result) {
+              this.paymentList = result.filter(payment => payment.ma_thanhtoan.trim() === 'TM');;;
+              if (!this.data.masterInfo.ma_thanhtoan) {
+                this.data.masterInfo.ma_thanhtoan = this.paymentList[0].ma_thanhtoan;
+                if (this.f) {
+                  this.f['ma_thanhtoan'].setValue(this.data.masterInfo.ma_thanhtoan);
+                }
               }
             }
           });
@@ -363,7 +371,6 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
   }
 
   onSubmit() {
-    console.log(this.voucherForm);
     this.submitted = true;
     let input_error: any;
     if (this.voucherForm.invalid) {

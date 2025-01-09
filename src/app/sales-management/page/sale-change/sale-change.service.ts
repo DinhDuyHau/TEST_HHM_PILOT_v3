@@ -57,7 +57,7 @@ export class SaleChangeService {
         this.ticket.masterInfo = this.commonService.convertMasterInfoFromVoucher(data.masterInfo, MasterInfo);
         this.customerApiService.getOneById(data.masterInfo.ma_kh).subscribe(result => {
             const customer = result.result as any;
-            this.ticket.masterInfo.ten_kh = customer.ma_kh;
+            this.ticket.masterInfo.ten_kh = customer.ten_kh;
             this.ticket.masterInfo.dia_chi = customer.dia_chi;
         });
 
@@ -151,8 +151,8 @@ export class SaleChangeService {
     // #endregion guarantee
 
     // #region imei
-    getImeiInStore(imei: string) {
-        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.CHANGE);
+    getImeiInStore(imei: string, ngay_ct: Date | null = null) {
+        return this.imeiApiService.getImeiInStore(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.CHANGE, ngay_ct);
     }
 
     getSoldInfo(imei: string) {

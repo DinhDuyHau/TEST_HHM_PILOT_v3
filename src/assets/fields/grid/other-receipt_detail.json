@@ -7,6 +7,16 @@
     "align": "center"
   },
   {
+    "name": "ma_phi",
+    "title": "Mã chi phí",
+    "width": 140
+  },
+  {
+    "name": "ten_phi",
+    "title": "Tên chi phí",
+    "width": 220
+  },
+  {
     "name": "dien_giai",
     "title": "Lý do nộp",
     "width": 220

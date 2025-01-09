@@ -1,0 +1,12 @@
+{
+  "title": "Danh mục máy pos",
+  "entity": "dmmaypos",
+  "filter": [
+    {
+      "name": "ma_cuahang",
+      "operator": "=",
+      "value": "@@shop"
+    }
+  ],
+  "multipleChoose": false
+}

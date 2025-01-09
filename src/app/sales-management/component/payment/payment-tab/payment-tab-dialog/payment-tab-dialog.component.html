@@ -1,9 +1,9 @@
 <div class="search-dialog-container">
   <div class="search-dialog-wrapper px-2">
     <div class="payment-container">
-      <div class="close-btn" (click)="onCancel()">
+      <!-- <div class="close-btn" (click)="onCancel()">
         <i class="fas fa-times"></i>
-      </div>
+      </div> -->
     </div>
     <div class="title-content p-2">Chọn hình thức thanh toán</div>
     <div class="px-0 md:px-2 lg:px-4">
@@ -468,7 +468,7 @@
               </div>
               <div
                 class="discount flex items-center"
-                *ngIf="data.ma_giam_gia.tien > 0">
+                *ngIf="data && data.ma_giam_gia && data.ma_giam_gia.ma_gg !== '' && data.ma_giam_gia.tien >= 0">
                 Mã giảm giá: {{ data.ma_giam_gia.ma_gg }} / Tiền giảm giá:&nbsp;
                 <span>
                   {{
@@ -724,9 +724,8 @@
                 [value]="data.voucher_doi_tac.ma_chuan_chi"
                 [disabled]="readonly"
                 [highlightBox]="
-                  data.voucher_doi_tac.tien > 0 &&
-                  (!data.voucher_doi_tac.ma_chuan_chi ||
-                    data.voucher_doi_tac.ma_chuan_chi === '')
+                  !data.voucher_doi_tac.ma_chuan_chi ||
+                  data.voucher_doi_tac.ma_chuan_chi === ''
                 "
                 (handleChangeValue)="
                   data.voucher_doi_tac.ma_chuan_chi = $event; onChange()
@@ -740,9 +739,8 @@
                 [label]="'Mã voucher'"
                 [value]="data.voucher_doi_tac.ma_gg"
                 [highlightBox]="
-                  data.voucher_doi_tac.tien > 0 &&
-                  (!data.voucher_doi_tac.ma_gg ||
-                    data.voucher_doi_tac.ma_gg === '')
+                  !data.voucher_doi_tac.ma_gg ||
+                    data.voucher_doi_tac.ma_gg === ''
                 "
                 (handleChangeValue)="
                   data.voucher_doi_tac.ma_gg = $event; onChange()
@@ -759,9 +757,8 @@
                   invalid.voucher_doi_tac.ma_ctr
                 "
                 [highlightBox]="
-                  data.voucher_doi_tac.tien > 0 &&
-                  (!data.voucher_doi_tac.ma_ctr ||
-                    data.voucher_doi_tac.ma_ctr === '')
+                  !data.voucher_doi_tac.ma_ctr ||
+                    data.voucher_doi_tac.ma_ctr === ''
                 "
                 (handleChangeValue)="
                   data.voucher_doi_tac.ma_ctr = $event; onChange()
@@ -785,7 +782,8 @@
               format="moneyViewFormat" />
           </div>
         </div>
-        <div class="box">
+        <div *ngIf="!(pay_hidden && pay_hidden.includes('t_tien_phi'))"
+          class="box">
           <div>
             <div class="title">Tổng tiền phí</div>
             <form-payment-custom

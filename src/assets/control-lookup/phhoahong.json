@@ -1,0 +1,13 @@
+{
+  "title": "Danh mục hoa hồng",
+  "entity": "phhoahong",
+  "filter": [
+    {
+      "name": "status",
+      "operator": "=",
+      "value": "1"
+    }
+  ],
+  "multipleChoose": false,
+  "code": "ma_hoahong"
+}

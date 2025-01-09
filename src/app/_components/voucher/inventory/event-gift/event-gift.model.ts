@@ -15,6 +15,7 @@ export interface ReceiptDetail {
     ma_sukien?: string,
     ten_sukien?: string,
     xstatus_name?: string,
+    ma_td3?: string, // ma_asm
 }
 
 export interface DetailInfo {
@@ -37,11 +38,14 @@ export interface MasterInfo {
     ma_cuahang?: string,
     ma_gd?: string,
     ma_kh?: string,
+    ten_kh?: string,
     ma_kho?: string,
     ong_ba?: string,
     dien_giai?: string,
     t_so_luong?: number,
     t_tien_nt?: number,
     image?: string,
+    fcode3?: string,  // ma_asm
+    ten_nvbh?: string,  // ten_asm
     [key: string]: any
 }

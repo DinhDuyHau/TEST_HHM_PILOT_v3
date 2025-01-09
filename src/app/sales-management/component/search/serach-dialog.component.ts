@@ -34,7 +34,9 @@ const {
   BANK_PUBLISH_CARD_SEARCH,
   EMPLOYEE_SEARCH,
   IMEI_SEARCH_SALES,
-  REASON_SEARCH
+  REASON_SEARCH,
+  TELESALE_SEARCH,
+  GROUP_INVENTORY
 } = require('@assets/fields/grid/sales-fields-table.json');
 
 const { STOCK_LIST, SHOP_INFO } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
@@ -88,7 +90,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.isFilter = this.data.isFilter != undefined ? this.data.isFilter : true;
-    this.isCheckInventory = this.data.isCheckInventory!= undefined? this.data.isCheckInventory : true;
+    this.isCheckInventory = this.data.isCheckInventory != undefined ? this.data.isCheckInventory : true;
     this.title = this.data.title || '';
     this.filters = this.data.filter || [];
     const filter = {
@@ -182,6 +184,16 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.value = `%${this.data.keyword}%`;
         this.defaultFilters = [filter];
         break;
+      case SEARCH_COMPONENT_NAME.REPURCHASE_TYPE_INVENTORY:
+        this.columns = TYPE_INVENTORY as any;
+        filter.name = 'ma_cuahang';
+        filter.value = `%${this.data.keyword}%`;
+        this.defaultFilters = [filter];
+        break;
+      case SEARCH_COMPONENT_NAME.REPURCHASE_GROUP_INVENTORY:
+        this.columns = GROUP_INVENTORY as any;
+        this.defaultFilters = [filter];
+        break;
       case SEARCH_COMPONENT_NAME.WAREHOUSE:
         this.columns = WAREHOUSE_LIST as any;
         filter.name = 'ma_vt';
@@ -260,6 +272,13 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.value = `%${this.data.keyword}%`;
         this.defaultFilters = [filter];
         break;
+      case SEARCH_COMPONENT_NAME.TELESALE_SEARCH:
+        this.columns = TELESALE_SEARCH as any;
+        filter.name = 'ma_nvbh';
+        filter.operator = "like";
+        filter.value = `%${this.data.keyword}%`;
+        this.defaultFilters = [filter];
+        break;
       default:
         break;
     }
@@ -312,6 +331,10 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return this.merchandiseApiService.getMany(this.filters);
       case SEARCH_COMPONENT_NAME.TYPE_INVENTORY:
         return this.merchandiseApiService.getManyTypeMerchadise(this.filters);
+      case SEARCH_COMPONENT_NAME.REPURCHASE_TYPE_INVENTORY:
+        return this.merchandiseApiService.getManyTypeMerchadiseByStore(this.defaultFilters);
+      case SEARCH_COMPONENT_NAME.REPURCHASE_GROUP_INVENTORY:
+        return this.merchandiseApiService.getGroupStock(this.defaultFilters);
       case SEARCH_COMPONENT_NAME.WAREHOUSE:
         return this.merchandiseApiService.getManyWarehouse(this.filters);
       case SEARCH_COMPONENT_NAME.INVOICE:
@@ -336,24 +359,26 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return this.customerApiService.findById(this.filters, this.page_index, this.page_size)
       case SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES:
         return this.imeiApiService.findImeiByPrefix(this.page_index, this.page_size, this.data.keyword, this.isCheckInventory, this.data.shop)
-        .pipe(
-          tap((res) => {
-            if(res.result.items.length === 0) {
-              this.commonService.showMessage('Không tìm thây imei');
-              return null;
-            }
+          .pipe(
+            tap((res) => {
+              if (res.result.items.length === 0) {
+                this.commonService.showMessage('Không tìm thây imei');
+                return null;
+              }
 
-            if(!res.success) {
-              let msg_error = res.message || 'Runtime_err';
-              this.commonService.showMessageByName(`${msg_error}`);
-              return null;
-            }
+              if (!res.success) {
+                let msg_error = res.message || 'Runtime_err';
+                this.commonService.showMessageByName(`${msg_error}`);
+                return null;
+              }
 
-            return res;
-          })
-        );
+              return res;
+            })
+          );
       case SEARCH_COMPONENT_NAME.REASON:
         return this.ticketApiService.getReason(this.filters, this.page_index, this.page_size);
+      case SEARCH_COMPONENT_NAME.TELESALE_SEARCH:
+        return this.ticketApiService.getTelesale(this.filters, this.page_index, this.page_size);
       default:
         return of();
     }
@@ -395,7 +420,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
     const observer = {
       next: (result: any) => {
         // Nếu là hợp đồng thì gán dataSource bằng voucher từ res
-        if(this.data.componentName == SEARCH_COMPONENT_NAME.CONTRACT) {
+        if (this.data.componentName == SEARCH_COMPONENT_NAME.CONTRACT) {
           this.dataSource = result?.result[0]?.voucher || [];
           this.recordCount = result.result.recordCount
           return;
@@ -512,6 +537,9 @@ export const SEARCH_COMPONENT_NAME = {
   SHOP_INFO: 24,
   EMPLOYEE: 25,
   REASON: 26,
-  IMEI_SEARCH_SALES: 27
+  IMEI_SEARCH_SALES: 27,
+  TELESALE_SEARCH: 28,
+  REPURCHASE_TYPE_INVENTORY: 29,
+  REPURCHASE_GROUP_INVENTORY: 30
 };
 

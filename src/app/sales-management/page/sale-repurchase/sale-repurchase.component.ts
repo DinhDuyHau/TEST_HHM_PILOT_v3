@@ -74,6 +74,36 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
   action = '';
   shop = '';
 
+  transactionTypeOptions = [
+    {
+      label: "1-Mua lại từ khách hàng cá nhân",
+      value: 1
+    },
+    {
+      label: "2-Mua lại từ khách hàng doanh nghiệp",
+      value: 2
+    }
+  ]
+
+  thuesuatOptions = [
+    {
+      label: "0",
+      value: 0
+    },
+    {
+      label: "5",
+      value: 5
+    },
+    {
+      label: "8",
+      value: 8
+    },
+    {
+      label: "10",
+      value: 10
+    }
+  ]
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -133,6 +163,9 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
         this.statusList = result.result.items as StatusTicket[];
       });
     };
+
+    this.ticket.masterInfo.fcode1 = '1';
+    this.ticket.masterInfo.fqty1 = 0;
 
     this.route.queryParams.subscribe((data: any) => {
       if (data.key) {
@@ -249,8 +282,17 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
             }
             else {
               const merchandise = new Merchandise;
-              merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua;
-              merchandise.thanh_tien = this.ticket.masterInfo.gia_nhap_mua;
+              // nếu loại giao dịch là 2 thì mới lấy thuế suất
+              if(this.ticket.masterInfo.fcode1 == "2") {
+                merchandise.thue_suat = this.ticket.masterInfo.fqty1;
+                merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua / (1 + (merchandise.thue_suat / 100));
+              } else {
+                merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua;
+              }
+              merchandise.s4 = this.ticket.masterInfo.gia_nhap_mua;
+              merchandise.thanh_tien = merchandise.gia_ban * merchandise.so_luong;
+              merchandise.tt = merchandise.s4 * merchandise.so_luong;
+              merchandise.tien_thue = merchandise.tt - merchandise.thanh_tien;
               merchandise.ma_kho = this.repurchase.ma_kho;
               merchandise.ma_loai = this.repurchase.ma_loai;
               merchandise.ten_vt = imei_info.ten_vt;
@@ -260,6 +302,8 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
               this.merchandiseService.addNew(merchandise, this.ticket.merchandise, Merchandise);
               this.commonService.clearText2([this.tabIndex.ma_loai, this.tabIndex.ma_vt, this.tabIndex.gia_nhap_mua]);
               this.clearData();
+              this.commonService.clearText2([this.tabIndex.imei]);
+              this.commonService.focusControl2(this.tabIndex.imei);
               this.saleRepurchaseService.calcMoney();
               // this.commonService.addImeiToStorage(ma_imei);
             }
@@ -271,33 +315,48 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
               return;
             }
             if (!this.repurchase.ma_vt) {
+              this.commonService.showMessage('Imei không tồn tại trong hệ thống, vui lòng chọn mã hàng');
               this.invalidMerchandiseInput.ma_vt = true;
               return;
             }
+
+            // Tính toán các giá trị trước
+            const thue_suat = this.ticket.masterInfo.fcode1 == "2" ? this.ticket.masterInfo.fqty1 : 0;
+            const gia_ban = this.ticket.masterInfo.fcode1 == "2"
+              ? this.ticket.masterInfo.gia_nhap_mua / (1 + (thue_suat / 100))
+              : this.ticket.masterInfo.gia_nhap_mua;
+            const s4 = this.ticket.masterInfo.gia_nhap_mua;
+            const thanh_tien = gia_ban * 1;
+            const tt = s4 * 1;
+            const tien_thue = tt - thanh_tien;
+
             const merchandiseResponse = {
+              thue_suat: thue_suat,
+              gia_ban: gia_ban,
+              s4: s4,
+              thanh_tien: thanh_tien,
+              tt: tt,
+              tien_thue: tien_thue,
               ma_vt: this.repurchase.ma_vt,
               ten_vt: this.repurchase.ten_vt,
               ma_loai: this.repurchase.ma_loai,
               dvt: this.repurchase.dvt,
               ma_imei: ma_imei,
               new_imei_yn: true,
-              ma_kho: this.repurchase.ma_kho,
-              gia_ban: this.ticket.masterInfo.gia_nhap_mua,
-              thanh_tien: this.ticket.masterInfo.gia_nhap_mua,
-              thanh_toan: this.ticket.masterInfo.gia_nhap_mua,
+              ma_kho: this.repurchase.ma_kho
             };
 
             this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise, Merchandise);
             this.commonService.clearText2([this.tabIndex.ma_loai, this.tabIndex.ma_vt, this.tabIndex.gia_nhap_mua]);
             this.clearData();
+            this.commonService.clearText2([this.tabIndex.imei]);
+            this.commonService.focusControl2(this.tabIndex.imei);
             this.saleRepurchaseService.calcMoney();
             // this.commonService.addImeiToStorage(ma_imei);
           }
         }
       });
     }
-    this.commonService.clearText2([this.tabIndex.imei]);
-    this.commonService.focusControl2(this.tabIndex.imei);
     this.invalid && this.commonService.showMessage(Language.content.Missing_information);
   }
   clearData() {
@@ -318,18 +377,28 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
         this.repurchase.ma_vt = result.ma_vt;
         this.repurchase.ten_vt = result.ten_vt;
         this.repurchase.dvt = result.dvt;
+
+        //get imei from input field
+        const imeiElement = document.getElementById(`${this.tabIndex.imei}`);
+        if (imeiElement) {
+          const imei = (imeiElement as HTMLInputElement).value;
+          this.onEnterImeiCode(imei);
+        }
       });
   }
 
   openSearchTypeMerchandiseDialog() {
-    this.commonService.openDialog(SearchDialogComponent, { keyword: '', componentName: SEARCH_COMPONENT_NAME.TYPE_INVENTORY })
+    this.commonService.openDialog(SearchDialogComponent, {
+      // componentName: SEARCH_COMPONENT_NAME.REPURCHASE_TYPE_INVENTORY
+      componentName: SEARCH_COMPONENT_NAME.REPURCHASE_GROUP_INVENTORY
+    })
       .afterClosed().subscribe(result => {
         if (result) {
           this.repurchase.loai_hh = result.ten_loai;
           this.repurchase.ma_loai = result.ma_loai;
-          this.ticketApiService.getStocks(TICKET_ENTITY.REPURCHASE, {
+          this.ticketApiService.getStocks2(TICKET_ENTITY.REPURCHASE, {
             ma_cuahang: this.ticket.masterInfo.ma_cuahang,
-            ma_loai: result.ma_loai
+            ma_nh: result.ma_nh
           }).subscribe(result => {
             if (result.success) {
               const { ma_kho } = result.result as any;
@@ -378,6 +447,13 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     // Check âm tiền nợ
     if (this.ticket.masterInfo.t_con_no < 0) {
       this.commonService.showMessage('Tiền nợ không được âm');
+      return;
+    }
+
+    // check mã kho rỗng
+    const allHasMaKho = this.ticket.merchandise.every(item => item.ma_kho);
+    if (!allHasMaKho) {
+      this.commonService.showMessage('Mã kho không được để trống')
       return;
     }
 
@@ -466,6 +542,56 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
 
   getLabel(label: string) {
     return this.commonService.getMessage(label);
+  }
+
+  onChangeTransactionType(event: any) {
+    this.ticket.masterInfo.fcode1 = event
+    // set lại mặc định là 10
+    if (event === "1") {
+      this.ticket.masterInfo.fqty1 = 0;
+    }
+    if (event === "2") {
+      this.ticket.masterInfo.fqty1 = 10;
+    }
+  }
+
+  onChangeThueSuat(event: any) {
+    this.ticket.masterInfo.fqty1 = event
+  }
+
+  handleChangeTaxCode(event: string) {
+    this.commonService.getCustomerInfoByTax(event).subscribe((result: any) => {
+      if (result.success) {
+        this.ticket.masterInfo.hd_dia_chi = result.result.dia_chi;
+        this.ticket.masterInfo.hd_ten_kh = result.result.ten_kh;
+      }
+      else {
+        this.commonService.showMessageByName(result.message);
+      }
+    });
+  }
+
+  onEnterMerchandiseCode(event: any) {
+    const ma_vt = event;
+
+    this.saleRepurchaseService.getMerchandiseInfo(ma_vt).subscribe(result => {
+      if (result.success && result.result) {
+          const merchandise = result.result as any;
+          this.repurchase.ma_vt = merchandise.ma_vt;
+          this.repurchase.ten_vt = merchandise.ten_vt;
+          this.repurchase.dvt = merchandise.dvt;
+
+          //get imei from input field
+          const imeiElement = document.getElementById(`${this.tabIndex.imei}`);
+          if (imeiElement) {
+            const imei = (imeiElement as HTMLInputElement).value;
+            this.onEnterImeiCode(imei);
+          }
+      }
+      else {
+          this.openTypeMerchandiseDialog();
+      }
+    });
   }
 }
 

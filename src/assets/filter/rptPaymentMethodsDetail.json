@@ -1,6 +1,6 @@
 {
   "width": 700,
-  "height": 700,
+  "height": 950,
   "control": [
     [
       {
@@ -87,6 +87,46 @@
         "control": "dmkh",
         "dataFormatString": "uppercaseFormat",
         "reference": ["ma_kh"]
+      }
+    ],
+    [
+      {
+        "name": "ma_vc",
+        "label": "Vận chuyển",
+        "isLookup": "true",
+        "control": "dmkhvc",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_vc"]
+      }
+    ],
+    [
+      {
+        "name": "ma_san",
+        "label": "Sàn TMĐT",
+        "isLookup": "true",
+        "control": "dmkhsan",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_san"]
+      }
+    ],
+    [
+      {
+        "name": "ma_thuho",
+        "label": "Thu hộ",
+        "isLookup": "true",
+        "control": "dmkhthuho",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_thuho"]
+      }
+    ],
+    [
+      {
+        "name": "ma_dvtg",
+        "label": "Trả góp",
+        "isLookup": "true",
+        "control": "dmdvtg",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_dvtg"]
       }
     ]
   ]

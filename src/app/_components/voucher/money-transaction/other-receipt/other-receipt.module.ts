@@ -27,6 +27,8 @@ import { TabsCustomModule } from '@app/sales-management/component/form-control-c
 import { OtherReceiptDetailComponent } from './create/create.component';
 import { PaymentTabModule } from '@app/sales-management/component/payment/payment-tab/payment-tab.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
+import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
+import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 @NgModule({
   declarations: [OtherReceiptComponent, OtherReceiptDetailComponent],
   imports: [
@@ -52,7 +54,9 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
     TabCustomModule,
     TabsCustomModule,
     PaymentTabModule,
-    VoucherInfoModule
+    VoucherInfoModule,
+    NavigationVoucheModule,
+    VoucherInfoHeaderModule
   ],
   exports: [OtherReceiptComponent, OtherReceiptDetailComponent]
 })

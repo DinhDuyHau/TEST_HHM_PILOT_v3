@@ -497,6 +497,8 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           const voucherData = result?.result[0]?.voucher ?? result?.result ?? [];
           const paymentMethodData = result?.result[1]?.payment_method || [];
 
+          this.commonService.saveTicketToLocalStorage(voucherData);
+
           // chỉ xử lý các phiếu chỉ định
           if(this.entityNamesAuthorization.includes(this.entityName)) {
             const authorizationData = result?.result[2]?.authorization[0] || [];
@@ -554,6 +556,8 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
             ?? [];
           const paymentMethodData = result?.result?.items?.[0]?.payment_method || [];
 
+          this.commonService.saveTicketToLocalStorage(voucherData);
+
           this.dataSource = voucherData.map((voucherRecord: any) => {
             this.sanitizeRecord(voucherRecord);
             this.processPayments(voucherRecord, paymentMethodData);
@@ -583,6 +587,8 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
             ?? [];
           const paymentMethodData = result.result.items[0]?.payment_method || [];
 
+          this.commonService.saveTicketToLocalStorage(voucherData);
+
           this.dataSource = voucherData.map((voucherRecord: any) => {
             this.sanitizeRecord(voucherRecord);
             this.processPayments(voucherRecord, paymentMethodData);
@@ -610,6 +616,8 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
             if (x.success) {
               const voucherData = x?.result[0]?.voucher || [];
               const paymentMethodData = x?.result[1]?.payment_method || [];
+
+              this.commonService.saveTicketToLocalStorage(voucherData);
 
               this.dataSource = voucherData.map((voucherRecord: any) => {
                 this.sanitizeRecord(voucherRecord);

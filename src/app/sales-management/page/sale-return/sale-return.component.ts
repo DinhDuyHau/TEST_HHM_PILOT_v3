@@ -241,7 +241,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
         map.set('tra_ncc_yn', false);
         const message = this.imeiService.GetMessageStatusImei(map, result.result[0]);
         if (message) {
-          this.commonService.showMessageByContent(this.imeiService.GetMessageStatusImei(map, result.result[0]));
+          this.commonService.showMessage(this.imeiService.GetMessageStatusImei(map, result.result[0]));
           return;
         }
 
@@ -256,6 +256,15 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
 
         this.saleReturnService.getSoldInfo(ma_imei, rate, this.tien_giam, this.ticket.masterInfo.fcode1, this.isCODReturn).subscribe((result: any) => {
           if (result && result.success && result.result && result.result.details) {
+
+            // chỉ được nhập trên cùng 1 phiếu xuất bán
+            if (this.ticket.masterInfo.fcode2) {
+              if(this.ticket.masterInfo.fcode2 != result.result.masterInfo.so_ct) {
+                this.commonService.showMessage('Chỉ được nhập trả lại trên cùng 1 phiếu xuất bán');
+                return;
+              }
+            }
+
             const map_tralai = new Map();
             map_tralai.set('nhap_tra_lai_yn', true);
             const message = this.imeiService.GetMessageStatusImei(map_tralai, result.result.details[0].data[0]);
@@ -290,9 +299,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
               // merchandise[0].ty_le_giam = Number.parseFloat(this.rate);
               // merchandise[0].tien_giam = this.tien_giam;
               merchandise[0].giam_gia_yn = this.isSaleDown;
-
               this.merchandiseService.convertFromVoucher(merchandise, this.ticket.merchandise, Merchandise);
-
               result.result.details.map((detail: any) => {
                 switch (detail.name.toLocaleLowerCase()) {
                   case 'services':
@@ -306,11 +313,23 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
                 }
               })
 
+              // lưu thông tin giao hàng cho chi tiết
+              merchandise.map((x: Merchandise) => {
+                const merchan = this.ticket.merchandise.find((item: any) => item.ma_imei === x.ma_imei);
+                if (merchan) {
+                  merchan.gc_td1 = result.result.masterInfo.so_dh_vc || ''; // mã đơn hàng
+                  merchan.ma_td1 = result.result.masterInfo.ma_nvvc || ''; // mã đơn vị vận chuyển
+                  merchan.gc_td2 = result.result.masterInfo.ma_van_don || ''; // mã vận đơn
+                }
+              });
+
               //Lưu thông tin stt_rec, so_ct, ngay_ct của đơn hàng bán vào phiếu trả lại
               this.ticket.masterInfo.stt_rec_hd = result.result.masterInfo.stt_rec;
               this.ticket.masterInfo.fcode2 = result.result.masterInfo.so_ct;
               this.ticket.masterInfo.fdate2 = result.result.masterInfo.ngay_ct;
-
+              this.ticket.masterInfo.so_dh_vc = result.result.masterInfo.so_dh_vc || '';
+              this.ticket.masterInfo.ma_nvvc = result.result.masterInfo.ma_nvvc || '';
+              this.ticket.masterInfo.ma_van_don = result.result.masterInfo.ma_van_don || '';
 
               //tính số tiền còn nợ
               this.ticket.masterInfo.t_con_no = Math.abs(this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra);
@@ -318,6 +337,8 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
               this.commonService.clearText2([this.tabIndex.imei]);
               this.commonService.focusControl2(this.tabIndex.imei);
               // this.commonService.addImeiToStorage(ma_imei);
+              this.saleReturnService.calcMoney();
+
               this.resetSaleDown();
               //Khóa trường
               this.isDisableCODReturn = true;
@@ -376,7 +397,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
   // Submit
   onSave() {
     // Check âm tiền nợ
-    if(this.ticket.masterInfo.t_con_no < 0) {
+    if (this.ticket.masterInfo.t_con_no < 0) {
       this.commonService.showMessage('Tiền nợ không được âm');
       return;
     }
@@ -407,7 +428,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
       voucherDto.masterInfo.tra_lai_cod = this.isCODReturn;
 
       this.route.queryParams.subscribe((data: any) => {
-      this.isDisabled = true;
+        this.isDisabled = true;
         if (this.mode === MODE.UPDATE && !this.isSaving) {
           this.isSaving = true;
           this.ticketApiService.updateVoucher(TICKET_ENTITY.RETURN, voucherDto).subscribe(result => {

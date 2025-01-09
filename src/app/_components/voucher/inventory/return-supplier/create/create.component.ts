@@ -68,7 +68,7 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
 
 
   override gridType = GridType.GridDetail;
-  actionButtons = [button.DeleteButton];
+  actionButtons = [button.EditPriceButton, button.DeleteButton];
   constructor(
     private formBuilder: FormBuilder,
     public returnSupplierDetailService: ReturnSupplierDetailService,
@@ -105,7 +105,7 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
     }
     // this.initData();
   }
-  onHandleActionButton(event: { buttonId: string; data?: any; }) {
+  onHandleActionButton(event: { buttonId: string; data?: any; index: number }) {
     switch (event.buttonId) {
       case button.DeleteButton.id:
         this.data.details[0].data = this.data.details[0].data.filter((item) => {
@@ -116,6 +116,20 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
         });
         this.calcTotal();
         this.dataSource.data = this.data.details[0].data;
+        break;
+      case button.EditPriceButton.id:
+        this.returnSupplierDetailService.openDialogEditPrice({
+          label: 'Giá nhập (trước thuế)', value: event.data.gia_nt
+        }).subscribe((res: any) => {
+          if (res) {
+            const item = this.data.details[0].data[event.index];
+            item.gia_nt = res;
+            item.tien_nt = item.gia_nt * item.so_luong;
+            item.thue_nt = Math.round((item.tien_nt * item.thue_suat) / 100);
+            item.tt_nt = item.tien_nt + item.thue_nt;
+            this.calcTotal();
+          }
+        });
         break;
       default:
         break;
@@ -432,7 +446,7 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
       return;
     }
 
-    if(!imei || imei.length < 5) {
+    if (!imei || imei.length < 5) {
       this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
       return;
     }
@@ -475,7 +489,7 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
           title: 'Danh sách kết quả tìm kiếm imei',
           isFilter: false
         }, 'search-style-dialog')
-          .afterClosed().subscribe( async (result) => {
+          .afterClosed().subscribe(async (result) => {
             if (result && result.ma_imei) {
               const ma_imei = result.ma_imei;
               await this.processImeiInfo(ma_imei);
@@ -504,8 +518,10 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
       }
       */
 
-      this.data.masterInfo.ma_kh = response.ma_ncc.trim();
-      this.f['ma_kh'].setValue(response.ma_ncc.trim());
+      if (response && response.ma_ncc && response.ma_ncc != '') {
+        this.data.masterInfo.ma_kh = response.ma_ncc.trim();
+        this.f['ma_kh'].setValue(response.ma_ncc.trim());
+      }
       this.data.masterInfo['ten_kh'] = response.ten_ncc.trim();
 
       this.data.details[0].data.push({

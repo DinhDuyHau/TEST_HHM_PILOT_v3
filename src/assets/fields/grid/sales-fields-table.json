@@ -169,23 +169,50 @@
             "align": "center"
         },
         {
-            "name": "gia_ban",
-            "title": "Giá bán",
-            "format": "moneyView2Digit",
-            "align": "right",
-            "dataType": "number"
-        },
-        {
             "name": "so_luong",
             "title": "Số lượng",
             "format": "moneyViewNoDigit",
             "align": "center"
         },
         {
+            "name": "s4",
+            "title": "Giá (Full VAT)",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "gia_ban",
+            "title": "Giá trước thuế",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
             "name": "thanh_tien",
             "title": "Thành tiền",
             "align": "right",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "thue_suat",
+            "title": "Thuế suất(%)",
+            "format": "moneyViewNoDigit",
+            "align": "center"
+        },
+        {
+            "name": "tien_thue",
+            "title": "Tiền thuế",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tt",
+            "title": "Tổng tiền",
+            "format": "moneyViewNoDigit",
+            "align": "right",
             "dataType": "number"
         }
     ],
@@ -1180,6 +1207,29 @@
         }
     ],
     "MERCHANDISE_RETURN_ONLINE_LIST": [
+        {
+            "name": "hd_so",
+            "title": "Số PX"
+        },
+        {
+            "name": "s7",
+            "title": "Ngày PX",
+            "format": "datetimeFormat",
+            "dataType": "date",
+            "align": "center"
+        },
+        {
+            "name": "ma_td1",
+            "title": "Mã sàn"
+        },
+        {
+            "name": "gc_td1",
+            "title": "Mã đơn hàng"
+        },
+        {
+            "name": "gc_td2",
+            "title": "Mã vận đơn"
+        },
         {
             "name": "ma_vt",
             "title": "Mã vật tư"
@@ -2226,8 +2276,8 @@
             "title": "Tên dịch vụ"
         },
         {
-            "name": "naptien_hh_yn",
-            "title": "Nạp tiền tại HHM",
+            "name": "vt_ton_kho",
+            "title": "Theo dõi kho",
             "align": "center",
             "type": "checkbox"
         },
@@ -2268,6 +2318,17 @@
         {
             "name": "ten_loai",
             "title": "Tên loại"
+        }
+    ],
+    "GROUP_INVENTORY": [
+        {
+            "name": "ma_nh",
+            "title": "Mã nhóm",
+            "isPrimaryKey": true
+        },
+        {
+            "name": "ten_nh",
+            "title": "Tên nhóm"
         }
     ],
     "LIST_ASM": [
@@ -2720,6 +2781,25 @@
         "title": "Nội dung",
         "width": "300px"
        }
+    ],
+    "TELESALE_SEARCH": [
+      {
+        "name": "ma_nvbh",
+        "title": "Mã nhân viên",
+        "isPrimaryKey": true
+      },
+      {
+        "name": "ten_nvbh",
+        "title": "Tên nhân viên"
+      },
+      {
+        "name": "ma_cuahang",
+        "title": "Cửa hàng"
+      },
+      {
+        "name": "ma_bp",
+        "title": "Mã bộ phận"
+      }
     ],
     "IMEI_SEARCH_SALES": [
       {
