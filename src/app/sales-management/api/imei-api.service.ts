@@ -17,6 +17,7 @@ const GET_IMEI_STATE_AND_ITEM_URL = `${environment.apiUrl}/imei/get_state_and_it
 const GET_SOLD_INFO_IMEI_URL = `${environment.apiUrl}/imei/soldinfo`;
 const GET_IMEI_PROMOTIONS_URL = `${environment.apiUrl}/imei/change-gift-promotions`;
 const FIND_BY_PREFIX_URL = `${environment.apiUrl}/imei/find_by_prefix`;
+const GET_DISCOUNT_RANK_CUSTOMER = `${environment.apiUrl}/imei/discount_rank_customer`;
 
 @Injectable({
     providedIn: 'root'
@@ -106,5 +107,9 @@ export class ImeiApiService extends ApiService {
 
     findImeiByPrefix(page_index: number, page_size: number, ma_imei: string, isCheckInventory: boolean, ma_cuahang: string) {
         return this.get<Result<Imei>>(FIND_BY_PREFIX_URL, { ma_imei, ma_cuahang, isCheckInventory, page_index, page_size });
+    }
+
+	  getDiscountRankCustomer(ma_kh: string, ma_hang: string, ngay_ct: Date, ma_imei: any, ma_vt: any, ma_ct: any): Observable<ResultNoPaging<any>> {
+        return this.get<ResultNoPaging<any>>(GET_DISCOUNT_RANK_CUSTOMER, { ma_kh, ma_hang, ngay_ct: ngay_ct.toISOString(), ma_imei, ma_vt, ma_ct });
     }
 }

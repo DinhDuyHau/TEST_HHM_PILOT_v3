@@ -192,7 +192,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         break;
       case SEARCH_COMPONENT_NAME.REPURCHASE_GROUP_INVENTORY:
         this.columns = GROUP_INVENTORY as any;
-        this.defaultFilters = [filter];
+        this.defaultFilters = [{ name: 'ma_nh', operator: 'in', value: 'KD,HL,HC' }];
         break;
       case SEARCH_COMPONENT_NAME.WAREHOUSE:
         this.columns = WAREHOUSE_LIST as any;
