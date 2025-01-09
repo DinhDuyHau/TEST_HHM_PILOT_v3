@@ -63,6 +63,25 @@ export class MerchandiseService {
         merchandises.map((e, i) => e.line_nbr = i + 1);
     }
 
+    removeMerchandise2(item: any, merchandises: any[]) {
+        if (!merchandises || merchandises.length <= 0) return;
+
+        // Tìm chỉ mục của phần tử cần xóa dựa trên ma_vt và ma_imei
+        const indexToRemove = merchandises.findIndex(
+            (e) => e.ma_vt === item.ma_vt && e.ma_imei === item.ma_imei
+        );
+
+        // Nếu tìm thấy phần tử phù hợp, tiến hành xóa
+        if (indexToRemove !== -1) {
+            merchandises.splice(indexToRemove, 1);
+
+            // Cập nhật lại line_nbr sau khi xóa
+            merchandises.forEach((e, i) => {
+                e.line_nbr = i + 1;
+            });
+        }
+    }
+
     removePromotionMechandise(merchandise: Merchandise, merchandises: Merchandise[], discounts: Discount[], option: Option) {
         this.removeMerchandise(merchandise, merchandises);
         const merchandiseMain = this.getByImeiBuy(merchandise.imei_mua, merchandises);

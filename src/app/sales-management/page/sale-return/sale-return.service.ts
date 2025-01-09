@@ -140,7 +140,7 @@ export class SaleReturnService {
 
     // #region merchandise
     removePromotionMechandise(merchandise: Merchandise) {
-        this.merchandiseService.removeMerchandise(merchandise, this.ticket.merchandise);
+        this.merchandiseService.removeMerchandise2(merchandise, this.ticket.merchandise);
         this.ticket.masterInfo.t_tien_tnk += merchandise.tien_kmqd;
         this.calcMoney();
         this.commonService.removeImeiFromStorage(merchandise.ma_imei);
@@ -157,7 +157,7 @@ export class SaleReturnService {
     }
 
     removeMerchandise(merchandise: Merchandise) {
-        this.merchandiseService.removeMerchandise(merchandise, this.ticket.merchandise);
+        this.merchandiseService.removeMerchandise2(merchandise, this.ticket.merchandise);
         this.merchandiseService.removePromotionMerchandiseByOrderImei(merchandise.ma_imei, this.ticket.merchandise);
         this.removeServiceAfterRemoveMerchandise(merchandise)
         this.calcMoney();
