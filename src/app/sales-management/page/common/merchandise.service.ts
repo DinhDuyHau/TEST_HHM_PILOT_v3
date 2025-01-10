@@ -63,6 +63,25 @@ export class MerchandiseService {
         merchandises.map((e, i) => e.line_nbr = i + 1);
     }
 
+    removeMerchandise2(item: any, merchandises: any[]) {
+        if (!merchandises || merchandises.length <= 0) return;
+
+        // Tìm chỉ mục của phần tử cần xóa dựa trên ma_vt và ma_imei
+        const indexToRemove = merchandises.findIndex(
+            (e) => e.ma_vt === item.ma_vt && e.ma_imei === item.ma_imei
+        );
+
+        // Nếu tìm thấy phần tử phù hợp, tiến hành xóa
+        if (indexToRemove !== -1) {
+            merchandises.splice(indexToRemove, 1);
+
+            // Cập nhật lại line_nbr sau khi xóa
+            merchandises.forEach((e, i) => {
+                e.line_nbr = i + 1;
+            });
+        }
+    }
+
     removePromotionMechandise(merchandise: Merchandise, merchandises: Merchandise[], discounts: Discount[], option: Option) {
         this.removeMerchandise(merchandise, merchandises);
         const merchandiseMain = this.getByImeiBuy(merchandise.imei_mua, merchandises);
@@ -577,31 +596,38 @@ export class MerchandiseService {
                     // kiểm tra đúng imei và ma_vt thì gán tien_ck
                     if(e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
 
+                        // Sử dụng tl_ck từ e.tl_ck09 nếu tl_ck không tồn tại hoặc không có giá trị
+                        const tl_ck_final = tl_ck || e.tl_ck09 || 0;
+                        // Sử dụng tien_ck_tv từ e.tien_kb09 nếu tien_ck_tv không tồn tại hoặc không có giá trị
+                        const tien_ck_tv_final = tien_ck_tv || e.tien_kb09 || 0;
+                        // Sử dụng tien_max từ e.tien_max09 nếu tien_max không tồn tại hoặc không có giá trị
+                        const tien_max_final = tien_max || e.tien_max09 || 0;
+
                         // Trường hợp có tien_ck_tv
-                        if (tien_ck_tv) {
-                          const tien_ck_raw = tien_ck_tv / (1 + (e.thue_suat / 100)); // Tính giá trị chưa kiểm tra với tien_max và thue_suat
-                          const tien_max_adjusted = tien_max > 0 ? tien_max / (1 + (e.thue_suat / 100)) : tien_ck_raw; // Tính tien_max đã điều chỉnh với thue_suat
+                        if (tien_ck_tv_final) {
+                            const tien_ck_raw = tien_ck_tv_final / (1 + (e.thue_suat / 100)); // Tính giá trị chưa kiểm tra với tien_max và thue_suat
+                            const tien_max_adjusted = tien_max > 0 ? tien_max / (1 + (e.thue_suat / 100)) : tien_ck_raw; // Tính tien_max đã điều chỉnh với thue_suat
 
-                          // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
-                          tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
-                          e.gia_ck -= tien_ck;
+                            // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
+                            tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
+                            e.gia_ck -= tien_ck;
                         } else {
-                          // Trường hợp không có tien_ck_tv, tính theo tl_ck
-                          const tien_ck_raw = e.gia_ck * (tl_ck / 100); // Tính giá trị chưa kiểm tra với tien_max
-                          const tien_max_adjusted = tien_max > 0 ? tien_max / (1 + (e.thue_suat / 100)) : tien_ck_raw; // Tính tien_max đã điều chỉnh với thue_suat
+                            // Trường hợp không có tien_ck_tv, tính theo tl_ck
+                            const tien_ck_raw = e.gia_ck * (tl_ck_final / 100); // Tính giá trị chưa kiểm tra với tien_max
+                            const tien_max_adjusted = tien_max_final > 0 ? tien_max_final / (1 + (e.thue_suat / 100)) : tien_ck_raw; // Tính tien_max đã điều chỉnh với thue_suat
 
-                          // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
-                          tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
-                          e.gia_ck -= tien_ck;
+                            // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
+                            tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
+                            e.gia_ck -= tien_ck;
                         }
 
                         // làm tròn tien_ck
                         tien_ck = Math.round(tien_ck);
 
                         // add ck 09 vào
-                        e.tl_ck09 = tl_ck ? tl_ck : 0;
-                        e.tien_kb09 = tien_ck_tv ? tien_ck_tv : 0;
-                        e.tien_max09 = tien_max ? tien_max : 0;
+                        e.tl_ck09 = tl_ck_final;
+                        e.tien_kb09 = tien_ck_tv_final;
+                        e.tien_max09 = tien_max_final;
                         e.tien_ck09 = tien_ck ? tien_ck : 0;
 
                     }
