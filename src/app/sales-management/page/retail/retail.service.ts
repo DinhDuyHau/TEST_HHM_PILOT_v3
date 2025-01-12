@@ -458,6 +458,7 @@ export class RetailService {
                     //add ma_imei cho ck ngoại giao sẽ áp dụng
                     discount.ma_imei = row_item!.ma_imei;
                 }
+
                 this.discountService.addNew([discount], this.ticket.discount);
             }
         });
