@@ -115,13 +115,13 @@ export class DiscountService {
     //isRemoveMerchandise: call method từ hành động xóa hàng hóa trong grid
     resetDiscount(discounts: any[], isGridItem: boolean = false, currentRowitem: Merchandise | null = null,
         isGridDiscount: boolean = false, isRemoveMerchandise = false) {
-        let discountKeep = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.GIFT);
+        let discountKeep = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.GIFT || e.loai_ck === '09');
 
         if (!isGridDiscount) {
             if (isGridItem && currentRowitem && currentRowitem.ma_imei) {
                 //Thực hiện gọi tính ck từ item trong grid => loại bỏ ck ngoại giao để thực hiện tính lại
                 //đối với các mã ck trong tab chiết khấu có imei áp dụng trùng với imei của dòng đang chọn => giữ lại ck
-                let discount_keep_adv = discounts.filter(e => e.loai_ck !== DISCOUNT_TYPE.GIFT);
+                let discount_keep_adv = discounts.filter(e => e.loai_ck !== DISCOUNT_TYPE.GIFT || e.loai_ck === '09');
                 discount_keep_adv = discount_keep_adv.filter(e => e.loai_ck !== DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||
                     (e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && e.ma_imei && e.ma_imei.trim() !== currentRowitem.ma_imei.trim())
                 );
@@ -135,12 +135,16 @@ export class DiscountService {
                 if (isRemoveMerchandise && currentRowitem && currentRowitem.ma_imei) {
                     discount_keep_adv = discount_keep_adv.filter(e => e.ma_imei.trim() !== currentRowitem.ma_imei.trim());
                 }
-
-                // giữ ck 09
-                const discountType09 = discounts.filter(e => e.loai_ck === '09');
-                discountKeep.push(...discount_keep_adv, ...discountType09);
+                discountKeep.push(...discount_keep_adv);
             }
         }
+
+        // Loại bỏ các bản ghi duplicate khỏi discountKeep
+        discountKeep = discountKeep.filter((value, index, self) =>
+            index === self.findIndex((t) => (
+                t.loai_ck === value.loai_ck && t.ma_imei === value.ma_imei && t.ma_ck === value.ma_ck
+            ))
+        );
 
         discounts.splice(0, discounts.length);
         discounts.push(...discountKeep);

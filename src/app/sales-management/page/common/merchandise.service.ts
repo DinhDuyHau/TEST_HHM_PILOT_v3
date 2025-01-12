@@ -293,7 +293,7 @@ export class MerchandiseService {
                     if (discount.details) {
                         const arr_imei_ck05: string[] = [];
                         discount.details.forEach((detail: any) => {
-                            const { ma_vt_ad, tien_ck, tien_ck_tl, hangban_yn, dv_yn, ma_dv, tien_ck_item } = detail;
+                            const { ma_vt_ad, tien_ck, tien_ck_tl, hangban_yn, dv_yn, ma_dv, tien_ck_item, ma_imei_ad } = detail;
                             if (!dv_yn) {
                                 const result = (merchandiseUpdate as any[]).filter((merchandise: any) => !hangban_yn &&
                                     this.compareMerchandiseCode(merchandise.ma_vt, ma_vt_ad)
@@ -324,7 +324,13 @@ export class MerchandiseService {
                                 for (const item of result) {
                                     const e = item as Service;
                                     //Chỉ set tiền ck cho các imei chưa áp dụng ck 05 (không tồn tại trong arr_imei_ck05)
-                                    if (!arr_imei_ck05.includes(e.ma_imei)) {
+                                    // if (!arr_imei_ck05.includes(e.ma_imei)) {
+                                    //     e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
+                                    //     e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
+                                    //     arr_imei_ck05.push(e.ma_imei);
+                                    // }
+
+                                    if(e.ma_dv.trim().toLowerCase() === ma_dv.trim().toLowerCase() && e.ma_imei.trim().toLowerCase() === ma_imei_ad.trim().toLowerCase()) {
                                         e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
                                         e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
                                         arr_imei_ck05.push(e.ma_imei);
