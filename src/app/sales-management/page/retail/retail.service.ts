@@ -453,7 +453,8 @@ export class RetailService {
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_TICKET ||
                 discount.loai_ck === DISCOUNT_TYPE.CROSS_SELLING ||
                 discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO ||
-                discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT
+                discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT ||
+                discount.loai_ck === '09'
             ) {
                 if (discount.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && row_item) {
                     //Nếu chọn chiết khấu ngoại giao thì cần phải chọn dòng trong grid hàng hóa để áp dụng ck
