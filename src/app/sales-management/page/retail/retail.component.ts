@@ -319,8 +319,9 @@ export class RetailComponent implements OnInit, AfterViewInit {
         this.handleAddCustomer(customer);
 
         this.ticketApiService.getRankCustomer({ ma_kh: customer.ma_kh }).subscribe(result => {
-          const { ma_hang, mau_chu } = result.result as any;
+          const { ma_hang, mau_chu, tl_tich_diem } = result.result as any;
           this.ticket.masterInfo.ma_hang = ma_hang;
+          this.ticket.masterInfo.tl_tich_diem = tl_tich_diem;
           this.generateLabelWithColor(ma_hang, mau_chu);
         });
       } else {
@@ -339,8 +340,9 @@ export class RetailComponent implements OnInit, AfterViewInit {
         customer && this.handleAddCustomer(customer)
 
         customer && this.ticketApiService.getRankCustomer({ ma_kh: customer.ma_kh }).subscribe(result => {
-          const { ma_hang, mau_chu } = result.result as any;
+          const { ma_hang, mau_chu, tl_tich_diem } = result.result as any;
           this.ticket.masterInfo.ma_hang = ma_hang;
+          this.ticket.masterInfo.tl_tich_diem = tl_tich_diem;
           this.generateLabelWithColor(ma_hang, mau_chu);
         });
       });

@@ -39,6 +39,7 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     tien_phi_cod = 0;
     ghi_chu_gh = '';
     ma_hang = '';
+    tl_tich_diem = 0;
 
     constructor(obj?: any) {
         super();

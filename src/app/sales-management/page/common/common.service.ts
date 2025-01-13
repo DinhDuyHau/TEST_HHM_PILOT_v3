@@ -485,7 +485,13 @@ export class CommonService {
     };
 
     calcPointRateExchange = (ticket: any) => {
-        return Math.round(ticket.masterInfo.t_tt_nt / ticket.masterInfo.he_so_qd) || 0;
+        const tl_tich_diem = ticket.masterInfo.tl_tich_diem ?? 0;
+        const t_tt_nt = ticket.masterInfo.t_tt_nt ?? 0;
+
+        if (tl_tich_diem <= 0)
+            return 0;
+
+        return Math.round(t_tt_nt * (tl_tich_diem / 100)) || 0;
     };
 
     calcExchangeMoney = (diem_qd: number, he_so_qd: number) => {
