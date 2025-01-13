@@ -10,7 +10,8 @@
     "name": "ma_gg",
     "title": "Mã code",
     "width": 140,
-    "readonly": false
+    "readonly": false,
+    "placeholder": "Nhập mã code..."
   },
   {
     "name": "ma_imei",

@@ -485,7 +485,13 @@ export class CommonService {
     };
 
     calcPointRateExchange = (ticket: any) => {
-        return Math.round(ticket.masterInfo.t_tt_nt / ticket.masterInfo.he_so_qd) || 0;
+        const tl_tich_diem = ticket.masterInfo.tl_tich_diem ?? 0;
+        const t_tt_nt = ticket.masterInfo.t_tt_nt ?? 0;
+
+        if (tl_tich_diem <= 0)
+            return 0;
+
+        return Math.round(t_tt_nt * (tl_tich_diem / 100)) || 0;
     };
 
     calcExchangeMoney = (diem_qd: number, he_so_qd: number) => {
@@ -508,7 +514,7 @@ export class CommonService {
     getDiscDiscountProgramCRM(list_item: any[]) {
         return this.ticketApiService.post(environment.apiUrl + '/discountcode/get_discount_program', list_item);
     }
-    openLookup(control: any, multipleChoose = false) {
+    openLookup(control: any, multipleChoose = false, highlightColumns: string[] = []) {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.width = '100%';
         if (window.innerWidth < 768) {
@@ -517,7 +523,8 @@ export class CommonService {
         dialogConfig.disableClose = true;
         dialogConfig.data = {
             service: control,
-            multipleChoose: multipleChoose
+            multipleChoose: multipleChoose,
+            highlightColumns: highlightColumns
         };
         const dialogRef = this.dialog.open(LookupComponent, dialogConfig);
         return dialogRef.afterClosed();

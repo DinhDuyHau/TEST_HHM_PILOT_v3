@@ -4,4 +4,5 @@ export interface LookupData {
     title: string;
     service: IGridServiceV2<any>;
     multipleChoose: boolean;
+    highlightColumns?: string[];
 }

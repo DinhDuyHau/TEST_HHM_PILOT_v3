@@ -25,6 +25,7 @@ export class Field {
   link = false;
   key = '';
   actions: string[] = [];
+  placeholder = '';
 }
 
 export class Grid<T>{

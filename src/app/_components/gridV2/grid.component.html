@@ -228,6 +228,7 @@
                   *ngIf="column.type !== 'select'"
                   class="text-base font-medium"
                   [ngClass]="{
+                    'text-red-500': highlightColumns.includes(column.name),
                     'text-white': gridType == 0,
                     'text-neutrals03_color': gridType != 0
                   }"
@@ -323,6 +324,7 @@
                 }"
                 type="text"
                 [name]="column.name"
+                [placeholder]="column.placeholder || ''"
                 (change)="handleChangeInput(column.name, indexRow, $event)"
                 [value]="
                   element[column.name]
