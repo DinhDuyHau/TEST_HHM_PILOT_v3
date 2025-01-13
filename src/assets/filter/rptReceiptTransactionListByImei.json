@@ -1,6 +1,6 @@
 {
   "width": 700,
-  "height": 600,
+  "height": 700,
   "control": [
     [
       {
@@ -42,6 +42,19 @@
     ],
     [
       {
+        "name": "ma_cuahang",
+        "label": "Mã cửa hàng",
+        "isLookup": "true",
+        "control": "zcdmcuahang",
+        "value": "@@shop",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_cuahang"],
+        "class": "flex-1",
+        "isChoose": true
+      }
+    ],
+    [
+      {
         "name": "ma_kho",
         "label": "Kho hàng",
         "isLookup": "true",
@@ -63,7 +76,49 @@
         "class": "flex-1",
         "isChoose": true
       }
+    ],
+    [
+      {
+        "name": "nh_vt1",
+        "label": "Chủng loại",
+        "isLookup": "true",
+        "control": "dmnhvt1",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nh"],
+        "mapper": {
+          "ma_nh": "nh_vt1"
+        },
+        "class": "flex-1",
+        "isChoose": true
+      },
+      {
+        "name": "nh_vt2",
+        "label": "Hãng sản xuất",
+        "isLookup": "true",
+        "control": "dmnhvt2",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nh"],
+        "mapper": {
+          "ma_nh": "nh_vt2"
+        },
+        "class": "flex-1",
+        "isChoose": true
+      }
+    ],
+    [
+      {
+        "name": "nh_vt3",
+        "label": "Loại nhóm hàng",
+        "isLookup": "true",
+        "control": "dmnhvt3",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_nh"],
+        "mapper": {
+          "ma_nh": "nh_vt3"
+        },
+        "class": "flex-1",
+        "isChoose": true
+      }
     ]
-
   ]
 }

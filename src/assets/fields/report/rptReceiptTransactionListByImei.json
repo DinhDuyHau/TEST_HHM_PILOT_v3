@@ -25,8 +25,16 @@
     "dataFormatString": "upperCaseFormat"
   },
   {
+    "name": "ma_cuahang",
+    "title": "Cửa hàng nhập",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
     "name": "ma_kh",
-    "title": "Mã kho",
+    "title": "Mã kho nhập",
     "isLockingColumn": true,
     "allowFilter": true,
     "width": 100,
@@ -34,14 +42,44 @@
   },
   {
     "name": "ten_kh",
-    "title": "Tên kho",
+    "title": "Tên kho nhập",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 230
+  },
+  {
+    "name": "ma_cuahangx",
+    "title": "Cửa hàng xuất",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_khox",
+    "title": "Mã kho xuất",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_khox",
+    "title": "Tên kho xuất",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 230
+  },
+  {
+    "name": "dien_giai",
+    "title": "Diễn giải",
     "allowFilter": true,
     "isLockingColumn": true,
     "width": 230
   },
   {
     "name": "ma_vt",
-    "title": "Mã hàng",
+    "title": "Mã vật tư",
     "isLockingColumn": true,
     "allowFilter": true,
     "width": 120,
@@ -49,7 +87,7 @@
   },
   {
     "name": "ten_vt",
-    "title": "Tên hàng",
+    "title": "Tên vật tư",
     "allowFilter": true,
     "isLockingColumn": true,
     "width": 280
@@ -72,24 +110,6 @@
     "name": "so_luong",
     "allowFilter": true,
     "title": "Số lượng",
-    "type": "number",
-    "dataFormatString": "normalPrice",
-    "align": "center",
-    "width": 100
-  },
-  {
-    "name": "gia",
-    "allowFilter": true,
-    "title": "Giá",
-    "type": "number",
-    "dataFormatString": "normalPrice",
-    "align": "center",
-    "width": 100
-  },
-  {
-    "name": "tien",
-    "allowFilter": true,
-    "title": "Tiền",
     "type": "number",
     "dataFormatString": "normalPrice",
     "align": "center",

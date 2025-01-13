@@ -55,6 +55,7 @@ const GET_REASON_BY_ID = `${environment.apiUrl}/category/getbyid/dmlydo`;
 const GET_VOUCHER_DATE_URL = `${environment.apiUrl}/voucher/getdate`;
 const GET_TELESALE_URL = `${environment.apiUrl}/category/find/vdmnvls`;
 const GET_VOUCHER_NAVIGATION_URL = `${environment.apiUrl}/voucher/navigation`;
+const GET_VERSION_APP = `${environment.apiUrl}/service/get_version_app`;
 
 @Injectable({
     providedIn: 'root'
@@ -356,5 +357,10 @@ export class TicketApiService extends ApiService {
     navigationVoucher(table_name: string, stt_rec: string, ngay_ct: Date): Observable<ResultNoPaging<any>> {
         const url = GET_VOUCHER_NAVIGATION_URL;
         return this.get<ResultNoPaging<any>>(url, { table_name, stt_rec, ngay_ct });
+    }
+
+    getVersionApp(): Observable<ResultNoPaging<string>> {
+        const url = GET_VERSION_APP;
+        return this.get<ResultNoPaging<string>>(url);
     }
 }

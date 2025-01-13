@@ -201,9 +201,9 @@ export class MerchandiseService {
                     const t_tien = result.map(e => e.gia_ban * e.so_luong).reduce((pre: any, cur: any) => pre + cur, 0);
                     let total = 0;
                     result.forEach((e: Merchandise, index) => {
-                        if(e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
-                          e.gia_ck -= tien_ck ? tien_ck : 0;
-                          e.tien_ck += tien_ck ? tien_ck : 0;
+                        if (e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
+                            e.gia_ck -= tien_ck ? tien_ck : 0;
+                            e.tien_ck += tien_ck ? tien_ck : 0;
                         }
                         /**
                          * Tính phân bổ chưa đúng nên tạm thời bỏ
@@ -235,9 +235,9 @@ export class MerchandiseService {
                     let total = 0;
                     result.forEach((e: Service, index) => {
                         // kiểm tra đúng imei và ma_dv thì gán tien_ck
-                        if(e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_dv.trim().toLowerCase() == ma_dv.trim().toLowerCase()) {
-                          e.gia_ck -= tien_ck ? tien_ck : 0;
-                          e.tien_ck += tien_ck ? tien_ck : 0;
+                        if (e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_dv.trim().toLowerCase() == ma_dv.trim().toLowerCase()) {
+                            e.gia_ck -= tien_ck ? tien_ck : 0;
+                            e.tien_ck += tien_ck ? tien_ck : 0;
                         }
                         /**
                          * Tính phân bổ chưa đúng nên tạm thời bỏ
@@ -600,7 +600,7 @@ export class MerchandiseService {
                 // Tổng tiền hàng bán của phiếu có trong chiết khấu
                 result.forEach((e: Merchandise, index) => {
                     // kiểm tra đúng imei và ma_vt thì gán tien_ck
-                    if(e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
+                    if (e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
 
                         // Sử dụng tl_ck từ e.tl_ck09 nếu tl_ck không tồn tại hoặc không có giá trị
                         const tl_ck_final = tl_ck || e.tl_ck09 || 0;
@@ -652,7 +652,7 @@ export class MerchandiseService {
 
             e.gia_ck = e.gia_ban - (e.tien_ck / (1 + (e.thue_suat / 100)));
             // nếu có ck 09 thì xử lý
-            if(e.tien_ck09) {
+            if (e.tien_ck09) {
                 e.gia_ck -= e.tien_ck09;
             }
             //Xử lý làm tròn giá ck sau khi trừ bị âm hoặc trong khoảng 0-0.49
@@ -670,7 +670,7 @@ export class MerchandiseService {
              */
             e.thanh_toan = (e.gia_vat * e.so_luong) - e.tien_ck;
             // nếu có ck 09 thì xử lý
-            if(e.tien_ck09) {
+            if (e.tien_ck09) {
                 e.thanh_toan = e.thanh_toan - e.tien_ck09;
             }
             e.tien_thue = e.thanh_toan - e.thanh_tien;
@@ -779,31 +779,31 @@ export class MerchandiseService {
     }
 
     convertFromVoucherView(src: any[], des: any[], TCreator: { new(): any; }) {
-      const result = src.map(merchandise => {
-          const rs = this.createNewMerchandise(merchandise, TCreator);
-          rs.gia_ban = merchandise.gia_ban || merchandise.gia_ban_nt || merchandise.gia_nt;
-          rs.gia_ck = merchandise.gia_ck || merchandise.gia_ck_nt;
-          rs.tien_ck = merchandise.ck || merchandise.ck_nt;
-          rs.thanh_tien = merchandise.tien2 || merchandise.tien_nt2 || merchandise.tien_nt;
-          rs.tien_thue = merchandise.thue || merchandise.thue_nt;
-          rs.thanh_toan = merchandise.tt || merchandise.tt_nt;
-          rs.stt_rec_dh = merchandise.stt_rec_dh;
-          rs.hd_so = merchandise.hd_so || '';
-          rs.s7 = merchandise.s7 || '';
-          rs.ma_td1 = merchandise.ma_td1 || '';
-          rs.gc_td1 = merchandise.gc_td1 || '';
-          rs.gc_td2 = merchandise.gc_td2 || '';
+        const result = src.map(merchandise => {
+            const rs = this.createNewMerchandise(merchandise, TCreator);
+            rs.gia_ban = merchandise.gia_ban || merchandise.gia_ban_nt || merchandise.gia_nt;
+            rs.gia_ck = merchandise.gia_ck || merchandise.gia_ck_nt;
+            rs.tien_ck = merchandise.ck || merchandise.ck_nt;
+            rs.thanh_tien = merchandise.tien2 || merchandise.tien_nt2 || merchandise.tien_nt;
+            rs.tien_thue = merchandise.thue || merchandise.thue_nt;
+            rs.thanh_toan = merchandise.tt || merchandise.tt_nt;
+            rs.stt_rec_dh = merchandise.stt_rec_dh;
+            rs.hd_so = merchandise.hd_so || '';
+            rs.s7 = merchandise.s7 || '';
+            rs.ma_td1 = merchandise.ma_td1 || '';
+            rs.gc_td1 = merchandise.gc_td1 || '';
+            rs.gc_td2 = merchandise.gc_td2 || '';
 
-          Object.keys(rs).forEach(key => {
-              if (rs[key] === undefined) {
-                  delete rs[key];
-              }
-          });
-          return rs;
-      });
-      result.map((e, i) => { e.line_nbr = i + 1; });
-      des.push(...result);
-  }
+            Object.keys(rs).forEach(key => {
+                if (rs[key] === undefined) {
+                    delete rs[key];
+                }
+            });
+            return rs;
+        });
+        result.map((e, i) => { e.line_nbr = i + 1; });
+        des.push(...result);
+    }
 
     updatePriceForEcommerce(ticket: any, merchandises: any[], service?: any[]) {
         //update lại chiết khấu = 0 hết
@@ -840,9 +840,9 @@ export class MerchandiseService {
                     const t_tien = result.map(e => e.gia_ban * e.so_luong).reduce((pre: any, cur: any) => pre + cur, 0);
                     let total = 0;
                     result.forEach((e: Merchandise, index) => {
-                        if(e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
-                          e.gia_ck -= tien_ck ? tien_ck : 0;
-                          e.tien_ck += tien_ck ? tien_ck : 0;
+                        if (e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
+                            e.gia_ck -= tien_ck ? tien_ck : 0;
+                            e.tien_ck += tien_ck ? tien_ck : 0;
                         }
                         /**
                          * Tính phân bổ chưa đúng nên tạm thời bỏ
@@ -874,9 +874,9 @@ export class MerchandiseService {
                     let total = 0;
                     result.forEach((e: Service, index) => {
                         // kiểm tra đúng imei và ma_dv thì gán tien_ck
-                        if(e.ma_imei.trim() == ma_imei.trim() && e.ma_dv.trim() == ma_dv.trim()) {
-                          e.gia_ck -= tien_ck ? tien_ck : 0;
-                          e.tien_ck += tien_ck ? tien_ck : 0;
+                        if (e.ma_imei.trim() == ma_imei.trim() && e.ma_dv.trim() == ma_dv.trim()) {
+                            e.gia_ck -= tien_ck ? tien_ck : 0;
+                            e.tien_ck += tien_ck ? tien_ck : 0;
                         }
                         /**
                         * Tính phân bổ chưa đúng nên tạm thời bỏ
@@ -1263,9 +1263,9 @@ export class MerchandiseService {
                     const t_tien = result.map(e => e.gia_ban * e.so_luong).reduce((pre: any, cur: any) => pre + cur, 0);
                     let total = 0;
                     result.forEach((e: Merchandise, index) => {
-                        if(e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
-                          e.gia_ck -= tien_ck ? tien_ck : 0;
-                          e.tien_ck += tien_ck ? tien_ck : 0;
+                        if (e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
+                            e.gia_ck -= tien_ck ? tien_ck : 0;
+                            e.tien_ck += tien_ck ? tien_ck : 0;
                         }
                         /**
                          * Tính phân bổ chưa đúng nên tạm thời bỏ
@@ -1297,9 +1297,9 @@ export class MerchandiseService {
                     let total = 0;
                     result.forEach((e: Service, index) => {
                         // kiểm tra đúng imei và ma_dv thì gán tien_ck
-                        if(e.ma_imei.trim() == ma_imei.trim() && e.ma_dv.trim() == ma_dv.trim()) {
-                          e.gia_ck -= tien_ck ? tien_ck : 0;
-                          e.tien_ck += tien_ck ? tien_ck : 0;
+                        if (e.ma_imei.trim() == ma_imei.trim() && e.ma_dv.trim() == ma_dv.trim()) {
+                            e.gia_ck -= tien_ck ? tien_ck : 0;
+                            e.tien_ck += tien_ck ? tien_ck : 0;
                         }
                         /**
                         * Tính phân bổ chưa đúng nên tạm thời bỏ
