@@ -38,12 +38,12 @@
     ],
     [
       {
-        "name": "ma_loai",
-        "label": "Loại kho",
+        "name": "ma_nh",
+        "label": "Nhóm kho",
         "isLookup": "true",
-        "control": "dmloaikho",
+        "control": "dmnhkho",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_loai"],
+        "reference": ["ma_nh"],
         "isChoose": true
       }
     ],
