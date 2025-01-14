@@ -351,7 +351,7 @@ export class SaleRenewService {
             //lấy giá bán theo giá niêm yết để tính chiết khấu
             renew_merchandise.forEach(x => x.gia_ban = x.s4);
 
-            return this.discountApiService.getDiscountForTicket(entity, renew_merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck);
+            return this.discountApiService.getDiscountForTicket(entity, renew_merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck, TICKET_CODE.RENEW);
         }
         return;
     }
