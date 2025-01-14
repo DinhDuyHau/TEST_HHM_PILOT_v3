@@ -1,6 +1,6 @@
 {
   "width": 700,
-  "height": 700,
+  "height": 800,
   "control": [
     [
       {
@@ -23,9 +23,7 @@
         "isLookup": "true",
         "control": "dmvt",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_vt"
-        ],
+        "reference": ["ma_vt"],
         "class": "flex-1",
         "isChoose": true
       }
@@ -44,9 +42,7 @@
         "control": "zcdmcuahang",
         "value": "@@shop",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_cuahang"
-        ],
+        "reference": ["ma_cuahang"],
         "class": "flex-1",
         "isChoose": true
       }
@@ -58,9 +54,7 @@
         "isLookup": "true",
         "control": "dmkho",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_kho"
-        ],
+        "reference": ["ma_kho"],
         "class": "flex-1",
         "isChoose": true
       }
@@ -72,9 +66,7 @@
         "isLookup": "true",
         "control": "dmkho",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "kho_hang_dc"
-        ],
+        "reference": ["kho_hang_dc"],
         "class": "flex-1",
         "isChoose": true
       }
@@ -86,9 +78,7 @@
         "isLookup": "true",
         "control": "dmnhvt1",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_nh"
-        ],
+        "reference": ["ma_nh"],
         "mapper": {
           "ma_nh": "nh_vt1"
         },
@@ -101,9 +91,7 @@
         "isLookup": "true",
         "control": "dmnhvt2",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_nh"
-        ],
+        "reference": ["ma_nh"],
         "mapper": {
           "ma_nh": "nh_vt2"
         },
@@ -118,14 +106,32 @@
         "isLookup": "true",
         "control": "dmnhvt3",
         "dataFormatString": "uppercaseFormat",
-        "reference": [
-          "ma_nh"
-        ],
+        "reference": ["ma_nh"],
         "mapper": {
           "ma_nh": "nh_vt3"
         },
         "class": "flex-1",
         "isChoose": true
+      }
+    ],
+    [
+      {
+        "name": "mau_bc",
+        "label": "Hiển thị",
+        "type": "select",
+        "options": [
+          {
+            "label": "Mẫu tổng hợp",
+            "value": 10
+          },
+          {
+            "label": "Mẫu chi tiết imei theo dòng",
+            "value": 20
+          }
+        ],
+        "optionValue": "value",
+        "optionDes": "label",
+        "class": "basis-1/2"
       }
     ]
   ]
