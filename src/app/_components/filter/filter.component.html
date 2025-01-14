@@ -39,6 +39,7 @@
             [invalid]="
               (!filter[item.name] || true) && (item.required || false) && submit
             "
+            [readonly]="item.readonly || false"
             (handleChange)="handleInputChange(item.name, $event)"
             (handleChangeLookup)="handleInputLookupChange($event)"
             (handleEnter)="onEnter($event)"></app-input-custom-v2>
@@ -65,7 +66,7 @@
           </div>
 
           <div *ngIf="item.type === 'checkbox'">
-            <app-checkbox 
+            <app-checkbox
               [id]="item.name"
               [name]="item.name"
               [label]="item.label"
