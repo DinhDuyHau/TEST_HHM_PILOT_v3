@@ -1,0 +1,25 @@
+[
+  {
+    "name": "choose",
+    "title": "Chọn",
+    "width": 80,
+    "type": "select",
+    "hidden": true
+  },
+  {
+    "name": "ma_nh",
+    "title": "Mã nhóm",
+    "isPrimaryKey": true,
+    "width": 160,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_nh",
+    "title": "Tên nhóm",
+    "width": 260,
+    "allowSorting": true,
+    "allowFilter": true
+  }
+]
