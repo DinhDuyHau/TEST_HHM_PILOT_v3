@@ -149,8 +149,8 @@ export class AdvancedSearchDialogComponent implements OnInit {
 
       this.lbl_ma_cuahang = 'Mã cửa hàng xuất';
       this.lbl_ten_cuahang = 'Tên cửa hàng xuất';
-      this.lbl_ma_cuahang2 = 'Mã cửa hàng nhận';
-      this.lbl_ten_cuahang2 = 'Tên cửa hàng nhận';
+      this.lbl_ma_cuahang2 = 'Mã cửa hàng nhập';
+      this.lbl_ten_cuahang2 = 'Tên cửa hàng nhập';
 
       this.lbl_trang_thai = 'Trạng thái PX';
       this.lbl_trang_thai2 = 'Trạng thái PN';
@@ -500,7 +500,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
           break;
         }
         else {
-          // Phần tử cuối cùng sẽ focus vào button tìm kiếm 
+          // Phần tử cuối cùng sẽ focus vào button tìm kiếm
           document.getElementById('btn-add')?.focus();
         }
       }

@@ -514,7 +514,7 @@ export class CommonService {
     getDiscDiscountProgramCRM(list_item: any[]) {
         return this.ticketApiService.post(environment.apiUrl + '/discountcode/get_discount_program', list_item);
     }
-    openLookup(control: any, multipleChoose = false) {
+    openLookup(control: any, multipleChoose = false, highlightColumns: string[] = []) {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.width = '100%';
         if (window.innerWidth < 768) {
@@ -523,7 +523,8 @@ export class CommonService {
         dialogConfig.disableClose = true;
         dialogConfig.data = {
             service: control,
-            multipleChoose: multipleChoose
+            multipleChoose: multipleChoose,
+            highlightColumns: highlightColumns
         };
         const dialogRef = this.dialog.open(LookupComponent, dialogConfig);
         return dialogRef.afterClosed();

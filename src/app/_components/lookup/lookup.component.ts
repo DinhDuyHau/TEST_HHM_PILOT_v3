@@ -15,6 +15,8 @@ export class LookupComponent extends Grid<any> {
   title = '';
   isChoose = false;
   multipleChoose = false;
+  highlightColumns: string[] = [];
+
   constructor(
     public dialogRef: MatDialogRef<LookupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: LookupData,
@@ -22,6 +24,7 @@ export class LookupComponent extends Grid<any> {
     super(data.service);
     this.title = data.service.getTitle();
     this.multipleChoose = data.multipleChoose;
+    this.highlightColumns = data.highlightColumns || [];
   }
   onClickItemLookup(event: { item: any }) {
     this.dialogRef.close(event.item);

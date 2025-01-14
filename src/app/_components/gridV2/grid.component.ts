@@ -115,6 +115,7 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
 
   selected_row_item: any;
   @Input() enabledCheckboxColumns: string[] = [];
+  @Input() highlightColumns: string[] = [];
 
   constructor(
     library: FaIconLibrary,

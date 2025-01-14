@@ -525,7 +525,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     //   return;
     // }
     this.discountProgramService.setListItem(list_vt, this.data.giam_gia_crm.detail);
-    this.commonService.openLookup(this.discountProgramService, true).subscribe((res: any[]) => {
+    this.commonService.openLookup(this.discountProgramService, true, ['ma_gg']).subscribe((res: any[]) => {
       if (res) {
         this.data.giam_gia_crm.detail = res.map((item) => {
           return {
@@ -711,6 +711,20 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     if (isSelected && (isMaCtrEmpty || isMaChuanChiEmptyVoucher || isMaGgEmpty)) {
       if (isMaCtrEmpty) {
         this.invalid.voucher_doi_tac.ma_ctr = true;
+      }
+      return true;
+    }
+
+    // kiểm tra trả góp
+    const isSelectedTragop = this.data.tra_gop.selected;
+    const isMaHopDongTragop = !this.data.tra_gop.so_hd_tragop.trim();
+    const isMaDVTraGop = !this.data.tra_gop.ma_dv_tragop.trim();
+    if (isSelectedTragop && (isMaHopDongTragop || isMaDVTraGop)) {
+      if (isMaHopDongTragop) {
+        this.invalid.tra_gop.so_hd_tragop = true;
+      }
+      if (isMaDVTraGop) {
+        this.invalid.tra_gop.ma_dv_tragop = true;
       }
       return true;
     }
