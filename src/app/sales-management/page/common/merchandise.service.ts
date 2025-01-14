@@ -590,6 +590,7 @@ export class MerchandiseService {
 
         //#endregion
 
+        //#region Chiết khấu 09
         // Lấy chi tiết chiết khấu loại 09: Chiết khấu theo giá hạng khách hàng
         const discountForMerchandise09 = ticket.discount.filter((e: any) => e.loai_ck === '09');
         (discountForMerchandise09 as any).forEach((discount: any) => {
@@ -628,7 +629,7 @@ export class MerchandiseService {
                         }
 
                         // làm tròn tien_ck
-                        tien_ck = Math.round(tien_ck);
+                        tien_ck = this.commonService.rouding(tien_ck);
 
                         // add ck 09 vào
                         e.tl_ck09 = tl_ck_final;
@@ -644,6 +645,7 @@ export class MerchandiseService {
                 discountUpdate.tien_ck = tien_ck;
             }
         });
+        //#endregion
 
         // let option: Option = new Option;
 
