@@ -191,7 +191,7 @@
             <button
               (click)="onActionItem(record)"
               *ngIf="
-                handleAction.observers.length && entityName === 'SVTran_DXA'
+                handleAction.observers.length && entityName === 'SVTran_DXA' && record.status != 1
               ">
               <span class="icon-table">Lập phiếu bán buôn</span>
             </button>
