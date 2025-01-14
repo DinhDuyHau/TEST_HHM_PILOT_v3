@@ -324,7 +324,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.SERVICE:
         return this.merchandiseServiceApiService.findById(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.CONTRACT:
-        return this.ticketApiService.getMany(TICKET_ENTITY.CONTRACT, {});
+        return this.ticketApiService.getLookupVoucherByQuery({ ma_ct: TICKET_CODE.CONTRACT }, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.ITINERANT:
         return this.ticketApiService.getProjects(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE:
@@ -420,11 +420,11 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
     const observer = {
       next: (result: any) => {
         // Nếu là hợp đồng thì gán dataSource bằng voucher từ res
-        if (this.data.componentName == SEARCH_COMPONENT_NAME.CONTRACT) {
-          this.dataSource = result?.result[0]?.voucher || [];
-          this.recordCount = result.result.recordCount
-          return;
-        }
+        // if (this.data.componentName == SEARCH_COMPONENT_NAME.CONTRACT) {
+        //   this.dataSource = result?.result[0]?.voucher || [];
+        //   this.recordCount = result.result.recordCount
+        //   return;
+        // }
 
         if (result.result?.items) {
           this.dataSource = result.result.items;
