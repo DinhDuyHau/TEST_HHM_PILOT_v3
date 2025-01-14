@@ -1,6 +1,6 @@
 {
   "width": 700,
-  "height": 700,
+  "height": 800,
   "control": [
     [
       {
@@ -118,6 +118,26 @@
         },
         "class": "flex-1",
         "isChoose": true
+      }
+    ],
+    [
+      {
+        "name": "mau_bc",
+        "label": "Hiển thị",
+        "type": "select",
+        "options": [
+          {
+            "label": "Mẫu tổng hợp",
+            "value": 10
+          },
+          {
+            "label": "Mẫu chi tiết imei theo dòng",
+            "value": 20
+          }
+        ],
+        "optionValue": "value",
+        "optionDes": "label",
+        "class": "basis-1/2"
       }
     ]
   ]
