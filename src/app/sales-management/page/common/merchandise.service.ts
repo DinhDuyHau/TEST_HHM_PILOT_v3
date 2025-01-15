@@ -330,7 +330,7 @@ export class MerchandiseService {
                                     //     arr_imei_ck05.push(e.ma_imei);
                                     // }
 
-                                    if(e.ma_dv.trim().toLowerCase() === ma_dv.trim().toLowerCase() && e.ma_imei.trim().toLowerCase() === ma_imei_ad.trim().toLowerCase()) {
+                                    if (e.ma_dv.trim().toLowerCase() === ma_dv.trim().toLowerCase() && e.ma_imei.trim().toLowerCase() === ma_imei_ad.trim().toLowerCase()) {
                                         e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
                                         e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
                                         arr_imei_ck05.push(e.ma_imei);
