@@ -31,6 +31,7 @@ import { Option } from '@app/sales-management/model/ticket/common-model/option.m
 import { environment } from '@environments/environment';
 import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 const { DISCOUNT_LIST,
     GUARANTEE_LIST,
@@ -84,6 +85,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     action = '';
     shop = '';
     ma_imei = '';
+    ma_kh_label = 'Mã khách';
     addOrUpdateCustomer = 'create';
 
     constructor(
@@ -99,6 +101,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
         private merchandiseService: MerchandiseService,
         private discountService: DiscountService,
         private guaranteeApiService: GuaranteeApiService,
+        private sanitizer: DomSanitizer
     ) {
         localStorage.setItem('useGridCached', '1');
         this.saleOnlineService.setTicket(this.ticket, this.option);
@@ -203,6 +206,13 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                             }
                         });
 
+                        this.ticketApiService.getColorRank({ ma_hang: this.ticket.masterInfo.ma_hang }).subscribe(result => {
+                            if (result && result.success) {
+                                const { ma_hang, mau_chu } = result.result as any;
+                                this.generateLabelWithColor(ma_hang, mau_chu);
+                            }
+                        });
+
                         this.tabIndexFocusFirst = this.tabIndex.imei;
                     }
                 });
@@ -249,6 +259,13 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                 const customer: any = result.result;
                 this.handleAddCustomer(customer);
 
+                this.ticketApiService.getRankCustomer({ ma_kh: customer.ma_kh }).subscribe(result => {
+                    const { ma_hang, mau_chu, tl_tich_diem } = result.result as any;
+                    this.ticket.masterInfo.ma_hang = ma_hang;
+                    this.ticket.masterInfo.tl_tich_diem = tl_tich_diem;
+                    this.generateLabelWithColor(ma_hang, mau_chu);
+                });
+
                 // mở dialog add khách hàng nhưng ở chế độ update
                 this.addOrUpdateCustomer = 'update';
                 this.openAddCustomerDialog(customer.ma_kh);
@@ -267,6 +284,13 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
             .afterClosed()
             .subscribe((customer: Customer) => {
                 customer && this.handleAddCustomer(customer)
+
+                customer && this.ticketApiService.getRankCustomer({ ma_kh: customer.ma_kh }).subscribe(result => {
+                    const { ma_hang, mau_chu, tl_tich_diem } = result.result as any;
+                    this.ticket.masterInfo.ma_hang = ma_hang;
+                    this.ticket.masterInfo.tl_tich_diem = tl_tich_diem;
+                    this.generateLabelWithColor(ma_hang, mau_chu);
+                });
 
                 // mở dialog add khách hàng nhưng ở chế độ update
                 this.addOrUpdateCustomer = 'update';
@@ -352,6 +376,8 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
             this.saleOnlineService.setIsNeedCalcDiscount(true);
             this.discountService.resetDiscount(this.ticket.discount);
             this.saleOnlineService.calcMoney();
+            // khi add imei xử lý ck 09
+            this.applyDiscount09ForMerchandise(merchandiseResponse);
         }
     }
 
@@ -561,6 +587,10 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
             this.commonService.showMessageByName('lblWarningNotDeleteDiscountGift');
             return;
         }
+        if (event.item.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK) {
+            this.commonService.showMessage('Không thể xóa chiết khấu hạng khách hàng');
+            return;
+        }
         const discountCurrent = this.discountService.getDiscountCurrent(this.ticket.discount.filter(x => x.ma_ck !== event.item.ma_ck));
         const rs = this.saleOnlineService.calcDiscount();
         if (rs) {
@@ -762,6 +792,56 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                 if (result)
                     this.ticket.masterInfo.fcode1 = result.ma_nvbh;
             });
+    }
+
+    /*
+    * Xử lý ck 09
+    */
+    applyDiscount09ForMerchandise(merchandiseResponse: any) {
+        const ma_kh = this.ticket.masterInfo.ma_kh.trim();
+        const ma_hang = this.ticket.masterInfo.ma_hang.trim();
+        const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+        const ma_imei = merchandiseResponse.ma_imei.trim();
+        const ma_vt = merchandiseResponse.ma_vt.trim();
+
+        this.imeiApiService.getDiscountRankCustomer(ma_kh, ma_hang, ngay_ct, ma_imei, ma_vt, TICKET_CODE.RETAIL).subscribe((res: any) => {
+            if (res.success && res.result) {
+                const discount = res.result[0] as any;
+                // add vào tab ck
+                if (discount) {
+                    this.discountService.addNew([discount], this.ticket.discount);
+                }
+                // tính lại tiền
+                this.saleOnlineService.calcMoney();
+            }
+        });
+    }
+
+    /*
+    * Xử lý label hạng khách hàng
+    */
+    generateLabelWithColor(ma_hang: any, mau_chu: any) {
+        const rankColors = {
+            'BRONZE': 'white',
+            'DIAMOND': 'white',
+            'GOLD': 'white',
+            'MEMBER': 'white',
+            'STUDENT': 'white',
+        };
+
+        let textColor = rankColors[ma_hang as keyof typeof rankColors] || 'black';
+
+        this.ticket.masterInfo.ma_hang = ma_hang;
+
+        const html = ma_hang ? `
+            Mã khách (Hạng:
+                <span class="bg-blue-100 text-xs font-medium px-2.5 py-0.5 rounded-full"
+                    style="background-color: ${mau_chu} !important; color: ${textColor} !important;">
+                ${ma_hang}
+                </span>
+            )` : 'Mã khách';
+
+        this.ma_kh_label = this.sanitizer.bypassSecurityTrustHtml(html) as string;
     }
 }
 

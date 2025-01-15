@@ -12,6 +12,11 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     gia_vat = 0;
     s4 = 0;
     s5 = 0;
+    tl_ck09 = 0; // tỉ lệ ck 09
+    tien_kb09 = 0; // tiền ck 09
+    tien_max09 = 0; // tiền max ck 09
+    tien_ck09 = 0; // tiền ck được hưởng 09
+
     constructor(obj?: any) {
         super();
         Object.assign(this, obj);
@@ -30,6 +35,8 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     email_nhan_key = '';
     //Mã nhân viên telesale
     fcode1 = '';
+    ma_hang = '';
+    tl_tich_diem = 0;
 
     constructor(obj?: any) {
         super();
