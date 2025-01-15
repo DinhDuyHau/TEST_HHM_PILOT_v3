@@ -1594,10 +1594,10 @@ export class MerchandiseService {
 
     // #endregion convert
 
-    //#region Chiết khấu 09 bán lẻ
+    //#region Chiết khấu 09
     calcDiscount09(ticket: any, merchandiseUpdate: any) {
         // Lấy chi tiết chiết khấu loại 09: Chiết khấu theo giá hạng khách hàng
-        const discountForMerchandise09 = ticket.discount.filter((e: any) => e.loai_ck === '09');
+        const discountForMerchandise09 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK);
         (discountForMerchandise09 as any).forEach((discount: any) => {
             if (discount) {
                 let { ma_vt, tien_ck_tv, tl_ck, ma_imei, tien_max, tien_ck, ma_ck } = discount;
@@ -1622,7 +1622,7 @@ export class MerchandiseService {
 
                             // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
                             tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
-                            e.gia_ck -= tien_ck;
+                            e.gia_ck -= Math.round(tien_ck);
                         } else {
                             // Trường hợp không có tien_ck_tv, tính theo tl_ck
                             const tien_ck_raw = e.gia_ck * (tl_ck_final / 100); // Tính giá trị chưa kiểm tra với tien_max
@@ -1630,11 +1630,11 @@ export class MerchandiseService {
 
                             // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
                             tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
-                            e.gia_ck -= tien_ck;
+                            e.gia_ck -= Math.round(tien_ck);
                         }
 
                         // làm tròn tien_ck
-                        tien_ck = this.commonService.rouding(tien_ck);
+                        tien_ck = Math.round(tien_ck);
 
                         // add ck 09 vào
                         e.tl_ck09 = tl_ck_final;

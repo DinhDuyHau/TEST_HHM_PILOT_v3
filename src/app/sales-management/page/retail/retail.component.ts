@@ -669,7 +669,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
       this.commonService.showMessageByName('lblWarningNotDeleteDiscountGift');
       return;
     }
-    if (event.item.loai_ck === '09') {
+    if (event.item.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK) {
       this.commonService.showMessage('Không thể xóa chiết khấu hạng khách hàng');
       return;
     }
