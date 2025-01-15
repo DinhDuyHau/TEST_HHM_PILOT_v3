@@ -41,6 +41,7 @@
         [value]="ticket.masterInfo.ma_kh"
         [readonly]="readonly"
         [invalid]="invalid"
+        [fireChangeWhenBlur]="false"
         (handleChangeValue)="onEnterCustomerCode($event)"
         (handleClickOpenDialog)="openSearchCustomerDialog()"
         (handleUploadImage)="openUploadImage()"

@@ -431,7 +431,7 @@ export class RetailService {
         const merchandise = this.ticket.merchandise.filter(x => !x.km_yn);
         const service = this.ticket.service;
         if (this.isNeedCalcDiscount) {
-            return this.discountApiService.getDiscountForTicket(entity, merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck);
+            return this.discountApiService.getDiscountForTicket(entity, merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck, TICKET_CODE.RETAIL);
         }
         return;
     }

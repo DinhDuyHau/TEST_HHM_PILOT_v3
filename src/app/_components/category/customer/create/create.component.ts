@@ -22,6 +22,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
 
   @Input() isComponent!: boolean;
   @Input() customerName!: string;
+  @Input() addOrUpdate!: string;
   @Output() handleCreateSucess = new EventEmitter<CustomerModel>();
   @ViewChild('form') form!: ElementRef;
 
@@ -41,6 +42,14 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
   mode = 1;
   submitButtonTitle = '';
   cancelButtonTitle = '';
+  label = {
+    ma_kh: 'Mã khách<span class="text-red-600 font-bold"> (*)</span>',
+    ten_kh: 'Tên khách<span class="text-red-600 font-bold"> (*)</span>',
+    sdt: 'Số điện thoại<span class="text-red-600 font-bold"> (*)</span>',
+    address: 'Địa chỉ<span class="text-red-600 font-bold"> (*)</span>',
+    email: 'Thư điện tử (Email)<span class="text-red-600 font-bold"> (*)</span>',
+    birthday: 'Ngày sinh<span class="text-red-600 font-bold"> (*)</span>',
+  }
 
   dataFormat = dataFormat;
   customer: CustomerModel;
@@ -66,6 +75,10 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
     this.route.url.subscribe(urlSegment => {
       let path = urlSegment[0].path;
       if (this.isComponent) { path = 'create'; this.customer.ma_kh = this.customerName || ''; }
+      if(this.addOrUpdate == 'update') {
+        path = 'update';
+        this.initData(this.customerName || '');
+      }
       if (path) {
         switch (path) {
           case 'create':
@@ -133,6 +146,10 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
       this.commonService.showMessage(Language.content.invalid_ma_kh);
       return;
     }
+    if (!this.containsNameVietnamese(this.customer.ten_kh)) {
+      this.commonService.showMessage('Tên khách không được chứa ký tự đặc biệt hoặc có khoảng trắng đầu cuối');
+      return;
+    }
     if (this.checkInvalidForm(this.customer))
       return;
     this.loading = true;
@@ -143,7 +160,12 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
         this.isDisabled = false;
         let mess = 'Sửa danh mục thất bại';
         if (item.success) {
-          this.router.navigate(['..'], { relativeTo: this.route });
+          if (!this.isComponent) {
+            this.router.navigate(['..'], { relativeTo: this.route });
+          }
+          else {
+            this.handleCreateSucess.emit(this.customer);
+          }
           mess = item.message === '' ? 'Sửa danh mục thành công' : item.message;
         }
         else {
@@ -257,5 +279,9 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
   }
   containsSpecialCharacters(input: string): boolean {
     return /[\s_!@#$%^&*(),.?":{}|<>]/.test(input);
+  }
+
+  containsNameVietnamese(input: string): boolean {
+    return /^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểẾỄỆỉịọỏốồổỗộớờởỡợỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỳỵỷỹỲỴÝỶỸý]+( [A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểẾỄỆỉịọỏốồổỗộớờởỡợỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỳỵỷỹỲỴÝỶỸýự]+)*$/u.test(input);
   }
 }

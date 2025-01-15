@@ -56,6 +56,7 @@ const GET_VOUCHER_DATE_URL = `${environment.apiUrl}/voucher/getdate`;
 const GET_TELESALE_URL = `${environment.apiUrl}/category/find/vdmnvls`;
 const GET_VOUCHER_NAVIGATION_URL = `${environment.apiUrl}/voucher/navigation`;
 const GET_VERSION_APP = `${environment.apiUrl}/service/get_version_app`;
+const GET_LOOKUP_VOUCHER_URL = `${environment.apiUrl}/Voucher/getlookup`;
 
 @Injectable({
     providedIn: 'root'
@@ -362,5 +363,10 @@ export class TicketApiService extends ApiService {
     getVersionApp(): Observable<ResultNoPaging<string>> {
         const url = GET_VERSION_APP;
         return this.get<ResultNoPaging<string>>(url);
+    }
+
+    getLookupVoucherByQuery(params: {}, page_index: number, page_size: number): Observable<Result<any>> {
+        let url = GET_LOOKUP_VOUCHER_URL;
+        return this.post<Result<any>>(url, {}, { ...params, page_index, page_size });
     }
 }
