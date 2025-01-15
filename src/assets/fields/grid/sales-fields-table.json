@@ -436,7 +436,7 @@
     {
       "name": "tl_ck09",
       "title": "%CK hạng thành viên",
-      "format": "moneyViewNoDigit",
+      "format": "moneyView2Digit",
       "align": "right",
       "dataType": "number"
     },
