@@ -94,6 +94,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   ma_imei = '';
   table_name = '';
   ma_kh_label = 'Mã khách';
+  addOrUpdateCustomer = 'create';
 
   constructor(
     private router: Router,
@@ -327,9 +328,14 @@ export class RetailComponent implements OnInit, AfterViewInit {
           this.ticket.masterInfo.tl_tich_diem = tl_tich_diem;
           this.generateLabelWithColor(ma_hang, mau_chu);
         });
+
+        // mở dialog add khách hàng nhưng ở chế độ update
+        this.addOrUpdateCustomer = 'update';
+        this.openAddCustomerDialog(customer.ma_kh);
       } else {
         this.commonService.showMessageByContent(Language.content.exists_customer_yn_no, ma_kh);
         this.retailService.resetCustomerInfo(this.ticket);
+        this.addOrUpdateCustomer = 'create';
         this.openAddCustomerDialog(ma_kh);
       }
     });
@@ -348,12 +354,16 @@ export class RetailComponent implements OnInit, AfterViewInit {
           this.ticket.masterInfo.tl_tich_diem = tl_tich_diem;
           this.generateLabelWithColor(ma_hang, mau_chu);
         });
+
+        // mở dialog add khách hàng nhưng ở chế độ update
+        this.addOrUpdateCustomer = 'update';
+        this.openAddCustomerDialog(customer.ma_kh);
       });
   }
 
   // click button thêm khách hàng
   openAddCustomerDialog(ma_kh = ''): void {
-    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh }, 'fullscreen-dialog')
+    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh, addOrUpdate: this.addOrUpdateCustomer }, 'fullscreen-dialog')
       .afterClosed()
       .subscribe((customer: Customer) => {
         customer && this.retailService.setInfoCustomer(customer);

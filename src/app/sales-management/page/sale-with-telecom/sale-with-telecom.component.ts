@@ -86,6 +86,7 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
   action = '';
   shop = '';
   ma_imei = '';
+  addOrUpdateCustomer = 'create';
 
   constructor(
     private router: Router,
@@ -249,9 +250,14 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
       if (result.success && result.result) {
         const customer: any = result.result;
         this.handleAddCustomer(customer);
+
+        // mở dialog add khách hàng nhưng ở chế độ update
+        this.addOrUpdateCustomer = 'update';
+        this.openAddCustomerDialog(customer.ma_kh);
       } else {
         this.commonService.showMessageByContent(Language.content.exists_customer_yn_no, ma_kh);
         this.saleWithTelecomService.resetCustomerInfo(this.ticket);
+        this.addOrUpdateCustomer = 'create';
         this.openAddCustomerDialog(ma_kh);
       }
     });
@@ -266,8 +272,8 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
 
   // click button thêm khách hàng
   openAddCustomerDialog(ma_kh = ''): void {
-    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh }, 'fullscreen-dialog')
-      .afterClosed()
+    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh, addOrUpdate: this.addOrUpdateCustomer }, 'fullscreen-dialog')
+    .afterClosed()
       .subscribe((customer: Customer) => {
         customer && this.saleWithTelecomService.setInfoCustomer(customer);
       });

@@ -4,7 +4,7 @@
     "title": "Ngày ct",
     "allowFilter": true,
     "isLockingColumn": true,
-    "width": 100,
+    "width": 120,
     "type": "date",
     "dataFormatString": "datetimeFormat"
   },
@@ -21,7 +21,7 @@
     "title": "Số ct",
     "isLockingColumn": true,
     "allowFilter": true,
-    "width": 120,
+    "width": 130,
     "dataFormatString": "upperCaseFormat"
   },
   {
@@ -82,7 +82,7 @@
     "title": "Mã vật tư",
     "isLockingColumn": true,
     "allowFilter": true,
-    "width": 120,
+    "width": 130,
     "dataFormatString": "upperCaseFormat"
   },
   {
@@ -97,7 +97,7 @@
     "title": "Imei",
     "allowFilter": true,
     "isLockingColumn": true,
-    "width": 400
+    "width": 450
   },
   {
     "name": "dvt",

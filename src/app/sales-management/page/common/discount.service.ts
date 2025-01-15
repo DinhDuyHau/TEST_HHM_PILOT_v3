@@ -236,7 +236,9 @@ export class DiscountService {
         if (!discount.items) return null;
         discount.details = [...discount.items];
         discount.tien_ck = discount.details.reduce((pre: any, cur: any) => {
-            return pre + (cur.tien_ck || cur.tien_ck_tl);
+            const tien_ck_tl = cur.tien_ck_tl || 0;
+            const tien_ck = cur.tien_ck || 0;
+            return pre + (tien_ck || tien_ck_tl);
             //return (typeof pre === 'object' ? (pre.tien_ck || pre.tien_ck_tl || 0) : 0) + (cur.tien_ck || cur.tien_ck_tl);
         }, 0);
 
