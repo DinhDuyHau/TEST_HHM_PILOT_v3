@@ -264,7 +264,13 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
     this.commonService.openDialog(SearchDialogComponent,
       { keyword: '', componentName: SEARCH_COMPONENT_NAME.CUSTOMER }, 'search-style-dialog')
       .afterClosed()
-      .subscribe((customer: Customer) => customer && this.handleAddCustomer(customer));
+      .subscribe((customer: Customer) => {
+        customer && this.handleAddCustomer(customer)
+
+        // mở dialog add khách hàng nhưng ở chế độ update
+        this.addOrUpdateCustomer = 'update';
+        this.openAddCustomerDialog(customer.ma_kh);
+      });
   }
 
   // click button thêm khách hàng
