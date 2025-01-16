@@ -1636,12 +1636,15 @@ export class MerchandiseService {
                         // làm tròn tien_ck
                         tien_ck = Math.round(tien_ck);
 
+                        // tiền ck add vào phiếu là tiền ck full vat
+                        tien_ck = this.commonService.rouding(tien_ck + Math.round((tien_ck * e.thue_suat) / 100));
+
                         // add ck 09 vào
                         e.tl_ck09 = tl_ck_final;
                         e.tien_kb09 = tien_ck_tv_final;
                         e.tien_max09 = tien_max_final;
                         e.tien_ck09 = tien_ck ? tien_ck : 0;
-                        e.tl_ck_sau_vat09 = tl_ck_final ? tien_ck + Math.round((tien_ck * e.thue_suat) / 100) : 0;
+                        e.tl_ck_sau_vat09 = tl_ck_final ? tien_ck : 0;
                     }
                 });
 
