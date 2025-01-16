@@ -1564,12 +1564,24 @@ export class MerchandiseService {
             e.tien_ck += e.tien_ck_qd;
             e.gia_ck = e.gia_ban - (e.tien_ck / (1 + (e.thue_suat / 100)));
 
+            // gọi hàm xử lý ck 09
+            this.calcDiscount09(ticket, merchandiseUpdate);
+
             //Xử lý làm tròn giá ck sau khi trừ bị âm hoặc trong khoảng 0-0.49
             e.gia_ck = (e.gia_ck < 0 || (e.gia_ck > 0 && e.gia_ck < 0.5)) ? Math.abs(Math.round(e.gia_ck)) : e.gia_ck;
             e.gia_ck = Math.round(e.gia_ck);
 
+            e.thanh_tien = Math.round(e.gia_ck * e.so_luong);
+
             e.thanh_toan = (gia_vat_dc * e.so_luong) - e.tien_ck;
-            e.thanh_tien = Math.round(e.thanh_toan / (1 + e.thue_suat / 100));
+            // nếu có ck 09 thì xử lý
+            if (e.tien_kb09) {
+                e.thanh_toan = e.thanh_toan - e.tien_kb09;
+            }
+            if (e.tl_ck_sau_vat09) {
+                e.thanh_toan = e.thanh_toan - e.tl_ck_sau_vat09;
+            }
+            // e.thanh_tien = Math.round(e.thanh_toan / (1 + e.thue_suat / 100));
             e.tien_thue = e.thanh_toan - e.thanh_tien;
 
         });

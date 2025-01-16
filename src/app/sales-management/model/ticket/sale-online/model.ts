@@ -40,6 +40,8 @@ export class MasterInfo extends BaseMasterInfo {
   dien_giai = '';
   //Mã nhân viên telesale
   fcode1 = '';
+  ma_hang = '';
+  tl_tich_diem = 0;
 
   constructor(obj?: any) {
     super();
