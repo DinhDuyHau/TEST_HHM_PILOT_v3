@@ -281,7 +281,13 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
     this.commonService.openDialog(SearchDialogComponent,
       { keyword: '', componentName: SEARCH_COMPONENT_NAME.CUSTOMER, title: this.getLabel('tlt_customer_list') }, 'search-style-dialog')
       .afterClosed()
-      .subscribe((customer: Customer) => customer && this.handleAddCustomer(customer));
+      .subscribe((customer: Customer) => {
+        customer && this.handleAddCustomer(customer)
+
+        // mở dialog add khách hàng nhưng ở chế độ update
+        this.addOrUpdateCustomer = 'update';
+        this.openAddCustomerDialog(customer.ma_kh);
+      });
   }
   openSearchCustomerTMDTDialog() {
     this.commonService.openDialog(SearchDialogComponent,

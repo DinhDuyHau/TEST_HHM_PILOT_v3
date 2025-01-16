@@ -330,7 +330,7 @@ export class MerchandiseService {
                                     //     arr_imei_ck05.push(e.ma_imei);
                                     // }
 
-                                    if(e.ma_dv.trim().toLowerCase() === ma_dv.trim().toLowerCase() && e.ma_imei.trim().toLowerCase() === ma_imei_ad.trim().toLowerCase()) {
+                                    if (e.ma_dv.trim().toLowerCase() === ma_dv.trim().toLowerCase() && e.ma_imei.trim().toLowerCase() === ma_imei_ad.trim().toLowerCase()) {
                                         e.gia_ck -= tien_ck ? tien_ck : tien_ck_tl;
                                         e.tien_ck += tien_ck ? tien_ck : tien_ck_tl;
                                         arr_imei_ck05.push(e.ma_imei);
@@ -590,75 +590,19 @@ export class MerchandiseService {
 
         //#endregion
 
-        //#region Chiết khấu 09
-        // Lấy chi tiết chiết khấu loại 09: Chiết khấu theo giá hạng khách hàng
-        const discountForMerchandise09 = ticket.discount.filter((e: any) => e.loai_ck === '09');
-        (discountForMerchandise09 as any).forEach((discount: any) => {
-            if (discount) {
-                let { ma_vt, tien_ck_tv, tl_ck, ma_imei, tien_max, tien_ck, ma_ck } = discount;
-                const result = (merchandiseUpdate as any[]).filter((merchandise: any) => this.compareMerchandiseCode(merchandise.ma_vt, ma_vt) && !merchandise.km_yn);
-
-                // Tổng tiền hàng bán của phiếu có trong chiết khấu
-                result.forEach((e: Merchandise, index) => {
-                    // kiểm tra đúng imei và ma_vt thì gán tien_ck
-                    if (e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
-
-                        // Sử dụng tl_ck từ e.tl_ck09 nếu tl_ck không tồn tại hoặc không có giá trị
-                        const tl_ck_final = tl_ck || e.tl_ck09 || 0;
-                        // Sử dụng tien_ck_tv từ e.tien_kb09 nếu tien_ck_tv không tồn tại hoặc không có giá trị
-                        const tien_ck_tv_final = tien_ck_tv || e.tien_kb09 || 0;
-                        // Sử dụng tien_max từ e.tien_max09 nếu tien_max không tồn tại hoặc không có giá trị
-                        const tien_max_final = tien_max || e.tien_max09 || 0;
-
-                        // Trường hợp có tien_ck_tv
-                        if (tien_ck_tv_final) {
-                            const tien_ck_raw = tien_ck_tv_final / (1 + (e.thue_suat / 100)); // Tính giá trị chưa kiểm tra với tien_max và thue_suat
-                            const tien_max_adjusted = tien_max > 0 ? tien_max / (1 + (e.thue_suat / 100)) : tien_ck_raw; // Tính tien_max đã điều chỉnh với thue_suat
-
-                            // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
-                            tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
-                            e.gia_ck -= tien_ck;
-                        } else {
-                            // Trường hợp không có tien_ck_tv, tính theo tl_ck
-                            const tien_ck_raw = e.gia_ck * (tl_ck_final / 100); // Tính giá trị chưa kiểm tra với tien_max
-                            const tien_max_adjusted = tien_max_final > 0 ? tien_max_final / (1 + (e.thue_suat / 100)) : tien_ck_raw; // Tính tien_max đã điều chỉnh với thue_suat
-
-                            // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
-                            tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
-                            e.gia_ck -= tien_ck;
-                        }
-
-                        // làm tròn tien_ck
-                        tien_ck = this.commonService.rouding(tien_ck);
-
-                        // add ck 09 vào
-                        e.tl_ck09 = tl_ck_final;
-                        e.tien_kb09 = tien_ck_tv_final;
-                        e.tien_max09 = tien_max_final;
-                        e.tien_ck09 = tien_ck ? tien_ck : 0;
-
-                    }
-                });
-
-                // update lại tien_ck tab ck cho loại 09
-                const discountUpdate = ticket.discount.find((x: any) => x.ma_ck == ma_ck && x.ma_imei == ma_imei && x.ma_vt == ma_vt);
-                discountUpdate.tien_ck = tien_ck;
-            }
-        });
-        //#endregion
-
         // let option: Option = new Option;
 
         merchandiseUpdate.map((e: any) => {
             e.tien_ck += e.tien_ck_qd;
 
             e.gia_ck = e.gia_ban - (e.tien_ck / (1 + (e.thue_suat / 100)));
-            // nếu có ck 09 thì xử lý
-            if (e.tien_ck09) {
-                e.gia_ck -= e.tien_ck09;
-            }
+
+            // gọi hàm xử lý ck 09
+            this.calcDiscount09(ticket, merchandiseUpdate);
+
             //Xử lý làm tròn giá ck sau khi trừ bị âm hoặc trong khoảng 0-0.49
             e.gia_ck = (e.gia_ck < 0 || (e.gia_ck > 0 && e.gia_ck < 0.5)) ? Math.abs(Math.round(e.gia_ck)) : e.gia_ck;
+            e.gia_ck = Math.round(e.gia_ck);
 
             e.thanh_tien = Math.round(e.gia_ck * e.so_luong);
             // e.tien_thue = Math.round(e.thanh_tien * e.thue_suat / 100);
@@ -672,8 +616,11 @@ export class MerchandiseService {
              */
             e.thanh_toan = (e.gia_vat * e.so_luong) - e.tien_ck;
             // nếu có ck 09 thì xử lý
-            if (e.tien_ck09) {
-                e.thanh_toan = e.thanh_toan - e.tien_ck09;
+            if (e.tien_kb09) {
+                e.thanh_toan = e.thanh_toan - e.tien_kb09;
+            }
+            if (e.tl_ck_sau_vat09) {
+                e.thanh_toan = e.thanh_toan - e.tl_ck_sau_vat09;
             }
             e.tien_thue = e.thanh_toan - e.thanh_tien;
             // 2024-05-15: end
@@ -1617,12 +1564,24 @@ export class MerchandiseService {
             e.tien_ck += e.tien_ck_qd;
             e.gia_ck = e.gia_ban - (e.tien_ck / (1 + (e.thue_suat / 100)));
 
+            // gọi hàm xử lý ck 09
+            this.calcDiscount09(ticket, merchandiseUpdate);
+
             //Xử lý làm tròn giá ck sau khi trừ bị âm hoặc trong khoảng 0-0.49
             e.gia_ck = (e.gia_ck < 0 || (e.gia_ck > 0 && e.gia_ck < 0.5)) ? Math.abs(Math.round(e.gia_ck)) : e.gia_ck;
             e.gia_ck = Math.round(e.gia_ck);
 
+            e.thanh_tien = Math.round(e.gia_ck * e.so_luong);
+
             e.thanh_toan = (gia_vat_dc * e.so_luong) - e.tien_ck;
-            e.thanh_tien = Math.round(e.thanh_toan / (1 + e.thue_suat / 100));
+            // nếu có ck 09 thì xử lý
+            if (e.tien_kb09) {
+                e.thanh_toan = e.thanh_toan - e.tien_kb09;
+            }
+            if (e.tl_ck_sau_vat09) {
+                e.thanh_toan = e.thanh_toan - e.tl_ck_sau_vat09;
+            }
+            // e.thanh_tien = Math.round(e.thanh_toan / (1 + e.thue_suat / 100));
             e.tien_thue = e.thanh_toan - e.thanh_tien;
 
         });
@@ -1646,4 +1605,66 @@ export class MerchandiseService {
     }
 
     // #endregion convert
+
+    //#region Chiết khấu 09
+    calcDiscount09(ticket: any, merchandiseUpdate: any) {
+        // Lấy chi tiết chiết khấu loại 09: Chiết khấu theo giá hạng khách hàng
+        const discountForMerchandise09 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK);
+        (discountForMerchandise09 as any).forEach((discount: any) => {
+            if (discount) {
+                let { ma_vt, tien_ck_tv, tl_ck, ma_imei, tien_max, tien_ck, ma_ck } = discount;
+                const result = (merchandiseUpdate as any[]).filter((merchandise: any) => this.compareMerchandiseCode(merchandise.ma_vt, ma_vt) && !merchandise.km_yn);
+
+                // Tổng tiền hàng bán của phiếu có trong chiết khấu
+                result.forEach((e: Merchandise, index) => {
+                    // kiểm tra đúng imei và ma_vt thì gán tien_ck
+                    if (e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
+
+                        // Sử dụng tl_ck từ e.tl_ck09 nếu tl_ck không tồn tại hoặc không có giá trị
+                        const tl_ck_final = tl_ck || e.tl_ck09 || 0;
+                        // Sử dụng tien_ck_tv từ e.tien_kb09 nếu tien_ck_tv không tồn tại hoặc không có giá trị
+                        const tien_ck_tv_final = tien_ck_tv || e.tien_kb09 || 0;
+                        // Sử dụng tien_max từ e.tien_max09 nếu tien_max không tồn tại hoặc không có giá trị
+                        const tien_max_final = tien_max || e.tien_max09 || 0;
+
+                        // Trường hợp có tien_ck_tv
+                        if (tien_ck_tv_final) {
+                            const tien_ck_raw = tien_ck_tv_final / (1 + (e.thue_suat / 100)); // Tính giá trị chưa kiểm tra với tien_max và thue_suat
+                            const tien_max_adjusted = tien_max > 0 ? tien_max / (1 + (e.thue_suat / 100)) : tien_ck_raw; // Tính tien_max đã điều chỉnh với thue_suat
+
+                            // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
+                            tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
+                            e.gia_ck -= Math.round(tien_ck);
+                        } else {
+                            // Trường hợp không có tien_ck_tv, tính theo tl_ck
+                            const tien_ck_raw = e.gia_ck * (tl_ck_final / 100); // Tính giá trị chưa kiểm tra với tien_max
+                            const tien_max_adjusted = tien_max_final > 0 ? tien_max_final / (1 + (e.thue_suat / 100)) : tien_ck_raw; // Tính tien_max đã điều chỉnh với thue_suat
+
+                            // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
+                            tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
+                            e.gia_ck -= Math.round(tien_ck);
+                        }
+
+                        // làm tròn tien_ck
+                        tien_ck = Math.round(tien_ck);
+
+                        // tiền ck add vào phiếu là tiền ck full vat
+                        tien_ck = this.commonService.rouding(tien_ck + Math.round((tien_ck * e.thue_suat) / 100));
+
+                        // add ck 09 vào
+                        e.tl_ck09 = tl_ck_final;
+                        e.tien_kb09 = tien_ck_tv_final;
+                        e.tien_max09 = tien_max_final;
+                        e.tien_ck09 = tien_ck ? tien_ck : 0;
+                        e.tl_ck_sau_vat09 = tl_ck_final ? tien_ck : 0;
+                    }
+                });
+
+                // update lại tien_ck tab ck cho loại 09
+                const discountUpdate = ticket.discount.find((x: any) => x.ma_ck == ma_ck && x.ma_imei == ma_imei && x.ma_vt == ma_vt);
+                discountUpdate.tien_ck = tien_ck;
+            }
+        });
+    }
+    //#endregion
 }

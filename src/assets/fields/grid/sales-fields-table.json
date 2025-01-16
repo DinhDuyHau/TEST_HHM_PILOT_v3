@@ -436,7 +436,7 @@
     {
       "name": "tl_ck09",
       "title": "%CK hạng thành viên",
-      "format": "moneyViewNoDigit",
+      "format": "moneyView2Digit",
       "align": "right",
       "dataType": "number"
     },
@@ -502,13 +502,6 @@
         "dataType": "number"
     },
     {
-        "name": "tien_ck",
-        "title": "Tiền chiết khấu",
-        "format": "moneyViewNoDigit",
-        "align": "right",
-        "dataType": "number"
-    },
-    {
       "name": "gia_ck",
       "title": "Giá bán",
       "format": "moneyView2Digit",
@@ -537,6 +530,27 @@
       "name": "tien_thue",
       "title": "Tiền thuế",
       "format": "moneyView2Digit",
+      "align": "right",
+      "dataType": "number"
+    },
+    {
+        "name": "tien_ck",
+        "title": "Tiền chiết khấu",
+        "format": "moneyViewNoDigit",
+        "align": "right",
+        "dataType": "number"
+    },
+    {
+      "name": "tl_ck09",
+      "title": "%CK hạng thành viên",
+      "format": "moneyView2Digit",
+      "align": "right",
+      "dataType": "number"
+    },
+    {
+      "name": "tien_ck09",
+      "title": "Tiền CK hạng thành viên",
+      "format": "moneyViewNoDigit",
       "align": "right",
       "dataType": "number"
     },
@@ -834,13 +848,6 @@
             "dataType": "number"
         },
         {
-            "name": "tien_ck",
-            "title": "Tiền chiết khấu",
-            "format": "moneyViewNoDigit",
-            "align": "right",
-            "dataType": "number"
-        },
-        {
             "name": "gia_ban",
             "title": "Giá bán",
             "format": "moneyView2Digit",
@@ -870,6 +877,27 @@
             "name": "tien_thue",
             "title": "Tiền thuế",
             "format": "moneyView2Digit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tien_ck",
+            "title": "Tiền chiết khấu",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tl_ck09",
+            "title": "%CK hạng thành viên",
+            "format": "moneyView2Digit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tien_ck09",
+            "title": "Tiền CK hạng thành viên",
+            "format": "moneyViewNoDigit",
             "align": "right",
             "dataType": "number"
         },

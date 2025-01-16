@@ -580,6 +580,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
       this.handleCheckDeposit(merchandise.ma_vt, false);
       this.retailService.setIsNeedCalcDiscount(true);
       this.handleRemoveDiscountProgram(merchandise.ma_imei);
+      this.removeDiscount09(merchandise.ma_imei);
     }
   }
   handleRemoveDiscountProgram(ma_imei: string) {
@@ -672,7 +673,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
       this.commonService.showMessageByName('lblWarningNotDeleteDiscountGift');
       return;
     }
-    if (event.item.loai_ck === '09') {
+    if (event.item.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK) {
       this.commonService.showMessage('Không thể xóa chiết khấu hạng khách hàng');
       return;
     }
@@ -1008,13 +1009,20 @@ export class RetailComponent implements OnInit, AfterViewInit {
       if (res.success && res.result) {
         const discount = res.result[0] as any;
         // add vào tab ck
-        if(discount) {
+        if (discount) {
           this.discountService.addNew([discount], this.ticket.discount);
         }
         // tính lại tiền
         this.retailService.calcMoney();
       }
     });
+  }
+
+  removeDiscount09(ma_imei: string) {
+    this.ticket.discount = this.ticket.discount.filter(item => item.ma_imei.trim().toUpperCase() !== ma_imei.trim().toUpperCase());
+
+    // tính lại tiền
+    this.retailService.calcMoney();
   }
 
   /*

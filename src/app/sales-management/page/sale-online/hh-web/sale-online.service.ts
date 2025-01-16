@@ -462,7 +462,6 @@ export class SaleOnlineService {
         if (type == 0) {
             // Thực hiện cập nhật tiền cho chi tiết vật tư, chi tiết dịch vụ (bao gồm giá, chiết khấu, thuế, thành tiền)
             this.merchandiseService.updatePriceForMerchandiseOnline(this.ticket, this.ticket.merchandise, this.ticket.service);
-            console.log(this.ticket.merchandise);
         }
 
         // Tính tổng tiền của chi tiết vật tư
