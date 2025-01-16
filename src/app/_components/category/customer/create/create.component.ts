@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { getResource } from '@app/_common/commonFunction';
 import { CommonService } from '@app/sales-management/page/common/common.service';
 import { Language } from '@app/sales-management/page/common/language';
+import { TICKET_CODE } from '@app/sales-management/model/common/ticket-code.model';
 
 @Component({
   selector: 'app-customer-create',
@@ -23,6 +24,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
   @Input() isComponent!: boolean;
   @Input() customerName!: string;
   @Input() addOrUpdate!: string;
+  @Input() ma_ct!: string;
   @Output() handleCreateSucess = new EventEmitter<CustomerModel>();
   @ViewChild('form') form!: ElementRef;
 
@@ -75,7 +77,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
     this.route.url.subscribe(urlSegment => {
       let path = urlSegment[0].path;
       if (this.isComponent) { path = 'create'; this.customer.ma_kh = this.customerName || ''; }
-      if(this.addOrUpdate == 'update') {
+      if (this.addOrUpdate == 'update') {
         path = 'update';
         this.initData(this.customerName || '');
       }
@@ -136,20 +138,26 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
     }
   }
   onSubmit() {
-    if (this.customer.ma_kh.length < 10 && this.addOrUpdate == 'create') {
-      this.commonService.showMessage('Độ dài mã khách hàng phải từ 10 ký tự trở lên');
-      return;
+    // Nếu là bán tmđt không cần check
+    if (this.ma_ct === '' || this.ma_ct !== TICKET_CODE.ONLINE_ECOMMERCE) {
+      if (this.customer.ma_kh.length < 10 && this.addOrUpdate == 'create') {
+        this.commonService.showMessage('Độ dài mã khách hàng phải từ 10 ký tự trở lên');
+        return;
+      }
+      if (this.containsSpecialCharacters(this.customer.ma_kh)) {
+        this.commonService.showMessage(Language.content.invalid_ma_kh);
+        return;
+      }
+      if (!this.containsNameVietnamese(this.customer.ten_kh)) {
+        this.commonService.showMessage('Tên khách không được chứa ký tự đặc biệt hoặc có khoảng trắng đầu cuối');
+        return;
+      }
     }
 
+    this.customer.ma_ct = TICKET_CODE.ONLINE_ECOMMERCE;
+
     this.submitted = true;
-    if (this.containsSpecialCharacters(this.customer.ma_kh)) {
-      this.commonService.showMessage(Language.content.invalid_ma_kh);
-      return;
-    }
-    if (!this.containsNameVietnamese(this.customer.ten_kh)) {
-      this.commonService.showMessage('Tên khách không được chứa ký tự đặc biệt hoặc có khoảng trắng đầu cuối');
-      return;
-    }
+
     if (this.checkInvalidForm(this.customer))
       return;
     this.loading = true;

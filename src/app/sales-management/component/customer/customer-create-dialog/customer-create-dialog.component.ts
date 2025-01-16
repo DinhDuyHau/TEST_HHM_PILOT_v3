@@ -28,7 +28,7 @@ export class CustomerCreateDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<CustomerCreateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { ma_kh: string, addOrUpdate?: string },
+    @Inject(MAT_DIALOG_DATA) public data: { ma_kh: string, addOrUpdate?: string, ma_ct?: string},
     public customerService: CustomerService,
     public customerApiService: CustomerApiService,
     private commonService: CommonService,
