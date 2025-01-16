@@ -890,7 +890,9 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
         const merchandise = event.item as any;
         const ma_imei = merchandise.ma_imei || '';
 
-        this.ticket.discount = this.ticket.discount.filter(item => item.loai_ck !== DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK && item.ma_imei.trim().toLowerCase() !== ma_imei.trim().toLowerCase());
+        this.ticket.discount = this.ticket.discount.filter(item => !(item.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK
+          && item.ma_imei && item.ma_imei.trim().toLowerCase() === ma_imei.trim().toLowerCase())
+        );
 
         // set bằng rỗng ma_hang
         this.ticket.masterInfo.ma_hang = '';
