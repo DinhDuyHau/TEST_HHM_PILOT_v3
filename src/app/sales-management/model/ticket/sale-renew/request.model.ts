@@ -19,7 +19,10 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     ma_td3 = '';
     //ma_td2 dùng để lưu mã khai báo
     ma_td2 = '';
-
+    tl_ck09 = 0; // tỉ lệ ck 09
+    tien_kb09 = 0; // tiền ck 09
+    tien_max09 = 0; // tiền max ck 09
+    tien_ck09 = 0; // tiền ck được hưởng 09
 
     constructor(obj?: any) {
         super();
@@ -61,6 +64,8 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
 
     email_nhan_key = '';
     ma_ncc = '';
+    ma_hang = '';
+    tl_tich_diem = 0;
 
     constructor(obj?: any) {
         super();

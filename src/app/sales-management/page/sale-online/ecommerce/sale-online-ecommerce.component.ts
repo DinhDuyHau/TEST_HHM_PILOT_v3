@@ -269,7 +269,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
       } else {
         this.commonService.showMessageByContent(Language.content.exists_customer_yn_no, ma_kh);
         this.saleOnlineEcommerceService.resetCustomerInfo(this.ticket);
-        this.openAddCustomerDialog(ma_kh);
+        this.openAddCustomerDialog(ma_kh, true);
       }
     });
   }
@@ -293,12 +293,14 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
       .subscribe((customer: Customer) => customer && (this.ticket.masterInfo.ma_kh_tmdt = customer.ma_kh) && (this.ticket.ecommerce.ma_kh_tmdt = customer.ma_kh));
   }
   // click button thêm khách hàng
-  openAddCustomerDialog(ma_kh = ''): void {
-    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh, addOrUpdate: this.addOrUpdateCustomer }, 'fullscreen-dialog')
+  openAddCustomerDialog(ma_kh = '', isTMDTCode = false): void {
+    if(!isTMDTCode) {
+      this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh, addOrUpdate: this.addOrUpdateCustomer, ma_ct: TICKET_CODE.ONLINE_ECOMMERCE }, 'fullscreen-dialog')
       .afterClosed()
       .subscribe((customer: Customer) => {
         customer && this.saleOnlineEcommerceService.setInfoCustomer(customer);
       });
+    }
   }
 
   //#endregion
