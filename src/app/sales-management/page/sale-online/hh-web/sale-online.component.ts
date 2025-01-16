@@ -814,9 +814,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
             });
     }
 
-    /*
-    * Xử lý ck 09
-    */
+    //#region Chiết khấu 09
     applyDiscount09ForMerchandise(merchandiseResponse: any) {
         const ma_kh = this.ticket.masterInfo.ma_kh ? this.ticket.masterInfo.ma_kh.trim() : '';
         const ma_hang = this.ticket.masterInfo.ma_hang ? this.ticket.masterInfo.ma_hang.trim() : '';
@@ -887,6 +885,29 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
             item.tl_ck_sau_vat09 = 0;
         })
     }
+
+    resetDiscount09ByImei(event: { item: string }) {
+        const merchandise = event.item as any;
+        const ma_imei = merchandise.ma_imei || '';
+
+        this.ticket.discount = this.ticket.discount.filter(item => item.loai_ck !== DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK && item.ma_imei.trim().toLowerCase() !== ma_imei.trim().toLowerCase());
+
+        // set bằng rỗng ma_hang
+        this.ticket.masterInfo.ma_hang = '';
+
+        this.ticket.merchandise.map(item => {
+            if (item.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase()) {
+                this.applyDiscount09ForMerchandise(item);
+
+                item.tl_ck09 = 0;
+                item.tien_kb09 = 0;
+                item.tien_max09 = 0;
+                item.tien_ck09 = 0;
+                item.tl_ck_sau_vat09 = 0;
+            }
+        })
+    }
+    //#endregion
 }
 
 

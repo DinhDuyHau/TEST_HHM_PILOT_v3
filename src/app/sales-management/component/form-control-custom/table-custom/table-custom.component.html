@@ -196,6 +196,13 @@
               <span class="icon-table">Lập phiếu bán buôn</span>
             </button>
             <button
+              (click)="onDeleteDiscount09(record)"
+              *ngIf="
+                handleDeleteDiscount09.observers.length
+              ">
+              <i class="fas fa-times text-danger"></i>
+            </button>
+            <button
               (click)="onViewItem(record)"
               *ngIf="showVieweButton(record)">
               <i class="fas fa-eye icon-table text-primary"></i>
