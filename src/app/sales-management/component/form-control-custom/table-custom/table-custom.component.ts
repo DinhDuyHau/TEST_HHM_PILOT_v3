@@ -71,6 +71,7 @@ export class TableCustomComponent implements
   @Output() handleChangeSelectCheckbox = new EventEmitter<any>();
   @Output() handleAddDiscountNG = new EventEmitter<{ item: any }>();
   @Output() handleCustomeUpdate = new EventEmitter<{ item: any }>();
+  @Output() handleDeleteDiscount09 = new EventEmitter<{ item: any }>();
 
   dataFormat = dataFormat;
 
@@ -154,6 +155,10 @@ export class TableCustomComponent implements
 
   onActionItem(item: any) {
     this.handleAction.emit({ item });
+  }
+
+  onDeleteDiscount09(item: any) {
+    this.handleDeleteDiscount09.emit({ item });
   }
 
   onSwapItem(item: any) {
