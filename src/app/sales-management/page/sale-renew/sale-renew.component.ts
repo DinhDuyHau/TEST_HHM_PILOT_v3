@@ -1327,7 +1327,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     const ma_imei = merchandiseResponse.ma_imei ? merchandiseResponse.ma_imei.trim() : '';
     const ma_vt = merchandiseResponse.ma_vt ? merchandiseResponse.ma_vt.trim() : '';
 
-    this.imeiApiService.getDiscountRankCustomer(ma_kh, ma_hang, ngay_ct, ma_imei, ma_vt, TICKET_CODE.RETAIL).subscribe((res: any) => {
+    this.imeiApiService.getDiscountRankCustomer(ma_kh, ma_hang, ngay_ct, ma_imei, ma_vt, TICKET_CODE.RENEW).subscribe((res: any) => {
       if (res.success && res.result) {
         const discount = res.result[0] as any;
         // add vào tab ck
@@ -1391,17 +1391,32 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     })
   }
 
+  handleRemoveDiscout09(event: { item: string }) {
+    const msg_confirm_change = 'Bạn có chắc chắn xóa chiết khấu hạng thành viên !';
+    this.commonService.openDialog(DialogConfirmComponent, { title: msg_confirm_change, style_css: 'font-size:16px;' })
+      .afterClosed().subscribe(result => {
+        if (!result) {
+          return;
+        }
+        // xóa ck 09 khi xác nhận
+        this.resetDiscount09ByImei(event);
+      });
+  }
+
   resetDiscount09ByImei(event: { item: string }) {
     const merchandise = event.item as any;
     const ma_imei = merchandise.ma_imei || '';
+    const ma_hang_backup = this.ticket.masterInfo.ma_hang || '';
 
-    this.ticket.discount = this.ticket.discount.filter(item => item.loai_ck !== DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK && item.ma_imei.trim().toLowerCase() !== ma_imei.trim().toLowerCase());
+    this.ticket.discount = this.ticket.discount.filter(item => !(item.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK
+      && item.ma_imei && item.ma_imei.trim().toLowerCase() === ma_imei.trim().toLowerCase())
+    );
 
     // set bằng rỗng ma_hang
     this.ticket.masterInfo.ma_hang = '';
 
     this.ticket.merchandise_new_sale.map(item => {
-      if (item.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase()) {
+      if (item.ma_imei && item.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase()) {
         this.applyDiscount09ForMerchandise(item);
 
         item.tl_ck09 = 0;
@@ -1411,6 +1426,9 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         item.tl_ck_sau_vat09 = 0;
       }
     })
+
+    // nếu vẫn còn áp dụng ck 09 thì gán ngược lại mã cũ
+    this.ticket.masterInfo.ma_hang = ma_hang_backup;
   }
   //#endregion
 }
