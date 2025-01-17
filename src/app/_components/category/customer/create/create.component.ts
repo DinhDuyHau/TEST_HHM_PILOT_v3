@@ -158,12 +158,15 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
 
     this.submitted = true;
 
-    if (this.checkInvalidForm(this.customer))
+    // đối tượng đã được trim các trường string
+    const customerTrim = this.trimObjectStrings(this.customer);
+
+    if (this.checkInvalidForm(customerTrim))
       return;
     this.loading = true;
     this.isDisabled = true;
     if (this.mode == MODE.UPDATE) {
-      this.customerService.update(this.customer).subscribe((item) => {
+      this.customerService.update(customerTrim).subscribe((item) => {
         this.loading = false;
         this.isDisabled = false;
         let mess = 'Sửa danh mục thất bại';
@@ -172,7 +175,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
             this.router.navigate(['..'], { relativeTo: this.route });
           }
           else {
-            this.handleCreateSucess.emit(this.customer);
+            this.handleCreateSucess.emit(customerTrim);
           }
           mess = item.message === '' ? 'Sửa danh mục thành công' : item.message;
         }
@@ -186,7 +189,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
     }
     else if (this.mode == MODE.CREATE) {
       this.isDisabled = true;
-      this.customerService.create(this.customer).subscribe((item) => {
+      this.customerService.create(customerTrim).subscribe((item) => {
         this.loading = false;
         this.isDisabled = false;
         let mess = 'Thêm danh mục thất bại';
@@ -195,7 +198,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
             this.router.navigate(['..'], { relativeTo: this.route });
           }
           else {
-            this.handleCreateSucess.emit(this.customer);
+            this.handleCreateSucess.emit(customerTrim);
           }
           mess = item.message === '' ? 'Thêm danh mục thành công' : item.message;
         }
@@ -290,6 +293,18 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
   }
 
   containsNameVietnamese(input: string): boolean {
-    return /^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$/gmu.test(input);
+    return /^[\p{L}\s]+$/u.test(input.trim());
   }
+
+  trimObjectStrings<T extends Record<string, any>>(obj: T): T {
+    const trimmedObject: T = { ...obj }; // Tạo một bản sao của đối tượng gốc
+    for (const key in trimmedObject) {
+      if (typeof trimmedObject[key] === 'string') {
+        // Áp dụng trim() cho chuỗi
+        trimmedObject[key] = trimmedObject[key].trim();
+      }
+    }
+    return trimmedObject;
+  }
+
 }
