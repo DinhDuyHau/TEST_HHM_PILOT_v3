@@ -1327,7 +1327,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     const ma_imei = merchandiseResponse.ma_imei ? merchandiseResponse.ma_imei.trim() : '';
     const ma_vt = merchandiseResponse.ma_vt ? merchandiseResponse.ma_vt.trim() : '';
 
-    this.imeiApiService.getDiscountRankCustomer(ma_kh, ma_hang, ngay_ct, ma_imei, ma_vt, TICKET_CODE.RETAIL).subscribe((res: any) => {
+    this.imeiApiService.getDiscountRankCustomer(ma_kh, ma_hang, ngay_ct, ma_imei, ma_vt, TICKET_CODE.RENEW).subscribe((res: any) => {
       if (res.success && res.result) {
         const discount = res.result[0] as any;
         // add vào tab ck
