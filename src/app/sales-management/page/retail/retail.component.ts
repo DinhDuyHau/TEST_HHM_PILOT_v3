@@ -1066,9 +1066,22 @@ export class RetailComponent implements OnInit, AfterViewInit {
     })
   }
 
+  handleRemoveDiscout09(event: { item: string }) {
+    const msg_confirm_change = 'Bạn có chắc chắn xóa chiết khấu hạng thành viên !';
+    this.commonService.openDialog(DialogConfirmComponent, { title: msg_confirm_change, style_css: 'font-size:16px;' })
+      .afterClosed().subscribe(result => {
+        if (!result) {
+          return;
+        }
+        // xóa ck 09 khi xác nhận
+        this.resetDiscount09ByImei(event);
+      });
+  }
+
   resetDiscount09ByImei(event: { item: string }) {
     const merchandise = event.item as any;
     const ma_imei = merchandise.ma_imei || '';
+    const ma_hang_backup = this.ticket.masterInfo.ma_hang || '';
 
     this.ticket.discount = this.ticket.discount.filter(item => !(item.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK
       && item.ma_imei && item.ma_imei.trim().toLowerCase() === ma_imei.trim().toLowerCase())
@@ -1088,6 +1101,9 @@ export class RetailComponent implements OnInit, AfterViewInit {
         item.tl_ck_sau_vat09 = 0;
       }
     })
+
+    // nếu vẫn còn áp dụng ck 09 thì gán ngược lại mã cũ
+    this.ticket.masterInfo.ma_hang = ma_hang_backup;
   }
   //#endregion
 }
