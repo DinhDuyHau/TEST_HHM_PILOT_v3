@@ -249,9 +249,12 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
         const customer: any = result.result;
         this.handleAddCustomer(customer);
 
-        // mở dialog add khách hàng nhưng ở chế độ update
-        this.addOrUpdateCustomer = 'update';
-        this.openAddCustomerDialog(customer.ma_kh);
+        // Kiểm tra điều kiện mở dialog
+        if (this.commonService.shouldOpenDialog(customer)) {
+          // mở dialog add khách hàng nhưng ở chế độ update
+          this.addOrUpdateCustomer = 'update';
+          this.openAddCustomerDialog(customer.ma_kh);
+        }
       } else {
         this.commonService.showMessageByContent(Language.content.exists_customer_yn_no, ma_kh);
         this.saleOnlineEcommerceService.resetCustomerInfo(this.ticket);
@@ -281,9 +284,12 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
       .subscribe((customer: Customer) => {
         customer && this.handleAddCustomer(customer)
 
-        // mở dialog add khách hàng nhưng ở chế độ update
-        this.addOrUpdateCustomer = 'update';
-        this.openAddCustomerDialog(customer.ma_kh);
+        // Kiểm tra điều kiện mở dialog
+        if (this.commonService.shouldOpenDialog(customer)) {
+          // mở dialog add khách hàng nhưng ở chế độ update
+          this.addOrUpdateCustomer = 'update';
+          this.openAddCustomerDialog(customer.ma_kh);
+        }
       });
   }
   openSearchCustomerTMDTDialog() {
@@ -294,12 +300,12 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   }
   // click button thêm khách hàng
   openAddCustomerDialog(ma_kh = '', isTMDTCode = false): void {
-    if(!isTMDTCode) {
+    if (!isTMDTCode) {
       this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh, addOrUpdate: this.addOrUpdateCustomer, ma_ct: TICKET_CODE.ONLINE_ECOMMERCE }, 'fullscreen-dialog')
-      .afterClosed()
-      .subscribe((customer: Customer) => {
-        customer && this.saleOnlineEcommerceService.setInfoCustomer(customer);
-      });
+        .afterClosed()
+        .subscribe((customer: Customer) => {
+          customer && this.saleOnlineEcommerceService.setInfoCustomer(customer);
+        });
     }
   }
 

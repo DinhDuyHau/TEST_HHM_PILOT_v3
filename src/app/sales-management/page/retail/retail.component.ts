@@ -326,9 +326,13 @@ export class RetailComponent implements OnInit, AfterViewInit {
           this.ticket.masterInfo.tl_tich_diem = tl_tich_diem || 0;
           this.generateLabelWithColor(ma_hang, mau_chu);
           this.handleAddCustomer(customer);
-          // mở dialog add khách hàng nhưng ở chế độ update
-          this.addOrUpdateCustomer = 'update';
-          this.openAddCustomerDialog(customer.ma_kh);
+
+          // Kiểm tra điều kiện mở dialog
+          if (this.commonService.shouldOpenDialog(customer)) {
+            // mở dialog add khách hàng nhưng ở chế độ update
+            this.addOrUpdateCustomer = 'update';
+            this.openAddCustomerDialog(customer.ma_kh);
+          }
         });
 
       } else {
@@ -351,9 +355,13 @@ export class RetailComponent implements OnInit, AfterViewInit {
           this.ticket.masterInfo.tl_tich_diem = tl_tich_diem || 0;
           this.generateLabelWithColor(ma_hang, mau_chu);
           this.handleAddCustomer(customer);
-          // mở dialog add khách hàng nhưng ở chế độ update
-          this.addOrUpdateCustomer = 'update';
-          this.openAddCustomerDialog(customer.ma_kh);
+
+          // Kiểm tra điều kiện mở dialog
+          if (this.commonService.shouldOpenDialog(customer)) {
+            // mở dialog add khách hàng nhưng ở chế độ update
+            this.addOrUpdateCustomer = 'update';
+            this.openAddCustomerDialog(customer.ma_kh);
+          }
         });
 
       });

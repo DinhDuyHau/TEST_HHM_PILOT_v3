@@ -100,7 +100,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         return (this.route?.snapshot as any)['_routerState']?.url === event.url;
       })
     ).subscribe((event) => {
-      this.onReload()
+      this.onReload(true)
     });
   }
 
@@ -576,25 +576,24 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   }
 
-  onReload() {
+  onReload(isReload = false) {
     if (this.getDataMode === this.dataMode.GETOP) {
-      // Kiểm tra xem dữ liệu đã có sẵn trong dataSource chưa
-      if (this.dataSource && this.dataSource.length > 0) {
-        // Nếu dữ liệu đã có, không cần gọi lại getTop
+      // Nếu isReload là true, luôn luôn tải lại dữ liệu
+      if (!isReload && this.dataSource && this.dataSource.length > 0) {
         return;
       } else {
         this.getTop();
       }
     } else if (this.getDataMode === this.dataMode.ADVANDCE_SEARCH) {
-      // Kiểm tra nếu dữ liệu tìm kiếm nâng cao đã có
-      if (this.dataSource && this.dataSource.length > 0) {
+      // Nếu isReload là true, luôn luôn tải lại dữ liệu
+      if (!isReload && this.dataSource && this.dataSource.length > 0) {
         return;
       } else {
         this.advanceSearch(this.advanceSearchParams);
       }
     } else if (this.getDataMode === this.dataMode.QUICK_SEARCH) {
-      // Kiểm tra nếu dữ liệu tìm kiếm nhanh đã có
-      if (this.dataSource && this.dataSource.length > 0) {
+      // Nếu isReload là true, luôn luôn tải lại dữ liệu
+      if (!isReload && this.dataSource && this.dataSource.length > 0) {
         return;
       } else {
         this.quickSearch(this.quickSearchParams);

@@ -55,7 +55,7 @@
           [value]="ticket.masterInfo.ma_kho"
           (handleChangeValue)="onChangeValueExportInventoryCode($event)"
           (handleClickOpenDialog)="openExportInventorySearchDialog()"
-          [disabled]="ticket.merchandise.length > 0" />
+          [disabled]="disableLookup" />
         <form-input-custom
           class="flex-4"
           [name]="'ten_kho'"
@@ -84,7 +84,7 @@
           "
           [readonly]="ticket.masterInfo.fnote2 === '2'"
           [disabled]="
-            ticket.masterInfo.fnote2 === '1' || ticket.merchandise.length > 0
+            ticket.masterInfo.fnote2 === '1' || disableLookup
           " />
         <form-input-custom
           class="flex-4"
@@ -104,7 +104,7 @@
           (handleClickOpenDialog)="openImportInventorySearchDialog()"
           [disabled]="
             (ticket.masterInfo.fnote2 === '1' && !ticket.masterInfo.ma_kho) ||
-            ticket.merchandise.length > 0
+            disableLookup
           " />
         <form-input-custom
           class="flex-4"
