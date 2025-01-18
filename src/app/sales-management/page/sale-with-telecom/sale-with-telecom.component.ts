@@ -248,9 +248,12 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
         const customer: any = result.result;
         this.handleAddCustomer(customer);
 
-        // mở dialog add khách hàng nhưng ở chế độ update
-        this.addOrUpdateCustomer = 'update';
-        this.openAddCustomerDialog(customer.ma_kh);
+        // Kiểm tra điều kiện mở dialog
+        if (this.commonService.shouldOpenDialog(customer)) {
+          // mở dialog add khách hàng nhưng ở chế độ update
+          this.addOrUpdateCustomer = 'update';
+          this.openAddCustomerDialog(customer.ma_kh);
+        }
       } else {
         this.commonService.showMessageByContent(Language.content.exists_customer_yn_no, ma_kh);
         this.saleWithTelecomService.resetCustomerInfo(this.ticket);
@@ -267,16 +270,19 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
       .subscribe((customer: Customer) => {
         customer && this.handleAddCustomer(customer)
 
-        // mở dialog add khách hàng nhưng ở chế độ update
-        this.addOrUpdateCustomer = 'update';
-        this.openAddCustomerDialog(customer.ma_kh);
+        // Kiểm tra điều kiện mở dialog
+        if (this.commonService.shouldOpenDialog(customer)) {
+          // mở dialog add khách hàng nhưng ở chế độ update
+          this.addOrUpdateCustomer = 'update';
+          this.openAddCustomerDialog(customer.ma_kh);
+        }
       });
   }
 
   // click button thêm khách hàng
   openAddCustomerDialog(ma_kh = ''): void {
     this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh, addOrUpdate: this.addOrUpdateCustomer }, 'fullscreen-dialog')
-    .afterClosed()
+      .afterClosed()
       .subscribe((customer: Customer) => {
         customer && this.saleWithTelecomService.setInfoCustomer(customer);
       });

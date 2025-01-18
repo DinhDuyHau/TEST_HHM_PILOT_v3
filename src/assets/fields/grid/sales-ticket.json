@@ -464,6 +464,10 @@
             "title": "Số phiếu"
         },
         {
+            "name": "so_ct_hd",
+            "title": "Phụ lục hợp đồng"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
