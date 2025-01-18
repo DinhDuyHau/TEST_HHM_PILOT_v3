@@ -197,9 +197,7 @@
             </button>
             <button
               (click)="onDeleteDiscount09(record)"
-              *ngIf="
-                handleDeleteDiscount09.observers.length
-              "
+              *ngIf="showRemoveDiscount09Button(record)"
               title="Xóa chiết khấu hạng thành viên">
               <i class="fas fa-times text-danger"></i>
             </button>

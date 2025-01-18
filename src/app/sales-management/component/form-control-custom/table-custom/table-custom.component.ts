@@ -347,6 +347,17 @@ export class TableCustomComponent implements
         return true;
     }
   }
+
+  showRemoveDiscount09Button(record: any) {
+    if (this.handleDeleteDiscount09.observers.length === 0) {
+      return false;
+    }
+    if (this.readonly) {
+      return false
+    }
+
+    return true;
+  }
   // #endregion show edit button
 
 

@@ -578,11 +578,27 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   onReload() {
     if (this.getDataMode === this.dataMode.GETOP) {
-      this.getTop();
+      // Kiểm tra xem dữ liệu đã có sẵn trong dataSource chưa
+      if (this.dataSource && this.dataSource.length > 0) {
+        // Nếu dữ liệu đã có, không cần gọi lại getTop
+        return;
+      } else {
+        this.getTop();
+      }
     } else if (this.getDataMode === this.dataMode.ADVANDCE_SEARCH) {
-      this.advanceSearch(this.advanceSearchParams);
+      // Kiểm tra nếu dữ liệu tìm kiếm nâng cao đã có
+      if (this.dataSource && this.dataSource.length > 0) {
+        return;
+      } else {
+        this.advanceSearch(this.advanceSearchParams);
+      }
     } else if (this.getDataMode === this.dataMode.QUICK_SEARCH) {
-      this.quickSearch(this.quickSearchParams);
+      // Kiểm tra nếu dữ liệu tìm kiếm nhanh đã có
+      if (this.dataSource && this.dataSource.length > 0) {
+        return;
+      } else {
+        this.quickSearch(this.quickSearchParams);
+      }
     }
   }
 
