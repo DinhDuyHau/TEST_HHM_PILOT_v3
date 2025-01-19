@@ -94,13 +94,15 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       });
     }
 
+    this.onReload(true)
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       filter((event: any) => {
         return (this.route?.snapshot as any)['_routerState']?.url === event.url;
       })
     ).subscribe((event) => {
-      this.onReload(true)
+      this.onReload()
     });
   }
 
