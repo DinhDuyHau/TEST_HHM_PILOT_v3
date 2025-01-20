@@ -221,7 +221,7 @@
             <button
               title="Xóa"
               (click)="onDeleteItem(record)"
-              *ngIf="showDeleteButton(record) && record.status == 0">
+              *ngIf="(showDeleteButton(record) && record.status == 0) || isShowDelete">
               <i class="fas fa-trash-alt icon-table text-danger"></i>
             </button>
           </div>

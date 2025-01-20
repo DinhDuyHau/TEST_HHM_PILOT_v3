@@ -425,7 +425,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/warranty-in']);
   }
 
   scanORCode(imei: string) {

@@ -446,7 +446,7 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/receipt']);
   }
 
   scanORCode(imei: string) {

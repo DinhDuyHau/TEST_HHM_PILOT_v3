@@ -405,7 +405,7 @@ export class InternalSaleCreateComponent extends Grid<ReceiptDetail> implements 
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/internal-sale']);
   }
   onPrint() {
     this.internalSaleDeatailService.openPrintDialog(this.data);

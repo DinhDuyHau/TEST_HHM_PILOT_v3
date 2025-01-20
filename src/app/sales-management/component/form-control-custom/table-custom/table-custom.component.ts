@@ -51,6 +51,7 @@ export class TableCustomComponent implements
   @Input() hiddenAddServiceButton = false;
   @Input() hasButton = { create: true, delete: true, view: true, edit: true };
   @Input() useFilter: boolean = false;
+  @Input() isShowDelete: boolean = true;
 
   pageSizeOptions: number[] = [10, 20, 50, 100, 150, 200];
 

@@ -456,7 +456,7 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/other-payment']);
   }
   onEnter(event: any) {
     event.preventDefault(); // Ngăn chặn hành động mặc định của nút Enter (submit form)
