@@ -376,7 +376,7 @@ export class InternalPurchaseCreateComponent extends Grid<ReceiptDetail> impleme
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/internal-purchase']);
   }
 
   scanORCode(imei: string) {

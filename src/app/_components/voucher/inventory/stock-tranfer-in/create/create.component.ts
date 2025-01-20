@@ -382,7 +382,7 @@ export class StockTranferInCreateComponent extends Grid<ReceiptDetail> implement
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/stock-tranfer-in']);
   }
 
   scanORCode(imei: string) {

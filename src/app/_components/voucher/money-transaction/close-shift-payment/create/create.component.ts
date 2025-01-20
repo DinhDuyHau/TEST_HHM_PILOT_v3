@@ -448,7 +448,7 @@ export class CloseShiftPaymentDetailComponent extends Grid<ReceiptDetail> implem
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/close-shift-payment']);
   }
   onEnter(event: any) {
     event.preventDefault(); // Ngăn chặn hành động mặc định của nút Enter (submit form)

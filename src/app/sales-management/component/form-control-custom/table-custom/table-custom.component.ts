@@ -51,6 +51,7 @@ export class TableCustomComponent implements
   @Input() hiddenAddServiceButton = false;
   @Input() hasButton = { create: true, delete: true, view: true, edit: true };
   @Input() useFilter: boolean = false;
+  @Input() isShowDelete: boolean = true;
   @Input() useEdit: boolean = false;
   @Input() useDelete: boolean = false;
 

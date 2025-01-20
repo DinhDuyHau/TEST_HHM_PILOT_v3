@@ -405,7 +405,7 @@ export class LoanOutDetailComponent extends Grid<ReceiptDetail> implements OnIni
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/loan-out']);
   }
 
   scanORCode(imei: string) {

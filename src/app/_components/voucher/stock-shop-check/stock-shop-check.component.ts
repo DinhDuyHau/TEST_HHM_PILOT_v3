@@ -369,7 +369,7 @@ export class StockShopCheckComponent {
   }
 
   onCancel() {
-    this.router.navigate(['sales/retail']);
+    this.router.navigate(['voucher/stock-shop-check']);
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);

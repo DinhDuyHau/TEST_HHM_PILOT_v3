@@ -421,7 +421,7 @@ export class ProposedPurchaseCreateComponent extends Grid<ReceiptDetail> impleme
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/proposed-purchase']);
   }
 
 

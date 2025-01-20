@@ -469,7 +469,7 @@ export class OtherMoneyTransferDetailComponent extends Grid<ReceiptDetail> imple
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/other-money-transfer']);
   }
   onEnter(event: any) {
     event.preventDefault(); // Ngăn chặn hành động mặc định của nút Enter (submit form)

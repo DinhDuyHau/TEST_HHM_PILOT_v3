@@ -408,7 +408,7 @@ export class RecommentToUseDetailComponent extends Grid<ReceiptDetail> implement
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/recomment-to-use']);
   }
 
   scanORCode(imei: string) {

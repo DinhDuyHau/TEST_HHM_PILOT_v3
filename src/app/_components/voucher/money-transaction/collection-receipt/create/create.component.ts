@@ -479,7 +479,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/collection-receipt']);
   }
   onEnter(event: any) {
     event.preventDefault(); // Ngăn chặn hành động mặc định của nút Enter (submit form)
