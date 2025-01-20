@@ -29,8 +29,9 @@ export class PrintComponent implements OnChanges, OnInit {
 
   }
   ngOnInit(): void {
-    localStorage.removeItem('useGridCached');
-    console.log('entity', this.entityName)
+    // do remove useGridCached nên khi quay lại phiếu sẽ ko còn data đã tìm kiếm
+    // localStorage.removeItem('useGridCached');
+    // console.log('entity', this.entityName)
     if (this.entityName) {
       this.ticketApiService.getMenuReport(this.entityName).subscribe(result => {
         if (result && result.result && result.result.length) {

@@ -268,9 +268,12 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
         const customer: any = result.result;
         this.handleAddCustomer(customer);
 
-        // mở dialog add khách hàng nhưng ở chế độ update
-        this.addOrUpdateCustomer = 'update';
-        this.openAddCustomerDialog(customer.ma_kh);
+        // Kiểm tra điều kiện mở dialog
+        if (this.commonService.shouldOpenDialog(customer)) {
+          // mở dialog add khách hàng nhưng ở chế độ update
+          this.addOrUpdateCustomer = 'update';
+          this.openAddCustomerDialog(customer.ma_kh);
+        }
       } else {
         this.commonService.showMessageByContent(Language.content.exists_customer_yn_no, ma_kh);
         this.saleItinerantService.resetCustomerInfo(this.ticket);
@@ -287,9 +290,12 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
       .subscribe((customer: Customer) => {
         customer && this.handleAddCustomer(customer)
 
-        // mở dialog add khách hàng nhưng ở chế độ update
-        this.addOrUpdateCustomer = 'update';
-        this.openAddCustomerDialog(customer.ma_kh);
+        // Kiểm tra điều kiện mở dialog
+        if (this.commonService.shouldOpenDialog(customer)) {
+          // mở dialog add khách hàng nhưng ở chế độ update
+          this.addOrUpdateCustomer = 'update';
+          this.openAddCustomerDialog(customer.ma_kh);
+        }
       });
   }
 
@@ -405,7 +411,7 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if(!ma_imei || ma_imei.length < 5) {
+    if (!ma_imei || ma_imei.length < 5) {
       this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
       return;
     }
@@ -672,7 +678,7 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
   // Submit
   onSave() {
     // Check âm tiền nợ
-    if(this.ticket.masterInfo.t_con_no < 0) {
+    if (this.ticket.masterInfo.t_con_no < 0) {
       this.commonService.showMessage('Tiền nợ không được âm');
       return;
     }

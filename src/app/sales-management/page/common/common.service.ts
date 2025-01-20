@@ -534,21 +534,21 @@ export class CommonService {
     * Lưu dữ liệu ticket vào localStorage khi: loading, advance search, quick search
     */
     saveTicketToLocalStorage(data: any) {
-      const sttRecArray = data.map((item: any) => item.stt_rec);
-      localStorage.removeItem('ticketData');
-      localStorage.setItem('ticketData', JSON.stringify(sttRecArray) || '[]');
+        const sttRecArray = data.map((item: any) => item.stt_rec);
+        localStorage.removeItem('ticketData');
+        localStorage.setItem('ticketData', JSON.stringify(sttRecArray) || '[]');
     }
 
     /*
     * Lấy dữ liệu ticket từ localStorage để dùng chuyển trang
     */
     getTicketFromLocalStorage() {
-      const ticketData = localStorage.getItem('ticketData');
-      if(!ticketData) {
-        return [];
-      } else {
-        return JSON.parse(ticketData);
-      }
+        const ticketData = localStorage.getItem('ticketData');
+        if (!ticketData) {
+            return [];
+        } else {
+            return JSON.parse(ticketData);
+        }
     }
 
     // #region check authorization
@@ -556,28 +556,39 @@ export class CommonService {
     * Kiểm tra quyền từng màn hình ticket
     */
     processAuthorization() {
-      const currentUrl = this.router.url;
-      const getAuthorization = JSON.parse(localStorage.getItem('authorization') || '{}');
+        const currentUrl = this.router.url;
+        const getAuthorization = JSON.parse(localStorage.getItem('authorization') || '{}');
 
-      // Kiểm tra quyền truy cập
-      const canAdd = getAuthorization.add_yn; // Quyền thêm
-      const canEdit = getAuthorization.edit_yn; // Quyền chỉnh sửa
-      const canView = getAuthorization.access_yn; // Quyền xem
+        // Kiểm tra quyền truy cập
+        const canAdd = getAuthorization.add_yn; // Quyền thêm
+        const canEdit = getAuthorization.edit_yn; // Quyền chỉnh sửa
+        const canView = getAuthorization.access_yn; // Quyền xem
 
-      if (currentUrl.endsWith('/create') && !canAdd) {
-        this.router.navigate(['/']);
-        return;
-      }
+        if (currentUrl.endsWith('/create') && !canAdd) {
+            this.router.navigate(['/']);
+            return;
+        }
 
-      if (currentUrl.includes('/update') && !canEdit) {
-        this.router.navigate(['/']);
-        return;
-      }
+        if (currentUrl.includes('/update') && !canEdit) {
+            this.router.navigate(['/']);
+            return;
+        }
 
-      if (currentUrl.includes('/view') && !canView) {
-        this.router.navigate(['/']);
-        return;
-      }
+        if (currentUrl.includes('/view') && !canView) {
+            this.router.navigate(['/']);
+            return;
+        }
+    }
+
+    /*
+    * Kiểm tra xem khách hàng đã đủ thông tin chỉ định hay chưa
+    */
+    shouldOpenDialog(customer: any): boolean {
+        // Các trường cần kiểm tra
+        const requiredFields = ['ma_kh', 'ten_kh', 'dia_chi', 'dien_thoai', 'ngay_sinh', 'email_cn'];
+
+        // Kiểm tra nếu bất kỳ trường nào bị thiếu (null, undefined, hoặc chuỗi rỗng)
+        return requiredFields.some(field => !customer[field] || customer[field].trim() === '');
     }
 }
 

@@ -77,6 +77,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   shops = JSON.parse(localStorage.getItem('shop') || "[]");
   ten_nvvc = '';
   disable = false;
+  disableLookup = true;
 
   constructor(
     private router: Router,
@@ -111,6 +112,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
             this.mode = MODE.CREATE;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.disableLookup = false;
             break;
           case 'update':
             this.title = Language.content.edit;

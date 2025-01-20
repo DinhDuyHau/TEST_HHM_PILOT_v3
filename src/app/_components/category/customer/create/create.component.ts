@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { getResource } from '@app/_common/commonFunction';
 import { CommonService } from '@app/sales-management/page/common/common.service';
 import { Language } from '@app/sales-management/page/common/language';
+import { TICKET_CODE } from '@app/sales-management/model/common/ticket-code.model';
 
 @Component({
   selector: 'app-customer-create',
@@ -23,6 +24,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
   @Input() isComponent!: boolean;
   @Input() customerName!: string;
   @Input() addOrUpdate!: string;
+  @Input() ma_ct!: string;
   @Output() handleCreateSucess = new EventEmitter<CustomerModel>();
   @ViewChild('form') form!: ElementRef;
 
@@ -75,7 +77,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
     this.route.url.subscribe(urlSegment => {
       let path = urlSegment[0].path;
       if (this.isComponent) { path = 'create'; this.customer.ma_kh = this.customerName || ''; }
-      if(this.addOrUpdate == 'update') {
+      if (this.addOrUpdate == 'update') {
         path = 'update';
         this.initData(this.customerName || '');
       }
@@ -136,26 +138,35 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
     }
   }
   onSubmit() {
-    if (this.customer.ma_kh.length < 10 && this.addOrUpdate == 'create') {
-      this.commonService.showMessage('Độ dài mã khách hàng phải từ 10 ký tự trở lên');
-      return;
+    // Nếu là bán tmđt không cần check
+    if (this.ma_ct === '' || this.ma_ct !== TICKET_CODE.ONLINE_ECOMMERCE) {
+      if (this.customer.ma_kh.length < 10 && this.addOrUpdate == 'create') {
+        this.commonService.showMessage('Độ dài mã khách hàng phải từ 10 ký tự trở lên');
+        return;
+      }
+      if (this.containsSpecialCharacters(this.customer.ma_kh)) {
+        this.commonService.showMessage(Language.content.invalid_ma_kh);
+        return;
+      }
+      if (!this.containsNameVietnamese(this.customer.ten_kh)) {
+        this.commonService.showMessage('Tên khách không được chứa ký tự đặc biệt hoặc có khoảng trắng đầu cuối');
+        return;
+      }
     }
 
+    this.customer.ma_ct = TICKET_CODE.ONLINE_ECOMMERCE;
+
     this.submitted = true;
-    if (this.containsSpecialCharacters(this.customer.ma_kh)) {
-      this.commonService.showMessage(Language.content.invalid_ma_kh);
-      return;
-    }
-    if (!this.containsNameVietnamese(this.customer.ten_kh)) {
-      this.commonService.showMessage('Tên khách không được chứa ký tự đặc biệt hoặc có khoảng trắng đầu cuối');
-      return;
-    }
-    if (this.checkInvalidForm(this.customer))
+
+    // đối tượng đã được trim các trường string
+    const customerTrim = this.trimObjectStrings(this.customer);
+
+    if (this.checkInvalidForm(customerTrim))
       return;
     this.loading = true;
     this.isDisabled = true;
     if (this.mode == MODE.UPDATE) {
-      this.customerService.update(this.customer).subscribe((item) => {
+      this.customerService.update(customerTrim).subscribe((item) => {
         this.loading = false;
         this.isDisabled = false;
         let mess = 'Sửa danh mục thất bại';
@@ -164,7 +175,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
             this.router.navigate(['..'], { relativeTo: this.route });
           }
           else {
-            this.handleCreateSucess.emit(this.customer);
+            this.handleCreateSucess.emit(customerTrim);
           }
           mess = item.message === '' ? 'Sửa danh mục thành công' : item.message;
         }
@@ -178,7 +189,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
     }
     else if (this.mode == MODE.CREATE) {
       this.isDisabled = true;
-      this.customerService.create(this.customer).subscribe((item) => {
+      this.customerService.create(customerTrim).subscribe((item) => {
         this.loading = false;
         this.isDisabled = false;
         let mess = 'Thêm danh mục thất bại';
@@ -187,7 +198,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
             this.router.navigate(['..'], { relativeTo: this.route });
           }
           else {
-            this.handleCreateSucess.emit(this.customer);
+            this.handleCreateSucess.emit(customerTrim);
           }
           mess = item.message === '' ? 'Thêm danh mục thành công' : item.message;
         }
@@ -282,6 +293,18 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
   }
 
   containsNameVietnamese(input: string): boolean {
-    return /^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+( [A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+)*$/u.test(input);
+    return /^[\p{L}\s]+$/u.test(input.trim());
   }
+
+  trimObjectStrings<T extends Record<string, any>>(obj: T): T {
+    const trimmedObject: T = { ...obj }; // Tạo một bản sao của đối tượng gốc
+    for (const key in trimmedObject) {
+      if (typeof trimmedObject[key] === 'string') {
+        // Áp dụng trim() cho chuỗi
+        trimmedObject[key] = trimmedObject[key].trim();
+      }
+    }
+    return trimmedObject;
+  }
+
 }

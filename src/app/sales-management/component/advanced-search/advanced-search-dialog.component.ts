@@ -233,7 +233,8 @@ export class AdvancedSearchDialogComponent implements OnInit {
     TICKET_CODE.CHANGE,
     TICKET_CODE.GIFT_REPAY,
     TICKET_CODE.REPURCHASE,
-    TICKET_CODE.RENEW
+    TICKET_CODE.RENEW,
+    TICKET_CODE.REPURCHASE_SERVICE
     ].includes(this.voucherCode)
     ) {
       return true;
