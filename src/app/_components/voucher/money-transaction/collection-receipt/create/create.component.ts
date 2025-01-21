@@ -174,8 +174,9 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
       const ma_kh = this.data.masterInfo.ma_kh;
       this.customerService.getItem(ma_kh || '').subscribe((data) => {
         const res = data as any;
-        if(res) {
-          if(res?.nh_kh3 == 'NBHH') {
+        if (res) {
+          if (res?.nh_kh3 == 'NBHH') {
+            this.resetPayment();
             this.isValidCustomerGroup3 = false;
           } else {
             this.isValidCustomerGroup3 = true;
@@ -416,6 +417,8 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
   }
 
   handleInputLookupChange($event: any): void {
+    this.resetPayment();
+
     $event.forEach((item: any) => {
       this[item.control] = item.value;
       this.data.masterInfo[item.control] = item.value;
@@ -426,7 +429,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
         this.dvthuhoService.setItemFilter([{ name: 'ma_loai', operator: '=', value: item.value }]);
       }
       if (item.control == 'nh_kh3') {
-        if(item.value == 'NBHH') {
+        if (item.value == 'NBHH') {
           this.isValidCustomerGroup3 = false;
         } else {
           this.isValidCustomerGroup3 = true;
@@ -645,6 +648,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
 
   onEnterCustomerCode(event: any, ma_kh: string) {
     event.preventDefault();
+    this.resetPayment();
 
     //kiểm tra nếu không tồn tại khách hàng theo value input => hiên thị popup thêm khách hàng
     this.customerApiService.getOneById(ma_kh).subscribe(result => {
@@ -652,7 +656,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
         this.openAddCustomerDialog(ma_kh);
       } else {
         const res = result.result as any;
-        if(res?.nh_kh3 == 'NBHH') {
+        if (res?.nh_kh3 == 'NBHH') {
           this.isValidCustomerGroup3 = false;
         } else {
           this.isValidCustomerGroup3 = true;
@@ -676,4 +680,38 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
   }
   //#endregion
 
+  resetPayment() {
+    this.payment.tien_dat_coc.tien = 0;
+    this.payment.tien_mat.tien = 0;
+    this.payment.quet_the.tien = 0;
+    this.payment.chuyen_khoan.tien = 0;
+    this.payment.vnpay.tien = 0;
+    this.payment.vi_dien_tu.tien = 0;
+    this.payment.tra_gop.tien = 0;
+    this.payment.sd_diem.tien = 0;
+    this.payment.quet_the_tra_gop.tien = 0;
+    this.payment.voucher_doi_tac.tien = 0;
+
+    // Đặt tất cả các trường `selected` trong `payment` về false
+    this.payment.tien_dat_coc.selected = false;
+    this.payment.tien_mat.selected = false;
+    this.payment.quet_the.selected = false;
+    this.payment.chuyen_khoan.selected = false;
+    this.payment.vnpay.selected = false;
+    this.payment.vi_dien_tu.selected = false;
+    this.payment.tra_gop.selected = false;
+    this.payment.sd_diem.selected = false;
+    this.payment.quet_the_tra_gop.selected = false;
+    this.payment.voucher_doi_tac.selected = false;
+
+    // Tính tổng trường `tien_nt` trong `this.dataSource`
+    const totalTienNT = this.dataSource.data.reduce((total: number, item: any) => {
+      return total + (item.tien_nt || 0);
+    }, 0);
+
+    // Gán tổng `tien_nt` vào `t_con_no`
+    this.data.masterInfo.t_con_no = totalTienNT;
+
+    this.data.masterInfo.t_da_tra = 0;
+  }
 }
