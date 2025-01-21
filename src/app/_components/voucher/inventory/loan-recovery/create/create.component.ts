@@ -406,7 +406,7 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/loan-recovery']);
   }
 
   scanORCode(imei: string) {

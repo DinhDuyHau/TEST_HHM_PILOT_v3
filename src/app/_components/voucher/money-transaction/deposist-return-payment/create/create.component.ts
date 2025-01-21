@@ -467,7 +467,7 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/deposit-return-payment']);
   }
   onEnter(event: any) {
     event.preventDefault(); // Ngăn chặn hành động mặc định của nút Enter (submit form)

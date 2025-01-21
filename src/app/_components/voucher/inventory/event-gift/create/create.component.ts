@@ -444,7 +444,7 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/event-gift']);
   }
 
   scanORCode(imei: string) {

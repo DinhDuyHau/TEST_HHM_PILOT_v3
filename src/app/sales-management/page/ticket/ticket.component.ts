@@ -652,7 +652,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
     this.ticketApiService.deleteOne(this.entityName, event.item.stt_rec).subscribe(result => {
       if (result && result.success && result.result) {
-        this.onReload();
+        this.onReload(true);
       } else {
         if (result && !result.success && result.message && result.message !== '') {
           this.commonService.showMessageByName(result.message, []);
@@ -674,7 +674,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           if (x && x.status === '0') {
             this.ticketApiService.deleteOne(this.entityName, this.select_item_current).subscribe(result => {
               if (result && result.success && result.result) {
-                this.onReload();
+                this.onReload(true);
               } else {
                 if (result && !result.success && result.message && result.message !== '') {
                   this.commonService.showMessageByName(result.message);

@@ -265,6 +265,10 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   }
 
   onEnterImeiChangeCode(ma_imei: string) {
+    if(this.ticket.merchandise_change.length == 0) {
+      this.commonService.showMessage('Cần nhập IMEI trả trước khi nhập IMEI đổi');
+      return;
+    }
     if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise_change)) {
       this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: ma_imei });
       return;
