@@ -33,6 +33,9 @@ import { OtherPaymentService } from '../other-payment.service';
 import { BankingService } from '@app/_components/lookup/banking/banking.service';
 import { FeeService } from '@app/_components/lookup/Fee/fee.service';
 import { CommonService } from '@app/sales-management/page/common/common.service';
+import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
+import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
+import { Customer } from '@app/_components/category/customer/customer.model';
 
 @Component({
   selector: 'app-create',
@@ -74,6 +77,7 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
   sale_ma_kh = '';
   sale_so_ct = '';
   sale_ngay_ct?: Date;
+  isValidCustomerGroup3 = false;
 
   override gridType = GridType.GridDetail;
   actionButtons = [button.DeleteButton];
@@ -102,7 +106,8 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
     private ticketApiService: TicketApiService,
     private payment: Payment,
     private el: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private customerApiService: CustomerApiService
   ) {
     const filterItem = [
       { name: 'status', operator: '=', value: '1' },
@@ -142,6 +147,21 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
       item.masterInfo.ngay_ct = item.masterInfo.ngay_ct?.substring(0, 10);
       item.masterInfo.ngay_lct = item.masterInfo.ngay_lct?.substring(0, 10);
       this.data = item;
+
+      // Kiểm tra xem có cần hiển tab payment hay ko
+      const ma_kh = this.data.masterInfo.ma_kh;
+      this.customerService.getItem(ma_kh || '').subscribe((data) => {
+        const res = data as any;
+        if (res) {
+          if (res?.nh_kh3 == 'NBHH') {
+            this.resetPayment();
+            this.isValidCustomerGroup3 = false;
+          } else {
+            this.isValidCustomerGroup3 = true;
+          }
+        }
+      });
+
       this.voucherForm = this.formBuilder.group({
         so_ct: [this.data.masterInfo.so_ct, Validators.required],
         ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
@@ -412,6 +432,13 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
       if (this.f[item.control]) {
         this.f[item.control].setValue(item.value);
       }
+      if (item.control == 'nh_kh3') {
+        if (item.value == 'NBHH') {
+          this.isValidCustomerGroup3 = false;
+        } else {
+          this.isValidCustomerGroup3 = true;
+        }
+      }
     });
   }
   handleInputLookupChangeExtend($event: any): void {
@@ -525,6 +552,40 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);
+  }
+  onEnterCustomerCode(event: any, ma_kh: string) {
+    event.preventDefault();
+    this.resetPayment();
+
+    //kiểm tra nếu không tồn tại khách hàng theo value input => hiên thị popup thêm khách hàng
+    this.customerApiService.getOneById(ma_kh).subscribe(result => {
+      if (!(result.success && result.result)) {
+        this.openAddCustomerDialog(ma_kh);
+      } else {
+        const res = result.result as any;
+        if (res?.nh_kh3 == 'NBHH') {
+          this.isValidCustomerGroup3 = false;
+        } else {
+          this.isValidCustomerGroup3 = true;
+        }
+      }
+    });
+  }
+  openAddCustomerDialog(ma_kh = ''): void {
+    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh }, 'fullscreen-dialog')
+      .afterClosed()
+      .subscribe((customer: Customer) => {
+        customer && ((customer: Customer) => {
+          this.f['ma_kh'].setValue(customer.ma_kh);
+          this.f['ten_kh'].setValue(customer.ten_kh);
+          this.f['dia_chi'].setValue(customer.dia_chi);
+
+        });
+      });
+  }
+
+  resetPayment() {
+
   }
 }
 
