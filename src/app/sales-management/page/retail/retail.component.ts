@@ -581,6 +581,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
   handleRemoveMerchandise(merchandise: Merchandise) {
     if (merchandise.km_yn) {
       this.retailService.removePromotionMechandise(merchandise);
+      // tính lại tiền khi xóa hàng khuyến mại
+      this.retailService.calcMoney();
     } else {
       this.retailService.removeMerchandise(merchandise);
       this.handleCheckDeposit(merchandise.ma_vt, false);
