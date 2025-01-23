@@ -2528,6 +2528,20 @@
         {
             "name": "ten_kh",
             "title": "Tên khách hàng"
+        },
+        {
+            "name": "ngay_ct",
+            "title": "Ngày tạo",
+            "format": "datetimeFormat",
+            "dataType": "date",
+            "align": "center"
+        },
+        {
+            "name": "t_tt_nt",
+            "title": "Tổng tiền",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
         }
     ],
     "WAREHOUSE_LIST": [
