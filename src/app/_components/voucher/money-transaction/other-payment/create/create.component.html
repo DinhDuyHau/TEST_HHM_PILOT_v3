@@ -51,10 +51,10 @@
             [value]="f['ma_kh'].value"
             [invalid]="submitted && f['ma_kh'].errors != null"
             (handleChangeLookup)="handleInputLookupChange($event)"
-            (handleEnter)="onEnter($event)"
+            (handleEnter)="onEnter($event);onEnterCustomerCode($event, ma_kh.value);"
             [control]="customerService"
             [lookup]="true || disabled"
-            [reference]="[ma_kh, ten_kh, dia_chi]"></app-input-custom-v2>
+            [reference]="[ma_kh, ten_kh, dia_chi, 'nh_kh3']"></app-input-custom-v2>
         </div>
         <div class="flex-1">
           <app-input-custom-v2
@@ -121,7 +121,7 @@
             "></app-input-custom-v2>
         </div>
       </div>
-      <div class="flex gap-2">
+      <div class="flex gap-2" *ngIf="isValidCustomerGroup3">
         <select-custom
           class="flex-1"
           [label]="getLabel('lbl_hinh_thuc')"
