@@ -1202,7 +1202,8 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         if (res) {
           //lọc tìm item theo imei xuất bán (gc_td1)
           const sale_item = this.ticket.merchandise_new_sale.find(x => x.ma_imei.toString().toUpperCase().trim() === event.item.gc_td1.toUpperCase().trim());
-          const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+
+          const ngay_ct = new Date(`${this.ticket.masterInfo.ngay_ct}Z`);
           this.saleRenewService.adjustBuyPrice(ngay_ct, this.ticket.masterInfo.ma_ncc, res, sale_item!)?.pipe().subscribe(result => {
             if (result && result.success && result.result) {
               const tien_max = Number(result.result[0].tien_dc_max);
@@ -1225,6 +1226,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
                 buy_item!.gia_ban = gia_dc;
                 buy_item!.thanh_tien = gia_dc;
                 buy_item!.thanh_toan = gia_dc;
+
                 this.saleRenewService.calcMoney();
 
                 if (ma_gd_tcdm === '1') {
@@ -1246,6 +1248,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
                   if (sale_item!.tien_thue < 0) sale_item!.tien_thue = 0;
                   sale_item!.gia_ck = sale_item!.gia_ban;
                   sale_item!.thanh_tien = sale_item!.gia_ck * sale_item!.so_luong;
+
                   this.saleRenewService.calcMoney();
                 }
 
