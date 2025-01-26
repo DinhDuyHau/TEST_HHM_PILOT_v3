@@ -319,10 +319,11 @@ export class SaleWholeService {
             .map(e => e.tien_thue)
             .reduce((pre, cur) => pre + cur, 0);
 
-        this.ticket.masterInfo.t_tien_nt2 = merchandiseMoney;
-        this.ticket.masterInfo.t_thue_nt = this.commonService.rouding(merchandiseTax);
+        this.ticket.masterInfo.t_tien_nt2 = Math.round(merchandiseMoney);
+        this.ticket.masterInfo.t_thue_nt = Math.round(merchandiseTax);
+        // this.ticket.masterInfo.t_thue_nt = this.commonService.rouding(merchandiseTax);
         this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt;
-        this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt);
+        // this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt);
         this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra;
         this.ticket.masterInfo.t_con_no = this.commonService.rouding(this.ticket.masterInfo.t_con_no);
 

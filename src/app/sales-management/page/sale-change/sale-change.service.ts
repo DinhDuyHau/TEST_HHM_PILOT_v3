@@ -377,6 +377,9 @@ export class SaleChangeService {
         else if (this.ticket.merchandise_return.length != 1 || this.ticket.merchandise_return.length != 1) {
             message = this.commonService.getMessage('lbl_invalid_merchandise_return_change');
         }
+        else if (ticket.masterInfo.dien_giai.length > 250) {
+            message = 'Diễn giải không được vượt quá 250 ký tự';
+        }
         return message;
     }
 
