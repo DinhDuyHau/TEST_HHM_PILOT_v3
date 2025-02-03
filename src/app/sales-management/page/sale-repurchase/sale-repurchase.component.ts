@@ -22,6 +22,7 @@ import { EInvoiceInfo } from '@app/sales-management/model/dto/einvoice.dto';
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { IMEIService } from '@app/_services/imei.service';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
+import { checkValidImei } from '@app/_common/commonFunction';
 
 const { MERCHANDISE_REPURCHASE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
@@ -256,6 +257,13 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
       */
       return;
     }
+
+    // thêm kiểm tra imei hợp lệ
+    if (!checkValidImei(ma_imei)) {
+      this.commonService.showMessageByName('lblWarningImeiInputInvalid');
+      return;
+    }
+
     this.invalidMerchandiseInput.ma_vt = false;
     this.invalidMerchandiseInput.gia_nhap_mua = false;
     this.invalidMerchandiseInput.loai_hh = false;
