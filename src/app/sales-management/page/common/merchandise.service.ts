@@ -278,12 +278,13 @@ export class MerchandiseService {
             */
             // => code thay thế đoạn code comment ở trên
             const detail: any[] = [];
-            for (const item_discount of discount.details) {
-                detail.push(item_discount);
-            }
+            if (discount && discount.details && discount.details.length > 0)
+                for (const item_discount of discount.details) {
+                    detail.push(item_discount);
+                }
             // 2024-11-13: end
 
-            if (detail.filter(x => x.hangban_yn).length < discount.details.filter((x: any) => x.hangban_yn).length || detail.filter(x => x.hangban_yn).length == detail.length) {
+            if (detail && detail.length > 0 && detail.filter(x => x.hangban_yn).length < discount.details.filter((x: any) => x.hangban_yn).length || detail.filter(x => x.hangban_yn).length == detail.length) {
                 markerArray.filter(marker => detail.find((item: any) => marker.ma_vt.trim() === item.ma_vt_ad.trim())).forEach(x => x.marker = false);
             }
             else {
@@ -1610,10 +1611,10 @@ export class MerchandiseService {
     calcDiscount09(ticket: any, merchandiseUpdate: any, current_item: any | undefined = null) {
         // Lấy chi tiết chiết khấu loại 09: Chiết khấu theo giá hạng khách hàng
         const discountForMerchandise09 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK && (!current_item || (
-            e.ma_imei.trim().toLowerCase() == current_item.ma_imei.trim().toLowerCase() 
+            e.ma_imei.trim().toLowerCase() == current_item.ma_imei.trim().toLowerCase()
             && e.ma_vt.trim().toLowerCase() == current_item.ma_vt.trim().toLowerCase()
         )));
-        
+
         (discountForMerchandise09 as any).forEach((discount: any) => {
             if (discount) {
                 let { ma_vt, tien_ck_tv, tl_ck, ma_imei, tien_max, tien_ck, ma_ck } = discount;
@@ -1622,7 +1623,7 @@ export class MerchandiseService {
                 // Tổng tiền hàng bán của phiếu có trong chiết khấu
                 result.forEach((e: Merchandise, index) => {
                     // kiểm tra đúng imei và ma_vt thì gán tien_ck
-                    if (e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() 
+                    if (e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase()
                         && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
 
                         // Sử dụng tl_ck từ e.tl_ck09 nếu tl_ck không tồn tại hoặc không có giá trị
@@ -1672,5 +1673,6 @@ export class MerchandiseService {
             }
         });
     }
+
     //#endregion
 }
