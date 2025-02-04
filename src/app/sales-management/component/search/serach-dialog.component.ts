@@ -165,6 +165,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         break;
       case SEARCH_COMPONENT_NAME.CONTRACT:
         this.columns = CONTRACT_SEARCH as any;
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.ITINERANT:
         this.columns = PROJECT_SEARCH as any;
@@ -324,7 +325,15 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.SERVICE:
         return this.merchandiseServiceApiService.findById(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.CONTRACT:
-        return this.ticketApiService.getLookupVoucherByQuery({ ma_ct: TICKET_CODE.CONTRACT }, this.page_index, this.page_size);
+        return this.ticketApiService.getLookupVoucherByQuery(
+          {
+            ma_ct: TICKET_CODE.CONTRACT,
+            so_ct: this.filters.find(x => x.name == 'so_ct')?.value || null,
+            ma_kh: this.filters.find(x => x.name == 'ma_kh')?.value || null,
+            ten_kh: this.filters.find(x => x.name == 'ten_kh')?.value || null
+          },
+          this.page_index, this.page_size
+        );
       case SEARCH_COMPONENT_NAME.ITINERANT:
         return this.ticketApiService.getProjects(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE:
