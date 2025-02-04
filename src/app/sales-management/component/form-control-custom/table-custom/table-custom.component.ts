@@ -318,11 +318,11 @@ export class TableCustomComponent implements
     if (this.handleView.observers.length === 0) {
       return false;
     }
-    if (record.status === '0') {
-      return false;
-    }
     if (this.entityName === TICKET_ENTITY.CONTRACT) {
       return true;
+    }
+    if (record.status === '0') {
+      return false;
     }
     return true;
   }
