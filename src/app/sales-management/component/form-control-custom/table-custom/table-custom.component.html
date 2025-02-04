@@ -188,13 +188,13 @@
               *ngIf="handleSwap.observers.length && record.km_yn && !readonly">
               <i class="fas fa-exchange icon-table"></i>
             </button>
-            <button
+            <!-- <button
               (click)="onActionItem(record)"
               *ngIf="
                 handleAction.observers.length && entityName === 'SVTran_DXA' && record.status != 1
               ">
               <span class="icon-table">Lập phiếu bán buôn</span>
-            </button>
+            </button> -->
             <button
               (click)="onDeleteDiscount09(record)"
               *ngIf="showRemoveDiscount09Button(record)"
