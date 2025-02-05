@@ -358,7 +358,8 @@ export class AdvancedSearchDialogComponent implements OnInit {
       keyword: ma_vt || '',
       stockData: this.getDataStock(ma_kho),
       selectedStock: selectedStock,
-      componentName: SEARCH_V2_COMPONENT_NAME.WAREHOUSE
+      componentName: SEARCH_V2_COMPONENT_NAME.WAREHOUSE,
+      isFilter: true
     }, 'search-style-dialog')
       .afterClosed().subscribe(result => {
         if (result) {
