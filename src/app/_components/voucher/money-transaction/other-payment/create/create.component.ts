@@ -182,7 +182,7 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
       this.stockService.setItemFilter([{ name: 'ma_cuahang', value: this.data.masterInfo.ma_cuahang }, { name: 'ma_loai', value: 'HM' }]);
       this.dataSource = new MatTableDataSource<ReceiptDetail>(this.data.details[0].data);
       if (this.data.details.length >= 2 && this.data.details[1].data) {
-        this.extend = this.data.details[1].data[0];
+        this.extend = this.data.details[1].data[0] || {};
       }
 
       this.sale_so_ct = this.data.masterInfo.fcode1!;
