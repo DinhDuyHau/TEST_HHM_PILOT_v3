@@ -2522,6 +2522,10 @@
             "isPrimaryKey": true
         },
         {
+            "name": "ma_cuahang",
+            "title": "Mã cửa hàng"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
