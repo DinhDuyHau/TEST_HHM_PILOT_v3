@@ -55,10 +55,21 @@ export class SearchV2DialogComponent implements OnInit, AfterViewInit {
   keyword = '';
   title = '';
   isLoading = false;
+  isFilter = true;
 
   constructor(
     public dialogRef: MatDialogRef<SearchV2DialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { keyword: string, componentName: number, title: string, ma_ct?: string, filter?: ItemFilter[], dataSource: any, selectedStock: any, stockData: any },
+    @Inject(MAT_DIALOG_DATA) public data: {
+      keyword: string,
+      componentName: number,
+      title: string,
+      ma_ct?: string,
+      filter?: ItemFilter[],
+      dataSource: any,
+      selectedStock: any,
+      stockData: any,
+      isFilter: boolean
+    },
     private customerApiService: CustomerApiService,
     private imeiApiService: ImeiApiService,
     private merchandiseServiceApiService: MerchandiseServiceApiService,
@@ -72,6 +83,7 @@ export class SearchV2DialogComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.isFilter = this.data.isFilter != undefined ? this.data.isFilter : true;
     this.selectedData = this.data.stockData.map((item: any) => {
       const selectedStock = Array.isArray(this.data.selectedStock) ? this.data.selectedStock : [];
       item.selected = selectedStock.includes(item.ma_kho);

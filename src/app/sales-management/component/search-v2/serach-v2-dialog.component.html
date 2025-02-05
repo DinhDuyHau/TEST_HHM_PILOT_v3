@@ -12,6 +12,7 @@
         [totalItem]="recordCount"
         [size]="page_size"
         [page_index]="page_index"
+        [useFilter]="isFilter"
         (handleSelect)="onSelectItem($event)"
         (handleFilter)="onClickSearchFilter($event)"
         (handleChangePage)="onChangePage($event)"
