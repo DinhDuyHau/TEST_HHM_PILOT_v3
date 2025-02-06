@@ -122,6 +122,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   ma_imei = '';
   ma_kh_label = 'Mã khách';
   addOrUpdateCustomer = 'create';
+  isValidItemOld = false;
 
   constructor(
     private router: Router,
@@ -642,6 +643,12 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
           this.renew.ma_vt = result.result[0].ma_vt;
           this.renew.ten_vt = result.result[0].ten_vt;
           this.renew.dvt = result.result[0].dvt;
+
+          // gán isValidItemOld = false để KHÔNG cho chọn vt khi vt đã có trong hệ thống
+          this.isValidItemOld = false;
+        } else {
+          // gán isValidItemOld = true để cho chọn vt khi vt ko có trong hệ thống
+          this.isValidItemOld = true;
         }
       }
     });
