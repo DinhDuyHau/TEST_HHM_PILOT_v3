@@ -109,6 +109,7 @@
             [value]="renew.ma_imei"
             [fireChangeWhenBlur]="false"
             (handleChangeValue)="onChangeImei($event)"
+            (handleEnterInput)="onChangeImei($event)"
             (handleClickCodeScanner)="onClickImeiOldMerchandiseCodeScanner()"
             [invalid]="invalidMerchandiseInput.imei_used"
             [uploadImage]="true" />
@@ -121,6 +122,7 @@
               [controller]="'dmvt'"
               [value]="renew.ma_vt"
               [invalid]="invalidMerchandiseInput.ma_vt"
+              [disabled]="!isValidItemOld"
               (handleBlur)="onBlurTypeMerchandiseCode($event)"
               (handleEnterInput)="onEnterTypeMerchandiseCode($event)"
               (handleClickOpenDialog)="openTypeMerchandiseDialog()" />
