@@ -120,7 +120,6 @@
         class="box"
         [label]="getLabel('lbl_imei')"
         name="imei"
-        [align]="'end'"
         *ngIf="!readonly"
         (handleEnterInput)="onEnterImeiCode($event)"
         [uploadImage]="true" />

@@ -20,6 +20,7 @@ export class DialogIMEIComponent {
   type = 1;
   current_grid_imeis: string[] = [];
   imei_data: string[] = [];
+  isLoading = false;
 
   constructor(
     public dialogRef: MatDialogRef<DialogIMEIComponent>,
@@ -109,6 +110,8 @@ export class DialogIMEIComponent {
   }
 
   onClickSave() {
+    this.isLoading = true;
+
     if (this.imei_data) {
       // const list_imei = this.ma_imei.split('\n').filter((item) => item !== '');
       const list_imei = [...this.imei_data];
