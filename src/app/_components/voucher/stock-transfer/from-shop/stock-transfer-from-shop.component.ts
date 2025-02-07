@@ -263,7 +263,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
         // được phép điều chuyển về 2 loại kho: hàng cũ, trôi bảo hành
         if (this.ma_loai === 'HC' || this.ma_loai === 'TL') {
           stock_operator = 'in'
-          ma_loai = 'HC,TBH';
+          ma_loai = 'HC,TBH,TL';
         }
         // hàng trải nghiệm
         // được phép điều chuyển về các loại kho: hàng cũ, trôi bảo hành, hàng trải nghiệm
