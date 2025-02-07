@@ -75,7 +75,7 @@
         (handleChangeValue)="ticket.masterInfo.dien_giai = $event" />
       <form-select-custom
         class="box order-dynamic-1 width-full"
-        [isDisable]="readonly || this.mode !== 0"
+        [isDisable]="readonly || this.mode !== 0 || this.ticket.merchandise.length > 0"
         [label]="'Loại giao dịch'"
         [options]="transactionTypeOptions"
         optionDes="label"
@@ -86,14 +86,14 @@
         class="box"
         [name]="'loai_hh'"
         [label]="'Nhóm hàng hóa'"
-        [disabled]="readonly"
+        [disabled]="readonly || ticket.masterInfo.fcode1 == '3'"
         [readonly]="true"
         [invalid]="invalidMerchandiseInput.loai_hh"
         *ngIf="!readonly"
         [value]="repurchase.loai_hh"
         (handleClickOpenDialog)="openSearchTypeMerchandiseDialog()" />
       <div class="d-flex gap-2 box">&nbsp;</div>
-      <div class="d-flex gap-2 box">
+      <div class="d-flex gap-2 box" *ngIf="ticket.masterInfo.fcode1 != '3'">
         <form-select-custom
           *ngIf="ticket.masterInfo.fcode1 == '2'"
           class="flex-1"
@@ -120,7 +120,7 @@
         class="box"
         [label]="getLabel('lbl_imei')"
         name="imei"
-        *ngIf="!readonly"
+        *ngIf="!readonly && ticket.masterInfo.fcode1 != '3'"
         (handleEnterInput)="onEnterImeiCode($event)"
         [uploadImage]="true" />
       <form-input-custom
@@ -129,19 +129,106 @@
         [label]="getLabel('lbl_ma_vt')"
         [value]="repurchase.ma_vt"
         [invalid]="invalidMerchandiseInput.ma_vt"
-        *ngIf="!readonly"
+        *ngIf="!readonly && ticket.masterInfo.fcode1 != '3'"
         [disabled]="readonly"
         (handleClickOpenDialog)="openTypeMerchandiseDialog()"
         (handleEnterInput)="onEnterMerchandiseCode($event)" />
+
+      <!-- 3.MUA THU CŨ KHÔNG LÊN ĐỜI -->
+      <div class="box" *ngIf="ticket.masterInfo.fcode1 == '3' && !readonly">
+        <form-input-custom
+          class=""
+          [name]="'imei_used'"
+          [label]="getLabel('lbl_imei')"
+          [disabled]="readonly"
+          [value]="renew.ma_imei"
+          [fireChangeWhenBlur]="false"
+          (handleChangeValue)="onChangeImei($event)"
+          (handleEnterInput)="onChangeImei($event)"
+          [uploadImage]="true" />
+
+        <div class="flex flex-1 gap-2">
+          <form-input-custom
+            class="basis-2/5"
+            name="ma_vt"
+            [label]="getLabel('lbl_ma_vt_nhap')"
+            [isLookup]="true"
+            [controller]="'dmvt'"
+            [value]="renew.ma_vt"
+            [invalid]="invalidMerchandiseInput.ma_vt"
+            [disabled]="!isValidItemOld"
+            [readonly]="true"
+            (handleClickOpenDialog)="openTypeMerchandiseDialog()" />
+          <form-input-custom
+            class="flex-1"
+            name="ten_vt"
+            #ten_vt_mua
+            [label]="getLabel('lbl_ten_vt')"
+            [value]="renew.ten_vt"
+            [disabled]="true" />
+        </div>
+
+        <div class="flex flex-1 gap-2">
+          <form-input-custom
+            class="basis-2/5"
+            [name]="'loai_hh'"
+            [label]="getLabel('lbl_loai_hh')"
+            [value]="renew.loai_hh"
+            [readonly]="true"
+            [disabled]="readonly"
+            [invalid]="invalidMerchandiseInput.loai_hh"
+            (handleClickOpenDialog)="openSearchTypeMerchandiseDialog3()" />
+          <form-input-custom
+            class="basis-3/5"
+            [name]="'gia_nhap_mua'"
+            [label]="'Giá theo bảng giá'"
+            [align]="'end'"
+            [value]="renew.gia_nt"
+            [disabled]="readonly"
+            dataType="number"
+            [readonly]="true"
+            format="moneyViewFormat" />
+        </div>
+
+        <div class="flex flex-1 gap-2">
+          <form-input-custom
+            class="basis-2/5"
+            [name]="'loai_hh'"
+            [label]="getLabel('lbl_ma_ncc_tc')"
+            [value]="renew.ma_ncc"
+            [readonly]="true"
+            [disabled]="true" />
+          <div class="flex flex-1">
+            <form-input-custom
+              class="basis-3/5"
+              [name]="'gia_mua'"
+              [label]="'Giá mua'"
+              [align]="'end'"
+              [value]="renew.gia_mua"
+              [disabled]="readonly"
+              dataType="number"
+              format="moneyViewFormat"
+              (handleChangeValue)="onChangeBuyPrice($event)" />
+            <button
+              style="margin-top: 32px; height: 38px; margin-left: 12px;"
+              class="flex-1 btn act-input-data-btn text-nowrap"
+              (click)="updateRepurchaseOld()">
+              Cập nhật
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex box align-items-end gap-3 mt-3 align-self-end">
+        <button
+          *ngIf="!readonly"
+          class="flex-1 btn act-input-data-btn text-nowrap"
+          (click)="openAddCustomerDialog()">
+          {{ getLabel('lbl_add_customer') }}
+        </button>
+      </div>
     </div>
-    <div class="d-flex box align-items-end gap-3 mt-3 align-self-end">
-      <button
-        *ngIf="!readonly"
-        class="flex-1 btn act-input-data-btn text-nowrap"
-        (click)="openAddCustomerDialog()">
-        {{ getLabel('lbl_add_customer') }}
-      </button>
-    </div>
+
     <tabs-custom title="Thông tin hàng hóa">
       <tab-custom label="Hàng hoá" class="w-100">
         <table-custom

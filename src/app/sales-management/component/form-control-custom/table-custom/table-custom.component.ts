@@ -328,25 +328,27 @@ export class TableCustomComponent implements
   }
 
   showDeleteButton(record: any) {
-    if (this.handleDelete.observers.length === 0) {
-      return false;
-    }
-
     if (this.readonly) {
       return false;
     }
 
-    switch (this.entityName) {
-      case TICKET_ENTITY.CONTRACT:
-        return false;
-      case TICKET_ENTITY.STOCK_TRANFER_IN:
-        return false;
-      case TICKET_ENTITY.STOCK_INTERNAL_PURCHASE:
-        return false;
+    if (this.isShowDelete) return true
 
-      default:
-        return true;
+    if(!this.isShowDelete) {
+      return record.status == 0
     }
+
+    if (this.handleDelete.observers.length === 0) {
+      return false;
+    }
+
+    const disallowedEntities = [
+      TICKET_ENTITY.CONTRACT,
+      TICKET_ENTITY.STOCK_TRANFER_IN,
+      TICKET_ENTITY.STOCK_INTERNAL_PURCHASE
+    ];
+
+    return !disallowedEntities.includes(this.entityName);
   }
 
   showRemoveDiscount09Button(record: any) {

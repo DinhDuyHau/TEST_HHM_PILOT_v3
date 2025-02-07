@@ -14,6 +14,8 @@ import { VoucherDto } from '@app/sales-management/model/ticket/common-model/vouc
 import { Language } from '../common/language';
 import { PaymentService } from '../common/payment.service';
 import { getDateFormat } from '@app/_common/commonFunction';
+import { Observable } from 'rxjs';
+import { ResultNoPaging } from '@app/_models';
 
 @Injectable({
     providedIn: 'root'
@@ -266,4 +268,8 @@ export class SaleRepurchaseService {
         this.commonService.updateBaseInfo(masterInfo, result);
         return result;
     };
+
+    adjustBuyPrice(ngay_ct: Date, ma_ncc: string, ma_loai: string, ma_vt: string, gia_bang_gia: any, gia_dc: any): Observable<ResultNoPaging<any>> | undefined {
+        return this.ticketApiService.getRepurchaseAdjustBuyPrice(ngay_ct, ma_ncc, ma_loai, ma_vt, gia_bang_gia, gia_dc);
+    }
 }
