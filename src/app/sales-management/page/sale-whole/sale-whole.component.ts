@@ -316,8 +316,8 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
         this.itemSelected.gia_vat = this.itemSelected.gia_full_vat;
         this.itemSelected.gia_ban = Math.round(this.itemSelected.gia_vat / (1 + this.itemSelected.thue_suat / 100));
         this.itemSelected.thanh_tien = this.itemSelected.gia_ban * this.itemSelected.so_luong_imei;
-        this.itemSelected.tien_thue = Math.round((this.itemSelected.thanh_tien * this.itemSelected.thue_suat) / 100);
-        this.itemSelected.thanh_toan = this.itemSelected.thanh_tien + this.itemSelected.tien_thue;
+        this.itemSelected.thanh_toan = this.itemSelected.gia_full_vat * this.itemSelected.so_luong_imei;
+        this.itemSelected.tien_thue = this.itemSelected.thanh_toan - this.itemSelected.thanh_tien;
         this.saleWholeService.calcMoney();
       }
       else {
