@@ -384,6 +384,11 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
       this.commonService.showMessage("Tiền không hợp lệ");
       return;
     }
+    const message = this.validData();
+    if(message) {
+      this.commonService.showMessage(message);
+      return;
+    }
     this.loading = true;
     this.isDisabled = true;
     if (this.mode == MODE.UPDATE) {
@@ -587,6 +592,38 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
 
   resetPayment() {
 
+  }
+
+  validData(): string | null {
+    const details = this.data.details[0]?.data || [];
+    const missingIndexes: number[] = [];
+    let firstAccount: string | null = null;
+    let hasDifferentAccount = false;
+
+    for (let i = 0; i < details.length; i++) {
+      // kiểm tra mã phí ko được rỗng
+      if (!details[i].ma_phi || details[i].ma_phi.trim() === "") {
+        missingIndexes.push(i + 1);
+      }
+
+      // Kiểm tra sự đồng nhất của ma_td1
+      if (details[i].ma_td1) {
+        if (firstAccount === null) {
+          firstAccount = details[i].ma_td1; // Lưu tài khoản đầu tiên làm chuẩn
+        } else if (details[i].ma_td1 !== firstAccount) {
+          hasDifferentAccount = true;
+        }
+      }
+    }
+
+    if (missingIndexes.length > 0) {
+      return `Dòng ${missingIndexes.join(", ")} chưa có mã phí`;
+    }
+    if (hasDifferentAccount) {
+      return "Các dòng tài khoản phải giống nhau";
+    }
+
+    return null;
   }
 }
 
