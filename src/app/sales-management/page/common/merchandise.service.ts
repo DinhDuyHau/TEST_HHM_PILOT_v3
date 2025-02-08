@@ -56,6 +56,20 @@ export class MerchandiseService {
         merchandises.push(merchandiseNew);
     }
 
+    addNewRepurchase(merchandise: any, merchandises: any[], TCreator: { new(): any; }) {
+        const merchandiseNew = this.createNewMerchandise(merchandise, TCreator);
+        merchandiseNew.gia_ck = merchandiseNew.gia_ban;
+        merchandiseNew.line_nbr = merchandises.length + 1;
+        //giá niêm yết (s4)
+        merchandiseNew.s4 = merchandise.s4;
+        //giá điều chỉnh(s5)
+        merchandiseNew.s5 = 0;
+        merchandiseNew.gc_td1 = merchandise.gc_td1;
+        merchandiseNew.ma_td3 = merchandise.ma_td3;
+        merchandiseNew.ma_td2 = merchandise.ma_td2;
+        merchandises.push(merchandiseNew);
+    }
+
     removeMerchandise(item: any, merchandises: any[]) {
         if (!merchandises || merchandises.length <= 0) return;
         const line_index = merchandises[0].line_nbr == 0 ? Number(item.line_nbr) : Number(item.line_nbr) - 1;
@@ -1642,7 +1656,7 @@ export class MerchandiseService {
                             tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
                         } else {
                             // Trường hợp không có tien_ck_tv, tính theo tl_ck
-                            const tien_ck_raw = e.gia_ck * (tl_ck_final / 100); // Tính giá trị chưa kiểm tra với tien_max                       
+                            const tien_ck_raw = e.gia_ck * (tl_ck_final / 100); // Tính giá trị chưa kiểm tra với tien_max
                             const tien_max_adjusted = tien_max_final > 0 ? tien_max_final / (1 + (e.thue_suat / 100)) : tien_ck_raw; // Tính tien_max đã điều chỉnh với thue_suat
 
                             // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh

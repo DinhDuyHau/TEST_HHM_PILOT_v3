@@ -175,6 +175,13 @@
             "align": "center"
         },
         {
+            "name": "sl_td1",
+            "title": "Giá theo bảng giá",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
             "name": "s4",
             "title": "Giá (Full VAT)",
             "format": "moneyViewNoDigit",
