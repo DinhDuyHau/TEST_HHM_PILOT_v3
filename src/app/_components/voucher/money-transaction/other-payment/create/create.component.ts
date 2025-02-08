@@ -519,6 +519,7 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
       ma_phi: this.fee.ma_phi,
       ten_phi: this.fee.ten_phi,
       tk_no: this.fee.tk_cp,
+      ma_td1: this.fee.tk_co,
     });
     this.calcTotal();
     this.dataSource.data = this.data.details[0].data;
@@ -594,5 +595,6 @@ class Fee {
   ma_phi = '';
   ten_phi = '';
   tk_cp = '';
+  tk_co = '';
   [key: string]: any
 }

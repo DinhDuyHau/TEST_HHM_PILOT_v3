@@ -121,7 +121,7 @@
             "></app-input-custom-v2>
         </div>
       </div>
-      <div class="flex gap-2" *ngIf="isValidCustomerGroup3">
+      <div class="flex gap-2" *ngIf="false && isValidCustomerGroup3">
         <select-custom
           class="flex-1"
           [label]="getLabel('lbl_hinh_thuc')"
@@ -163,11 +163,12 @@
             name="ma_phi"
             [disabled]="disabled"
             [value]="fee.ma_phi"
+            [readonly]="true"
             (handleChangeLookup)="handleInputLookupChangeFee($event)"
             (handleEnter)="onEnter($event)"
             [control]="feeService"
             [lookup]="true || disabled"
-            [reference]="[ma_phi, ten_phi, tk_cp]"></app-input-custom-v2>
+            [reference]="[ma_phi, ten_phi, tk_cp, tk_co]"></app-input-custom-v2>
         </div>
         <div class="flex-1">
           <app-input-custom-v2
@@ -184,6 +185,14 @@
             [label]="getLabel('lbl_tk_cp')"
             #tk_cp
             name="tk_cp"
+            [disabled]="true || disabled"></app-input-custom-v2>
+        </div>
+        <div class="hidden">
+          <app-input-custom-v2
+            class="flex-1"
+            [label]="'Tk có'"
+            #tk_co
+            name="tk_co"
             [disabled]="true || disabled"></app-input-custom-v2>
         </div>
       </div>
@@ -216,6 +225,7 @@
             [disabled]="disabled"></app-input-custom-v2>
         </div>
       </div>
+      <div class="flex gap-2">&nbsp;</div>
 
       <div class="flex gap-2">
         <app-input-custom-v2

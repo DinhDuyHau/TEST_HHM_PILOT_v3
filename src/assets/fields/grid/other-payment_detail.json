@@ -17,6 +17,11 @@
     "width": 220
   },
   {
+    "name": "ma_td1",
+    "title": "Tài khoản",
+    "width": 100
+  },
+  {
     "name": "dien_giai",
     "title": "Ghi chú",
     "width": 220
