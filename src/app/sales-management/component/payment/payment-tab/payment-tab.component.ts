@@ -139,7 +139,7 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
         case PAYMENT_CODE.TRANSFER:
           return { payment: item.ten_thanhtoan, note: `${item.ten_ngan_hang}`, money: item.tien };
         case PAYMENT_CODE.ATM:
-          return { payment: `Quẹt thẻ tại Công ty - post ${item.ma_may_pos}`, note: `Mã chuẩn chi: ${item.ma_chuan_chi}, Số thẻ: ${item.so_the_nh}`, money: item.tien };
+          return { payment: `Quẹt thẻ tại Công ty - post ${item.ma_may_pos}, ${item.ten_may_pos}`, note: `Mã chuẩn chi: ${item.ma_chuan_chi}, Số thẻ: ${item.so_the_nh}`, money: item.tien };
         case PAYMENT_CODE.EWALLET:
           return { payment: item.ten_thanhtoan, note: `${item.vi_dien_tu}, Số HĐ: ${item.so_hd_vnpay}`, money: item.tien };
         case PAYMENT_CODE.VNPAY:

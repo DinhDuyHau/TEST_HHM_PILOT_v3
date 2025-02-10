@@ -40,6 +40,7 @@ export class PaymentRequest extends BaseEntity {
     so_the_nh = '';
     ma_chuan_chi = '';
     ma_may_pos = '';
+    ten_may_pos = '';
     tk_nh_nhan = '';
     so_hd_vnpay = '';
     vi_dien_tu = '';
@@ -170,6 +171,7 @@ export class CardDetail extends BaseModelPayment {
     so_the = '';
     ma_chuan_chi = '';
     ma_may_pos = '';
+    ten_may_pos = '';
     tk_nh_nhan = '';
 }
 export class TransferDetail extends BaseModelPayment {
