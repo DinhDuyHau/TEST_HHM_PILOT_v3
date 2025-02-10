@@ -15,6 +15,7 @@ const UPDATE_STATE_IMEI_URL = `${environment.apiUrl}/imei/upsaleorder`;
 const GET_IMEI_STATE_URL = `${environment.apiUrl}/imei/getstate`;
 const GET_IMEI_STATE_AND_ITEM_URL = `${environment.apiUrl}/imei/get_state_and_item`;
 const GET_SOLD_INFO_IMEI_URL = `${environment.apiUrl}/imei/soldinfo`;
+const GET_SOLD_INFO_IMEI_CHANGE_ITEM_URL = `${environment.apiUrl}/imei/soldinfo_change_item`;
 const GET_SOLD_INFO_RETURN_IMEI_URL = `${environment.apiUrl}/imei/soldinfo_return`;
 const GET_IMEI_PROMOTIONS_URL = `${environment.apiUrl}/imei/change-gift-promotions`;
 const FIND_BY_PREFIX_URL = `${environment.apiUrl}/imei/find_by_prefix`;
@@ -90,6 +91,16 @@ export class ImeiApiService extends ApiService {
         }
         else {
             return this.get<ResultNoPaging<Imei>>(GET_SOLD_INFO_IMEI_URL, { ma_imei, ma_cuahang, ma_ct, rate, tien_giam, loai_tra_lai, tra_lai_cod });
+        }
+    }
+
+    getSoldInfoChangeItem(ma_imei: string, ma_cuahang: string, ma_ct = '', rate = -1, tien_giam = 0, loai_tra_lai = '', tra_lai_cod = false): Observable<ResultNoPaging<Imei>> {
+        ma_imei = encodeURIComponent(ma_imei);
+        if (rate == -1 && tien_giam == 0) {
+            return this.get<ResultNoPaging<Imei>>(GET_SOLD_INFO_IMEI_CHANGE_ITEM_URL, { ma_imei, ma_cuahang, ma_ct, loai_tra_lai, tra_lai_cod });
+        }
+        else {
+            return this.get<ResultNoPaging<Imei>>(GET_SOLD_INFO_IMEI_CHANGE_ITEM_URL, { ma_imei, ma_cuahang, ma_ct, rate, tien_giam, loai_tra_lai, tra_lai_cod });
         }
     }
 

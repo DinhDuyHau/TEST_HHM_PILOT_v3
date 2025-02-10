@@ -156,6 +156,9 @@ export class SaleChangeService {
         return this.imeiApiService.getSoldInfo(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.CHANGE);
     }
 
+    getSoldInfoChangeItem(imei: string) {
+        return this.imeiApiService.getSoldInfoChangeItem(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.CHANGE);
+    }
 
     getMerchandiseInfo(ma_vt: string) {
         return this.merchandiseApiService.getOneById(ma_vt);
