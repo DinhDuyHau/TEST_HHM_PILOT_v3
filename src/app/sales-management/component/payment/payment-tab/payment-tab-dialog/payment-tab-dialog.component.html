@@ -92,7 +92,7 @@
             *ngIf="!(pay_hidden && pay_hidden.includes('quet_the_tra_gop'))"
             [disabled]="readonly"
             name="quet_the_tra_gop"
-            label="Quẹt thẻ trả góp"
+            label="Quẹt thẻ trả góp qua ngân hàng"
             [selected]="data.quet_the_tra_gop.selected"
             (handleChangeValue)="
               data.quet_the_tra_gop.selected = $event; onChange()
@@ -493,7 +493,7 @@
             [disabled]="readonly"
             *ngIf="!(pay_hidden && pay_hidden.includes('tra_gop'))"
             name="tra_gop"
-            label="Trả góp"
+            label="Trả góp thẩm định qua công ty tài chính"
             [selected]="data.tra_gop.selected"
             (handleChangeValue)="data.tra_gop.selected = $event; onChange()">
             <form-payment-custom
