@@ -805,7 +805,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     if (!this.renew.gia_mua) {
       return 'Chưa nhập giá mua';
     }
-    if(this.ticket.merchandise.length > 0) {
+    if (this.ticket.merchandise.length > 0) {
       return 'Loại giao dịch 3 chỉ được 1 imei trên phiếu';
     }
     return null;
