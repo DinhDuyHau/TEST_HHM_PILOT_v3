@@ -2,12 +2,17 @@ import { Injectable } from '@angular/core';
 import { CardDetail, DepositDetail, DiscountCodeCRMDetail, EWalletDetail, PAYMENT_CODE, PAYMENT_NAME, Payment, TransferDetail, VNPayDetail } from '@app/sales-management/model/ticket/common-model/payment.model';
 import { PaymentRequest } from '@app/sales-management/model/ticket/common-model/payment.model';
 import { CommonService } from './common.service';
+import { POSService } from '@app/sales-management/api/pos-api.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class PaymentService {
-    constructor(private commonService: CommonService) { }
+    constructor(
+        private commonService: CommonService,
+        private posService: POSService
+    ) { }
+
     comparePaymenCode(val1: string, val2: string) {
         return val1.replace(/\s+/g, '') === val2.replace(/\s+/g, '');
     }
@@ -19,7 +24,7 @@ export class PaymentService {
         let eWalletDetail = new EWalletDetail;
         let vnpayDetail = new VNPayDetail;
         let transferDetail = new TransferDetail;
-        src.forEach(e => {
+        src.map(async (e) => {
             const ma_thanhtoan = e.ma_thanhtoan.replace(/\s+/g, '');
             switch (ma_thanhtoan) {
                 case PAYMENT_CODE.DEPOSIT:
@@ -46,6 +51,16 @@ export class PaymentService {
                     cardDetail.ma_may_pos = e.ma_may_pos;
                     cardDetail.tien = e.tien;
                     cardDetail.tk_nh_nhan = e.tk_nh_nhan;
+                    // des.quet_the.detail.push(cardDetail);
+                    // des.quet_the.selected = true;
+
+                    const response = await this.posService.getOneById(e.ma_may_pos).toPromise();
+                    if (response?.success && response.result) {
+                        const res = response.result as any;
+                        cardDetail.ten_may_pos = res.ten_pos || '';
+                    } else {
+                        cardDetail.ten_may_pos = '';
+                    }
                     des.quet_the.detail.push(cardDetail);
                     des.quet_the.selected = true;
 
