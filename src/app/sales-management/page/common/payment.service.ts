@@ -2,17 +2,12 @@ import { Injectable } from '@angular/core';
 import { CardDetail, DepositDetail, DiscountCodeCRMDetail, EWalletDetail, PAYMENT_CODE, PAYMENT_NAME, Payment, TransferDetail, VNPayDetail } from '@app/sales-management/model/ticket/common-model/payment.model';
 import { PaymentRequest } from '@app/sales-management/model/ticket/common-model/payment.model';
 import { CommonService } from './common.service';
-import { POSService } from '@app/sales-management/api/pos-api.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class PaymentService {
-    constructor(
-        private commonService: CommonService,
-        private posService: POSService
-    ) { }
-
+    constructor(private commonService: CommonService) { }
     comparePaymenCode(val1: string, val2: string) {
         return val1.replace(/\s+/g, '') === val2.replace(/\s+/g, '');
     }
@@ -24,7 +19,7 @@ export class PaymentService {
         let eWalletDetail = new EWalletDetail;
         let vnpayDetail = new VNPayDetail;
         let transferDetail = new TransferDetail;
-        return Promise.all(src.map(async (e) => {
+        src.forEach(e => {
             const ma_thanhtoan = e.ma_thanhtoan.replace(/\s+/g, '');
             switch (ma_thanhtoan) {
                 case PAYMENT_CODE.DEPOSIT:
@@ -49,7 +44,7 @@ export class PaymentService {
                     cardDetail.so_the = e.so_the_nh;
                     cardDetail.ma_chuan_chi = e.ma_chuan_chi;
                     cardDetail.ma_may_pos = e.ma_may_pos;
-                    cardDetail.ten_may_pos = await this.getTenMayPos(e.ma_may_pos);
+                    cardDetail.ten_may_pos = e.ten_may_pos || '';
                     cardDetail.tien = e.tien;
                     cardDetail.tk_nh_nhan = e.tk_nh_nhan;
                     des.quet_the.detail.push(cardDetail);
@@ -138,7 +133,7 @@ export class PaymentService {
                 default:
                     break;
             }
-        }));
+        });
     };
 
     convertPaymentRequest = (src: Payment) => {
@@ -216,7 +211,7 @@ export class PaymentService {
                         so_the_nh: element.so_the,
                         ma_chuan_chi: element.ma_chuan_chi,
                         ma_may_pos: element.ma_may_pos,
-                        ten_may_pos: element.ten_may_pos,
+                        ten_may_pos: element.ten_may_pos || '',
                         tk_nh_nhan: element.tk_nh_nhan
                     }),
                 ];
@@ -356,17 +351,4 @@ export class PaymentService {
         this.commonService.updateBaseInfo(masterInfo, result);
         return result;
     };
-
-    async getTenMayPos(maMayPos: string): Promise<string> {
-        try {
-            const response = await this.posService.getOneById(maMayPos).toPromise();
-            if (response?.success && response.result) {
-                const res = response.result as any;
-                return res.ten_pos || '';
-            }
-        } catch {
-            return '';
-        }
-        return '';
-    }
 }
