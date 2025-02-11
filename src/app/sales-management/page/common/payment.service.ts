@@ -24,7 +24,7 @@ export class PaymentService {
         let eWalletDetail = new EWalletDetail;
         let vnpayDetail = new VNPayDetail;
         let transferDetail = new TransferDetail;
-        src.map(async (e) => {
+        return Promise.all(src.map(async (e) => {
             const ma_thanhtoan = e.ma_thanhtoan.replace(/\s+/g, '');
             switch (ma_thanhtoan) {
                 case PAYMENT_CODE.DEPOSIT:
@@ -49,18 +49,9 @@ export class PaymentService {
                     cardDetail.so_the = e.so_the_nh;
                     cardDetail.ma_chuan_chi = e.ma_chuan_chi;
                     cardDetail.ma_may_pos = e.ma_may_pos;
+                    cardDetail.ten_may_pos = await this.getTenMayPos(e.ma_may_pos);
                     cardDetail.tien = e.tien;
                     cardDetail.tk_nh_nhan = e.tk_nh_nhan;
-                    // des.quet_the.detail.push(cardDetail);
-                    // des.quet_the.selected = true;
-
-                    const response = await this.posService.getOneById(e.ma_may_pos).toPromise();
-                    if (response?.success && response.result) {
-                        const res = response.result as any;
-                        cardDetail.ten_may_pos = res.ten_pos || '';
-                    } else {
-                        cardDetail.ten_may_pos = '';
-                    }
                     des.quet_the.detail.push(cardDetail);
                     des.quet_the.selected = true;
 
@@ -147,7 +138,7 @@ export class PaymentService {
                 default:
                     break;
             }
-        });
+        }));
     };
 
     convertPaymentRequest = (src: Payment) => {
@@ -365,4 +356,17 @@ export class PaymentService {
         this.commonService.updateBaseInfo(masterInfo, result);
         return result;
     };
+
+    async getTenMayPos(maMayPos: string): Promise<string> {
+        try {
+            const response = await this.posService.getOneById(maMayPos).toPromise();
+            if (response?.success && response.result) {
+                const res = response.result as any;
+                return res.ten_pos || '';
+            }
+        } catch {
+            return '';
+        }
+        return '';
+    }
 }
