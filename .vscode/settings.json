@@ -4,18 +4,18 @@
     "@env": "${workspaceRoot}/src/environments/environment"
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "[typescript]": {
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "[html]": {
-    "editor.formatOnSave": false
+    "editor.formatOnSave": true
   },
   "[json]": {
-    "editor.formatOnSave": false
+    "editor.formatOnSave": true
   },
-  "eslint.alwaysShowStatus": false,
+  "eslint.alwaysShowStatus": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   }
