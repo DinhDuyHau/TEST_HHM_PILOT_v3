@@ -402,7 +402,9 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
             }
           }
           else {
-            this.commonService.showMessageByName(item.message);
+            const msg = this.commonService.getMessage('lblDatabaseWarningMessage', [item.message]);
+            this.commonService.showMessage(msg);
+            //this.commonService.showMessageByName(item.message);
           }
         }
       });
