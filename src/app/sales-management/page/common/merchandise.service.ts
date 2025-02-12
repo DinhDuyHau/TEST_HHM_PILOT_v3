@@ -720,6 +720,7 @@ export class MerchandiseService {
             rs.stt_rec0hd = merchandise.stt_rec0;
             rs.hd_so = merchandise.so_ct || '';
             rs.s7 = merchandise.ngay_ct || '';
+            rs.no_km_yn = merchandise.km_yn == 1 ? true : false;
 
             // Kiểm tra nếu có truyền mảng ext và tìm đối tượng trong ext có stt_rec giống với stt_rec_dh1 của merchandise
             if (ext.length > 0) {
