@@ -431,7 +431,7 @@ export class RetailService {
         const merchandise = this.ticket.merchandise.filter(x => !x.km_yn);
         const service = this.ticket.service;
         if (this.isNeedCalcDiscount) {
-            return this.discountApiService.getDiscountForTicket(entity, merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck);
+            return this.discountApiService.getDiscountForTicket(entity, merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck, TICKET_CODE.RETAIL);
         }
         return;
     }
@@ -452,7 +452,7 @@ export class RetailService {
                 discount.loai_ck === DISCOUNT_TYPE.CROSS_SELLING ||
                 discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO ||
                 discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT ||
-                discount.loai_ck === '09'
+                discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK
             ) {
                 if (discount.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && row_item) {
                     //Nếu chọn chiết khấu ngoại giao thì cần phải chọn dòng trong grid hàng hóa để áp dụng ck
@@ -671,6 +671,9 @@ export class RetailService {
         }
         else if (ticket.discount.find(x => x.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER) && ((!ticket.masterInfo.nguoi_duyet_ck) || (ticket.masterInfo.nguoi_duyet_ck.trim() === ''))) {
             message = this.commonService.getMessage('lbl_invalid_ck04');
+        }
+        else if (ticket.masterInfo.dien_giai.length > 250) {
+            message = 'Diễn giải không được vượt quá 250 ký tự';
         }
         return message;
     }

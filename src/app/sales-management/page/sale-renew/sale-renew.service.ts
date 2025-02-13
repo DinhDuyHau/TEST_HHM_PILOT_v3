@@ -351,7 +351,7 @@ export class SaleRenewService {
             //lấy giá bán theo giá niêm yết để tính chiết khấu
             renew_merchandise.forEach(x => x.gia_ban = x.s4);
 
-            return this.discountApiService.getDiscountForTicket(entity, renew_merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck);
+            return this.discountApiService.getDiscountForTicket(entity, renew_merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck, TICKET_CODE.RENEW);
         }
         return;
     }
@@ -539,6 +539,9 @@ export class SaleRenewService {
         }
         else if (ticket.discount.find(x => x.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER) && ((!ticket.masterInfo.nguoi_duyet_ck) || (ticket.masterInfo.nguoi_duyet_ck.trim() === ''))) {
             message = this.commonService.getMessage('lbl_invalid_ck04');
+        }
+        else if (ticket.masterInfo.dien_giai.length > 250) {
+            message = 'Diễn giải không được vượt quá 250 ký tự';
         }
         return message;
     }

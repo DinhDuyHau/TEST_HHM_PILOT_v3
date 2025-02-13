@@ -37,10 +37,11 @@
       <form-input-custom
         class="box order-dynamic-2"
         [name]="'ma_kh'"
-        [label]="getLabel('lbl_ma_kh')"
+        [label]="this.ma_kh_label"
         [value]="ticket.masterInfo.ma_kh"
         [readonly]="readonly"
         [invalid]="invalid"
+        [fireChangeWhenBlur]="false"
         (handleChangeValue)="onEnterCustomerCode($event)"
         (handleClickOpenDialog)="openSearchCustomerDialog()"
         (handleUploadImage)="openUploadImage()"
@@ -154,7 +155,8 @@
           (handleUpdate)="onUpdateService($event)"
           (handleChangeCheckbox)="onChangePromotionalDebt($event)"
           (handleAddPackage)="onAddPackage($event)"
-          (handleSwap)="onSwapPromotionMerchandise($event)" />
+          (handleSwap)="onSwapPromotionMerchandise($event)"
+          (handleDeleteDiscount09)="handleRemoveDiscout09($event)" />
       </tab-custom>
       <tab-custom label="Dịch vụ" class="w-100">
         <table-custom

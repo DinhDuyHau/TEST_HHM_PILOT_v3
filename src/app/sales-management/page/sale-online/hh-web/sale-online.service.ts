@@ -336,7 +336,7 @@ export class SaleOnlineService {
         const merchandise = this.ticket.merchandise.filter(x => !x.km_yn);
         const service = this.ticket.service;
         if (this.isNeedCalcDiscount) {
-            return this.discountApiService.getDiscountForTicket(entity, merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck);
+            return this.discountApiService.getDiscountForTicket(entity, merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck, TICKET_CODE.ONLINE);
         }
         return;
     }
@@ -459,7 +459,6 @@ export class SaleOnlineService {
         if (type == 0) {
             // Thực hiện cập nhật tiền cho chi tiết vật tư, chi tiết dịch vụ (bao gồm giá, chiết khấu, thuế, thành tiền)
             this.merchandiseService.updatePriceForMerchandiseOnline(this.ticket, this.ticket.merchandise, this.ticket.service);
-            console.log(this.ticket.merchandise);
         }
 
         // Tính tổng tiền của chi tiết vật tư
@@ -517,6 +516,8 @@ export class SaleOnlineService {
             message = this.commonService.getMessage('lbl_invalid_t_da_tra');
         } else if (ticket.discount.find(x => x.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER) && ((!ticket.masterInfo.nguoi_duyet_ck) || (ticket.masterInfo.nguoi_duyet_ck.trim() === ''))) {
             message = this.commonService.getMessage('lbl_invalid_ck04');
+        } else if (ticket.masterInfo.dien_giai.length > 250) {
+            message = 'Diễn giải không được vượt quá 250 ký tự';
         }
         return message;
     }

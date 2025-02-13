@@ -44,6 +44,7 @@ export class PaymentService {
                     cardDetail.so_the = e.so_the_nh;
                     cardDetail.ma_chuan_chi = e.ma_chuan_chi;
                     cardDetail.ma_may_pos = e.ma_may_pos;
+                    cardDetail.ten_may_pos = e.ten_may_pos || '';
                     cardDetail.tien = e.tien;
                     cardDetail.tk_nh_nhan = e.tk_nh_nhan;
                     des.quet_the.detail.push(cardDetail);
@@ -210,6 +211,7 @@ export class PaymentService {
                         so_the_nh: element.so_the,
                         ma_chuan_chi: element.ma_chuan_chi,
                         ma_may_pos: element.ma_may_pos,
+                        ten_may_pos: element.ten_may_pos || '',
                         tk_nh_nhan: element.tk_nh_nhan
                     }),
                 ];

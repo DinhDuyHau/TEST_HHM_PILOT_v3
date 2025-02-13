@@ -175,6 +175,13 @@
             "align": "center"
         },
         {
+            "name": "sl_td1",
+            "title": "Giá theo bảng giá",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
             "name": "s4",
             "title": "Giá (Full VAT)",
             "format": "moneyViewNoDigit",
@@ -436,7 +443,7 @@
     {
       "name": "tl_ck09",
       "title": "%CK hạng thành viên",
-      "format": "moneyViewNoDigit",
+      "format": "moneyView2Digit",
       "align": "right",
       "dataType": "number"
     },
@@ -502,13 +509,6 @@
         "dataType": "number"
     },
     {
-        "name": "tien_ck",
-        "title": "Tiền chiết khấu",
-        "format": "moneyViewNoDigit",
-        "align": "right",
-        "dataType": "number"
-    },
-    {
       "name": "gia_ck",
       "title": "Giá bán",
       "format": "moneyView2Digit",
@@ -537,6 +537,27 @@
       "name": "tien_thue",
       "title": "Tiền thuế",
       "format": "moneyView2Digit",
+      "align": "right",
+      "dataType": "number"
+    },
+    {
+        "name": "tien_ck",
+        "title": "Tiền chiết khấu",
+        "format": "moneyViewNoDigit",
+        "align": "right",
+        "dataType": "number"
+    },
+    {
+      "name": "tl_ck09",
+      "title": "%CK hạng thành viên",
+      "format": "moneyView2Digit",
+      "align": "right",
+      "dataType": "number"
+    },
+    {
+      "name": "tien_ck09",
+      "title": "Tiền CK hạng thành viên",
+      "format": "moneyViewNoDigit",
       "align": "right",
       "dataType": "number"
     },
@@ -834,13 +855,6 @@
             "dataType": "number"
         },
         {
-            "name": "tien_ck",
-            "title": "Tiền chiết khấu",
-            "format": "moneyViewNoDigit",
-            "align": "right",
-            "dataType": "number"
-        },
-        {
             "name": "gia_ban",
             "title": "Giá bán",
             "format": "moneyView2Digit",
@@ -870,6 +884,27 @@
             "name": "tien_thue",
             "title": "Tiền thuế",
             "format": "moneyView2Digit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tien_ck",
+            "title": "Tiền chiết khấu",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tl_ck09",
+            "title": "%CK hạng thành viên",
+            "format": "moneyView2Digit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tien_ck09",
+            "title": "Tiền CK hạng thành viên",
+            "format": "moneyViewNoDigit",
             "align": "right",
             "dataType": "number"
         },
@@ -2494,12 +2529,30 @@
             "isPrimaryKey": true
         },
         {
+            "name": "ma_cuahang",
+            "title": "Mã cửa hàng"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
         {
             "name": "ten_kh",
             "title": "Tên khách hàng"
+        },
+        {
+            "name": "ngay_ct",
+            "title": "Ngày tạo",
+            "format": "datetimeFormat",
+            "dataType": "date",
+            "align": "center"
+        },
+        {
+            "name": "t_tt_nt",
+            "title": "Tổng tiền",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
         }
     ],
     "WAREHOUSE_LIST": [

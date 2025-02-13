@@ -34,6 +34,7 @@ export class BaseMerchandise {
     tien_kb09 = 0; // tiền ck 09
     tien_max09 = 0; // tiền max ck 09
     tien_ck09 = 0; // tiền ck được hưởng 09
+    tl_ck_sau_vat09 = 0; // tỉ lệ ck sau vat 09
 }
 
 

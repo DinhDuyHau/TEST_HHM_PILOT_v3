@@ -33,4 +33,5 @@ export class Control {
     isChoose?: boolean = false;
     linkName?: string = '';
     checked?: boolean = true;
+    readonly?: boolean = false;
 }

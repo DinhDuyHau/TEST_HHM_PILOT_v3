@@ -216,7 +216,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
     //   this.commonService.showMessage('Cần nhập mã khách trước khi nhập imei');
     //   return;
     // }
-    this.saleChangeService.getSoldInfo(ma_imei).subscribe((result: any) => {
+    this.saleChangeService.getSoldInfoChangeItem(ma_imei).subscribe((result: any) => {
       if (result && result.success && result.result && result.result.details) {
         if (!this.ticket.masterInfo.ma_kh) {
           this.onEnterCustomerCode(result.result.masterInfo.ma_kh);
@@ -265,6 +265,10 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   }
 
   onEnterImeiChangeCode(ma_imei: string) {
+    if(this.ticket.merchandise_return.length == 0) {
+      this.commonService.showMessage('Cần nhập IMEI trả trước khi nhập IMEI đổi');
+      return;
+    }
     if (this.merchandiseService.checkImeiExistMerchandise(ma_imei, this.ticket.merchandise_change)) {
       this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: ma_imei });
       return;

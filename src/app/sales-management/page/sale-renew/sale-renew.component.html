@@ -26,7 +26,7 @@
       <form-input-custom
         class="box order-dynamic-2"
         [name]="'ma_kh'"
-        [label]="getLabel('lbl_ma_kh')"
+        [label]="this.ma_kh_label"
         [value]="ticket.masterInfo.ma_kh"
         [disabled]="readonly"
         [invalid]="invalid"
@@ -109,6 +109,7 @@
             [value]="renew.ma_imei"
             [fireChangeWhenBlur]="false"
             (handleChangeValue)="onChangeImei($event)"
+            (handleEnterInput)="onChangeImei($event)"
             (handleClickCodeScanner)="onClickImeiOldMerchandiseCodeScanner()"
             [invalid]="invalidMerchandiseInput.imei_used"
             [uploadImage]="true" />
@@ -121,6 +122,7 @@
               [controller]="'dmvt'"
               [value]="renew.ma_vt"
               [invalid]="invalidMerchandiseInput.ma_vt"
+              [disabled]="!isValidItemOld"
               (handleBlur)="onBlurTypeMerchandiseCode($event)"
               (handleEnterInput)="onEnterTypeMerchandiseCode($event)"
               (handleClickOpenDialog)="openTypeMerchandiseDialog()" />
@@ -221,7 +223,8 @@
           (handleAdd)="onAddService($event)"
           (handleChangeCheckbox)="onChangePromotionalDebt($event)"
           (handleAddPackage)="onAddPackage($event)"
-          (handleSwap)="onSwapPromotionMerchandise($event)" />
+          (handleSwap)="onSwapPromotionMerchandise($event)"
+          (handleDeleteDiscount09)="handleRemoveDiscout09($event)" />
       </tab-custom>
       <tab-custom label="Dịch vụ" class="w-100">
         <table-custom
@@ -357,7 +360,7 @@
             format="moneyViewFormat"
             dataType="number" />
           <form-input-custom
-            class="box"
+            class="flex-1"
             [disabled]="true"
             [label]="getLabel('lbl_thue')"
             [align]="'end'"

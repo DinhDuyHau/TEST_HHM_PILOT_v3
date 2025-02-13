@@ -6,7 +6,7 @@
       class="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-x-10 gap-y-1 lg:gap-y-2 pb-2 px-2 lg:px-0">
       <div>
         <app-input-custom-v2
-          [label]="'Mã khách'"
+          [label]="this.label.ma_kh"
           class="flex-1"
           [disabled]="disabled_ma_kh"
           (handleEnter)="onEnter($event)"
@@ -17,9 +17,9 @@
       </div>
       <div>
         <app-input-custom-v2
-          [label]="'Tên khách'"
+          [label]="this.label.ten_kh"
           class="flex-1"
-          [disabled]="disabled"
+          [disabled]="disabled_ma_kh"
           (handleEnter)="onEnter($event)"
           name="ten_kh"
           [invalid]="submitted && checkInvalid('ten_kh')"
@@ -48,7 +48,7 @@
       </div>
       <div>
         <app-input-custom-v2
-          [label]="'Địa chỉ'"
+          [label]="this.label.address"
           class="flex-1"
           [disabled]="disabled"
           (handleEnter)="onEnter($event)"
@@ -58,7 +58,7 @@
       </div>
       <div>
         <app-input-custom-v2
-          [label]="'Số điện thoại'"
+          [label]="this.label.sdt"
           class="flex-1"
           [disabled]="disabled"
           (handleEnter)="onEnter($event)"
@@ -73,7 +73,7 @@
           class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-x-10 gap-y-1 lg:gap-y-1 pb-2 px-2 lg:px-0">
           <div>
             <app-input-custom-v2
-              [label]="'Ngày sinh'"
+              [label]="this.label.birthday"
               class="flex-1"
               [disabled]="disabled"
               (handleEnter)="onEnter($event)"
@@ -118,7 +118,7 @@
           </div>
           <div>
             <app-input-custom-v2
-              [label]="'Thư điện tử (Email)'"
+              [label]="this.label.email"
               class="flex-1"
               [disabled]="disabled"
               (handleEnter)="onEnter($event)"

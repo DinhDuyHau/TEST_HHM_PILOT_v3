@@ -94,6 +94,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   ma_imei = '';
   table_name = '';
   ma_kh_label = 'Mã khách';
+  addOrUpdateCustomer = 'create';
 
   constructor(
     private router: Router,
@@ -280,6 +281,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
             this.ticket.masterInfo.ma_kh = ma_kh_old;
             return;
           }
+          // xóa và reset ck 09 khi xác nhận => reset
+          this.resetDiscount09();
         });
     }
 
@@ -316,17 +319,26 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.customerApiService.getOneById(ma_kh).subscribe(result => {
       if (result.success && result.result) {
         const customer: any = result.result;
-        this.handleAddCustomer(customer);
 
         this.ticketApiService.getRankCustomer({ ma_kh: customer.ma_kh }).subscribe(result => {
           const { ma_hang, mau_chu, tl_tich_diem } = result.result as any;
-          this.ticket.masterInfo.ma_hang = ma_hang;
-          this.ticket.masterInfo.tl_tich_diem = tl_tich_diem;
+          this.ticket.masterInfo.ma_hang = ma_hang || '';
+          this.ticket.masterInfo.tl_tich_diem = tl_tich_diem || 0;
           this.generateLabelWithColor(ma_hang, mau_chu);
+          this.handleAddCustomer(customer);
+
+          // Kiểm tra điều kiện mở dialog
+          if (this.commonService.shouldOpenDialog(customer)) {
+            // mở dialog add khách hàng nhưng ở chế độ update
+            this.addOrUpdateCustomer = 'update';
+            this.openAddCustomerDialog(customer.ma_kh);
+          }
         });
+
       } else {
         this.commonService.showMessageByContent(Language.content.exists_customer_yn_no, ma_kh);
         this.retailService.resetCustomerInfo(this.ticket);
+        this.addOrUpdateCustomer = 'create';
         this.openAddCustomerDialog(ma_kh);
       }
     });
@@ -337,20 +349,27 @@ export class RetailComponent implements OnInit, AfterViewInit {
       { keyword: '', componentName: SEARCH_COMPONENT_NAME.CUSTOMER, title: this.getLabel('tlt_customer_list') }, 'search-style-dialog')
       .afterClosed()
       .subscribe((customer: Customer) => {
-        customer && this.handleAddCustomer(customer)
-
         customer && this.ticketApiService.getRankCustomer({ ma_kh: customer.ma_kh }).subscribe(result => {
           const { ma_hang, mau_chu, tl_tich_diem } = result.result as any;
-          this.ticket.masterInfo.ma_hang = ma_hang;
-          this.ticket.masterInfo.tl_tich_diem = tl_tich_diem;
+          this.ticket.masterInfo.ma_hang = ma_hang || '';
+          this.ticket.masterInfo.tl_tich_diem = tl_tich_diem || 0;
           this.generateLabelWithColor(ma_hang, mau_chu);
+          this.handleAddCustomer(customer);
+
+          // Kiểm tra điều kiện mở dialog
+          if (this.commonService.shouldOpenDialog(customer)) {
+            // mở dialog add khách hàng nhưng ở chế độ update
+            this.addOrUpdateCustomer = 'update';
+            this.openAddCustomerDialog(customer.ma_kh);
+          }
         });
+
       });
   }
 
   // click button thêm khách hàng
   openAddCustomerDialog(ma_kh = ''): void {
-    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh }, 'fullscreen-dialog')
+    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh, addOrUpdate: this.addOrUpdateCustomer }, 'fullscreen-dialog')
       .afterClosed()
       .subscribe((customer: Customer) => {
         customer && this.retailService.setInfoCustomer(customer);
@@ -562,11 +581,14 @@ export class RetailComponent implements OnInit, AfterViewInit {
   handleRemoveMerchandise(merchandise: Merchandise) {
     if (merchandise.km_yn) {
       this.retailService.removePromotionMechandise(merchandise);
+      // tính lại tiền khi xóa hàng khuyến mại
+      this.retailService.calcMoney();
     } else {
       this.retailService.removeMerchandise(merchandise);
       this.handleCheckDeposit(merchandise.ma_vt, false);
       this.retailService.setIsNeedCalcDiscount(true);
       this.handleRemoveDiscountProgram(merchandise.ma_imei);
+      this.removeDiscount09(merchandise.ma_imei);
     }
   }
   handleRemoveDiscountProgram(ma_imei: string) {
@@ -659,7 +681,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
       this.commonService.showMessageByName('lblWarningNotDeleteDiscountGift');
       return;
     }
-    if (event.item.loai_ck === '09') {
+    if (event.item.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK) {
       this.commonService.showMessage('Không thể xóa chiết khấu hạng khách hàng');
       return;
     }
@@ -981,27 +1003,36 @@ export class RetailComponent implements OnInit, AfterViewInit {
     return totalPayment != (tienConNo + tienDaTra);
   }
 
-  /*
-  * Xử lý ck 09
-  */
+  //#region Chiết khấu 09
   applyDiscount09ForMerchandise(merchandiseResponse: any) {
-    const ma_kh = this.ticket.masterInfo.ma_kh.trim();
-    const ma_hang = this.ticket.masterInfo.ma_hang.trim();
+    const ma_kh = this.ticket.masterInfo.ma_kh ? this.ticket.masterInfo.ma_kh.trim() : '';
+    const ma_hang = this.ticket.masterInfo.ma_hang ? this.ticket.masterInfo.ma_hang.trim() : '';
     const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
-    const ma_imei = merchandiseResponse.ma_imei.trim();
-    const ma_vt = merchandiseResponse.ma_vt.trim();
+    const ma_imei = merchandiseResponse.ma_imei ? merchandiseResponse.ma_imei.trim() : '';
+    const ma_vt = merchandiseResponse.ma_vt ? merchandiseResponse.ma_vt.trim() : '';
 
     this.imeiApiService.getDiscountRankCustomer(ma_kh, ma_hang, ngay_ct, ma_imei, ma_vt, TICKET_CODE.RETAIL).subscribe((res: any) => {
       if (res.success && res.result) {
         const discount = res.result[0] as any;
         // add vào tab ck
-        if(discount) {
+        if (discount) {
           this.discountService.addNew([discount], this.ticket.discount);
         }
-        // tính lại tiền
+        // tính lại tiền khi có ck
+        this.retailService.calcMoney();
+      } else {
+        // tính lại tiền khi ko có ck
         this.retailService.calcMoney();
       }
     });
+
+  }
+
+  removeDiscount09(ma_imei: string) {
+    this.ticket.discount = this.ticket.discount.filter(item => item.ma_imei.trim().toUpperCase() !== ma_imei.trim().toUpperCase());
+
+    // tính lại tiền
+    this.retailService.calcMoney();
   }
 
   /*
@@ -1030,6 +1061,61 @@ export class RetailComponent implements OnInit, AfterViewInit {
 
     this.ma_kh_label = this.sanitizer.bypassSecurityTrustHtml(html) as string;
   }
+
+  resetDiscount09() {
+    this.ticket.discount = this.ticket.discount.filter(item => item.loai_ck !== DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK);
+
+    this.ticket.merchandise.map(item => {
+      this.applyDiscount09ForMerchandise(item);
+
+      item.tl_ck09 = 0;
+      item.tien_kb09 = 0;
+      item.tien_max09 = 0;
+      item.tien_ck09 = 0;
+      item.tl_ck_sau_vat09 = 0;
+    })
+  }
+
+  handleRemoveDiscout09(event: { item: string }) {
+    const msg_confirm_change = 'Bạn có chắc chắn xóa chiết khấu hạng thành viên !';
+    this.commonService.openDialog(DialogConfirmComponent, { title: msg_confirm_change, style_css: 'font-size:16px;' })
+      .afterClosed().subscribe(result => {
+        if (!result) {
+          return;
+        }
+        // xóa ck 09 khi xác nhận
+        this.resetDiscount09ByImei(event);
+      });
+  }
+
+  resetDiscount09ByImei(event: { item: string }) {
+    const merchandise = event.item as any;
+    const ma_imei = merchandise.ma_imei || '';
+    const ma_hang_backup = this.ticket.masterInfo.ma_hang || '';
+
+    this.ticket.discount = this.ticket.discount.filter(item => !(item.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK
+      && item.ma_imei && item.ma_imei.trim().toLowerCase() === ma_imei.trim().toLowerCase())
+    );
+
+    // set bằng rỗng ma_hang
+    this.ticket.masterInfo.ma_hang = '';
+
+    this.ticket.merchandise.map(item => {
+      if (item.ma_imei && item.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase()) {
+        this.applyDiscount09ForMerchandise(item);
+
+        item.tl_ck09 = 0;
+        item.tien_kb09 = 0;
+        item.tien_max09 = 0;
+        item.tien_ck09 = 0;
+        item.tl_ck_sau_vat09 = 0;
+      }
+    })
+
+    // nếu vẫn còn áp dụng ck 09 thì gán ngược lại mã cũ
+    this.ticket.masterInfo.ma_hang = ma_hang_backup;
+  }
+  //#endregion
 }
 
 

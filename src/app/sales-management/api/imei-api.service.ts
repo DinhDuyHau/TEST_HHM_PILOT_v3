@@ -5,6 +5,7 @@ import { Result, ResultNoPaging } from '@app/_models/Result';
 import { Observable, catchError, of } from 'rxjs';
 import { ImeiInfo, ImeiState } from '../model/dto/imei-state.dto';
 import { Imei } from '../model/common/imei.model';
+import { formatDate } from '@angular/common';
 
 const GET_MANY_URL = `${environment.apiUrl}/Category/find/imei`;
 const GET_ONE_URL = `${environment.apiUrl}/imei/getinstore`;
@@ -15,6 +16,8 @@ const UPDATE_STATE_IMEI_URL = `${environment.apiUrl}/imei/upsaleorder`;
 const GET_IMEI_STATE_URL = `${environment.apiUrl}/imei/getstate`;
 const GET_IMEI_STATE_AND_ITEM_URL = `${environment.apiUrl}/imei/get_state_and_item`;
 const GET_SOLD_INFO_IMEI_URL = `${environment.apiUrl}/imei/soldinfo`;
+const GET_SOLD_INFO_IMEI_CHANGE_ITEM_URL = `${environment.apiUrl}/imei/soldinfo_change_item`;
+const GET_SOLD_INFO_RETURN_IMEI_URL = `${environment.apiUrl}/imei/soldinfo_return`;
 const GET_IMEI_PROMOTIONS_URL = `${environment.apiUrl}/imei/change-gift-promotions`;
 const FIND_BY_PREFIX_URL = `${environment.apiUrl}/imei/find_by_prefix`;
 const GET_DISCOUNT_RANK_CUSTOMER = `${environment.apiUrl}/imei/discount_rank_customer`;
@@ -46,8 +49,10 @@ export class ImeiApiService extends ApiService {
     getImeiRenew(ma_imei: string, ma_cuahang: string, ma_ncc: string, list_vt: string[], imei_thu_cu: string = '',
         ngay_ct: Date, tong_tien_ht: number = 0, tien_thu_cu: number = 0): Observable<ResultNoPaging<Imei>> {
         ma_imei = encodeURIComponent(ma_imei);
+        const vc_date = formatDate(ngay_ct, 'yyyy-MM-dd', 'en_US');
+
         return this.post<ResultNoPaging<Imei>>(GET_IMEI_RENEW_URL, {
-            ma_imei, ma_cuahang, ma_ncc, list_vt, imei_thu_cu, ngay_ct: ngay_ct.toISOString(), tong_tien_ht, tien_thu_cu
+            ma_imei, ma_cuahang, ma_ncc, list_vt, imei_thu_cu, ngay_ct: vc_date, tong_tien_ht, tien_thu_cu
         });
     }
     getOneById(body: {}): Observable<ResultNoPaging<Imei>> {
@@ -92,6 +97,26 @@ export class ImeiApiService extends ApiService {
         }
     }
 
+    getSoldInfoChangeItem(ma_imei: string, ma_cuahang: string, ma_ct = '', rate = -1, tien_giam = 0, loai_tra_lai = '', tra_lai_cod = false): Observable<ResultNoPaging<Imei>> {
+        ma_imei = encodeURIComponent(ma_imei);
+        if (rate == -1 && tien_giam == 0) {
+            return this.get<ResultNoPaging<Imei>>(GET_SOLD_INFO_IMEI_CHANGE_ITEM_URL, { ma_imei, ma_cuahang, ma_ct, loai_tra_lai, tra_lai_cod });
+        }
+        else {
+            return this.get<ResultNoPaging<Imei>>(GET_SOLD_INFO_IMEI_CHANGE_ITEM_URL, { ma_imei, ma_cuahang, ma_ct, rate, tien_giam, loai_tra_lai, tra_lai_cod });
+        }
+    }
+
+    getSoldInfoReturn(ma_imei: string, ma_cuahang: string, ma_ct = '', rate = -1, tien_giam = 0, loai_tra_lai = '', tra_lai_cod = false): Observable<ResultNoPaging<Imei>> {
+        ma_imei = encodeURIComponent(ma_imei);
+        if (rate == -1 && tien_giam == 0) {
+            return this.get<ResultNoPaging<Imei>>(GET_SOLD_INFO_RETURN_IMEI_URL, { ma_imei, ma_cuahang, ma_ct, loai_tra_lai, tra_lai_cod });
+        }
+        else {
+            return this.get<ResultNoPaging<Imei>>(GET_SOLD_INFO_RETURN_IMEI_URL, { ma_imei, ma_cuahang, ma_ct, rate, tien_giam, loai_tra_lai, tra_lai_cod });
+        }
+    }
+
     async getImeisState_200(imeis: string[]): Promise<Observable<ResultNoPaging<ImeiState>>> {
         imeis = imeis.map((item) => encodeURIComponent(item));
         return this.post<ResultNoPaging<ImeiState>>(GET_IMEI_STATE_URL, imeis);
@@ -109,7 +134,7 @@ export class ImeiApiService extends ApiService {
         return this.get<Result<Imei>>(FIND_BY_PREFIX_URL, { ma_imei, ma_cuahang, isCheckInventory, page_index, page_size });
     }
 
-	  getDiscountRankCustomer(ma_kh: string, ma_hang: string, ngay_ct: Date, ma_imei: any, ma_vt: any, ma_ct: any): Observable<ResultNoPaging<any>> {
+    getDiscountRankCustomer(ma_kh: string, ma_hang: string, ngay_ct: Date, ma_imei: any, ma_vt: any, ma_ct: any): Observable<ResultNoPaging<any>> {
         return this.get<ResultNoPaging<any>>(GET_DISCOUNT_RANK_CUSTOMER, { ma_kh, ma_hang, ngay_ct: ngay_ct.toISOString(), ma_imei, ma_vt, ma_ct });
     }
 }

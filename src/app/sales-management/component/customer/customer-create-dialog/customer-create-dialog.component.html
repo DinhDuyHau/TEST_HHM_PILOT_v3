@@ -4,6 +4,8 @@
       <app-customer-create
         [isComponent]="true"
         [customerName]="customerName"
+        [addOrUpdate]="data.addOrUpdate || 'create'"
+        [ma_ct]="data.ma_ct || ''"
         (handleCreateSucess)="onCreateSuccess($event)" />
     </div>
     <div class="close-btn" (click)="onCancel()">

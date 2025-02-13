@@ -402,7 +402,9 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
             }
           }
           else {
-            this.commonService.showMessageByName(item.message);
+            const msg = this.commonService.getMessage('lblDatabaseWarningMessage', [item.message]);
+            this.commonService.showMessage(msg);
+            //this.commonService.showMessageByName(item.message);
           }
         }
       });
@@ -446,7 +448,7 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/receipt']);
   }
 
   scanORCode(imei: string) {
@@ -634,7 +636,10 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
     t_tien_nt = Math.round(t_tien_nt - t_ck_nt);
 
     // tổng thuế
-    t_thue_nt = this.extend.t_thue_nt || 0;
+    this.data.details[0].data.forEach((item) => {
+      t_thue_nt += item.thue_nt || 0;
+    });
+
     t_thue_nt = Math.round(t_thue_nt - ((t_ck_nt * t_thue_suat_ck) / 100));
 
     this.data.masterInfo = {

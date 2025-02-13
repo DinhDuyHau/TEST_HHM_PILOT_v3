@@ -399,7 +399,7 @@ export class WarrantyOutDetailComponent extends Grid<ReceiptDetail> implements O
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/warranty-out']);
   }
 
   scanORCode(imei: string) {

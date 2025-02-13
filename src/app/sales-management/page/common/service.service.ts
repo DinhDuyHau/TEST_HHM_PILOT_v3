@@ -69,6 +69,8 @@ export class ServiceOfMerchandiseService {
 
             merchandiseMain.tien_ck_qd += service.tien_kmqd;
             merchandiseMain.tien_ck += service.tien_kmqd;
+            // cộng cả tiền ck 09 để trừ
+            merchandiseMain.tien_ck += merchandiseMain.tien_ck09;
             merchandiseMain.gia_ck = merchandiseMain.gia_ban - (merchandiseMain.tien_ck / (1 + (merchandiseMain.thue_suat / 100)));
             merchandiseMain.thanh_tien = Math.round(merchandiseMain.gia_ck * merchandiseMain.so_luong);
             // merchandiseMain.tien_thue = this.commonService.rouding(merchandiseMain.thanh_tien * merchandiseMain.thue_suat / 100, option_thue);
@@ -82,6 +84,8 @@ export class ServiceOfMerchandiseService {
                 discount.tien_ck += service.tien_kmqd;
                 discount.tien_ck_nt += service.tien_kmqd;
             }
+            // trừ tiền ck 09 để tien ck về như cũ
+            merchandiseMain.tien_ck -= merchandiseMain.tien_ck09;
             return true;
         }
         return false;

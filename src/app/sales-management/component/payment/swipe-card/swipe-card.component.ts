@@ -90,6 +90,7 @@ export class SwipeCardComponent implements OnInit {
   }
   handleAddPOS(pos: POSModel) {
     this.quet_the.ma_may_pos = pos.ma_pos;
+    this.quet_the.ten_may_pos = pos.ten_pos;
   }
 
   openSearchPOSDialog() {

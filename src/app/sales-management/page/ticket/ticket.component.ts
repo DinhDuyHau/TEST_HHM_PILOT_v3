@@ -94,6 +94,8 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       });
     }
 
+    this.onReload(true)
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       filter((event: any) => {
@@ -576,13 +578,28 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   }
 
-  onReload() {
+  onReload(isReload = false) {
     if (this.getDataMode === this.dataMode.GETOP) {
-      this.getTop();
+      // Nếu isReload là true, luôn luôn tải lại dữ liệu
+      if (!isReload && this.dataSource && this.dataSource.length > 0) {
+        return;
+      } else {
+        this.getTop();
+      }
     } else if (this.getDataMode === this.dataMode.ADVANDCE_SEARCH) {
-      this.advanceSearch(this.advanceSearchParams);
+      // Nếu isReload là true, luôn luôn tải lại dữ liệu
+      if (!isReload && this.dataSource && this.dataSource.length > 0) {
+        return;
+      } else {
+        this.advanceSearch(this.advanceSearchParams);
+      }
     } else if (this.getDataMode === this.dataMode.QUICK_SEARCH) {
-      this.quickSearch(this.quickSearchParams);
+      // Nếu isReload là true, luôn luôn tải lại dữ liệu
+      if (!isReload && this.dataSource && this.dataSource.length > 0) {
+        return;
+      } else {
+        this.quickSearch(this.quickSearchParams);
+      }
     }
   }
 
@@ -635,7 +652,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
     this.ticketApiService.deleteOne(this.entityName, event.item.stt_rec).subscribe(result => {
       if (result && result.success && result.result) {
-        this.onReload();
+        this.onReload(true);
       } else {
         if (result && !result.success && result.message && result.message !== '') {
           this.commonService.showMessageByName(result.message, []);
@@ -657,7 +674,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           if (x && x.status === '0') {
             this.ticketApiService.deleteOne(this.entityName, this.select_item_current).subscribe(result => {
               if (result && result.success && result.result) {
-                this.onReload();
+                this.onReload(true);
               } else {
                 if (result && !result.success && result.message && result.message !== '') {
                   this.commonService.showMessageByName(result.message);

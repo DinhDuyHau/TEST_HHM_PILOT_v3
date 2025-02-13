@@ -77,6 +77,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
   shops = JSON.parse(localStorage.getItem('shop') || "[]");
   ten_nvvc = '';
   disable = false;
+  disableLookup = true;
 
   constructor(
     private router: Router,
@@ -108,6 +109,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
             this.mode = MODE.CREATE;
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
+            this.disableLookup = false;
             break;
           case 'update':
             this.title = Language.content.edit;
@@ -261,7 +263,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
         // được phép điều chuyển về 2 loại kho: hàng cũ, trôi bảo hành
         if (this.ma_loai === 'HC' || this.ma_loai === 'TL') {
           stock_operator = 'in'
-          ma_loai = 'HC,TBH';
+          ma_loai = 'HC,TBH,TL';
         }
         // hàng trải nghiệm
         // được phép điều chuyển về các loại kho: hàng cũ, trôi bảo hành, hàng trải nghiệm

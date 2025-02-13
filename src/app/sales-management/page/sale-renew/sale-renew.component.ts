@@ -37,6 +37,8 @@ import { Package } from '@app/sales-management/model/ticket/common-model/package
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
 import { OldProductDialogComponent } from './old-product-dialog.component';
 import { DataFormatPipe } from '@app/_pipe/dataFormat/data-format.pipe';
+import { DomSanitizer } from '@angular/platform-browser';
+import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 
 const { DISCOUNT_LIST,
   GUARANTEE_LIST,
@@ -118,6 +120,9 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   action = '';
   shop = '';
   ma_imei = '';
+  ma_kh_label = 'Mã khách';
+  addOrUpdateCustomer = 'create';
+  isValidItemOld = false;
 
   constructor(
     private router: Router,
@@ -133,7 +138,8 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     private discountService: DiscountService,
     private guaranteeApiService: GuaranteeApiService,
     private imeiService: IMEIService,
-    private lookup_service: LookupApiService
+    private lookup_service: LookupApiService,
+    private sanitizer: DomSanitizer
   ) {
     localStorage.setItem('useGridCached', '1');
     this.saleRenewService.setTicket(this.ticket, this.option);
@@ -245,6 +251,13 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
               }
             });
 
+            this.ticketApiService.getColorRank({ ma_hang: this.ticket.masterInfo.ma_hang }).subscribe(result => {
+              if (result && result.success) {
+                const { ma_hang, mau_chu } = result.result as any;
+                this.generateLabelWithColor(ma_hang, mau_chu);
+              }
+            });
+
             this.tabIndexFocusFirst = this.tabIndex.imei_used;
           }
         });
@@ -260,6 +273,23 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
 
   // #region customer
   handleAddCustomer(customer: Customer) {
+    const ma_kh_old = this.ticket.masterInfo.ma_kh ? this.ticket.masterInfo.ma_kh : '';
+    const ma_kh_new = customer ? customer.ma_kh : '';
+    const msg_confirm_change = 'Có thay đổi mã khách, hệ thống sẽ tự động xóa các chương trình chiết khấu đã áp dụng trên phiếu. Xác nhận thực hiện?';
+    const style_css = 'font-size:16px;';
+    if (ma_kh_old !== '' && ma_kh_old !== ma_kh_new) {
+      this.commonService.openDialog(DialogConfirmComponent, { title: msg_confirm_change, style_css: style_css })
+        .afterClosed().subscribe(result => {
+          if (!result) {
+            //không xác nhận => reset về mã cũ
+            this.ticket.masterInfo.ma_kh = ma_kh_old;
+            return;
+          }
+          // xóa và reset ck 09 khi xác nhận => reset
+          this.resetDiscount09();
+        });
+    }
+
     this.commonService.focusControl2(this.tabIndex.nvvc);
     this.saleRenewService.removeDiscountForCustomer();
     this.saleRenewService.setInfoCustomer(customer);
@@ -319,10 +349,26 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     this.customerApiService.getOneById(ma_kh).subscribe(result => {
       if (result.success && result.result) {
         const customer: any = result.result;
-        this.handleAddCustomer(customer);
+
+        this.ticketApiService.getRankCustomer({ ma_kh: customer.ma_kh }).subscribe(result => {
+          const { ma_hang, mau_chu, tl_tich_diem } = result.result as any;
+          this.ticket.masterInfo.ma_hang = ma_hang;
+          this.ticket.masterInfo.tl_tich_diem = tl_tich_diem;
+          this.generateLabelWithColor(ma_hang, mau_chu);
+          this.handleAddCustomer(customer);
+
+          // Kiểm tra điều kiện mở dialog
+          if (this.commonService.shouldOpenDialog(customer)) {
+            // mở dialog add khách hàng nhưng ở chế độ update
+            this.addOrUpdateCustomer = 'update';
+            this.openAddCustomerDialog(customer.ma_kh);
+          }
+        });
+
       } else {
         this.commonService.showMessageByContent(Language.content.exists_customer_yn_no, ma_kh);
         this.saleRenewService.resetCustomerInfo(this.ticket);
+        this.addOrUpdateCustomer = 'create';
         this.openAddCustomerDialog(ma_kh);
       }
     });
@@ -332,12 +378,29 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     this.commonService.openDialog(SearchDialogComponent,
       { keyword: '', componentName: SEARCH_COMPONENT_NAME.CUSTOMER, title: this.getLabel('tlt_customer_list') }, 'search-style-dialog')
       .afterClosed()
-      .subscribe((customer: Customer) => customer && this.handleAddCustomer(customer));
+      .subscribe((customer: Customer) => {
+
+        customer && this.ticketApiService.getRankCustomer({ ma_kh: customer.ma_kh }).subscribe(result => {
+          const { ma_hang, mau_chu, tl_tich_diem } = result.result as any;
+          this.ticket.masterInfo.ma_hang = ma_hang;
+          this.ticket.masterInfo.tl_tich_diem = tl_tich_diem;
+          this.generateLabelWithColor(ma_hang, mau_chu);
+          this.handleAddCustomer(customer);
+
+          // Kiểm tra điều kiện mở dialog
+          if (this.commonService.shouldOpenDialog(customer)) {
+            // mở dialog add khách hàng nhưng ở chế độ update
+            this.addOrUpdateCustomer = 'update';
+            this.openAddCustomerDialog(customer.ma_kh);
+          }
+        });
+
+      });
   }
 
   // click button thêm khách hàng
   openAddCustomerDialog(ma_kh = ''): void {
-    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh }, 'fullscreen-dialog')
+    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh, addOrUpdate: this.addOrUpdateCustomer }, 'fullscreen-dialog')
       .afterClosed()
       .subscribe((customer: Customer) => {
         customer && this.saleRenewService.setInfoCustomer(customer);
@@ -453,6 +516,8 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       this.saleRenewService.setIsNeedCalcDiscount(true);
       this.discountService.resetDiscount(this.ticket.discount);
       this.saleRenewService.calcMoney();
+      // khi add imei xử lý ck 09
+      this.applyDiscount09ForMerchandise(merchandiseResponse);
     }
 
   }
@@ -578,6 +643,12 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
           this.renew.ma_vt = result.result[0].ma_vt;
           this.renew.ten_vt = result.result[0].ten_vt;
           this.renew.dvt = result.result[0].dvt;
+
+          // gán isValidItemOld = false để KHÔNG cho chọn vt khi vt đã có trong hệ thống
+          this.isValidItemOld = false;
+        } else {
+          // gán isValidItemOld = true để cho chọn vt khi vt ko có trong hệ thống
+          this.isValidItemOld = true;
         }
       }
     });
@@ -867,6 +938,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       this.saleRenewService.setIsNeedCalcDiscount(true);
       this.handleRemoveDiscountProgram(merchandise.ma_imei);
       this.ticket.discount = [];
+      this.removeDiscount09(merchandise.ma_imei);
     }
   }
   handleRemoveDiscountProgram(ma_imei: string) {
@@ -947,6 +1019,10 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   onRemoveDiscount(event: { item: Discount }) {
     if (event.item.loai_ck === DISCOUNT_TYPE.GIFT) {
       this.commonService.showMessageByName('lblWarningNotDeleteDiscountGift');
+      return;
+    }
+    if (event.item.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK) {
+      this.commonService.showMessage('Không thể xóa chiết khấu hạng khách hàng');
       return;
     }
     const discountCurrent = this.discountService.getDiscountCurrent(this.ticket.discount.filter(x => x.ma_ck !== event.item.ma_ck));
@@ -1133,7 +1209,8 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         if (res) {
           //lọc tìm item theo imei xuất bán (gc_td1)
           const sale_item = this.ticket.merchandise_new_sale.find(x => x.ma_imei.toString().toUpperCase().trim() === event.item.gc_td1.toUpperCase().trim());
-          const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+
+          const ngay_ct = new Date(`${this.ticket.masterInfo.ngay_ct}Z`);
           this.saleRenewService.adjustBuyPrice(ngay_ct, this.ticket.masterInfo.ma_ncc, res, sale_item!)?.pipe().subscribe(result => {
             if (result && result.success && result.result) {
               const tien_max = Number(result.result[0].tien_dc_max);
@@ -1156,6 +1233,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
                 buy_item!.gia_ban = gia_dc;
                 buy_item!.thanh_tien = gia_dc;
                 buy_item!.thanh_toan = gia_dc;
+
                 this.saleRenewService.calcMoney();
 
                 if (ma_gd_tcdm === '1') {
@@ -1177,6 +1255,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
                   if (sale_item!.tien_thue < 0) sale_item!.tien_thue = 0;
                   sale_item!.gia_ck = sale_item!.gia_ban;
                   sale_item!.thanh_tien = sale_item!.gia_ck * sale_item!.so_luong;
+
                   this.saleRenewService.calcMoney();
                 }
 
@@ -1257,4 +1336,117 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  //#region Chiết khấu 09
+  applyDiscount09ForMerchandise(merchandiseResponse: any) {
+    const ma_kh = this.ticket.masterInfo.ma_kh ? this.ticket.masterInfo.ma_kh.trim() : '';
+    const ma_hang = this.ticket.masterInfo.ma_hang ? this.ticket.masterInfo.ma_hang.trim() : '';
+    const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+    const ma_imei = merchandiseResponse.ma_imei ? merchandiseResponse.ma_imei.trim() : '';
+    const ma_vt = merchandiseResponse.ma_vt ? merchandiseResponse.ma_vt.trim() : '';
+
+    this.imeiApiService.getDiscountRankCustomer(ma_kh, ma_hang, ngay_ct, ma_imei, ma_vt, TICKET_CODE.RENEW).subscribe((res: any) => {
+      if (res.success && res.result) {
+        const discount = res.result[0] as any;
+        // add vào tab ck
+        if (discount) {
+          this.discountService.addNew([discount], this.ticket.discount);
+        }
+        // tính lại tiền khi có ck
+        this.saleRenewService.calcMoney();
+      } else {
+        // tính lại tiền khi ko có ck
+        this.saleRenewService.calcMoney();
+      }
+    });
+  }
+
+  removeDiscount09(ma_imei: string) {
+    this.ticket.discount = this.ticket.discount.filter(item => item.ma_imei.trim().toUpperCase() !== ma_imei.trim().toUpperCase());
+
+    // tính lại tiền
+    this.saleRenewService.calcMoney();
+  }
+
+  /*
+  * Xử lý label hạng khách hàng
+  */
+  generateLabelWithColor(ma_hang: any, mau_chu: any) {
+    const rankColors = {
+      'BRONZE': 'white',
+      'DIAMOND': 'white',
+      'GOLD': 'white',
+      'MEMBER': 'white',
+      'STUDENT': 'white',
+    };
+
+    let textColor = rankColors[ma_hang as keyof typeof rankColors] || 'black';
+
+    this.ticket.masterInfo.ma_hang = ma_hang;
+
+    const html = ma_hang ? `
+          Mã khách (Hạng:
+              <span class="bg-blue-100 text-xs font-medium px-2.5 py-0.5 rounded-full"
+                  style="background-color: ${mau_chu} !important; color: ${textColor} !important;">
+              ${ma_hang}
+              </span>
+          )` : 'Mã khách';
+
+    this.ma_kh_label = this.sanitizer.bypassSecurityTrustHtml(html) as string;
+  }
+
+  resetDiscount09() {
+    this.ticket.discount = this.ticket.discount.filter(item => item.loai_ck !== DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK);
+
+    this.ticket.merchandise_new_sale.map(item => {
+      this.applyDiscount09ForMerchandise(item);
+
+      item.tl_ck09 = 0;
+      item.tien_kb09 = 0;
+      item.tien_max09 = 0;
+      item.tien_ck09 = 0;
+      item.tl_ck_sau_vat09 = 0;
+    })
+  }
+
+  handleRemoveDiscout09(event: { item: string }) {
+    const msg_confirm_change = 'Bạn có chắc chắn xóa chiết khấu hạng thành viên !';
+    this.commonService.openDialog(DialogConfirmComponent, { title: msg_confirm_change, style_css: 'font-size:16px;' })
+      .afterClosed().subscribe(result => {
+        if (!result) {
+          return;
+        }
+        // xóa ck 09 khi xác nhận
+        this.resetDiscount09ByImei(event);
+      });
+  }
+
+  resetDiscount09ByImei(event: { item: string }) {
+    const merchandise = event.item as any;
+    const ma_imei = merchandise.ma_imei || '';
+    const ma_hang_backup = this.ticket.masterInfo.ma_hang || '';
+
+    this.ticket.discount = this.ticket.discount.filter(item => !(item.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK
+      && item.ma_imei && item.ma_imei.trim().toLowerCase() === ma_imei.trim().toLowerCase())
+    );
+
+    // set bằng rỗng ma_hang
+    this.ticket.masterInfo.ma_hang = '';
+
+    this.ticket.merchandise_new_sale.map(item => {
+      if (item.ma_imei && item.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase()) {
+        this.applyDiscount09ForMerchandise(item);
+
+        item.tl_ck09 = 0;
+        item.tien_kb09 = 0;
+        item.tien_max09 = 0;
+        item.tien_ck09 = 0;
+        item.tl_ck_sau_vat09 = 0;
+      }
+    })
+
+    // nếu vẫn còn áp dụng ck 09 thì gán ngược lại mã cũ
+    this.ticket.masterInfo.ma_hang = ma_hang_backup;
+  }
+  //#endregion
 }

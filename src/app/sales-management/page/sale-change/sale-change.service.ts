@@ -156,6 +156,9 @@ export class SaleChangeService {
         return this.imeiApiService.getSoldInfo(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.CHANGE);
     }
 
+    getSoldInfoChangeItem(imei: string) {
+        return this.imeiApiService.getSoldInfoChangeItem(imei, this.ticket.masterInfo.ma_cuahang, TICKET_CODE.CHANGE);
+    }
 
     getMerchandiseInfo(ma_vt: string) {
         return this.merchandiseApiService.getOneById(ma_vt);
@@ -376,6 +379,9 @@ export class SaleChangeService {
         }
         else if (this.ticket.merchandise_return.length != 1 || this.ticket.merchandise_return.length != 1) {
             message = this.commonService.getMessage('lbl_invalid_merchandise_return_change');
+        }
+        else if (ticket.masterInfo.dien_giai.length > 250) {
+            message = 'Diễn giải không được vượt quá 250 ký tự';
         }
         return message;
     }

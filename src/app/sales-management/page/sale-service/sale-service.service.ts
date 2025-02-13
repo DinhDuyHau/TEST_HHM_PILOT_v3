@@ -206,6 +206,8 @@ export class SaleServiceService {
             message = this.commonService.getMessage('lbl_invalid_t_tien');
         } else if (ticket.masterInfo.t_da_tra < 0) {
             message = this.commonService.getMessage('lbl_invalid_t_da_tra');
+        } else if (ticket.masterInfo.dien_giai.length > 250) {
+            message = 'Diễn giải không được vượt quá 250 ký tự';
         }
         return message;
     }

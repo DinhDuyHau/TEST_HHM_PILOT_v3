@@ -36,7 +36,7 @@ export const environment = {
     pW3P8AtbBQp+HUuqhHmUju+8ngjoOY06cRrP2wMP0s4=
     -----END RSA PRIVATE KEY-----`,
 
-    /* 
+    /*
     //Khóa công khai của người gửi
     senderPublicKey: `-----BEGIN PUBLIC KEY-----
     MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDQOc4/7Oeqtz1i57FygAA9b1SY

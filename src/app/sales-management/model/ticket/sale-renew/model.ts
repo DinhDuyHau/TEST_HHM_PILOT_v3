@@ -57,6 +57,9 @@ export class MasterInfo extends BaseMasterInfo {
   email_nhan_key = '';
   //Mã nhà cung cấp thu cũ
   ma_ncc = '';
+  ma_hang = '';
+  tl_tich_diem = 0;
+
   constructor(obj?: any) {
     super();
     Object.assign(this, obj);

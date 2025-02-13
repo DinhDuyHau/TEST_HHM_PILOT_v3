@@ -406,7 +406,7 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate(['voucher/return-supplier']);
   }
 
   scanORCode(imei: string) {

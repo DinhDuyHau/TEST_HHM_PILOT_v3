@@ -86,6 +86,7 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
   action = '';
   shop = '';
   ma_imei = '';
+  addOrUpdateCustomer = 'create';
 
   constructor(
     private router: Router,
@@ -246,9 +247,17 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
       if (result.success && result.result) {
         const customer: any = result.result;
         this.handleAddCustomer(customer);
+
+        // Kiểm tra điều kiện mở dialog
+        if (this.commonService.shouldOpenDialog(customer)) {
+          // mở dialog add khách hàng nhưng ở chế độ update
+          this.addOrUpdateCustomer = 'update';
+          this.openAddCustomerDialog(customer.ma_kh);
+        }
       } else {
         this.commonService.showMessageByContent(Language.content.exists_customer_yn_no, ma_kh);
         this.saleWithTelecomService.resetCustomerInfo(this.ticket);
+        this.addOrUpdateCustomer = 'create';
         this.openAddCustomerDialog(ma_kh);
       }
     });
@@ -258,12 +267,21 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
     this.commonService.openDialog(SearchDialogComponent,
       { keyword: '', componentName: SEARCH_COMPONENT_NAME.CUSTOMER }, 'search-style-dialog')
       .afterClosed()
-      .subscribe((customer: Customer) => customer && this.handleAddCustomer(customer));
+      .subscribe((customer: Customer) => {
+        customer && this.handleAddCustomer(customer)
+
+        // Kiểm tra điều kiện mở dialog
+        if (this.commonService.shouldOpenDialog(customer)) {
+          // mở dialog add khách hàng nhưng ở chế độ update
+          this.addOrUpdateCustomer = 'update';
+          this.openAddCustomerDialog(customer.ma_kh);
+        }
+      });
   }
 
   // click button thêm khách hàng
   openAddCustomerDialog(ma_kh = ''): void {
-    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh }, 'fullscreen-dialog')
+    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh, addOrUpdate: this.addOrUpdateCustomer }, 'fullscreen-dialog')
       .afterClosed()
       .subscribe((customer: Customer) => {
         customer && this.saleWithTelecomService.setInfoCustomer(customer);

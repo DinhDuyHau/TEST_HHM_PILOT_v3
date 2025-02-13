@@ -161,6 +161,8 @@ export class SaleGiftRepayService {
             message = this.commonService.getMessage('lbl_invalid_detail');
         } else if (ticket.merchandise.find(mer => !mer.ma_imei)) {
             message = this.commonService.getMessage('lbl_invalid_imei_detail');
+        } else if (ticket.masterInfo.dien_giai.length > 250) {
+            message = 'Diễn giải không được vượt quá 250 ký tự';
         }
 
         return message;

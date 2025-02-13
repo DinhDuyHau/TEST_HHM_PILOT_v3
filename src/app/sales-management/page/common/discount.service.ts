@@ -115,13 +115,13 @@ export class DiscountService {
     //isRemoveMerchandise: call method từ hành động xóa hàng hóa trong grid
     resetDiscount(discounts: any[], isGridItem: boolean = false, currentRowitem: Merchandise | null = null,
         isGridDiscount: boolean = false, isRemoveMerchandise = false) {
-        let discountKeep = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.GIFT || e.loai_ck === '09');
+        let discountKeep = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.GIFT || e.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK);
 
         if (!isGridDiscount) {
             if (isGridItem && currentRowitem && currentRowitem.ma_imei) {
                 //Thực hiện gọi tính ck từ item trong grid => loại bỏ ck ngoại giao để thực hiện tính lại
                 //đối với các mã ck trong tab chiết khấu có imei áp dụng trùng với imei của dòng đang chọn => giữ lại ck
-                let discount_keep_adv = discounts.filter(e => e.loai_ck !== DISCOUNT_TYPE.GIFT || e.loai_ck === '09');
+                let discount_keep_adv = discounts.filter(e => e.loai_ck !== DISCOUNT_TYPE.GIFT || e.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK);
                 discount_keep_adv = discount_keep_adv.filter(e => e.loai_ck !== DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||
                     (e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && e.ma_imei && e.ma_imei.trim() !== currentRowitem.ma_imei.trim())
                 );
@@ -236,7 +236,9 @@ export class DiscountService {
         if (!discount.items) return null;
         discount.details = [...discount.items];
         discount.tien_ck = discount.details.reduce((pre: any, cur: any) => {
-            return pre + (cur.tien_ck || cur.tien_ck_tl);
+            const tien_ck_tl = cur.tien_ck_tl || 0;
+            const tien_ck = cur.tien_ck || 0;
+            return pre + (tien_ck || tien_ck_tl);
             //return (typeof pre === 'object' ? (pre.tien_ck || pre.tien_ck_tl || 0) : 0) + (cur.tien_ck || cur.tien_ck_tl);
         }, 0);
 
@@ -391,7 +393,7 @@ export class DiscountService {
         const discountForCrossSelling = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.CROSS_SELLING);
         const discountForAccessoryCombo = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO);
         const discountForService = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT);
-        const discountForRankCustomer = src.filter(discount => discount.loai_ck === '09');
+        const discountForRankCustomer = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK);
 
         const giftDiscountNew = this.handleConvertDiscountFromVoucher(giftDiscount, GiveMerchandiseDiscountDetail);
         const discountForCustomerNew = this.handleConvertDiscountFromVoucher(discountForCustomer, DiscountForCustomerDetail);

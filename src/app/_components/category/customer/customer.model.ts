@@ -36,6 +36,7 @@ export class CustomerModel {
     do_tuoi?: number;
     tk_nh?: string;
     ngan_hang?: string;
+    ma_ct?: string;
     [key: string]: any;
     constructor() {
         this.ma_kh = '';
@@ -57,5 +58,6 @@ export class CustomerModel {
         this.do_tuoi = 0;
         this.tk_nh = '';
         this.ten_kh = '';
+        this.ma_ct = '';
     }
 }

@@ -22,6 +22,7 @@ import { EInvoiceInfo } from '@app/sales-management/model/dto/einvoice.dto';
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { IMEIService } from '@app/_services/imei.service';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
+import { checkValidImei } from '@app/_common/commonFunction';
 
 const { MERCHANDISE_REPURCHASE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
@@ -73,6 +74,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
   entity = TICKET_ENTITY.REPURCHASE;
   action = '';
   shop = '';
+  isValidItemOld = false;
 
   transactionTypeOptions = [
     {
@@ -82,6 +84,10 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     {
       label: "2-Mua lại từ khách hàng doanh nghiệp",
       value: 2
+    },
+    {
+      label: "3-Mua thu cũ không lên đời",
+      value: 3
     }
   ]
 
@@ -103,6 +109,20 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
       value: 10
     }
   ]
+
+  renew = {
+    ma_imei: '',
+    ma_kho: '',
+    ma_vt: '',
+    ten_vt: '',
+    loai_hh: '',
+    gia_nt: 0,
+    gia_mua: 0,
+    ma_loai: '',
+    dvt: '',
+    new_imei_yn: false,
+    ma_ncc: '' // đại lý thu mua
+  };
 
   constructor(
     private router: Router,
@@ -256,6 +276,13 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
       */
       return;
     }
+
+    // thêm kiểm tra imei hợp lệ
+    if (!checkValidImei(ma_imei)) {
+      this.commonService.showMessageByName('lblWarningImeiInputInvalid');
+      return;
+    }
+
     this.invalidMerchandiseInput.ma_vt = false;
     this.invalidMerchandiseInput.gia_nhap_mua = false;
     this.invalidMerchandiseInput.loai_hh = false;
@@ -280,7 +307,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
             else {
               const merchandise = new Merchandise;
               // nếu loại giao dịch là 2 thì mới lấy thuế suất
-              if(this.ticket.masterInfo.fcode1 == "2") {
+              if (this.ticket.masterInfo.fcode1 == "2") {
                 merchandise.thue_suat = this.ticket.masterInfo.fqty1;
                 merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua / (1 + (merchandise.thue_suat / 100));
               } else {
@@ -374,6 +401,11 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
         this.repurchase.ma_vt = result.ma_vt;
         this.repurchase.ten_vt = result.ten_vt;
         this.repurchase.dvt = result.dvt;
+
+        // loai gd 3: mua thu cũ không lên đời
+        this.renew.ma_vt = result.ma_vt;
+        this.renew.ten_vt = result.ten_vt;
+        this.renew.dvt = result.dvt;
 
         //get imei from input field
         const imeiElement = document.getElementById(`${this.tabIndex.imei}`);
@@ -546,9 +578,26 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     // set lại mặc định là 10
     if (event === "1") {
       this.ticket.masterInfo.fqty1 = 0;
+      // reset
+      this.resetDataItem();
     }
     if (event === "2") {
       this.ticket.masterInfo.fqty1 = 10;
+      // reset
+      this.resetDataItem();
+    }
+    if (event === "3") {
+      this.repurchase.loai_hh = "Hàng cũ";
+      this.repurchase.ma_loai = "HC";
+      this.ticketApiService.getStocks2(TICKET_ENTITY.REPURCHASE, {
+        ma_cuahang: this.ticket.masterInfo.ma_cuahang,
+        ma_nh: "HC"
+      }).subscribe(result => {
+        if (result.success) {
+          const { ma_kho } = result.result as any;
+          this.repurchase.ma_kho = ma_kho || '';
+        }
+      });
     }
   }
 
@@ -573,23 +622,196 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
 
     this.saleRepurchaseService.getMerchandiseInfo(ma_vt).subscribe(result => {
       if (result.success && result.result) {
-          const merchandise = result.result as any;
-          this.repurchase.ma_vt = merchandise.ma_vt;
-          this.repurchase.ten_vt = merchandise.ten_vt;
-          this.repurchase.dvt = merchandise.dvt;
+        const merchandise = result.result as any;
+        this.repurchase.ma_vt = merchandise.ma_vt;
+        this.repurchase.ten_vt = merchandise.ten_vt;
+        this.repurchase.dvt = merchandise.dvt;
 
-          //get imei from input field
-          const imeiElement = document.getElementById(`${this.tabIndex.imei}`);
-          if (imeiElement) {
-            const imei = (imeiElement as HTMLInputElement).value;
-            this.onEnterImeiCode(imei);
-          }
+        //get imei from input field
+        const imeiElement = document.getElementById(`${this.tabIndex.imei}`);
+        if (imeiElement) {
+          const imei = (imeiElement as HTMLInputElement).value;
+          this.onEnterImeiCode(imei);
+        }
       }
       else {
-          this.openTypeMerchandiseDialog();
+        this.openTypeMerchandiseDialog();
       }
     });
   }
+
+  resetDataItem() {
+    this.repurchase.ma_vt = '';
+    this.repurchase.ten_vt = '';
+    this.repurchase.dvt = '';
+
+    this.renew.ma_imei = '';
+    this.renew.ma_vt = '';
+    this.renew.ten_vt = '';
+    this.renew.dvt = '';
+
+    this.repurchase.loai_hh = '';
+    this.repurchase.ma_loai = '';
+    this.repurchase.ma_kho = '';
+  }
+
+  // #region 3.mua thu cũ không lên đời
+  onChangeImei($event: any) {
+    if (this.ticket.masterInfo.ten_kh == '') {
+      this.commonService.showMessage('Mã khách hàng không được để trống');
+      return;
+    }
+    this.renew.ma_imei = $event;
+    this.imeiApiService.getImeisStateAndItem([$event]).subscribe((result) => {
+      if (result && result.success && result.result && result.result[0]) {
+        const map = new Map();
+        map.set('in_store_yn', false);
+        map.set('dat_hang_yn', false);
+        const message = this.imeiService.GetMessageStatusImei(map, result.result[0]);
+        if (message) {
+          this.renew.ma_imei = '';
+          this.commonService.showMessageByContent(this.imeiService.GetMessageStatusImei(map, result.result[0]));
+          return;
+        }
+        if (result.result[0].exists_yn) {
+          this.renew.ma_vt = result.result[0].ma_vt;
+          this.renew.ten_vt = result.result[0].ten_vt;
+          this.renew.dvt = result.result[0].dvt;
+
+          // gán isValidItemOld = false để KHÔNG cho chọn vt khi vt đã có trong hệ thống
+          this.isValidItemOld = false;
+        } else {
+          // gán isValidItemOld = true để cho chọn vt khi vt ko có trong hệ thống
+          this.isValidItemOld = true;
+        }
+      }
+    });
+  }
+
+  // Nhập loại hàng
+  openSearchTypeMerchandiseDialog3() {
+    const { ma_cuahang } = this.ticket.masterInfo;
+    if (!(ma_cuahang == '' || this.renew.ma_vt == '')) {
+      const initFilter = [
+        { name: 'ma_cuahang', value: ma_cuahang },
+        { name: 'ma_ncc', value: '' },
+        { name: 'ma_vt', value: this.renew.ma_vt }
+      ];
+
+      this.commonService.openDialog(SearchDialogComponent, { keyword: '', componentName: SEARCH_COMPONENT_NAME.TYPE_RENEW, filter: initFilter })
+        .afterClosed().subscribe(result => {
+          if (result) {
+            this.renew.loai_hh = result.ten_loai;
+            this.renew.ma_loai = result.ma_loai;
+            this.renew.gia_nt = result.gia_nt;
+            this.renew.gia_mua = result.gia_nt;
+            this.renew.ma_ncc = result.ma_kh;
+          }
+        });
+    }
+    else {
+      this.commonService.showMessage('Phải chọn mã vật tư nhập trước');
+    }
+  }
+
+  updateRepurchaseOld() {
+    // kiểm tra các input của loại gd 3 đã nhập đủ hay chưa
+    const message = this.validateRenew();
+    if (message) {
+      this.commonService.showMessage(message);
+      return;
+    }
+
+    // kiểm tra giá mua điều chỉnh có vượt tỉ lệ khai báo ko
+    const ngay_ct = new Date(`${this.ticket.masterInfo.ngay_ct}Z`);
+    this.saleRepurchaseService.adjustBuyPrice(
+      ngay_ct,
+      this.renew.ma_ncc,
+      this.renew.ma_loai,
+      this.renew.ma_vt,
+      this.renew.gia_nt,
+      this.renew.gia_mua
+    )?.pipe().subscribe(result => {
+      if (result && result.success && result.result) {
+        const response = result?.result[0] as any;
+
+        if (response.tl_tang_invalid) {
+          this.commonService.showMessage(`Tỷ lệ tăng không được vượt quá ${response.tl_tang || 0}%`);
+          return;
+        }
+        if (response.tl_giam_invalid) {
+          this.commonService.showMessage(`Tỷ lệ giảm không được vượt quá ${response.tl_giam || 0}%`);
+          return;
+        }
+
+        const merchandise = new Merchandise;
+        merchandise.gia_ban = this.renew.gia_mua;
+        merchandise.s4 = this.renew.gia_mua;
+        merchandise.thanh_tien = merchandise.gia_ban * merchandise.so_luong;
+        merchandise.tt = merchandise.s4 * merchandise.so_luong;
+        merchandise.tien_thue = merchandise.tt - merchandise.thanh_tien;
+        merchandise.ma_kho = this.repurchase.ma_kho;
+        merchandise.ma_loai = this.repurchase.ma_loai;
+        merchandise.ten_vt = this.renew.ten_vt;
+        merchandise.ma_vt = this.renew.ma_vt;
+        merchandise.ma_imei = this.renew.ma_imei;
+        merchandise.dvt = this.renew.dvt;
+        merchandise.ma_td3 = this.renew.ma_loai;
+        merchandise.ma_td2 = this.renew.ma_ncc;
+        merchandise.sl_td1 = this.renew.gia_nt;
+        this.merchandiseService.addNewRepurchase(merchandise, this.ticket.merchandise, Merchandise);
+        this.clearDataRenew();
+        this.saleRepurchaseService.calcMoney();
+      } else {
+        this.commonService.showMessage('Lỗi kiểm tra giá mua điều chỉnh');
+      }
+    });
+  }
+
+  clearDataRenew() {
+    this.renew.ma_imei = '';
+    this.renew.ma_kho = '';
+    this.renew.ma_vt = '';
+    this.renew.ten_vt = '';
+    this.renew.loai_hh = '';
+    this.renew.gia_nt = 0;
+    this.renew.gia_mua = 0;
+    this.renew.ma_loai = '';
+    this.renew.dvt = '';
+    this.renew.ma_kho = '';
+    this.renew.ma_ncc = '';
+  }
+
+  onChangeBuyPrice(event: any) {
+    this.renew.gia_mua = event
+  }
+
+  validateRenew(): string | null {
+    if (!this.renew.ma_imei) {
+      return 'Chưa nhập mã imei';
+    }
+    if (!this.renew.ma_vt) {
+      return 'Chưa nhập mã vật tư';
+    }
+    if (!this.renew.loai_hh) {
+      return 'Chưa nhập loại hàng hóa';
+    }
+    if (!this.renew.ma_ncc) {
+      return 'Chưa nhập đại lý thu cũ';
+    }
+    if (!this.renew.gia_nt) {
+      return 'Chưa nhập giá theo bảng giá';
+    }
+    if (!this.renew.gia_mua) {
+      return 'Chưa nhập giá mua';
+    }
+    if (this.ticket.merchandise.length > 0) {
+      return 'Loại giao dịch 3 chỉ được 1 imei trên phiếu';
+    }
+    return null;
+  }
+  // #endregion 3.mua thu cũ không lên đời
+
 }
 
 

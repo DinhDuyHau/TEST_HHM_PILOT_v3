@@ -86,6 +86,7 @@ export class AuthenticationService {
                 next: () => {
                     localStorage.removeItem('menu');
                     localStorage.removeItem('user');
+                    localStorage.removeItem('useGridCached');
                     this.userSubject.next(null);
                     this.stopRefreshTokenTimer();
                     this.router.navigate(['/login']);
@@ -93,6 +94,7 @@ export class AuthenticationService {
                 error: (error) => {
                     localStorage.removeItem('menu');
                     localStorage.removeItem('user');
+                    localStorage.removeItem('useGridCached');
                     this.stopRefreshTokenTimer();
                     this.router.navigate(['/login']);
                 }

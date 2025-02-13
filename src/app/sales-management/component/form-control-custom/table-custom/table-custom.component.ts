@@ -51,6 +51,7 @@ export class TableCustomComponent implements
   @Input() hiddenAddServiceButton = false;
   @Input() hasButton = { create: true, delete: true, view: true, edit: true };
   @Input() useFilter: boolean = false;
+  @Input() isShowDelete: boolean = true;
 
   pageSizeOptions: number[] = [10, 20, 50, 100, 150, 200];
 
@@ -71,6 +72,7 @@ export class TableCustomComponent implements
   @Output() handleChangeSelectCheckbox = new EventEmitter<any>();
   @Output() handleAddDiscountNG = new EventEmitter<{ item: any }>();
   @Output() handleCustomeUpdate = new EventEmitter<{ item: any }>();
+  @Output() handleDeleteDiscount09 = new EventEmitter<{ item: any }>();
 
   dataFormat = dataFormat;
 
@@ -107,7 +109,8 @@ export class TableCustomComponent implements
         'SVTran_BHD',
         'SVTran_DV1',
         'SVTran_BHK',
-        'PVTran'
+        'PVTran',
+        'SVTran_DXA',
       ];
       if (ARRAY_SITE_TRANSFER.includes(this.entityName)) {
         this.dataSource = this.dataSource.map(item => ({
@@ -153,6 +156,10 @@ export class TableCustomComponent implements
 
   onActionItem(item: any) {
     this.handleAction.emit({ item });
+  }
+
+  onDeleteDiscount09(item: any) {
+    this.handleDeleteDiscount09.emit({ item });
   }
 
   onSwapItem(item: any) {
@@ -311,35 +318,48 @@ export class TableCustomComponent implements
     if (this.handleView.observers.length === 0) {
       return false;
     }
-    if (record.status === '0') {
-      return false;
-    }
     if (this.entityName === TICKET_ENTITY.CONTRACT) {
       return true;
+    }
+    if (record.status === '0') {
+      return false;
     }
     return true;
   }
 
   showDeleteButton(record: any) {
-    if (this.handleDelete.observers.length === 0) {
-      return false;
-    }
-
     if (this.readonly) {
       return false;
     }
 
-    switch (this.entityName) {
-      case TICKET_ENTITY.CONTRACT:
-        return false;
-      case TICKET_ENTITY.STOCK_TRANFER_IN:
-        return false;
-      case TICKET_ENTITY.STOCK_INTERNAL_PURCHASE:
-        return false;
+    if (this.isShowDelete) return true
 
-      default:
-        return true;
+    if(!this.isShowDelete) {
+      return record.status == 0
     }
+
+    if (this.handleDelete.observers.length === 0) {
+      return false;
+    }
+
+    const disallowedEntities = [
+      TICKET_ENTITY.CONTRACT,
+      TICKET_ENTITY.STOCK_TRANFER_IN,
+      TICKET_ENTITY.STOCK_INTERNAL_PURCHASE
+    ];
+
+    return !disallowedEntities.includes(this.entityName);
+  }
+
+  showRemoveDiscount09Button(record: any) {
+    if (this.handleDeleteDiscount09.observers.length === 0) {
+      return false;
+    }
+    if (this.readonly) {
+      return false
+    }
+
+    return true;
   }
   // #endregion show edit button
 
