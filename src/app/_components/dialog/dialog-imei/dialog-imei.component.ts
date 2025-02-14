@@ -145,6 +145,7 @@ export class DialogIMEIComponent {
           for (let imei_item of list_imei) {
             if (!checkValidImei(imei_item)) {
               this.commonService.showMessage(msg_imei_invalid.replace('%value', imei_item));
+              this.isLoading = false;
               return;
             }
           }
@@ -159,6 +160,7 @@ export class DialogIMEIComponent {
           if (imeis_exists_in_grid !== '') {
             const msg_name = this.commonService.getMessage('lblWarningExistImeiDetail');
             this.commonService.showMessage(msg_name.replace('%imei', imeis_exists_in_grid));
+            this.isLoading = false;
             return;
           }
 
@@ -190,6 +192,7 @@ export class DialogIMEIComponent {
             this.snackBar.open(err, 'Đóng', {
               duration: 2000,
             });
+            this.isLoading = false;
           } else {
             let flag = false;
             if (this.type == 3 || this.type == 5) {
@@ -199,6 +202,7 @@ export class DialogIMEIComponent {
                     duration: 2000,
                   });
                   flag = true;
+                  this.isLoading = false;
                   return;
                 }
                 else {
@@ -211,6 +215,7 @@ export class DialogIMEIComponent {
                       duration: 2000,
                     });
                     flag = true;
+                    this.isLoading = false;
                     return;
                   }
                 }
@@ -221,6 +226,7 @@ export class DialogIMEIComponent {
               const imei_new = list_imei.filter(x => !imeiOld.find(imei => imei.trim() == x.trim()));
               if (imei_new.length == 0) {
                 this.dialogRef.close(list_imei);
+                this.isLoading = false;
                 return;
               }
               this.imeiService.getListImeiInfo(imei_new).subscribe((res) => {
@@ -231,6 +237,7 @@ export class DialogIMEIComponent {
                     this.snackBar.open(`IMEI ${imeiInvalid.ma_imei} không thuộc mã vật tư ${this.data.ma_vt}`, 'Đóng', {
                       duration: 2000,
                     });
+                    this.isLoading = false;
                     return;
                   }
                   res.result.forEach((item: any) => {
@@ -309,6 +316,7 @@ export class DialogIMEIComponent {
                     this.snackBar.open(message, 'Đóng', {
                       duration: 2000,
                     });
+                    this.isLoading = false;
                   }
                   else {
                     this.dialogRef.close(list_imei);

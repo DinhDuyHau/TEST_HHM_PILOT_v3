@@ -21,6 +21,12 @@
     "link": true
   },
   {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "isLockingColumn": true,
+    "width": 120
+  },
+  {
     "name": "ten",
     "title": "Tên chứng từ",
     "isLockingColumn": true,
