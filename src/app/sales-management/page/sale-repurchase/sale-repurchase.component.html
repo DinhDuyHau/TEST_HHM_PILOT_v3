@@ -170,7 +170,15 @@
 
         <div class="flex flex-1 gap-2">
           <form-input-custom
-            class="basis-2/5"
+            class="flex-1"
+            [name]="'ma_ncc'"
+            [label]="getLabel('lbl_ma_ncc_tc')"
+            [value]="renew.ma_ncc"
+            [readonly]="true"
+            [disabled]="readonly"
+            (handleClickOpenDialog)="openSearchSupplierDialog()" />
+          <form-input-custom
+            class="flex-1"
             [name]="'loai_hh'"
             [label]="getLabel('lbl_loai_hh')"
             [value]="renew.loai_hh"
@@ -178,8 +186,28 @@
             [disabled]="readonly"
             [invalid]="invalidMerchandiseInput.loai_hh"
             (handleClickOpenDialog)="openSearchTypeMerchandiseDialog3()" />
+        </div>
+
+        <div class="flex flex-1 gap-2">
           <form-input-custom
-            class="basis-3/5"
+            class="flex-1"
+            [name]="'ma_cttc'"
+            [label]="'Mã chương trình thu cũ'"
+            [value]="renew.ma_cttc"
+            [readonly]="true"
+            [disabled]="true" />
+          <form-input-custom
+            class="flex-1"
+            [name]="'ten_cttc'"
+            [label]="'Tên chương trình thu cũ'"
+            [value]="renew.ten_cttc"
+            [readonly]="true"
+            [disabled]="true" />
+        </div>
+
+        <div class="flex flex-1 gap-2">
+          <form-input-custom
+            class="basis-2/5"
             [name]="'gia_nhap_mua'"
             [label]="'Giá theo bảng giá'"
             [align]="'end'"
@@ -188,16 +216,6 @@
             dataType="number"
             [readonly]="true"
             format="moneyViewFormat" />
-        </div>
-
-        <div class="flex flex-1 gap-2">
-          <form-input-custom
-            class="basis-2/5"
-            [name]="'loai_hh'"
-            [label]="getLabel('lbl_ma_ncc_tc')"
-            [value]="renew.ma_ncc"
-            [readonly]="true"
-            [disabled]="true" />
           <div class="flex flex-1">
             <form-input-custom
               class="basis-3/5"

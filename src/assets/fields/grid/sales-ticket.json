@@ -1622,18 +1622,8 @@
             "minWidth": "100px"
         },
         {
-            "name": "t_tien_nt",
-            "title": "Tiền đơn hàng",
-            "align": "right",
-            "format": "moneyView2Digit",
-            "dataType": "number"
-        },
-        {
-            "name": "t_ck_nt",
-            "title": "Chiết khấu",
-            "align": "right",
-            "format": "moneyView2Digit",
-            "dataType": "number"
+            "name": "fcode1",
+            "title": "Loại giao dịch"
         },
         {
             "name": "t_thue_nt",
