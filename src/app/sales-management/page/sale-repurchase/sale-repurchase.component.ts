@@ -587,11 +587,11 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
       this.resetDataItem();
     }
     if (event === "3") {
-      this.repurchase.loai_hh = "Hàng cũ";
-      this.repurchase.ma_loai = "HC";
+      this.repurchase.loai_hh = "Kinh doanh";
+      this.repurchase.ma_loai = "KD";
       this.ticketApiService.getStocks2(TICKET_ENTITY.REPURCHASE, {
         ma_cuahang: this.ticket.masterInfo.ma_cuahang,
-        ma_nh: "HC"
+        ma_nh: "KD"
       }).subscribe(result => {
         if (result.success) {
           const { ma_kho } = result.result as any;
