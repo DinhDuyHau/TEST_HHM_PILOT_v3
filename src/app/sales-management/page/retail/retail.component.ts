@@ -608,7 +608,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
 
   onSwapPromotionMerchandise(event: { item: Merchandise }) {
-    let merchandise = this.ticket.merchandise.find(e => e.ma_imei === event.item.ma_imei);
+    // let merchandise = this.ticket.merchandise.find(e => e.ma_imei === event.item.ma_imei);
+    let index = this.ticket.merchandise.findIndex(e => e === event.item);
+    if (index === -1) return; // Không tìm thấy item trong danh sách
+    let merchandise = this.ticket.merchandise[index]; // Lấy đúng dòng được chọn
     if (merchandise?.ma_imei !== '') {
       this.commonService.showMessage('Đã nhập imei vật tư. Không thể thay đổi hàng khuyến mại')
       return
