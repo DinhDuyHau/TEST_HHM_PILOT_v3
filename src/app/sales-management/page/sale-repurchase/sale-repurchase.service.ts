@@ -272,4 +272,12 @@ export class SaleRepurchaseService {
     adjustBuyPrice(ngay_ct: Date, ma_ncc: string, ma_loai: string, ma_vt: string, gia_bang_gia: any, gia_dc: any): Observable<ResultNoPaging<any>> | undefined {
         return this.ticketApiService.getRepurchaseAdjustBuyPrice(ngay_ct, ma_ncc, ma_loai, ma_vt, gia_bang_gia, gia_dc);
     }
+
+    getOldProgram(ma_ncc: string, ngay_ct: Date): Observable<ResultNoPaging<any>> | undefined {
+        return this.ticketApiService.getOldProgram(ma_ncc, ngay_ct);
+    }
+
+    getTypeStock(ma_cttc: string, ma_ncc: string, ngay_ct: Date): Observable<ResultNoPaging<any>> | undefined {
+        return this.ticketApiService.getTypeStock(ma_cttc, ma_ncc, ngay_ct);
+    }
 }

@@ -381,4 +381,21 @@ export class TicketApiService extends ApiService {
         let url = GET_LOOKUP_VOUCHER_URL;
         return this.post<Result<any>>(url, {}, { ...params, page_index, page_size });
     }
+
+    getOldProgram(ma_ncc: string, ngay_ct: Date): Observable<ResultNoPaging<any>> {
+        let url = `${environment.apiUrl}/Price/get_old_program`;
+        url += `?ngay_ct=${ngay_ct.toISOString()}`;
+        url += `&ma_ncc=${ma_ncc}`;
+
+        return this.get<ResultNoPaging<any>>(url);
+    }
+
+    getTypeStock(ma_cttc: string, ma_ncc: string, ngay_ct: Date): Observable<ResultNoPaging<any>> {
+        let url = `${environment.apiUrl}/Price/get_type_stock`;
+        url += `?ngay_ct=${ngay_ct.toISOString()}`;
+        url += `&ma_ncc=${ma_ncc}`;
+        url += `&ma_cttc=${ma_cttc}`;
+
+        return this.get<ResultNoPaging<any>>(url);
+    }
 }

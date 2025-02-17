@@ -449,6 +449,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           this.commonService.saveTicketToLocalStorage(voucherData);
 
           this.dataSource = voucherData.map((voucherRecord: any) => {
+            this.processTypeTransaction(voucherRecord);
             this.sanitizeRecord(voucherRecord);
             this.processPayments(voucherRecord, paymentMethodData);
             return voucherRecord;
@@ -495,6 +496,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           this.commonService.saveTicketToLocalStorage(voucherData);
 
           this.dataSource = voucherData.map((voucherRecord: any) => {
+            this.processTypeTransaction(voucherRecord);
             this.sanitizeRecord(voucherRecord);
             this.processPayments(voucherRecord, paymentMethodData);
             return voucherRecord;
@@ -526,6 +528,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           this.commonService.saveTicketToLocalStorage(voucherData);
 
           this.dataSource = voucherData.map((voucherRecord: any) => {
+            this.processTypeTransaction(voucherRecord);
             this.sanitizeRecord(voucherRecord);
             this.processPayments(voucherRecord, paymentMethodData);
             return voucherRecord;
@@ -790,6 +793,20 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
     if (event.item && event.item.stt_rec) {
       this.select_item_current = event.item.stt_rec;
       this.selected_status_row = event.item.status;
+    }
+  }
+
+  processTypeTransaction(voucherRecord: any): void {
+    if(this.codeName === TICKET_CODE.REPURCHASE) {
+      if(voucherRecord.fcode1.trim() === '1') {
+        voucherRecord.fcode1 = "1-Mua lại từ khách hàng cá nhân"
+      }
+      if(voucherRecord.fcode1.trim() === '2') {
+        voucherRecord.fcode1 = "2-Mua lại từ khách hàng doanh nghiệp"
+      }
+      if(voucherRecord.fcode1.trim() === '3') {
+        voucherRecord.fcode1 = "3-Mua thu cũ không lên đời"
+      }
     }
   }
 

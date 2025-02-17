@@ -34,6 +34,7 @@ interface IFilter {
   ma_cuahang2: string;
   ten_cuahang2: string;
   ma_ct: string;
+  typeTransaction: string;
 }
 
 @Component({
@@ -72,7 +73,8 @@ export class AdvancedSearchDialogComponent implements OnInit {
     ten_cuahang: '',
     ma_cuahang2: '',
     ten_cuahang2: '',
-    ma_ct: ''
+    ma_ct: '',
+    typeTransaction: '*',
   };
 
   statusList: StatusTicket[] = [
@@ -88,6 +90,25 @@ export class AdvancedSearchDialogComponent implements OnInit {
       status: '2',
       statusname: 'Hoàn thành'
     },
+  ];
+
+  typeTransactions = [
+    {
+      typeTransaction: '*',
+      typeTransactionName: 'Tất cả'
+    },
+    {
+      typeTransaction: '1',
+      typeTransactionName: '1-Mua lại từ khách hàng cá nhân'
+    },
+    {
+      typeTransaction: '2',
+      typeTransactionName: '2-Mua lại từ khách hàng doanh nghiệp'
+    },
+    {
+      typeTransaction: '3',
+      typeTransactionName: '3-Mua thu cũ không lên đời'
+    }
   ];
 
   voucherCode = '';

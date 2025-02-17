@@ -101,7 +101,7 @@
             "></app-input-custom-v2>
         </div>
       </div>
-      <div class="flex">
+      <div class="flex gap-2">
         <select-custom
           class="flex-1"
           [label]="getLabel('lbl_trang_thai')"
@@ -111,6 +111,12 @@
           [isDisable]="disabled"
           [value]="data.masterInfo.status"
           (handleChangeValue)="data.masterInfo.status = $event" />
+        <app-input-custom-v2
+          [label]="'Mã ca'"
+          class="flex-1"
+          #input2
+          [disabled]="true"
+          [value]="this.ten_ca"></app-input-custom-v2>
       </div>
       <div class="flex gap-2">
         <app-input-custom-v2

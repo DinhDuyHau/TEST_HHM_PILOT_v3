@@ -42,6 +42,7 @@ export class Merchandise extends BaseMerchandise {
     ma_td3 = '';
     ma_td2 = '';
     sl_td1 = 0;
+    ma_td1 = '';
 
     constructor(obj?: any) {
         super();
