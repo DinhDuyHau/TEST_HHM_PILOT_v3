@@ -540,6 +540,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       complete: () => this.isLoading = false
     };
     if (!this.isLoading) {
+      this.isAdvanceSearch = false;
       if (params.so_ct && params.so_ct !== '') {
         this.getDataMode = this.dataMode.QUICK_SEARCH;
         this.isLoading = true;
@@ -799,13 +800,13 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   processTypeTransaction(voucherRecord: any): void {
     if(this.codeName === TICKET_CODE.REPURCHASE) {
       if(voucherRecord.fcode1.trim() === '1') {
-        voucherRecord.fcode1 = "1-Mua lại từ khách hàng cá nhân"
+        voucherRecord.fcode1 = "1-Mua lại từ KH cá nhân"
       }
       if(voucherRecord.fcode1.trim() === '2') {
-        voucherRecord.fcode1 = "2-Mua lại từ khách hàng doanh nghiệp"
+        voucherRecord.fcode1 = "2-Mua lại từ KH doanh nghiệp"
       }
       if(voucherRecord.fcode1.trim() === '3') {
-        voucherRecord.fcode1 = "3-Mua thu cũ không lên đời"
+        voucherRecord.fcode1 = "3-Mua thu cũ ko lên đời"
       }
     }
   }
@@ -825,6 +826,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       "TRAGOP": "tr_gop",
       "DIEMQD": "sd_diem",
       "VOUCHERDOITAC": "voucher_doi_tac",
+      "CONGNO": "t_con_no",
     };
 
     Object.values(paymentFieldMap).forEach(fieldName => {
