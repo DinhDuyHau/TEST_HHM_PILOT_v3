@@ -780,6 +780,8 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
   resetRew() {
     this.renew.loai_hh = '';
     this.renew.ma_loai = '';
+    this.renew.ma_cttc = '';
+    this.renew.ten_cttc = '';
     this.renew.gia_nt = 0;
     this.renew.gia_mua = 0;
   }

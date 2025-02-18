@@ -1598,6 +1598,10 @@
             "title": "Trạng thái"
         },
         {
+            "name": "fcode1",
+            "title": "Loại giao dịch"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày chứng từ",
             "dataType": "date",
@@ -1622,14 +1626,17 @@
             "minWidth": "100px"
         },
         {
-            "name": "fcode1",
-            "title": "Loại giao dịch"
+            "name": "tien_mat",
+            "title": "Tiền mặt",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
         },
         {
-            "name": "t_thue_nt",
-            "title": "Thuế ",
+            "name": "t_con_no",
+            "title": "Công nợ",
             "align": "right",
-            "format": "moneyView2Digit",
+            "format": "moneyViewNoDigit",
             "dataType": "number"
         },
         {

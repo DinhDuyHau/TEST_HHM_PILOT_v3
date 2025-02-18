@@ -221,6 +221,21 @@
             "format": "moneyViewNoDigit",
             "align": "right",
             "dataType": "number"
+        },
+        {
+            "name": "ma_td2",
+            "title": "Đại lý",
+            "align": "center"
+        },
+        {
+            "name": "ma_td3",
+            "title": "Loại HH",
+            "align": "center"
+        },
+        {
+            "name": "ma_td1",
+            "title": "Mã CTTC",
+            "align": "center"
         }
     ],
     "MERCHANDISE_THU_CU_LIST": [
