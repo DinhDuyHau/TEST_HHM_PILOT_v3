@@ -83,6 +83,15 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
     this.saleChangeService.setTicket(this.ticket);
   }
 
+  get tabList() {
+    return [
+      { label: 'Hàng đổi', count: this.ticket?.merchandise_change?.length ?? 0 },
+      { label: 'Hàng trả', count: this.ticket?.merchandise_return?.length ?? 0 },
+      { label: 'Đổi kèm dịch vụ', count: this.ticket?.service?.length ?? 0 },
+      { label: 'HĐĐT' }
+    ];
+  }
+
   ngAfterViewInit(): void {
     // this.commonService.focusControl(this.tabIndexFocusFirst);
   }

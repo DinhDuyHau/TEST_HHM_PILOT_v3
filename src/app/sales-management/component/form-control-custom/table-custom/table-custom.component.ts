@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterViewChecked, AfterViewInit, Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, Renderer2, SimpleChanges } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, Renderer2, SimpleChanges } from '@angular/core';
 import dataFormat from '@app/_common/dataFormat';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 import { ItemFilter } from '@app/_components/gridV2/grid.model';
@@ -17,6 +17,7 @@ export class Cell {
   isPrimaryKey = false;
   width?: string;
   minWidth?: string;
+  visible: boolean = true;
 }
 
 @Component({
@@ -86,12 +87,20 @@ export class TableCustomComponent implements
   ) { }
 
   ngOnInit(): void {
-    this.columns = this.columns.map(column => {
-      return { ...new Cell(), ...column, format: (dataFormat as any)[column.format ? column.format : ''] };
-    });
+    // this.columns = this.columns.map(column => {
+    //   return { ...new Cell(), ...column, format: (dataFormat as any)[column.format ? column.format : ''] };
+    // });
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes["columns"]) {
+      this.columns = this.columns.map(column => ({
+        ...new Cell(),
+        ...column,
+        format: (dataFormat as any)[column.format ? column.format : ''],
+        visible: column.visible !== undefined ? column.visible : true
+      }));
+    }
     if (changes["dataSource"]?.currentValue?.length > 0) {
       // xử lý đổi màu phiếu chỉ định
       const ARRAY_SITE_TRANSFER = [

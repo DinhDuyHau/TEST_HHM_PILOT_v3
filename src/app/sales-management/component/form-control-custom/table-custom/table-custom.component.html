@@ -18,9 +18,10 @@
           <div class="cell-boder-right"></div>
         </ng-template>
         </th>
+        <ng-container *ngFor="let column of columns; index as i">
         <th
           class="table-title text-nowrap"
-          *ngFor="let column of columns; index as i">
+          *ngIf="column.visible">
           <div
             [ngStyle]="{
               width: column.width && column.width,
@@ -40,6 +41,7 @@
             class="cell-boder-right"
             (mousedown)="startResize($event, i)"></div>
         </th>
+        </ng-container>
         <th
           *ngIf="
             (handleDelete.observers.length ||
@@ -65,8 +67,9 @@
             [(ngModel)]="record.selected"
             (change)="onChangeSelectCheckbox(record)" />
         </td>
+        <ng-container *ngFor="let column of columns">
         <td
-          *ngFor="let column of columns"
+          *ngIf="column.visible"
           class="justify-content-center"
           (click)="type && type == 'main' && onSelectItem(record, ref)">
           <div *ngIf="column.name === 'stt'">{{ i + 1 }}</div>
@@ -140,6 +143,7 @@
               " />
           </div>
         </td>
+        </ng-container>
         <td
           *ngIf="
             handleDelete.observers.length ||

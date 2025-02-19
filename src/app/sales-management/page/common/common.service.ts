@@ -534,33 +534,62 @@ export class CommonService {
     * Lưu dữ liệu ticket vào localStorage khi: loading, advance search, quick search
     */
     saveTicketToLocalStorage(data: any) {
-      const sttRecArray = data.map((item: any) => item.stt_rec);
-      localStorage.removeItem('ticketData');
-      localStorage.setItem('ticketData', JSON.stringify(sttRecArray) || '[]');
+        const sttRecArray = data.map((item: any) => item.stt_rec);
+        localStorage.removeItem('ticketData');
+        localStorage.setItem('ticketData', JSON.stringify(sttRecArray) || '[]');
     }
 
     /*
     * Lấy dữ liệu ticket từ localStorage để dùng chuyển trang
     */
     getTicketFromLocalStorage() {
-      const ticketData = localStorage.getItem('ticketData');
-      if(!ticketData) {
-        return [];
-      } else {
-        return JSON.parse(ticketData);
-      }
+        const ticketData = localStorage.getItem('ticketData');
+        if (!ticketData) {
+            return [];
+        } else {
+            return JSON.parse(ticketData);
+        }
     }
 
     /*
     * Kiểm tra xem khách hàng đã đủ thông tin chỉ định hay chưa
     */
     shouldOpenDialog(customer: any): boolean {
-      // Các trường cần kiểm tra
-      const requiredFields = ['ma_kh', 'ten_kh', 'dia_chi', 'dien_thoai', 'ngay_sinh', 'email_cn'];
+        // Các trường cần kiểm tra
+        const requiredFields = ['ma_kh', 'ten_kh', 'dia_chi', 'dien_thoai', 'ngay_sinh', 'email_cn'];
 
-      // Kiểm tra nếu bất kỳ trường nào bị thiếu (null, undefined, hoặc chuỗi rỗng)
-      return requiredFields.some(field => !customer[field] || customer[field].trim() === '');
-  }
+        // Kiểm tra nếu bất kỳ trường nào bị thiếu (null, undefined, hoặc chuỗi rỗng)
+        return requiredFields.some(field => !customer[field] || customer[field].trim() === '');
+    }
+
+    /*
+    * Update value cho cột theo field truyền vào
+    * @param columns: danh sách cột
+    * @param columnsToUpdate: danh sách cập nhật
+    * Ví dụ @param columnsToUpdate:
+    * [
+    *     { name: 'sl_td1', field: 'visible', value: true },
+    *     { name: 'ma_td1', field: 'visible', value: true },
+    * ];
+    */
+    updateColumnsFields(columns: any[], columnsToUpdate: { name: string, field: string, value: any }[]): any[] {
+        return columns.map(col => {
+            // Lọc ra tất cả các cập nhật liên quan đến cột này
+            const updatesForColumn = columnsToUpdate.filter(update => update.name === col.name);
+
+            // Nếu có cập nhật, áp dụng tất cả các thay đổi
+            if (updatesForColumn.length > 0) {
+                const updatedColumn = { ...col };
+                updatesForColumn.forEach(update => {
+                    updatedColumn[update.field] = update.value;
+                });
+                return updatedColumn;
+            }
+
+            // Nếu không có thay đổi, trả về cột gốc
+            return col;
+        });
+    }
 }
 
 

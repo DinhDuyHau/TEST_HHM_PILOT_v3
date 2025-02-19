@@ -7,10 +7,16 @@ import { Component, OnInit, ElementRef, Input } from '@angular/core';
 })
 export class TabsCustomComponent implements OnInit {
   @Input() title!: string;
+  @Input() titleListWithCount: any[] = [];
   activatedTab = 0;
   titleList: any = [];
+
   constructor(private elRef: ElementRef,
   ) {
+  }
+
+  get computedTabList() {
+    return this.titleListWithCount?.length ? this.titleListWithCount : this.titleList = Array.from(this.elRef.nativeElement.querySelectorAll('tab-custom')).map((e: any) => ({ label: e.attributes['label'].value })) || [];
   }
 
   tabChange(tabId: number) {
@@ -37,6 +43,7 @@ export class TabsCustomComponent implements OnInit {
     });
 
     this.titleList = Array.from(this.elRef.nativeElement.querySelectorAll('tab-custom')).map((e: any) => e.attributes['label'].value);
+    // this.titleList = this.titleListWithCount.map((e: any) => e.label);
   }
 
 }

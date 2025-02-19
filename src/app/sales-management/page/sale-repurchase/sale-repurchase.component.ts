@@ -205,6 +205,17 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
             getStatusList();
             this.commonService.getPointRateExchange(this.ticket);
             this.tabIndexFocusFirst = this.tabIndex.imei;
+
+            // xử lý ẩn hiện cột mong muốn
+            if(this.ticket.masterInfo.fcode1 === "3") {
+              const updatesColumns = [
+                { name: 'sl_td1', field: 'visible', value: true },
+                { name: 'ma_td1', field: 'visible', value: true },
+                { name: 'ma_td2', field: 'visible', value: true },
+                { name: 'ma_td3', field: 'visible', value: true },
+              ];
+              this.merchandiseColumns = this.commonService.updateColumnsFields(this.merchandiseColumns, updatesColumns);
+            }
           }
         });
       } else {
@@ -579,16 +590,40 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.fcode1 = event
     // set lại mặc định là 10
     if (event === "1") {
+      const updatesColumns = [
+        { name: 'sl_td1', field: 'visible', value: false },
+        { name: 'ma_td1', field: 'visible', value: false },
+        { name: 'ma_td2', field: 'visible', value: false },
+        { name: 'ma_td3', field: 'visible', value: false },
+      ];
+      this.merchandiseColumns = this.commonService.updateColumnsFields(this.merchandiseColumns, updatesColumns);
+
       this.ticket.masterInfo.fqty1 = 0;
       // reset
       this.resetDataItem();
     }
     if (event === "2") {
+      const updatesColumns = [
+        { name: 'sl_td1', field: 'visible', value: false },
+        { name: 'ma_td1', field: 'visible', value: false },
+        { name: 'ma_td2', field: 'visible', value: false },
+        { name: 'ma_td3', field: 'visible', value: false },
+      ];
+      this.merchandiseColumns = this.commonService.updateColumnsFields(this.merchandiseColumns, updatesColumns);
+
       this.ticket.masterInfo.fqty1 = 10;
       // reset
       this.resetDataItem();
     }
     if (event === "3") {
+      const updatesColumns = [
+        { name: 'sl_td1', field: 'visible', value: true },
+        { name: 'ma_td1', field: 'visible', value: true },
+        { name: 'ma_td2', field: 'visible', value: true },
+        { name: 'ma_td3', field: 'visible', value: true },
+      ];
+      this.merchandiseColumns = this.commonService.updateColumnsFields(this.merchandiseColumns, updatesColumns);
+
       // this.repurchase.loai_hh = "Hàng cũ";
       // this.repurchase.ma_loai = "HC";
       // this.ticketApiService.getStocks2(TICKET_ENTITY.REPURCHASE, {
@@ -884,7 +919,4 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     return null;
   }
   // #endregion 3.mua thu cũ không lên đời
-
 }
-
-

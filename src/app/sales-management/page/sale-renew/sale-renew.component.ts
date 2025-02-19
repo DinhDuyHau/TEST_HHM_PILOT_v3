@@ -145,6 +145,18 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     this.saleRenewService.setTicket(this.ticket, this.option);
   }
 
+  get tabList() {
+    return [
+      { label: 'Hàng hoá', count: this.ticket?.merchandise_new_sale?.length ?? 0 },
+      { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
+      { label: 'Gói cước', count: this.ticket?.packages?.length ?? 0 },
+      { label: 'Chiết khấu', count: this.ticket?.discount?.length ?? 0 },
+      { label: 'Hàng thu cũ', count: this.ticket?.merchandise_used?.length ?? 0 },
+      { label: 'Vận chuyển' },
+      { label: 'HĐĐT' }
+    ];
+  }
+
   testData() {
     // this.onEnterCustomerCode('gen');
     // this.onEnterImeiNewMerchandiseCode('11SC662VNA00009');
