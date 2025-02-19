@@ -75,6 +75,13 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
     this.saleGiftRepayService.setTicket(this.ticket);
   }
 
+  get tabList() {
+    return [
+      { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
+      { label: 'HĐĐT' }
+    ];
+  }
+
   ngAfterViewInit(): void {
     // this.commonService.focusControl(this.tabIndexFocusFirst);
   }

@@ -343,6 +343,13 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
 
   onSubmit() {
     this.data.details[1].data = [this.extend];
+
+    const message = this.validData();
+    if(message) {
+      this.commonService.showMessage(message);
+      return;
+    }
+
     this.submitted = true;
     this.disabled = true;
     let input_error: any;
@@ -382,11 +389,6 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
     });
     if (sum_tien_nt == 0) {
       this.commonService.showMessage("Tiền không hợp lệ");
-      return;
-    }
-    const message = this.validData();
-    if(message) {
-      this.commonService.showMessage(message);
       return;
     }
     this.loading = true;
@@ -597,6 +599,7 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
   validData(): string | null {
     const details = this.data.details[0]?.data || [];
     const missingIndexes: number[] = [];
+    const missingTkNoIndexes: number[] = [];
     let firstAccount: string | null = null;
     let hasDifferentAccount = false;
 
@@ -604,6 +607,11 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
       // kiểm tra mã phí ko được rỗng
       if (!details[i].ma_phi || details[i].ma_phi.trim() === "") {
         missingIndexes.push(i + 1);
+      }
+
+      // Kiểm tra tk_no không được rỗng
+      if (!details[i].ma_td1 || details[i].ma_td1.trim() === "") {
+        missingTkNoIndexes.push(i + 1);
       }
 
       // Kiểm tra sự đồng nhất của ma_td1
@@ -618,6 +626,9 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
 
     if (missingIndexes.length > 0) {
       return `Dòng ${missingIndexes.join(", ")} chưa có mã phí`;
+    }
+    if (missingTkNoIndexes.length > 0) {
+      return `Dòng ${missingTkNoIndexes.join(", ")} chưa có tài khoản`;
     }
     if (hasDifferentAccount) {
       return "Các dòng tài khoản phải giống nhau";

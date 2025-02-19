@@ -107,6 +107,15 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
     this.saleAffiliateService.setTicket(this.ticket, this.option);
   }
 
+  get tabList() {
+    return [
+      { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
+      { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
+      { label: 'Chiết khấu', count: this.ticket?.discount?.length ?? 0 },
+      { label: 'HĐĐT' }
+    ];
+  }
+
   ngAfterViewInit(): void {
     // this.commonService.focusControl(this.tabIndexFocusFirst);
   }

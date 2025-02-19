@@ -97,6 +97,17 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
     localStorage.setItem('useGridCached', '1');
     this.saleReturnService.setTicket(this.ticket);
   }
+
+  get tabList() {
+    return [
+      { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
+      { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
+      { label: 'HĐĐT Bán hàng' },
+      { label: 'HĐĐT Nhập trả lại' },
+      { label: 'Thông tin giao hàng' }
+    ];
+  }
+
   ngAfterViewInit(): void {
     // this.commonService.focusControl(this.tabIndex.imei);
   }

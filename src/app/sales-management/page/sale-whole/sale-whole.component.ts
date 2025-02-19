@@ -78,6 +78,16 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
     this.saleWholeService.setTicket(this.ticket);
   }
 
+  get tabList() {
+    return [
+      { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
+      { label: 'Bảo hành', count: this.ticket?.guarantee?.length ?? 0 },
+      { label: 'Vận chuyển' },
+      { label: 'Hồ sơ hợp đồng' },
+      { label: 'HĐĐT' }
+    ];
+  }
+
   ngAfterViewInit(): void {
     // this.commonService.focusControl(this.tabIndexFocusFirst);
   }

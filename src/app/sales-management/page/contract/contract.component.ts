@@ -41,7 +41,12 @@ export class ContractComponent implements AfterViewInit, OnInit, OnChanges {
     this.contractService.setTicket(this.contract);
   }
 
-
+  get tabList() {
+    return [
+      { label: 'Hàng hoá', count: this.contract?.merchandise?.length ?? 0 },
+      { label: 'Thông tin giao hàng' },
+    ];
+  }
 
   ngAfterViewInit(): void {
     // throw new Error('Method not implemented.');

@@ -98,7 +98,7 @@
         (handleChangeValue)="ticket.masterInfo.status = $event" />
     </div>
 
-    <tabs-custom title="Thông tin hàng hóa">
+    <tabs-custom title="Thông tin hàng hóa" [titleListWithCount]="tabList">
       <tab-custom label="Hàng hoá" class="w-100">
         <div class="pb-2">
           <button

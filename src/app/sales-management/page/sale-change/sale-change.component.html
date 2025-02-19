@@ -113,7 +113,7 @@
         (handleChangeValue)="ticket.masterInfo.status = $event" />
     </div>
 
-    <tabs-custom>
+    <tabs-custom [titleListWithCount]="tabList">
       <tab-custom label="Hàng đổi" class="w-100">
         <table-custom
           [readonly]="readonly"
