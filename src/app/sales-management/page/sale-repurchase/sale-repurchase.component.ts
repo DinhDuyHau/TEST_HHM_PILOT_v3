@@ -208,11 +208,13 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
 
             // xử lý ẩn hiện cột mong muốn
             if(this.ticket.masterInfo.fcode1 === "3") {
-              // this.updateColumnsVisibility([
-              //   { name: "ma_td1", visible: true },
-              //   { name: "ma_td3", visible: true },
-              //   { name: "ma_td2", visible: true }
-              // ]);
+              const updatesColumns = [
+                { name: 'sl_td1', field: 'visible', value: true },
+                { name: 'ma_td1', field: 'visible', value: true },
+                { name: 'ma_td2', field: 'visible', value: true },
+                { name: 'ma_td3', field: 'visible', value: true },
+              ];
+              this.merchandiseColumns = this.commonService.updateColumnsFields(this.merchandiseColumns, updatesColumns);
             }
           }
         });
@@ -588,33 +590,40 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.fcode1 = event
     // set lại mặc định là 10
     if (event === "1") {
-      this.updateColumnsVisibility([
-        { name: "ma_td1", visible: false },
-        { name: "ma_td3", visible: false },
-        { name: "ma_td2", visible: false }
-      ]);
+      const updatesColumns = [
+        { name: 'sl_td1', field: 'visible', value: false },
+        { name: 'ma_td1', field: 'visible', value: false },
+        { name: 'ma_td2', field: 'visible', value: false },
+        { name: 'ma_td3', field: 'visible', value: false },
+      ];
+      this.merchandiseColumns = this.commonService.updateColumnsFields(this.merchandiseColumns, updatesColumns);
 
       this.ticket.masterInfo.fqty1 = 0;
       // reset
       this.resetDataItem();
     }
     if (event === "2") {
-      this.updateColumnsVisibility([
-        { name: "ma_td1", visible: false },
-        { name: "ma_td3", visible: false },
-        { name: "ma_td2", visible: false }
-      ]);
+      const updatesColumns = [
+        { name: 'sl_td1', field: 'visible', value: false },
+        { name: 'ma_td1', field: 'visible', value: false },
+        { name: 'ma_td2', field: 'visible', value: false },
+        { name: 'ma_td3', field: 'visible', value: false },
+      ];
+      this.merchandiseColumns = this.commonService.updateColumnsFields(this.merchandiseColumns, updatesColumns);
 
       this.ticket.masterInfo.fqty1 = 10;
       // reset
       this.resetDataItem();
     }
     if (event === "3") {
-      this.updateColumnsVisibility([
-        { name: "ma_td1", visible: true },
-        { name: "ma_td3", visible: true },
-        { name: "ma_td2", visible: true }
-      ]);
+      const updatesColumns = [
+        { name: 'sl_td1', field: 'visible', value: true },
+        { name: 'ma_td1', field: 'visible', value: true },
+        { name: 'ma_td2', field: 'visible', value: true },
+        { name: 'ma_td3', field: 'visible', value: true },
+      ];
+      this.merchandiseColumns = this.commonService.updateColumnsFields(this.merchandiseColumns, updatesColumns);
+
       // this.repurchase.loai_hh = "Hàng cũ";
       // this.repurchase.ma_loai = "HC";
       // this.ticketApiService.getStocks2(TICKET_ENTITY.REPURCHASE, {
@@ -910,46 +919,4 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     return null;
   }
   // #endregion 3.mua thu cũ không lên đời
-
-
-  updateColumnsVisibility(columnsToUpdate: { name: string, visible: boolean }[]): void {
-    // Duyệt qua mảng cột cần cập nhật
-    this.merchandiseColumns = this.merchandiseColumns.map((col: any) => {
-      const columnToUpdate = columnsToUpdate.find(item => item.name === col.name);
-
-      // Nếu có cột trong mảng cần cập nhật, thay đổi thuộc tính 'visible'
-      if (columnToUpdate) {
-        return { ...col, visible: columnToUpdate.visible };
-      }
-
-      // Nếu không có, giữ nguyên cột
-      return col;
-    });
-
-    // Clone lại mảng để trigger change detection
-    this.merchandiseColumns = [...this.merchandiseColumns];
-
-    // this.updateDataSourceVisibility();
-  }
-
-  updateDataSourceVisibility(): void {
-    this.ticket.merchandise = this.ticket.merchandise.map((record: any) => {
-      const updatedRecord = { ...record };
-
-      // Duyệt qua các cột để kiểm tra xem cột nào bị ẩn
-      this.merchandiseColumns.forEach((col: any) => {
-        if (!col.visible) {
-          updatedRecord[col.name] = null; // Hoặc giá trị mặc định nếu bạn muốn
-        }
-      });
-
-      return updatedRecord;
-    });
-
-    // Clone lại dataSource để trigger change detection
-    this.ticket.merchandise = [...this.ticket.merchandise];
-  }
-
 }
-
-
