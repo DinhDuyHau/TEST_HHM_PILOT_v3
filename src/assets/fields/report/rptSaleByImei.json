@@ -27,7 +27,7 @@
     "name": "so_ct",
     "title": "Số CT",
     "allowFilter": true,
-    "width": 120,
+    "width": 150,
     "dataFormatString": "upperCaseFormat",
     "isLockingColumn": true,
 	"link": true
