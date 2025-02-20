@@ -31,6 +31,7 @@ export class MasterInfo extends BaseMasterInfo {
   tien_thue = 0;
   thanh_toan = 0;
   ong_ba = '';
+  dien_giai = '';
 
   constructor(obj?: any) {
     super();
