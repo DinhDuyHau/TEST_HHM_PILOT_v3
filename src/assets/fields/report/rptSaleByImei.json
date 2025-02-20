@@ -30,7 +30,7 @@
     "width": 120,
     "dataFormatString": "upperCaseFormat",
     "isLockingColumn": true,
-	"link": true
+    "link": true
   },
   {
     "name": "ngay_ct",
@@ -54,6 +54,14 @@
     "title": "Tên khách hàng",
     "allowFilter": true,
     "width": 220,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "nh_vt1",
+    "title": "Chủng loại",
+    "allowFilter": true,
+    "width": 120,
     "dataFormatString": "upperCaseFormat",
     "isLockingColumn": true
   },
