@@ -802,7 +802,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
   // Đại lý thu cũ
   openSearchSupplierDialog() {
     this.commonService.openDialog(SearchDialogComponent,
-      { keyword: '', componentName: SEARCH_COMPONENT_NAME.OLD_RECEIVER_SUPPLIER }, 'search-style-dialog')
+      { keyword: '', componentName: SEARCH_COMPONENT_NAME.OLD_RECEIVER_SUPPLIER, filter: [{name: 's4', value: 1, operator: '='}] }, 'search-style-dialog')
       .afterClosed()
       .subscribe((empl: Customer) => this.handleAddSupplier(empl));
   }
@@ -915,6 +915,12 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     }
     if (this.ticket.merchandise.length > 0) {
       return 'Loại giao dịch 3 chỉ được 1 imei trên phiếu';
+    }
+    if (!this.renew.ma_cttc) {
+      return 'Chưa có chương trình thu cũ';
+    }
+    if (!this.renew.ma_loai) {
+      return 'Chưa có mã loại';
     }
     return null;
   }

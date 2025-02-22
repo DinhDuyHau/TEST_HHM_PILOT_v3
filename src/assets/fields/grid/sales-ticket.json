@@ -1620,10 +1620,17 @@
             "title": "Tên khách hàng"
         },
         {
-            "name": "Dien_giai",
+            "name": "dien_giai",
             "title": "Diễn giải",
             "width": "400px",
             "minWidth": "100px"
+        },
+        {
+            "name": "t_tt_nt",
+            "title": "Tổng tiền mua hàng",
+            "align": "right",
+            "format": "moneyView2Digit",
+            "dataType": "number"
         },
         {
             "name": "tien_mat",
@@ -1637,13 +1644,6 @@
             "title": "Công nợ",
             "align": "right",
             "format": "moneyViewNoDigit",
-            "dataType": "number"
-        },
-        {
-            "name": "t_tt_nt",
-            "title": "Thanh toán ",
-            "align": "right",
-            "format": "moneyView2Digit",
             "dataType": "number"
         }
     ],

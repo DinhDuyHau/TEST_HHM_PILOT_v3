@@ -65,7 +65,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   constructor(
     public dialogRef: MatDialogRef<SearchDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      keyword: string,
+      keyword: any,
       shop: string,
       componentName: number,
       title: string,
@@ -226,7 +226,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.name = 'nh_kh9';
         filter.value = 'NGKH99';
         filter.operator = "=";
-        this.filters = [filter];
+        this.filters = [filter, ...(this.data.filter || [])];
         break;
       case SEARCH_COMPONENT_NAME.APPROVER_DIRECTOR:
         this.columns = LIST_BGD as any;
