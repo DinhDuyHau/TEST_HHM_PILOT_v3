@@ -193,6 +193,7 @@ export class Language {
         voucher_not_exists: '',
         xuat_yn_no: '',
         xuat_yn_yes: '',
+        duplicated_so_ct: '',
 
 
     };
