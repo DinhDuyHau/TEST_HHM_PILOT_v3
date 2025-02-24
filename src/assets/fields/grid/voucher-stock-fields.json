@@ -1197,7 +1197,7 @@
             "dataType": "number"
         },
         {
-            "name": "Dien_giai",
+            "name": "dien_giai",
             "title": "Diễn giải",
             "width": "300px"
         },
@@ -1249,7 +1249,7 @@
             "dataType": "number"
         },
         {
-            "name": "Dien_giai",
+            "name": "dien_giai",
             "title": "Diễn giải",
             "width": "300px"
         },

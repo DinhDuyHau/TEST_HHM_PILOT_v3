@@ -126,8 +126,8 @@ export class ImeiApiService extends ApiService {
         return this.get<ResultNoPaging<Imei>>(GET_ONE_URL, { ma_imei, ma_ck });
     }
 
-    getImeiChangeGiftPromotions(ma_imei: string, ma_ck: string, rec: number) {
-        return this.get<ResultNoPaging<Imei>>(GET_IMEI_PROMOTIONS_URL, { ma_imei, ma_ck, rec });
+    getImeiChangeGiftPromotions(ma_imei: string, ma_ck: string, rec: number, ma_vt_tang: string) {
+        return this.get<ResultNoPaging<Imei>>(GET_IMEI_PROMOTIONS_URL, { ma_imei, ma_ck, rec, ma_vt_tang });
     }
 
     findImeiByPrefix(page_index: number, page_size: number, ma_imei: string, isCheckInventory: boolean, ma_cuahang: string) {
