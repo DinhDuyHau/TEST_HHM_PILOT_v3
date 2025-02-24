@@ -128,7 +128,16 @@
   {
     "name": "gia_hcare",
     "allowFilter": true,
-    "title": "Giá Hcare",
+    "title": "Giá dịch vụ",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tien_hh",
+    "allowFilter": true,
+    "title": "Hoa hồng DV",
     "type": "number",
     "dataFormatString": "normalPrice",
     "align": "right",
