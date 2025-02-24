@@ -227,8 +227,8 @@ export class CloseShiftPaymentDetailComponent extends Grid<ReceiptDetail> implem
         }
       });
       this.payment.getPayment().subscribe(result => {
-        const res = result as any;
         // this.paymentList = result;
+        const res = result as any;
         this.paymentList = res.filter((payment: any) => payment.ma_thanhtoan.trim() === "TM");
 
         if (!this.data.masterInfo.ma_thanhtoan) {
@@ -299,7 +299,9 @@ export class CloseShiftPaymentDetailComponent extends Grid<ReceiptDetail> implem
             }
           });
           this.payment.getPayment().subscribe(result => {
-            this.paymentList = result;
+            // this.paymentList = result;
+            const res = result as any;
+            this.paymentList = res.filter((payment: any) => payment.ma_thanhtoan.trim() === "TM");
             if (!this.data.masterInfo.ma_thanhtoan) {
               this.data.masterInfo.ma_thanhtoan = this.paymentList[0].ma_thanhtoan;
               if (this.f) {
