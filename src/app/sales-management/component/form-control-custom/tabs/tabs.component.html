@@ -3,12 +3,19 @@
   <div class="tab-container">
     <div class="header-tab">
       <div class="d-flex">
-        <div
+        <!-- <div
           *ngFor="let tab of computedTabList; index as i"
           (click)="tabChange(i)"
           class="title-tab"
           [class.active]="activatedTab === i">
           {{ tab.label }} <span *ngIf="tab.count !== undefined && tab.count !== null"> ({{ tab.count }})</span>
+        </div> -->
+        <div
+          *ngFor="let label of titleList; index as i"
+          (click)="tabChange(i)"
+          class="title-tab"
+          [class.active]="activatedTab === i">
+          {{ label }}
         </div>
       </div>
     </div>

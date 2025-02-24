@@ -137,6 +137,15 @@
       <!-- 3.MUA THU CŨ KHÔNG LÊN ĐỜI -->
       <div class="box" *ngIf="ticket.masterInfo.fcode1 == '3' && !readonly">
         <form-input-custom
+          class="flex-1"
+          [name]="'ma_ncc'"
+          [label]="getLabel('lbl_ma_ncc_tc')"
+          [value]="renew.ma_ncc"
+          [readonly]="true"
+          [disabled]="readonly"
+          (handleClickOpenDialog)="openSearchSupplierDialog()" />
+
+        <form-input-custom
           class=""
           [name]="'imei_used'"
           [label]="getLabel('lbl_imei')"
@@ -168,25 +177,15 @@
             [disabled]="true" />
         </div>
 
-        <div class="flex flex-1 gap-2">
-          <form-input-custom
-            class="flex-1"
-            [name]="'ma_ncc'"
-            [label]="getLabel('lbl_ma_ncc_tc')"
-            [value]="renew.ma_ncc"
-            [readonly]="true"
-            [disabled]="readonly"
-            (handleClickOpenDialog)="openSearchSupplierDialog()" />
-          <form-input-custom
-            class="flex-1"
-            [name]="'loai_hh'"
-            [label]="getLabel('lbl_loai_hh')"
-            [value]="renew.loai_hh"
-            [readonly]="true"
-            [disabled]="readonly"
-            [invalid]="invalidMerchandiseInput.loai_hh"
-            (handleClickOpenDialog)="openSearchTypeMerchandiseDialog3()" />
-        </div>
+        <form-input-custom
+          class="flex-1"
+          [name]="'loai_hh'"
+          [label]="getLabel('lbl_loai_hh')"
+          [value]="renew.loai_hh"
+          [readonly]="true"
+          [disabled]="readonly"
+          [invalid]="invalidMerchandiseInput.loai_hh"
+          (handleClickOpenDialog)="openSearchTypeMerchandiseDialog3()" />
 
         <div class="flex flex-1 gap-2">
           <form-input-custom
