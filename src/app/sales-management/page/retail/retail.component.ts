@@ -96,6 +96,15 @@ export class RetailComponent implements OnInit, AfterViewInit {
   ma_kh_label = 'Mã khách';
   addOrUpdateCustomer = 'create';
 
+  tab_sources: any[] = [
+    { label: 'Hàng hoá', name: 'merchandise' },
+    { label: 'Dịch vụ', name: 'service' },
+    { label: 'Gói cước', name: 'packages' },
+    { label: 'Chiết khấu', name: 'discount' },
+    { label: 'Vận chuyển', name: null },
+    { label: 'HĐĐT', name: null }
+  ];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -116,16 +125,16 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.retailService.setTicket(this.ticket, this.option);
   }
 
-  get tabList() {
-    return [
-      { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
-      { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
-      { label: 'Gói cước', count: this.ticket?.packages?.length ?? 0 },
-      { label: 'Chiết khấu', count: this.ticket?.discount?.length ?? 0 },
-      { label: 'Vận chuyển' },
-      { label: 'HĐĐT' }
-    ];
-  }
+  // get tabList() {
+  //   return [
+  //     { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
+  //     { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
+  //     { label: 'Gói cước', count: this.ticket?.packages?.length ?? 0 },
+  //     { label: 'Chiết khấu', count: this.ticket?.discount?.length ?? 0 },
+  //     { label: 'Vận chuyển' },
+  //     { label: 'HĐĐT' }
+  //   ];
+  // }
 
   testData() {
     // this.onEnterCustomerCode('001098025044');
@@ -664,6 +673,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
             // this.retailService.removeDiscount(disocuntRemoved);
             this.retailService.updateDiscount(discountSelected, isGridItem, currentRow ? currentRow!.item : null);
           }
+
+          console.log(this.ticket);
+          console.log(this.tab_sources);
+
         });
     };
 

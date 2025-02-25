@@ -3,12 +3,12 @@
   <div class="tab-container">
     <div class="header-tab">
       <div class="d-flex">
-        <ng-container *ngFor="let tab of titleList; index as i">
+        <ng-container *ngFor="let tab of titleTabs; index as i">
           <div
             (click)="tabChange(i)"
             class="title-tab"
             [class.active]="activatedTab === i">
-            {{ tab.label }} <span *ngIf="tab.count !== undefined && tab.count !== null"> ({{ tab.count }})</span>
+            {{ tab.label }} <span *ngIf="tab.name"> ({{ dataModel[tab.name].length }})</span>
           </div>
         </ng-container>
         <!-- <div

@@ -11,6 +11,11 @@ export class TabsCustomComponent implements AfterViewInit, OnChanges {
   activatedTab = 0;
   titleList: { label: string; count?: number }[] = [];
 
+  @Input() titleListItems: any[] = [];
+  titleTabs: { label: string; name: string }[] = [];
+
+  @Input() dataModel: any = null;
+
   constructor(private elRef: ElementRef,
   ) {
   }
@@ -20,17 +25,24 @@ export class TabsCustomComponent implements AfterViewInit, OnChanges {
   // }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['titleListWithCount']) {
-      this.updateTabList();
-    }
+    // if (changes['titleListWithCount']) {
+    //   this.updateTabList();
+    // }
   }
 
   updateTabList(): void {
-    this.titleList = this.titleListWithCount?.length
-      ? this.titleListWithCount
+    // this.titleList = this.titleListWithCount?.length
+    //   ? this.titleListWithCount
+    //   : Array.from(this.elRef.nativeElement.querySelectorAll('tab-custom')).map((e) => ({
+    //     label: (e as Element).getAttribute('label') || '',
+    //   })) || [];
+
+    this.titleTabs = this.titleListItems?.length
+      ? this.titleListItems
       : Array.from(this.elRef.nativeElement.querySelectorAll('tab-custom')).map((e) => ({
-          label: (e as Element).getAttribute('label') || '',
-        })) || [];
+        label: (e as Element).getAttribute('label') || '',
+      })) || [];
+
   }
 
   tabChange(tabId: number) {
