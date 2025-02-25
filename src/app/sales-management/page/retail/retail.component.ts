@@ -673,10 +673,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
             // this.retailService.removeDiscount(disocuntRemoved);
             this.retailService.updateDiscount(discountSelected, isGridItem, currentRow ? currentRow!.item : null);
           }
-
-          console.log(this.ticket);
-          console.log(this.tab_sources);
-
         });
     };
 

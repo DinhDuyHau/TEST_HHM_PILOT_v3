@@ -88,6 +88,14 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
   ma_imei = '';
   addOrUpdateCustomer = 'create';
 
+  tab_sources: any[] = [
+    { label: 'Hàng hoá', name: 'merchandise' },
+    { label: 'Dịch vụ', name: 'service' },
+    { label: 'Gói cước', name: 'packages' },
+    { label: 'Chiết khấu', name: 'discount' },
+    { label: 'HĐĐT' }
+  ];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -106,15 +114,15 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
     this.saleWithTelecomService.setTicket(this.ticket, this.option);
   }
 
-  get tabList() {
-    return [
-      { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
-      { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
-      { label: 'Gói cước', count: this.ticket?.packages?.length ?? 0 },
-      { label: 'Chiết khấu', count: this.ticket?.discount?.length ?? 0 },
-      { label: 'HĐĐT' }
-    ];
-  }
+  // get tabList() {
+  //   return [
+  //     { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
+  //     { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
+  //     { label: 'Gói cước', count: this.ticket?.packages?.length ?? 0 },
+  //     { label: 'Chiết khấu', count: this.ticket?.discount?.length ?? 0 },
+  //     { label: 'HĐĐT' }
+  //   ];
+  // }
 
   testData() {
     this.onEnterCustomerCode('001098025044');
