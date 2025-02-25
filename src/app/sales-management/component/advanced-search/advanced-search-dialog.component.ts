@@ -35,6 +35,7 @@ interface IFilter {
   ten_cuahang2: string;
   ma_ct: string;
   typeTransaction: string;
+  so_hd: string;
 }
 
 @Component({
@@ -75,6 +76,7 @@ export class AdvancedSearchDialogComponent implements OnInit {
     ten_cuahang2: '',
     ma_ct: '',
     typeTransaction: '*',
+    so_hd: '',
   };
 
   statusList: StatusTicket[] = [

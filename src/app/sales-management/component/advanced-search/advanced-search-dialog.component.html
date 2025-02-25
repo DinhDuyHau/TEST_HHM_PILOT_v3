@@ -39,14 +39,14 @@
           class="flex-1"
           #so_ct_bd
           [name]="'so_ct_bd'"
-          [label]="'Số hóa đơn từ'"
+          [label]="'Số phiếu từ'"
           [value]="filters.so_ct_bd"
           (handleChangeValue)="filters.so_ct_bd = $event"
           (enterKeyPressed)="onEnter($event)"/>
         <form-input-custom
           class="flex-1"
           [name]="'so_ct_kt'"
-          [label]="'Số hóa đơn đến'"
+          [label]="'Số phiếu đến'"
           [value]="filters.so_ct_kt"
           (handleChangeValue)="filters.so_ct_kt = $event"
           (enterKeyPressed)="onEnter($event)" />
@@ -236,6 +236,17 @@
           optionValue="typeTransaction"
           [value]="filters.typeTransaction"
           (handleChangeValue)="filters.typeTransaction = $event" />
+        <div class="flex-1">&nbsp;</div>
+      </div>
+
+      <div class="d-flex gap-2 box" *ngIf="voucherCode === 'PNA'">
+        <form-input-custom
+          class="flex-1"
+          [name]="'so_hd'"
+          [label]="'Số hóa đơn'"
+          [value]="filters.so_hd"
+          (handleChangeValue)="filters.so_hd = $event"
+          (enterKeyPressed)="onEnter($event)" />
         <div class="flex-1">&nbsp;</div>
       </div>
 

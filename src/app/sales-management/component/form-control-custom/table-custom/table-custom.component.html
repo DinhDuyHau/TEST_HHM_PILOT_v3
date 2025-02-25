@@ -1,5 +1,5 @@
 <div class="position-relative">
-  <div class="table-container">
+  <div class="table-container" [ngClass]="isStyleFullHeight ? 'full-height-viewport' : ''">
     <table
       [ngClass]="{'table-main': type && type == 'main'}"
       [ngClass]="{'table-search': type && type == 'search-dialog'}">

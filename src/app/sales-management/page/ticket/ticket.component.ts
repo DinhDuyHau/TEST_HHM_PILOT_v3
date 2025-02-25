@@ -52,7 +52,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
     QUICK_SEARCH: 2
   };
   page_index = 1;
-  page_size = 10;
+  page_size = 15;
   recordCount = 0;
   isOnpenInFile = false;
   menu_report: MenuReport[] = [];
