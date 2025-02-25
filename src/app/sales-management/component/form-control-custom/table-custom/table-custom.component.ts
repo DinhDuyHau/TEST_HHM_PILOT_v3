@@ -53,6 +53,7 @@ export class TableCustomComponent implements
   @Input() hasButton = { create: true, delete: true, view: true, edit: true };
   @Input() useFilter: boolean = false;
   @Input() isShowDelete: boolean = true;
+  @Input() isStyleFullHeight: boolean = false;
 
   pageSizeOptions: number[] = [10, 20, 50, 100, 150, 200];
 
