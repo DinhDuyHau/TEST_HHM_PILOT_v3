@@ -64,6 +64,14 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
   action = '';
   shop = '';
 
+  tab_sources: any[] = [
+    { label: 'Hàng hoá', name: 'merchandise' },
+    { label: 'Bảo hành', name: 'guarantee' },
+    { label: 'Vận chuyển' },
+    { label: 'Hồ sơ hợp đồng' },
+    { label: 'HĐĐT' }
+  ];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -78,15 +86,15 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
     this.saleWholeService.setTicket(this.ticket);
   }
 
-  get tabList() {
-    return [
-      { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
-      { label: 'Bảo hành', count: this.ticket?.guarantee?.length ?? 0 },
-      { label: 'Vận chuyển' },
-      { label: 'Hồ sơ hợp đồng' },
-      { label: 'HĐĐT' }
-    ];
-  }
+  // get tabList() {
+  //   return [
+  //     { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
+  //     { label: 'Bảo hành', count: this.ticket?.guarantee?.length ?? 0 },
+  //     { label: 'Vận chuyển' },
+  //     { label: 'Hồ sơ hợp đồng' },
+  //     { label: 'HĐĐT' }
+  //   ];
+  // }
 
   ngAfterViewInit(): void {
     // this.commonService.focusControl(this.tabIndexFocusFirst);

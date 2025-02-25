@@ -88,6 +88,13 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
   ma_imei = '';
   addOrUpdateCustomer = 'create';
 
+  tab_sources: any[] = [
+    { label: 'Hàng hoá', name: 'merchandise' },
+    { label: 'Dịch vụ', name: 'service' },
+    { label: 'Chiết khấu', name: 'discount' },
+    { label: 'HĐĐT' }
+  ];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -107,14 +114,14 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
     this.saleAffiliateService.setTicket(this.ticket, this.option);
   }
 
-  get tabList() {
-    return [
-      { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
-      { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
-      { label: 'Chiết khấu', count: this.ticket?.discount?.length ?? 0 },
-      { label: 'HĐĐT' }
-    ];
-  }
+  // get tabList() {
+  //   return [
+  //     { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
+  //     { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
+  //     { label: 'Chiết khấu', count: this.ticket?.discount?.length ?? 0 },
+  //     { label: 'HĐĐT' }
+  //   ];
+  // }
 
   ngAfterViewInit(): void {
     // this.commonService.focusControl(this.tabIndexFocusFirst);

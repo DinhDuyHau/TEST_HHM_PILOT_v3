@@ -124,6 +124,16 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   addOrUpdateCustomer = 'create';
   isValidItemOld = false;
 
+  tab_sources: any[] = [
+    { label: 'Hàng hoá', name: 'merchandise_new_sale' },
+    { label: 'Dịch vụ', name: 'service' },
+    { label: 'Gói cước', name: 'packages' },
+    { label: 'Chiết khấu', name: 'discount' },
+    { label: 'Hàng thu cũ', name: 'merchandise_used' },
+    { label: 'Vận chuyển' },
+    { label: 'HĐĐT' }
+  ];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -145,17 +155,17 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     this.saleRenewService.setTicket(this.ticket, this.option);
   }
 
-  get tabList() {
-    return [
-      { label: 'Hàng hoá', count: this.ticket?.merchandise_new_sale?.length ?? 0 },
-      { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
-      { label: 'Gói cước', count: this.ticket?.packages?.length ?? 0 },
-      { label: 'Chiết khấu', count: this.ticket?.discount?.length ?? 0 },
-      { label: 'Hàng thu cũ', count: this.ticket?.merchandise_used?.length ?? 0 },
-      { label: 'Vận chuyển' },
-      { label: 'HĐĐT' }
-    ];
-  }
+  // get tabList() {
+  //   return [
+  //     { label: 'Hàng hoá', count: this.ticket?.merchandise_new_sale?.length ?? 0 },
+  //     { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
+  //     { label: 'Gói cước', count: this.ticket?.packages?.length ?? 0 },
+  //     { label: 'Chiết khấu', count: this.ticket?.discount?.length ?? 0 },
+  //     { label: 'Hàng thu cũ', count: this.ticket?.merchandise_used?.length ?? 0 },
+  //     { label: 'Vận chuyển' },
+  //     { label: 'HĐĐT' }
+  //   ];
+  // }
 
   testData() {
     // this.onEnterCustomerCode('gen');
