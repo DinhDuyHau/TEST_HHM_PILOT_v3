@@ -116,9 +116,11 @@
                       <a
                         class="flex items-center h-full nav-link z-50 w-full hover:text-white"
                         style="color: #63968e; max-width: 246px !important;"
-                        [routerLink]="child.link"
+                        [routerLink]="isReportLink(child.link) ? null : child.link"
                         activeClassName="active"
                         routerLinkActive="active"
+                        (click)="handleClick(child.link, $event)"
+                        [class.active]="isActive(child.link)"
                         >{{ child.bar }}
                       </a>
                     </div>

@@ -10,7 +10,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem } from './header.model';
 @Component({
   selector: 'app-sidebar',
@@ -31,6 +31,7 @@ export class SidebarComponent {
     private authenticationService: AuthenticationService,
     private sidebarService: SidebarService,
     private route: ActivatedRoute,
+    private router: Router,
     library: FaIconLibrary,
   ) {
     library.addIconPacks(fas, far);
@@ -72,5 +73,22 @@ export class SidebarComponent {
 
   public castIcon(value: string): IconName {
     return value as IconName;
+  }
+
+  isReportLink(url: string): boolean {
+    return url.startsWith('/report/');
+  }
+
+  handleClick(url: string, event: Event) {
+    if (this.isReportLink(url)) {
+      event.preventDefault(); // Chặn routerLink xử lý
+      window.location.href = url;
+    } else {
+      this.router.navigate([url], { relativeTo: this.route }); // Điều hướng bình thường
+    }
+  }
+
+  isActive(url: string): boolean {
+    return window.location.pathname === url;
   }
 }
