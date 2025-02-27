@@ -1381,19 +1381,22 @@
             "name": "giam_gia_yn",
             "title": "Giảm giá đặc biệt",
             "type": "checkbox",
-            "align": "center"
+            "align": "center",
+            "visible": false
         },
         {
             "name": "ty_le_giam",
             "title": "Tỷ lệ giảm",
             "dataType": "number",
             "format": "moneyView2Digit",
-            "align": "right"
+            "align": "right",
+            "visible": false
         },
         {
             "name": "ma_asm_duyet",
             "title": "ASM",
-            "align": "center"
+            "align": "center",
+            "visible": false
         }
     ],
     "MERCHANDISE_PROMOTION_LIST": [
