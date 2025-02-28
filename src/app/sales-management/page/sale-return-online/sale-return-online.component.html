@@ -80,10 +80,11 @@
         [value]="ticket.masterInfo.dien_giai"
         (handleChangeValue)="ticket.masterInfo.dien_giai = $event"
         [readonly]="readonly" />
-      <div class="d-flex gap-2 box">
+      <div class="d-flex gap-2 box" *ngIf="false">
         <mat-checkbox
           class="box flex items-end flex-1 justify-end"
           [(ngModel)]="isSaleDown"
+          (ngModelChange)="onSaleDownChange($event)"
           >{{ getLabel('giam_gia_db') }}</mat-checkbox
         >
       </div>

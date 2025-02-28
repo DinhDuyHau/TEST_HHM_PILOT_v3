@@ -451,6 +451,26 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
     return this.commonService.getMessage(label);
   }
 
+  onSaleDownChange(value: boolean) {
+    let updatesColumns;
+
+    if (value) {
+      updatesColumns = [
+        { name: 'giam_gia_yn', field: 'visible', value: true },
+        { name: 'ty_le_giam', field: 'visible', value: true },
+        { name: 'ma_asm_duyet', field: 'visible', value: true },
+      ];
+    } else {
+      updatesColumns = [
+        { name: 'giam_gia_yn', field: 'visible', value: false },
+        { name: 'ty_le_giam', field: 'visible', value: false },
+        { name: 'ma_asm_duyet', field: 'visible', value: false },
+      ];
+    }
+
+    this.merchandiseColumns = this.commonService.updateColumnsFields(this.merchandiseColumns, updatesColumns);
+  }
+
 }
 
 
