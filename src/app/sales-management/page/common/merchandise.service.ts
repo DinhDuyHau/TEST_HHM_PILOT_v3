@@ -754,7 +754,7 @@ export class MerchandiseService {
             rs.thanh_toan = merchandise.tt || merchandise.tt_nt;
             rs.stt_rec_dh = merchandise.stt_rec_dh;
             rs.hd_so = merchandise.hd_so || '';
-            rs.s7 = merchandise.s7 || '';
+            rs.s7 = (merchandise.s7?.includes('1900-01-01') ? '' : merchandise.s7) || '';
             rs.ma_td1 = merchandise.ma_td1 || '';
             rs.gc_td1 = merchandise.gc_td1 || '';
             rs.gc_td2 = merchandise.gc_td2 || '';
