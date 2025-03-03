@@ -58,7 +58,7 @@
         id="record"
         #ref
         class="record"
-        [ngClass]="record.type_color_overview"
+        [ngClass]="[record.class_status || '', record.type_color_overview || '']"
         *ngFor="let record of dataSource; index as i">
         <td *ngIf="selectByCheckbox" class="text-center">
           <input
