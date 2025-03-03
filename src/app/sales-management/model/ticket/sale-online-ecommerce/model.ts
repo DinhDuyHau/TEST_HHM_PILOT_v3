@@ -2,7 +2,7 @@ import { Discount } from '../common-model/discount.model';
 import { Guarantee } from '../common-model/guarantee.model';
 import { Service } from '../common-model/service.model';
 import { Payment } from '../common-model/payment.model';
-import { BaseMasterInfo, BaseMerchandise, BaseTicket } from '../common-model/base-entity.model';
+import { BaseMasterInfo, BaseMerchandise, BaseTicket, Overview } from '../common-model/base-entity.model';
 import { Package } from '../common-model/package.model';
 
 export class SaleOnlineEcommerceTicket {
@@ -26,6 +26,10 @@ export class SaleOnlineEcommerceTicket {
 
   //Thông tin sàn thương mại điện tử
   ecommerce: EcommerceInfomation = new EcommerceInfomation;
+
+  //tổng quan
+  overview: Overview[] = [];
+
 }
 
 

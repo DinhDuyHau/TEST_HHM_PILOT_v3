@@ -114,6 +114,12 @@
     </div>
 
     <tabs-custom [titleListItems]="tab_sources" [dataModel]="ticket">
+      <tab-custom label="Tổng quan" class="w-100">
+        <table-custom
+          [type]="'main'"
+          [dataSource]="this.overviewData"
+          [columns]="overviewColumns"/>
+      </tab-custom>
       <tab-custom label="Hàng đổi" class="w-100">
         <table-custom
           [readonly]="readonly"

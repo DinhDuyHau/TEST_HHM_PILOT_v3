@@ -26,7 +26,7 @@ import { EInvoiceInfo } from '@app/sales-management/model/dto/einvoice.dto';
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { ServiceOfMerchandiseService } from '../common/service.service';
 
-const { GUARANTEE_LIST, MERCHANDISE_CHANGE, SERVICE_CHANGE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
+const { GUARANTEE_LIST, MERCHANDISE_CHANGE, SERVICE_CHANGE_LIST, OVERVIEW_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-sale-change',
@@ -45,6 +45,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   merchandiseColumns = MERCHANDISE_CHANGE;
   guaranteeColumns = GUARANTEE_LIST;
   serviceColumns = SERVICE_CHANGE_LIST;
+  overviewColumns = OVERVIEW_LIST;
   mode!: number;
   submitButtonTitle!: string;
   cancelButtonTitle!: string;
@@ -66,6 +67,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   ma_imei_doi = '';
 
   tab_sources: any[] = [
+    { label: 'Tổng quan' },
     { label: 'Hàng dổi', name: 'merchandise_change' },
     { label: 'Hàng trả', name: 'merchandise_return' },
     { label: 'Đổi kèm dịch vụ', name: 'service' },
@@ -98,6 +100,19 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   //     { label: 'HĐĐT' }
   //   ];
   // }
+
+  get overviewData() {
+    const newOverview = [
+      ...this.ticket.merchandise_change.map(item => this.commonService.mapToOverview(item, 'Hàng đổi', 'merchandise_change')),
+      ...this.ticket.merchandise_return.map(item => this.commonService.mapToOverview(item, 'Hàng trả', 'merchandise_return')),
+      ...this.ticket.service.map(item => this.commonService.mapToOverview(item, 'Đổi kèm dịch vụ', 'service'))
+    ];
+
+    if (JSON.stringify(newOverview) !== JSON.stringify(this.ticket.overview)) {
+      this.ticket.overview = newOverview;
+    }
+    return this.ticket.overview || [];
+  }
 
   ngAfterViewInit(): void {
     // this.commonService.focusControl(this.tabIndexFocusFirst);

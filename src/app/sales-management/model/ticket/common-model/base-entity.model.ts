@@ -147,3 +147,18 @@ export interface BaseTicket {
     comment2: string;
     Hash: string
 }
+
+export class Overview {
+    typeMap: string = '';
+    type: string = '';
+    ma: string = '';
+    ten: string = '';
+    dvt: string = '';
+    ma_kho: string = '';
+    ma_imei: string = '';
+    so_luong: number = 0;
+    gia_ck: number = 0;
+    thanh_tien: number = 0;
+    tien_thue: number = 0;
+    tong_tien: number = 0;
+}

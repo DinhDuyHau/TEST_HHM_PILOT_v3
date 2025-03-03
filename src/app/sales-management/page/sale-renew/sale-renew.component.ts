@@ -45,7 +45,8 @@ const { DISCOUNT_LIST,
   MERCHANDISE_LIST_RENEW,
   MERCHANDISE_THU_CU_LIST,
   SERVICE_LIST,
-  PACKAGE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
+  PACKAGE_LIST,
+  OVERVIEW_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-sale-renew',
@@ -83,6 +84,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   discountColumns = DISCOUNT_LIST;
   guaranteeColumns = GUARANTEE_LIST;
   merchandiseUsedColumns = MERCHANDISE_THU_CU_LIST;
+  overviewColumns = OVERVIEW_LIST;
   mode!: number;
   submitButtonTitle!: string;
   cancelButtonTitle!: string;
@@ -125,6 +127,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   isValidItemOld = false;
 
   tab_sources: any[] = [
+    { label: 'Tổng quan' },
     { label: 'Hàng hoá', name: 'merchandise_new_sale' },
     { label: 'Dịch vụ', name: 'service' },
     { label: 'Gói cước', name: 'packages' },
@@ -166,6 +169,21 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   //     { label: 'HĐĐT' }
   //   ];
   // }
+
+  get overviewData() {
+    const newOverview = [
+      ...this.ticket.merchandise_new_sale.map(item => this.commonService.mapToOverview(item, 'Hàng hóa', 'merchandise_new_sale')),
+      ...this.ticket.service.map(item => this.commonService.mapToOverview(item, 'Dịch vụ', 'service')),
+      ...this.ticket.packages.map(item => this.commonService.mapToOverview(item, 'Gói cước', 'packages')),
+      ...this.ticket.discount.map(item => this.commonService.mapToOverview(item, 'Chiết khấu', 'discount')),
+      ...this.ticket.merchandise_used.map(item => this.commonService.mapToOverview(item, 'Hàng thu cũ', 'merchandise_used'))
+    ];
+
+    if (JSON.stringify(newOverview) !== JSON.stringify(this.ticket.overview)) {
+      this.ticket.overview = newOverview;
+    }
+    return this.ticket.overview || [];
+  }
 
   testData() {
     // this.onEnterCustomerCode('gen');
