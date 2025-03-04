@@ -218,7 +218,8 @@
         l_ten_don_vi="Tên đơn vị / Shipper"
         dataDefault="03"
         [data]="ticket.transport"
-        [readonly]="readonly" />
+        [readonly]="readonly"
+        [isOtherLabel]="true" />
       </tab-custom>
       <!-- <tab-custom label="Bảo hành" class="w-100">
         <table-custom
@@ -332,6 +333,9 @@
 
     <ng-container>
       <payment-tab
+        [pay_hidden]="[
+          'sd_diem'
+        ]"
         [action]="action"
         [shop]="shop"
         [invalid]="invalid"

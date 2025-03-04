@@ -220,7 +220,7 @@
           [columns]="guaranteeColumns" />
       </tab-custom> -->
       <tab-custom label="Vận chuyển" class="w-100">
-        <delivery-infomation [data]="ticket.transport" [dataDefault]="'01'" [readonly]="readonly" />
+        <delivery-infomation [data]="ticket.transport" [dataDefault]="'01'" [readonly]="readonly" [isOtherLabel]="true" />
       </tab-custom>
       <tab-custom label="HĐĐT" class="w-100">
         <div
@@ -320,6 +320,9 @@
 
     <ng-container>
       <payment-tab
+        [pay_hidden]="[
+          'sd_diem'
+        ]"
         [action]="action"
         [shop]="shop"
         [invalid]="invalid"
