@@ -125,9 +125,15 @@ export class TableCustomComponent implements
       if (ARRAY_SITE_TRANSFER.includes(this.entityName)) {
         this.dataSource = this.dataSource.map(item => ({
           ...item,
-          class: this.getStatusClass(item.status)
+          class_status: this.getStatusClass(item.status)
         }));
       }
+
+      // gán màu chữ cho loại hiển thị ở tổng quan
+      this.dataSource = this.dataSource.map(item => ({
+        ...item,
+        type_color_overview: item.typeMap ? this.getTypeOverviewClass(item.typeMap) : ''
+      }));
 
       this.pageIndexTotal = Math.trunc(this.totalItem / this.size) + 1
 
@@ -434,6 +440,24 @@ export class TableCustomComponent implements
         return 'status-pending';
       case "2":
         return 'status-completed';
+      default:
+        return '';
+    }
+  }
+
+  // xử lý class màu chữ cho loại tổng quan
+  getTypeOverviewClass(typeMap: string): string {
+    switch (typeMap) {
+      case "merchandise_return":
+        return 'merchandise-return-type';
+      case "merchandise_used":
+        return 'merchandise-used-type';
+      case "service":
+        return 'service-type';
+      case "packages":
+        return 'packages-type';
+      case "discount":
+        return 'discount-type';
       default:
         return '';
     }

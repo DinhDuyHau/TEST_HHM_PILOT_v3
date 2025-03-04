@@ -19,6 +19,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { LookupComponent } from '@app/_components/lookup/lookup.component';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { getDateFormat } from '@app/_common/commonFunction';
+import { Overview } from '@app/sales-management/model/ticket/common-model/base-entity.model';
 
 @Injectable({
     providedIn: 'root',
@@ -590,6 +591,37 @@ export class CommonService {
             return col;
         });
     }
+
+    mapToOverview(item: any, type: string, typeMap: string): Overview {
+        const mapping = {
+            'merchandise': { ma: 'ma_vt', ten: 'ten_vt', gia_ck: 'gia_ck', tong_tien: 'thanh_toan' },
+            'merchandise_change': { ma: 'ma_vt', ten: 'ten_vt', gia_ck: 'gia_ck', tong_tien: 'thanh_toan' },
+            'merchandise_return': { ma: 'ma_vt', ten: 'ten_vt', gia_ck: 'gia_ck', tong_tien: 'thanh_toan' },
+            'merchandise_new_sale': { ma: 'ma_vt', ten: 'ten_vt', gia_ck: 'gia_ck', tong_tien: 'thanh_toan' },
+            'merchandise_used': { ma: 'ma_vt', ten: 'ten_vt', gia_ck: '', tong_tien: 'thanh_toan' },
+            'service': { ma: 'ma_dv', ten: 'ten_dv', gia_ck: 'gia_ck', tong_tien: 'tong_tien' },
+            'packages': { ma: 'ma_dv', ten: 'ten_dv', gia_ck: 'gia_ban', tong_tien: 'tong_tien' },
+            'discount': { ma: 'ma_ck', ten: 'ten_ck', gia_ck: '', tong_tien: 'tien_ck' }
+        };
+
+        const config = mapping[typeMap as keyof typeof mapping] || { ma: '', ten: '', gia_ck: 0, tong_tien: 0 };
+
+        return {
+            typeMap: typeMap,
+            type,
+            ma: item[config.ma] ?? '',
+            ten: item[config.ten] ?? '',
+            dvt: item.dvt ?? '',
+            ma_kho: item.ma_kho ?? '',
+            ma_imei: item.ma_imei ?? '',
+            so_luong: item.so_luong ?? 0,
+            gia_ck: item[config.gia_ck] ?? 0,
+            thanh_tien: item.thanh_tien ?? 0,
+            tien_thue: item.tien_thue ?? 0,
+            tong_tien: item[config.tong_tien] || item.tien_qd || 0,
+        };
+    }
+
 }
 
 

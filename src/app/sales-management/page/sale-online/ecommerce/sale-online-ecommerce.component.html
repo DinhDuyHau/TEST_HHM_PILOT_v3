@@ -117,6 +117,13 @@
     </div>
 
     <tabs-custom title="Thông tin hàng hóa" [titleListItems]="tab_sources" [dataModel]="ticket">
+      <tab-custom label="Tổng quan" class="w-100">
+        <table-custom
+          [type]="'main'"
+          [dataSource]="this.overviewData"
+          [columns]="overviewColumns"/>
+      </tab-custom>
+
       <tab-custom label="Hàng hoá" class="w-100">
         <table-custom
           [readonly]="readonly"

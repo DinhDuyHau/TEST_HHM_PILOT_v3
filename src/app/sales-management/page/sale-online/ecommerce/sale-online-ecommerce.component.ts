@@ -36,7 +36,8 @@ const { DISCOUNT_LIST,
   GUARANTEE_LIST,
   ECOMMERCE_LIST,
   SERVICE_LIST,
-  PACKAGE_LIST
+  PACKAGE_LIST,
+  OVERVIEW_LIST
 } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
@@ -57,6 +58,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   discountColumns = DISCOUNT_LIST;
   packageColumns = PACKAGE_LIST;
   guaranteeColumns = GUARANTEE_LIST;
+  overviewColumns = OVERVIEW_LIST;
   mode!: number;
   submitButtonTitle!: string;
   cancelButtonTitle!: string;
@@ -89,6 +91,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   addOrUpdateCustomer = 'create';
 
   tab_sources: any[] = [
+    { label: 'Tổng quan' },
     { label: 'Hàng hoá', name: 'merchandise' },
     { label: 'Dịch vụ', name: 'service' },
     { label: 'Gói cước', name: 'packages' },
@@ -124,6 +127,20 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   //     { label: 'HĐĐT' }
   //   ];
   // }
+
+  get overviewData() {
+    const newOverview = [
+      ...this.ticket.merchandise.map(item => this.commonService.mapToOverview(item, 'Hàng hóa', 'merchandise')),
+      ...this.ticket.service.map(item => this.commonService.mapToOverview(item, 'Dịch vụ', 'service')),
+      ...this.ticket.packages.map(item => this.commonService.mapToOverview(item, 'Gói cước', 'packages')),
+      ...this.ticket.discount.map(item => this.commonService.mapToOverview(item, 'Chiết khấu', 'discount'))
+    ];
+
+    if (JSON.stringify(newOverview) !== JSON.stringify(this.ticket.overview)) {
+      this.ticket.overview = newOverview;
+    }
+    return this.ticket.overview || [];
+  }
 
   testData() {
     // this.onEnterCustomerCode('001098025044');

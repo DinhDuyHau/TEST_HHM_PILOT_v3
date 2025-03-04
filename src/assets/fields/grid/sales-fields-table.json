@@ -2916,7 +2916,71 @@
           "width": "300px",
           "min-width": "50px"
       }
-  ]
+  ],
+    "OVERVIEW_LIST": [
+        {
+            "name": "type",
+            "title": "#"
+        },
+        {
+            "name": "ma",
+            "title": "Mã"
+        },
+        {
+            "name": "ten",
+            "title": "Tên",
+            "width": "300px"
+        },
+        {
+            "name": "dvt",
+            "title": "Đvt",
+            "align": "center"
+        },
+        {
+            "name": "ma_kho",
+            "title": "Mã kho",
+            "align": "center"
+        },
+        {
+            "name": "ma_imei",
+            "title": "Imei",
+            "align": "center"
+        },
+        {
+          "name": "so_luong",
+          "title": "Số lượng",
+          "format": "moneyViewNoDigit",
+          "align": "center"
+        },
+        {
+          "name": "gia_ck",
+          "title": "Giá đã CK",
+          "format": "moneyViewNoDigit",
+          "align": "right",
+          "dataType": "number"
+        },
+        {
+            "name": "thanh_tien",
+            "title": "Thành tiền",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "tien_thue",
+            "title": "Tiền thuế",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tong_tien",
+            "title": "Tổng tiền",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        }
+    ]
 
 
 }
