@@ -54,6 +54,7 @@ export class TableCustomComponent implements
   @Input() useFilter: boolean = false;
   @Input() isShowDelete: boolean = true;
   @Input() isStyleFullHeight: boolean = false;
+  @Input() enableTypeColorOverview: boolean = false;
 
   pageSizeOptions: number[] = [10, 20, 50, 100, 150, 200];
 
@@ -130,10 +131,12 @@ export class TableCustomComponent implements
       }
 
       // gán màu chữ cho loại hiển thị ở tổng quan
-      this.dataSource = this.dataSource.map(item => ({
-        ...item,
-        type_color_overview: item.typeMap ? this.getTypeOverviewClass(item.typeMap) : ''
-      }));
+      if(this.enableTypeColorOverview) {
+        this.dataSource = this.dataSource.map(item => ({
+          ...item,
+          type_color_overview: item.typeMap ? this.getTypeOverviewClass(item.typeMap) : ''
+        }));
+      }
 
       this.pageIndexTotal = Math.trunc(this.totalItem / this.size) + 1
 
