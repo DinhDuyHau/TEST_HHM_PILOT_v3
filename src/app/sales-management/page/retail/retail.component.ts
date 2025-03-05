@@ -852,6 +852,9 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const message = this.retailService.validateTicket(this.ticket);
     this.invalid = this.commonService.isInValidPayment(this.ticket.payment) || this.retailService.isInvalidForm(this.ticket.masterInfo);
 
+    // kiểm tra vận chuyển
+    if (!this.validTransport()) return;
+
     this.ticket.masterInfo.ma_nvvc = this.ticket.transport.hhDelivery.ma_nv_giao;
     this.ticket.masterInfo.ten_nvvc = this.ticket.transport.hhDelivery.ten_nv;
     this.ticket.masterInfo.ma_loaivc = this.ticket.transport.ma_loaivc;
@@ -1156,6 +1159,18 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.ma_hang = ma_hang_backup;
   }
   //#endregion
+
+  validTransport() {
+    if (this.ticket.transport.ma_loaivc === '01' && this.ticket.masterInfo.t_con_no === 0) {
+      this.commonService.showMessageByName('warning_transport_cod_no_debt');
+      return false;
+    }
+    if (this.ticket.transport.ma_loaivc === '02' && this.ticket.masterInfo.t_con_no !== 0) {
+      this.commonService.showMessageByName('warning_transport_non_cod_with_debt');
+      return false;
+    }
+    return true;
+  }
 }
 
 

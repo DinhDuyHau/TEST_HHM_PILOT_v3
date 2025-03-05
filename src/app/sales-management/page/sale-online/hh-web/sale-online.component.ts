@@ -746,6 +746,9 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
             return;
         }
 
+        // kiểm tra vận chuyển
+        if (!this.validTransport()) return;
+
         const message = this.saleOnlineService.validateTicket(this.ticket);
         this.invalid = this.commonService.isInValidPayment(this.ticket.payment) || this.saleOnlineService.isInvalidForm(this.ticket.masterInfo);
         this.invalid && this.commonService.showMessage(Language.content.Missing_information);
@@ -970,6 +973,18 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
         this.ticket.masterInfo.ma_hang = ma_hang_backup;
     }
     //#endregion
+
+    validTransport() {
+        if (this.ticket.transport.ma_loaivc === '01' && this.ticket.masterInfo.t_con_no === 0) {
+            this.commonService.showMessageByName('warning_transport_cod_no_debt');
+            return false;
+        }
+        if (this.ticket.transport.ma_loaivc === '02' && this.ticket.masterInfo.t_con_no !== 0) {
+            this.commonService.showMessageByName('warning_transport_non_cod_with_debt');
+            return false;
+        }
+        return true;
+    }
 }
 
 
