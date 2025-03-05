@@ -153,12 +153,16 @@ export class Overview {
     type: string = '';
     ma: string = '';
     ten: string = '';
+    ma_imei: string = '';
     dvt: string = '';
     ma_kho: string = '';
-    ma_imei: string = '';
-    so_luong: number = 0;
+    no_km_yn: boolean = false;
+    gia_ban: number = 0;
     gia_ck: number = 0;
+    so_luong: number = 0;
     thanh_tien: number = 0;
+    thue_suat: number = 0;
     tien_thue: number = 0;
+    tien_ck: number = 0;
     tong_tien: number = 0;
 }

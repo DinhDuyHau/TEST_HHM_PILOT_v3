@@ -175,7 +175,6 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       ...this.ticket.merchandise_new_sale.map(item => this.commonService.mapToOverview(item, 'Hàng hóa', 'merchandise_new_sale')),
       ...this.ticket.service.map(item => this.commonService.mapToOverview(item, 'Dịch vụ', 'service')),
       ...this.ticket.packages.map(item => this.commonService.mapToOverview(item, 'Gói cước', 'packages')),
-      ...this.ticket.discount.map(item => this.commonService.mapToOverview(item, 'Chiết khấu', 'discount')),
       ...this.ticket.merchandise_used.map(item => this.commonService.mapToOverview(item, 'Hàng thu cũ', 'merchandise_used'))
     ];
 

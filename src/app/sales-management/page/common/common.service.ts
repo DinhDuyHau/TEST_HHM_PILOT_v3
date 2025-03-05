@@ -600,24 +600,36 @@ export class CommonService {
             'merchandise_new_sale': { ma: 'ma_vt', ten: 'ten_vt', gia_ck: 'gia_ck', tong_tien: 'thanh_toan' },
             'merchandise_used': { ma: 'ma_vt', ten: 'ten_vt', gia_ck: '', tong_tien: 'thanh_toan' },
             'service': { ma: 'ma_dv', ten: 'ten_dv', gia_ck: 'gia_ck', tong_tien: 'tong_tien' },
-            'packages': { ma: 'ma_dv', ten: 'ten_dv', gia_ck: 'gia_ban', tong_tien: 'tong_tien' },
-            'discount': { ma: 'ma_ck', ten: 'ten_ck', gia_ck: '', tong_tien: 'tien_ck' }
+            'packages': { ma: 'ma_dv', ten: 'ten_dv', gia_ck: 'gia_ban', tong_tien: 'tong_tien' }
         };
 
         const config = mapping[typeMap as keyof typeof mapping] || { ma: '', ten: '', gia_ck: 0, tong_tien: 0 };
+
+        let tienCk = 0;
+        if (typeMap === 'merchandise') {
+            const tienCkBase = item.tien_ck ?? 0;
+            const tienCk09 = item.tien_ck09 ?? 0;
+            tienCk = tienCkBase + tienCk09;
+        } else {
+            tienCk = 0;
+        }
 
         return {
             typeMap: typeMap,
             type,
             ma: item[config.ma] ?? '',
             ten: item[config.ten] ?? '',
+            ma_imei: item.ma_imei ?? '',
             dvt: item.dvt ?? '',
             ma_kho: item.ma_kho ?? '',
-            ma_imei: item.ma_imei ?? '',
-            so_luong: item.so_luong ?? 0,
+            no_km_yn: item.no_km_yn ?? false,
+            gia_ban: item.gia_ban ?? 0,
             gia_ck: item[config.gia_ck] ?? 0,
+            so_luong: item.so_luong ?? 0,
             thanh_tien: item.thanh_tien ?? 0,
+            thue_suat: item.thue_suat ?? 0,
             tien_thue: item.tien_thue ?? 0,
+            tien_ck: tienCk || item.tien_ck || 0,
             tong_tien: item[config.tong_tien] || item.tien_qd || 0,
         };
     }

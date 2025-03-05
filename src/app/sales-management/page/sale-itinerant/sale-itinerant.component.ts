@@ -133,8 +133,7 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
     const newOverview = [
       ...this.ticket.merchandise.map(item => this.commonService.mapToOverview(item, 'Hàng hóa', 'merchandise')),
       ...this.ticket.service.map(item => this.commonService.mapToOverview(item, 'Dịch vụ', 'service')),
-      ...this.ticket.packages.map(item => this.commonService.mapToOverview(item, 'Gói cước', 'packages')),
-      ...this.ticket.discount.map(item => this.commonService.mapToOverview(item, 'Chiết khấu', 'discount'))
+      ...this.ticket.packages.map(item => this.commonService.mapToOverview(item, 'Gói cước', 'packages'))
     ];
 
     if (JSON.stringify(newOverview) !== JSON.stringify(this.ticket.overview)) {
