@@ -2932,6 +2932,11 @@
             "width": "300px"
         },
         {
+            "name": "ma_imei",
+            "title": "Imei",
+            "align": "center"
+        },
+        {
             "name": "dvt",
             "title": "Đvt",
             "align": "center"
@@ -2942,22 +2947,30 @@
             "align": "center"
         },
         {
-            "name": "ma_imei",
-            "title": "Imei",
+            "name": "no_km_yn",
+            "title": "Nợ khuyến mãi",
+            "type": "checkbox",
             "align": "center"
+        },
+        {
+            "name": "gia_ban",
+            "title": "Giá bán",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "gia_ck",
+            "title": "Giá đã CK",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
         },
         {
           "name": "so_luong",
           "title": "Số lượng",
           "format": "moneyViewNoDigit",
           "align": "center"
-        },
-        {
-          "name": "gia_ck",
-          "title": "Giá đã CK",
-          "format": "moneyViewNoDigit",
-          "align": "right",
-          "dataType": "number"
         },
         {
             "name": "thanh_tien",
@@ -2967,8 +2980,20 @@
             "dataType": "number"
         },
         {
+            "name": "thue_suat",
+            "title": "Thuế suất(%)",
+            "align": "center"
+        },
+        {
             "name": "tien_thue",
             "title": "Tiền thuế",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tien_ck",
+            "title": "Tổng tiền chiết khấu",
             "format": "moneyViewNoDigit",
             "align": "right",
             "dataType": "number"

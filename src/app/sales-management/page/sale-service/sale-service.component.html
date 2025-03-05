@@ -193,7 +193,15 @@
       <payment-tab
         [action]="action"
         [shop]="shop"
-        [pay_hidden]="['ma_giam_gia', 'chiet_khau']"
+        [pay_hidden]="[
+          'ma_giam_gia',
+          'chiet_khau',
+          'quet_the_tra_gop',
+          'tra_gop',
+          'sd_diem',
+          'giam_gia_crm',
+          'voucher_doi_tac'
+        ]"
         [invalid]="invalid"
         [hiddenChooseButton]="mode === 2"
         [readonly]="readonly"
