@@ -497,6 +497,9 @@ export class VoucherCompensationService {
         else if (ticket.discount.find(x => x.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER) && ((!ticket.masterInfo.nguoi_duyet_ck) || (ticket.masterInfo.nguoi_duyet_ck.trim() === ''))) {
             message = this.commonService.getMessage('lbl_invalid_ck04');
         }
+        else if (ticket.merchandise.some(item => item.gia_ban === 0 || Number.isNaN(item.gia_ban) || item.thanh_tien === 0 || Number.isNaN(item.thanh_tien))) {
+            message = 'Giá bán hoặc tổng tiền không được là 0 hoặc NaN';
+        }
         return message;
     }
 
