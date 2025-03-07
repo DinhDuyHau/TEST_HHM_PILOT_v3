@@ -23,6 +23,7 @@ import { NavigationVoucheModule } from '@app/sales-management/component/navigati
 import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
 import { SendEmailModule } from '@app/sales-management/component/send-email/send-email.module';
 import { PrintModule } from '@app/sales-management/component/print/print.module';
+import { DeliveryInfomationModule2 } from '@app/sales-management/component/delivery/infomation2/delivery-infomation-2.module';
 
 @NgModule({
     imports: [
@@ -45,6 +46,7 @@ import { PrintModule } from '@app/sales-management/component/print/print.module'
         VoucherInfoModule,
         PackageForImeiModule,
         DeliveryInfomationModule,
+        DeliveryInfomationModule2,
         NavigationVoucheModule,
         VoucherInfoHeaderModule,
         SendEmailModule,
