@@ -104,9 +104,9 @@ export class RetailService {
                     break;
                 case TAB_NAME.TRANSPORT:
                     this.ticket.transport = this.transportService.convertFromVoucher(e.data[0]);
-                    this.customerApiService.getOneById(this.ticket.transport.hhDelivery.ma_nv_giao).subscribe((result: any) => {
+                    this.customerApiService.getOneById(this.ticket.transport.cod.ma_nv_giao).subscribe((result: any) => {
                         if (result && result.success && result.result) {
-                            this.ticket.transport.hhDelivery.ten_nv = result.result.ten_kh;
+                            this.ticket.transport.cod.ten_nv = result.result.ten_kh;
                         }
                     });
                     break;
@@ -130,7 +130,7 @@ export class RetailService {
         voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.SERVICE, data: this.serviceOfMerchandiseService.convertServiceToRequest(this.ticket.service, voucherDto.masterInfo, ServiceRequest) }];
         voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.DISCOUNT, data: this.discountService.convertDiscountToRequest(this.ticket.discount, voucherDto.masterInfo) }];
         voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
-        voucherDto.details = [...voucherDto.details, { id: 6, name: TAB_NAME.TRANSPORT, data: [this.transportService.convertToRequest(this.ticket.transport, voucherDto.masterInfo)] }];
+        voucherDto.details = [...voucherDto.details, { id: 6, name: TAB_NAME.TRANSPORT, data: [this.transportService.convertToRequest2(this.ticket.transport, voucherDto.masterInfo)] }];
         voucherDto.details = [...voucherDto.details, { id: 5, name: TAB_NAME.PACKAGE, data: this.packageOfMerchandiseService.convertPackageToRequest(this.ticket.packages, voucherDto.masterInfo, PackageRequest) }];
         return voucherDto;
     }

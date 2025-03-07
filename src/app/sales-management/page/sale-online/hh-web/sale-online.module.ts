@@ -25,6 +25,7 @@ import { VoucherInfoModule } from '@app/sales-management/component/form-control-
 import { SaleOnlineDialogComponent } from './sale-online-dialog/sale-online-dialog.component';
 import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
 import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
+import { DeliveryInfomationModule2 } from '@app/sales-management/component/delivery/infomation2/delivery-infomation-2.module';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { NavigationVoucheModule } from '@app/sales-management/component/navigati
     SearchDialogModule,
     PaymentTabModule,
     DeliveryInfomationModule,
+    DeliveryInfomationModule2,
     DataFormatPipeModule,
     FormCheckboxCustomModule,
     FormInputCustomModule,

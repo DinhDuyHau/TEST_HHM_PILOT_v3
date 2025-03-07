@@ -53,6 +53,27 @@ export class TransportService {
         this.commonService.updateBaseInfo(masterInfo, [result]);
         return result;
     }
+
+    convertToRequest2(src: Transport, masterInfo: any) {
+        let result = new TransportRequest;
+        switch (src.ma_loaivc) {
+            case DELIVERY_TYPE.COD:
+                result = { ...result, ...src.cod };
+                break;
+            case DELIVERY_TYPE.HH:
+                result = { ...result, ...src.cod };
+                break;
+            case DELIVERY_TYPE.CH:
+                break;
+            default:
+                break;
+        }
+
+        result.ma_loaivc = src.ma_loaivc;
+
+        this.commonService.updateBaseInfo(masterInfo, [result]);
+        return result;
+    }
 }
 
 
