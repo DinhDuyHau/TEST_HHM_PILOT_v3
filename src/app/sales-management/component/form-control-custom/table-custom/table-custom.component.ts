@@ -122,6 +122,7 @@ export class TableCustomComponent implements
         'SVTran_BHK',
         'PVTran',
         'SVTran_DXA',
+        'RUTran',
       ];
       if (ARRAY_SITE_TRANSFER.includes(this.entityName)) {
         this.dataSource = this.dataSource.map(item => ({

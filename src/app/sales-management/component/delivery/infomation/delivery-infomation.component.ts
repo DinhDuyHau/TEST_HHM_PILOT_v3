@@ -40,15 +40,6 @@ export class DeliveryInfomationComponent implements OnInit, AfterViewInit, OnCha
 
   onChange(type: any) {
     this.data.ma_loaivc = type;
-
-    // reset data
-    this.data.cod.so_dh_vc = '';
-    this.data.cod.ma_van_don = '';
-    this.data.cod.tien_phi_cod = 0;
-    this.data.cod.ten_nv = '';
-    this.data.hhDelivery.ma_nv_giao = '';
-    this.data.hhDelivery.ten_nv = '';
-    this.data.hhDelivery.ghi_chu_gh = '';
   }
 
   changeValue(value: string) {
