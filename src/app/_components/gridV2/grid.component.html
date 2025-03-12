@@ -329,7 +329,8 @@
                 [value]="
                   element[column.name]
                     | formatData : column.type : column.dataFormatString
-                " />
+                "
+                autocomplete="off"/>
               <textarea
                 *ngIf="column.multipleLine"
                 class="outline-none bg-transparent w-full"
