@@ -355,7 +355,8 @@
         [approveDiscount]="ticket.masterInfo.nguoi_duyet_ck"
         [ma_kh]="ticket.masterInfo.ma_kh"
         [ngay_ct]="ticket.masterInfo.ngay_ct"
-        (handleChangeValue)="onPaymentChange($event)" />
+        (handleChangeValue)="onPaymentChange($event)"
+        [voucherCode]="voucherCode" />
     </ng-container>
 
     <div>

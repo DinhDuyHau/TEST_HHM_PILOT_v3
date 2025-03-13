@@ -570,6 +570,26 @@
                 " />
             </div>
 
+            <div class="d-flex gap-2" *ngIf="voucherCode == 'BHA' || voucherCode == 'BHK'">
+              <form-payment-custom
+                [readonly]="readonly"
+                class="flex-1"
+                [name]="'ghi_chu'"
+                [label]="'Ghi chú'"
+                [value]="data.tra_gop.gc_td1"
+                (handleChangeValue)="onChangeGhichuTragop($event); onChange()"
+              />
+
+              <form-payment-custom
+                [readonly]="readonly"
+                class="flex-1"
+                [name]="'ky_han_tragop'"
+                [label]="'Kỳ hạn trả góp'"
+                [value]="data.tra_gop.gc_td2"
+                (handleChangeValue)="onChangeKyHanTragop($event); onChange()"
+              />
+            </div>
+
             <div
               *ngIf="
                 data.tra_gop.tien > 0 &&
