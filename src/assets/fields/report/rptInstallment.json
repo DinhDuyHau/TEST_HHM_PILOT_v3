@@ -98,7 +98,7 @@
   },
   {
     "name": "phi_bh_qt",
-    "title": "Phí bảo hiểm",
+    "title": "Phí bảo hiểm (QTTG)",
     "type": "number",
     "dataFormatString": "moneyView2Digit",
     "align": "right",
@@ -106,7 +106,7 @@
   },
   {
     "name": "phi_cd_qt",
-    "title": "Phí chuyển đổi",
+    "title": "Phí chuyển đổi (QTTG)",
     "type": "number",
     "dataFormatString": "moneyView2Digit",
     "align": "right",
@@ -114,49 +114,49 @@
   },
   {
     "name": "ma_cc_tg",
-    "title": "Mã chuẩn chi",
+    "title": "Mã chuẩn chi (QTTG)",
     "allowFilter": true,
     "width": 120,
     "isLockingColumn": true
   },
   {
     "name": "ma_pos_tg",
-    "title": "Mã máy POS",
+    "title": "Mã máy POS (QTTG)",
     "allowFilter": true,
     "width": 120,
     "isLockingColumn": true
   },
   {
     "name": "so_the_tg",
-    "title": "Số thẻ",
+    "title": "Số thẻ (QTTG)",
     "allowFilter": true,
     "width": 120,
     "isLockingColumn": true
   },
   {
     "name": "ma_hd_qt",
-    "title": "Mã hợp đồng",
+    "title": "Mã hợp đồng (QTTG)",
     "allowFilter": true,
     "width": 120,
     "isLockingColumn": true
   },
   {
     "name": "ngan_hang",
-    "title": "NH phát hành thẻ",
+    "title": "NH phát hành thẻ (QTTG)",
     "allowFilter": true,
     "width": 120,
     "isLockingColumn": true
   },
   {
     "name": "ma_dvtg_qt",
-    "title": "ĐV trả góp",
+    "title": "ĐV trả góp (QTTG)",
     "allowFilter": true,
     "width": 120,
     "isLockingColumn": true
   },
   {
     "name": "t_tra_gop",
-    "title": "Tiền trả góp",
+    "title": "Tiền trả góp (TG)",
     "type": "number",
     "dataFormatString": "moneyViewNoDigit",
     "align": "right",
@@ -164,7 +164,7 @@
   },
   {
     "name": "phi_bh",
-    "title": "Phí bảo hiểm",
+    "title": "Phí bảo hiểm (TG)",
     "type": "number",
     "dataFormatString": "moneyView2Digit",
     "align": "right",
@@ -172,7 +172,7 @@
   },
   {
     "name": "phi_cd",
-    "title": "Phí chuyển đổi",
+    "title": "Phí chuyển đổi (TG)",
     "type": "number",
     "dataFormatString": "moneyView2Digit",
     "align": "right",
@@ -180,16 +180,30 @@
   },
   {
     "name": "ma_hd",
-    "title": "Mã hợp đồng",
+    "title": "Mã hợp đồng (TG)",
     "allowFilter": true,
     "width": 120,
     "isLockingColumn": true
   },
   {
     "name": "ma_dvtg",
-    "title": "ĐV trả góp",
+    "title": "ĐV trả góp (TG)",
     "allowFilter": true,
     "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ghi_chu",
+    "title": "Ghi chú (TG)",
+    "allowFilter": true,
+    "width": 200,
+    "isLockingColumn": true
+  },
+  {
+    "name": "kyhan_tg",
+    "title": "Kỳ hạn (TG)",
+    "allowFilter": true,
+    "width": 200,
     "isLockingColumn": true
   }
 ]
