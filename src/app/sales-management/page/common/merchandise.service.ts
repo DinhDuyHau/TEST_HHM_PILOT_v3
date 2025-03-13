@@ -716,8 +716,13 @@ export class MerchandiseService {
             rs.thanh_tien = merchandise.tien2 || merchandise.tien_nt2 || merchandise.tien_nt;
             rs.tien_thue = merchandise.thue || merchandise.thue_nt;
             rs.thanh_toan = merchandise.tt || merchandise.tt_nt;
-            rs.stt_rec_hd = merchandise.stt_rec;
-            rs.stt_rec0hd = merchandise.stt_rec0;
+
+            //2025-03-10: không map trường stt_rec_hd đối với chứng từ trả nợ quà (BHI) => lấy theo dữ liệu response từ server
+            if (merchandise.ma_ct !== 'BHI') {
+                rs.stt_rec_hd = merchandise.stt_rec;
+                rs.stt_rec0hd = merchandise.stt_rec0;
+            }
+
             rs.hd_so = merchandise.so_ct || '';
             rs.s7 = merchandise.ngay_ct || '';
             rs.no_km_yn = merchandise.no_km_yn == 1 ? true : false;
