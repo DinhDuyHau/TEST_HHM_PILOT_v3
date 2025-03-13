@@ -99,6 +99,22 @@
     "align": "right"
   },
   {
+    "name": "ck",
+    "title": "Tiền CK",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "thue_ck",
+    "title": "Thuế CK",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
     "name": "tt_nt",
     "title": "Thanh toán",
     "width": 120,
@@ -110,5 +126,12 @@
     "name": "ghi_chu",
     "title": "Ghi chú",
     "width": 120
+  },
+  {
+    "name": "action",
+    "title": "Thao tác",
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "action"
   }
 ]

@@ -11,6 +11,7 @@ import { PrinterComponent } from '@app/_components/printer/printer.component';
 import { LookupComponent } from '@app/_components/lookup/lookup.component';
 import { ScanQrcodeComponent } from '@app/_components/scan-qrcode/scan-qrcode.component';
 import { DialogIMEIComponent } from '@app/_components/dialog/dialog-imei/dialog-imei.component';
+import { DialogInputCustomComponent } from '@app/_components/dialog/dialog-input-custom/dialog-input-custom.component';
 
 @Injectable({
   providedIn: 'root'
@@ -118,6 +119,15 @@ export class ReceiptDetailService implements IGridService<ReceiptDetail>{
       service: control
     };
     const dialogRef = this.dialog.open(LookupComponent, dialogConfig);
+    return dialogRef.afterClosed();
+  }
+  openDialogEditPrice(data: any): Observable<any> {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '300px';
+    dialogConfig.height = '200px';
+    dialogConfig.data = data;
+    // dialogConfig.disableClose = true;
+    const dialogRef = this.dialog.open(DialogInputCustomComponent, dialogConfig);
     return dialogRef.afterClosed();
   }
 }

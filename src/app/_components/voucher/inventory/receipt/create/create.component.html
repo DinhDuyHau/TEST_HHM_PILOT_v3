@@ -275,12 +275,14 @@
           [gridType]="gridType"
           [buttons]="buttons"
           [disabled]="disabled"
+          [actionButtons]="actionButtons"
           (handlePaging)="onPageChange($event)"
           (handleSelectColumn)="onSelectColumn($event)"
           (handleSortColumn)="onSortColumn($event)"
           (handleSearch)="onSearch()"
           (handleButton)="clickButton($event)"
           (handleChangeRow)="changeRow($event)"
+          (handleActionButton)="onHandleActionButton($event)"
           class="h-full w-full">
         </app-grid-v2>
       </tab-custom>

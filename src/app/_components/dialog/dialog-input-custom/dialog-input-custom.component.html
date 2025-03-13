@@ -1,0 +1,24 @@
+<div mat-dialog-actions class="flex flex-col h-full bg-white">
+  <div class="flex flex-1 px-2 flex-col gap-2">
+    <ng-container *ngFor="let field of fields">
+      <app-input-custom-v2
+        class="flex-1"
+        [label]="field.label"
+        [name]="field.name"
+        [value]="field.value"
+        [dataFormatString]="'normalQuantity'"
+        type="number"
+        [align]="'right'"
+        (handleChange)="field.value = $event">
+      </app-input-custom-v2>
+    </ng-container>
+  </div>
+
+  <div mat-dialog-actions class="gap-3 justify-end ml-5">
+    <div class="d-flex justify-end gap-2 m-2">
+      <button class="btn-responsive btn-cancel" (click)="onClickClose()">Hủy bỏ</button>
+      <button class="btn-responsive btn-add" (click)="onClickSave()">Lưu</button>
+    </div>
+  </div>
+
+</div>
