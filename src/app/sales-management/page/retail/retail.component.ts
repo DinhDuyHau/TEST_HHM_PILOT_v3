@@ -97,6 +97,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   table_name = '';
   ma_kh_label = 'Mã khách';
   addOrUpdateCustomer = 'create';
+  voucherCode = TICKET_CODE.RETAIL;
 
   tab_sources: any[] = [
     { label: 'Tổng quan' },

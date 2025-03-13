@@ -125,6 +125,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   ma_kh_label = 'Mã khách';
   addOrUpdateCustomer = 'create';
   isValidItemOld = false;
+  voucherCode = TICKET_CODE.RENEW;
 
   tab_sources: any[] = [
     { label: 'Tổng quan' },

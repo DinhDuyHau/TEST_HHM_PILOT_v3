@@ -46,6 +46,7 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
 
   @Input() ma_kh: string = '';
   @Input() ngay_ct: string = '';
+  @Input() voucherCode: string = '';
 
   //load lại dữ liệu tiền đặt cọc, tạm ứng của khách hàng
   @Input() reloadDepositOnInit = true;
@@ -112,7 +113,8 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
         ngay_ct: this.ngay_ct,
         reloadDepositOnInit: this.reloadDepositOnInit,
         action: this.action,
-        shop: this.shop
+        shop: this.shop,
+        voucherCode: this.voucherCode
       }, 'search-style-dialog')
       .afterClosed()
       .subscribe((data) => {
@@ -132,7 +134,7 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
       });
   }
   initViewPayment() {
-    this.viewPayment = this.paymentService.convertPaymentRequest(this.data).filter(x => x.tien >= 0).map((item) => {
+    this.viewPayment = this.paymentService.convertPaymentRequest(this.data, this.voucherCode).filter(x => x.tien >= 0).map((item) => {
       switch (item.ma_thanhtoan) {
         case PAYMENT_CODE.CASH:
           return { payment: item.ten_thanhtoan, note: '', money: item.tien };
@@ -145,7 +147,19 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
         case PAYMENT_CODE.VNPAY:
           return { payment: item.ten_thanhtoan, note: `Số HĐ: ${item.so_hd_vnpay}`, money: item.tien };
         case PAYMENT_CODE.INSTALLMENT:
-          return { payment: item.ten_thanhtoan, note: `Số HĐ: ${item.so_hd_tragop} <br> Phí bảo hiểm: <strong>${formatNumber(item.tien_phi_bh, 'en-US')}</strong> <br> ĐVTG: ${item.ma_dv_tragop} <br> Phí chuyển đổi: <strong>${formatNumber(item.phi_cd_tragop, 'en-US')}</strong>`, money: item.tien };
+          const hasVoucher = this.voucherCode === 'BHA' || this.voucherCode === 'BHK';
+
+          return {
+            payment: item.ten_thanhtoan,
+            note: `Số HĐ: ${item.so_hd_tragop} <br>
+              Phí bảo hiểm: <strong>${formatNumber(item.tien_phi_bh, 'en-US')}</strong> <br>
+              ĐVTG: ${item.ma_dv_tragop} <br>
+              Phí chuyển đổi: <strong>${formatNumber(item.phi_cd_tragop, 'en-US')}</strong>` +
+              (hasVoucher
+                ? `<br> Ghi chú: ${item.gc_td1} <br> Kỳ hạn: ${item.gc_td2}`
+                : ''),
+            money: item.tien
+          };
         case PAYMENT_CODE.CONVERSION:
           return { payment: item.ten_thanhtoan, note: '', money: item.tien };
         case PAYMENT_CODE.DEPOSIT:
