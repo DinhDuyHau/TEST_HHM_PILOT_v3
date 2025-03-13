@@ -12,13 +12,15 @@ export class PaymentService {
         return val1.replace(/\s+/g, '') === val2.replace(/\s+/g, '');
     }
 
-    convertPaymentFromVoucher = (src: PaymentRequest[], des: Payment) => {
+    convertPaymentFromVoucher = (src: PaymentRequest[], des: Payment, voucherCode: any = '') => {
         let depositDetail = new DepositDetail;
         let discountCodeCRMDetail = new DiscountCodeCRMDetail;
         let cardDetail = new CardDetail;
         let eWalletDetail = new EWalletDetail;
         let vnpayDetail = new VNPayDetail;
         let transferDetail = new TransferDetail;
+        const hasVoucher = voucherCode === 'BHA' || voucherCode === 'BHK';
+
         src.forEach(e => {
             const ma_thanhtoan = e.ma_thanhtoan.replace(/\s+/g, '');
             switch (ma_thanhtoan) {
@@ -84,6 +86,10 @@ export class PaymentService {
                     des.tra_gop.phi_bao_hiem = e.tien_phi_bh;
                     des.tra_gop.ma_dv_tragop = e.ma_dv_tragop;
                     des.tra_gop.phi_cd_tragop = e.phi_cd_tragop;
+                    if (hasVoucher) {
+                        des.tra_gop.gc_td1 = e.gc_td1;
+                        des.tra_gop.gc_td2 = e.gc_td2;
+                    }
                     des.tra_gop.selected = true;
                     break;
                 case PAYMENT_CODE.CONVERSION:
@@ -136,7 +142,9 @@ export class PaymentService {
         });
     };
 
-    convertPaymentRequest = (src: Payment) => {
+    convertPaymentRequest = (src: Payment, voucherCode: any = '') => {
+        const hasVoucher = voucherCode === 'BHA' || voucherCode === 'BHK';
+
         let des: PaymentRequest[] = [];
         if (src.tien_dat_coc.selected) {
             /* src.tien_dat_coc.detail.forEach(element => {
@@ -280,7 +288,8 @@ export class PaymentService {
                     so_hd_tragop: src.tra_gop.so_hd_tragop,
                     ma_dv_tragop: src.tra_gop.ma_dv_tragop,
                     tien_phi_bh: src.tra_gop.phi_bao_hiem,
-                    phi_cd_tragop: src.tra_gop.phi_cd_tragop
+                    phi_cd_tragop: src.tra_gop.phi_cd_tragop,
+                    ...(hasVoucher && { gc_td1: src.tra_gop.gc_td1, gc_td2: src.tra_gop.gc_td2 }) // Chỉ thêm vào nếu có voucher hợp lệ
                 })
             ];
         }
@@ -346,8 +355,8 @@ export class PaymentService {
         return des;
     };
 
-    convertPaymentToRequest = (payment: any, masterInfo: any) => {
-        const result = this.convertPaymentRequest(payment);
+    convertPaymentToRequest = (payment: any, masterInfo: any, voucherCode: any = '') => {
+        const result = this.convertPaymentRequest(payment, voucherCode);
         this.commonService.updateBaseInfo(masterInfo, result);
         return result;
     };

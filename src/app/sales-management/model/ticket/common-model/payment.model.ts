@@ -62,6 +62,8 @@ export class PaymentRequest extends BaseEntity {
     phi_quetthe = 0;
     phi_chuyendoi = 0;
     phi_cd_tragop = 0;
+    gc_td1 = '';
+    gc_td2 = '';
 
     constructor(obj?: any) {
         super();
@@ -138,6 +140,8 @@ export class Installment extends BaseModelPayment {
     ma_dv_tragop = '';
     phi_cd_tragop = 0;
     tk_nh_nhan = '';
+    gc_td1 = '';
+    gc_td2 = '';
 }
 
 

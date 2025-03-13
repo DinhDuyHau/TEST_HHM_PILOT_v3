@@ -73,6 +73,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   ngay_ct = '';
   reloadDepositOnInit = false;
   shop: string = '';
+  voucherCode = '';
 
   constructor(
     public dialogRef: MatDialogRef<PaymentTabDialogComponent>,
@@ -95,7 +96,8 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       ngay_ct: string,
       reloadDepositOnInit: boolean,
       action: string,
-      shop: string
+      shop: string,
+      voucherCode: string
     },
     private dialog: MatDialog,
     private commonService: CommonService,
@@ -124,6 +126,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     this.ma_kh = dataPayment.ma_kh;
     this.ngay_ct = dataPayment.ngay_ct;
     this.reloadDepositOnInit = dataPayment.reloadDepositOnInit;
+    this.voucherCode = this.dataPayment.voucherCode;
 
     if (this.isPaymentHH) {
       if (!this.data.chuyen_khoan.selected) {
@@ -748,5 +751,20 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     }
   }
 
+  onChangeGhichuTragop($event: any) {
+    if($event.length > 256) {
+      this.commonService.showMessage("Ghi chú không được quá 256 ký tự");
+    } else {
+      this.data.tra_gop.gc_td1 = $event;
+    }
+  }
+
+  onChangeKyHanTragop($event: any) {
+    if($event.length > 256) {
+      this.commonService.showMessage("Kỳ hạn không được quá 256 ký tự");
+    } else {
+      this.data.tra_gop.gc_td2 = $event;
+    }
+  }
 }
 
