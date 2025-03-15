@@ -7,10 +7,12 @@ import {
   OnChanges,
   OnInit,
   Output,
+  QueryList,
   SimpleChanges,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatRow, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -120,6 +122,8 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
   selected_row_item: any;
   @Input() enabledCheckboxColumns: string[] = [];
   @Input() highlightColumns: string[] = [];
+  @Input() searchIMEI!: string;
+  @ViewChildren(MatRow, { read: ElementRef }) rowRefs!: QueryList<ElementRef>;
 
   constructor(
     library: FaIconLibrary,
@@ -168,6 +172,31 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
     //   this.tblHeader.nativeElement.scrollLeft =
     //     this.tblContent.nativeElement.scrollLeft;
     // });
+  }
+  ngAfterViewChecked(): void {
+    if (this.searchIMEI && this.dataSource?.data?.length) {
+      const index = this.dataSource.data.findIndex(row => {
+        const imeiList = row.ma_imei
+          .split(',')
+          .map((imei: string) => imei.trim().toLowerCase());
+
+        return imeiList.includes(this.searchIMEI.trim().toLowerCase());
+      });
+
+      if (index !== -1) {
+        this.focusRow = index;
+        this.scrollToRow(index);
+        this.searchIMEI = '';
+      }
+    }
+  }
+  scrollToRow(index: number) {
+    if (index >= 0 && this.rowRefs) {
+      const selectedRow = this.rowRefs.toArray()[index]?.nativeElement;
+      if (selectedRow) {
+        selectedRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
   }
   isSticky(id: string) {
     if (

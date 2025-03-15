@@ -11,6 +11,7 @@ import { GridService } from '@app/_components/gridV2/grid.service';
 import { MenuReport } from '@app/_models';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 import { filter } from 'rxjs';
+import { SelectionService } from '@app/_services/selection.service';
 
 //khai báo column các chứng từ bán hàng
 const TICKET_FIELDS = require('@assets/fields/grid/sales-ticket.json')
@@ -74,6 +75,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
     private ticketApiService: TicketApiService,
     private commonService: CommonService,
     private gridService: GridService,
+    private selectionService: SelectionService
   ) {
     route.data.subscribe(result => {
       const rs: any = result;
@@ -94,15 +96,13 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       });
     }
 
-    this.onReload(true)
-
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       filter((event: any) => {
         return (this.route?.snapshot as any)['_routerState']?.url === event.url;
       })
     ).subscribe((event) => {
-      this.onReload()
+      this.onReload(true)
     });
   }
 
@@ -575,6 +575,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   onCreate() {
+    this.selectionService.setSelectedItem(this.select_item_current);
     this.router.navigate([this.router.url + '/create']);
   }
 
@@ -738,6 +739,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         // cho phép sửa đối với trạng thái 0 (lập chứng từ)
         // hoặc status = 1 & mã chứng từ PXN (phiếu xuất bán nội bộ chờ duyệt)
         if (result && (result.status === '0' || (this.codeName === 'PXN' && result.status === '1'))) {
+          this.selectionService.setSelectedItem(this.select_item_current);
           const queryParams = {} as any;
           queryParams.key = this.select_item_current;
           this.router.navigate([this.router.url + '/update'], { queryParams });
@@ -758,6 +760,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   btnViewClickHandle() {
     if (this.select_item_current && this.select_item_current !== '') {
+      this.selectionService.setSelectedItem(this.select_item_current);
       const queryParams = {} as any;
       queryParams.key = this.select_item_current;
       this.router.navigate([this.router.url + '/view'], { queryParams });
