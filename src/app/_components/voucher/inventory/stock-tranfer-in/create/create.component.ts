@@ -62,6 +62,7 @@ export class StockTranferInCreateComponent extends Grid<ReceiptDetail> implement
   submitButtonTitle = '';
   cancelButtonTitle = '';
   entity = VOUCHER_TYPE.STOCK_TRANFER_IN.sysid;
+  imeiValueSearch = '';
 
   override gridType = GridType.GridDetail;
   constructor(
@@ -408,6 +409,7 @@ export class StockTranferInCreateComponent extends Grid<ReceiptDetail> implement
   onEnterIMEI($event: any) {
     $event.preventDefault();
     const imei = $event.target.value;
+    this.imeiValueSearch = imei;
     if (imei) {
       const flag = this.addIMEI(imei);
       if (flag)

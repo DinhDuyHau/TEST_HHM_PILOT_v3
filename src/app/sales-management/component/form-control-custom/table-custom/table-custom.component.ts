@@ -1,8 +1,9 @@
-import { AfterContentChecked, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, Renderer2, SimpleChanges } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, Renderer2, SimpleChanges, ViewChildren } from '@angular/core';
 import dataFormat from '@app/_common/dataFormat';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 import { ItemFilter } from '@app/_components/gridV2/grid.model';
 import { DataFormatPipe } from '@app/_pipe/dataFormat/data-format.pipe';
+import { SelectionService } from '@app/_services/selection.service';
 import { TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { CommonService } from '@app/sales-management/page/common/common.service';
 import { Observable, Subscription, fromEvent, map, mergeMap, takeUntil, tap } from 'rxjs';
@@ -55,6 +56,7 @@ export class TableCustomComponent implements
   @Input() isShowDelete: boolean = true;
   @Input() isStyleFullHeight: boolean = false;
   @Input() enableTypeColorOverview: boolean = false;
+  @Input() enableSelected: boolean = false;
 
   pageSizeOptions: number[] = [10, 20, 50, 100, 150, 200];
 
@@ -76,22 +78,29 @@ export class TableCustomComponent implements
   @Output() handleAddDiscountNG = new EventEmitter<{ item: any }>();
   @Output() handleCustomeUpdate = new EventEmitter<{ item: any }>();
   @Output() handleDeleteDiscount09 = new EventEmitter<{ item: any }>();
+  @ViewChildren('ref') rowRefs: QueryList<ElementRef> | undefined;
 
   dataFormat = dataFormat;
 
   isAddCellBoder = false
   pageIndexRange: number[] = []
   pageIndexTotal!: number
+  selectedRecordId: string | null = null;
 
   constructor(
     public commonService: CommonService,
-    private renderer: Renderer2, private elementRef: ElementRef
+    private renderer: Renderer2,
+    private elementRef: ElementRef,
+    private selectionService: SelectionService
   ) { }
 
   ngOnInit(): void {
     // this.columns = this.columns.map(column => {
     //   return { ...new Cell(), ...column, format: (dataFormat as any)[column.format ? column.format : ''] };
     // });
+    this.selectionService.selectedItem$.subscribe(id => {
+      this.selectedRecordId = id;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -139,6 +148,25 @@ export class TableCustomComponent implements
         }));
       }
 
+      // gán selected row
+      if(this.enableSelected) {
+        this.dataSource = this.dataSource.map(item => ({
+          ...item,
+          selectedRow: item.stt_rec === this.selectedRecordId
+        }));
+
+        const selectedRow = this.rowRefs?.toArray().find((ref: ElementRef, index: number) => {
+          return this.dataSource[index]?.selectedRow;
+        });
+
+        if (selectedRow) {
+          selectedRow.nativeElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          });
+        }
+      }
+
       this.pageIndexTotal = Math.trunc(this.totalItem / this.size) + 1
 
       const range = {
@@ -163,6 +191,14 @@ export class TableCustomComponent implements
     } else {
       this.pageIndexRange = [1];
       this.pageIndexTotal = 1;
+    }
+  }
+
+  selectRowById(recordId: string) {
+    const rowElement = document.querySelector(`tr[data-id="${recordId}"]`) as HTMLElement;
+    const record = this.dataSource.find(r => r.stt_rec === recordId);
+    if (record && rowElement) {
+      this.onSelectItem(record, rowElement);
     }
   }
 
@@ -466,4 +502,13 @@ export class TableCustomComponent implements
         return '';
     }
   }
+
+  getRowClass(record: any): any {
+    return {
+      [record.class_status || '']: !!record.class_status,
+      [record.type_color_overview || '']: !!record.type_color_overview,
+      'selected': record.selectedRow === true
+    };
+  }
+
 }

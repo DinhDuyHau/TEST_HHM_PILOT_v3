@@ -445,6 +445,7 @@
           *matHeaderRowDef="title; sticky: true"
           class="h-table_header_height bg-table_header"></tr>
         <tr
+          #rowRef
           mat-row
           *matRowDef="let row; index as i; columns: title"
           [ngClass]="{'bg-row_focus_color border-0.5 selected-row': focusRow === i}"
