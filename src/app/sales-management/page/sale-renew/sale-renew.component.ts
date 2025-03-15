@@ -443,6 +443,10 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh, addOrUpdate: this.addOrUpdateCustomer }, 'fullscreen-dialog')
       .afterClosed()
       .subscribe((customer: Customer) => {
+        if (this.addOrUpdateCustomer == 'create') {
+          this.ticket.masterInfo.ma_hang = '';
+          this.handleAddCustomer(customer);
+        }
         customer && this.saleRenewService.setInfoCustomer(customer);
       });
   }
