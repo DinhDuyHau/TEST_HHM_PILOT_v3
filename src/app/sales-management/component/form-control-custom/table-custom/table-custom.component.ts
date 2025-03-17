@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, Renderer2, SimpleChanges, ViewChildren } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, Renderer2, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import dataFormat from '@app/_common/dataFormat';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 import { ItemFilter } from '@app/_components/gridV2/grid.model';
@@ -79,6 +79,7 @@ export class TableCustomComponent implements
   @Output() handleCustomeUpdate = new EventEmitter<{ item: any }>();
   @Output() handleDeleteDiscount09 = new EventEmitter<{ item: any }>();
   @ViewChildren('ref') rowRefs: QueryList<ElementRef> | undefined;
+  @ViewChild('tableContainer') tableContainer: ElementRef | undefined;
 
   dataFormat = dataFormat;
 
@@ -148,24 +149,8 @@ export class TableCustomComponent implements
         }));
       }
 
-      // gán selected row
-      if(this.enableSelected) {
-        this.dataSource = this.dataSource.map(item => ({
-          ...item,
-          selectedRow: item.stt_rec === this.selectedRecordId
-        }));
-
-        const selectedRow = this.rowRefs?.toArray().find((ref: ElementRef, index: number) => {
-          return this.dataSource[index]?.selectedRow;
-        });
-
-        if (selectedRow) {
-          selectedRow.nativeElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-          });
-        }
-      }
+      // Gọi hàm xử lý selectedRecord
+      this.handleSelectedRecord();
 
       this.pageIndexTotal = Math.trunc(this.totalItem / this.size) + 1
 
@@ -191,6 +176,43 @@ export class TableCustomComponent implements
     } else {
       this.pageIndexRange = [1];
       this.pageIndexTotal = 1;
+    }
+  }
+
+  handleSelectedRecord() {
+    if (!this.enableSelected) return;
+
+    if (!this.selectedRecordId) {
+      if (this.enableSelected && this.dataSource) {
+        this.dataSource = this.dataSource.map(item => ({
+          ...item,
+          selectedRow: false
+        }));
+        this.selectedRecordId = null;
+      }
+
+      if (this.tableContainer?.nativeElement) {
+        this.tableContainer.nativeElement.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+    } else {
+      this.dataSource = this.dataSource.map(item => ({
+        ...item,
+        selectedRow: item.stt_rec === this.selectedRecordId
+      }));
+
+      const selectedRow = this.rowRefs?.toArray().find((ref: ElementRef, index: number) => {
+        return this.dataSource[index]?.selectedRow;
+      });
+
+      if (selectedRow) {
+        selectedRow.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
     }
   }
 
