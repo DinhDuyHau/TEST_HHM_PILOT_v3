@@ -281,6 +281,12 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
               }
             }
 
+            // chỉ được nhập cod trong cùng cửa hàng
+            if((this.ticket.masterInfo.ma_cuahang != result.result.masterInfo.ma_cuahang) && this.isCODReturn) {
+              this.commonService.showMessage('Chỉ được nhập trả lại đơn COD trong cùng 1 cửa hàng');
+              return;
+            }
+
             const map_tralai = new Map();
             map_tralai.set('nhap_tra_lai_yn', true);
             const message = this.imeiService.GetMessageStatusImei(map_tralai, result.result.details[0].data[0]);
@@ -346,6 +352,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
               this.ticket.masterInfo.so_dh_vc = result.result.masterInfo.so_dh_vc || '';
               this.ticket.masterInfo.ma_nvvc = result.result.masterInfo.ma_nvvc || '';
               this.ticket.masterInfo.ma_van_don = result.result.masterInfo.ma_van_don || '';
+              this.ticket.masterInfo.fcode3 = result.result.masterInfo.ma_cuahang || '';
 
               //tính số tiền còn nợ
               this.ticket.masterInfo.t_con_no = Math.abs(this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra);

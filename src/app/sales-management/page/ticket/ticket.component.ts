@@ -583,7 +583,11 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   }
 
-  onReload(isReload = false) {
+  onReload(isReload = false, isRefresh = false) {
+    if(isRefresh) {
+      this.selectionService.setSelectedItem(null);
+    }
+
     if (this.getDataMode === this.dataMode.GETOP) {
       // Nếu isReload là true, luôn luôn tải lại dữ liệu
       if (!isReload && this.dataSource && this.dataSource.length > 0) {
