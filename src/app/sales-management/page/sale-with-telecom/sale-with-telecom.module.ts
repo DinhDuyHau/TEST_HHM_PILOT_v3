@@ -22,6 +22,7 @@ import { DataFormatPipeModule } from '../../../_pipe/dataFormat/data-format.pipe
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
 import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
+import { SendEmailModule } from '@app/sales-management/component/send-email/send-email.module';
 
 @NgModule({
     declarations: [
@@ -50,7 +51,8 @@ import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher
         DataFormatPipeModule,
         VoucherInfoModule,
         NavigationVoucheModule,
-        VoucherInfoHeaderModule
+        VoucherInfoHeaderModule,
+        SendEmailModule
     ]
 })
 export class SaleWithTelecomModule { }

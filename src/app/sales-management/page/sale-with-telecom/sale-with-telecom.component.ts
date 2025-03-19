@@ -749,17 +749,18 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
             if (result.success) {
               // this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Successful_Create);
-              if (this.ticket.masterInfo.status == '2') {
-                this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
-                  if (res.success) {
-                    this.commonService.showMessageByName(res.message);
-                  }
-                  this.router.navigate(['sales/telecom']);
-                });
-              }
-              else {
-                this.router.navigate(['sales/telecom']);
-              }
+              // if (this.ticket.masterInfo.status == '2') {
+              //   this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
+              //     if (res.success) {
+              //       this.commonService.showMessageByName(res.message);
+              //     }
+              //     this.router.navigate(['sales/telecom']);
+              //   });
+              // }
+              // else {
+              //   this.router.navigate(['sales/telecom']);
+              // }
+              this.router.navigate(['sales/telecom']);
             } else {
               if (result.result && result.result.length > 0) {
                 this.commonService.showMessageByNameAdvance(result.message, ...result.result);

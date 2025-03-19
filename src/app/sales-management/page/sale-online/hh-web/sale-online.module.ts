@@ -26,6 +26,7 @@ import { SaleOnlineDialogComponent } from './sale-online-dialog/sale-online-dial
 import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
 import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 import { DeliveryInfomationModule2 } from '@app/sales-management/component/delivery/infomation2/delivery-infomation-2.module';
+import { SendEmailModule } from '@app/sales-management/component/send-email/send-email.module';
 
 @NgModule({
   imports: [
@@ -53,7 +54,8 @@ import { DeliveryInfomationModule2 } from '@app/sales-management/component/deliv
     EInvoiceInfoModule,
     VoucherInfoModule,
     NavigationVoucheModule,
-    VoucherInfoHeaderModule
+    VoucherInfoHeaderModule,
+    SendEmailModule
   ],
   declarations: [
     SaleOnlineComponent,

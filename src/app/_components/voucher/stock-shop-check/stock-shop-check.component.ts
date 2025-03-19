@@ -322,17 +322,18 @@ export class StockShopCheckComponent {
             this.isDisabled = false;
             if (result.success) {
               this.commonService.showMessage(Language.content.Update_Completed);
-              if (this.ticket.masterInfo.status == '2') {
-                this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
-                  if (res.success) {
-                    this.commonService.showMessageByName(res.message);
-                  }
-                  this.router.navigate(['voucher/stock-tranfer-from-shop']);
-                });
-              }
-              else {
-                this.router.navigate(['voucher/stock-tranfer-from-shop']);
-              }
+              // if (this.ticket.masterInfo.status == '2') {
+              //   this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
+              //     if (res.success) {
+              //       this.commonService.showMessageByName(res.message);
+              //     }
+              //     this.router.navigate(['voucher/stock-tranfer-from-shop']);
+              //   });
+              // }
+              // else {
+              //   this.router.navigate(['voucher/stock-tranfer-from-shop']);
+              // }
+              this.router.navigate(['voucher/stock-tranfer-from-shop']);
             } else {
               if (result.result && result.result.length > 0) {
                 this.commonService.showMessageByNameAdvance(result.message, ...result.result);
