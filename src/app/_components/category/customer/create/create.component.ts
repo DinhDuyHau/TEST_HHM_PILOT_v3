@@ -57,6 +57,9 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
   customer: CustomerModel;
   optionGender = [
     {
+      'gender': 'Chọn giới tính'
+    },
+    {
       'gender': 'Nam'
     },
     {
@@ -155,6 +158,12 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
     }
 
     this.customer.ma_ct = TICKET_CODE.ONLINE_ECOMMERCE;
+
+    // bắt buộc chọn giới tính
+    if(this.customer.gioi_tinh == "" || this.customer.gioi_tinh?.includes("Chọn giới tính")) {
+      this.commonService.showMessage('Vui lòng chọn giới tính');
+      return;
+    }
 
     this.submitted = true;
 
