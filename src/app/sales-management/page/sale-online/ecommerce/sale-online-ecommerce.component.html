@@ -458,6 +458,11 @@
             *ngIf="!readonly">
             {{ submitButtonTitle }}
           </button>
+          <app-send-email
+            *ngIf="this.mode == 2"
+            [voucherId]="this.ticket.masterInfo.stt_rec"
+            [email]="this.ticket.masterInfo.email_nhan_key"
+            [status]="this.ticket.masterInfo.status"/>
         </div>
       </div>
     </div>
