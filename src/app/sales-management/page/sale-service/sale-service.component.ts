@@ -105,6 +105,8 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
                         this.action = 'update';
                         break;
                     case 'view':
+                        this.readonly = true;
+                        this.submitButtonTitle = Language.content.save;
                         this.title = Language.content.view;
                         this.mode = MODE.VIEW;
                         this.cancelButtonTitle = Language.content.exit;
