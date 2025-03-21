@@ -634,6 +634,12 @@ export class CommonService {
         };
     }
 
+    saveVoucherNumberLocalStorage(so_ct: string, ma_ct: string) {
+        const data = { ma_ct: ma_ct, so_ct: so_ct };
+        localStorage.removeItem('voucherNumberCheck');
+        localStorage.setItem('voucherNumberCheck', JSON.stringify(data) || '{}');
+    }
+
 }
 
 
