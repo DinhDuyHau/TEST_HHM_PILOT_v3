@@ -1,7 +1,7 @@
-<div mat-dialog-actions class="flex flex-col h-full bg-white">
-  <div class="flex flex-1 px-2 flex-col gap-2">
+<div mat-dialog-content class="flex flex-col bg-white h-full">
+  <div class="flex flex-1 flex-col gap-2 px-2">
     <ng-container *ngFor="let field of fields">
-      <app-input-custom-v2
+      <app-custom-number-input
         class="flex-1"
         [label]="field.label"
         [name]="field.name"
@@ -9,15 +9,17 @@
         [dataFormatString]="'normalQuantity'"
         type="number"
         [align]="'right'"
-        (handleChange)="field.value = $event">
-      </app-input-custom-v2>
+        [decimalPlaces]="2"
+        (handleChange)="field.value = $event"
+        [readonly]="field.readonly">
+      </app-custom-number-input>
     </ng-container>
   </div>
 
-  <div mat-dialog-actions class="gap-3 justify-end ml-5">
-    <div class="d-flex justify-end gap-2 m-2">
-      <button class="btn-responsive btn-cancel" (click)="onClickClose()">Hủy bỏ</button>
-      <button class="btn-responsive btn-add" (click)="onClickSave()">Lưu</button>
+  <div mat-dialog-actions class="justify-end gap-3 ml-5">
+    <div class="d-flex justify-end m-2 gap-2">
+      <button class="btn-cancel btn-responsive" (click)="onClickClose()">Hủy bỏ</button>
+      <button class="btn-add btn-responsive" (click)="onClickSave()">Lưu</button>
     </div>
   </div>
 

@@ -123,8 +123,8 @@ export class ReceiptDetailService implements IGridService<ReceiptDetail>{
   }
   openDialogEditPrice(data: any): Observable<any> {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = '300px';
-    dialogConfig.height = '200px';
+    dialogConfig.width = '350px';
+    dialogConfig.height = 'auto';
     dialogConfig.data = data;
     // dialogConfig.disableClose = true;
     const dialogRef = this.dialog.open(DialogInputCustomComponent, dialogConfig);

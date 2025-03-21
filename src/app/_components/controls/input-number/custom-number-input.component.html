@@ -1,0 +1,14 @@
+<div class="custom-input-container">
+  <label *ngIf="label">{{ label }}</label>
+  <input
+    #inputElement
+    [value]="formatNumber(value)"
+    type="text"
+    class="custom-number-input"
+    [name]="name"
+    [readonly]="readonly"
+    [style.textAlign]="align"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+  />
+</div>

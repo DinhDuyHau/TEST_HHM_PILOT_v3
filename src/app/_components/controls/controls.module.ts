@@ -13,6 +13,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InputDateComponent } from './input-date/input-date.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CustomNumberInputComponent } from './input-number/custom-number-input.component';
 
 
 @NgModule({
@@ -22,12 +23,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     InputCustomV2Component,
     SelectCustomComponent,
     InputDateComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    CustomNumberInputComponent
   ],
   imports: [
     CommonModule, FormsModule, ReactiveFormsModule, MatIconModule, MatProgressSpinnerModule, DataFormatPipeModule, FontAwesomeModule, MatCheckboxModule
   ],
   providers: [DecimalPipe, DataFormatPipe],
-  exports: [LookupDirective, InputComponent, InputCustomV2Component, SelectCustomComponent, InputDateComponent, CheckboxComponent]
+  exports: [LookupDirective, InputComponent, InputCustomV2Component, SelectCustomComponent, InputDateComponent, CheckboxComponent, CustomNumberInputComponent]
 })
 export class ControlsModule { }

@@ -67,6 +67,12 @@
     "width": 100
   },
   {
+    "name": "gc_td1",
+    "title": "Đã sửa giá",
+    "type": "boolean",
+    "width": 100
+  },
+  {
     "name": "gia_nt",
     "title": "Đơn giá",
     "width": 120,

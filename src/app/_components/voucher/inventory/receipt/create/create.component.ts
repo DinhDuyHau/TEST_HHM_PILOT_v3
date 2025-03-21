@@ -706,6 +706,12 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
     let s5 = this.data.masterInfo.s5 || 0; // Tổng thuế chiết khấu
     let s6 = this.data.masterInfo.s6 || 0; // Tổng tiền chiết khấu trước VAT
 
+    // thành tiền grid
+    this.data.details[0].data.forEach((item) => {
+      item.tien_nt = item.gia_nt * item.so_luong;
+      item.thue_nt = item.tien_nt * (item.thue_suat / 100);
+    });
+
     // tổng tiền
     this.data.details[0].data.forEach((item) => {
       t_tien_nt += item.tien_nt || 0;
@@ -715,6 +721,11 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
     // tổng thuế
     this.data.details[0].data.forEach((item) => {
       t_thue_nt += item.thue_nt || 0;
+    });
+
+    // thanh toán
+    this.data.details[0].data.forEach((item) => {
+      item.tt_nt = item.tien_nt + item.thue_nt;
     });
 
     t_thue_nt = Math.round(t_thue_nt - ((t_ck_nt * t_thue_suat_ck) / 100) - s5);
@@ -861,15 +872,35 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
   onHandleActionButton(event: { buttonId: string; data?: any; index: number }) {
     switch (event.buttonId) {
       case button.EditPriceButton.id:
+        let donGia = event.data.s4 > 0 ? event.data.s4 : event.data.gia_nt;
+
         this.receiptDetailService.openDialogEditPrice({
           fields: [
-            { label: 'Tiền chiết khấu', name: 'ck', value: this.parseValidNumber(event.data.ck) }
+            { label: 'Tiền chiết khấu', name: 'ck', value: this.parseValidNumber(event.data.ck) },
+            { label: 'Đơn giá gốc', name: 'gia_nt', value: this.parseValidNumber(donGia), readonly: true },
+            { label: 'Đơn giá điều chỉnh', name: 'gia_dc', value: 0 },
           ]
         }).subscribe((res) => {
           if (res) {
             const item = this.data.details[0].data[event.index];
             const ckField = res.find((f: { name: string; }) => f.name === 'ck');
+            const giaNt = res.find((f: { name: string; }) => f.name === 'gia_nt');
+            const priceAdjusment = res.find((f: { name: string; }) => f.name === 'gia_dc');
+            const priceAdjusmentValue = priceAdjusment.value <= 0 ? item.gia_nt : priceAdjusment.value;
+
+            // kiểm tra ko được lớn hơn 2 đồng
+            if (Math.abs(priceAdjusmentValue - this.parseValidNumber(giaNt.value)) > 2) {
+              this.commonService.showMessage('Không được điều chỉnh lớn hơn 2 đồng');
+              return;
+            }
+
             item.ck = this.parseValidNumber(ckField.value);
+            item.gia_nt = this.parseValidNumber(priceAdjusment.value <= 0 ? item.gia_nt : priceAdjusment.value);
+            item.s4 = this.parseValidNumber(giaNt.value);
+
+            if (priceAdjusment.value > 0) {
+              item.gc_td1 = "1";
+            }
 
             // tính toán lại tiền
             this.calcDiscount();
