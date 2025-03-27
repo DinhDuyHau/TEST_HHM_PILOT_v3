@@ -1,0 +1,29 @@
+[
+  {
+    "name": "line_nbr",
+    "title": "STT",
+    "width": 100,
+    "isPrimaryKey": true,
+    "align": "center"
+  },
+  {
+    "name": "dien_giai",
+    "title": "Lý do nộp",
+    "width": 220
+  },
+  {
+    "name": "tien_nt",
+    "title": "Tiền",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "action",
+    "title": "Thao tác",
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "action"
+  }
+]

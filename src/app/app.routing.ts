@@ -69,6 +69,7 @@ import { ServiceCompensationComponent } from './sales-management/page/voucher-se
 import { ChangepassComponent } from './pages/changepass/changepass.component';
 
 import { OtherMoneyTransferDetailComponent } from './_components/voucher/money-transaction/other-money-transfer/create/create.component';
+import { DepositBaokimDetailComponent } from './_components/voucher/money-transaction/deposit-baokim/create/create.component';
 
 
 const homeModule = () => import('./home/home.module').then(x => x.HomeModule);
@@ -218,6 +219,15 @@ const routes: Routes = [
       { path: 'create', component: OtherReceiptDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: OtherReceiptDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: OtherReceiptDetailComponent, canActivate: [AuthGuard] },
+    ]
+  },
+  {
+    path: 'voucher/deposit-baokim', component: AppLayoutComponent, canActivate: [AuthGuard],
+    children: [
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.DEPOSIT_BAOKIM, reuse: true } },
+      { path: 'create', component: DepositBaokimDetailComponent, canActivate: [AuthGuard] },
+      { path: 'update', component: DepositBaokimDetailComponent, canActivate: [AuthGuard] },
+      { path: 'view', component: DepositBaokimDetailComponent, canActivate: [AuthGuard] },
     ]
   },
   {
