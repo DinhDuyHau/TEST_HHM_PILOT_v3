@@ -45,6 +45,7 @@ export class Service {
   ma_td1 = '';
   noi_dung = '';
   key = '';
+  ad_key = false;
 
   constructor(obj?: any) {
     Object.assign(this, obj);
