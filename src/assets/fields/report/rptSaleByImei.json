@@ -5,6 +5,7 @@
     "allowFilter": true,
     "width": 80,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -13,6 +14,7 @@
     "allowFilter": true,
     "width": 80,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -21,6 +23,7 @@
     "allowFilter": true,
     "width": 180,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -29,6 +32,7 @@
     "allowFilter": true,
     "width": 150,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true,
     "link": true
   },
@@ -38,6 +42,7 @@
     "allowFilter": true,
     "width": 100,
     "dataFormatString": "datetimeFormat",
+    "allowSorting": true,
     "isLockingColumn": true,
     "align": "center"
   },
@@ -47,6 +52,7 @@
     "allowFilter": true,
     "width": 120,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -55,6 +61,7 @@
     "allowFilter": true,
     "width": 220,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -63,6 +70,7 @@
     "allowFilter": true,
     "width": 120,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -71,6 +79,7 @@
     "allowFilter": true,
     "width": 120,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -79,6 +88,7 @@
     "allowFilter": true,
     "width": 220,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -87,6 +97,7 @@
     "allowFilter": true,
     "width": 60,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -95,6 +106,7 @@
     "allowFilter": true,
     "width": 130,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -103,6 +115,7 @@
     "allowFilter": true,
     "width": 80,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -111,15 +124,16 @@
     "allowFilter": true,
     "width": 120,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
-
   {
     "name": "so_luong",
     "title": "Số lượng",
     "allowFilter": true,
     "type": "number",
     "dataFormatString": "normalPrice",
+    "allowSorting": true,
     "align": "right",
     "width": 100
   },
@@ -129,6 +143,7 @@
     "allowFilter": true,
     "type": "number",
     "dataFormatString": "normalPrice",
+    "allowSorting": true,
     "align": "right",
     "width": 100
   },
@@ -138,6 +153,7 @@
     "allowFilter": true,
     "type": "number",
     "dataFormatString": "normalPrice",
+    "allowSorting": true,
     "align": "right",
     "width": 100
   },
@@ -147,6 +163,7 @@
     "allowFilter": true,
     "type": "number",
     "dataFormatString": "normalPrice",
+    "allowSorting": true,
     "align": "right",
     "width": 100
   },
@@ -156,6 +173,7 @@
     "allowFilter": true,
     "type": "number",
     "dataFormatString": "normalPrice",
+    "allowSorting": true,
     "align": "right",
     "width": 100
   },
@@ -165,6 +183,7 @@
     "allowFilter": true,
     "type": "number",
     "dataFormatString": "normalPrice",
+    "allowSorting": true,
     "align": "right",
     "width": 100
   },
@@ -174,6 +193,7 @@
     "allowFilter": true,
     "type": "number",
     "dataFormatString": "normalPrice",
+    "allowSorting": true,
     "align": "right",
     "width": 100
   },
@@ -183,6 +203,7 @@
     "allowFilter": true,
     "type": "number",
     "dataFormatString": "normalPrice",
+    "allowSorting": true,
     "align": "right",
     "width": 100
   },
@@ -192,6 +213,7 @@
     "allowFilter": true,
     "type": "number",
     "dataFormatString": "normalPrice",
+    "allowSorting": true,
     "align": "right",
     "width": 100
   },
@@ -201,6 +223,7 @@
     "allowFilter": true,
     "type": "number",
     "dataFormatString": "normalPrice",
+    "allowSorting": true,
     "align": "right",
     "width": 100
   },
@@ -210,6 +233,7 @@
     "allowFilter": true,
     "type": "number",
     "dataFormatString": "normalPrice",
+    "allowSorting": true,
     "align": "right",
     "width": 100
   },
@@ -219,6 +243,7 @@
     "allowFilter": true,
     "type": "number",
     "dataFormatString": "normalPrice",
+    "allowSorting": true,
     "align": "right",
     "width": 100
   },
@@ -228,6 +253,7 @@
     "allowFilter": true,
     "width": 120,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -236,6 +262,7 @@
     "allowFilter": true,
     "width": 220,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -244,6 +271,7 @@
     "allowFilter": true,
     "width": 250,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -252,6 +280,7 @@
     "allowFilter": true,
     "width": 120,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -260,6 +289,7 @@
     "allowFilter": true,
     "width": 220,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   },
   {
@@ -268,6 +298,7 @@
     "allowFilter": true,
     "width": 150,
     "dataFormatString": "fullDateTimeFormat",
+    "allowSorting": true,
     "isLockingColumn": true,
     "align": "center"
   },
@@ -277,6 +308,7 @@
     "allowFilter": true,
     "width": 150,
     "dataFormatString": "fullDateTimeFormat",
+    "allowSorting": true,
     "isLockingColumn": true,
     "align": "center"
   },
@@ -286,6 +318,7 @@
     "allowFilter": true,
     "width": 120,
     "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
     "isLockingColumn": true
   }
 ]
