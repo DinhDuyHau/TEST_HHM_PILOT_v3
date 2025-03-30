@@ -39,6 +39,7 @@
     "width": 100,
     "dataFormatString": "datetimeFormat",
     "isLockingColumn": true,
+	"type": "DateTime",
     "align": "center"
   },
   {
