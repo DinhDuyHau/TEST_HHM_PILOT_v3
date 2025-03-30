@@ -6,6 +6,7 @@
     "type": "number",
     "dataFormatString": "countingFormat",
     "align": "center",
+    "allowSorting": true,
     "width": 50
   },
   {
@@ -14,6 +15,7 @@
     "isLockingColumn": true,
     "isPrimaryKey": true,
     "allowFilter": true,
+    "allowSorting": true,
     "width": 100,
     "dataFormatString": "upperCaseFormat"
   },
@@ -23,6 +25,7 @@
     "isLockingColumn": true,
     "isPrimaryKey": true,
     "allowFilter": true,
+    "allowSorting": true,
     "width": 100,
     "dataFormatString": "upperCaseFormat"
   },
@@ -32,6 +35,7 @@
     "isLockingColumn": true,
     "isPrimaryKey": true,
     "allowFilter": true,
+    "allowSorting": true,
     "width": 100,
     "dataFormatString": "upperCaseFormat"
   },
@@ -41,6 +45,7 @@
     "isLockingColumn": true,
     "isPrimaryKey": true,
     "allowFilter": true,
+    "allowSorting": true,
     "width": 120,
     "dataFormatString": "upperCaseFormat"
   },
@@ -49,6 +54,7 @@
     "title": "Tên vật tư",
     "allowFilter": true,
     "isLockingColumn": true,
+    "allowSorting": true,
     "width": 280
   },
   {
@@ -58,6 +64,7 @@
     "type": "number",
     "dataFormatString": "normalPrice",
     "align": "center",
+    "allowSorting": true,
     "width": 120
   },
   {
@@ -67,6 +74,7 @@
     "type": "number",
     "dataFormatString": "normalPrice",
     "align": "center",
+    "allowSorting": true,
     "width": 120
   },
   {
@@ -76,6 +84,7 @@
     "type": "number",
     "dataFormatString": "normalPrice",
     "align": "center",
+    "allowSorting": true,
     "width": 120
   },
   {
@@ -85,6 +94,7 @@
     "type": "number",
     "dataFormatString": "normalPrice",
     "align": "center",
+    "allowSorting": true,
     "width": 120
   }
 ]
