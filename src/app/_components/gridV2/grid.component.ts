@@ -114,6 +114,8 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
     QUICK_SEARCH: 2
   };
   statusList: StatusTicket[] = [];
+  disableButtonExports = ['rptLookupInventory']; // khai báo sysid những báo cáo ko hiển thị nút kết xuất
+  isViewButtonExport = true; // kiểm tra có được hiển thị nút kết xuất hay ko
 
   selected_row_item: any;
   @Input() enabledCheckboxColumns: string[] = [];
@@ -151,6 +153,9 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
       this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
         this.statusList = result;
       });
+    }
+    if(this.disableButtonExports.includes(this.sysid)) {
+      this.isViewButtonExport = false;
     }
   }
   ngAfterViewInit(): void {
