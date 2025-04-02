@@ -100,16 +100,10 @@
         "isLookup": "true",
         "control": "dmdichvu",
         "dataFormatString": "uppercaseFormat",
-        "reference": ["ma_dv", "ten_dv"],
-        "class": "basis-1/3",
-        "required": false
-      },
-      {
-        "name": "ten_dv",
-        "label": "Tên dịch vụ",
-        "disabled": true,
-        "isExternalField": true,
-        "class": "flex-1"
+        "reference": ["ma_dv"],
+        "required": false,
+        "class": "flex-1",
+        "isChoose": true
       }
     ],
     [
