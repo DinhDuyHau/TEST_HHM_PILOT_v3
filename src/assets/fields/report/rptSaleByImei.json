@@ -44,6 +44,7 @@
     "dataFormatString": "datetimeFormat",
     "allowSorting": true,
     "isLockingColumn": true,
+	"type": "DateTime",
     "align": "center"
   },
   {
