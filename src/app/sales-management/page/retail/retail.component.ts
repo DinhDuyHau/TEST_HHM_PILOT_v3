@@ -35,6 +35,9 @@ import { Package } from '@app/sales-management/model/ticket/common-model/package
 import { Transport } from '../../model/common/delivery.mode';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { VoucherCodeService } from '../common/voucher-code.service';
+import { VoucherCode } from '@app/sales-management/model/ticket/common-model/base-entity.model';
+import { DiscountApiService } from '@app/sales-management/api/discount-api.service';
 
 const {
   DISCOUNT_LIST,
@@ -42,7 +45,8 @@ const {
   MERCHANDISE_LIST,
   SERVICE_LIST,
   PACKAGE_LIST,
-  OVERVIEW_LIST
+  OVERVIEW_LIST,
+  VOUCHER_CODE_LIST
 } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
@@ -65,6 +69,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   discountColumns = DISCOUNT_LIST;
   guaranteeColumns = GUARANTEE_LIST;
   overviewColumns = OVERVIEW_LIST;
+  voucherCodeColumns = VOUCHER_CODE_LIST;
   mode!: number;
   submitButtonTitle!: string;
   cancelButtonTitle!: string;
@@ -98,6 +103,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
   ma_kh_label = 'Mã khách';
   addOrUpdateCustomer = 'create';
   voucherCode = TICKET_CODE.RETAIL;
+  voucher_code = ''; // Mã giảm giá
+  isCheckingVoucher = false;
 
   tab_sources: any[] = [
     { label: 'Tổng quan' },
@@ -105,6 +112,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     { label: 'Dịch vụ', name: 'service' },
     { label: 'Gói cước', name: 'packages' },
     { label: 'Chiết khấu', name: 'discount' },
+    { label: 'Mã giảm giá', name: 'voucherCode' },
     { label: 'Vận chuyển', name: null },
     { label: 'HĐĐT', name: null }
   ];
@@ -123,7 +131,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
     private discountService: DiscountService,
     private guaranteeApiService: GuaranteeApiService,
     private fileService: FileService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private discountApiService: DiscountApiService,
   ) {
     localStorage.setItem('useGridCached', '1');
     this.retailService.setTicket(this.ticket, this.option);
@@ -330,6 +339,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.handleGetDeposit();
     this.retailService.setIsNeedCalcDiscount(true);
     this.discountService.resetDiscount(this.ticket.discount);
+    this.resetVoucherCode();
     this.retailService.calcMoney();
 
     this.retailService.getConversionPoint().subscribe(result => {
@@ -729,6 +739,11 @@ export class RetailComponent implements OnInit, AfterViewInit {
     if (event.item.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK) {
       this.commonService.showMessage('Không thể xóa chiết khấu hạng khách hàng');
       return;
+    }
+    if (event.item.loai_ck == DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE) {
+      this.ticket.voucherCode = this.ticket.voucherCode.filter(
+        (i) => i.ma_voucher.trim().toLowerCase() !== event.item.imei_hang_mua.trim().toLowerCase()
+      );
     }
     const discountCurrent = this.discountService.getDiscountCurrent(this.ticket.discount.filter(x => x.ma_ck !== event.item.ma_ck));
     const rs = this.retailService.calcDiscount();
@@ -1177,6 +1192,153 @@ export class RetailComponent implements OnInit, AfterViewInit {
     }
     return true;
   }
+
+  //#region Mã giảm giá
+  handleChangeVoucherCode($event: any) {
+    if (this.isCheckingVoucher) return;
+
+    this.voucher_code = $event;
+
+    // valid voucher code
+    const message = this.validVoucherCode();
+    if (message) return this.commonService.showMessage(message);
+
+    // Lấy danh sách mã vật tư trong phiếu bán
+    const skus = this.ticket.merchandise
+      .map(item => item.ma_vt?.trim().toLowerCase())
+      .filter(Boolean); // Loại bỏ giá trị undefined/null
+
+    if (!this.voucher_code) return;
+
+    this.isCheckingVoucher = true;
+
+    this.retailService.voucherCheck(this.voucher_code, skus).subscribe({
+      next: result => {
+        const response = result as any;
+
+        if (!response?.IsValid) return this.commonService.showMessage('Mã giảm giá không hợp lệ');
+
+        // kiểm tra mã khách có được sử dụng voucher này ko
+        if (response?.Config?.Phone?.IsEnable) {
+          const phones = (response?.Config?.Phone?.Items || []).map((item: string) => item.trim());
+          if (!phones.includes(this.ticket.masterInfo.ma_kh?.trim())) {
+            return this.commonService.showMessage('Mã giảm giá không áp dụng cho khách hàng này');
+          }
+        }
+
+        // Kiểm tra mã vật tư có trong danh sách hợp lệ không
+        const validSkus = (response?.Config?.SKU?.Items || []).map((item: string) => item.trim().toLowerCase());
+        if (!skus.some(sku => validSkus.includes(sku))) {
+          return this.commonService.showMessage('Mã giảm giá không áp dụng cho mã hàng này');
+        }
+
+        // thêm mã voucher vào danh sách mã voucher
+        this.addVoucherCode(validSkus, response);
+      },
+      error: (err) => {
+        console.error(err);
+        this.commonService.showMessage('Có lỗi xảy ra khi kiểm tra mã giảm giá');
+      },
+      complete: () => {
+        this.isCheckingVoucher = false;
+      }
+    });
+  }
+
+  addVoucherCode(validSkus: string[], inputResponse: any) {
+    // tiền ck & tl ck
+    const DiscountPrice = inputResponse?.Info?.DiscountPrice || 0;
+    const DiscountRate = inputResponse?.Info?.DiscountRate || 0;
+    const SKU = inputResponse?.Config?.SKU;
+    let ma_imei = '';
+    let ma_vt = '';
+    let type = 0;
+
+    const validMerchandise = this.ticket.merchandise.filter(item =>
+      validSkus.includes(item.ma_vt?.trim().toLowerCase())
+    );
+
+    if (validMerchandise.length === 0) {
+      return this.commonService.showMessage('Không có vật tư nào hợp lệ để áp dụng voucher');
+    }
+
+    // Tìm ra vật tư có giá trị cao nhất trong danh sách được áp dụng
+    const maxMerchandise = validMerchandise.reduce((prev, current) =>
+      prev.gia_ban > current.gia_ban ? prev : current
+    );
+
+    if (!SKU.IsEnable) {
+      ma_imei = maxMerchandise.ma_imei || '';
+      ma_vt = maxMerchandise.ma_vt || '';
+      type = 1;
+    }
+
+    // kiểm tra đã add voucher
+    if (this.ticket.voucherCode.some(item => item.ma_voucher.trim().toLowerCase() === this.voucher_code.trim().toLowerCase())) {
+      return this.commonService.showMessage('Mã giảm giá đã được áp dụng');
+    }
+
+    // cal api lấy ra chiết khấu loại 10
+    const ngay_ct = new Date(`${this.ticket.masterInfo.ngay_ct}Z`);
+    this.retailService.getDiscountVoucherCode(ngay_ct).subscribe(result => {
+      const response = result as any;
+
+      if(response.success && response.result != null) {
+        const discountRes = response.result[0] as any;
+
+        const discount = {
+          ma_ck: discountRes.ma_ck || 'VOUCHERWEB',
+          ma_imei: ma_imei,
+          ma_vt: ma_vt,
+          loai_ck: discountRes.loai_ck || DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE,
+          ten_ck: discountRes.ten_ck || 'Chết khấu voucher website 2025',
+          ten_loai: discountRes.ten_loai || 'Chiết khấu theo mã voucher website',
+          imei_hang_mua: this.voucher_code,
+          ngay_bd: discountRes.ngay_bd,
+          ngay_kt: discountRes.ngay_kt,
+          tien_qd: 0,
+          tien_ck: DiscountPrice,
+          tl_ck: DiscountRate,
+          type: type
+        } as Discount;
+        this.discountService.addNew([discount], this.ticket.discount);
+
+        this.commonService.showMessage('Thêm mã giảm giá thành công');
+        this.retailService.calcMoney(); // sau khi thêm chiết khấu thành công mới tính lại tiền
+        this.voucher_code = ''; // reset input mã giảm giá
+      }
+    });
+  }
+
+  validVoucherCode() {
+    let message = '';
+
+    // kiểm tra ma_kh
+    if (!this.ticket.masterInfo.ma_kh) {
+      message = 'Chưa nhập mã khách hàng';
+      return message;
+    }
+    // ktra nếu chưa nhập hàng hóa
+    if (!this.ticket.merchandise.length) {
+      message = 'Chưa nhập hàng hóa';
+      return message;
+    }
+
+    return message;
+  }
+
+  resetVoucherCode() {
+    this.ticket.voucherCode = [];
+  }
+
+  parseCustomDate = (dateStr: string) => {
+    const [day, month, year, time, period] = dateStr.split(/[- :]/);
+    let hours = parseInt(time);
+    if (period === "PM" && hours < 12) hours += 12;
+    if (period === "AM" && hours === 12) hours = 0;
+    return new Date(`${year}-${month}-${day}T${hours.toString().padStart(2, '0')}:00:00`).toISOString();
+  };
+  //#endregion
 }
 
 

@@ -394,6 +394,7 @@ export class DiscountService {
         const discountForAccessoryCombo = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO);
         const discountForService = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT);
         const discountForRankCustomer = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK);
+        const discountForVoucherCode = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE);
 
         const giftDiscountNew = this.handleConvertDiscountFromVoucher(giftDiscount, GiveMerchandiseDiscountDetail);
         const discountForCustomerNew = this.handleConvertDiscountFromVoucher(discountForCustomer, DiscountForCustomerDetail);
@@ -403,6 +404,7 @@ export class DiscountService {
         const discountForAccessoryComboNew = this.handleConvertDiscountFromVoucher(discountForAccessoryCombo, DiscountForMerchandiseDetail);
         const discountForServiceNew = this.handleConvertDiscountFromVoucher(discountForService, DiscountForMerchandiseDetail);
         const discountForRankCustomerNew = this.handleConvertDiscountFromVoucher(discountForRankCustomer, DiscountForMerchandiseDetail);
+        const discountForVoucherCodeNew = this.handleConvertDiscountFromVoucher(discountForVoucherCode, DiscountForMerchandiseDetail);
 
         if (giftDiscountNew) {
             des.push(...giftDiscountNew);
@@ -427,6 +429,9 @@ export class DiscountService {
         }
         if (discountForRankCustomerNew) {
             des.push(...discountForRankCustomerNew);
+        }
+        if (discountForVoucherCodeNew) {
+            des.push(...discountForVoucherCodeNew);
         }
         des.map((e, i) => { e.line_nbr = i; });
     }

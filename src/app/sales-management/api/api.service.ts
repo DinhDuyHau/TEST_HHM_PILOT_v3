@@ -17,6 +17,10 @@ export class ApiService {
         return this.http.post<T>(url, body, { params: param }).pipe(catchError(error => of(error)));
     }
 
+    postWithHeader<T>(url: string, body: any, param?: any, headers?: any): Observable<T> {
+        return this.http.post<T>(url, body, { params: param, headers: headers }).pipe(catchError(error => of(error)));
+    }
+
     put<T>(url: string, body: any, param?: any): Observable<T> {
         return this.http.put<T>(url, body, { params: param }).pipe(catchError(error => of(error)));
     }

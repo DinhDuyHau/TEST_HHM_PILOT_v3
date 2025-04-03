@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 import { Merchandise } from '@app/sales-management/model/ticket/retail/model';
 import { Service } from '@app/sales-management/model/ticket/common-model/service.model';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
+import { VoucherCodeService } from './voucher-code.service';
+import { VoucherCode } from '@app/sales-management/model/ticket/common-model/base-entity.model';
 
 
 
@@ -16,7 +18,8 @@ export class MerchandiseService {
 
     constructor(
         private imeiApiService: ImeiApiService,
-        private commonService: CommonService
+        private commonService: CommonService,
+        private voucherCodeService: VoucherCodeService
     ) { }
 
     getMerchandiseNotHaveImei(ma_vt: string, merchandise: any[]): any | undefined {
@@ -202,6 +205,88 @@ export class MerchandiseService {
             serviceUpdate = service.filter((e: any) => !e.km_yn);
         }
         // merchandiseUpdate.map((e: any) => { e.tien_ck = 0; });
+
+        //#region Chiết khấu 10 (chiết khấu mã giảm giá voucher)
+        const discountForMerchandise10 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE);
+        (discountForMerchandise10 as any).forEach((discount: any) => {
+            if (discount) {
+                if (discount.type == 1) {
+                    const { ma_vt, tien_ck, tl_ck, ma_imei } = discount;
+                    let tien_vat = 0;
+                    let tien_ck_calc = 0;
+
+                    // tìm vật tư cần áp dụng mã giảm giá
+                    const mechandise = merchandiseUpdate.find(item =>
+                        item.ma_vt?.trim().toLowerCase() === ma_vt.trim().toLowerCase() &&
+                        item.ma_imei?.trim().toLowerCase() === ma_imei.trim().toLowerCase()
+                    );
+
+                    if (mechandise) {
+                        // xử lý lấy tiền ck
+                        if (tien_ck > 0) {
+                            tien_ck_calc = tien_ck;
+                        } else {
+                            tien_vat = (mechandise.gia_ban * mechandise.so_luong) + (mechandise.gia_ban * mechandise.so_luong * mechandise.thue_suat / 100)
+                            tien_ck_calc = this.commonService.rouding(tien_vat * tl_ck / 100);
+                        }
+
+                        tien_ck_calc = this.commonService.rouding(tien_ck_calc);
+
+                        mechandise.gia_ck -= tien_ck_calc ? tien_ck_calc : 0;
+                        mechandise.tien_ck += tien_ck_calc ? tien_ck_calc : 0;
+
+                        const voucherCode = {
+                            ma_voucher: discount.imei_hang_mua,
+                            ma_vt: ma_vt,
+                            ma_imei: ma_imei,
+                            tien_ck: tien_ck,
+                            tl_ck: tl_ck,
+                        }
+                        this.voucherCodeService.addNew(voucherCode, ticket.voucherCode, VoucherCode);
+                    }
+                } else {
+                    // chiết khấu tổng đơn hàng phân bổ cho từng mặt hàng
+                    const { tien_ck, tl_ck } = discount;
+                    let tong_hang = merchandiseUpdate.reduce((sum, item) => sum + (item.gia_ban * item.so_luong), 0);
+                    let tong_thue = merchandiseUpdate.reduce((sum, item) => sum + (item.gia_ban * item.so_luong * item.thue_suat / 100), 0);
+                    let tong_tien = tong_hang + tong_thue;
+                    let tien_ck_calc = 0;
+
+                    // xử lý lấy tiền ck
+                    if (tien_ck > 0) {
+                        tien_ck_calc = tien_ck;
+                    } else {
+                        tien_ck_calc = this.commonService.rouding(tong_tien * tl_ck / 100);
+                    }
+
+                    let sum_ck_applied = 0;
+                    const lastIndex = merchandiseUpdate.length - 1;
+                    merchandiseUpdate.forEach((item, index) => {
+                        let tien_ck_pb = Math.round((item.gia_ban / tong_hang) * tien_ck_calc); // tiền ck phân bổ
+
+                        if (index === lastIndex) {
+                            tien_ck_pb = tien_ck_calc - sum_ck_applied; // tiền ck còn lại
+                        } else {
+                            sum_ck_applied += tien_ck_pb;
+                        }
+
+                        item.gia_ck -= tien_ck_pb;
+                        item.tien_ck += tien_ck_pb;
+
+                        // add và tab mã giảm giá
+                        const voucherCode = {
+                            ma_voucher: discount.imei_hang_mua,
+                            ma_vt: item.ma_vt,
+                            ma_imei: item.ma_imei,
+                            tien_ck: tien_ck_pb,
+                            tl_ck: tl_ck,
+                        }
+                        this.voucherCodeService.addNew(voucherCode, ticket.voucherCode, VoucherCode);
+                    });
+                }
+            }
+        });
+        //#endregion
 
         // Lấy chi tiết chiết khấu loại 01: Chiết khấu giá trị theo mã vật tư để cộng vào chi tiết chiết khấu
         const discountForMerchandise01 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.REDUTION_BY_MERCHANDISE_CODE);

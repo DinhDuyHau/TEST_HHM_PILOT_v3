@@ -166,3 +166,11 @@ export class Overview {
     tien_ck: number = 0;
     tong_tien: number = 0;
 }
+
+export class VoucherCode {
+    ma_voucher: string = '';
+    ma_vt: string = '';
+    ma_imei: string = '';
+    tien_ck: number = 0;
+    tl_ck: number = 0;
+}

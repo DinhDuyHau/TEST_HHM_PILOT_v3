@@ -132,6 +132,15 @@
           {{ getLabel('lbl_add_customer') }}
         </button>
       </div>
+
+      <form-input-custom
+        #txt_voucher_code
+        class="box order-dynamic-2"
+        [name]="'voucher_code'"
+        [label]="'Mã giảm giá'"
+        [value]="this.voucher_code"
+        *ngIf="!readonly"
+        (handleEnterInput)="handleChangeVoucherCode($event)" />
     </div>
 
     <div class="deposit" *ngIf="depositMerchandise.length">
@@ -212,6 +221,12 @@
           [columns]="discountColumns"
           [readonly]="readonly"
           (handleDelete)="onRemoveDiscount($event)" />
+      </tab-custom>
+      <tab-custom label="Mã giảm giá" class="w-100">
+        <table-custom
+          [dataSource]="ticket.voucherCode"
+          [columns]="voucherCodeColumns"
+          [readonly]="readonly" />
       </tab-custom>
       <tab-custom label="Vận chuyển" class="w-100">
         <delivery-infomation-2

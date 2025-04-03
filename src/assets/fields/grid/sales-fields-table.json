@@ -59,6 +59,11 @@
             "title": "Tên chiết khấu"
         },
         {
+            "name": "imei_hang_mua",
+            "title": "Mã voucher",
+            "align": "center"
+        },
+        {
             "name": "ngay_bd",
             "title": "Ngày bắt đầu",
             "format": "datetimeFormat",
@@ -3005,7 +3010,27 @@
             "dataType": "number",
             "align": "right"
         }
+    ],
+    "VOUCHER_CODE_LIST": [
+        {
+            "name": "ma_voucher",
+            "title": "Mã giảm giá"
+        },
+        {
+            "name": "ma_vt",
+            "title": "Mã vật tư"
+        },
+        {
+            "name": "ma_imei",
+            "title": "Mã imei",
+            "align": "center"
+        },
+        {
+            "name": "tien_ck",
+            "title": "Tiền chiết khấu",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        }
     ]
-
-
 }
