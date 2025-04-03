@@ -150,9 +150,10 @@
             <form-input-custom
               class="flex-1"
               name="email"
+              [readonly]="readonly"
               [label]="getLabel('lbl_email_key')"
-              *ngIf="!readonly"
               [value]="ticket.masterInfo.email_nhan_key"
+              [invalid]="invalid"
               (handleChangeValue)="ticket.masterInfo.email_nhan_key = $event" />
           </div>
         </div>

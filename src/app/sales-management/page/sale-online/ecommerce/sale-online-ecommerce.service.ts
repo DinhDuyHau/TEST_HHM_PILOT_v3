@@ -543,6 +543,8 @@ export class SaleOnlineEcommerceService {
             message = this.commonService.getMessage('lbl_invalid_ck04');
         } else if (ticket.masterInfo.dien_giai.length > 250) {
             message = 'Diễn giải không được vượt quá 250 ký tự';
+        } else if (ticket.service.some(item => item.ad_key) && !ticket.masterInfo.email_nhan_key) {
+            message = 'Dịch vụ key phải nhập email'
         }
         return message;
     }
