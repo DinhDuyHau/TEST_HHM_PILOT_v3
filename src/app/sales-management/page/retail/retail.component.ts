@@ -497,6 +497,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
       this.commonService.focusControl2(this.tabIndex.imei);
       this.retailService.setIsNeedCalcDiscount(true);
       this.discountService.resetDiscount(this.ticket.discount);
+      this.resetVoucherCode();
       this.retailService.calcMoney();
       // khi add imei xử lý ck 09
       this.applyDiscount09ForMerchandise(merchandiseResponse);
