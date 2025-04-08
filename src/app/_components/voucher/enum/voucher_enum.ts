@@ -218,12 +218,21 @@ export const VOUCHER_TYPE = {
         button: [button.AddButton, button.ViewButton, button.EditButton, button.DeleteButton, button.PrintButton, button.RefreshButton]
     },
     DEPOSIT_BAOKIM: {
-      reuse: true,
-      sysid: 'CRTran_PTG',
-      voucherCode: 'PTG',
-      title: 'Phiếu nộp tiền Bảo Kim',
-      field: 'deposit-baokim',
-      field_detail: 'deposit-baokim_detail',
-      button: [button.AddButton, button.ViewButton, button.EditButton, button.DeleteButton, button.PrintButton, button.RefreshButton]
-  },
+        reuse: true,
+        sysid: 'CRTran_PTG',
+        voucherCode: 'PTG',
+        title: 'Phiếu nộp tiền Bảo Kim',
+        field: 'deposit-baokim',
+        field_detail: 'deposit-baokim_detail',
+        button: [button.AddButton, button.ViewButton, button.EditButton, button.DeleteButton, button.PrintButton, button.RefreshButton]
+    },
+    WITHDRAW_BAOKIM: {
+        reuse: true,
+        sysid: 'CRTran_PCG',
+        voucherCode: 'PCG',
+        title: 'Phiếu rút tiền Bảo Kim',
+        field: 'withdraw-baokim',
+        field_detail: 'withdraw-baokim_detail',
+        button: [button.AddButton, button.ViewButton, button.EditButton, button.DeleteButton, button.PrintButton, button.RefreshButton]
+    },
 };

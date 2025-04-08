@@ -53,6 +53,7 @@ export const TICKET_TYPE = {
     SALE_REPURCHASE_SERVICE: 42,
 
     DEPOSIT_BAOKIM: 43, // nộp tiền qua bảo kim vào VPBank
+    WITHDRAW_BAOKIM: 44, // rút tiền qua bảo kim vào VPBank
 };
 
 
