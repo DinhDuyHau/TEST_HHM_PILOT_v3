@@ -1364,5 +1364,57 @@
             "name": "comment2",
             "title": "Người sửa"
         }
+    ],
+    "WITHDRAW_BAOKIM": [
+        {
+            "name": "ma_cuahang",
+            "title": "Cửa hàng"
+        },
+        {
+            "name": "ten_ca",
+            "title": "Tên ca"
+        },
+        {
+            "name": "ngay_ct",
+            "title": "Ngày lập",
+            "dataType": "date",
+            "format": "datetimeFormat"
+        },
+        {
+            "name": "so_ct",
+            "title": "Số phiếu"
+        },
+        {
+            "name": "statusname",
+            "title": "Trạng thái"
+        },
+        {
+            "name": "ma_kh",
+            "title": "Mã khách"
+        },
+        {
+            "name": "ten_kh",
+            "title": "Tên khách"
+        },
+        {
+            "name": "t_tt_nt",
+            "title": "Thanh toán",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "dien_giai",
+            "title": "Diễn giải",
+            "width": "300px"
+        },
+        {
+            "name": "comment",
+            "title": "Người lập"
+        },
+        {
+            "name": "comment2",
+            "title": "Người sửa"
+        }
     ]
 }

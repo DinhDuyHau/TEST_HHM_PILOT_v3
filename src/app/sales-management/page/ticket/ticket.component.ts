@@ -445,6 +445,16 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.hasButton.delete = false;
         this.hasButton.edit = false;
         break;
+      case TICKET_TYPE.WITHDRAW_BAOKIM:
+        this.columns = STOCK_FIELDS.WITHDRAW_BAOKIM as Cell[];
+        this.title = 'Phiếu rút tiền Bảo Kim';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.WITHDRAW_BAOKIM;
+        this.codeName = TICKET_CODE.WITHDRAW_BAOKIM;
+        this.hasButton.create = false;
+        this.hasButton.delete = false;
+        this.hasButton.edit = false;
+        break;
     }
   }
 

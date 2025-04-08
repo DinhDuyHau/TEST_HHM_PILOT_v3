@@ -3,8 +3,10 @@ export const environment = {
     appVersion: '1.0.1',
 
     /* URL HỆ THỐNG TEST */
-    apiUrl: 'https://test-hhm-ketnoi.genbyte.net',
+    apiUrl: 'https://test-hhm-ketnoi-v2.genbyte.net',
     accountingUrl: 'http://test-hhm-ketoan.genbyte.net',
+    apiUrlVoucherHHM: 'https://api.hoanghamobile.com',
+    tokenHHMVoucher: 'a4122684257c3fb823ac18d45ef8e58a',
 
 
     receiverPublicKey: `-----BEGIN PUBLIC KEY-----
