@@ -725,7 +725,7 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
 
     // thanh toán
     this.data.details[0].data.forEach((item) => {
-      item.tt_nt = item.tien_nt + item.thue_nt;
+      item.tt_nt = item.tien_nt - item.ck + (item.thue_nt - item.thue_ck);
     });
 
     t_thue_nt = Math.round(t_thue_nt - ((t_ck_nt * t_thue_suat_ck) / 100) - s5);
