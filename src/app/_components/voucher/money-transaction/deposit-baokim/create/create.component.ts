@@ -59,7 +59,7 @@ export class DepositBaokimDetailComponent extends Grid<DepositDetail> implements
 
   data!: Deposit;
   statusList: StatusTicket[] = [];
-  voucherCode = 'PTK';
+  voucherCode = 'PTG';
   submitted = false;
   loading = false;
   disabled = false;
