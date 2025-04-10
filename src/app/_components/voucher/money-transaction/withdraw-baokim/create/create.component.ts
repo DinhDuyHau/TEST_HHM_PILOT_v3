@@ -59,7 +59,7 @@ export class WithdrawBaokimDetailComponent extends Grid<WithDrawDetail> implemen
 
   data!: WithDraw;
   statusList: StatusTicket[] = [];
-  voucherCode = 'PTK';
+  voucherCode = 'PCG';
   submitted = false;
   loading = false;
   disabled = false;
