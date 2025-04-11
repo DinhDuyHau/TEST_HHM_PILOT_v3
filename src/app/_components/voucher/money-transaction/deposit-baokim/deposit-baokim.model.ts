@@ -49,5 +49,11 @@ export interface MasterInfo {
     t_tt_nt?: number,
     t_con_no?: number,
     t_da_tra?: number,
+    so_cccd?: string,
+    ngay_cap_cccd?: string,
+    noi_cap_cccd?: string,
+    tk_ngan_hang?: string,
+    ten_tk_nganhang?: string,
+    ten_nganhang?: string,
     [key: string]: any
 }

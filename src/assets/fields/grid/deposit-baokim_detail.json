@@ -12,6 +12,14 @@
     "width": 220
   },
   {
+    "name": "tien_phi_baokim",
+    "title": "Phí",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
     "name": "tien_nt",
     "title": "Tiền",
     "width": 120,

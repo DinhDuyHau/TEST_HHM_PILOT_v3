@@ -108,6 +108,80 @@
       </div>
       <div class="flex gap-2">
         <app-input-custom-v2
+          #so_cccd
+          [label]="'Số CCCD'"
+          class="flex-1"
+          name="so_cccd"
+          [disabled]="true || disabled"
+          [dataFormatString]="'upperCaseFormat'"
+          type="text"
+          [value]="f['so_cccd'].value"
+          (handleChange)="handleInputChange('so_cccd', $event)"
+          (handleEnter)="onEnter($event)"></app-input-custom-v2>
+        <app-input-custom-v2
+          [label]="'Ngày cấp CCCD'"
+          class="flex-1"
+          type="date"
+          name="ngay_cap_cccd"
+          type="text"
+          [value]="f['ngay_cap_cccd'].value"
+          [disabled]="true || disabled"
+          [dataFormatString]="'datetimeFormat'"
+          (handleChange)="handleInputChange('ngay_cap_cccd', $event)"
+          (handleEnter)="onEnter($event)"></app-input-custom-v2>
+      </div>
+      <div class="flex gap-2">
+        <div class="flex-1">
+          <app-input-custom-v2
+            class="flex-1"
+            [label]="'Nơi cấp CCCD'"
+            [value]="f['noi_cap_cccd'].value"
+            (handleChange)="handleInputChange('noi_cap_cccd', $event)"
+            name="noi_cap_cccd"
+            type="text"
+            [disabled]="disabled"></app-input-custom-v2>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <app-input-custom-v2
+          [label]="'Số TK nhận'"
+          class="flex-1"
+          #input2
+          [disabled]="disabled"
+          (handleEnter)="onEnter($event)"
+          name="ten_kh"
+          (handleChange)="handleInputChange('tk_ngan_hang', $event)"
+          [value]="f['tk_ngan_hang'].value"
+          [invalid]="
+            submitted && f['tk_ngan_hang'].errors != null
+          "></app-input-custom-v2>
+        <app-input-custom-v2
+          [label]="'Tên TK nhận'"
+          class="flex-1"
+          #input2
+          [disabled]="disabled"
+          (handleEnter)="onEnter($event)"
+          name="ten_kh"
+          (handleChange)="handleInputChange('ten_tk_nganhang', $event)"
+          [value]="f['ten_tk_nganhang'].value"
+          [invalid]="
+            submitted && f['ten_tk_nganhang'].errors != null
+          "></app-input-custom-v2>
+        <app-input-custom-v2
+          [label]="'Tên TK nhận'"
+          class="flex-1"
+          #input2
+          [disabled]="disabled"
+          (handleEnter)="onEnter($event)"
+          name="ten_kh"
+          (handleChange)="handleInputChange('ten_nganhang', $event)"
+          [value]="f['ten_nganhang'].value"
+          [invalid]="
+            submitted && f['ten_nganhang'].errors != null
+          "></app-input-custom-v2>
+      </div>
+      <div class="flex gap-2">
+        <app-input-custom-v2
           [label]="getLabel('lbl_ly_do_nop')"
           class="flex-1"
           #input2
