@@ -1227,10 +1227,13 @@ export class RetailComponent implements OnInit, AfterViewInit {
           }
         }
 
-        // Kiểm tra mã vật tư có trong danh sách hợp lệ không
-        const validSkus = (response?.Config?.SKU?.Items || []).map((item: string) => item.trim().toLowerCase());
-        if (!skus.some(sku => validSkus.includes(sku))) {
-          return this.commonService.showMessage('Mã giảm giá không áp dụng cho mã hàng này');
+        let validSkus: string[] = [];
+        if(response?.Config?.SKU?.IsEnable) {
+          // Kiểm tra mã vật tư có trong danh sách hợp lệ không nếu IsEnable = true
+          validSkus = (response?.Config?.SKU?.Items || []).map((item: string) => item.trim().toLowerCase());
+          if (!skus.some(sku => validSkus.includes(sku))) {
+            return this.commonService.showMessage('Mã giảm giá không áp dụng cho mã hàng này');
+          }
         }
 
         // thêm mã voucher vào danh sách mã voucher
@@ -1253,11 +1256,18 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const SKU = inputResponse?.Config?.SKU;
     let ma_imei = '';
     let ma_vt = '';
-    let type = 0;
+    let type = 0; // 0: áp dụng chính xác cho vật tư chỉ định, 1: áp dụng phân bổ
 
-    const validMerchandise = this.ticket.merchandise.filter(item =>
-      validSkus.includes(item.ma_vt?.trim().toLowerCase())
-    );
+    let validMerchandise = [];
+
+    if (validSkus.length > 0) {
+      validMerchandise = this.ticket.merchandise.filter(item =>
+        validSkus.includes(item.ma_vt?.trim().toLowerCase())
+      );
+      type = 1;
+    } else {
+      validMerchandise = [...this.ticket.merchandise]; // Dùng toàn bộ nếu validSkus rỗng
+    }
 
     if (validMerchandise.length === 0) {
       return this.commonService.showMessage('Không có vật tư nào hợp lệ để áp dụng voucher');
@@ -1268,10 +1278,9 @@ export class RetailComponent implements OnInit, AfterViewInit {
       prev.gia_ban > current.gia_ban ? prev : current
     );
 
-    if (!SKU.IsEnable) {
+    if (SKU.IsEnable) { // true => áp dụng cho vật tư chỉ định
       ma_imei = maxMerchandise.ma_imei || '';
       ma_vt = maxMerchandise.ma_vt || '';
-      type = 1;
     }
 
     // kiểm tra đã add voucher

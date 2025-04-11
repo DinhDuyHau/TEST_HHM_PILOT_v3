@@ -210,7 +210,7 @@ export class MerchandiseService {
         const discountForMerchandise10 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE);
         (discountForMerchandise10 as any).forEach((discount: any) => {
             if (discount) {
-                if (discount.type == 1) {
+                if (discount.type == 1) { // chiết khấu theo mã vật tư chỉ định
                     const { ma_vt, tien_ck, tl_ck, ma_imei } = discount;
                     let tien_vat = 0;
                     let tien_ck_calc = 0;
