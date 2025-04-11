@@ -223,11 +223,12 @@ export class MerchandiseService {
 
                     if (mechandise) {
                         // xử lý lấy tiền ck
-                        if (tien_ck > 0) {
-                            tien_ck_calc = tien_ck;
-                        } else {
+                        if (tl_ck > 0) {
                             tien_vat = (mechandise.gia_ban * mechandise.so_luong) + (mechandise.gia_ban * mechandise.so_luong * mechandise.thue_suat / 100)
                             tien_ck_calc = this.commonService.rouding(tien_vat * tl_ck / 100);
+                        }
+                        if(tien_ck > 0 && tien_ck_calc > tien_ck) {
+                            tien_ck_calc = tien_ck;
                         }
 
                         tien_ck_calc = this.commonService.rouding(tien_ck_calc);
@@ -253,16 +254,17 @@ export class MerchandiseService {
                     let tien_ck_calc = 0;
 
                     // xử lý lấy tiền ck
-                    if (tien_ck > 0) {
-                        tien_ck_calc = tien_ck;
-                    } else {
+                    if (tl_ck > 0) {
                         tien_ck_calc = this.commonService.rouding(tong_tien * tl_ck / 100);
+                    }
+                    if(tien_ck > 0 && tien_ck_calc > tien_ck) {
+                        tien_ck_calc = tien_ck;
                     }
 
                     let sum_ck_applied = 0;
                     const lastIndex = merchandiseUpdate.length - 1;
                     merchandiseUpdate.forEach((item, index) => {
-                        let tien_ck_pb = Math.round((item.gia_ban / tong_hang) * tien_ck_calc); // tiền ck phân bổ
+                        let tien_ck_pb = this.commonService.rouding((item.gia_ban / tong_hang) * tien_ck_calc); // tiền ck phân bổ
 
                         if (index === lastIndex) {
                             tien_ck_pb = tien_ck_calc - sum_ck_applied; // tiền ck còn lại
