@@ -174,10 +174,16 @@ export class DepositBaokimDetailComponent extends Grid<DepositDetail> implements
         t_tien_nt: [this.data.masterInfo.t_tien_nt, Validators.required],
         t_tt_nt: [this.data.masterInfo.t_tt_nt, Validators.required],
         detail: [this.data.details || [], Validators.required],
+        so_cccd: [this.data.masterInfo.so_cccd, Validators.required],
+        ngay_cap_cccd: [this.data.masterInfo.ngay_cap_cccd, Validators.required],
+        noi_cap_cccd: [this.data.masterInfo.noi_cap_cccd, Validators.required],
+        tk_ngan_hang: [this.data.masterInfo.tk_ngan_hang, Validators.required],
+        ten_tk_nganhang: [this.data.masterInfo.ten_tk_nganhang, Validators.required],
+        ten_nganhang: [this.data.masterInfo.ten_nganhang, Validators.required],
       });
       this.stockService.setItemFilter([{ name: 'ma_cuahang', value: this.data.masterInfo.ma_cuahang }, { name: 'ma_loai', value: 'HM' }]);
       this.dataSource = new MatTableDataSource<DepositDetail>(this.data.details[0].data);
-      this.paymentServiceShop.convertPaymentFromVoucher(this.data.details[1].data, this.payment);
+      // this.paymentServiceShop.convertPaymentFromVoucher(this.data.details[1].data, this.payment);
     }));
   }
   ngOnInit() {
@@ -263,6 +269,12 @@ export class DepositBaokimDetailComponent extends Grid<DepositDetail> implements
           t_tien_nt: [this.data.masterInfo.t_tien_nt, Validators.required],
           t_tt_nt: [this.data.masterInfo.t_tt_nt, Validators.required],
           detail: [this.data.details || [], Validators.required],
+          so_cccd: [this.data.masterInfo.so_cccd, Validators.required],
+          ngay_cap_cccd: [this.data.masterInfo.ngay_cap_cccd, Validators.required],
+          noi_cap_cccd: [this.data.masterInfo.noi_cap_cccd, Validators.required],
+          tk_ngan_hang: [this.data.masterInfo.tk_ngan_hang, Validators.required],
+          ten_tk_nganhang: [this.data.masterInfo.ten_tk_nganhang, Validators.required],
+          ten_nganhang: [this.data.masterInfo.ten_nganhang, Validators.required],
         });
       });
     }
@@ -298,6 +310,12 @@ export class DepositBaokimDetailComponent extends Grid<DepositDetail> implements
       t_tien_nt: [this.data.masterInfo.t_tien_nt, Validators.required],
       t_tt_nt: [this.data.masterInfo.t_tt_nt, Validators.required],
       detail: [this.data.details || [], Validators.required],
+      so_cccd: [this.data.masterInfo.so_cccd, Validators.required],
+      ngay_cap_cccd: [this.data.masterInfo.ngay_cap_cccd, Validators.required],
+      noi_cap_cccd: [this.data.masterInfo.noi_cap_cccd, Validators.required],
+      tk_ngan_hang: [this.data.masterInfo.tk_ngan_hang, Validators.required],
+      ten_tk_nganhang: [this.data.masterInfo.ten_tk_nganhang, Validators.required],
+      ten_nganhang: [this.data.masterInfo.ten_nganhang, Validators.required],
     });
   }
 
@@ -483,7 +501,7 @@ export class DepositBaokimDetailComponent extends Grid<DepositDetail> implements
       this.fee[item.control] = item.value;
     });
     // nếu có ma_phi thì ẩn: vi_dien_tu, vnpay
-    if(this.fee.ma_phi) {
+    if (this.fee.ma_phi) {
       this.payment_hidden = [
         't_tien_phi',
         'quet_the',

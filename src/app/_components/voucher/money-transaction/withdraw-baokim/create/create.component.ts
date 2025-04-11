@@ -72,7 +72,7 @@ export class WithdrawBaokimDetailComponent extends Grid<WithDrawDetail> implemen
   cancelButtonTitle = '';
   payment: Payment = new Payment;
   [key: string]: any;
-  entity = VOUCHER_TYPE.DEPOSIT_BAOKIM.sysid;
+  entity = VOUCHER_TYPE.WITHDRAW_BAOKIM.sysid;
 
   action = '';
   shop = '';
@@ -174,6 +174,9 @@ export class WithdrawBaokimDetailComponent extends Grid<WithDrawDetail> implemen
         t_tien_nt: [this.data.masterInfo.t_tien_nt, Validators.required],
         t_tt_nt: [this.data.masterInfo.t_tt_nt, Validators.required],
         detail: [this.data.details || [], Validators.required],
+        so_cccd: [this.data.masterInfo.so_cccd, Validators.required],
+        ngay_cap_cccd: [this.data.masterInfo.ngay_cap_cccd, Validators.required],
+        noi_cap_cccd: [this.data.masterInfo.noi_cap_cccd, Validators.required],
       });
       this.stockService.setItemFilter([{ name: 'ma_cuahang', value: this.data.masterInfo.ma_cuahang }, { name: 'ma_loai', value: 'HM' }]);
       this.dataSource = new MatTableDataSource<WithDrawDetail>(this.data.details[0].data);
@@ -263,6 +266,9 @@ export class WithdrawBaokimDetailComponent extends Grid<WithDrawDetail> implemen
           t_tien_nt: [this.data.masterInfo.t_tien_nt, Validators.required],
           t_tt_nt: [this.data.masterInfo.t_tt_nt, Validators.required],
           detail: [this.data.details || [], Validators.required],
+          so_cccd: [this.data.masterInfo.so_cccd, Validators.required],
+          ngay_cap_cccd: [this.data.masterInfo.ngay_cap_cccd, Validators.required],
+          noi_cap_cccd: [this.data.masterInfo.noi_cap_cccd, Validators.required],
         });
       });
     }
@@ -298,6 +304,9 @@ export class WithdrawBaokimDetailComponent extends Grid<WithDrawDetail> implemen
       t_tien_nt: [this.data.masterInfo.t_tien_nt, Validators.required],
       t_tt_nt: [this.data.masterInfo.t_tt_nt, Validators.required],
       detail: [this.data.details || [], Validators.required],
+      so_cccd: [this.data.masterInfo.so_cccd, Validators.required],
+      ngay_cap_cccd: [this.data.masterInfo.ngay_cap_cccd, Validators.required],
+      noi_cap_cccd: [this.data.masterInfo.noi_cap_cccd, Validators.required],
     });
   }
 
@@ -399,7 +408,7 @@ export class WithdrawBaokimDetailComponent extends Grid<WithDrawDetail> implemen
   }
 
   onCancel() {
-    this.router.navigate(['voucher/deposit-baokim']);
+    this.router.navigate(['voucher/withdraw-baokim']);
   }
   onEnter(event: any) {
     event.preventDefault(); // Ngăn chặn hành động mặc định của nút Enter (submit form)
