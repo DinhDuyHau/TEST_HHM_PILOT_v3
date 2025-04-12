@@ -211,7 +211,7 @@ export class MerchandiseService {
         (discountForMerchandise10 as any).forEach((discount: any) => {
             if (discount) {
                 if (discount.type == 1) { // chiết khấu theo mã vật tư chỉ định
-                    const { ma_vt, tien_ck, tl_ck, ma_imei } = discount;
+                    const { ma_vt, tien_ck, tl_ck, ma_imei } = discount; // tien_ck = DiscountPrice => tiền chiết khấu tối đa
                     let tien_vat = 0;
                     let tien_ck_calc = 0;
 
@@ -247,7 +247,7 @@ export class MerchandiseService {
                     }
                 } else {
                     // chiết khấu tổng đơn hàng phân bổ cho từng mặt hàng
-                    const { tien_ck, tl_ck } = discount;
+                    const { tien_ck, tl_ck } = discount; // tien_ck = DiscountPrice => tiền chiết khấu tối đa
                     let tong_hang = merchandiseUpdate.reduce((sum, item) => sum + (item.gia_ban * item.so_luong), 0);
                     let tong_thue = merchandiseUpdate.reduce((sum, item) => sum + (item.gia_ban * item.so_luong * item.thue_suat / 100), 0);
                     let tong_tien = tong_hang + tong_thue;
