@@ -1227,8 +1227,33 @@ export class RetailComponent implements OnInit, AfterViewInit {
           }
         }
 
+        // kiểm tra limit config
+        if (response?.LimitConfig) {
+          const config = response.LimitConfig;
+
+          const isAvailable = config.IsAllowUse;        // Cờ check có thể sử dụng không
+          const available = config.AvailableQuantity;   // Số lần có thể active còn lại
+          const limit = config.LimitQuantity;           // Số lần active tối đa
+          const used = config.UsingQuantity;            // Số lần đã sử dụng
+          const isUsing = config.IsUsing;               // Đã đánh dấu sử dụng
+          const isAllowMulti = config.IsAllowMutil;     // Cho phép dùng nhiều lần
+
+          // Nếu đã được đánh dấu sử dụng (single-use voucher)
+          if (isUsing && !isAllowMulti) {
+            return this.commonService.showMessage('Mã giảm giá đã được sử dụng');
+          }
+          // Nếu hết lượt sử dụng
+          if (available <= 0) {
+            return this.commonService.showMessage('Mã giảm giá đã hết lượt sử dụng');
+          }
+          // Nếu cờ không cho phép dùng
+          if (!isAvailable) {
+            return this.commonService.showMessage('Mã giảm giá không hợp lệ hoặc đã bị khóa');
+          }
+        }
+
         let validSkus: string[] = [];
-        if(response?.Config?.SKU?.IsEnable) {
+        if (response?.Config?.SKU?.IsEnable) {
           // Kiểm tra mã vật tư có trong danh sách hợp lệ không nếu IsEnable = true
           validSkus = (response?.Config?.SKU?.Items || []).map((item: string) => item.trim().toLowerCase());
           if (!skus.some(sku => validSkus.includes(sku))) {
@@ -1293,7 +1318,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.retailService.getDiscountVoucherCode(ngay_ct).subscribe(result => {
       const response = result as any;
 
-      if(response.success && response.result != null) {
+      if (response.success && response.result != null) {
         const discountRes = response.result[0] as any;
 
         const discount = {
