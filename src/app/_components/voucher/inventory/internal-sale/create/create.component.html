@@ -220,6 +220,7 @@
           [gridType]="gridType"
           [disabled]="disabled || statusInit == '1'"
           [buttons]="buttons"
+          [isResizeColumn]="true"
           (handlePaging)="onPageChange($event)"
           (handleSelectColumn)="onSelectColumn($event)"
           (handleSortColumn)="onSortColumn($event)"

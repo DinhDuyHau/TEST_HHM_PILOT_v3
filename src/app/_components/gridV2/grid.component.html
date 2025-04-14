@@ -200,12 +200,12 @@
           [matColumnDef]="column.name"
           [sticky]="isSticky(column.name)">
           <th
-            [resizeColumn]="!isSticky(column.name) && gridType == 4"
+            [resizeColumn]="(!isSticky(column.name) && gridType == 4) || isResizeColumn"
             class=" align-middle text-center header bg-primary_color"
             [ngClass]="{
               'bg-primary_color table_grid_type': gridType == 0,
               'bg-neutrals08_color not_table_grid_type': gridType != 0,
-              table_header__grid: gridType == 0,
+              table_header__grid: gridType == 0 || 2,
               table_header__category: gridType == 4,
               table_header__lookup: gridType == 1
             }"
@@ -283,7 +283,7 @@
             mat-cell
             *matCellDef="let element; let indexRow = index"
             [width]="column.width + 'px'"
-            class=" align-middle">
+            class=" align-middle mat-mdc-header-cell">
             <div
               *ngIf="
                 column.type !== 'action' &&
