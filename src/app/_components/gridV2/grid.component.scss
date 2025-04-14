@@ -49,7 +49,7 @@
 }
 .table_header__grid .mat-mdc-cell,
 .table_header__grid.mat-mdc-header-cell {
-  border-right: var(--border_style);
+  border-right: 1px solid var(--neutrals07);
   // border-left: 1px solid var(--neutrals08);
   &:not(:nth-child(1)) {
     //padding: 0 10px;
@@ -133,6 +133,7 @@
     justify-content: center;
   }
   .mat-mdc-header-cell {
+    border-right: 1px solid var(--neutrals07) !important;
     position: relative;
     &:not(:last-child) {
       ::ng-deep .resize-holder {

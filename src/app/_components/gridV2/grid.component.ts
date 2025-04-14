@@ -126,6 +126,7 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
   @Input() highlightColumns: string[] = [];
   @Input() searchIMEI!: string;
   @ViewChildren(MatRow, { read: ElementRef }) rowRefs!: QueryList<ElementRef>;
+  @Input() isResizeColumn = false;
 
   constructor(
     library: FaIconLibrary,
