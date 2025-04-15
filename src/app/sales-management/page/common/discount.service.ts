@@ -115,13 +115,21 @@ export class DiscountService {
     //isRemoveMerchandise: call method từ hành động xóa hàng hóa trong grid
     resetDiscount(discounts: any[], isGridItem: boolean = false, currentRowitem: Merchandise | null = null,
         isGridDiscount: boolean = false, isRemoveMerchandise = false) {
-        let discountKeep = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.GIFT || e.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK);
+        let discountKeep = discounts.filter(
+            e => e.loai_ck === DISCOUNT_TYPE.GIFT ||
+            e.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK ||
+            e.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE
+        );
 
         if (!isGridDiscount) {
             if (isGridItem && currentRowitem && currentRowitem.ma_imei) {
                 //Thực hiện gọi tính ck từ item trong grid => loại bỏ ck ngoại giao để thực hiện tính lại
                 //đối với các mã ck trong tab chiết khấu có imei áp dụng trùng với imei của dòng đang chọn => giữ lại ck
-                let discount_keep_adv = discounts.filter(e => e.loai_ck !== DISCOUNT_TYPE.GIFT || e.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK);
+                let discount_keep_adv = discounts.filter(
+                    e => e.loai_ck !== DISCOUNT_TYPE.GIFT ||
+                    e.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK ||
+                    e.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE
+                );
                 discount_keep_adv = discount_keep_adv.filter(e => e.loai_ck !== DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||
                     (e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && e.ma_imei && e.ma_imei.trim() !== currentRowitem.ma_imei.trim())
                 );

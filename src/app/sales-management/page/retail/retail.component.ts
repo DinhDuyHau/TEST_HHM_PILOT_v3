@@ -733,6 +733,11 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
 
   onRemoveDiscount(event: { item: Discount }) {
+    if (this.ticket.voucherCode.length > 0 && event.item.loai_ck != DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE) {
+      this.commonService.showMessage('Chỉ được phép xóa chiết khấu mã giảm giá voucher website');
+      return;
+    }
+
     if (event.item.loai_ck === DISCOUNT_TYPE.GIFT) {
       this.commonService.showMessageByName('lblWarningNotDeleteDiscountGift');
       return;
@@ -742,6 +747,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
       return;
     }
     if (event.item.loai_ck == DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE) {
+      this.ticket.discount = this.ticket.discount.filter(
+        x => !(x.ma_ck.trim().toLowerCase() === event.item.ma_ck.trim().toLowerCase() &&
+        x.imei_hang_mua.trim().toLowerCase() === event.item.imei_hang_mua.trim().toLowerCase())
+      );
       this.ticket.voucherCode = this.ticket.voucherCode.filter(
         (i) => i.ma_voucher.trim().toLowerCase() !== event.item.imei_hang_mua.trim().toLowerCase()
       );
@@ -1281,7 +1290,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const SKU = inputResponse?.Config?.SKU;
     let ma_imei = '';
     let ma_vt = '';
-    let type = 0; // 0: áp dụng chính xác cho vật tư chỉ định, 1: áp dụng phân bổ
 
     let validMerchandise = [];
 
@@ -1289,7 +1297,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
       validMerchandise = this.ticket.merchandise.filter(item =>
         validSkus.includes(item.ma_vt?.trim().toLowerCase())
       );
-      type = 1;
     } else {
       validMerchandise = [...this.ticket.merchandise]; // Dùng toàn bộ nếu validSkus rỗng
     }
@@ -1333,14 +1340,18 @@ export class RetailComponent implements OnInit, AfterViewInit {
           ngay_kt: discountRes.ngay_kt,
           tien_qd: 0,
           tien_ck: DiscountPrice,
-          tl_ck: DiscountRate,
-          type: type
+          tl_ck: DiscountRate
         } as Discount;
         this.discountService.addNew([discount], this.ticket.discount);
 
         this.commonService.showMessage('Thêm mã giảm giá thành công');
         this.retailService.calcMoney(); // sau khi thêm chiết khấu thành công mới tính lại tiền
         this.voucher_code = ''; // reset input mã giảm giá
+
+        // mảng voucherCode có dữ liệu thì thực hiện chuyển trạng thái hoàn thành
+        if (this.ticket.voucherCode.length > 0) {
+          this.ticket.masterInfo.status = "2";
+        }
       }
     });
   }

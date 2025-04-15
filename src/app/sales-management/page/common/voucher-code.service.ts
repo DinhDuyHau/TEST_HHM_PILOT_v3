@@ -9,6 +9,12 @@ export class VoucherCodeService {
     constructor(private commonService: CommonService) { }
 
     addNew(voucherCode: any, merchandises: any[], TCreator: { new(): any; }) {
+        const isDuplicate = merchandises.some(item =>
+            item.ma_vt.trim().toLowerCase() === voucherCode.ma_vt.trim().toLowerCase() &&
+            item.ma_imei.trim().toLowerCase() === voucherCode.ma_imei.trim().toLowerCase() &&
+            item.ma_voucher.trim().toLowerCase() === voucherCode.ma_voucher.trim().toLowerCase()
+        );
+        if (isDuplicate) return;
         const voucherCodeNew = this.createNewVoucherCode(voucherCode, TCreator);
         voucherCodeNew.line_nbr = merchandises.length + 1;
         merchandises.push(voucherCodeNew);
