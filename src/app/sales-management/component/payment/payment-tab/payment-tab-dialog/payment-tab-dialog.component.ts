@@ -752,8 +752,8 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   }
 
   onChangeGhichuTragop($event: any) {
-    if($event.length > 256) {
-      this.commonService.showMessage("Ghi chú không được quá 256 ký tự");
+    if($event.length > 64) {
+      this.commonService.showMessage("Ghi chú không được quá 64 ký tự");
     } else {
       this.data.tra_gop.gc_td1 = $event;
     }
