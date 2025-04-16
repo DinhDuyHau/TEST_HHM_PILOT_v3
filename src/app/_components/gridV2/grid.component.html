@@ -325,7 +325,7 @@
                 type="text"
                 [name]="column.name"
                 [placeholder]="column.placeholder || ''"
-                (change)="handleChangeInput(column.name, indexRow, $event)"
+                (input)="handleChangeInput(column.name, indexRow, $event)"
                 [value]="
                   element[column.name]
                     | formatData : column.type : column.dataFormatString

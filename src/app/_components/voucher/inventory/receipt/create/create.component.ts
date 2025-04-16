@@ -834,6 +834,11 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
       }
     }
 
+    if (event.name === 'tien' && Number(value) > (this.data.masterInfo.t_tien_nt ?? 0)) {
+      this.commonService.showMessage('Không được nhập lớn hơn tổng tiền hàng!');
+      return;
+    }
+
     // Cập nhật giá trị vào `dataSourceDiscount`
     (this.dataSourceDiscount.data[event.row] as any)[event.name] = value;
 
