@@ -740,17 +740,16 @@ export class RetailService {
         return true;
     }
 
-    voucherCheck(voucher_code: any, skus: any) {
+    voucherCheck(voucher_code: any, member: string, phone: string, stock: string, skus: any) {
         const payload = {
             Voucher: voucher_code,
+            Member: member,
+            Phone: phone,
+            Stock: stock,
             SKU: skus
         };
 
-        const headers = new HttpHeaders({
-            'token': `${environment.tokenHHMVoucher}`,
-        });
-
-        return this.voucherCodeApiService.voucherCheck(payload, headers);
+        return this.voucherCodeApiService.voucherCheck(payload);
     }
 
     getDiscountVoucherCode(ngay_ct: Date) {

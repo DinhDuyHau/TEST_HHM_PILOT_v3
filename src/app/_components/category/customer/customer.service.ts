@@ -140,12 +140,7 @@ export class CustomerService implements IGridService<Customer> {
   }
 
   getCustomerInfoByWebsite(phone: string): Observable<any> {
-    let url = `${environment.apiUrlVoucherHHM}/api/genbyte/phonecheck/` + phone;
-
-    const headers = new HttpHeaders({
-      'token': `${environment.tokenHHMVoucher}`,
-    });
-
-    return this.apiService.postWithHeader<any>(url, {}, null, headers);
+    let url = `${environment.apiUrl}/Customer/phonecheck/` + phone;
+    return this.apiService.post<any>(url, {}, null);
   }
 }

@@ -1222,56 +1222,18 @@ export class RetailComponent implements OnInit, AfterViewInit {
 
     this.isCheckingVoucher = true;
 
-    this.retailService.voucherCheck(this.voucher_code, skus).subscribe({
+    const member = this.ticket.masterInfo.ma_hang.trim() || '';
+    const phone = this.ticket.masterInfo.ma_kh.trim() || '';
+    const userJson = localStorage.getItem('user');
+    const userObj = userJson !== null && JSON.parse(userJson);
+    const stock = userObj['shop'] || '';
+    this.retailService.voucherCheck(this.voucher_code, member, phone, stock, skus).subscribe({
       next: result => {
         const response = result as any;
-
-        if (!response?.IsValid) return this.commonService.showMessage('Mã giảm giá không hợp lệ');
-
-        // kiểm tra mã khách có được sử dụng voucher này ko
-        if (response?.Config?.Phone?.IsEnable) {
-          const phones = (response?.Config?.Phone?.Items || []).map((item: string) => item.trim());
-          if (!phones.includes(this.ticket.masterInfo.ma_kh?.trim())) {
-            return this.commonService.showMessage('Mã giảm giá không áp dụng cho khách hàng này');
-          }
+        const validSkus = this.validateVoucherResponse(response, skus);
+        if (validSkus) {
+          this.addVoucherCode(validSkus, response);
         }
-
-        // kiểm tra limit config
-        if (response?.LimitConfig) {
-          const config = response.LimitConfig;
-
-          const isAvailable = config.IsAllowUse;        // Cờ check có thể sử dụng không
-          const available = config.AvailableQuantity;   // Số lần có thể active còn lại
-          const limit = config.LimitQuantity;           // Số lần active tối đa
-          const used = config.UsingQuantity;            // Số lần đã sử dụng
-          const isUsing = config.IsUsing;               // Đã đánh dấu sử dụng
-          const isAllowMulti = config.IsAllowMutil;     // Cho phép dùng nhiều lần
-
-          // Nếu đã được đánh dấu sử dụng (single-use voucher)
-          if (isUsing && !isAllowMulti) {
-            return this.commonService.showMessage('Mã giảm giá đã được sử dụng');
-          }
-          // Nếu hết lượt sử dụng
-          if (available <= 0) {
-            return this.commonService.showMessage('Mã giảm giá đã hết lượt sử dụng');
-          }
-          // Nếu cờ không cho phép dùng
-          if (!isAvailable) {
-            return this.commonService.showMessage('Mã giảm giá không hợp lệ hoặc đã bị khóa');
-          }
-        }
-
-        let validSkus: string[] = [];
-        if (response?.Config?.SKU?.IsEnable) {
-          // Kiểm tra mã vật tư có trong danh sách hợp lệ không nếu IsEnable = true
-          validSkus = (response?.Config?.SKU?.Items || []).map((item: string) => item.trim().toLowerCase());
-          if (!skus.some(sku => validSkus.includes(sku))) {
-            return this.commonService.showMessage('Mã giảm giá không áp dụng cho mã hàng này');
-          }
-        }
-
-        // thêm mã voucher vào danh sách mã voucher
-        this.addVoucherCode(validSkus, response);
       },
       error: (err) => {
         console.error(err);
@@ -1384,6 +1346,69 @@ export class RetailComponent implements OnInit, AfterViewInit {
     if (period === "AM" && hours === 12) hours = 0;
     return new Date(`${year}-${month}-${day}T${hours.toString().padStart(2, '0')}:00:00`).toISOString();
   };
+
+  validateVoucherResponse(response: any, skus: string[]) {
+    if (!response?.IsValid) {
+      this.commonService.showMessage(response?.Message || 'Mã giảm giá không hợp lệ');
+      return null;
+    }
+
+    const phone = this.ticket.masterInfo.ma_kh?.trim();
+    if (response?.Config?.Phone?.IsEnable) {
+      const phones = (response?.Config?.Phone?.Items || []).map((item: string) => item.trim());
+      if (!phones.includes(phone)) {
+        this.commonService.showMessage('Mã giảm giá không áp dụng cho khách hàng này');
+        return null;
+      }
+    }
+
+    if (response?.LimitConfig) {
+      const config = response.LimitConfig;
+      if (config.IsUsing && !config.IsAllowMutil) {
+        this.commonService.showMessage('Mã giảm giá đã được sử dụng');
+        return null;
+      }
+      if (config.AvailableQuantity <= 0) {
+        this.commonService.showMessage('Mã giảm giá đã hết lượt sử dụng');
+        return null;
+      }
+      if (!config.IsAllowUse) {
+        this.commonService.showMessage('Mã giảm giá không hợp lệ hoặc đã bị khóa');
+        return null;
+      }
+    }
+
+    const userJson = localStorage.getItem('user');
+    const userObj = userJson !== null && JSON.parse(userJson);
+    const stock = userObj['shop'] || '';
+    if (response?.Config?.Stock?.IsEnable) {
+      const stocks = (response?.Config?.Stock?.Items || []).map((item: string) => item.trim());
+      if (!stocks.includes(stock)) {
+        this.commonService.showMessage('Mã giảm giá không áp dụng cho cửa hàng hiện tại');
+        return null;
+      }
+    }
+
+    const member = this.ticket.masterInfo.ma_hang.trim() || '';
+    if (response?.Config?.Member?.IsEnable) {
+      const Members = (response?.Config?.Member?.Items || []).map((item: string) => item.trim());
+      if (!Members.includes(member)) {
+        this.commonService.showMessage('Mã giảm giá không áp dụng cho hạng thành viên hiện tại');
+        return null;
+      }
+    }
+
+    if (response?.Config?.SKU?.IsEnable) {
+      const validSkus = (response?.Config?.SKU?.Items || []).map((item: string) => item.trim().toLowerCase());
+      if (!skus.some(sku => validSkus.includes(sku))) {
+        this.commonService.showMessage('Mã giảm giá không áp dụng cho mã hàng này');
+        return null;
+      }
+      return validSkus;
+    }
+
+    return [];
+  }
   //#endregion
 }
 
