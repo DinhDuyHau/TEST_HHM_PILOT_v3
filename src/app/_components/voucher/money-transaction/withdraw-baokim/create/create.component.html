@@ -79,6 +79,18 @@
             "></app-input-custom-v2>
         </div>
       </div>
+      <div class="flex gap-2">
+        <div class="flex flex-1">
+          <app-input-custom-v2
+            [label]="'Mã giao dịch Bảo Kim'"
+            class="flex-1"
+            #input2
+            [disabled]="disabled"
+            name="ma_gd_baokim"
+            (handleChange)="handleInputChange('ma_gd_baokim', $event)"
+            [value]="f['ma_gd_baokim'].value"></app-input-custom-v2>
+        </div>
+      </div>
       <div class="flex">
         <select-custom
           class="flex-1"

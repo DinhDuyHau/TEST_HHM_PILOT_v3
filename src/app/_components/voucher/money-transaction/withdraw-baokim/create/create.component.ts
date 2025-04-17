@@ -177,10 +177,16 @@ export class WithdrawBaokimDetailComponent extends Grid<WithDrawDetail> implemen
         so_cccd: [this.data.masterInfo.so_cccd, Validators.required],
         ngay_cap_cccd: [this.data.masterInfo.ngay_cap_cccd, Validators.required],
         noi_cap_cccd: [this.data.masterInfo.noi_cap_cccd, Validators.required],
+        ma_gd_baokim: [this.data.masterInfo.ma_gd_baokim, Validators.required],
       });
       this.stockService.setItemFilter([{ name: 'ma_cuahang', value: this.data.masterInfo.ma_cuahang }, { name: 'ma_loai', value: 'HM' }]);
       this.dataSource = new MatTableDataSource<WithDrawDetail>(this.data.details[0].data);
-      this.paymentServiceShop.convertPaymentFromVoucher(this.data.details[1].data, this.payment);
+      // this.paymentServiceShop.convertPaymentFromVoucher(this.data.details[1].data, this.payment);
+
+      // tiền phí và tiền
+      this.data.masterInfo.t_tt_nt = this.data.details[0].data.reduce((sum, item) => {
+        return sum + (item.tien_phi_baokim || 0) + (item.tien_nt || 0);
+      }, 0);
     }));
   }
   ngOnInit() {
@@ -269,6 +275,7 @@ export class WithdrawBaokimDetailComponent extends Grid<WithDrawDetail> implemen
           so_cccd: [this.data.masterInfo.so_cccd, Validators.required],
           ngay_cap_cccd: [this.data.masterInfo.ngay_cap_cccd, Validators.required],
           noi_cap_cccd: [this.data.masterInfo.noi_cap_cccd, Validators.required],
+          ma_gd_baokim: [this.data.masterInfo.ma_gd_baokim, Validators.required],
         });
       });
     }
@@ -307,6 +314,7 @@ export class WithdrawBaokimDetailComponent extends Grid<WithDrawDetail> implemen
       so_cccd: [this.data.masterInfo.so_cccd, Validators.required],
       ngay_cap_cccd: [this.data.masterInfo.ngay_cap_cccd, Validators.required],
       noi_cap_cccd: [this.data.masterInfo.noi_cap_cccd, Validators.required],
+      ma_gd_baokim: [this.data.masterInfo.ma_gd_baokim, Validators.required],
     });
   }
 

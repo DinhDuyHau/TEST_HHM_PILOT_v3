@@ -55,5 +55,6 @@ export interface MasterInfo {
     tk_ngan_hang?: string,
     ten_tk_nganhang?: string,
     ten_nganhang?: string,
+    ma_gd_baokim?: string,
     [key: string]: any
 }

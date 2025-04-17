@@ -52,5 +52,6 @@ export interface MasterInfo {
     so_cccd?: string,
     ngay_cap_cccd?: string,
     noi_cap_cccd?: string,
+    ma_gd_baokim?: string,
     [key: string]: any
 }
