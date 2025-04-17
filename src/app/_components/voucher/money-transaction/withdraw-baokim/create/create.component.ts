@@ -185,7 +185,7 @@ export class WithdrawBaokimDetailComponent extends Grid<WithDrawDetail> implemen
 
       // tiền phí và tiền
       this.data.masterInfo.t_tt_nt = this.data.details[0].data.reduce((sum, item) => {
-        return sum + (item.tien_phi_baokim || 0) + (item.tien_nt || 0);
+        return sum +  (item.tien_nt || 0) - (item.tien_phi_baokim || 0);
       }, 0);
     }));
   }
