@@ -1222,7 +1222,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
 
     this.isCheckingVoucher = true;
 
-    const member = this.ticket.masterInfo.ma_hang.trim() || '';
+    const member = this.ticket.masterInfo.ma_hang.trim() || 'NEWMEMBER';
     const phone = this.ticket.masterInfo.ma_kh.trim() || '';
     const userJson = localStorage.getItem('user');
     const userObj = userJson !== null && JSON.parse(userJson);
@@ -1230,10 +1230,23 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.retailService.voucherCheck(this.voucher_code, member, phone, stock, skus).subscribe({
       next: result => {
         const response = result as any;
-        const validSkus = this.validateVoucherResponse(response, skus);
-        if (validSkus) {
-          this.addVoucherCode(validSkus, response);
+        // tạm thời ko sử dụng phía client
+        // const validSkus = this.validateVoucherResponse(response, skus);
+        // if (validSkus) {
+        //   this.addVoucherCode(validSkus, response);
+        // }
+
+        if (!response?.IsValid) return this.commonService.showMessage(response?.Message || 'Mã giảm giá không hợp lệ');
+        let validSkus: string[] = [];
+        if (response?.Config?.SKU?.IsEnable) {
+          // Kiểm tra mã vật tư có trong danh sách hợp lệ không nếu IsEnable = true
+          validSkus = (response?.Config?.SKU?.Items || []).map((item: string) => item.trim().toLowerCase());
+          if (!skus.some(sku => validSkus.includes(sku))) {
+            return this.commonService.showMessage('Mã giảm giá không áp dụng cho mã hàng này');
+          }
         }
+        // thêm mã voucher vào danh sách mã voucher
+        this.addVoucherCode(validSkus, response);
       },
       error: (err) => {
         console.error(err);
