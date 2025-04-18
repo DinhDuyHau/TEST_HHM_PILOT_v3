@@ -16,6 +16,7 @@ export class VoucherCodeRequest extends BaseEntity {
     imei_hang_mua = '';
     ma_vt_tt = '';
     line_nbr = 0;
+    ma_td1 = '';
 
     constructor(obj?: any) {
         super();
@@ -40,6 +41,7 @@ export class VoucherCode {
     ma_imei = '';
     imei_hang_mua = '';
     details: any;
+    ma_td1 = '';
 
     constructor(obj?: any) {
         Object.assign(this, obj);

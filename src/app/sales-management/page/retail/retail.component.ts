@@ -1263,6 +1263,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const DiscountPrice = inputResponse?.Info?.DiscountPrice || 0;
     const DiscountRate = inputResponse?.Info?.DiscountRate || 0;
     const SKU = inputResponse?.Config?.SKU;
+    const CampaignID = inputResponse?.Info?.Campaign[0]?.ID || '';
     let ma_imei = '';
     let ma_vt = '';
 
@@ -1295,6 +1296,14 @@ export class RetailComponent implements OnInit, AfterViewInit {
       return this.commonService.showMessage('Mã giảm giá đã được áp dụng');
     }
 
+    // xử lý lấy imei để check campaign
+    const duplicated = this.ticket.voucherCode.find(item =>
+      item.ma_td1?.trim().toLowerCase() === CampaignID.toString().trim().toLowerCase()
+    );
+    if (duplicated) {
+      return this.commonService.showMessage(`Mã giảm giá "${duplicated.ma_voucher}" đã được áp dụng cho chương trình hiện tại với IMEI "${duplicated.ma_imei}".`);
+    }
+
     // cal api lấy ra chiết khấu loại 10
     const ngay_ct = new Date(`${this.ticket.masterInfo.ngay_ct}Z`);
     this.retailService.getDiscountVoucherCode(ngay_ct).subscribe(result => {
@@ -1315,7 +1324,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
           ngay_kt: discountRes.ngay_kt,
           tien_qd: 0,
           tien_ck: DiscountPrice,
-          tl_ck: DiscountRate
+          tl_ck: DiscountRate,
+          campaign_id: CampaignID
         } as Discount;
         this.discountService.addNew([discount], this.ticket.discount);
 

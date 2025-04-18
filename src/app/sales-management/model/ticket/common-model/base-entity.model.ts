@@ -173,4 +173,5 @@ export class VoucherCode {
     ma_imei: string = '';
     tien_ck: number = 0;
     tl_ck: number = 0;
+    ma_td1: string = ''; // Campaign id: lưu id của chiến dịch
 }

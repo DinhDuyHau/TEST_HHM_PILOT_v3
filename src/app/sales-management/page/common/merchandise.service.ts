@@ -211,7 +211,7 @@ export class MerchandiseService {
         (discountForMerchandise10 as any).forEach((discount: any) => {
             if (discount) {
                 if (discount.ma_imei) { // chiết khấu theo mã vật tư chỉ định
-                    const { ma_vt, tien_ck, tl_ck, ma_imei } = discount; // tien_ck = DiscountPrice => tiền chiết khấu tối đa
+                    const { ma_vt, tien_ck, tl_ck, ma_imei, campaign_id } = discount; // tien_ck = DiscountPrice => tiền chiết khấu tối đa
                     let tien_vat = 0;
                     let tien_ck_calc = 0;
 
@@ -242,12 +242,13 @@ export class MerchandiseService {
                             ma_imei: ma_imei,
                             tien_ck: tien_ck,
                             tl_ck: tl_ck,
+                            ma_td1: campaign_id.toString()
                         }
                         this.voucherCodeService.addNew(voucherCode, ticket.voucherCode, VoucherCode);
                     }
                 } else {
                     // chiết khấu tổng đơn hàng phân bổ cho từng mặt hàng
-                    const { tien_ck, tl_ck } = discount; // tien_ck = DiscountPrice => tiền chiết khấu tối đa
+                    const { tien_ck, tl_ck, campaign_id } = discount; // tien_ck = DiscountPrice => tiền chiết khấu tối đa
                     let tong_hang = merchandiseUpdate.reduce((sum, item) => sum + (item.gia_ban * item.so_luong), 0);
                     let tong_thue = merchandiseUpdate.reduce((sum, item) => sum + (item.gia_ban * item.so_luong * item.thue_suat / 100), 0);
                     let tong_tien = tong_hang + tong_thue;
@@ -282,6 +283,7 @@ export class MerchandiseService {
                             ma_imei: item.ma_imei,
                             tien_ck: tien_ck_pb,
                             tl_ck: tl_ck,
+                            ma_td1: campaign_id.toString()
                         }
                         this.voucherCodeService.addNew(voucherCode, ticket.voucherCode, VoucherCode);
                     });
