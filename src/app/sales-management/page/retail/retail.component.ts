@@ -749,7 +749,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     if (event.item.loai_ck == DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE) {
       this.ticket.discount = this.ticket.discount.filter(
         x => !(x.ma_ck.trim().toLowerCase() === event.item.ma_ck.trim().toLowerCase() &&
-        x.imei_hang_mua.trim().toLowerCase() === event.item.imei_hang_mua.trim().toLowerCase())
+          x.imei_hang_mua.trim().toLowerCase() === event.item.imei_hang_mua.trim().toLowerCase())
       );
       this.ticket.voucherCode = this.ticket.voucherCode.filter(
         (i) => i.ma_voucher.trim().toLowerCase() !== event.item.imei_hang_mua.trim().toLowerCase()
@@ -1289,6 +1289,17 @@ export class RetailComponent implements OnInit, AfterViewInit {
     if (SKU.IsEnable) { // true => áp dụng cho vật tư chỉ định
       ma_imei = maxMerchandise.ma_imei || '';
       ma_vt = maxMerchandise.ma_vt || '';
+
+      // nếu ko phải phân bổ IsEnable = true
+      // và ma_vt trong hàng hóa đều giống nhau thì thực hiện ma_imei = '', ma_vt='' để phân bổ tiền ck
+      if (this.ticket.merchandise && this.ticket.merchandise.length > 0) {
+        const uniqueMaVTs = new Set(this.ticket.merchandise.map(x => x.ma_vt.trim().toLowerCase()));
+
+        if (uniqueMaVTs.size === 1) {
+          ma_imei = '';
+          ma_vt = '';
+        }
+      }
     }
 
     // kiểm tra đã add voucher
