@@ -1,45 +1,100 @@
-<div class="px-1 md:px-2 lg:px-4 flex-1 bg-white position-relative ticket-container">
+<div
+  class="px-1 md:px-2 lg:px-4 flex-1 bg-white position-relative ticket-container">
   <div class="d-flex flex-column gap-2 mt-5 flex-1">
     <div class="title-page pb-2 flex justify-between items-center">
       <div class="flex">
         <h5 class="">{{ title }}</h5>
-        <app-voucher-info-header [entity]="entity" [voucherId]="ticket.masterInfo.stt_rec" />
+        <app-voucher-info-header
+          [entity]="entity"
+          [voucherId]="ticket.masterInfo.stt_rec"
+        />
       </div>
-      <app-navigation-voucher [mode]="this.mode" [voucherId]="this.ticket.masterInfo.stt_rec" />
+      <app-navigation-voucher
+        [mode]="this.mode"
+        [voucherId]="this.ticket.masterInfo.stt_rec"
+      />
     </div>
     <div class="title-content">{{ getLabel('tlt_content') }}</div>
     <div class="box-container mb-3">
-      <form-input-custom class="box order-dynamic-1" [name]="'so_ct'" [label]="getLabel('lbl_so_ct')"
-        [value]="ticket.masterInfo.so_ct" [disabled]="true" />
+      <form-input-custom
+        class="box order-dynamic-1"
+        [name]="'so_ct'"
+        [label]="getLabel('lbl_so_ct')"
+        [value]="ticket.masterInfo.so_ct"
+        [disabled]="true" />
 
-      <form-input-custom class="box order-dynamic-2" [name]="'ma_kh'" [label]="this.ma_kh_label"
-        [value]="ticket.masterInfo.ma_kh" [readonly]="readonly" [invalid]="invalid" [fireChangeWhenBlur]="false"
-        (handleChangeValue)="onEnterCustomerCode($event)" (handleClickOpenDialog)="openSearchCustomerDialog()"
-        (handleUploadImage)="openUploadImage()" (handleUViewPhoto)="openImage()" />
+      <form-input-custom
+        class="box order-dynamic-2"
+        [name]="'ma_kh'"
+        [label]="this.ma_kh_label"
+        [value]="ticket.masterInfo.ma_kh"
+        [readonly]="readonly"
+        [invalid]="invalid"
+        [fireChangeWhenBlur]="false"
+        (handleChangeValue)="onEnterCustomerCode($event)"
+        (handleClickOpenDialog)="openSearchCustomerDialog()"
+        (handleUploadImage)="openUploadImage()"
+        (handleUViewPhoto)="openImage()" />
 
-      <form-input-custom class="box order-dynamic-2" [name]="'ten_kh'" [label]="getLabel('lbl_ten_kh')"
-        [value]="ticket.masterInfo.ten_kh" [disabled]="true" />
+      <form-input-custom
+        class="box order-dynamic-2"
+        [name]="'ten_kh'"
+        [label]="getLabel('lbl_ten_kh')"
+        [value]="ticket.masterInfo.ten_kh"
+        [disabled]="true" />
 
-      <form-input-custom class="box order-dynamic-1" [name]="'ngay_ct'" [label]="getLabel('lbl_ngay_ct')"
-        [value]="ticket.masterInfo.ngay_ct" format="datetimeFormat" dataType="date" [disabled]="true" />
+      <form-input-custom
+        class="box order-dynamic-1"
+        [name]="'ngay_ct'"
+        [label]="getLabel('lbl_ngay_ct')"
+        [value]="ticket.masterInfo.ngay_ct"
+        format="datetimeFormat"
+        dataType="date"
+        [disabled]="true" />
 
-      <form-input-custom class="box order-dynamic-2" [name]="'dia_chi'" [label]="getLabel('lbl_dia_chi')"
-        [value]="ticket.masterInfo.dia_chi" [disabled]="true" />
+      <form-input-custom
+        class="box order-dynamic-2"
+        [name]="'dia_chi'"
+        [label]="getLabel('lbl_dia_chi')"
+        [value]="ticket.masterInfo.dia_chi"
+        [disabled]="true" />
 
-      <form-input-custom #txt_dien_giai class="box order-dynamic-2" [name]="'dien_giai'"
-        [label]="getLabel('lbl_dien_giai')" [value]="ticket.masterInfo.dien_giai" (handleChangeValue)="
+      <form-input-custom
+        #txt_dien_giai
+        class="box order-dynamic-2"
+        [name]="'dien_giai'"
+        [label]="getLabel('lbl_dien_giai')"
+        [value]="ticket.masterInfo.dien_giai"
+        (handleChangeValue)="
           ticket.masterInfo.dien_giai = txt_dien_giai.value
         " />
 
-      <form-select-custom class="box order-dynamic-1 width-full" [isDisable]="readonly || disableSelectStatus"
-        [label]="getLabel('lbl_trang_thai')" [options]="statusList" optionDes="statusname" optionValue="status"
-        [value]="ticket.masterInfo.status" (handleChangeValue)="ticket.masterInfo.status = $event" />
+      <form-select-custom
+        class="box order-dynamic-1 width-full"
+        [isDisable]="readonly || disableSelectStatus"
+        [label]="getLabel('lbl_trang_thai')"
+        [options]="statusList"
+        optionDes="statusname"
+        optionValue="status"
+        [value]="ticket.masterInfo.status"
+        (handleChangeValue)="ticket.masterInfo.status = $event" />
 
-      <form-input-custom class="box" name="ma_vt" [label]="getLabel('lbl_ma_vt')" *ngIf="!readonly"
-        (handleEnterInput)="onEnterMerchandiseCode($event)" (handleClickOpenDialog)="openMerchandiseDialog()" />
+      <form-input-custom
+        class="box"
+        name="ma_vt"
+        [label]="getLabel('lbl_ma_vt')"
+        *ngIf="!readonly"
+        (handleEnterInput)="onEnterMerchandiseCode($event)"
+        (handleClickOpenDialog)="openMerchandiseDialog()" />
 
-      <form-input-custom #txtImei class="box order-dynamic-2" [name]="'imei'" [label]="getLabel('lbl_imei')"
-        *ngIf="!readonly" (handleEnterInput)="onEnterImeiCode($event)" (handleClickCodeScanner)="onClickCodeScanner()"
+      <form-input-custom
+        #txtImei
+        class="box order-dynamic-2"
+        [name]="'imei'"
+        [label]="getLabel('lbl_imei')"
+        *ngIf="!readonly"
+        (handleEnterInput)="onEnterImeiCode($event)"
+        (handleClickCodeScanner)="onClickCodeScanner()"
         [uploadImage]="true" />
 
 
@@ -64,10 +119,16 @@
       <div class="d-flex box align-items-end gap-3 mt-3 align-self-end ">&nbsp;</div>
       <div class="d-flex box align-items-end gap-3 mt-3 align-self-end ">&nbsp;</div>
       <div class="d-flex box align-items-end gap-3 mt-3 align-self-end ">
-        <button *ngIf="!readonly" class="flex-1 btn act-input-data-btn text-nowrap" (click)="openCalcDiscountDialog()">
+        <button
+          *ngIf="!readonly"
+          class="flex-1 btn act-input-data-btn text-nowrap"
+          (click)="openCalcDiscountDialog()">
           {{ getLabel('lbl_calc_discount') }}
         </button>
-        <button *ngIf="!readonly" class="flex-1 btn act-input-data-btn text-nowrap" (click)="openAddCustomerDialog()">
+        <button
+          *ngIf="!readonly"
+          class="flex-1 btn act-input-data-btn text-nowrap"
+          (click)="openAddCustomerDialog()">
           {{ getLabel('lbl_add_customer') }}
         </button>
       </div>
@@ -75,58 +136,91 @@
 
     <div class="deposit" *ngIf="depositMerchandise.length">
       {{ getLabel('lbl_hh_co_tien_coc') }}
-      <span>{{ depositNameList }}</span>
+       <span>{{ depositNameList }}</span>
       <!--{{ getLabel('lbl_t_tien_dat_coc') }}
       {{ depositTotalPrice | formatData : 'number' : 'normalPrice' }} VNĐ -->
     </div>
 
-    <div class="conversion" *ngIf="ticket.masterInfo.ma_kh" style="margin-bottom: 10px">
+    <div
+      class="conversion"
+      *ngIf="ticket.masterInfo.ma_kh"
+      style="margin-bottom: 10px">
       {{ getLabel('lbl_t_diem_quy_doi') }}
       <span>{{
         conversionPoints | formatData : 'number' : 'normalPrice'
-        }}</span>
+      }}</span>
     </div>
 
     <tabs-custom title="Thông tin hàng hóa" [titleListItems]="tab_sources" [dataModel]="ticket">
       <tab-custom label="Tổng quan" class="w-100">
-        <table-custom [type]="'main'" [dataSource]="this.overviewData" [columns]="overviewColumns"
+        <table-custom
+          [type]="'main'"
+          [dataSource]="this.overviewData"
+          [columns]="overviewColumns"
           [enableTypeColorOverview]="true" />
       </tab-custom>
 
       <tab-custom label="Hàng hoá" class="w-100">
-        <table-custom [type]="'main'" [dataSource]="ticket.merchandise" [columns]="merchandiseColumns"
-          [readonly]="readonly" [isChangeColorWhenSelected]="true" [isShowDiscountNG]="true"
+        <table-custom
+          [type]="'main'"
+          [dataSource]="ticket.merchandise"
+          [columns]="merchandiseColumns"
+          [readonly]="readonly"
+          [isChangeColorWhenSelected]="true"
+          [isShowDiscountNG]="true"
           (handleSwap)="onSwapPromotionMerchandise($event)"
           (handleAddDiscountNG)="openCalcDiscountDialog(true, $event, '04')"
-          (handleDelete)="onRemoveMerchandise($event)" (handleAdd)="onAddService($event)"
-          (handleChangeCheckbox)="onChangePromotionalDebt($event)" (handleAddPackage)="onAddPackage($event)"
+          (handleDelete)="onRemoveMerchandise($event)"
+          (handleAdd)="onAddService($event)"
+          (handleChangeCheckbox)="onChangePromotionalDebt($event)"
+          (handleAddPackage)="onAddPackage($event)"
           (handleDeleteDiscount09)="handleRemoveDiscout09($event)" />
       </tab-custom>
 
       <tab-custom label="Dịch vụ" class="w-100">
-        <table-custom [dataSource]="ticket.service" [columns]="serviceColumns" [readonly]="readonly"
+        <table-custom
+          [dataSource]="ticket.service"
+          [columns]="serviceColumns"
+          [readonly]="readonly"
           (handleDelete)="onRemoveService($event)" />
         <div class="flex gap-0 md:gap-4 lg:gap-8">
           <div class="flex-1 hidden lg:block"></div>
           <div class="flex-1 hidden md:block"></div>
           <div class="flex flex-1">
-            <form-input-custom class="flex-1" name="email" [readonly]="readonly" [label]="getLabel('lbl_email_key')"
-              [value]="ticket.masterInfo.email_nhan_key" [invalid]="invalid"
+            <form-input-custom
+              class="flex-1"
+              name="email"
+              [readonly]="readonly"
+              [label]="getLabel('lbl_email_key')"
+              [value]="ticket.masterInfo.email_nhan_key"
+              [invalid]="invalid"
               (handleChangeValue)="ticket.masterInfo.email_nhan_key = $event" />
           </div>
         </div>
       </tab-custom>
       <tab-custom label="Gói cước" class="w-100">
-        <table-custom [dataSource]="ticket.packages" [columns]="packageColumns" [readonly]="readonly"
-          (handleChangeCheckbox)="onChangeCheckbox($event)" (handleDelete)="onRemovePackage($event)" />
+        <table-custom
+          [dataSource]="ticket.packages"
+          [columns]="packageColumns"
+          [readonly]="readonly"
+          (handleChangeCheckbox)="onChangeCheckbox($event)"
+          (handleDelete)="onRemovePackage($event)"/>
       </tab-custom>
       <tab-custom label="Chiết khấu" class="w-100">
-        <table-custom [dataSource]="ticket.discount" [columns]="discountColumns" [readonly]="readonly"
+        <table-custom
+          [dataSource]="ticket.discount"
+          [columns]="discountColumns"
+          [readonly]="readonly"
           (handleDelete)="onRemoveDiscount($event)" />
       </tab-custom>
       <tab-custom label="Vận chuyển" class="w-100">
-        <delivery-infomation-2 l_ma_don_vi="Mã đơn vị / Shipper" l_ten_don_vi="Tên đơn vị / Shipper" dataDefault="03"
-          [data]="ticket.transport" [readonly]="readonly" [isOtherLabel]="true" />
+        <delivery-infomation-2
+        l_ma_don_vi="Mã đơn vị / Shipper"
+        l_ten_don_vi="Tên đơn vị / Shipper"
+        dataDefault="03"
+        [data]="ticket.transport"
+        [readonly]="readonly"
+        [isOtherLabel]="true" />
       </tab-custom>
       <!-- <tab-custom label="Bảo hành" class="w-100">
         <table-custom
@@ -135,10 +229,13 @@
           [columns]="guaranteeColumns" />
       </tab-custom> -->
       <tab-custom label="HĐĐT" class="w-100">
-        <div class="text-medium font-medium flex flex-1 border-b-0.5 border-dashed border-neutrals07_color">
+        <div
+          class="text-medium font-medium flex flex-1 border-b-0.5 border-dashed border-neutrals07_color">
           {{ getLabel('lbl_tt_xuat_hddt') }}
         </div>
-        <e-invoice-info [data]="ticket.masterInfo" [disabled]="readonly"></e-invoice-info>
+        <e-invoice-info
+          [data]="ticket.masterInfo"
+          [disabled]="readonly"></e-invoice-info>
         <div
           class="text-medium font-medium flex flex-1 border-b-0.5 border-dashed border-neutrals07_color pt-1 md:pt-3 lg:pt-7">
           {{ getLabel('lbl_hddt_phat_hanh') }}
@@ -151,79 +248,161 @@
       <div class="title-content p-2">{{ getLabel('lbl_tc_don_hang') }}</div>
       <div class="box-container">
         <div class="box d-flex gap-2">
-          <form-input-custom class="flex-1" [disabled]="true" [label]="getLabel('lbl_so_luong')" [align]="'end'"
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_so_luong')"
+            [align]="'end'"
             [value]="ticket.masterInfo.t_so_luong" />
 
-          <form-input-custom class="flex-1" [disabled]="true" [align]="'end'" [label]="getLabel('lbl_thanh_tien')"
-            [value]="ticket.masterInfo.t_tien_nt2" format="moneyViewFormat" dataType="number" />
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [align]="'end'"
+            [label]="getLabel('lbl_thanh_tien')"
+            [value]="ticket.masterInfo.t_tien_nt2"
+            format="moneyViewFormat"
+            dataType="number" />
         </div>
         <div class="box d-flex gap-2">
-          <form-input-custom class="flex-1" [disabled]="true" [label]="getLabel('lbl_chiet_khau')" [align]="'end'"
-            [value]="ticket.masterInfo.t_ck" format="moneyViewFormat" dataType="number" />
-          <form-input-custom class="flex-1" [disabled]="true" [label]="getLabel('lbl_thue')" [align]="'end'"
-            [value]="ticket.masterInfo.t_thue_nt" format="moneyViewFormat" dataType="number" />
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_chiet_khau')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.t_ck"
+            format="moneyViewFormat"
+            dataType="number" />
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_thue')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.t_thue_nt"
+            format="moneyViewFormat"
+            dataType="number" />
         </div>
         <div class="box d-flex gap-2">
-          <form-input-custom class="flex-1" [disabled]="true" [label]="getLabel('lbl_t_tien_hang')" [align]="'end'"
-            [value]="ticket.masterInfo.t_tt_nt" format="moneyViewFormat" dataType="number" />
-          <form-input-custom class="flex-1" [disabled]="true" [label]="getLabel('lbl_t_tt')" [align]="'end'"
-            [value]="ticket.masterInfo.fqty1" format="moneyViewFormat" dataType="number" />
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_t_tien_hang')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.t_tt_nt"
+            format="moneyViewFormat"
+            dataType="number" />
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_t_tt')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.fqty1"
+            format="moneyViewFormat"
+            dataType="number" />
         </div>
 
         <div class="box hidden md:flex"></div>
         <div class="box d-flex gap-2">
-          <form-input-custom class="flex-1" [disabled]="true" [label]="getLabel('lbl_t_gg')" [align]="'end'"
-            [value]="ticket.masterInfo.t_gg" format="moneyViewFormat" dataType="number" />
-          <form-input-custom class="flex-1" [disabled]="true" [label]="getLabel('lbl_t_tien_phi')" [align]="'end'"
-            [value]="ticket.masterInfo.t_cp_khac" format="moneyViewFormat" dataType="number" />
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_t_gg')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.t_gg"
+            format="moneyViewFormat"
+            dataType="number" />
+          <form-input-custom
+            class="flex-1"
+            [disabled]="true"
+            [label]="getLabel('lbl_t_tien_phi')"
+            [align]="'end'"
+            [value]="ticket.masterInfo.t_cp_khac"
+            format="moneyViewFormat"
+            dataType="number" />
         </div>
 
-        <form-input-custom class="box" [disabled]="true" [label]="getLabel('lbl_diem_qd')" [align]="'end'"
-          [value]="ticket.masterInfo.diem_qd" format="moneyViewFormat" dataType="number" />
+        <form-input-custom
+          class="box"
+          [disabled]="true"
+          [label]="getLabel('lbl_diem_qd')"
+          [align]="'end'"
+          [value]="ticket.masterInfo.diem_qd"
+          format="moneyViewFormat"
+          dataType="number" />
       </div>
     </div>
 
     <ng-container>
-      <payment-tab [pay_hidden]="[
+      <payment-tab
+        [pay_hidden]="[
           'sd_diem'
-        ]" [action]="action" [shop]="shop" [invalid]="invalid" [hiddenChooseButton]="mode === 2" [readonly]="readonly"
-        [t_tong_tien]="ticket.masterInfo.t_tt_nt" [data]="ticket.payment" [t_con_no]="ticket.masterInfo.t_con_no"
-        [t_da_tra]="ticket.masterInfo.t_da_tra" [t_dat_coc_max]="depositTotalPrice"
-        [he_so_qd]="ticket.masterInfo.he_so_qd_tien" [diem_qd_max]="conversionPoints"
-        [depositSource]="depositMerchandise" [t_gg]="ticket.masterInfo.t_gg" [merchandise]="ticket.merchandise"
-        [approveDiscount]="ticket.masterInfo.nguoi_duyet_ck" [ma_kh]="ticket.masterInfo.ma_kh"
-        [ngay_ct]="ticket.masterInfo.ngay_ct" (handleChangeValue)="onPaymentChange($event)"
+        ]"
+        [action]="action"
+        [shop]="shop"
+        [invalid]="invalid"
+        [hiddenChooseButton]="mode === 2"
+        [readonly]="readonly"
+        [t_tong_tien]="ticket.masterInfo.t_tt_nt"
+        [data]="ticket.payment"
+        [t_con_no]="ticket.masterInfo.t_con_no"
+        [t_da_tra]="ticket.masterInfo.t_da_tra"
+        [t_dat_coc_max]="depositTotalPrice"
+        [he_so_qd]="ticket.masterInfo.he_so_qd_tien"
+        [diem_qd_max]="conversionPoints"
+        [depositSource]="depositMerchandise"
+        [t_gg]="ticket.masterInfo.t_gg"
+        [merchandise]="ticket.merchandise"
+        [approveDiscount]="ticket.masterInfo.nguoi_duyet_ck"
+        [ma_kh]="ticket.masterInfo.ma_kh"
+        [ngay_ct]="ticket.masterInfo.ngay_ct"
+        (handleChangeValue)="onPaymentChange($event)"
         [voucherCode]="voucherCode" />
     </ng-container>
 
     <div>
       <div class="d-flex justify-content-between gap-2 m-3">
-        <app-navigation-voucher [mode]="this.mode" [voucherId]="this.ticket.masterInfo.stt_rec" />
+        <app-navigation-voucher
+          [mode]="this.mode"
+          [voucherId]="this.ticket.masterInfo.stt_rec"
+        />
 
         <div class="d-flex gap-2 ms-auto">
-          <app-voucher-info *ngIf="this.mode != 0" [entity]="entity" class="text-base"
+          <app-voucher-info
+            *ngIf="this.mode != 0"
+            [entity]="entity"
+            class="text-base"
             [voucherId]="ticket.masterInfo.stt_rec" />
           <!-- <div class="btn-responsive btn-in-file">
             <span>{{ getLabel('btnPrint') }}</span>
           </div> -->
 
-          <app-print [voucherId]="this.ticket.masterInfo.stt_rec" [status]="this.ticket.masterInfo.status"
-            [entityName]="this.entity" />
+          <app-print
+          [voucherId]="this.ticket.masterInfo.stt_rec"
+          [status]="this.ticket.masterInfo.status"
+          [entityName]="this.entity"/>
 
           <div class="btn-responsive btn-cancel" (click)="onCancel()">
             {{ cancelButtonTitle }}
           </div>
-          <button class="btn-responsive btn-add" [disabled]="isDisabled" (click)="onSave()" *ngIf="!readonly">
+          <button class="btn-responsive btn-add"
+            [disabled]="isDisabled"
+            (click)="onSave()"
+            *ngIf="!readonly">
             {{ submitButtonTitle }}
           </button>
-          <app-send-email *ngIf="this.mode == 2" [voucherId]="this.ticket.masterInfo.stt_rec"
-            [email]="this.ticket.masterInfo.email_nhan_key" [status]="this.ticket.masterInfo.status" />
+          <app-send-email
+          *ngIf="this.mode == 2"
+          [voucherId]="this.ticket.masterInfo.stt_rec"
+          [email]="this.ticket.masterInfo.email_nhan_key"
+          [status]="this.ticket.masterInfo.status"/>
         </div>
       </div>
     </div>
   </div>
 
-  <div *ngIf="isSaving" class="position-absolute start-0 top-0 opacity-50"
+  <div
+    *ngIf="isSaving"
+    class="position-absolute start-0 top-0 opacity-50"
     style="width: 100%; height: 100%; background-color: rgb(193, 193, 193)">
     <div class="position-absolute top-50 start-50 translate-middle">
       <div class="d-flex flex-column">
