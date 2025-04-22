@@ -1266,6 +1266,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const CampaignID = inputResponse?.Info?.Campaign[0]?.ID || '';
     let ma_imei = '';
     let ma_vt = '';
+    let type = 0;
 
     let validMerchandise = [];
 
@@ -1281,14 +1282,21 @@ export class RetailComponent implements OnInit, AfterViewInit {
       return this.commonService.showMessage('Không có vật tư nào hợp lệ để áp dụng voucher');
     }
 
+    // set vào localstorage để sử dụng tình phân bổ cho vật tư
+    localStorage.setItem('merchandise_apply_voucher', JSON.stringify(validMerchandise));
+
     // Tìm ra vật tư có giá trị cao nhất trong danh sách được áp dụng
     const maxMerchandise = validMerchandise.reduce((prev, current) =>
       prev.gia_ban > current.gia_ban ? prev : current
     );
 
     if (SKU.IsEnable) { // true => áp dụng cho vật tư chỉ định
-      ma_imei = maxMerchandise.ma_imei || '';
-      ma_vt = maxMerchandise.ma_vt || '';
+      // set ma_vt mà ma_imei nếu áp dụng cho vật tư có giá cao nhất
+      // ma_imei = maxMerchandise.ma_imei || '';
+      // ma_vt = maxMerchandise.ma_vt || '';
+
+      // ck phân bổ theo mã vt được áp dụng voucher
+      type = 1;
 
       // nếu ko phải phân bổ IsEnable = true
       // và ma_vt trong hàng hóa đều giống nhau thì thực hiện ma_imei = '', ma_vt='' để phân bổ tiền ck
@@ -1336,7 +1344,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
           tien_qd: 0,
           tien_ck: DiscountPrice,
           tl_ck: DiscountRate,
-          campaign_id: CampaignID
+          campaign_id: CampaignID,
+          type: type
         } as Discount;
         this.discountService.addNew([discount], this.ticket.discount);
 
