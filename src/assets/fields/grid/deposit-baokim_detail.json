@@ -13,7 +13,7 @@
   },
   {
     "name": "tien_phi_baokim",
-    "title": "Phí",
+    "title": "Phí (chưa VAT)",
     "width": 120,
     "type": "number",
     "dataFormatString": "normalPrice",
