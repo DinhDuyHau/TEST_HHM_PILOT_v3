@@ -182,11 +182,6 @@ export class WithdrawBaokimDetailComponent extends Grid<WithDrawDetail> implemen
       this.stockService.setItemFilter([{ name: 'ma_cuahang', value: this.data.masterInfo.ma_cuahang }, { name: 'ma_loai', value: 'HM' }]);
       this.dataSource = new MatTableDataSource<WithDrawDetail>(this.data.details[0].data);
       // this.paymentServiceShop.convertPaymentFromVoucher(this.data.details[1].data, this.payment);
-
-      // tiền phí và tiền
-      this.data.masterInfo.t_tt_nt = this.data.details[0].data.reduce((sum, item) => {
-        return sum +  (item.tien_nt || 0) - (item.tien_phi_baokim || 0);
-      }, 0);
     }));
   }
   ngOnInit() {
