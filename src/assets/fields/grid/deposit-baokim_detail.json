@@ -21,7 +21,7 @@
   },
   {
     "name": "tien_nt",
-    "title": "Tiền",
+    "title": "Tiền nộp",
     "width": 120,
     "type": "number",
     "dataFormatString": "normalPrice",

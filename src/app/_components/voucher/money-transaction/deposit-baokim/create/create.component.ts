@@ -185,11 +185,6 @@ export class DepositBaokimDetailComponent extends Grid<DepositDetail> implements
       this.stockService.setItemFilter([{ name: 'ma_cuahang', value: this.data.masterInfo.ma_cuahang }, { name: 'ma_loai', value: 'HM' }]);
       this.dataSource = new MatTableDataSource<DepositDetail>(this.data.details[0].data);
       // this.paymentServiceShop.convertPaymentFromVoucher(this.data.details[1].data, this.payment);
-
-      // tiền phí và tiền
-      this.data.masterInfo.t_tt_nt = this.data.details[0].data.reduce((sum, item) => {
-        return sum + (item.tien_phi_baokim || 0) + (item.tien_nt || 0);
-      }, 0);
     }));
   }
   ngOnInit() {
