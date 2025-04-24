@@ -1,10 +1,14 @@
 export const environment = {
     production: true,
-    appVersion: '1.0.1',
+    appVersion: '2.25.041702',
+
+    /* URL PRODUCT */
+    apiUrl: 'https://hhm-pilot-api.genbyte.net',
+    accountingUrl: 'http://hhm-qt.genbyte.net',
 
     /* URL HỆ THỐNG TEST */
-    apiUrl: 'https://test-hhm-ketnoi.genbyte.net',
-    accountingUrl: 'http://test-hhm-ketoan.genbyte.net',
+    // apiUrl: 'https://test-hhm-ketnoi.genbyte.net',
+    // accountingUrl: 'http://test-hhm-ketoan.genbyte.net',
 
 
     receiverPublicKey: `-----BEGIN PUBLIC KEY-----
