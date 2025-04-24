@@ -440,6 +440,11 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
       if (duplicates.length > 0) {
         mechandise_dup.push({ line: lineNumber, duplicates });
       }
+      console.log(this.ticket.masterInfo.status)
+      if (item.so_luong_imei < item.so_luong && this.ticket.masterInfo.status == '2') {
+        this.commonService.showMessage('Vui lòng nhập đầy đủ Imei');
+        return;
+      }
     }
     if (mechandise_dup.length > 0) {
       const message = mechandise_dup

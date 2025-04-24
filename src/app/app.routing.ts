@@ -69,6 +69,8 @@ import { ServiceCompensationComponent } from './sales-management/page/voucher-se
 import { ChangepassComponent } from './pages/changepass/changepass.component';
 
 import { OtherMoneyTransferDetailComponent } from './_components/voucher/money-transaction/other-money-transfer/create/create.component';
+import { DepositBaokimDetailComponent } from './_components/voucher/money-transaction/deposit-baokim/create/create.component';
+import { WithdrawBaokimDetailComponent } from './_components/voucher/money-transaction/withdraw-baokim/create/create.component';
 
 
 const homeModule = () => import('./home/home.module').then(x => x.HomeModule);
@@ -221,6 +223,15 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'voucher/deposit-baokim', component: AppLayoutComponent, canActivate: [AuthGuard],
+    children: [
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.DEPOSIT_BAOKIM, reuse: true } },
+      { path: 'create', component: DepositBaokimDetailComponent, canActivate: [AuthGuard] },
+      { path: 'update', component: DepositBaokimDetailComponent, canActivate: [AuthGuard] },
+      { path: 'view', component: DepositBaokimDetailComponent, canActivate: [AuthGuard] },
+    ]
+  },
+  {
     path: 'voucher/debt-receipt', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
       // { path: '', component: VoucherComponent, canActivate: [AuthGuard], data: VOUCHER_TYPE.DEBT_RECEIPT },
@@ -257,6 +268,15 @@ const routes: Routes = [
       { path: 'create', component: RecommentToUseDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: RecommentToUseDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: RecommentToUseDetailComponent, canActivate: [AuthGuard] },
+    ]
+  },
+  {
+    path: 'voucher/withdraw-baokim', component: AppLayoutComponent, canActivate: [AuthGuard],
+    children: [
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.WITHDRAW_BAOKIM, reuse: true } },
+      { path: 'create', component: WithdrawBaokimDetailComponent, canActivate: [AuthGuard] },
+      { path: 'update', component: WithdrawBaokimDetailComponent, canActivate: [AuthGuard] },
+      { path: 'view', component: WithdrawBaokimDetailComponent, canActivate: [AuthGuard] },
     ]
   },
   {

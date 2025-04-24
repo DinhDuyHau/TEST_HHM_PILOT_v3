@@ -435,6 +435,26 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.entityName = TICKET_ENTITY.SERVICE_COMPENSATION;
         this.codeName = TICKET_CODE.SERVICE_COMPENSATION;
         break;
+      case TICKET_TYPE.DEPOSIT_BAOKIM:
+        this.columns = STOCK_FIELDS.DEPOSIT_BAOKIM as Cell[];
+        this.title = 'Phiếu nộp tiền Bảo Kim';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.DEPOSIT_BAOKIM;
+        this.codeName = TICKET_CODE.DEPOSIT_BAOKIM;
+        this.hasButton.create = false;
+        this.hasButton.delete = false;
+        this.hasButton.edit = false;
+        break;
+      case TICKET_TYPE.WITHDRAW_BAOKIM:
+        this.columns = STOCK_FIELDS.WITHDRAW_BAOKIM as Cell[];
+        this.title = 'Phiếu rút tiền Bảo Kim';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.WITHDRAW_BAOKIM;
+        this.codeName = TICKET_CODE.WITHDRAW_BAOKIM;
+        this.hasButton.create = false;
+        this.hasButton.delete = false;
+        this.hasButton.edit = false;
+        break;
     }
   }
 
@@ -584,7 +604,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   onReload(isReload = false, isRefresh = false) {
-    if(isRefresh) {
+    if (isRefresh) {
       this.selectionService.setSelectedItem(null);
     }
 
@@ -805,14 +825,14 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   processTypeTransaction(voucherRecord: any): void {
-    if(this.codeName === TICKET_CODE.REPURCHASE) {
-      if(voucherRecord.fcode1.trim() === '1') {
+    if (this.codeName === TICKET_CODE.REPURCHASE) {
+      if (voucherRecord.fcode1.trim() === '1') {
         voucherRecord.fcode1 = "1-Mua lại từ KH cá nhân"
       }
-      if(voucherRecord.fcode1.trim() === '2') {
+      if (voucherRecord.fcode1.trim() === '2') {
         voucherRecord.fcode1 = "2-Mua lại từ KH doanh nghiệp"
       }
-      if(voucherRecord.fcode1.trim() === '3') {
+      if (voucherRecord.fcode1.trim() === '3') {
         voucherRecord.fcode1 = "3-Mua thu cũ ko lên đời"
       }
     }
