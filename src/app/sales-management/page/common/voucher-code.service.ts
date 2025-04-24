@@ -63,4 +63,89 @@ export class VoucherCodeService {
         rs.map((e, i) => { e.line_nbr = i; });
         des.push(...rs);
     }
+
+    validVoucherCode(ticket: any) {
+        let message = '';
+
+        // kiểm tra ma_kh
+        if (!ticket.masterInfo.ma_kh) {
+            message = 'Chưa nhập mã khách hàng';
+            return message;
+        }
+        // ktra nếu chưa nhập hàng hóa
+        const merchandise = ticket.merchandise ?? ticket.merchandise_new_sale;
+        if (!merchandise.length) {
+            message = 'Chưa nhập hàng hóa';
+            return message;
+        }
+
+        return message;
+    }
+
+    resetVoucherCode(ticket: any) {
+        ticket.voucherCode = [];
+    }
+
+    validateVoucherResponse(response: any, skus: string[], ticket: any) {
+        if (!response?.IsValid) {
+            this.commonService.showMessage(response?.Message || 'Mã giảm giá không hợp lệ');
+            return null;
+        }
+
+        const phone = ticket.masterInfo.ma_kh?.trim();
+        if (response?.Config?.Phone?.IsEnable) {
+            const phones = (response?.Config?.Phone?.Items || []).map((item: string) => item.trim());
+            if (!phones.includes(phone)) {
+                this.commonService.showMessage('Mã giảm giá không áp dụng cho khách hàng này');
+                return null;
+            }
+        }
+
+        if (response?.LimitConfig) {
+            const config = response.LimitConfig;
+            if (config.IsUsing && !config.IsAllowMutil) {
+                this.commonService.showMessage('Mã giảm giá đã được sử dụng');
+                return null;
+            }
+            if (config.AvailableQuantity <= 0) {
+                this.commonService.showMessage('Mã giảm giá đã hết lượt sử dụng');
+                return null;
+            }
+            if (!config.IsAllowUse) {
+                this.commonService.showMessage('Mã giảm giá không hợp lệ hoặc đã bị khóa');
+                return null;
+            }
+        }
+
+        const userJson = localStorage.getItem('user');
+        const userObj = userJson !== null && JSON.parse(userJson);
+        const stock = userObj['shop'] || '';
+        if (response?.Config?.Stock?.IsEnable) {
+            const stocks = (response?.Config?.Stock?.Items || []).map((item: string) => item.trim());
+            if (!stocks.includes(stock)) {
+                this.commonService.showMessage('Mã giảm giá không áp dụng cho cửa hàng hiện tại');
+                return null;
+            }
+        }
+
+        const member = ticket.masterInfo.ma_hang.trim() || '';
+        if (response?.Config?.Member?.IsEnable) {
+            const Members = (response?.Config?.Member?.Items || []).map((item: string) => item.trim());
+            if (!Members.includes(member)) {
+                this.commonService.showMessage('Mã giảm giá không áp dụng cho hạng thành viên hiện tại');
+                return null;
+            }
+        }
+
+        if (response?.Config?.SKU?.IsEnable) {
+            const validSkus = (response?.Config?.SKU?.Items || []).map((item: string) => item.trim().toLowerCase());
+            if (!skus.some(sku => validSkus.includes(sku))) {
+                this.commonService.showMessage('Mã giảm giá không áp dụng cho mã hàng này');
+                return null;
+            }
+            return validSkus;
+        }
+
+        return [];
+    }
 }

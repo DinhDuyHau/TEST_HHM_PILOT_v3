@@ -132,7 +132,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     private guaranteeApiService: GuaranteeApiService,
     private fileService: FileService,
     private sanitizer: DomSanitizer,
-    private discountApiService: DiscountApiService,
+    private voucherCodeService: VoucherCodeService
   ) {
     localStorage.setItem('useGridCached', '1');
     this.retailService.setTicket(this.ticket, this.option);
@@ -339,7 +339,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.handleGetDeposit();
     this.retailService.setIsNeedCalcDiscount(true);
     this.discountService.resetDiscount(this.ticket.discount);
-    this.resetVoucherCode();
+    this.voucherCodeService.resetVoucherCode(this.ticket);
     this.retailService.calcMoney();
 
     this.retailService.getConversionPoint().subscribe(result => {
@@ -497,7 +497,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
       this.commonService.focusControl2(this.tabIndex.imei);
       this.retailService.setIsNeedCalcDiscount(true);
       this.discountService.resetDiscount(this.ticket.discount);
-      this.resetVoucherCode();
+      this.voucherCodeService.resetVoucherCode(this.ticket);
       this.retailService.calcMoney();
       // khi add imei xử lý ck 09
       this.applyDiscount09ForMerchandise(merchandiseResponse);
@@ -1210,7 +1210,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.voucher_code = $event;
 
     // valid voucher code
-    const message = this.validVoucherCode();
+    const message = this.voucherCodeService.validVoucherCode(this.ticket);
     if (message) return this.commonService.showMessage(message);
 
     // Lấy danh sách mã vật tư trong phiếu bán
@@ -1231,9 +1231,9 @@ export class RetailComponent implements OnInit, AfterViewInit {
       next: result => {
         const response = result as any;
         // tạm thời ko sử dụng phía client
-        // const validSkus = this.validateVoucherResponse(response, skus);
+        // const validSkus = this.voucherCodeService.validateVoucherResponse(response, skus);
         // if (validSkus) {
-        //   this.addVoucherCode(validSkus, response);
+        //   this.addVoucherCode(validSkus, response, this.ticket);
         // }
 
         if (!response?.IsValid) return this.commonService.showMessage(response?.Message || 'Mã giảm giá không hợp lệ');
@@ -1249,7 +1249,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
         this.addVoucherCode(validSkus, response);
       },
       error: (err) => {
-        console.error(err);
         this.commonService.showMessage('Có lỗi xảy ra khi kiểm tra mã giảm giá');
       },
       complete: () => {
@@ -1263,10 +1262,11 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const DiscountPrice = inputResponse?.Info?.DiscountPrice || 0;
     const DiscountRate = inputResponse?.Info?.DiscountRate || 0;
     const SKU = inputResponse?.Config?.SKU;
+    const Info = inputResponse?.Info;
     const CampaignID = inputResponse?.Info?.Campaign[0]?.ID || '';
     let ma_imei = '';
     let ma_vt = '';
-    let type = 0;
+    let type = 0; // 0: phân bổ hết các vt trong tab hàng hóa, 1: phân bổ theo mã vt được áp dụng, 2: áp dụng vật tư có giá trị cao nhất
 
     let validMerchandise = [];
 
@@ -1282,36 +1282,43 @@ export class RetailComponent implements OnInit, AfterViewInit {
       return this.commonService.showMessage('Không có vật tư nào hợp lệ để áp dụng voucher');
     }
 
-    // set vào localstorage để sử dụng tình phân bổ cho vật tư
-    localStorage.setItem('merchandise_apply_voucher', JSON.stringify(validMerchandise));
+    // set vào sessionStorage để sử dụng tình phân bổ cho vật tư
+    sessionStorage.setItem('merchandise_apply_voucher', JSON.stringify(validMerchandise));
 
     // Tìm ra vật tư có giá trị cao nhất trong danh sách được áp dụng
     const maxMerchandise = validMerchandise.reduce((prev, current) =>
       prev.gia_ban > current.gia_ban ? prev : current
     );
 
-    if (SKU.IsEnable) { // true => áp dụng cho vật tư chỉ định
-      // set ma_vt mà ma_imei nếu áp dụng cho vật tư có giá cao nhất
-      // ma_imei = maxMerchandise.ma_imei || '';
-      // ma_vt = maxMerchandise.ma_vt || '';
-
+    if (SKU.IsEnable && Info.IsAllocation) { // true => áp dụng phân bổ cho các vt thỏa mãn
       // ck phân bổ theo mã vt được áp dụng voucher
       type = 1;
 
-      // nếu ko phải phân bổ IsEnable = true
+      // nếu ko phải phân bổ: IsEnable = true
       // và ma_vt trong hàng hóa đều giống nhau thì thực hiện ma_imei = '', ma_vt='' để phân bổ tiền ck
-      if (this.ticket.merchandise && this.ticket.merchandise.length > 0) {
-        const uniqueMaVTs = new Set(this.ticket.merchandise.map(x => x.ma_vt.trim().toLowerCase()));
+      // if (this.ticket.merchandise && this.ticket.merchandise.length > 0) {
+      //   const uniqueMaVTs = new Set(this.ticket.merchandise.map(x => x.ma_vt.trim().toLowerCase()));
 
-        if (uniqueMaVTs.size === 1) {
-          ma_imei = '';
-          ma_vt = '';
-        }
-      }
+      //   if (uniqueMaVTs.size === 1) {
+      //     ma_imei = '';
+      //     ma_vt = '';
+      //   }
+      // }
+    }
+
+    if(!Info.IsAllocation) { // false => ko phân bổ, áp dụng vật tư có giá trị cao nhất
+      // set ma_vt mà ma_imei nếu áp dụng cho vật tư có giá cao nhất
+      ma_imei = maxMerchandise.ma_imei || '';
+      ma_vt = maxMerchandise.ma_vt || '';
+
+      // áp dụng vật tư có giá trị cao nhất
+      type = 2;
     }
 
     // kiểm tra đã add voucher
     if (this.ticket.voucherCode.some(item => item.ma_voucher.trim().toLowerCase() === this.voucher_code.trim().toLowerCase())) {
+      // xóa đi nếu ko add được voucher
+      sessionStorage.removeItem('merchandise_apply_voucher');
       return this.commonService.showMessage('Mã giảm giá đã được áp dụng');
     }
 
@@ -1320,6 +1327,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
       item.ma_td1?.trim().toLowerCase() === CampaignID.toString().trim().toLowerCase()
     );
     if (duplicated) {
+      // xóa đi nếu ko add được voucher
+      sessionStorage.removeItem('merchandise_apply_voucher');
       return this.commonService.showMessage(`Mã giảm giá "${duplicated.ma_voucher}" đã được áp dụng cho chương trình hiện tại với IMEI "${duplicated.ma_imei}".`);
     }
 
@@ -1359,98 +1368,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
         }
       }
     });
-  }
-
-  validVoucherCode() {
-    let message = '';
-
-    // kiểm tra ma_kh
-    if (!this.ticket.masterInfo.ma_kh) {
-      message = 'Chưa nhập mã khách hàng';
-      return message;
-    }
-    // ktra nếu chưa nhập hàng hóa
-    if (!this.ticket.merchandise.length) {
-      message = 'Chưa nhập hàng hóa';
-      return message;
-    }
-
-    return message;
-  }
-
-  resetVoucherCode() {
-    this.ticket.voucherCode = [];
-  }
-
-  parseCustomDate = (dateStr: string) => {
-    const [day, month, year, time, period] = dateStr.split(/[- :]/);
-    let hours = parseInt(time);
-    if (period === "PM" && hours < 12) hours += 12;
-    if (period === "AM" && hours === 12) hours = 0;
-    return new Date(`${year}-${month}-${day}T${hours.toString().padStart(2, '0')}:00:00`).toISOString();
-  };
-
-  validateVoucherResponse(response: any, skus: string[]) {
-    if (!response?.IsValid) {
-      this.commonService.showMessage(response?.Message || 'Mã giảm giá không hợp lệ');
-      return null;
-    }
-
-    const phone = this.ticket.masterInfo.ma_kh?.trim();
-    if (response?.Config?.Phone?.IsEnable) {
-      const phones = (response?.Config?.Phone?.Items || []).map((item: string) => item.trim());
-      if (!phones.includes(phone)) {
-        this.commonService.showMessage('Mã giảm giá không áp dụng cho khách hàng này');
-        return null;
-      }
-    }
-
-    if (response?.LimitConfig) {
-      const config = response.LimitConfig;
-      if (config.IsUsing && !config.IsAllowMutil) {
-        this.commonService.showMessage('Mã giảm giá đã được sử dụng');
-        return null;
-      }
-      if (config.AvailableQuantity <= 0) {
-        this.commonService.showMessage('Mã giảm giá đã hết lượt sử dụng');
-        return null;
-      }
-      if (!config.IsAllowUse) {
-        this.commonService.showMessage('Mã giảm giá không hợp lệ hoặc đã bị khóa');
-        return null;
-      }
-    }
-
-    const userJson = localStorage.getItem('user');
-    const userObj = userJson !== null && JSON.parse(userJson);
-    const stock = userObj['shop'] || '';
-    if (response?.Config?.Stock?.IsEnable) {
-      const stocks = (response?.Config?.Stock?.Items || []).map((item: string) => item.trim());
-      if (!stocks.includes(stock)) {
-        this.commonService.showMessage('Mã giảm giá không áp dụng cho cửa hàng hiện tại');
-        return null;
-      }
-    }
-
-    const member = this.ticket.masterInfo.ma_hang.trim() || '';
-    if (response?.Config?.Member?.IsEnable) {
-      const Members = (response?.Config?.Member?.Items || []).map((item: string) => item.trim());
-      if (!Members.includes(member)) {
-        this.commonService.showMessage('Mã giảm giá không áp dụng cho hạng thành viên hiện tại');
-        return null;
-      }
-    }
-
-    if (response?.Config?.SKU?.IsEnable) {
-      const validSkus = (response?.Config?.SKU?.Items || []).map((item: string) => item.trim().toLowerCase());
-      if (!skus.some(sku => validSkus.includes(sku))) {
-        this.commonService.showMessage('Mã giảm giá không áp dụng cho mã hàng này');
-        return null;
-      }
-      return validSkus;
-    }
-
-    return [];
   }
   //#endregion
 }

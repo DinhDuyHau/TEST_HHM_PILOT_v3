@@ -26,6 +26,7 @@
       <form-input-custom
         class="box order-dynamic-2"
         [name]="'ma_kh'"
+        [disabled]="ticket.voucherCode.length > 0"
         [label]="this.ma_kh_label"
         [value]="ticket.masterInfo.ma_kh"
         [disabled]="readonly"
@@ -39,6 +40,7 @@
       <form-input-custom
         class="box order-dynamic-3"
         [name]="'ma_nvvc'"
+        [disabled]="ticket.voucherCode.length > 0"
         [label]="getLabel('lbl_ma_nvvc')"
         [disabled]="readonly"
         [value]="ticket.masterInfo.ma_nvvc"
@@ -69,7 +71,7 @@
         [disabled]="true" />
       <form-select-custom
         class="box order-dynamic-1 width-full"
-        [isDisable]="readonly || disableSelectSatus"
+        [isDisable]="readonly || disableSelectSatus || ticket.voucherCode.length > 0"
         [label]="getLabel('lbl_trang_thai')"
         [options]="statusList"
         optionDes="statusname"
@@ -79,6 +81,7 @@
       <form-input-custom
         class="box order-dynamic-2"
         [name]="'ghi_chu'"
+        [disabled]="ticket.voucherCode.length > 0"
         [label]="getLabel('lbl_ghi_chu')"
         [value]="ticket.masterInfo.dien_giai"
         (handleChangeValue)="ticket.masterInfo.dien_giai = $event"
@@ -87,12 +90,21 @@
         class="box order-dynamic-3"
         [name]="'ma_ncc'"
         [label]="getLabel('lbl_ma_ncc_tc')"
-        [disabled]="readonly || ticket.merchandise_used.length > 0"
+        [disabled]="readonly || ticket.merchandise_used.length > 0 || ticket.voucherCode.length > 0"
         [readonly]="readonly || ticket.merchandise_used.length > 0"
         [value]="ticket.masterInfo.ma_ncc"
         (handleChangeValue)="onEnterSupplierCode($event)"
         (handleEnterInput)="onEnterSupplierCode($event)"
         (handleClickOpenDialog)="openSearchSupplierDialog()" />
+
+        <form-input-custom
+          #txt_voucher_code
+          class="box order-dynamic-2"
+          [name]="'voucher_code'"
+          [label]="'Mã giảm giá'"
+          [value]="this.voucher_code"
+          *ngIf="this.mode == 1"
+          (handleEnterInput)="handleChangeVoucherCode($event)" />
     </div>
     <div class="box-container" *ngIf="!readonly">
       <div class="box-2" style="margin-top: 10px">
@@ -105,7 +117,7 @@
             class=""
             [name]="'imei_used'"
             [label]="getLabel('lbl_imei')"
-            [disabled]="readonly"
+            [disabled]="readonly || ticket.voucherCode.length > 0"
             [value]="renew.ma_imei"
             [fireChangeWhenBlur]="false"
             (handleChangeValue)="onChangeImei($event)"
@@ -122,7 +134,7 @@
               [controller]="'dmvt'"
               [value]="renew.ma_vt"
               [invalid]="invalidMerchandiseInput.ma_vt"
-              [disabled]="!isValidItemOld"
+              [disabled]="!isValidItemOld || ticket.voucherCode.length > 0"
               (handleBlur)="onBlurTypeMerchandiseCode($event)"
               (handleEnterInput)="onEnterTypeMerchandiseCode($event)"
               (handleClickOpenDialog)="openTypeMerchandiseDialog()" />
@@ -142,7 +154,7 @@
               [label]="getLabel('lbl_loai_hh')"
               [value]="renew.loai_hh"
               [readonly]="true"
-              [disabled]="readonly"
+              [disabled]="readonly || ticket.voucherCode.length > 0"
               [invalid]="invalidMerchandiseInput.loai_hh"
               (handleClickOpenDialog)="openSearchTypeMerchandiseDialog()" />
             <form-input-custom
@@ -151,7 +163,7 @@
               [label]="getLabel('lbl_gia_nhap_mua')"
               [align]="'end'"
               [value]="renew.gia_nt"
-              [disabled]="readonly"
+              [disabled]="readonly || ticket.voucherCode.length > 0"
               [invalid]="invalidMerchandiseInput.gia_nt"
               dataType="number"
               [readonly]="true"
@@ -183,7 +195,7 @@
             class=""
             [name]="'imei_new_sale'"
             [label]="getLabel('lbl_imei')"
-            [disabled]="readonly"
+            [disabled]="readonly || ticket.voucherCode.length > 0"
             (handleEnterInput)="onEnterImeiNewMerchandiseCode($event)"
             (handleClickCodeScanner)="onClickCodeScanner()"
             [uploadImage]="true" />
@@ -191,17 +203,20 @@
             class=""
             name="ma_vt_new_sale"
             [label]="getLabel('lbl_ma_vt')"
+            [disabled]="ticket.voucherCode.length > 0"
             (handleEnterInput)="onEnterMerchandiseCode($event)"
             (handleClickOpenDialog)="openMerchandiseDialog()" />
           <div class="d-flex box align-items-end gap-3 mt-5 align-self-end">
             <button
               *ngIf="!readonly"
+              [disabled]="ticket.voucherCode.length > 0"
               class="flex-1 btn act-input-data-btn text-nowrap"
               (click)="openCalcDiscountDialog()">
               {{ getLabel('lbl_calc_discount') }}
             </button>
             <button
               *ngIf="!readonly"
+              [disabled]="ticket.voucherCode.length > 0"
               class="flex-1 btn act-input-data-btn text-nowrap"
               (click)="openAddCustomerDialog()">
               {{ getLabel('lbl_add_customer') }}
@@ -222,7 +237,7 @@
 
       <tab-custom label="Hàng hoá" class="w-100">
         <table-custom
-          [readonly]="readonly"
+          [readonly]="readonly || ticket.voucherCode.length > 0"
           [dataSource]="ticket.merchandise_new_sale"
           [columns]="merchandiseColumns"
           [isShowDiscountNG]="true"
@@ -236,7 +251,7 @@
       </tab-custom>
       <tab-custom label="Dịch vụ" class="w-100">
         <table-custom
-          [readonly]="readonly"
+          [readonly]="readonly || ticket.voucherCode.length > 0"
           [dataSource]="ticket.service"
           [columns]="serviceColumns"
           (handleDelete)="onRemoveService($event)" />
@@ -259,7 +274,7 @@
         <table-custom
           [dataSource]="ticket.packages"
           [columns]="packageColumns"
-          [readonly]="readonly"
+          [readonly]="readonly || ticket.voucherCode.length > 0"
           (handleDelete)="onRemovePackage($event)" />
         <div class="flex gap-0 md:gap-4 lg:gap-8">
           <div class="flex-1 hidden lg:block"></div>
@@ -283,6 +298,12 @@
           [columns]="discountColumns"
           (handleDelete)="onRemoveDiscount($event)" />
       </tab-custom>
+      <tab-custom label="Mã giảm giá" class="w-100">
+        <table-custom
+          [dataSource]="ticket.voucherCode"
+          [columns]="voucherCodeColumns"
+          [readonly]="readonly" />
+      </tab-custom>
       <!-- <tab-custom label="Bảo hành" class="w-100">
         <table-custom
           [readonly]="readonly"
@@ -291,10 +312,10 @@
       </tab-custom> -->
       <tab-custom label="Hàng thu cũ" class="w-100">
         <table-custom
-          [readonly]="readonly"
+          [readonly]="readonly || ticket.voucherCode.length > 0"
           [dataSource]="ticket.merchandise_used"
           [columns]="merchandiseUsedColumns"
-          [isShowCustomeEdit]="true"
+          [isShowCustomeEdit]="ticket.voucherCode.length == 0"
           (handleCustomeUpdate)="onUsedMerchandiseUpdate($event)"
           (handleDelete)="onRemoveUsedMerchandise($event)" />
       </tab-custom>
@@ -305,7 +326,7 @@
         </div>
         <e-invoice-info
           [data]="ticket.masterInfo"
-          [disabled]="readonly"></e-invoice-info>
+          [disabled]="readonly || ticket.voucherCode.length > 0"></e-invoice-info>
         <div
           class="text-medium font-medium flex flex-1 border-b-0.5 border-dashed border-neutrals07_color pt-1 md:pt-3 lg:pt-7">
           {{ getLabel('lbl_hddt_phat_hanh') }}

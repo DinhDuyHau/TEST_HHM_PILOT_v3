@@ -2,7 +2,7 @@ import { Discount } from '../common-model/discount.model';
 import { Guarantee } from '../common-model/guarantee.model';
 import { Service } from '../common-model/service.model';
 import { Payment } from '../common-model/payment.model';
-import { BaseMasterInfo, BaseMerchandise, BaseTicket, Overview } from '../common-model/base-entity.model';
+import { BaseMasterInfo, BaseMerchandise, BaseTicket, Overview, VoucherCode } from '../common-model/base-entity.model';
 import { Package } from '../common-model/package.model';
 
 
@@ -16,6 +16,7 @@ export class RenewSaleTicketCreate {
   guarantee: Guarantee[] = [];
   payment: Payment = new Payment;
   overview: Overview[] = [];
+  voucherCode: VoucherCode[] = [];
 }
 
 export type RenewSaleTicketList = BaseTicket
@@ -27,7 +28,8 @@ export const TAB_NAME = {
   PACKAGE: 'd589bh',
   DISCOUNT: 'd589ck',
   GUARANTEE: 'ddd',
-  PAYMENT: 'd589tt'
+  PAYMENT: 'd589tt',
+  VOUCHERCODE: 'd589ctck'
 };
 
 export interface DetailDto {

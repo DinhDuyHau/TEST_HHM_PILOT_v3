@@ -30,6 +30,8 @@ import { PackageForImeiComponent } from '@app/sales-management/component/merchan
 import { PackageOfMerchandiseService } from '../../common/package.service';
 import { Package, PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
 import { SaleOnlineDialogComponent } from './sale-online-dialog/sale-online-dialog.component';
+import { VoucherCodeApiService } from '@app/sales-management/api/voucher-code.service';
+import { VoucherCodeService } from '../../common/voucher-code.service';
 
 @Injectable({
     providedIn: 'root'
@@ -54,8 +56,9 @@ export class SaleOnlineService {
         private guanranteeService: GuanranteeService,
         private transportService: TransportService,
         private packageOfMerchandiseService: PackageOfMerchandiseService,
+        private voucherCodeApiService: VoucherCodeApiService,
+        private voucherCodeService: VoucherCodeService,
     ) {
-
     }
 
     //#region setter
@@ -112,6 +115,9 @@ export class SaleOnlineService {
                         }
                     });
                     break;
+                case TAB_NAME.VOUCHERCODE:
+                    this.voucherCodeService.convertFromVoucher(e.data, this.ticket.voucherCode);
+                    break;
                 default:
                     break;
             }
@@ -130,6 +136,7 @@ export class SaleOnlineService {
         voucherDto.details = [...voucherDto.details, { id: 5, name: TAB_NAME.GUARANTEE, data: this.guanranteeService.convertGuanranteeToRequest(this.ticket.guarantee, voucherDto.masterInfo) }];
         voucherDto.details = [...voucherDto.details, { id: 6, name: TAB_NAME.TRANSPORT, data: [this.transportService.convertToRequest2(this.ticket.transport, voucherDto.masterInfo)] }];
         voucherDto.details = [...voucherDto.details, { id: 7, name: TAB_NAME.PACKAGE, data: this.packageOfMerchandiseService.convertPackageToRequest(this.ticket.packages, voucherDto.masterInfo, PackageRequest) }];
+        voucherDto.details = [...voucherDto.details, { id: 8, name: TAB_NAME.VOUCHERCODE, data: this.voucherCodeService.convertVoucherCodeToRequest(this.ticket.voucherCode, voucherDto.masterInfo) }];
 
         return voucherDto;
     }
@@ -360,7 +367,8 @@ export class SaleOnlineService {
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_TICKET ||
                 discount.loai_ck === DISCOUNT_TYPE.CROSS_SELLING ||
                 discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO ||
-                discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT
+                discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT ||
+                discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE
             ) {
                 if (discount.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && row_item) {
                     //Nếu chọn chiết khấu ngoại giao thì cần phải chọn dòng trong grid hàng hóa để áp dụng ck
@@ -554,6 +562,22 @@ export class SaleOnlineService {
             return true;
         }
         return false;
+    }
+
+    voucherCheck(voucher_code: any, member: string, phone: string, stock: string, skus: any) {
+        const payload = {
+            Voucher: voucher_code,
+            Member: member,
+            Phone: phone,
+            Stock: stock,
+            SKU: skus
+        };
+
+        return this.voucherCodeApiService.voucherCheck(payload);
+    }
+
+    getDiscountVoucherCode(ngay_ct: Date) {
+        return this.discountApiService.getDiscountVoucherCode(ngay_ct);
     }
 
     // #endregion other
