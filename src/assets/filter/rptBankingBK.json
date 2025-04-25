@@ -1,0 +1,75 @@
+{
+  "width": 700,
+  "height": 500,
+  "control": [
+    [
+      {
+        "name": "tu_ngay",
+        "label": "Từ ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      },
+      {
+        "name": "den_ngay",
+        "label": "Đến ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat"
+      }
+    ],
+    [
+      {
+        "name": "ngan_hang",
+        "label": "Ngân hàng",
+        "type": "select",
+        "options": [
+          {
+            "label": "VP Bank",
+            "value": "1"
+          },
+          {
+            "label": "Ngân hàng khác",
+            "value": "0"
+          }
+        ],
+        "optionValue": "value",
+        "optionDes": "label"
+      }
+    ],
+    [
+      {
+        "name": "ma_cuahang",
+        "label": "Mã cửa hàng",
+        "isLookup": "true",
+        "control": "zcdmcuahang",
+        "value": "@@shop",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["ma_cuahang"],
+        "hidden": false,
+        "isChoose": true
+      }
+    ],
+    [
+      {
+        "name": "ds_ma_gd",
+        "label": "Mã giao dịch",
+        "type": "select",
+        "options": [
+          {
+            "label": "Tất cả",
+            "value": "11, 21"
+          },
+          {
+            "label": "Thu tiền hộ qua trung gian tài chính: Bảo Kim & VPBank",
+            "value": "11"
+          },
+          {
+            "label": "Chi tiền hộ qua trung gian tài chính: Bảo Kim & VPBank",
+            "value": "21"
+          }
+        ],
+        "optionValue": "value",
+        "optionDes": "label"
+      }
+    ]
+  ]
+}

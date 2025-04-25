@@ -1,0 +1,190 @@
+[
+  {
+    "name": "ma_dvcs",
+    "title": "Mã ĐVCS",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 60,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_cuahang",
+    "title": "Mã cửa hàng",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_ca",
+    "title": "Ca bán hàng",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_loaigd",
+    "title": "Loại giao dịch",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 200
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày CT",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "so_ct",
+    "title": "Số CT",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_gd",
+    "title": "Mã giao dịch",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 200,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 200
+  },
+  {
+    "name": "tien",
+    "allowFilter": true,
+    "title": "Số tiền",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "tien_phi_kh",
+    "allowFilter": true,
+    "title": "Phí thu của khách",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "tien_phi_hh",
+    "allowFilter": true,
+    "title": "Phí HH được nhận",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "tien_hh_nv",
+    "allowFilter": true,
+    "title": "Hoa hồng NV",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 120
+  },
+  {
+    "name": "noi_dung",
+    "title": "Nội dung nộp/rút tiền",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 200
+  },
+  {
+    "name": "stk_nop_rut",
+    "title": "Số TK nộp/rút tiền",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 150
+  },
+  {
+    "name": "tentk_nop_rut",
+    "title": "Tên TK nộp/rút tiền",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 200
+  },
+  {
+    "name": "nhtk_nop_rut",
+    "title": "Ngân hàng của TK nộp/rút tiền",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 200
+  },
+  {
+    "name": "loaitk_nop_rut",
+    "title": "Loại TK nộp/rút tiền",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 150
+  },
+  {
+    "name": "cccd_nop_rut",
+    "title": "Số CCCD người nộp/rút tiền",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 150
+  },
+  {
+    "name": "ngay_cccd",
+    "title": "Ngày cấp",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "noi_cap",
+    "title": "Nơi cấp",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 200
+  },
+  {
+    "name": "ghi_chu",
+    "title": "Ghi chú",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 200
+  },
+  {
+    "name": "ma_nvbh",
+    "title": "Mã NVBH",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_nvbh",
+    "title": "Tên NVBH",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 200
+  }
+]
