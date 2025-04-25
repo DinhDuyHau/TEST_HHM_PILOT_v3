@@ -1306,7 +1306,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
       // }
     }
 
-    if(!Info.IsAllocation) { // false => ko phân bổ, áp dụng vật tư có giá trị cao nhất
+    if (!Info.IsAllocation) { // false => ko phân bổ, áp dụng vật tư có giá trị cao nhất
       // set ma_vt mà ma_imei nếu áp dụng cho vật tư có giá cao nhất
       ma_imei = maxMerchandise.ma_imei || '';
       ma_vt = maxMerchandise.ma_vt || '';

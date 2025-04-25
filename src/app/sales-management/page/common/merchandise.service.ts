@@ -209,6 +209,8 @@ export class MerchandiseService {
         //#region Chiết khấu 10 (chiết khấu mã giảm giá voucher)
         const discountForMerchandise10 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE);
         (discountForMerchandise10 as any).forEach((discount: any) => {
+            console.log(discount);
+
             if (discount) {
                 if (discount.type == 1) {
                     // chiết khấu phân bổ cho mặt hàng được áp dụng voucher
@@ -241,8 +243,10 @@ export class MerchandiseService {
                         // set cho item trong tab hàng hóa
                         const merchan = merchandiseUpdate.find(x => x.ma_vt.trim().toLowerCase() == item.ma_vt.trim().toLowerCase()
                             && x.ma_imei.trim().toLowerCase() == item.ma_imei.trim().toLowerCase());
-                        merchan.gia_ck -= tien_ck_pb;
-                        merchan.tien_ck += tien_ck_pb;
+                        if (merchan) {
+                            merchan.gia_ck -= tien_ck_pb;
+                            merchan.tien_ck += tien_ck_pb;
+                        }
                         // item.gia_ck -= tien_ck_pb;
                         // item.tien_ck += tien_ck_pb;
 
