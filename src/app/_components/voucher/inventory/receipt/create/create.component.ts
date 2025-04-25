@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { Extend, Receipt, ReceiptDetail } from '../receipt.model';
-import { Button, Grid, GridType } from '@app/_components/gridV2/grid.model';
+import { Extend, Receipt, ReceiptDetail, ReceiptDiscountDetail, ReceiptDiscountDetailRequest } from '../receipt.model';
+import { Button, Field, Grid, GridType } from '@app/_components/gridV2/grid.model';
 import { ReceiptService } from '../receipt.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService, StatusVoucher } from '@app/_services';
@@ -31,6 +31,9 @@ import { MODE, VOUCHER_TYPE } from '../../../enum/voucher_enum';
 import { TaxService } from '@app/_components/lookup/tax/tax.service';
 import { CommonService } from '@app/sales-management/page/common/common.service';
 import { checkValidImei } from '@app/_common/commonFunction';
+import { map } from 'rxjs';
+import dataFormat from '@app/_common/dataFormat';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-purchase-order-create',
@@ -41,6 +44,7 @@ import { checkValidImei } from '@app/_common/commonFunction';
 export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnInit, AfterViewInit {
   // buttonsCustom!: Button[];
   override buttons = [button.LockingColumnButton, button.EditIMEIButton, button.EditSiteButton];
+  buttonsDiscount = [button.AddRowButton, button.DeleteRowButton];
   @ViewChild('form') form!: ElementRef;
   @ViewChild('btnSubmit') btnSubmit!: ElementRef;
   voucherForm!: FormGroup;
@@ -74,6 +78,9 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
   imeiOld: string[] = [];
   [key: string]: any;
   entity = VOUCHER_TYPE.RECEIPT.sysid;
+  discountColumns: Field[] = [];
+  dataSourceDiscount = new MatTableDataSource<ReceiptDiscountDetail>([]);
+  actionButtons = [button.EditPriceButton];
 
   override gridType = GridType.GridDetail;
   constructor(
@@ -99,7 +106,8 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
     private statusVoucher: StatusVoucher,
     private commonService: CommonService,
     private el: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private http: HttpClient
   ) {
     localStorage.setItem('useGridCached', '1');
     super(receiptDetailService);
@@ -198,6 +206,8 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
         site_code: [this.site_code],
         imei: [this.imei],
         detail: [this.data.details || [], Validators.required],
+        s5: [this.data.masterInfo.s5],
+        s6: [this.data.masterInfo.s6],
       });
       this.stockService.setItemFilter([{ name: 'ma_cuahang', value: this.data.masterInfo.ma_cuahang }, { name: 'ma_loai', value: 'HM' }]);
       this.t_so_luong = this.data.details[0].data.reduce((pre, item) => { return pre += item.so_luong; }, 0);
@@ -212,12 +222,18 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
         this.extend = this.data.details[1].data[0] || {};
         this.extend.ngay_ct0 = this.receipt_invoice_date;
       }
+      if (this.data.details.length >= 3 && this.data.details[2].data) {
+        this.dataSourceDiscount = new MatTableDataSource<ReceiptDiscountDetail>(this.data.details[2].data);
+      }
       this.statusVoucher.getStatus(this.voucherCode, this.data.masterInfo.fnote3).subscribe(result => {
         this.statusList = result;
         if (!this.data.masterInfo.status) {
           this.data.masterInfo.status = this.statusList[0].status;
         }
       });
+      this.calcDiscount();
+      this.calcTax();
+      this.calcTotal();
     }));
   }
   ngOnInit() {
@@ -266,6 +282,8 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
         t_thue_nt: 0,
         t_ck_nt: 0,
         // s4: 0, // thuế suất ck
+        s5: 0, // tt thuế ck
+        s6: 0 // tt ck trước vat
       },
       details: [
         {
@@ -276,6 +294,11 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
         {
           id: 2,
           name: 'm571ext',
+          data: []
+        },
+        {
+          id: 3,
+          name: 'd571ck',
           data: []
         }
       ]
@@ -311,14 +334,65 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
       site_code: [this.site_code],
       imei: [this.imei],
       detail: [this.data.details || [], Validators.required],
+      s5: [this.data.masterInfo.s5],
+      s6: [this.data.masterInfo.s6],
     });
+
+    // lấy các cột cho tab chiết khấu
+    this.getDiscountFields();
   }
 
   get f() {
     return this.voucherForm.controls;
   }
 
+  getDiscountFields() {
+    const randomParam = new Date().getTime();
+    this.http.get<Field[]>(`assets/fields/grid/receipt_discount_detail.json?r=${randomParam}`).pipe(
+      map((data: any[]) => {
+        return data.map((item) => {
+          return { ...new Field(), ...item, dataFormatString: (dataFormat as any)[item.dataFormatString || ''] };
+        });
+      })
+    ).subscribe(fields => {
+      this.discountColumns = fields;
+    });
+  }
+
+  mappingDataDiscountRequest(): ReceiptDiscountDetailRequest[] {
+    return this.dataSourceDiscount.data.map((item: any, index: number) => ({
+      stt_rec: this.data.masterInfo.stt_rec,
+      stt_rec0: (index + 1).toString().padStart(3, '0'),
+      ma_ct: this.data.masterInfo.ma_ct,
+      ngay_ct: this.data.masterInfo.ngay_ct
+        ? new Date(this.data.masterInfo.ngay_ct).toISOString().split('T')[0] + "T00:00:00"
+        : '',
+      so_ct: this.data.masterInfo.so_ct,
+      dien_giai: item.dien_giai,
+      thue_suat: Number(item.thue_suat) || 0,
+      tien: Number(item.tien) || 0
+    }));
+  }
+
   onSubmit() {
+    // tạo dữ liệu chiết khấu trước khi request
+    this.data.details[2].id = 3;
+    this.data.details[2].data = this.mappingDataDiscountRequest();
+    // end
+
+    // validate chiết khấu
+    let message = this.validateDiscountTab();
+    if (message) {
+      this.commonService.showMessage(message);
+      return;
+    }
+
+    // xử lý thêm trường cho chi tiết hàng hóa
+    this.data.details[0].data.map((item: any) => {
+      item.ck_nt = item.ck;
+      item.thue_ck_nt = item.thue_ck;
+    });
+
     this.data.details[1].data = [this.extend];
     this.submitted = true;
     let input_error: any;
@@ -402,8 +476,9 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
             }
           }
           else {
-            const msg = this.commonService.getMessage('lblDatabaseWarningMessage', [item.message]);
-            this.commonService.showMessage(msg);
+            this.commonService.showMessageByName(item.message);
+            // const msg = this.commonService.getMessage('lblDatabaseWarningMessage', [item.message]);
+            // this.commonService.showMessage(msg);
             //this.commonService.showMessageByName(item.message);
           }
         }
@@ -628,19 +703,33 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
     let t_thue_nt = 0;
     let t_ck_nt = this.data.masterInfo.t_ck_nt || 0;
     let t_thue_suat_ck = this.data.masterInfo.s4 || 0;
+    let s5 = this.data.masterInfo.s5 || 0; // Tổng thuế chiết khấu
+    let s6 = this.data.masterInfo.s6 || 0; // Tổng tiền chiết khấu trước VAT
+
+    // thành tiền grid
+    this.data.details[0].data.forEach((item) => {
+      item.tien_nt = item.gia_nt * item.so_luong;
+      item.thue_nt = item.tien_nt * (item.thue_suat / 100);
+    });
 
     // tổng tiền
     this.data.details[0].data.forEach((item) => {
       t_tien_nt += item.tien_nt || 0;
     });
-    t_tien_nt = Math.round(t_tien_nt - t_ck_nt);
+    t_tien_nt = Math.round(t_tien_nt - t_ck_nt - s6);
 
     // tổng thuế
     this.data.details[0].data.forEach((item) => {
       t_thue_nt += item.thue_nt || 0;
     });
 
-    t_thue_nt = Math.round(t_thue_nt - ((t_ck_nt * t_thue_suat_ck) / 100));
+    // thanh toán
+    this.data.details[0].data.forEach((item) => {
+      item.tt_nt = item.tien_nt - item.ck + (item.thue_nt - item.thue_ck);
+      item.tt = item.tien_nt - item.ck + (item.thue_nt - item.thue_ck);
+    });
+
+    t_thue_nt = Math.round(t_thue_nt - ((t_ck_nt * t_thue_suat_ck) / 100) - s5);
 
     this.data.masterInfo = {
       ...this.data.masterInfo,
@@ -653,7 +742,7 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
     };
   }
   calcTax() {
-    this.extend.t_thue_nt = (this.extend.t_tien_nt || 0) * (this.extend.thue_suat || 0) / 100;
+    this.extend.t_thue_nt = ((this.extend.t_tien_nt || 0) * (this.extend.thue_suat || 0) / 100) - (this.data.masterInfo.s5 || 0);
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);
@@ -688,4 +777,151 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
     event.preventDefault(); // Ngăn chặn hành động mặc định của nút Enter (submit form)
     this.calcTotal();
   }
+
+  validateDiscountTab() {
+    if (this.data.details[2].data.some((item: any) => !item.dien_giai)) {
+      return "Tab chiết khấu có dòng chưa có diễn giải";
+    }
+    if (this.data.details[2].data.some((item: any) => item.tien === null || item.tien === undefined || item.tien <= 0)) {
+      return "Tiền chiết khấu phải lớn hơn 0";
+    }
+    return '';
+  }
+
+  handleAddRow() {
+    const newRow = {
+      line_nbr: this.dataSourceDiscount.data.length + 1,
+      dien_giai: '',
+      thue_suat: 0,
+      tien: 0
+    };
+
+    this.dataSourceDiscount.data = [...this.dataSourceDiscount.data, newRow];
+
+    // tính toán lại tiền
+    this.calcDiscount();
+    this.calcTax();
+    this.calcTotal();
+  }
+
+  handleDeleteRow(index: number) {
+    if (index !== -1) {
+      const updatedData = this.dataSourceDiscount.data.slice();
+      updatedData.splice(index, 1);
+
+      // Reset lại số thứ tự
+      updatedData.forEach((item, idx) => {
+        item.line_nbr = idx + 1;
+      });
+
+      this.dataSourceDiscount.data = updatedData;
+
+      // tính toán lại tiền
+      this.calcDiscount();
+      this.calcTax();
+      this.calcTotal();
+    }
+  }
+
+  changeInputRow(event: any) {
+    let value = event.value;
+
+    // Nếu là trường `tien` hoặc `thue_suat`, xử lý chuyển đổi số
+    if (event.name === 'tien' || event.name === 'thue_suat') {
+      if (typeof value === 'string' && /^[\d,]+(\.\d+)?$/.test(value)) {
+        value = value.replace(/,/g, '');
+        value = isNaN(Number(value)) ? event.value : Number(value);
+      }
+    }
+
+    if (event.name === 'tien' && Number(value) > (this.data.masterInfo.t_tien_nt ?? 0)) {
+      this.commonService.showMessage('Không được nhập lớn hơn tổng tiền hàng!');
+      return;
+    }
+
+    // Cập nhật giá trị vào `dataSourceDiscount`
+    (this.dataSourceDiscount.data[event.row] as any)[event.name] = value;
+
+    // tính toán lại tiền
+    this.calcDiscount();
+    this.calcTax();
+    this.calcTotal();
+  }
+
+  calcDiscount() {
+    //  tt ck trước vat
+    this.data.masterInfo.s6 = this.dataSourceDiscount.data.reduce((pre, item) => {
+      return pre += (item.tien || 0);
+    }, 0);
+    // tt thuế ck
+    this.data.masterInfo.s5 = this.dataSourceDiscount.data.reduce((pre, item) => {
+      return pre + ((item.tien || 0) * ((item.thue_suat || 0) / 100));
+    }, 0);
+    // tính ra thuế CK = tiền ck x thuế suất / 100
+    this.data.details[0].data.forEach((item) => {
+      const ck = this.parseValidNumber(item.ck); // Lấy giá trị ck vừa nhập
+      const thueSuat = this.parseValidNumber(item.thue_suat); // Thuế suất
+
+      // Tính lại thuế chiết khấu
+      item.thue_ck = ck * (thueSuat / 100);
+    });
+
+    // cộng thêm tiền ck cho từng item nếu có
+    this.data.masterInfo.s5 += this.data.details[0].data.reduce((pre, item) => {
+      return pre + item.thue_ck;
+    }, 0);
+    this.data.masterInfo.s6 += this.data.details[0].data.reduce((pre, item) => {
+      return pre + item.ck;
+    }, 0);
+  }
+
+  onHandleActionButton(event: { buttonId: string; data?: any; index: number }) {
+    switch (event.buttonId) {
+      case button.EditPriceButton.id:
+        let donGia = event.data.s4 > 0 ? event.data.s4 : event.data.gia_nt;
+
+        this.receiptDetailService.openDialogEditPrice({
+          fields: [
+            { label: 'Tiền chiết khấu', name: 'ck', value: this.parseValidNumber(event.data.ck) },
+            { label: 'Đơn giá gốc', name: 'gia_nt', value: this.parseValidNumber(donGia), readonly: true },
+            { label: 'Đơn giá điều chỉnh', name: 'gia_dc', value: 0 },
+          ]
+        }).subscribe((res) => {
+          if (res) {
+            const item = this.data.details[0].data[event.index];
+            const ckField = res.find((f: { name: string; }) => f.name === 'ck');
+            const giaNt = res.find((f: { name: string; }) => f.name === 'gia_nt');
+            const priceAdjusment = res.find((f: { name: string; }) => f.name === 'gia_dc');
+            const priceAdjusmentValue = priceAdjusment.value <= 0 ? item.gia_nt : priceAdjusment.value;
+
+            // kiểm tra ko được lớn hơn 2 đồng
+            if (Math.abs(priceAdjusmentValue - this.parseValidNumber(giaNt.value)) > 2) {
+              this.commonService.showMessage('Không được điều chỉnh lớn hơn 2 đồng');
+              return;
+            }
+
+            item.ck = this.parseValidNumber(ckField.value);
+            item.gia_nt = this.parseValidNumber(priceAdjusment.value <= 0 ? item.gia_nt : priceAdjusment.value);
+            item.s4 = this.parseValidNumber(giaNt.value);
+
+            if (priceAdjusment.value > 0) {
+              item.gc_td1 = "1";
+            }
+
+            // tính toán lại tiền
+            this.calcDiscount();
+            this.calcTax();
+            this.calcTotal();
+          }
+        });
+        break;
+      default:
+        break;
+    }
+  }
+
+  parseValidNumber = (val: any) => {
+    const num = parseFloat(val);
+    return isNaN(num) ? 0 : num;
+  };
 }

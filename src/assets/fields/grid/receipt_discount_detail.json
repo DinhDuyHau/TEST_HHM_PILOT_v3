@@ -1,0 +1,36 @@
+[
+  {
+    "name": "line_nbr",
+    "title": "STT",
+    "isLockingColumn": true,
+    "align": "center",
+    "width": 80
+  },
+  {
+    "name": "dien_giai",
+    "title": "Diễn giải",
+    "isLockingColumn": true,
+    "width": 800,
+    "allowSorting": true,
+    "allowFilter": true,
+    "readonly": false
+  },
+  {
+    "name": "thue_suat",
+    "title": "Thuế suất CK",
+    "width": 80,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "readonly": false
+  },
+  {
+    "name": "tien",
+    "title": "Tiền CK trước thuế",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "readonly": false
+  }
+]

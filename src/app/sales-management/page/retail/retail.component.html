@@ -26,6 +26,7 @@
       <form-input-custom
         class="box order-dynamic-2"
         [name]="'ma_kh'"
+        [disabled]="ticket.voucherCode.length > 0"
         [label]="this.ma_kh_label"
         [value]="ticket.masterInfo.ma_kh"
         [readonly]="readonly"
@@ -65,13 +66,14 @@
         [name]="'dien_giai'"
         [label]="getLabel('lbl_dien_giai')"
         [value]="ticket.masterInfo.dien_giai"
+        [disabled]="ticket.voucherCode.length > 0"
         (handleChangeValue)="
           ticket.masterInfo.dien_giai = txt_dien_giai.value
         " />
 
       <form-select-custom
         class="box order-dynamic-1 width-full"
-        [isDisable]="readonly || disableSelectStatus"
+        [isDisable]="readonly || disableSelectStatus || ticket.voucherCode.length > 0"
         [label]="getLabel('lbl_trang_thai')"
         [options]="statusList"
         optionDes="statusname"
@@ -84,6 +86,7 @@
         name="ma_vt"
         [label]="getLabel('lbl_ma_vt')"
         *ngIf="!readonly"
+        [disabled]="ticket.voucherCode.length > 0"
         (handleEnterInput)="onEnterMerchandiseCode($event)"
         (handleClickOpenDialog)="openMerchandiseDialog()" />
 
@@ -93,6 +96,7 @@
         [name]="'imei'"
         [label]="getLabel('lbl_imei')"
         *ngIf="!readonly"
+        [disabled]="ticket.voucherCode.length > 0"
         (handleEnterInput)="onEnterImeiCode($event)"
         (handleClickCodeScanner)="onClickCodeScanner()"
         [uploadImage]="true" />
@@ -120,18 +124,29 @@
       <div class="d-flex box align-items-end gap-3 mt-3 align-self-end ">&nbsp;</div>
       <div class="d-flex box align-items-end gap-3 mt-3 align-self-end ">
         <button
+          [disabled]="ticket.voucherCode.length > 0"
           *ngIf="!readonly"
           class="flex-1 btn act-input-data-btn text-nowrap"
           (click)="openCalcDiscountDialog()">
           {{ getLabel('lbl_calc_discount') }}
         </button>
         <button
+          [disabled]="ticket.voucherCode.length > 0"
           *ngIf="!readonly"
           class="flex-1 btn act-input-data-btn text-nowrap"
           (click)="openAddCustomerDialog()">
           {{ getLabel('lbl_add_customer') }}
         </button>
       </div>
+
+      <form-input-custom
+        #txt_voucher_code
+        class="box order-dynamic-2"
+        [name]="'voucher_code'"
+        [label]="'Mã giảm giá'"
+        [value]="this.voucher_code"
+        *ngIf="this.mode == 1"
+        (handleEnterInput)="handleChangeVoucherCode($event)" />
     </div>
 
     <div class="deposit" *ngIf="depositMerchandise.length">
@@ -165,7 +180,7 @@
           [type]="'main'"
           [dataSource]="ticket.merchandise"
           [columns]="merchandiseColumns"
-          [readonly]="readonly"
+          [readonly]="readonly || ticket.voucherCode.length > 0"
           [isChangeColorWhenSelected]="true"
           [isShowDiscountNG]="true"
           (handleSwap)="onSwapPromotionMerchandise($event)"
@@ -181,7 +196,7 @@
         <table-custom
           [dataSource]="ticket.service"
           [columns]="serviceColumns"
-          [readonly]="readonly"
+          [readonly]="readonly || ticket.voucherCode.length > 0"
           (handleDelete)="onRemoveService($event)" />
         <div class="flex gap-0 md:gap-4 lg:gap-8">
           <div class="flex-1 hidden lg:block"></div>
@@ -202,7 +217,7 @@
         <table-custom
           [dataSource]="ticket.packages"
           [columns]="packageColumns"
-          [readonly]="readonly"
+          [readonly]="readonly || ticket.voucherCode.length > 0"
           (handleChangeCheckbox)="onChangeCheckbox($event)"
           (handleDelete)="onRemovePackage($event)"/>
       </tab-custom>
@@ -212,6 +227,12 @@
           [columns]="discountColumns"
           [readonly]="readonly"
           (handleDelete)="onRemoveDiscount($event)" />
+      </tab-custom>
+      <tab-custom label="Mã giảm giá" class="w-100">
+        <table-custom
+          [dataSource]="ticket.voucherCode"
+          [columns]="voucherCodeColumns"
+          [readonly]="readonly" />
       </tab-custom>
       <tab-custom label="Vận chuyển" class="w-100">
         <delivery-infomation-2

@@ -156,7 +156,24 @@ const ViewImageButton: Button = {
     iconColor: '#fff',
     activeColor: '#fff'
 };
+const AddRowButton: Button = {
+    id: 'AddRowButton',
+    name: 'Thêm dòng',
+    icon: 'edit',
+    buttonColor: 'var(--neutrals08)',
+    iconColor: '#005447',
+    activeColor: '#005447'
+};
+const DeleteRowButton: Button = {
+    id: 'DeleteRowButton',
+    name: 'Xóa dòng',
+    icon: 'trash-can',
+    buttonColor: 'var(--neutrals08)',
+    iconColor: 'red',
+    activeColor: 'red'
+};
 export default {
     AddButton, EditButton, DeleteButton, LockingColumnButton, PrintButton, RefreshButton, ExportButton, EditIMEIButton, EditSiteButton,
-    ViewButton, DebtButton, AllotmentButton, EditPriceButton, EditQuantityButton, DeleteGridButton, ProgramerButton, FilterButton, CameraButton, ViewImageButton
+    ViewButton, DebtButton, AllotmentButton, EditPriceButton, EditQuantityButton, DeleteGridButton, ProgramerButton, FilterButton, CameraButton, ViewImageButton,
+    AddRowButton, DeleteRowButton
 };
