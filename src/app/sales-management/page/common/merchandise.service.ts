@@ -223,7 +223,7 @@ export class MerchandiseService {
                     if (tl_ck > 0) {
                         tien_ck_calc = this.commonService.rouding(tong_tien * tl_ck / 100);
                     }
-                    if (tien_ck > 0 && tien_ck_calc > tien_ck) {
+                    if ((tien_ck > 0 && tien_ck_calc > tien_ck) || tl_ck == 0) {
                         tien_ck_calc = tien_ck;
                     }
 
@@ -275,7 +275,7 @@ export class MerchandiseService {
                             tien_vat = (mechandise.gia_ban * mechandise.so_luong) + (mechandise.gia_ban * mechandise.so_luong * mechandise.thue_suat / 100)
                             tien_ck_calc = this.commonService.rouding(tien_vat * tl_ck / 100);
                         }
-                        if (tien_ck > 0 && tien_ck_calc > tien_ck) {
+                        if ((tien_ck > 0 && tien_ck_calc > tien_ck) || tl_ck == 0) {
                             tien_ck_calc = tien_ck;
                         }
 
@@ -306,7 +306,7 @@ export class MerchandiseService {
                     if (tl_ck > 0) {
                         tien_ck_calc = this.commonService.rouding(tong_tien * tl_ck / 100);
                     }
-                    if (tien_ck > 0 && tien_ck_calc > tien_ck) {
+                    if ((tien_ck > 0 && tien_ck_calc > tien_ck) || tl_ck == 0) {
                         tien_ck_calc = tien_ck;
                     }
 
@@ -1394,7 +1394,7 @@ export class MerchandiseService {
                     if (tl_ck > 0) {
                         tien_ck_calc = this.commonService.rouding(tong_tien * tl_ck / 100);
                     }
-                    if (tien_ck > 0 && tien_ck_calc > tien_ck) {
+                    if ((tien_ck > 0 && tien_ck_calc > tien_ck) || tl_ck == 0) {
                         tien_ck_calc = tien_ck;
                     }
 
@@ -1446,7 +1446,7 @@ export class MerchandiseService {
                             tien_vat = (mechandise.gia_ban * mechandise.so_luong) + (mechandise.gia_ban * mechandise.so_luong * mechandise.thue_suat / 100)
                             tien_ck_calc = this.commonService.rouding(tien_vat * tl_ck / 100);
                         }
-                        if (tien_ck > 0 && tien_ck_calc > tien_ck) {
+                        if ((tien_ck > 0 && tien_ck_calc > tien_ck) || tl_ck == 0) {
                             tien_ck_calc = tien_ck;
                         }
 
@@ -1477,7 +1477,7 @@ export class MerchandiseService {
                     if (tl_ck > 0) {
                         tien_ck_calc = this.commonService.rouding(tong_tien * tl_ck / 100);
                     }
-                    if (tien_ck > 0 && tien_ck_calc > tien_ck) {
+                    if ((tien_ck > 0 && tien_ck_calc > tien_ck) || tl_ck == 0) {
                         tien_ck_calc = tien_ck;
                     }
 
