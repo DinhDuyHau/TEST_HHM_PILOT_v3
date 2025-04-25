@@ -7,8 +7,8 @@ export const environment = {
     accountingUrl: 'http://hhm-qt.genbyte.net',
 
     /* URL HỆ THỐNG TEST */
-    apiUrl: 'https://test-hhm-ketnoi-v2.genbyte.net',
-    accountingUrl: 'http://test-hhm-ketoan.genbyte.net',
+    // apiUrl: 'https://test-hhm-ketnoi-v2.genbyte.net',
+    // accountingUrl: 'http://test-hhm-ketoan.genbyte.net',
     apiUrlVoucherHHM: 'https://api.hoanghamobile.com',
     tokenHHMVoucher: 'a4122684257c3fb823ac18d45ef8e58a',
 

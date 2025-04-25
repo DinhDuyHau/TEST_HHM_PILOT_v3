@@ -7,8 +7,8 @@ export const environment = {
 
     //apiUrl: 'https://test-hhm-ketnoi.genbyte.net',
     apiUrl: 'http://localhost:5000',
-    accountingUrl: 'http://test-hhm-ketoan.genbyte.net', // link 130
-    // accountingUrl: 'http://hhm-qt.genbyte.net', // link 115
+    // accountingUrl: 'http://test-hhm-ketoan.genbyte.net', // link 130
+    accountingUrl: 'http://hhm-qt.genbyte.net', // link 115
 
 
     //Khóa công khai của người nhận
