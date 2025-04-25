@@ -54,6 +54,7 @@ export class Discount {
     imei_hang_mua = '';
     tl_ck = 0;
     campaign_id = '';
+    tien_ck_max = 0;
 
     constructor(obj?: any) {
         Object.assign(this, obj);
