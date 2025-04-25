@@ -1351,7 +1351,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
           ngay_bd: discountRes.ngay_bd,
           ngay_kt: discountRes.ngay_kt,
           tien_qd: 0,
-          tien_ck: DiscountPrice,
+          tien_ck_max: DiscountPrice,
           tl_ck: DiscountRate,
           campaign_id: CampaignID,
           type: type
@@ -1359,7 +1359,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
         this.discountService.addNew([discount], this.ticket.discount);
 
         this.commonService.showMessage('Thêm mã giảm giá thành công');
-        this.retailService.calcMoney(); // sau khi thêm chiết khấu thành công mới tính lại tiền
+        this.handleAfterDiscountAdded(); // call api ck để lấy data tính toán ck sau đó calcMoney lại
         this.voucher_code = ''; // reset input mã giảm giá
 
         // mảng voucherCode có dữ liệu thì thực hiện chuyển trạng thái hoàn thành
@@ -1368,6 +1368,23 @@ export class RetailComponent implements OnInit, AfterViewInit {
         }
       }
     });
+  }
+
+  handleAfterDiscountAdded() {
+    const discountCurrent = this.discountService.getDiscountCurrent(this.ticket.discount.filter(x => x.ma_ck !== ''));
+    const rs = this.retailService.calcDiscount();
+    if (rs) {
+      rs.subscribe(result => {
+        if (result.success) {
+          this.discountCanApply = this.discountService.convertDiscountFromList(result.result as any);
+          const discountAfterRemove = this.discountCanApply.filter((item) => discountCurrent.find(x => x.ma_ck == item.ma_ck));
+          this.retailService.updateDiscount(discountAfterRemove, false, null, true);
+        }
+        else {
+          this.commonService.showMessageByName(result.message);
+        }
+      });
+    }
   }
   //#endregion
 }
