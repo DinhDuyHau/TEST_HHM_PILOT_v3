@@ -10,7 +10,6 @@ export const environment = {
     // accountingUrl: 'http://test-hhm-ketoan.genbyte.net', // link 130
     accountingUrl: 'http://hhm-qt.genbyte.net', // link 115
 
-
     //Khóa công khai của người nhận
     receiverPublicKey: `-----BEGIN PUBLIC KEY-----
     MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHyTiwTAOZtUqSMVNF3kzScCRdKj

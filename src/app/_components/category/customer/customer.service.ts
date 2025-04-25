@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Field, IGridService, ItemFilter, ItemSort, Result } from '@app/_components/gridV2/grid.model';
 import { environment } from '@environments/environment';
@@ -11,15 +11,22 @@ import dataFormat from '@app/_common/dataFormat';
 import { LookupComponent } from '@app/_components/lookup/lookup.component';
 import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ApiService } from '@app/sales-management/api/api.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CustomerService implements IGridService<Customer>{
+export class CustomerService implements IGridService<Customer> {
 
   name?: string;
   dateChange!: Date;
-  constructor(private http: HttpClient, public dialog: MatDialog, private customerApiService: CustomerApiService, private snack: MatSnackBar) {
+  constructor(
+    private http: HttpClient,
+    public dialog: MatDialog,
+    private customerApiService: CustomerApiService,
+    private snack: MatSnackBar,
+    private apiService: ApiService
+  ) {
   }
   create(data: any): Observable<any> {
     return this.http.post<CustomerModel>(environment.apiUrl +
@@ -130,5 +137,10 @@ export class CustomerService implements IGridService<Customer>{
         console.log(result);
       });
     }
+  }
+
+  getCustomerInfoByWebsite(phone: string): Observable<any> {
+    let url = `${environment.apiUrl}/Customer/phonecheck/` + phone;
+    return this.apiService.post<any>(url, {}, null);
   }
 }

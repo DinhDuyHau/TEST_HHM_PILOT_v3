@@ -30,6 +30,10 @@ import { PackageOfMerchandiseService } from '../common/package.service';
 import { Package, PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
 import { TransportService } from '../common/transport.service';
+import { VoucherCodeApiService } from '@app/sales-management/api/voucher-code.service';
+import { HttpHeaders } from '@angular/common/http';
+import { environment } from '@environments/environment';
+import { VoucherCodeService } from '../common/voucher-code.service';
 
 @Injectable({
     providedIn: 'root'
@@ -55,6 +59,8 @@ export class RetailService {
         private guanranteeService: GuanranteeService,
         private packageOfMerchandiseService: PackageOfMerchandiseService,
         private transportService: TransportService,
+        private voucherCodeApiService: VoucherCodeApiService,
+        private voucherCodeService: VoucherCodeService,
     ) {
 
     }
@@ -113,6 +119,9 @@ export class RetailService {
                 case TAB_NAME.PAYMENT:
                     this.paymentService.convertPaymentFromVoucher(e.data, this.ticket.payment, TICKET_CODE.RETAIL);
                     break;
+                case TAB_NAME.VOUCHERCODE:
+                    this.voucherCodeService.convertFromVoucher(e.data, this.ticket.voucherCode);
+                    break;
                 default:
                     break;
             }
@@ -132,6 +141,7 @@ export class RetailService {
         voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo, TICKET_CODE.RETAIL) }];
         voucherDto.details = [...voucherDto.details, { id: 6, name: TAB_NAME.TRANSPORT, data: [this.transportService.convertToRequest2(this.ticket.transport, voucherDto.masterInfo)] }];
         voucherDto.details = [...voucherDto.details, { id: 5, name: TAB_NAME.PACKAGE, data: this.packageOfMerchandiseService.convertPackageToRequest(this.ticket.packages, voucherDto.masterInfo, PackageRequest) }];
+        voucherDto.details = [...voucherDto.details, { id: 7, name: TAB_NAME.VOUCHERCODE, data: this.voucherCodeService.convertVoucherCodeToRequest(this.ticket.voucherCode, voucherDto.masterInfo) }];
         return voucherDto;
     }
 
@@ -377,6 +387,7 @@ export class RetailService {
         this.merchandiseService.removeMerchandise(merchandise, this.ticket.merchandise);
         const discounts = this.discountService.getDiscountsOfMerchandise(merchandise.ma_imei, this.ticket.discount);
         this.discountService.removeDiscount(discounts, this.ticket.discount);
+        this.ticket.voucherCode = [];
         this.guanranteeService.removeGuarantee(merchandise.ma_imei, this.ticket);
         this.merchandiseService.removePromotionMerchandiseByOrderImei(merchandise.ma_imei, this.ticket.merchandise);
         this.discountService.resetDiscount(this.ticket.discount, false, merchandise, false, true);
@@ -464,7 +475,8 @@ export class RetailService {
                 discount.loai_ck === DISCOUNT_TYPE.CROSS_SELLING ||
                 discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO ||
                 discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT ||
-                discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK
+                discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK ||
+                discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE
             ) {
                 if (discount.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && row_item) {
                     //Nếu chọn chiết khấu ngoại giao thì cần phải chọn dòng trong grid hàng hóa để áp dụng ck
@@ -728,5 +740,19 @@ export class RetailService {
         return true;
     }
 
+    voucherCheck(voucher_code: any, member: string, phone: string, stock: string, skus: any) {
+        const payload = {
+            Voucher: voucher_code,
+            Member: member,
+            Phone: phone,
+            Stock: stock,
+            SKU: skus
+        };
 
+        return this.voucherCodeApiService.voucherCheck(payload);
+    }
+
+    getDiscountVoucherCode(ngay_ct: Date) {
+        return this.discountApiService.getDiscountVoucherCode(ngay_ct);
+    }
 }

@@ -137,13 +137,15 @@ export class CommonService {
 
     showMessageByName(messageName: string, ...args: any[]) {
         const message = messageName && this.language.getMessage(messageName, ...args);
-        if (!message) {
+        if (!message || message === messageName) {
             this.ticketApiService.addNewResource({
                 name: messageName,
                 message: `chưa có message: ${messageName}`,
                 message2: `chưa có message2: ${messageName}`
             });
-            this.showMessage('Không tìm thấy message trong resources');
+            this.showMessage(messageName);
+            // this.showMessage('Không tìm thấy message trong resources');
+            return;
         }
         this.showMessage(message);
     }
@@ -155,7 +157,9 @@ export class CommonService {
                 message: `chưa có message: ${messageName}`,
                 message2: `chưa có message2: ${messageName}`
             });
-            this.showMessage('Không tìm thấy message trong resources');
+            this.showMessage(messageName);
+            // this.showMessage('Không tìm thấy message trong resources');
+            return;
         }
         this.showMessage(message);
     }

@@ -12,7 +12,6 @@ export const environment = {
     apiUrlVoucherHHM: 'https://api.hoanghamobile.com',
     tokenHHMVoucher: 'a4122684257c3fb823ac18d45ef8e58a',
 
-
     receiverPublicKey: `-----BEGIN PUBLIC KEY-----
     MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHyTiwTAOZtUqSMVNF3kzScCRdKj
     gF8W48gHiEZ/fjN3TFjQwQzwR4LuyJyeUZVPR7OufWHk5nXej+VioyHTMW5EZ6pD

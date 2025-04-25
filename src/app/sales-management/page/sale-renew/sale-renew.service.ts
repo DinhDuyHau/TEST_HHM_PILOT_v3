@@ -30,6 +30,8 @@ import { PackageForImeiComponent } from '@app/sales-management/component/merchan
 import { Package, PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
 import { PackageOfMerchandiseService } from '../common/package.service';
 import { environment } from '@environments/environment';
+import { VoucherCodeApiService } from '@app/sales-management/api/voucher-code.service';
+import { VoucherCodeService } from '../common/voucher-code.service';
 
 @Injectable({
     providedIn: 'root'
@@ -55,6 +57,8 @@ export class SaleRenewService {
         private guanranteeService: GuanranteeService,
         private funcExtendService: FuncExtendService,
         private packageOfMerchandiseService: PackageOfMerchandiseService,
+        private voucherCodeApiService: VoucherCodeApiService,
+        private voucherCodeService: VoucherCodeService,
     ) {
 
     }
@@ -109,6 +113,9 @@ export class SaleRenewService {
                 case TAB_NAME.GUARANTEE:
                     this.ticket.guarantee = e.data;
                     break;
+                case TAB_NAME.VOUCHERCODE:
+                    this.voucherCodeService.convertFromVoucher(e.data, this.ticket.voucherCode);
+                    break;
                 default:
                     break;
             }
@@ -127,6 +134,7 @@ export class SaleRenewService {
         voucherDto.details = [...voucherDto.details, { id: 5, name: TAB_NAME.GUARANTEE, data: this.guanranteeService.convertGuanranteeToRequest(this.ticket.guarantee, voucherDto.masterInfo) }];
         voucherDto.details = [...voucherDto.details, { id: 6, name: TAB_NAME.MERCHANDISE_USED, data: this.merchandiseService.convertMerchandiseToRequest(this.ticket.merchandise_used, voucherDto.masterInfo, MerchandiseUsedRequest) }];
         voucherDto.details = [...voucherDto.details, { id: 7, name: TAB_NAME.PACKAGE, data: this.packageOfMerchandiseService.convertPackageToRequest(this.ticket.packages, voucherDto.masterInfo, PackageRequest) }];
+        voucherDto.details = [...voucherDto.details, { id: 8, name: TAB_NAME.VOUCHERCODE, data: this.voucherCodeService.convertVoucherCodeToRequest(this.ticket.voucherCode, voucherDto.masterInfo) }];
 
         return voucherDto;
     }
@@ -376,7 +384,8 @@ export class SaleRenewService {
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_TICKET ||
                 discount.loai_ck === DISCOUNT_TYPE.CROSS_SELLING ||
                 discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO ||
-                discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT
+                discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT ||
+                discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE
             ) {
                 if (discount.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && row_item) {
                     //Nếu chọn chiết khấu ngoại giao thì cần phải chọn dòng trong grid hàng hóa để áp dụng ck
@@ -587,5 +596,21 @@ export class SaleRenewService {
         return this.ticketApiService.getRenewAdjustBuyPrice(ngay_ct, sale_item.ma_cttc ? sale_item.ma_cttc : '',
             ma_ncc, buy_item.ma_loai, buy_item.ma_vt, sale_item.ma_vt, buy_item.gia0, buy_item.gia_dc, sale_item.ma_td2);
 
+    }
+
+    voucherCheck(voucher_code: any, member: string, phone: string, stock: string, skus: any) {
+        const payload = {
+            Voucher: voucher_code,
+            Member: member,
+            Phone: phone,
+            Stock: stock,
+            SKU: skus
+        };
+
+        return this.voucherCodeApiService.voucherCheck(payload);
+    }
+
+    getDiscountVoucherCode(ngay_ct: Date) {
+        return this.discountApiService.getDiscountVoucherCode(ngay_ct);
     }
 }

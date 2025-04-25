@@ -30,6 +30,7 @@ import { getMenuReport } from '@app/_common/commonFunction';
 import { MenuReport, StatusTicket } from '@app/_models';
 import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { StatusVoucher } from '@app/_services';
+import { DialogConfirmComponent } from '../dialog/dialog-confirm/dialog-confirm.component';
 
 @Component({
   selector: 'app-grid-v2',
@@ -96,6 +97,9 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
   @Output() handleAddImei = new EventEmitter<{ item: any }>();
   @Output() handleFilter = new EventEmitter<{ item: any }>();
   @Output() handleChangeRow = new EventEmitter<{ item: any }>();
+  @Output() handleChangeInputRow = new EventEmitter<{ row: any; name: any; value: any }>();
+  @Output() handleAddRow = new EventEmitter<void>();
+  @Output() handleDeleteRow = new EventEmitter<number>();
   title!: string[];
   titleSearch!: string[];
   focusRow = -1;
@@ -413,6 +417,27 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
           });
         }
         break;
+      case button.AddRowButton.id:
+        if (this.handleAddRow.observers.length > 0) {
+          this.handleAddRow.emit();
+        }
+        break;
+      case button.DeleteRowButton.id:
+        if (this.focusRow !== -1) {
+          this.commonService.openDialog(DialogConfirmComponent, {
+            title: 'Bạn có chắc chắn muốn xóa dòng này?',
+            style_css: 'font-size:16px;'
+          }).afterClosed().subscribe(result => {
+            if (result) {
+              if (this.handleDeleteRow.observers.length > 0) {
+                this.handleDeleteRow.emit(this.focusRow);
+              }
+            }
+          });
+        } else {
+          this.commonService.showMessage('Vui lòng chọn dòng cần xóa!');
+        }
+        break;
       default:
         this.handleButton.emit({ buttonId: id, data: this.dataSource.data[this.focusRow] });
         break;
@@ -546,6 +571,11 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
     }
   }
   handleChangeInput(name: string, row: number, event: any) {
-    this.dataSource.data[row][name] = event.target.value;
+    let newValue = event.target.value;
+    if (this.handleChangeInputRow.observers.length > 0) {
+      this.handleChangeInputRow.emit({ row, name, value: newValue });
+    } else {
+      this.dataSource.data[row][name] = newValue;
+    }
   }
 }
