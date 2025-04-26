@@ -1670,11 +1670,6 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         this.commonService.showMessage('Thêm mã giảm giá thành công');
         this.handleAfterDiscountAdded(); // call api ck để lấy data tính toán ck sau đó calcMoney lại
         this.voucher_code = ''; // reset input mã giảm giá
-
-        // mảng voucherCode có dữ liệu thì thực hiện chuyển trạng thái hoàn thành
-        if (this.ticket.voucherCode.length > 0) {
-          this.ticket.masterInfo.status = "2";
-        }
       }
     });
   }
@@ -1687,7 +1682,12 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         if (result.success) {
           this.discountCanApply = this.discountService.convertDiscountFromList(result.result as any);
           const discountAfterRemove = this.discountCanApply.filter((item) => discountCurrent.find(x => x.ma_ck == item.ma_ck));
-          this.saleRenewService.updateDiscount(discountAfterRemove, false, null, true);
+          this.saleRenewService.updateDiscount(discountAfterRemove, false, null, false);
+
+          // mảng voucherCode có dữ liệu thì thực hiện chuyển trạng thái hoàn thành
+          if (this.ticket.voucherCode.length > 0) {
+            this.ticket.masterInfo.status = "2";
+          }
         }
         else {
           this.commonService.showMessageByName(result.message);
