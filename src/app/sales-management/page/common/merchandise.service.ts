@@ -209,7 +209,7 @@ export class MerchandiseService {
         //#region Chiết khấu 10 (chiết khấu mã giảm giá voucher)
         const discountForMerchandise10 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE);
         (discountForMerchandise10 as any).forEach((discount: any) => {
-            console.log(discount);
+            // console.log(discount);
 
             if (discount) {
                 if (discount.type == 1) {
