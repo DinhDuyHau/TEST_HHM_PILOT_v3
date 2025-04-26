@@ -20,6 +20,7 @@ import { LookupComponent } from '@app/_components/lookup/lookup.component';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { getDateFormat } from '@app/_common/commonFunction';
 import { Overview } from '@app/sales-management/model/ticket/common-model/base-entity.model';
+import { VoucherCodeApiService } from '@app/sales-management/api/voucher-code.service';
 
 @Injectable({
     providedIn: 'root',
@@ -41,7 +42,8 @@ export class CommonService {
         public discountApiService: DiscountApiService,
         private imeisManagerService: ImeisManagerService,
         private language: Language,
-        private ticketApiService: TicketApiService
+        private ticketApiService: TicketApiService,
+        private voucherCodeApiService: VoucherCodeApiService
     ) {
         const isMobile = () => {
             const arr = ['windows'];
@@ -642,6 +644,18 @@ export class CommonService {
         const data = { ma_ct: ma_ct, so_ct: so_ct };
         localStorage.removeItem('voucherNumberCheck');
         localStorage.setItem('voucherNumberCheck', JSON.stringify(data) || '{}');
+    }
+
+    voucherCheck(voucher_code: any, member: string, phone: string, stock: string, skus: any) {
+        const payload = {
+            Voucher: voucher_code,
+            Member: member,
+            Phone: phone,
+            Stock: stock,
+            SKU: skus
+        };
+
+        return this.voucherCodeApiService.voucherCheck(payload);
     }
 
 }

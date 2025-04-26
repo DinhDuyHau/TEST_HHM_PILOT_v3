@@ -349,9 +349,6 @@ export class MerchandiseService {
                         this.voucherCodeService.addNew(voucherCode, ticket.voucherCode, VoucherCode);
                     });
                 }
-
-                // xóa merchandise_apply_voucher trong sessionStorage khi thực hiện xong
-                sessionStorage.removeItem('merchandise_apply_voucher');
             }
         });
         //#endregion
@@ -1529,9 +1526,6 @@ export class MerchandiseService {
                         this.voucherCodeService.addNew(voucherCode, ticket.voucherCode, VoucherCode);
                     });
                 }
-
-                // xóa merchandise_apply_voucher trong sessionStorage khi thực hiện xong
-                sessionStorage.removeItem('merchandise_apply_voucher');
             }
         });
         //#endregion
