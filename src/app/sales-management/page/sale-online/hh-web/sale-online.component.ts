@@ -1189,6 +1189,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                 this.commonService.showMessage('Thêm mã giảm giá thành công');
                 this.handleAfterDiscountAdded(); // call api ck để lấy data tính toán ck sau đó calcMoney lại
                 this.voucher_code = ''; // reset input mã giảm giá
+
             }
         });
     }
@@ -1210,6 +1211,11 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                 }
                 else {
                     this.commonService.showMessageByName(result.message);
+                }
+
+                // mảng voucherCode có dữ liệu thì thực hiện chuyển trạng thái hoàn thành
+                if (this.ticket.voucherCode.length > 0) {
+                    this.ticket.masterInfo.status = "2";
                 }
             });
         }
