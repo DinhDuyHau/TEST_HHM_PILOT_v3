@@ -73,7 +73,7 @@
     "width": 100
   },
   {
-    "name": "gia_nt",
+    "name": "gia",
     "title": "Đơn giá",
     "width": 120,
     "type": "number",
@@ -81,7 +81,7 @@
     "align": "right"
   },
   {
-    "name": "tien_nt",
+    "name": "tien",
     "title": "Thành tiền",
     "width": 120,
     "type": "number",
@@ -97,7 +97,7 @@
     "align": "right"
   },
   {
-    "name": "thue_nt",
+    "name": "thue",
     "title": "Tiền thuế",
     "width": 120,
     "type": "number",
@@ -121,7 +121,7 @@
     "align": "right"
   },
   {
-    "name": "tt_nt",
+    "name": "tt",
     "title": "Thanh toán",
     "width": 120,
     "type": "number",
