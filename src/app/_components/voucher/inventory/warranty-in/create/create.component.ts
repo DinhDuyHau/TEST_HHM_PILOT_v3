@@ -33,6 +33,7 @@ import { lastValueFrom } from 'rxjs';
 import { EventService } from '@app/_components/lookup/event/event.service';
 import { CommonService } from '@app/sales-management/page/common/common.service';
 import { SearchImeiWarrantyComponent } from '../search-imei-warranty/search-imei-warranty.component';
+import { checkValidImei } from '@app/_common/commonFunction'
 
 @Component({
   selector: 'app-create',
@@ -498,6 +499,10 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
       this.commonService.showMessage('Mã ĐV bảo hành không được để trống');
       return;
     }
+    if (!checkValidImei(imei)) {
+      this.commonService.showMessage('IMEI không được chứa khoảng trắng hoặc ký tự đặc biệt');
+      return;
+    }
     // tạm bỏ check vật tư
     // if (this.item_code == '') {
     //   this.commonService.showMessage('Mã vật tư không được để trống');
@@ -560,12 +565,12 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
     }
 
     // check trừng lặp trong chi tiết imei nhập
-    if(this.data.details[0].data.find(x => x.ma_imei.trim() === imei.trim())) {
+    if (this.data.details[0].data.find(x => x.ma_imei.trim() === imei.trim())) {
       this.commonService.showMessageByNameAdvance('lblWarningExistImei', { name: '%imei', value: imei });
       return;
     }
     // check trừng lặp trong chi tiết imei xuất
-    if(this.data.details[0].data.find(x => x.ma_imei_x.trim() === imei_px.trim())) {
+    if (this.data.details[0].data.find(x => x.ma_imei_x.trim() === imei_px.trim())) {
       this.commonService.showMessageByNameAdvance('lblWarningExistImei', { name: '%imei', value: imei_px });
       return;
     }
