@@ -84,6 +84,7 @@ export class Payment {
     giam_gia_crm: DiscountCodeCRM = new DiscountCodeCRM;
     quet_the_tra_gop: InstallmentCard = new InstallmentCard;
     voucher_doi_tac: VoucherParner = new VoucherParner;
+    mb_qr: TransferQrMB = new TransferQrMB;
 }
 
 
@@ -192,5 +193,16 @@ export class EWalletDetail extends BaseModelPayment {
 
 export class VNPayDetail extends BaseModelPayment {
     so_hd_vnpay = '';
+    index = 0;
+}
+
+export class TransferQrMB extends BaseModelPayment {
+    money_create_qr = 0;
+    detail: TransferMBDetail[] = [];
+}
+
+export class TransferMBDetail extends BaseModelPayment {
+    qrText = '';
+    status = '';
     index = 0;
 }

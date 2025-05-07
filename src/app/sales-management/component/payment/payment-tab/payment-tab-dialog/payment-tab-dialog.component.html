@@ -787,6 +787,57 @@
             </div>
           </dropdown-custom>
           <!-- END: voucher của đối tác -->
+
+          <!-- QR MB -->
+          <dropdown-custom
+            *ngIf="!(pay_hidden && pay_hidden.includes('mb_qr'))"
+            [disabled]="readonly"
+            name="mb_qr"
+            label="Chuyển khoản QR MB"
+            [selected]="data.mb_qr.selected"
+            (handleChangeValue)="
+              data.mb_qr.selected = $event; onChange()
+          ">
+            <div class="d-flex gap-2">
+              <form-payment-custom
+                class="flex-1"
+                [disabled]="true"
+                label="Tổng tiền QR"
+                [value]="data.mb_qr.tien"
+                [align]="'end'"
+                dataType="number"
+                format="moneyViewFormat"
+                (handleChangeValue)="
+                  data.mb_qr.tien = $event; onChange()
+                " />
+              <form-payment-custom
+                class="flex-1"
+                label="Số tiền tạo QR"
+                [value]="data.mb_qr.money_create_qr"
+                [align]="'end'"
+                dataType="number"
+                format="moneyInputFormat"
+                (handleChangeValue)="
+                  data.mb_qr.money_create_qr = $event; onChange()
+                " />
+            </div>
+            <div class="deposit_payment pt-2">
+              <button
+                class="flex-1 btn act-deposit-btn text-nowrap"
+                [disabled]="isLoadingQR"
+                (click)="handleGetQr('mb_qr', 'mb')">
+                <span *ngIf="isLoadingQR" class="spinner-border"></span>
+                <span *ngIf="!isLoadingQR">Tạo QR</span>
+              </button>
+            </div>
+
+            <app-qr-carousel
+              *ngIf="data?.mb_qr?.detail?.length"
+              [qrList]="data.mb_qr.detail"
+              [currentSlide]="currentSlideQR">
+            </app-qr-carousel>
+          </dropdown-custom>
+
         </div>
       </div>
       <div class="box-container pt-3">

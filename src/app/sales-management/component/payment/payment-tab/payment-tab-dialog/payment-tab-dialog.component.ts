@@ -20,6 +20,7 @@ import { formatDate } from '@angular/common';
 import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AuthenticationService } from '@app/_services';
+import { PaymentDynamicService } from '@app/_services/payment-dynamic.service';
 
 @Component({
   selector: 'app-payment-tab-dialog',
@@ -74,6 +75,8 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   reloadDepositOnInit = false;
   shop: string = '';
   voucherCode = '';
+  isLoadingQR = false;
+  currentSlideQR = 0;
 
   constructor(
     public dialogRef: MatDialogRef<PaymentTabDialogComponent>,
@@ -97,7 +100,8 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       reloadDepositOnInit: boolean,
       action: string,
       shop: string,
-      voucherCode: string
+      voucherCode: string,
+      so_ct: string
     },
     private dialog: MatDialog,
     private commonService: CommonService,
@@ -106,7 +110,8 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     private viewDiscountProgramService: ViewDiscountProgramService,
     private paymentApiService: PaymentApiService,
     private customerApiService: CustomerApiService,
-    private authenticateService: AuthenticationService
+    private authenticateService: AuthenticationService,
+    private paymentDynamicService: PaymentDynamicService,
   ) {
     this.data = dataPayment.data;
     this.t_tong_tien = dataPayment.t_tong_tien;
@@ -265,6 +270,11 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       this.data.voucher_doi_tac.ma_ctr = '';
       this.data.voucher_doi_tac.ma_chuan_chi = '';
     }
+    if (!this.data.mb_qr.selected) {
+      this.data.mb_qr.tien = 0;
+      this.data.mb_qr.money_create_qr = 0;
+      this.data.mb_qr.detail = [];
+    }
     // END
 
     if (this.data.sd_diem.diem_qd >= 0 && this.he_so_qd) {
@@ -345,6 +355,11 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       //Voucher đối tác
       if (this.data.voucher_doi_tac.selected && this.data.voucher_doi_tac.tien) {
         this.t_con_no -= this.data.voucher_doi_tac.tien;
+      }
+
+      //Chuyển khoản QR MB
+      if (this.data.mb_qr.selected && this.data.mb_qr.tien) {
+        this.t_con_no -= this.data.mb_qr.tien;
       }
 
       //Tổng tiền phí
@@ -752,7 +767,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   }
 
   onChangeGhichuTragop($event: any) {
-    if($event.length > 64) {
+    if ($event.length > 64) {
       this.commonService.showMessage("Ghi chú không được quá 64 ký tự");
     } else {
       this.data.tra_gop.gc_td1 = $event;
@@ -760,11 +775,77 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   }
 
   onChangeKyHanTragop($event: any) {
-    if($event.length > 256) {
+    if ($event.length > 256) {
       this.commonService.showMessage("Kỳ hạn không được quá 256 ký tự");
     } else {
       this.data.tra_gop.gc_td2 = $event;
     }
   }
+
+  //#region QR code
+  // paymentKey: phải đúng với khai báo trong class 'Payment'
+  // paymentCode: phải là mã api cổng thanh toán tồn tại
+  handleGetQr(paymentKey: any, paymentCode: any) {
+    const group = (this.data as any)[paymentKey];
+
+    if (!group) return this.commonService.showMessage("Cổng thanh toán không hợp lệ");
+    if (!group.money_create_qr) return this.commonService.showMessage("Cần nhập số tiền cần tạo QR");
+    if (!this.dataPayment.so_ct) return this.commonService.showMessage("Không có số chứng từ không thể tạo mã QR");
+
+    this.isLoadingQR = true;
+
+    // demo stt_rec + stt_rec0
+    const code = Array.from({ length: 12 }, () =>
+      Math.random().toString(36).charAt(2).toUpperCase()
+    ).join('');
+
+    const user = this.authenticateService.userValue;
+
+    let body = {
+      stt_rec: code, // stt_rec + stt_rec0
+      shop: user?.shop || '', // shop thanh toán
+      amount: `${group.money_create_qr}`, // số tiền tạo QR
+      so_ct: this.dataPayment.so_ct // số chứng từ
+    };
+
+    this.paymentDynamicService.createQrCode(body, paymentCode).subscribe({
+      next: (result: any) => {
+        this.isLoadingQR = false;
+
+        if (result && result.success) {
+          // Thêm QR vừa tạo vào danh sách
+          group.detail.push({
+            qrText: result.result,
+            status: 'fail',
+            index: group.detail.length + 1,
+            tien: group.money_create_qr || 0,
+            tien_nt2: group.money_create_qr || 0,
+            selected: false
+          });
+
+          // reset lại tiền tạo QR
+          group.money_create_qr = 0;
+
+          // slide chuyển đến QR vừa tạo
+          this.currentSlideQR = group.detail.length - 1;
+
+          // (cần sửa lại khi callback trả lại thanh toán thành công mới thực hiện đoạn này)
+          // tính tổng tiền QR
+          group.tien = group.detail.reduce((pre: number, cur: any) => pre + cur.tien, 0);
+          // tính lại tiền đã trả và tiền còn nợ
+          this.onChange();
+
+          this.commonService.showMessageByName(result?.message || 'createqr_success');
+        } else {
+          this.commonService.showMessageByName(result?.message || 'createqr_faild');
+        }
+      },
+      error: (error) => {
+        this.isLoadingQR = false;
+        this.commonService.showMessageByName(error);
+      }
+    });
+  }
+  //#endregion
 }
 

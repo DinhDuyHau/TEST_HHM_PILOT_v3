@@ -54,6 +54,7 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   // biến xác định là update hay save
   @Input() action: string = '';
   @Input() shop: string = '';
+  @Input() so_ct: string = '';
 
   @Output() handleChangeValue = new EventEmitter<{ t_con_no: number; t_da_tra: number; t_gg: number; nguoi_duyet_ck: string; t_chi_phi: number }>();
   @Output() handleButton = new EventEmitter<string>();
@@ -114,7 +115,8 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
         reloadDepositOnInit: this.reloadDepositOnInit,
         action: this.action,
         shop: this.shop,
-        voucherCode: this.voucherCode
+        voucherCode: this.voucherCode,
+        so_ct: this.so_ct
       }, 'search-style-dialog')
       .afterClosed()
       .subscribe((data) => {
