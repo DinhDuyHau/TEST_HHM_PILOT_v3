@@ -207,7 +207,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
             this.tabIndexFocusFirst = this.tabIndex.imei;
 
             // xử lý ẩn hiện cột mong muốn
-            if(this.ticket.masterInfo.fcode1 === "3") {
+            if (this.ticket.masterInfo.fcode1 === "3") {
               const updatesColumns = [
                 { name: 'sl_td1', field: 'visible', value: true },
                 { name: 'ma_td1', field: 'visible', value: true },
@@ -315,6 +315,10 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
             }
             else if (imei_info.dat_hang_yn) {
               this.commonService.showMessageByNameAdvance('dat_hang_yn_yes', { name: '%imei', value: ma_imei });
+              return;
+            }
+            else if (imei_info.bao_hanh_yn) {
+              this.commonService.showMessage('Imei đang trong trạng thái xuất bảo hành');
               return;
             }
             else {
@@ -704,6 +708,10 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     this.renew.ma_imei = $event;
     this.imeiApiService.getImeisStateAndItem([$event]).subscribe((result) => {
       if (result && result.success && result.result && result.result[0]) {
+        if (result.result[0].bao_hanh_yn) {
+          this.commonService.showMessage('Imei đang trong trạng thái xuất bảo hành');
+          return;
+        }
         const map = new Map();
         map.set('in_store_yn', false);
         map.set('dat_hang_yn', false);
@@ -802,7 +810,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
   // Đại lý thu cũ
   openSearchSupplierDialog() {
     this.commonService.openDialog(SearchDialogComponent,
-      { keyword: '', componentName: SEARCH_COMPONENT_NAME.OLD_RECEIVER_SUPPLIER, filter: [{name: 's4', value: 1, operator: '='}] }, 'search-style-dialog')
+      { keyword: '', componentName: SEARCH_COMPONENT_NAME.OLD_RECEIVER_SUPPLIER, filter: [{ name: 's4', value: 1, operator: '=' }] }, 'search-style-dialog')
       .afterClosed()
       .subscribe((empl: Customer) => this.handleAddSupplier(empl));
   }

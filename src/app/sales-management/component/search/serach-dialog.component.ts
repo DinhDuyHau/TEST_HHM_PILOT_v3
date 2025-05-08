@@ -213,7 +213,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         this.columns = LIST_POS as any;
         filter.name = 'ma_pos';
         filter.value = `%${this.data.keyword}%`;
-        this.defaultFilters = [filter, { name: 'ma_cuahang', operator: '=', value: this.data.shop }];
+        this.defaultFilters = [filter, { name: 'ma_cuahang', operator: '=', value: this.data.shop }, ...(this.data.filter || [])];
         break;
       case SEARCH_COMPONENT_NAME.TYPE_RENEW:
         this.columns = LIST_PRICE_RENEW as any;
