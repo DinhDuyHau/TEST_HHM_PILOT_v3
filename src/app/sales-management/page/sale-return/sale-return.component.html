@@ -91,6 +91,12 @@
           (change)="onCODReturn($event)"
           [disabled]="isDisableCODReturn"
           >Trả lại đơn COD</mat-checkbox>
+        <mat-checkbox
+          class="box flex items-end flex-1 justify-start"
+          [(ngModel)]="isFreeDeliveryReturn"
+          (change)="onFreeDeliveryReturn($event)"
+          [disabled]="isDisableFreeDeliveryReturn"
+          >Trả lại đơn GH không thu tiền</mat-checkbox>
       </div>
 
       <div class="d-flex gap-2 box">
