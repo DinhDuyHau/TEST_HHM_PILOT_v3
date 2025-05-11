@@ -7,6 +7,10 @@ import { TransferMBDetail } from '@app/sales-management/model/ticket/common-mode
   styleUrls: ['./qr-carousel.component.scss']
 })
 export class QrCarouselComponent {
-  @Input() qrList = [] as TransferMBDetail[];
+  @Input() qrList: TransferMBDetail[] = [];
   @Input() currentSlide = 0;
+
+  get visibleQrList(): TransferMBDetail[] {
+    return (this.qrList || []).filter(qr => !!qr.qrText);
+  }
 }

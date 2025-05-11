@@ -26,7 +26,7 @@
       <form-input-custom
         class="box order-dynamic-2"
         [name]="'ma_kh'"
-        [disabled]="ticket.voucherCode.length > 0"
+        [disabled]="isInputDisabled()"
         [label]="this.ma_kh_label"
         [value]="ticket.masterInfo.ma_kh"
         [readonly]="readonly"
@@ -66,14 +66,14 @@
         [name]="'dien_giai'"
         [label]="getLabel('lbl_dien_giai')"
         [value]="ticket.masterInfo.dien_giai"
-        [disabled]="ticket.voucherCode.length > 0"
+        [disabled]="isInputDisabled()"
         (handleChangeValue)="
           ticket.masterInfo.dien_giai = txt_dien_giai.value
         " />
 
       <form-select-custom
         class="box order-dynamic-1 width-full"
-        [isDisable]="readonly || disableSelectStatus || ticket.voucherCode.length > 0"
+        [isDisable]="isInputDisabledFull()"
         [label]="getLabel('lbl_trang_thai')"
         [options]="statusList"
         optionDes="statusname"
@@ -86,7 +86,7 @@
         name="ma_vt"
         [label]="getLabel('lbl_ma_vt')"
         *ngIf="!readonly"
-        [disabled]="ticket.voucherCode.length > 0"
+        [disabled]="isInputDisabled()"
         (handleEnterInput)="onEnterMerchandiseCode($event)"
         (handleClickOpenDialog)="openMerchandiseDialog()" />
 
@@ -96,7 +96,7 @@
         [name]="'imei'"
         [label]="getLabel('lbl_imei')"
         *ngIf="!readonly"
-        [disabled]="ticket.voucherCode.length > 0"
+        [disabled]="isInputDisabled()"
         (handleEnterInput)="onEnterImeiCode($event)"
         (handleClickCodeScanner)="onClickCodeScanner()"
         [uploadImage]="true" />
@@ -124,14 +124,14 @@
       <div class="d-flex box align-items-end gap-3 mt-3 align-self-end ">&nbsp;</div>
       <div class="d-flex box align-items-end gap-3 mt-3 align-self-end ">
         <button
-          [disabled]="ticket.voucherCode.length > 0"
+          [disabled]="isInputDisabled()"
           *ngIf="!readonly"
           class="flex-1 btn act-input-data-btn text-nowrap"
           (click)="openCalcDiscountDialog()">
           {{ getLabel('lbl_calc_discount') }}
         </button>
         <button
-          [disabled]="ticket.voucherCode.length > 0"
+          [disabled]="isInputDisabled()"
           *ngIf="!readonly"
           class="flex-1 btn act-input-data-btn text-nowrap"
           (click)="openAddCustomerDialog()">
@@ -146,6 +146,7 @@
         [label]="'Mã giảm giá'"
         [value]="this.voucher_code"
         *ngIf="this.mode == 1"
+        [disabled]="isAnyPaymentSelected()"
         (handleEnterInput)="handleChangeVoucherCode($event)" />
     </div>
 
@@ -180,7 +181,7 @@
           [type]="'main'"
           [dataSource]="ticket.merchandise"
           [columns]="merchandiseColumns"
-          [readonly]="readonly || ticket.voucherCode.length > 0"
+          [readonly]="isInputReadonly()"
           [isChangeColorWhenSelected]="true"
           [isShowDiscountNG]="true"
           (handleSwap)="onSwapPromotionMerchandise($event)"
@@ -196,7 +197,7 @@
         <table-custom
           [dataSource]="ticket.service"
           [columns]="serviceColumns"
-          [readonly]="readonly || ticket.voucherCode.length > 0"
+          [readonly]="isInputReadonly()"
           (handleDelete)="onRemoveService($event)" />
         <div class="flex gap-0 md:gap-4 lg:gap-8">
           <div class="flex-1 hidden lg:block"></div>
@@ -217,7 +218,7 @@
         <table-custom
           [dataSource]="ticket.packages"
           [columns]="packageColumns"
-          [readonly]="readonly || ticket.voucherCode.length > 0"
+          [readonly]="isInputReadonly()"
           (handleChangeCheckbox)="onChangeCheckbox($event)"
           (handleDelete)="onRemovePackage($event)"/>
       </tab-custom>
@@ -361,6 +362,7 @@
         [action]="action"
         [shop]="shop"
         [so_ct]="this.ticket.masterInfo.so_ct"
+        [stt_rec]="this.ticket.masterInfo.stt_rec"
         [invalid]="invalid"
         [hiddenChooseButton]="mode === 2"
         [readonly]="readonly"

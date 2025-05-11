@@ -13,6 +13,7 @@ export const PAYMENT_CODE = {
     DISCOUNTPROGRAMCRM: 'CRM',
     CARDINSTALLMENT: 'QTTG',
     VOUCHERPARNER: 'VOUCHERDOITAC',
+    MBQR: 'MBQR',
 };
 
 export const PAYMENT_NAME = {
@@ -28,6 +29,7 @@ export const PAYMENT_NAME = {
     DISCOUNTPROGRAMCRM: 'Mã giảm giá của hãng',
     CARDINSTALLMENT: 'Quẹt thẻ trả góp',
     VOUCHERPARNER: 'Voucher của đối tác',
+    MBQR: 'Thanh toán QR động MB',
 };
 
 
@@ -206,6 +208,7 @@ export class TransferQrMB extends BaseModelPayment {
 
 export class TransferMBDetail extends BaseModelPayment {
     qrText = '';
+    refcode = '';
     status = '';
     index = 0;
 }

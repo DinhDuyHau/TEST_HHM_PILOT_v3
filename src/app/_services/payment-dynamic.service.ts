@@ -10,4 +10,9 @@ export class PaymentDynamicService {
         let url = `${environment.apiBankUrl}/v1/Payment/${paymenyCode}/createqr`;
         return this.http.post<any>(url, body);
     }
+
+    getRefCode(paymenyCode: string) {
+        let url = `${environment.apiBankUrl}/v1/Payment/${paymenyCode}/getRefCode`;
+        return this.http.get<any>(url);
+    }
 }

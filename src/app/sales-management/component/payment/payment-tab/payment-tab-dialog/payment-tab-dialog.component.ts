@@ -84,7 +84,6 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   shop: string = '';
   voucherCode = '';
   isLoadingQR = false;
-  currentSlideQR = 0;
 
   constructor(
     public dialogRef: MatDialogRef<PaymentTabDialogComponent>,
@@ -109,7 +108,8 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       action: string,
       shop: string,
       voucherCode: string,
-      so_ct: string
+      so_ct: string,
+      stt_rec: string
     },
     private dialog: MatDialog,
     private commonService: CommonService,
@@ -907,36 +907,47 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   // paymentCode: phải là mã api cổng thanh toán tồn tại
   handleGetQr(paymentKey: any, paymentCode: any) {
     const group = (this.data as any)[paymentKey];
+    const user = this.authenticateService.userValue;
 
-    if (!group) return this.commonService.showMessage("Cổng thanh toán không hợp lệ");
-    if (!group.money_create_qr) return this.commonService.showMessage("Cần nhập số tiền cần tạo QR");
-    if (!this.dataPayment.so_ct) return this.commonService.showMessage("Không có số chứng từ không thể tạo mã QR");
+    if (!this.validateBeforeQr(group)) return;
 
     this.isLoadingQR = true;
 
-    // demo stt_rec + stt_rec0
-    const code = Array.from({ length: 12 }, () =>
-      Math.random().toString(36).charAt(2).toUpperCase()
-    ).join('');
+    // Lấy refCode
+    this.paymentDynamicService.getRefCode(paymentCode).subscribe({
+      next: (res: any) => {
+        if (res && res.success && res.result) {
+          let body = {
+            stt_rec: this.dataPayment.stt_rec, // stt_rec
+            ref_code: res.result, // ref_code
+            shop: user?.shop || '', // shop thanh toán
+            amount: `${group.money_create_qr}`, // số tiền tạo QR
+            so_ct: this.dataPayment.so_ct // số chứng từ
+          };
 
-    const user = this.authenticateService.userValue;
+          this.createQr(body, group, paymentCode);
+        } else {
+          this.isLoadingQR = false;
+          this.commonService.showMessageByName(res?.message || 'cannot_get_refcode');
+        }
+      },
+      error: (error) => {
+        this.isLoadingQR = false;
+        this.commonService.showMessageByName(error || 'Unknown_err');
+      }
+    });
+  }
 
-    let body = {
-      stt_rec: code, // stt_rec + stt_rec0
-      shop: user?.shop || '', // shop thanh toán
-      amount: `${group.money_create_qr}`, // số tiền tạo QR
-      so_ct: this.dataPayment.so_ct // số chứng từ
-    };
-
+  createQr(body: any, group: any, paymentCode: any): void {
     this.paymentDynamicService.createQrCode(body, paymentCode).subscribe({
-      next: (result: any) => {
+      next: (res: any) => {
         this.isLoadingQR = false;
 
-        if (result && result.success) {
-          // Thêm QR vừa tạo vào danh sách
+        if (res?.success) {
           group.detail.push({
-            qrText: result.result,
-            status: 'fail',
+            refcode: body.ref_code,
+            qrText: res.result,
+            status: 'pending',
             index: group.detail.length + 1,
             tien: group.money_create_qr || 0,
             tien_nt2: group.money_create_qr || 0,
@@ -946,25 +957,41 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
           // reset lại tiền tạo QR
           group.money_create_qr = 0;
 
-          // slide chuyển đến QR vừa tạo
-          this.currentSlideQR = group.detail.length - 1;
-
           // (cần sửa lại khi callback trả lại thanh toán thành công mới thực hiện đoạn này)
           // tính tổng tiền QR
-          group.tien = group.detail.reduce((pre: number, cur: any) => pre + cur.tien, 0);
+          group.tien = group.detail.reduce((sum: number, cur: any) => sum + cur.tien, 0);
           // tính lại tiền đã trả và tiền còn nợ
           this.onChange();
 
-          this.commonService.showMessageByName(result?.message || 'createqr_success');
+          this.commonService.showMessageByName(res?.message || 'createqr_success');
         } else {
-          this.commonService.showMessageByName(result?.message || 'createqr_faild');
+          this.commonService.showMessageByName(res?.message || 'createqr_faild');
         }
       },
       error: (error) => {
         this.isLoadingQR = false;
-        this.commonService.showMessageByName(error);
+        this.commonService.showMessageByName(error || 'Unknown_err');
       }
     });
+  }
+
+  validateBeforeQr(group: any) {
+    if (!group) {
+      this.commonService.showMessage("Cổng thanh toán không hợp lệ");
+      return false;
+    }
+
+    if (!group.money_create_qr) {
+      this.commonService.showMessage("Cần nhập số tiền cần tạo QR");
+      return false;
+    }
+
+    if (!this.dataPayment.so_ct) {
+      this.commonService.showMessage("Không có số chứng từ không thể tạo mã QR");
+      return false;
+    }
+
+    return true;
   }
   //#endregion
 }

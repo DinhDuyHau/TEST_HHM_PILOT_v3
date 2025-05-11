@@ -1411,6 +1411,28 @@ export class RetailComponent implements OnInit, AfterViewInit {
     }
   }
   //#endregion
+
+  isInputDisabled() {
+    return this.ticket.voucherCode.length > 0 || Object.values(this.ticket.payment).some(p => p?.selected === true);
+  }
+
+  isInputDisabledFull() {
+    return (
+      this.readonly ||
+      this.disableSelectStatus ||
+      this.ticket.voucherCode.length > 0 ||
+      Object.values(this.ticket.payment).some(p => p?.selected === true)
+    );
+  }
+
+  isInputReadonly() {
+    return this.readonly || this.ticket.voucherCode.length > 0 || Object.values(this.ticket.payment).some(p => p?.selected === true);
+  }
+
+  isAnyPaymentSelected(): boolean {
+    return Object.values(this.ticket.payment).some(p => p?.selected === true);
+  }
+
 }
 
 

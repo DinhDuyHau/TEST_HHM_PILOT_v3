@@ -55,6 +55,7 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() action: string = '';
   @Input() shop: string = '';
   @Input() so_ct: string = '';
+  @Input() stt_rec: string = '';
 
   @Output() handleChangeValue = new EventEmitter<{ t_con_no: number; t_da_tra: number; t_gg: number; nguoi_duyet_ck: string; t_chi_phi: number }>();
   @Output() handleButton = new EventEmitter<string>();
@@ -116,7 +117,8 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
         action: this.action,
         shop: this.shop,
         voucherCode: this.voucherCode,
-        so_ct: this.so_ct
+        so_ct: this.so_ct,
+        stt_rec: this.stt_rec
       }, 'search-style-dialog')
       .afterClosed()
       .subscribe((data) => {
@@ -207,6 +209,8 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
           };
         case PAYMENT_CODE.VOUCHERPARNER:
           return { payment: item.ten_thanhtoan, note: `Đơn vị phát hành: ${item.ma_ctr}, mã voucher: ${item.ma_gg}, mã giao dịch: ${item.ma_chuan_chi}`, money: item.tien };
+        case PAYMENT_CODE.MBQR:
+          return { payment: item.ten_thanhtoan, note: `${item.ten_ngan_hang}`, money: item.tien };
         default:
           return null;
       }
