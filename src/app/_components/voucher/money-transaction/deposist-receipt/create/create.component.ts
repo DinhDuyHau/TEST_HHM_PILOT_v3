@@ -524,7 +524,6 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
       ma_ctr: '',
       ten_ctr: ''
     };
-    this.data.details[0].data.push(new_data);
     if (this.data.masterInfo.fnote3 == "2" && line < 2) {
       this.data.details[0].data.push(new_data);
     } else {

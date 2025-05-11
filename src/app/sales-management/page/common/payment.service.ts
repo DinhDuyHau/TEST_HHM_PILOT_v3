@@ -42,7 +42,7 @@ export class PaymentService {
                     des.tien_mat.selected = true;
                     break;
                 case PAYMENT_CODE.ATM:
-                    if (e.gc_td1.toUpperCase() === 'TRA_GOP_BANK') {
+                    if (e.gc_td1 && e.gc_td1.toUpperCase() === 'TRA_GOP_BANK') {
                         des.quet_the_tra_gop_bidv.tien = e.tien;
                         des.quet_the_tra_gop_bidv.so_hd_tragop = e.so_hd_tragop;
                         des.quet_the_tra_gop_bidv.phi_bao_hiem = e.tien_phi_bh;
