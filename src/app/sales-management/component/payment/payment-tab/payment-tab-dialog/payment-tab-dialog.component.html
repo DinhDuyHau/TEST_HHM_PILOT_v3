@@ -983,7 +983,7 @@
           <!-- QR MB -->
           <dropdown-custom
             *ngIf="!(pay_hidden && pay_hidden.includes('mb_qr'))"
-            [disabled]="readonly"
+            [disabled]="readonly || data.mb_qr.tien > 0"
             name="mb_qr"
             label="Chuyển khoản QR MB"
             [selected]="data.mb_qr.selected"

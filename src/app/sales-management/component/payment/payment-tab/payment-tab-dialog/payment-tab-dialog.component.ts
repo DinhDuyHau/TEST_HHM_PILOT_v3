@@ -21,6 +21,7 @@ import { CustomerApiService } from '@app/sales-management/api/customer-api.servi
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AuthenticationService } from '@app/_services';
 import { PaymentDynamicService } from '@app/_services/payment-dynamic.service';
+import { SignalRService } from '@app/_services/signalr.service';
 
 @Component({
   selector: 'app-payment-tab-dialog',
@@ -120,6 +121,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     private customerApiService: CustomerApiService,
     private authenticateService: AuthenticationService,
     private paymentDynamicService: PaymentDynamicService,
+    private signalRService: SignalRService
   ) {
     this.data = dataPayment.data;
     this.t_tong_tien = dataPayment.t_tong_tien;
@@ -169,6 +171,9 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
 
   ngOnInit(): void {
     // console.log(this.data);
+
+    // mở kết nối signalR
+    this.signalRService.startConnection();
 
     // mặc định thông tin thanh toán hình thức quẹt thẻ trả góp bidv
     // this.data.quet_the_tra_gop_bidv.ma_may_pos = '21601736';
@@ -851,6 +856,14 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       return true;
     }
 
+    // kiểm tra qr mb
+    const isSelectedMBQR = this.data.mb_qr.selected;
+    const hasPending = this.data.mb_qr.detail.some((item: any) => item.status === 'pending');
+    if (isSelectedMBQR && hasPending) {
+      this.commonService.showMessage("Có QR chưa thanh toán");
+      return true;
+    }
+
     if (this.t_con_no < 0) {
       this.commonService.showMessage("Tiền còn nợ không được là số âm");
       return true;
@@ -866,8 +879,19 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     if (this.validateFail()) {
       return;
     } else {
+      this.handleResetQrText();
+
       this.dialogRef.close({ t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, nguoi_duyet_ck: this.approveDiscount, t_chi_phi: this.t_tien_phi });
     }
+  }
+
+  // xử lý reset qrText về '' để khi view lại ko hiển thị nữa
+  // xóa những qr ko thành công
+  handleResetQrText() {
+    // reset MB
+    this.data.mb_qr.detail = this.data.mb_qr.detail
+      .filter((item: any) => item.status.trim() === 'success')
+      .map((item: any) => (item.qrText = '', item));
   }
 
   onChangeGhichuTragop($event: any) {
@@ -957,11 +981,29 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
           // reset lại tiền tạo QR
           group.money_create_qr = 0;
 
-          // (cần sửa lại khi callback trả lại thanh toán thành công mới thực hiện đoạn này)
-          // tính tổng tiền QR
-          group.tien = group.detail.reduce((sum: number, cur: any) => sum + cur.tien, 0);
-          // tính lại tiền đã trả và tiền còn nợ
-          this.onChange();
+          // lắng nghe sự kiện từ signalR
+          this.signalRService.onPaymentReceived(data => {
+            const matchedItem = group.detail.find((x: any) => x.refcode.trim().toLowerCase() === data.refcode.trim().toLowerCase());
+
+            if (!matchedItem || data.paymentcode.trim().toLowerCase() !== paymentCode.trim().toLowerCase()) return;
+
+            if (data.status == 'success') {
+              matchedItem.status = 'success';
+
+              // tính tổng tiền QR
+              group.tien = group.detail
+                .filter((item: any) => item.status === 'success')
+                .reduce((sum: number, cur: any) => sum + cur.tien, 0);
+
+              // tính lại tiền đã trả và tiền còn nợ
+              this.onChange();
+            }
+
+            if (data.status === 'fail') {
+              matchedItem.status = 'fail';
+              this.onChange();
+            }
+          });
 
           this.commonService.showMessageByName(res?.message || 'createqr_success');
         } else {
