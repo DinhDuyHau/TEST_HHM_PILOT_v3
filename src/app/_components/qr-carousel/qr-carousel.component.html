@@ -3,6 +3,15 @@
     <div class="flex transition-transform duration-300 ease-in-out"
       [style.transform]="'translateX(-' + currentSlide * 100 + '%)'">
       <div *ngFor="let qr of visibleQrList" class="w-full flex-shrink-0 flex flex-col justify-center items-center relative">
+        <!-- Nút XÓA chỉ hiển thị khi QR còn pending -->
+        <button
+          *ngIf="qr.status === 'pending'"
+          (click)="deleteQr(qr)"
+          title="Hủy mã QR này"
+          class="fs-4 absolute top-4 right-4 text-danger"
+        >
+          <i class="fas fa-times"></i>
+        </button>
 
         <div [ngClass]="{
             'opacity-40 blur-[1px]': qr.status !== 'pending'

@@ -1025,7 +1025,9 @@
 
             <app-qr-carousel
               *ngIf="data?.mb_qr?.detail?.length"
-              [qrList]="data.mb_qr.detail">
+              [qrList]="data.mb_qr.detail"
+              [currentSlide]="currentSlideQR"
+              (handleDeleteQr)="handleDeleteQr($event, 'mb')">
             </app-qr-carousel>
           </dropdown-custom>
           <!-- END: QR MB -->

@@ -66,6 +66,7 @@ export class PaymentRequest extends BaseEntity {
     phi_cd_tragop = 0;
     gc_td1 = '';
     gc_td2 = '';
+    gc_td3 = '';
     tra_gop_bank = false;
 
     constructor(obj?: any) {
@@ -209,6 +210,7 @@ export class TransferQrMB extends BaseModelPayment {
 export class TransferMBDetail extends BaseModelPayment {
     qrText = '';
     refcode = '';
+    ftCode = '';
     status = '';
     index = 0;
 }

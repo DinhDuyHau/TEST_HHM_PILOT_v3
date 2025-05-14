@@ -15,4 +15,9 @@ export class PaymentDynamicService {
         let url = `${environment.apiBankUrl}/v1/Payment/${paymenyCode}/getRefCode`;
         return this.http.get<any>(url);
     }
+
+    deleteQrCode(body: any, paymenyCode: string) {
+        let url = `${environment.apiBankUrl}/v1/Payment/${paymenyCode}/deleteqr`;
+        return this.http.delete<any>(url, { body: body });
+    }
 }

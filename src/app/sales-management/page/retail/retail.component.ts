@@ -245,7 +245,12 @@ export class RetailComponent implements OnInit, AfterViewInit {
 
     const getStatusList = () => {
       this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.RETAIL }]).subscribe(result => {
-        this.statusList = result.result.items as StatusTicket[];
+        const allItems = result.result.items as StatusTicket[];
+        if (this.ticket.masterInfo.status === '1') {
+          this.statusList = allItems.filter(item => item.status != '0');
+        } else {
+          this.statusList = allItems;
+        }
       });
     };
 
@@ -257,9 +262,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
             this.shop = (result.result as any).masterInfo.ma_cuahang;
 
             this.dataTransport(result.result);
-            if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.RETAIL.CREATE) {
-              this.router.navigate(['/404']);
-            }
+            // comment lại để cho phép sửa khi trạng thái là 1
+            // if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.RETAIL.CREATE) {
+            //   this.router.navigate(['/404']);
+            // }
             const hddtTable = (result.result as any).details.find((item: any) => item.id === 10);
             if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
               this.eInvoiceInfo = hddtTable.data[0];
@@ -277,7 +283,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
                         discount.tien_ck_max = voucherResult.Info.DiscountPrice || 0;
                       }
                     },
-                    error: () => {}
+                    error: () => { }
                   });
                 }
               });
@@ -1018,6 +1024,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.t_gg = $event.t_gg;
     this.ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck;
     this.ticket.masterInfo.t_cp_khac = $event.t_chi_phi;
+    this.ticket.masterInfo.status = $event.status;
 
     this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
   }
@@ -1420,8 +1427,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     return (
       this.readonly ||
       this.disableSelectStatus ||
-      this.ticket.voucherCode.length > 0 ||
-      Object.values(this.ticket.payment).some(p => p?.selected === true)
+      this.ticket.voucherCode.length > 0
     );
   }
 

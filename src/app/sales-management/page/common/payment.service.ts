@@ -158,6 +158,7 @@ export class PaymentService {
                     transferMbDetail.tien = e.tien;
                     transferMbDetail.refcode = e.gc_td1;
                     transferMbDetail.status = e.gc_td2;
+                    transferMbDetail.ftCode = e.gc_td3;
                     des.mb_qr.detail.push(transferMbDetail);
                     des.mb_qr.selected = true;
                     break;
@@ -409,6 +410,7 @@ export class PaymentService {
                         ten_thanhtoan: PAYMENT_NAME.MBQR,
                         gc_td1: element.refcode,
                         gc_td2: element.status,
+                        gc_td3: element.ftCode,
                         tien: element.tien,
                         tien_nt: element.tien_nt2
                     }),
