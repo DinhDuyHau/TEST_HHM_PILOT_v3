@@ -167,6 +167,9 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== this.statuses.CREATE) {
               this.router.navigate(['/404']);
             }
+            // set cửa hàng để truyền sang payment tab
+            this.shop = (result.result as any).masterInfo.ma_cuahang;
+
             const hddtTable = (result.result as any).details.find((item: any) => item.id === 10);
             if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
               this.eInvoiceInfo = hddtTable.data[0];
