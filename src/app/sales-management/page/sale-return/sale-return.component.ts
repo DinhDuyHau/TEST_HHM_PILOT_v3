@@ -566,7 +566,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
   }
 
   handleChangeTienGiam($event: any) {
-    this.tien_giam = $event;
+    this.tien_giam = this.commonService.rouding($event);
     this.disable_tl_giam = (!isNaN(this.tien_giam) && this.tien_giam !== 0);
   }
 
