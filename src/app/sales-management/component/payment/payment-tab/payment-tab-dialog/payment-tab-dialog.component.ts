@@ -1056,6 +1056,11 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       return false;
     }
 
+    if (!this.dataPayment.stt_rec) {
+      this.commonService.showMessage("Không thể tạo mã QR khi chưa lưu phiếu");
+      return false;
+    }
+
     return true;
   }
 
