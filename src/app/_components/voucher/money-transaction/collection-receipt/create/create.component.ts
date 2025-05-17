@@ -335,9 +335,12 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
   }
 
   onSubmit() {
-    // Check âm tiền nợ
-    if (this.data.masterInfo.t_con_no !== undefined && this.data.masterInfo.t_con_no != 0) {
-      this.commonService.showMessage('Tiền nợ phải bằng 0.');
+    const shops = JSON.parse(localStorage.getItem('shop') || '{}');
+    const is_shop_pay: boolean = shops && shops.find((x: any) => x.ma_cuahang === this.data.masterInfo.ma_kh);
+
+    // Nếu mã khách không phải là cửa hàng => Check phải thanh toán hết không được để còn nợ
+    if (!is_shop_pay && this.data.masterInfo.t_con_no !== undefined && this.data.masterInfo.t_con_no != 0) {
+      this.commonService.showMessage('Giao dịch thu hộ của khách hàng không được để còn nợ (tiền nợ phải bằng 0)');
       return;
     }
 
@@ -367,7 +370,9 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
       this.commonService.showMessageByName('lblWarningLackDetail');
       return;
     }
-    if (this.data.masterInfo.t_da_tra == 0 && this.isValidCustomerGroup3) {
+
+    // Nếu mã khách không phải là cửa hàng => check chọn hình thức thanh toán
+    if (!is_shop_pay && this.data.masterInfo.t_da_tra == 0 && this.isValidCustomerGroup3) {
       this.commonService.showMessage("Cần chọn hình thức thanh toán trước khi lưu phiếu");
       return;
     }
