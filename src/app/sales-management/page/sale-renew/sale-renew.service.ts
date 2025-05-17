@@ -75,13 +75,14 @@ export class SaleRenewService {
     //#endregion setter
 
     // #region init
-    loadData(data: VoucherDto) {
+    loadData(data: VoucherDto, callback: any) {
         this.ticket.masterInfo = this.commonService.convertMasterInfoFromVoucher(data.masterInfo, MasterInfo);
         this.ticket.masterInfo.t_tien_ban = this.ticket.masterInfo.s4;
 
         this.customerApiService.getOneById(data.masterInfo.ma_kh).subscribe(result => {
             const customer = result.result as any;
             this.ticket.masterInfo.ten_kh = customer.ten_kh;
+            callback(customer.image);
         });
 
         this.customerApiService.getOneById(data.masterInfo.ma_nvvc).subscribe((result: any) => {
@@ -596,18 +597,6 @@ export class SaleRenewService {
         return this.ticketApiService.getRenewAdjustBuyPrice(ngay_ct, sale_item.ma_cttc ? sale_item.ma_cttc : '',
             ma_ncc, buy_item.ma_loai, buy_item.ma_vt, sale_item.ma_vt, buy_item.gia0, buy_item.gia_dc, sale_item.ma_td2);
 
-    }
-
-    voucherCheck(voucher_code: any, member: string, phone: string, stock: string, skus: any) {
-        const payload = {
-            Voucher: voucher_code,
-            Member: member,
-            Phone: phone,
-            Stock: stock,
-            SKU: skus
-        };
-
-        return this.voucherCodeApiService.voucherCheck(payload);
     }
 
     getDiscountVoucherCode(ngay_ct: Date) {

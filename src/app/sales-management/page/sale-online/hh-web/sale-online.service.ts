@@ -73,12 +73,13 @@ export class SaleOnlineService {
     //#endregion setter
 
     // #region init
-    loadData(data: VoucherDto) {
+    loadData(data: VoucherDto, callback: any) {
         this.ticket.masterInfo = this.commonService.convertMasterInfoFromVoucher(data.masterInfo, MasterInfo);
         this.customerApiService.getOneById(data.masterInfo.ma_kh).subscribe(result => {
             const customer = result.result as any;
             this.ticket.masterInfo.ten_kh = customer.ten_kh;
             this.ticket.masterInfo.dia_chi = customer.dia_chi;
+            callback(customer.image);
         });
 
         this.customerApiService.getOneById(data.masterInfo.ma_nvvc).subscribe((result: any) => {
@@ -359,8 +360,8 @@ export class SaleOnlineService {
         }
         return;
     }
-    updateDiscount(discounts: Discount[], isGridItem: boolean = false, row_item: Merchandise | null = null) {
-        this.discountService.resetDiscount(this.ticket.discount, isGridItem, row_item);
+    updateDiscount(discounts: Discount[], isGridItem: boolean = false, row_item: Merchandise | null = null, isGridDiscount = false) {
+        this.discountService.resetDiscount(this.ticket.discount, isGridItem, row_item, isGridDiscount);
         discounts.forEach(discount => {
             if (discount.loai_ck === DISCOUNT_TYPE.REDUTION_BY_MERCHANDISE_CODE ||
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||
@@ -562,18 +563,6 @@ export class SaleOnlineService {
             return true;
         }
         return false;
-    }
-
-    voucherCheck(voucher_code: any, member: string, phone: string, stock: string, skus: any) {
-        const payload = {
-            Voucher: voucher_code,
-            Member: member,
-            Phone: phone,
-            Stock: stock,
-            SKU: skus
-        };
-
-        return this.voucherCodeApiService.voucherCheck(payload);
     }
 
     getDiscountVoucherCode(ngay_ct: Date) {

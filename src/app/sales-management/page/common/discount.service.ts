@@ -145,6 +145,10 @@ export class DiscountService {
                 }
                 discountKeep.push(...discount_keep_adv);
             }
+        } else {
+            // thêm đoạn này để giữ lại ck 04 khi xóa ck 10
+            const discount_keep_adv = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER);
+            discountKeep.push(...discount_keep_adv);
         }
 
         // Loại bỏ các bản ghi duplicate khỏi discountKeep

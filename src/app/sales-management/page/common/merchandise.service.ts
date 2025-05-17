@@ -1379,6 +1379,26 @@ export class MerchandiseService {
             e.gia_ck = e.gia_ban;
         });
 
+        //ck 03
+        let t_tien_ck03 = 0;
+        const discountForMerchandise03 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.GIFT);
+        if (discountForMerchandise03 && discountForMerchandise03.length > 0) {
+            const arr_ck03 = [];
+            for (const discount of discountForMerchandise03) {
+                if (discount.tien_ck > 0) {
+                    t_tien_ck03 += discount.tien_ck;
+                    arr_ck03.push({ ma_imei: discount.ma_imei.trim(), tien_ck: discount.tien_ck });
+                }
+            }
+            if (t_tien_ck03 > 0 && arr_ck03 && arr_ck03.length > 0) {
+                // cập nhật lại tien_ck_qd cho merchandise tương ứng với từng mã imei
+                for (const item_ck03 of arr_ck03) {
+                    const mer_item = merchandises.find(x => x.ma_imei.trim() === item_ck03.ma_imei);
+                    if (mer_item) mer_item.tien_ck_qd = item_ck03.tien_ck;
+                }
+            }
+        }
+
         // Loại bỏ những hàng hoá là hàng khuyến mãi
         const merchandiseUpdate = merchandises.filter((e: any) => !e.km_yn);
         let serviceUpdate: any[] = [];

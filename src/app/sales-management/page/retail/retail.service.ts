@@ -740,18 +740,6 @@ export class RetailService {
         return true;
     }
 
-    voucherCheck(voucher_code: any, member: string, phone: string, stock: string, skus: any) {
-        const payload = {
-            Voucher: voucher_code,
-            Member: member,
-            Phone: phone,
-            Stock: stock,
-            SKU: skus
-        };
-
-        return this.voucherCodeApiService.voucherCheck(payload);
-    }
-
     getDiscountVoucherCode(ngay_ct: Date) {
         return this.discountApiService.getDiscountVoucherCode(ngay_ct);
     }

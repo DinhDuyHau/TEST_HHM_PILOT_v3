@@ -264,7 +264,24 @@ export class RetailComponent implements OnInit, AfterViewInit {
             if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
               this.eInvoiceInfo = hddtTable.data[0];
             }
-            this.retailService.loadData(result.result as any as VoucherDto, (image: any) => { image && this.getImageCustomerFile(image); });
+            this.retailService.loadData(result.result as any as VoucherDto, (image: any) => {
+              image && this.getImageCustomerFile(image);
+
+              // lấy tien_ck_max khi ban đầu load data
+              const discountForMerchandise10 = this.ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE);
+              discountForMerchandise10.forEach((discount: any) => {
+                if (discount && discount.imei_hang_mua) {
+                  this.commonService.voucherCheck(discount.imei_hang_mua, '', '', '', []).subscribe({
+                    next: (voucherResult: any) => {
+                      if (voucherResult?.Info) {
+                        discount.tien_ck_max = voucherResult.Info.DiscountPrice || 0;
+                      }
+                    },
+                    error: () => {}
+                  });
+                }
+              });
+            });
             this.list_imei_old = this.ticket.merchandise.map(x => x.ma_imei);
             this.handleGetDeposit();
             this.commonService.addToImeisInVoucher(this.ticket.merchandise.filter(e => e.ma_imei).map(e => e.ma_imei));
@@ -746,7 +763,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
       this.commonService.showMessage('Không thể xóa chiết khấu hạng khách hàng');
       return;
     }
-    if (event.item.loai_ck == DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE) {
+    let isVoucherDiscount = event.item.loai_ck == DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE;
+    if (isVoucherDiscount) {
       this.ticket.discount = this.ticket.discount.filter(
         x => !(x.ma_ck.trim().toLowerCase() === event.item.ma_ck.trim().toLowerCase() &&
           x.imei_hang_mua.trim().toLowerCase() === event.item.imei_hang_mua.trim().toLowerCase())
@@ -764,7 +782,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
           const discountsInvalid = this.discountService.getDiscountsInValid(this.discountCanApply, this.ticket.discount);
           // this.retailService.removeDiscount(discountsInvalid);
           const discountAfterRemove = this.discountCanApply.filter((item) => discountCurrent.find(x => x.ma_ck == item.ma_ck));
-          this.retailService.updateDiscount(discountAfterRemove, false, null, true);
+          this.retailService.updateDiscount(discountAfterRemove, false, null, isVoucherDiscount);
         }
         else {
           this.commonService.showMessageByName(result.message);
@@ -1227,7 +1245,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const userJson = localStorage.getItem('user');
     const userObj = userJson !== null && JSON.parse(userJson);
     const stock = userObj['shop'] || '';
-    this.retailService.voucherCheck(this.voucher_code, member, phone, stock, skus).subscribe({
+    this.commonService.voucherCheck(this.voucher_code, member, phone, stock, skus).subscribe({
       next: result => {
         const response = result as any;
         // tạm thời ko sử dụng phía client
