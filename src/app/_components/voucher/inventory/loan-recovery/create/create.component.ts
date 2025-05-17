@@ -502,6 +502,8 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
     }
     const result = await lastValueFrom(this.imeiService.getSoldInfo(imei, this.ma_cuahang));
     if (result.success && result.result) {
+      console.log(result.result);
+
       const master: MasterInfo = result.result.masterInfo;
       const response = result.result.details[0].data[0];
       if (master.ma_ct != 'PXM') {
@@ -513,6 +515,8 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
       this.data.masterInfo['ten_kh'] = master['ten_kh'];
       this.f['ma_kh'].setValue(master.ma_kh);
       this.f['ong_ba'].setValue(master.ong_ba);
+
+      console.log(response);
 
       this.data.details[0].data.push({
         ma_imei: response.ma_imei,

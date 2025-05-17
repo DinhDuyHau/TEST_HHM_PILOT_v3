@@ -233,7 +233,10 @@ export class CreateReceiptComponent extends Grid<ReceiptDetail> implements OnIni
       });
       this.calcDiscount();
       this.calcTax();
-      this.calcTotal();
+
+      // Không tính toán lại tổng tiền => chỉ show dữ liệu lưu trong database
+      // this.calcTotal();
+
     }));
   }
   ngOnInit() {

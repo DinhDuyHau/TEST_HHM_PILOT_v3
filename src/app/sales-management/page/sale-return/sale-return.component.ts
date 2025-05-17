@@ -55,12 +55,14 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
   isDisableSaleDown = false;
   isDisableReturnType = false;
   isDisableCODReturn = false;
+  isDisableFreeDeliveryReturn = false;
   tabIndex = {
     imei: 'imei'
   };
   previewImage = '';
 
   isCODReturn = false;
+  isFreeDeliveryReturn = false;
   isSaleDown = false;
   rate = '0';
   rateMax = 100;
@@ -140,6 +142,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
             this.submitButtonTitle = Language.content.save;
             this.cancelButtonTitle = Language.content.cancel;
             this.isDisableCODReturn = true;
+            this.isDisableFreeDeliveryReturn = true;
             this.isDisableReturnType = true;
             this.isDisableSaleDown = true;
             this.action = 'update';
@@ -173,6 +176,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
             }
             this.saleReturnService.loadData(result.result as any as VoucherDto);
             this.isCODReturn = this.ticket.masterInfo.tra_lai_cod;
+            this.isFreeDeliveryReturn = this.ticket.masterInfo.tra_lai_freedelivery;
             this.ticket.masterInfo.fcode1 = this.ticket.masterInfo.fcode1.trim();
 
             this.commonService.addToImeisInVoucher(this.ticket.merchandise.filter(e => e.ma_imei).map(e => e.ma_imei));
@@ -270,20 +274,26 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
           }
         }
 
-        this.saleReturnService.getSoldInfoReturn(ma_imei, rate, this.tien_giam, this.ticket.masterInfo.fcode1, this.isCODReturn).subscribe((result: any) => {
+        this.saleReturnService.getSoldInfoReturn(ma_imei, rate, this.tien_giam, this.ticket.masterInfo.fcode1, this.isCODReturn, this.isFreeDeliveryReturn).subscribe((result: any) => {
           if (result && result.success && result.result && result.result.details) {
 
             // chỉ được nhập trên cùng 1 phiếu xuất bán
             if (this.ticket.masterInfo.fcode2) {
-              if(this.ticket.masterInfo.fcode2 != result.result.masterInfo.so_ct) {
+              if (this.ticket.masterInfo.fcode2 != result.result.masterInfo.so_ct) {
                 this.commonService.showMessage('Chỉ được nhập trả lại trên cùng 1 phiếu xuất bán');
                 return;
               }
             }
 
             // chỉ được nhập cod trong cùng cửa hàng
-            if((this.ticket.masterInfo.ma_cuahang != result.result.masterInfo.ma_cuahang) && this.isCODReturn) {
+            if ((this.ticket.masterInfo.ma_cuahang != result.result.masterInfo.ma_cuahang) && this.isCODReturn) {
               this.commonService.showMessage('Chỉ được nhập trả lại đơn COD trong cùng 1 cửa hàng');
+              return;
+            }
+
+            // chỉ được nhập giao hàng không thu tiền trong cùng cửa hàng
+            if ((this.ticket.masterInfo.ma_cuahang != result.result.masterInfo.ma_cuahang) && this.isFreeDeliveryReturn) {
+              this.commonService.showMessage('Chỉ được nhập trả lại đơn GH không thu tiền trong cùng 1 cửa hàng');
               return;
             }
 
@@ -298,6 +308,12 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
             //check trả lại đơn COD
             if (this.isCODReturn && result.result.masterInfo && !result.result.masterInfo.cod_yn) {
               this.commonService.showMessage('Imei bán ra trên đơn hàng không sử dụng COD, không thể nhập trả lại bằng giao dịch "Trả lại đơn COD"');
+              return;
+            }
+
+            //check trả lại đơn Giao hàng không thu tiền
+            if (this.isFreeDeliveryReturn && result.result.masterInfo && !result.result.masterInfo.freedelivery_yn) {
+              this.commonService.showMessage('Imei không bán ra trên đơn giao hàng không thu tiền, không thể nhập trả lại bằng giao dịch "Trả lại đơn GH không thu tiền"');
               return;
             }
 
@@ -365,6 +381,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
               this.resetSaleDown();
               //Khóa trường
               this.isDisableCODReturn = true;
+              this.isDisableFreeDeliveryReturn = true;
               this.isDisableReturnType = true;
             } else {
               this.commonService.showMessageByName('lblWarningProductExist');
@@ -398,6 +415,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
     }
     if (this.ticket.merchandise.length === 0) {
       this.isDisableCODReturn = false;
+      this.isDisableFreeDeliveryReturn = false;
       this.isDisableReturnType = false;
       this.isDisableSaleDown = false;
     }
@@ -449,6 +467,9 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
 
       //mapping checkbox trả lại COD
       voucherDto.masterInfo.tra_lai_cod = this.isCODReturn;
+
+      //mapping checkbox trả lại Giao hàng không thu tiền
+      voucherDto.masterInfo.tra_lai_freedelivery = this.isFreeDeliveryReturn;
 
       this.route.queryParams.subscribe((data: any) => {
         this.isDisabled = true;
@@ -545,7 +566,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
   }
 
   handleChangeTienGiam($event: any) {
-    this.tien_giam = $event;
+    this.tien_giam = this.commonService.rouding($event);
     this.disable_tl_giam = (!isNaN(this.tien_giam) && this.tien_giam !== 0);
   }
 
@@ -620,6 +641,21 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
       this.isDisableSaleDown = false;
     }
   }
+
+  onFreeDeliveryReturn(event: MatCheckboxChange): void {
+    // Thực hiện hành động khác dựa trên trạng thái của checkbox
+    this.isFreeDeliveryReturn = event.checked;
+    if (this.isFreeDeliveryReturn) {
+      this.isSaleDown = false;
+      this.isDisableReturnType = true;
+      this.isDisableSaleDown = true;
+    }
+    else {
+      this.isDisableReturnType = false;
+      this.isDisableSaleDown = false;
+    }
+  }
+
 }
 
 

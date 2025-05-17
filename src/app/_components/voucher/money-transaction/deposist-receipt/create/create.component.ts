@@ -524,7 +524,12 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
       ma_ctr: '',
       ten_ctr: ''
     };
-    this.data.details[0].data.push(new_data);
+    if (this.data.masterInfo.fnote3 == "2" && line < 2) {
+      this.data.details[0].data.push(new_data);
+    } else {
+      this.commonService.showMessageByName('item_exceeds_limit')
+    }
+
     this.dataSource.data = this.data.details[0].data;
     this.calcTotal();
 

@@ -41,6 +41,21 @@ export class PaymentService {
                     des.tien_mat.selected = true;
                     break;
                 case PAYMENT_CODE.ATM:
+                    if (e.gc_td1 && e.gc_td1.toUpperCase() === 'TRA_GOP_BANK') {
+                        des.quet_the_tra_gop_bidv.tien = e.tien;
+                        des.quet_the_tra_gop_bidv.so_hd_tragop = e.so_hd_tragop;
+                        des.quet_the_tra_gop_bidv.phi_bao_hiem = e.tien_phi_bh;
+                        des.quet_the_tra_gop_bidv.ma_dv_tragop = e.ma_dv_tragop;
+                        des.quet_the_tra_gop_bidv.phi_chuyendoi = e.phi_chuyendoi;
+                        des.quet_the_tra_gop_bidv.phi_quetthe = e.phi_quetthe;
+                        des.quet_the_tra_gop_bidv.ma_may_pos = e.ma_may_pos;
+                        des.quet_the_tra_gop_bidv.ma_chuan_chi = e.ma_chuan_chi;
+                        des.quet_the_tra_gop_bidv.so_the = e.so_the_nh;
+                        des.quet_the_tra_gop_bidv.tk_nh_nhan = e.tk_nh_nhan;
+                        des.quet_the_tra_gop_bidv.gc_td2 = e.gc_td2;
+                        des.quet_the_tra_gop_bidv.selected = true;
+                        break;
+                    }
                     des.quet_the.tien += e.tien;
                     cardDetail = new CardDetail;
                     cardDetail.so_the = e.so_the_nh;
@@ -51,7 +66,6 @@ export class PaymentService {
                     cardDetail.tk_nh_nhan = e.tk_nh_nhan;
                     des.quet_the.detail.push(cardDetail);
                     des.quet_the.selected = true;
-
                     break;
                 case PAYMENT_CODE.TRANSFER:
                     des.chuyen_khoan.tien += e.tien;
@@ -127,6 +141,7 @@ export class PaymentService {
                     des.quet_the_tra_gop.so_the = e.so_the_nh;
                     des.quet_the_tra_gop.tk_nh_nhan = e.tk_nh_nhan;
                     // des.quet_the_tra_gop.so_hd_vnpay = e.so_hd_vnpay;
+                    des.quet_the_tra_gop.gc_td2 = e.gc_td2;
                     des.quet_the_tra_gop.selected = true;
                     break;
                 case PAYMENT_CODE.VOUCHERPARNER:
@@ -163,19 +178,19 @@ export class PaymentService {
                 ];
             }); */
             if (src.tien_dat_coc && Array.isArray(src.tien_dat_coc.detail) && src.tien_dat_coc.detail.length > 0) {
-              const element = src.tien_dat_coc.detail[0];
-              des = [
-                  ...des,
-                  new PaymentRequest({
-                      ma_thanhtoan: PAYMENT_CODE.DEPOSIT,
-                      ten_thanhtoan: PAYMENT_NAME.DEPOSIT,
-                      tien: element.tien,
-                      tien_nt: element.tien_nt2 || 0,
-                      stt_rec_pt: element.stt_rec_pt,
-                      ma_sp: element.ma_sp,
-                      ma_ctr: element.ma_ctr,
-                  }),
-              ];
+                const element = src.tien_dat_coc.detail[0];
+                des = [
+                    ...des,
+                    new PaymentRequest({
+                        ma_thanhtoan: PAYMENT_CODE.DEPOSIT,
+                        ten_thanhtoan: PAYMENT_NAME.DEPOSIT,
+                        tien: element.tien,
+                        tien_nt: element.tien_nt2 || 0,
+                        stt_rec_pt: element.stt_rec_pt,
+                        ma_sp: element.ma_sp,
+                        ma_ctr: element.ma_ctr,
+                    }),
+                ];
             }
         }
         if (src.tien_mat.selected) {
@@ -242,7 +257,32 @@ export class PaymentService {
                     so_the_nh: src.quet_the_tra_gop.so_the,
                     ma_chuan_chi: src.quet_the_tra_gop.ma_chuan_chi,
                     tk_nh_nhan: src.quet_the_tra_gop.tk_nh_nhan,
-                    so_hd_vnpay: src.quet_the_tra_gop.so_hd_vnpay
+                    so_hd_vnpay: src.quet_the_tra_gop.so_hd_vnpay,
+                    gc_td2: src.quet_the_tra_gop.gc_td2,
+                })
+            ];
+        }
+        if (src.quet_the_tra_gop_bidv.selected) {
+            des = [
+                ...des,
+                new PaymentRequest({
+                    ma_thanhtoan: PAYMENT_CODE.ATM,
+                    ten_thanhtoan: PAYMENT_NAME.ATM,
+                    tra_gop_bank: true,
+                    tien: src.quet_the_tra_gop_bidv.tien,
+                    tien_nt: src.quet_the_tra_gop_bidv.tien_nt2,
+                    so_hd_tragop: src.quet_the_tra_gop_bidv.so_hd_tragop,
+                    ma_dv_tragop: src.quet_the_tra_gop_bidv.ma_dv_tragop,
+                    tien_phi_bh: src.quet_the_tra_gop_bidv.phi_bao_hiem,
+                    phi_chuyendoi: src.quet_the_tra_gop_bidv.phi_chuyendoi,
+                    phi_quetthe: src.quet_the_tra_gop_bidv.phi_quetthe,
+                    ma_may_pos: src.quet_the_tra_gop_bidv.ma_may_pos,
+                    so_the_nh: src.quet_the_tra_gop_bidv.so_the,
+                    ma_chuan_chi: src.quet_the_tra_gop_bidv.ma_chuan_chi,
+                    tk_nh_nhan: src.quet_the_tra_gop_bidv.tk_nh_nhan,
+                    so_hd_vnpay: src.quet_the_tra_gop_bidv.so_hd_vnpay,
+                    gc_td1: 'TRA_GOP_BANK',
+                    gc_td2: src.quet_the_tra_gop_bidv.gc_td2
                 })
             ];
         }

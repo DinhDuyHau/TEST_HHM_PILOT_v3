@@ -59,6 +59,14 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       so_hd_tragop: false,
       tk_nh_nhan: false
     },
+    quet_the_tra_gop_bidv: {
+      ma_may_pos: false,
+      so_the: false,
+      ma_dv_tragop: false,
+      ma_chuan_chi: false,
+      so_hd_tragop: false,
+      tk_nh_nhan: false
+    },
     tra_gop: {
       so_hd_tragop: false,
       ma_dv_tragop: false
@@ -156,6 +164,10 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
 
   ngOnInit(): void {
     // console.log(this.data);
+
+    // mặc định thông tin thanh toán hình thức quẹt thẻ trả góp bidv
+    // this.data.quet_the_tra_gop_bidv.ma_may_pos = '21601736';
+    this.data.quet_the_tra_gop_bidv.tk_nh_nhan = 'BIDV';
 
     //load lại thông tin tiền đặt cọc, tạm ứng của khách hàng
     if (this.reloadDepositOnInit) {
@@ -258,6 +270,21 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       this.data.quet_the_tra_gop.phi_chuyendoi = 0;
       this.data.quet_the_tra_gop.tk_nh_nhan = '';
       this.data.quet_the_tra_gop.so_hd_vnpay = '';
+      this.data.quet_the_tra_gop.gc_td2 = '';     //kỳ hạn trả góp
+    }
+    if (!this.data.quet_the_tra_gop_bidv.selected) {
+      this.data.quet_the_tra_gop_bidv.tien = 0;
+      this.data.quet_the_tra_gop_bidv.so_the = '';
+      this.data.quet_the_tra_gop_bidv.ma_chuan_chi = '';
+      this.data.quet_the_tra_gop_bidv.ma_may_pos = '';
+      this.data.quet_the_tra_gop_bidv.so_hd_tragop = '';
+      this.data.quet_the_tra_gop_bidv.ma_dv_tragop = '';
+      this.data.quet_the_tra_gop_bidv.phi_bao_hiem = 0;
+      this.data.quet_the_tra_gop_bidv.phi_quetthe = 0;
+      this.data.quet_the_tra_gop_bidv.phi_chuyendoi = 0;
+      this.data.quet_the_tra_gop_bidv.tk_nh_nhan = '';
+      this.data.quet_the_tra_gop_bidv.so_hd_vnpay = '';
+      this.data.quet_the_tra_gop_bidv.gc_td2 = '';     //kỳ hạn trả góp
     }
     if (!this.data.voucher_doi_tac.selected) {
       this.data.voucher_doi_tac.tien = 0;
@@ -299,9 +326,14 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
         this.t_con_no -= this.data.quet_the.tien;
       }
 
-      //Quẹt thẻ trả góp
+      //Quẹt thẻ trả góp PAYOO
       if (this.data.quet_the_tra_gop.selected && this.data.quet_the_tra_gop.tien) {
         this.t_con_no -= this.data.quet_the_tra_gop.tien;
+      }
+
+      //Quẹt thẻ trả góp BIDV
+      if (this.data.quet_the_tra_gop_bidv.selected && this.data.quet_the_tra_gop_bidv.tien) {
+        this.t_con_no -= this.data.quet_the_tra_gop_bidv.tien;
       }
 
       //VNPay
@@ -350,6 +382,8 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       //Tổng tiền phí
       this.t_tien_phi += (this.data.quet_the_tra_gop.selected && this.data.quet_the_tra_gop.phi_chuyendoi) ?
         this.data.quet_the_tra_gop.phi_chuyendoi : 0;
+      this.t_tien_phi += (this.data.quet_the_tra_gop_bidv.selected && this.data.quet_the_tra_gop_bidv.phi_chuyendoi) ?
+        this.data.quet_the_tra_gop_bidv.phi_chuyendoi : 0;
       this.t_tien_phi += (this.data.tra_gop.selected && this.data.tra_gop.phi_cd_tragop) ? this.data.tra_gop.phi_cd_tragop : 0;
 
       this.t_da_tra = this.tong_no - this.t_con_no;
@@ -391,6 +425,13 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     });
   }
 
+  onOpenSearchBankPublishCardForBank() {
+    const dialogRef = this.commonService.openDialog(SearchDialogComponent, { keyword: "BIDV", componentName: SEARCH_COMPONENT_NAME.BANK_PUBLISH_CARD, title: 'Danh sách ngân hàng' }, 'search-style-dialog');
+    dialogRef.afterClosed().subscribe(result => {
+      this.data.quet_the_tra_gop_bidv.tk_nh_nhan = result.ma_nh;
+    });
+  }
+
   onOpenSearchInstallmentUnit() {
     const dialogRef = this.dialog.open(SearchDialogComponent, { data: { keyword: '', componentName: SEARCH_COMPONENT_NAME.INSTALLMENT_UNIT }, disableClose: true });
     dialogRef.afterClosed().subscribe(result => {
@@ -403,6 +444,14 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     const dialogRef = this.dialog.open(SearchDialogComponent, { data: { keyword: '', componentName: SEARCH_COMPONENT_NAME.INSTALLMENT_UNIT }, disableClose: true });
     dialogRef.afterClosed().subscribe(result => {
       this.data.quet_the_tra_gop.ma_dv_tragop = result.ma_kh;
+      this.onChange();
+    });
+  }
+
+  onOpenSearchCardInstallmentUnitBank() {
+    const dialogRef = this.dialog.open(SearchDialogComponent, { data: { keyword: '', componentName: SEARCH_COMPONENT_NAME.INSTALLMENT_UNIT }, disableClose: true });
+    dialogRef.afterClosed().subscribe(result => {
+      this.data.quet_the_tra_gop_bidv.ma_dv_tragop = result.ma_kh;
       this.onChange();
     });
   }
@@ -601,7 +650,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
 
   openPaymentSearchPOSDialog() {
     this.commonService.openDialog(SearchDialogComponent,
-      { shop: this.shop, keyword: '', componentName: SEARCH_COMPONENT_NAME.POS, title: 'Danh sách máy POS' }, 'search-style-dialog')
+      { shop: this.shop, keyword: '', componentName: SEARCH_COMPONENT_NAME.POS, title: 'Danh sách máy POS', filter: [{ name: 'tk_nganhang', operator: '=', value: 'TGPY' }] }, 'search-style-dialog')
       .afterClosed()
       .subscribe((pos: POSModel) => pos && this.handleAddPOS(pos));
   }
@@ -614,6 +663,25 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       } else {
         this.commonService.showMessageByContent(Language.content.exists_pos_yn_no, ma_pos);
         this.data.quet_the_tra_gop.ma_may_pos = '';
+      }
+    });
+  }
+
+  openPaymentSearchPOSDialogBank() {
+    this.commonService.openDialog(SearchDialogComponent,
+      { shop: this.shop, keyword: '', componentName: SEARCH_COMPONENT_NAME.POS, title: 'Danh sách máy POS', filter: [{ name: 'tk_nganhang', operator: '=', value: '03BIDV' }] }, 'search-style-dialog')
+      .afterClosed()
+      .subscribe((pos: POSModel) => pos && this.handleAddPOSBank(pos));
+  }
+
+  onPaymentEnterPOSCodeBank(ma_pos: string) {
+    this.posService.getOneById(ma_pos).subscribe(result => {
+      if (result.success && result.result) {
+        const pos: any = result.result;
+        this.handleAddPOSBank(pos);
+      } else {
+        this.commonService.showMessageByContent(Language.content.exists_pos_yn_no, ma_pos);
+        this.data.quet_the_tra_gop_bidv.ma_may_pos = '';
       }
     });
   }
@@ -650,6 +718,10 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
 
   handleAddPOS(pos: POSModel) {
     this.data.quet_the_tra_gop.ma_may_pos = pos.ma_pos;
+  }
+
+  handleAddPOSBank(pos: POSModel) {
+    this.data.quet_the_tra_gop_bidv.ma_may_pos = pos.ma_pos;
   }
 
   validateFail() {
@@ -697,6 +769,38 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
         this.invalid.quet_the_tra_gop.tk_nh_nhan = true;
       }
 
+      return true;
+    }
+
+    // Kiểm tra quét thẻ trả góp
+    const isQuetTheTraGopSelectedBIDV = this.data.quet_the_tra_gop_bidv.selected;
+    const isMaMayPosEmptyBIDV = !this.data.quet_the_tra_gop_bidv.ma_may_pos.trim();
+    const isMaDvTraGopEmptyBIDV = !this.data.quet_the_tra_gop_bidv.ma_dv_tragop.trim();
+    const isSoTheEmptyBIDV = !this.data.quet_the_tra_gop_bidv.so_the.trim();
+    const isMaChuanChiEmptyBIDV = !this.data.quet_the_tra_gop_bidv.ma_chuan_chi.trim();
+    const isSoHdTraGopEmptyBIDV = !this.data.quet_the_tra_gop_bidv.so_hd_tragop.trim();
+    const isTkNhNhanEmptyBIDV = !this.data.quet_the_tra_gop_bidv.tk_nh_nhan.trim();
+    if (isQuetTheTraGopSelectedBIDV &&
+      (isMaMayPosEmptyBIDV || isMaDvTraGopEmptyBIDV || isSoTheEmptyBIDV || isMaChuanChiEmptyBIDV || isSoHdTraGopEmptyBIDV || isTkNhNhanEmptyBIDV)
+    ) {
+      if (isMaMayPosEmptyBIDV) {
+        this.invalid.quet_the_tra_gop_bidv.ma_may_pos = true;
+      }
+      if (isMaDvTraGopEmptyBIDV) {
+        this.invalid.quet_the_tra_gop_bidv.ma_dv_tragop = true;
+      }
+      if (isSoTheEmptyBIDV) {
+        this.invalid.quet_the_tra_gop_bidv.so_the = true;
+      }
+      if (isMaChuanChiEmptyBIDV) {
+        this.invalid.quet_the_tra_gop_bidv.ma_chuan_chi = true;
+      }
+      if (isSoHdTraGopEmptyBIDV) {
+        this.invalid.quet_the_tra_gop_bidv.so_hd_tragop = true;
+      }
+      if (isTkNhNhanEmptyBIDV) {
+        this.invalid.quet_the_tra_gop_bidv.tk_nh_nhan = true;
+      }
       return true;
     }
 
@@ -752,7 +856,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   }
 
   onChangeGhichuTragop($event: any) {
-    if($event.length > 64) {
+    if ($event.length > 64) {
       this.commonService.showMessage("Ghi chú không được quá 64 ký tự");
     } else {
       this.data.tra_gop.gc_td1 = $event;
@@ -760,10 +864,26 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   }
 
   onChangeKyHanTragop($event: any) {
-    if($event.length > 256) {
+    if ($event.length > 256) {
       this.commonService.showMessage("Kỳ hạn không được quá 256 ký tự");
     } else {
       this.data.tra_gop.gc_td2 = $event;
+    }
+  }
+
+  onChangeKyHanTragop_PosPAYOO($event: any) {
+    if ($event.length > 256) {
+      this.commonService.showMessage("Kỳ hạn không được quá 256 ký tự");
+    } else {
+      this.data.quet_the_tra_gop.gc_td2 = $event;
+    }
+  }
+
+  onChangeKyHanTragop_PosBANK($event: any) {
+    if ($event.length > 256) {
+      this.commonService.showMessage("Kỳ hạn không được quá 256 ký tự");
+    } else {
+      this.data.quet_the_tra_gop_bidv.gc_td2 = $event;
     }
   }
 }
