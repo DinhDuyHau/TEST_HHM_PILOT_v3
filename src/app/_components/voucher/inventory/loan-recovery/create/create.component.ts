@@ -500,7 +500,11 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
         return false;
       }
     }
-    const result = await lastValueFrom(this.imeiService.getSoldInfo(imei, this.ma_cuahang));
+
+    //encode imei trước khi request để tránh các ký tự đặc biệt (=, &, ?, /)
+    const imei_encoded = encodeURIComponent(imei);
+
+    const result = await lastValueFrom(this.imeiService.getSoldInfo(imei_encoded, this.ma_cuahang));
     if (result.success && result.result) {
       console.log(result.result);
 

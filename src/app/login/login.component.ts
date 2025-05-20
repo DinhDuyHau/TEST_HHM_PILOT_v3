@@ -197,6 +197,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (err === 'Runtime_err')
       this.error = 'Có sự cố khi thực hiện, vui lòng thử lại';
 
+    if (err === 'shop_right_not_allow') this.error = 'Chưa phân quyền truy cập cửa hàng hoặc IP không hợp lệ';
+
     if (err === 'Transaction_in_use') {
       this.error = 'Đã đăng nhập.';
       this.showTranCancel = true;
