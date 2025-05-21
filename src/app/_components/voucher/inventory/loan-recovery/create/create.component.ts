@@ -200,6 +200,9 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
     }));
   }
   ngOnInit() {
+    // check quyền truy cập
+    this.commonService.processAuthorization();
+
     const userJson = localStorage.getItem('user');
     const userObj = userJson !== null && JSON.parse(userJson);
     this.ma_cuahang = userObj['shop'];
@@ -278,6 +281,9 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
           imei: [this.imei],
           detail: [this.data.details || [], Validators.required],
         });
+      });
+      this.ticketApiService.getVoucherDate().subscribe(result => {
+        this.data.masterInfo.ngay_ct = result?.result as any || Date();
       });
     }
     else {

@@ -169,6 +169,9 @@ export class OtherMoneyTransferDetailComponent extends Grid<ReceiptDetail> imple
     }));
   }
   ngOnInit() {
+    // check quyền truy cập
+    this.commonService.processAuthorization();
+
     const userJson = localStorage.getItem('user');
     const userObj = userJson !== null && JSON.parse(userJson);
     this.shift = userObj.shift;
@@ -289,6 +292,9 @@ export class OtherMoneyTransferDetailComponent extends Grid<ReceiptDetail> imple
           t_tt_nt: [this.data.masterInfo.t_tt_nt, Validators.required],
           detail: [this.data.details || [], Validators.required],
         });
+      });
+      this.ticketApiService.getVoucherDate().subscribe(result => {
+        this.data.masterInfo.ngay_ct = result?.result as any || Date();
       });
     }
     else {

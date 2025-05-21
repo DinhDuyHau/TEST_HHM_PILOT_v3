@@ -153,7 +153,6 @@ export class RetailService {
         ticket.masterInfo.ma_cuahang = userObj['shop'];
         ticket.masterInfo.status = '0';
         ticket.masterInfo.ma_ca = userObj['shift'];
-        ticket.masterInfo.ngay_ct = Date();
         ticket.masterInfo.ma_nvbh = userObj['username'];
         ticket.masterInfo.ma_dvcs = userObj['unit'];
         this.ticketApiService.getVoucherNumber(TICKET_ENTITY.RETAIL).subscribe(result => {
@@ -170,6 +169,9 @@ export class RetailService {
                 localStorage.setItem("voucherNumberCheck", JSON.stringify(voucherNumberCheck));
                 this.commonService.saveVoucherNumberLocalStorage(ticket.masterInfo.so_ct, TICKET_CODE.RETAIL);
             }
+        });
+        this.ticketApiService.getVoucherDate().subscribe(result => {
+          ticket.masterInfo.ngay_ct = result?.result as any || Date();
         });
     }
 

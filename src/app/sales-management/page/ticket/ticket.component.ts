@@ -69,6 +69,59 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
     delete: true
   }
 
+  isDisabled = {
+    create: true,
+    view: true,
+    edit: true,
+    delete: true
+  }
+
+  useEdit = false;
+  useDelete = false;
+  entityNamesAuthorization = [
+    "SVTran",
+    "SVTran_BHC",
+    "SVTran_BHW",
+    "SVTran_DXA",
+    "SVTran_BHB",
+    "SVTran_BHD",
+    "SVTran_BHE",
+    "SVTran_BHF",
+    "SVTran_DV1",
+    "SVTran_BHG",
+    "SVTran_BHI",
+    "SVTran_BHK",
+    "PR3Tran",
+    "ITTran",
+    "IPTran",
+    "ITNTran",
+    "IPNTran",
+    "ITTran_PXB2",
+    "RUTran",
+    "ISTran_PXK",
+    "ISTran_PXM",
+    "ISTran_PXW",
+    "SVTran_XD1",
+    "SVTran_XD2",
+    "IRTran_PNM",
+    "IRTran_PNW",
+    "SVTran_HDF",
+    "SVTran_HDR",
+    "SVTran_HD3",
+    "PVTran",
+    "SVTran_MHA",
+    "PVTran_PN1",
+    "RPTran",
+    "DRTran",
+    "PTCTran",
+    "PTHTran",
+    "ORTran",
+    "CDTran_PCH",
+    "PCCTran",
+    "OPTran",
+    "CDTran_PCF",
+  ];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -468,6 +521,19 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
           this.commonService.saveTicketToLocalStorage(voucherData);
 
+          // chỉ xử lý các phiếu chỉ định
+          if(this.entityNamesAuthorization.includes(this.entityName)) {
+            const authorizationData = result?.result[2]?.authorization[0] || [];
+            this.saveAuthorization(authorizationData);
+            this.setAuthorization();
+          } else {
+            // bỏ check all authorization
+            this.isDisabled.create = false;
+            this.isDisabled.view = false;
+            this.isDisabled.edit = false;
+            this.isDisabled.delete = false;
+          }
+
           this.dataSource = voucherData.map((voucherRecord: any) => {
             this.processTypeTransaction(voucherRecord);
             this.sanitizeRecord(voucherRecord);
@@ -687,6 +753,11 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           this.commonService.showMessageByName(result.message, []);
           return;
         }
+        let msg = result.toString();
+        if (msg) {
+          this.commonService.showMessageByName(msg);
+          return
+        }
         this.commonService.showMessage('Xóa voucher không thành công');
       }
     });
@@ -708,6 +779,11 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
                 if (result && !result.success && result.message && result.message !== '') {
                   this.commonService.showMessageByName(result.message);
                   return;
+                }
+                let msg = result.toString();
+                if (msg) {
+                  this.commonService.showMessageByName(msg);
+                  return
                 }
                 this.commonService.showMessage('Xóa voucher không thành công');
               }
@@ -870,6 +946,36 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         voucherRecord[fieldName] = payment.tien;
       }
     });
+  }
+
+  /*
+  * Lưu quyền vào localstorage
+  */
+  saveAuthorization(authorizationData: any) {
+    localStorage.removeItem('authorization');
+    localStorage.setItem('authorization', JSON.stringify(authorizationData));
+  }
+
+
+  /*
+  * Đọc quyền từ localstorage
+  */
+  getAuthorization() {
+    const authorization = localStorage.getItem('authorization') || '{}';
+    return JSON.parse(authorization);
+  }
+
+  /*
+  * Đặt quyền cho button
+  */
+  setAuthorization() {
+    const authorization = this.getAuthorization();
+    this.isDisabled.create = !authorization.add_yn ? true : false;
+    this.isDisabled.view = !authorization.access_yn ? true : false;
+    this.isDisabled.edit = !authorization.edit_yn ? true : false;
+    this.isDisabled.delete = !authorization.del_yn ? true : false;
+    this.useEdit = authorization.edit_yn ? true : false;
+    this.useDelete = authorization.del_yn ? true : false;
   }
 
   /*

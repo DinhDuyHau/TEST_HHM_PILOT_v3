@@ -116,6 +116,9 @@ export class SaleReturnService {
                 this.commonService.saveVoucherNumberLocalStorage(ticket.masterInfo.so_ct, TICKET_CODE.RETURN);
             }
         });
+        this.ticketApiService.getVoucherDate().subscribe(result => {
+            ticket.masterInfo.ngay_ct = result?.result as any || Date();
+        });
     }
 
     //#endregion init
