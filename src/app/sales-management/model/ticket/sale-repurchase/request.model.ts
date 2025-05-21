@@ -8,6 +8,10 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     tien_nt = 0;
     new_imei_yn = false;
     s4 = 0;
+    ma_td3 = '';
+    ma_td2 = '';
+    sl_td1 = 0;
+    ma_td1 = '';
 
     constructor(obj?: any) {
         super();

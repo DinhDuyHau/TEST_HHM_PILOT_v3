@@ -42,7 +42,7 @@ export class PromotionSelectComponent implements OnInit, OnChanges, AfterViewIni
 
     loadData() {
         const rec = this.data.rec ? this.data.rec : 0;
-        this.imeiApiService.getImeiChangeGiftPromotions(this.data.ma_imei, this.data.ma_ck, rec)
+        this.imeiApiService.getImeiChangeGiftPromotions(this.data.ma_imei, this.data.ma_ck, rec, this.data.ma_vt)
             .subscribe(result => {
                 const data = result?.result.filter(e => e.ma_vt !== this.data.ma_vt)
                 this.dataSource = data as any || [];

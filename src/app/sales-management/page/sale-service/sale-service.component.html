@@ -94,7 +94,7 @@
       </div>
     </div>
 
-    <tabs-custom>
+    <tabs-custom [titleListWithCount]="tabList">
       <tab-custom label="Dịch vụ" class="w-100">
         <table-custom
           [readonly]="readonly"
@@ -111,8 +111,9 @@
             <form-input-custom
               class="flex-1"
               name="email"
+              type="email"
+              [readonly]="readonly"
               [label]="getLabel('lbl_email_key')"
-              *ngIf="!readonly"
               [value]="ticket.masterInfo.email_nhan_key"
               (handleChangeValue)="ticket.masterInfo.email_nhan_key = $event" />
           </div>
@@ -193,7 +194,15 @@
       <payment-tab
         [action]="action"
         [shop]="shop"
-        [pay_hidden]="['tien_dat_coc', 'ma_giam_gia', 'chiet_khau']"
+        [pay_hidden]="[
+          'ma_giam_gia',
+          'chiet_khau',
+          'quet_the_tra_gop',
+          'tra_gop',
+          'sd_diem',
+          'giam_gia_crm',
+          'voucher_doi_tac'
+        ]"
         [invalid]="invalid"
         [hiddenChooseButton]="mode === 2"
         [readonly]="readonly"
@@ -236,6 +245,11 @@
             *ngIf="!readonly">
             {{ submitButtonTitle }}
           </button>
+          <app-send-email
+            *ngIf="this.mode == 2"
+            [voucherId]="this.ticket.masterInfo.stt_rec"
+            [email]="this.ticket.masterInfo.email_nhan_key"
+            [status]="this.ticket.masterInfo.status"/>
         </div>
       </div>
     </div>

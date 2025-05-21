@@ -1,8 +1,9 @@
-import { AfterContentChecked, AfterViewChecked, AfterViewInit, Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, Renderer2, SimpleChanges } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, Renderer2, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import dataFormat from '@app/_common/dataFormat';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 import { ItemFilter } from '@app/_components/gridV2/grid.model';
 import { DataFormatPipe } from '@app/_pipe/dataFormat/data-format.pipe';
+import { SelectionService } from '@app/_services/selection.service';
 import { TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { CommonService } from '@app/sales-management/page/common/common.service';
 import { Observable, Subscription, fromEvent, map, mergeMap, takeUntil, tap } from 'rxjs';
@@ -17,6 +18,7 @@ export class Cell {
   isPrimaryKey = false;
   width?: string;
   minWidth?: string;
+  visible: boolean = true;
 }
 
 @Component({
@@ -54,6 +56,9 @@ export class TableCustomComponent implements
   @Input() isShowDelete: boolean = true;
   @Input() useEdit: boolean = false;
   @Input() useDelete: boolean = false;
+  @Input() isStyleFullHeight: boolean = false;
+  @Input() enableTypeColorOverview: boolean = false;
+  @Input() enableSelected: boolean = false;
 
   pageSizeOptions: number[] = [10, 20, 50, 100, 150, 200];
 
@@ -75,6 +80,8 @@ export class TableCustomComponent implements
   @Output() handleAddDiscountNG = new EventEmitter<{ item: any }>();
   @Output() handleCustomeUpdate = new EventEmitter<{ item: any }>();
   @Output() handleDeleteDiscount09 = new EventEmitter<{ item: any }>();
+  @ViewChildren('ref') rowRefs: QueryList<ElementRef> | undefined;
+  @ViewChild('tableContainer') tableContainer: ElementRef | undefined;
 
   dataFormat = dataFormat;
 
@@ -124,19 +131,33 @@ export class TableCustomComponent implements
     "OPTran",
     "CDTran_PCF",
   ];
+  selectedRecordId: string | null = null;
 
   constructor(
     public commonService: CommonService,
-    private renderer: Renderer2, private elementRef: ElementRef
+    private renderer: Renderer2,
+    private elementRef: ElementRef,
+    private selectionService: SelectionService
   ) { }
 
   ngOnInit(): void {
-    this.columns = this.columns.map(column => {
-      return { ...new Cell(), ...column, format: (dataFormat as any)[column.format ? column.format : ''] };
+    // this.columns = this.columns.map(column => {
+    //   return { ...new Cell(), ...column, format: (dataFormat as any)[column.format ? column.format : ''] };
+    // });
+    this.selectionService.selectedItem$.subscribe(id => {
+      this.selectedRecordId = id;
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes["columns"]) {
+      this.columns = this.columns.map(column => ({
+        ...new Cell(),
+        ...column,
+        format: (dataFormat as any)[column.format ? column.format : ''],
+        visible: column.visible !== undefined ? column.visible : true
+      }));
+    }
     if (changes["dataSource"]?.currentValue?.length > 0) {
       // xử lý đổi màu phiếu chỉ định
       const ARRAY_SITE_TRANSFER = [
@@ -156,13 +177,25 @@ export class TableCustomComponent implements
         'SVTran_BHK',
         'PVTran',
         'SVTran_DXA',
+        'RUTran',
       ];
       if (ARRAY_SITE_TRANSFER.includes(this.entityName)) {
         this.dataSource = this.dataSource.map(item => ({
           ...item,
-          class: this.getStatusClass(item.status)
+          class_status: this.getStatusClass(item.status)
         }));
       }
+
+      // gán màu chữ cho loại hiển thị ở tổng quan
+      if(this.enableTypeColorOverview) {
+        this.dataSource = this.dataSource.map(item => ({
+          ...item,
+          type_color_overview: item.typeMap ? this.getTypeOverviewClass(item.typeMap) : ''
+        }));
+      }
+
+      // Gọi hàm xử lý selectedRecord
+      this.handleSelectedRecord();
 
       this.pageIndexTotal = Math.trunc(this.totalItem / this.size) + 1
 
@@ -188,6 +221,51 @@ export class TableCustomComponent implements
     } else {
       this.pageIndexRange = [1];
       this.pageIndexTotal = 1;
+    }
+  }
+
+  handleSelectedRecord() {
+    if (!this.enableSelected) return;
+
+    if (!this.selectedRecordId) {
+      if (this.enableSelected && this.dataSource) {
+        this.dataSource = this.dataSource.map(item => ({
+          ...item,
+          selectedRow: false
+        }));
+        this.selectedRecordId = null;
+      }
+
+      if (this.tableContainer?.nativeElement) {
+        this.tableContainer.nativeElement.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+    } else {
+      this.dataSource = this.dataSource.map(item => ({
+        ...item,
+        selectedRow: item.stt_rec === this.selectedRecordId
+      }));
+
+      const selectedRow = this.rowRefs?.toArray().find((ref: ElementRef, index: number) => {
+        return this.dataSource[index]?.selectedRow;
+      });
+
+      if (selectedRow) {
+        selectedRow.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+    }
+  }
+
+  selectRowById(recordId: string) {
+    const rowElement = document.querySelector(`tr[data-id="${recordId}"]`) as HTMLElement;
+    const record = this.dataSource.find(r => r.stt_rec === recordId);
+    if (record && rowElement) {
+      this.onSelectItem(record, rowElement);
     }
   }
 
@@ -368,11 +446,11 @@ export class TableCustomComponent implements
     if (this.handleView.observers.length === 0) {
       return false;
     }
-    if (record.status === '0') {
-      return false;
-    }
     if (this.entityName === TICKET_ENTITY.CONTRACT) {
       return true;
+    }
+    if (record.status === '0') {
+      return false;
     }
     return true;
   }
@@ -392,17 +470,23 @@ export class TableCustomComponent implements
       return false;
     }
 
-    switch (this.entityName) {
-      case TICKET_ENTITY.CONTRACT:
-        return false;
-      case TICKET_ENTITY.STOCK_TRANFER_IN:
-        return false;
-      case TICKET_ENTITY.STOCK_INTERNAL_PURCHASE:
-        return false;
+    if (this.isShowDelete) return true
 
-      default:
-        return true;
+    if(!this.isShowDelete) {
+      return record.status == 0
     }
+
+    if (this.handleDelete.observers.length === 0) {
+      return false;
+    }
+
+    const disallowedEntities = [
+      TICKET_ENTITY.CONTRACT,
+      TICKET_ENTITY.STOCK_TRANFER_IN,
+      TICKET_ENTITY.STOCK_INTERNAL_PURCHASE
+    ];
+
+    return !disallowedEntities.includes(this.entityName);
   }
 
   showRemoveDiscount09Button(record: any) {
@@ -482,4 +566,31 @@ export class TableCustomComponent implements
         return '';
     }
   }
+
+  // xử lý class màu chữ cho loại tổng quan
+  getTypeOverviewClass(typeMap: string): string {
+    switch (typeMap) {
+      case "merchandise_return":
+        return 'merchandise-return-type';
+      case "merchandise_used":
+        return 'merchandise-used-type';
+      case "service":
+        return 'service-type';
+      case "packages":
+        return 'packages-type';
+      case "discount":
+        return 'discount-type';
+      default:
+        return '';
+    }
+  }
+
+  getRowClass(record: any): any {
+    return {
+      [record.class_status || '']: !!record.class_status,
+      [record.type_color_overview || '']: !!record.type_color_overview,
+      'selected': record.selectedRow === true
+    };
+  }
+
 }

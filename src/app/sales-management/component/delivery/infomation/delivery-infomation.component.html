@@ -12,7 +12,7 @@
             [id]="deliveryType.COD"
             name="flexRadioDefault"
             (change)="onChange(deliveryType.COD)" />
-          <label class="form-check-label" [for]="deliveryType.COD"> COD </label>
+          <label class="form-check-label" [for]="deliveryType.COD"> {{ isOtherLabel ? 'Thu tiền qua COD' : 'COD'}} </label>
         </div>
         <div class="form-check">
           <input
@@ -24,7 +24,7 @@
             name="flexRadioDefault"
             (change)="onChange(deliveryType.HH)" />
           <label class="form-check-label" [for]="deliveryType.HH">
-            Giao hàng
+            {{ isOtherLabel ? 'Giao hàng không thu tiền' : 'Giao hàng'}}
           </label>
         </div>
         <div class="form-check">

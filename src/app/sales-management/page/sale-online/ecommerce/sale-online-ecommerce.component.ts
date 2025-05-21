@@ -36,7 +36,8 @@ const { DISCOUNT_LIST,
   GUARANTEE_LIST,
   ECOMMERCE_LIST,
   SERVICE_LIST,
-  PACKAGE_LIST
+  PACKAGE_LIST,
+  OVERVIEW_LIST
 } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
@@ -57,6 +58,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   discountColumns = DISCOUNT_LIST;
   packageColumns = PACKAGE_LIST;
   guaranteeColumns = GUARANTEE_LIST;
+  overviewColumns = OVERVIEW_LIST;
   mode!: number;
   submitButtonTitle!: string;
   cancelButtonTitle!: string;
@@ -88,6 +90,16 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   ma_imei = '';
   addOrUpdateCustomer = 'create';
 
+  tab_sources: any[] = [
+    { label: 'Tổng quan' },
+    { label: 'Hàng hoá', name: 'merchandise' },
+    { label: 'Dịch vụ', name: 'service' },
+    { label: 'Gói cước', name: 'packages' },
+    { label: 'Chiết khấu', name: 'discount' },
+    { label: 'Thông tin đơn TMĐT' },
+    { label: 'HĐĐT' }
+  ];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -103,6 +115,30 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   ) {
     localStorage.setItem('useGridCached', '1');
     this.saleOnlineEcommerceService.setTicket(this.ticket, this.option);
+  }
+
+  // get tabList() {
+  //   return [
+  //     { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
+  //     { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
+  //     { label: 'Gói cước', count: this.ticket?.packages?.length ?? 0 },
+  //     { label: 'Chiết khấu', count: this.ticket?.discount?.length ?? 0 },
+  //     { label: 'Thông tin đơn TMĐT' },
+  //     { label: 'HĐĐT' }
+  //   ];
+  // }
+
+  get overviewData() {
+    const newOverview = [
+      ...this.ticket.merchandise.map(item => this.commonService.mapToOverview(item, 'Hàng hóa', 'merchandise')),
+      ...this.ticket.service.map(item => this.commonService.mapToOverview(item, 'Dịch vụ', 'service')),
+      ...this.ticket.packages.map(item => this.commonService.mapToOverview(item, 'Gói cước', 'packages'))
+    ];
+
+    if (JSON.stringify(newOverview) !== JSON.stringify(this.ticket.overview)) {
+      this.ticket.overview = newOverview;
+    }
+    return this.ticket.overview || [];
   }
 
   testData() {
@@ -714,17 +750,18 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
             if (result.success) {
               // this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Update_Completed);
-              if (this.ticket.masterInfo.status == '2') {
-                this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
-                  if (res.success) {
-                    this.commonService.showMessageByName(res.message);
-                  }
-                  this.router.navigate(['sales/online']);
-                });
-              }
-              else {
-                this.router.navigate(['sales/online']);
-              }
+              // if (this.ticket.masterInfo.status == '2') {
+              //   this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
+              //     if (res.success) {
+              //       this.commonService.showMessageByName(res.message);
+              //     }
+              //     this.router.navigate(['sales/online']);
+              //   });
+              // }
+              // else {
+              //   this.router.navigate(['sales/online']);
+              // }
+              this.router.navigate(['sales/online']);
             } else {
               if (result.result && result.result.length > 0) {
                 this.commonService.showMessageByNameAdvance(result.message, ...result.result);

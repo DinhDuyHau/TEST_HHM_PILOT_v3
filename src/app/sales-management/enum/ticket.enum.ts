@@ -50,7 +50,10 @@ export const TICKET_TYPE = {
     TRANSFER_SHIFT_PAYMENT: 41,
 
     //phiếu mua lại dịch vụ
-    SALE_REPURCHASE_SERVICE: 42
+    SALE_REPURCHASE_SERVICE: 42,
+
+    DEPOSIT_BAOKIM: 43, // nộp tiền qua bảo kim vào VPBank
+    WITHDRAW_BAOKIM: 44, // rút tiền qua bảo kim vào VPBank
 };
 
 

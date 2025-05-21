@@ -275,12 +275,32 @@
           [gridType]="gridType"
           [buttons]="buttons"
           [disabled]="disabled"
+          [actionButtons]="actionButtons"
           (handlePaging)="onPageChange($event)"
           (handleSelectColumn)="onSelectColumn($event)"
           (handleSortColumn)="onSortColumn($event)"
           (handleSearch)="onSearch()"
           (handleButton)="clickButton($event)"
           (handleChangeRow)="changeRow($event)"
+          (handleActionButton)="onHandleActionButton($event)"
+          class="h-full w-full">
+        </app-grid-v2>
+      </tab-custom>
+      <tab-custom label="Chiết khấu" class="h-96 w-full">
+        <app-grid-v2
+          [fields]="discountColumns"
+          [dataSource]="dataSourceDiscount"
+          [isLockingColumn]="isLockingColumn"
+          [gridType]="gridType"
+          [buttons]="buttonsDiscount"
+          [disabled]="disabled"
+          (handlePaging)="onPageChange($event)"
+          (handleSelectColumn)="onSelectColumn($event)"
+          (handleSortColumn)="onSortColumn($event)"
+          (handleSearch)="onSearch()"
+          (handleChangeInputRow)="changeInputRow($event)"
+          (handleAddRow)="handleAddRow()"
+          (handleDeleteRow)="handleDeleteRow($event)"
           class="h-full w-full">
         </app-grid-v2>
       </tab-custom>
@@ -377,7 +397,7 @@
     <div
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-x-1 lg:gap-x-10 gap-y-1 lg:gap-y-3">
       <!-- <div class="hidden lg:flex"></div> -->
-      <div class="flex">
+      <!-- <div class="flex">
         <app-input-custom-v2
           [label]="getLabel('lbl_chiet_khau_truoc_vat')"
           class="flex-1 discount-wrap"
@@ -402,6 +422,30 @@
           (handleEnter)="onEnterTaxRate($event)"
           (handleChange)="onTaxRateChange($event);"
           ></app-input-custom-v2>
+      </div> -->
+      <div class="flex">
+        <app-input-custom-v2
+          [label]="'Tổng tiền CK trước thuế'"
+          class="flex-1 discount-wrap"
+          name="s6"
+          [dataFormatString]="'normalQuantity'"
+          type="number"
+          [align]="'right'"
+          [value]="data.masterInfo.s6 || 0"
+          [disabled]="true"
+        ></app-input-custom-v2>
+      </div>
+      <div class="flex">
+        <app-input-custom-v2
+          [label]="'Tổng tiền thuế CK'"
+          class="flex-1 discount-wrap"
+          name="s5"
+          [dataFormatString]="'normalQuantity'"
+          type="number"
+          [align]="'right'"
+          [value]="data.masterInfo.s5 || 0"
+          [disabled]="true"
+        ></app-input-custom-v2>
       </div>
       <div class="flex">
         <app-input-custom-v2

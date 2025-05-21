@@ -1,0 +1,106 @@
+<div mat-dialog-content>
+  <div class="p-3">
+    <div class="header-delivery">
+      <div class="box-title">Sử dụng hình thức giao hàng:</div>
+      <div class="d-flex gap-3 box-check">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            [disabled]="data && data.ma_loaivc !== deliveryType.COD && readonly"
+            [checked]="data && data.ma_loaivc === deliveryType.COD"
+            type="radio"
+            [id]="deliveryType.COD"
+            name="flexRadioDefault"
+            (change)="onChange(deliveryType.COD)" />
+          <label class="form-check-label" [for]="deliveryType.COD"> {{ isOtherLabel ? 'Thu tiền qua COD' : 'COD'}} </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            [disabled]="data && data.ma_loaivc !== deliveryType.HH && readonly"
+            [checked]="data && data.ma_loaivc === deliveryType.HH"
+            type="radio"
+            [id]="deliveryType.HH"
+            name="flexRadioDefault"
+            (change)="onChange(deliveryType.HH)" />
+          <label class="form-check-label" [for]="deliveryType.HH">
+            {{ isOtherLabel ? 'Giao hàng không thu tiền' : 'Giao hàng'}}
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            [disabled]="data && data.ma_loaivc !== deliveryType.CH && readonly"
+            [checked]="data && data.ma_loaivc === deliveryType.CH"
+            type="radio"
+            [id]="deliveryType.CH"
+            name="flexRadioDefault"
+            (change)="onChange(deliveryType.CH)" />
+          <label class="form-check-label" [for]="deliveryType.CH">
+            Nhận tại cửa hàng
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="">
+      <div class="box-container">
+        <div class="box mb-4">
+          <div class="title-current">Vận chuyển COD</div>
+          <div class="d-flex gap-3">
+            <form-input-custom
+              class="flex-1"
+              [name]="'so_dh_vc'"
+              [label]="'Mã đơn hàng'"
+              [readonly]="readonly"
+              [value]="data.cod.so_dh_vc"
+              (handleChangeValue)="data.cod.so_dh_vc = $event" />
+            <form-input-custom
+              class="flex-1"
+              [name]="'ma_van_don'"
+              [label]="'Mã vận đơn'"
+              [readonly]="readonly"
+              [value]="data.cod.ma_van_don"
+              (handleChangeValue)="data.cod.ma_van_don = $event" />
+          </div>
+
+          <form-input-custom
+            label="Phí vận chuyển"
+            [align]="'end'"
+            [readonly]="readonly"
+            [value]="data.cod.tien_phi_cod"
+            (handleChangeValue)="data.cod.tien_phi_cod = $event"
+            dataType="number"
+            format="moneyViewFormat" />
+        </div>
+
+        <div class="box mb-4">
+          <div class="title-current">Đơn vị vận chuyển</div>
+          <div class="d-flex gap-3">
+            <form-input-custom
+              class="flex-1"
+              [name]="'ma_nv_giao'"
+              [label]="l_ma_don_vi"
+              [readonly]="readonly"
+              [value]="data.cod.ma_nv_giao"
+              (handleEnterInput)="onEnterDECode($event)"
+              (handleClickOpenDialog)="onOpenDialog()" />
+            <form-input-custom
+              class="flex-1"
+              [name]="'ten_kh'"
+              [label]="'Tên đơn vị'"
+              [value]="data.cod.ten_nv"
+              (handleChangeValue)="data.cod.ten_nv = $event"
+              [readonly]="readonly"
+              [disabled]="true" />
+          </div>
+          <form-input-custom
+            [name]="'ghi_chu_gd'"
+            [label]="'Ghi chú hàng hóa'"
+            [readonly]="readonly"
+            [value]="data.cod.ghi_chu_gh"
+            (handleChangeValue)="data.cod.ghi_chu_gh = $event" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

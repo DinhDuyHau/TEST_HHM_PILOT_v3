@@ -33,12 +33,16 @@ import { Package } from '@app/sales-management/model/ticket/common-model/package
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
+import { VoucherCodeService } from '../../common/voucher-code.service';
 
 const { DISCOUNT_LIST,
     GUARANTEE_LIST,
     MERCHANDISE_ONLINE_LIST,
     SERVICE_LIST,
-    PACKAGE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
+    PACKAGE_LIST,
+    OVERVIEW_LIST,
+    VOUCHER_CODE_LIST
+} = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
     selector: 'app-sale-online',
@@ -58,6 +62,8 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     packageColumns = PACKAGE_LIST;
     discountColumns = DISCOUNT_LIST;
     guaranteeColumns = GUARANTEE_LIST;
+    overviewColumns = OVERVIEW_LIST;
+    voucherCodeColumns = VOUCHER_CODE_LIST;
     mode!: number;
     submitButtonTitle!: string;
     cancelButtonTitle!: string;
@@ -88,6 +94,19 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     ma_imei = '';
     ma_kh_label = 'Mã khách';
     addOrUpdateCustomer = 'create';
+    voucher_code = ''; // Mã giảm giá
+    isCheckingVoucher = false;
+
+    tab_sources: any[] = [
+        { label: 'Tổng quan' },
+        { label: 'Hàng hoá', name: 'merchandise' },
+        { label: 'Dịch vụ', name: 'service' },
+        { label: 'Gói cước', name: 'packages' },
+        { label: 'Chiết khấu', name: 'discount' },
+        { label: 'Mã giảm giá', name: 'voucherCode' },
+        { label: 'Vận chuyển' },
+        { label: 'HĐĐT' }
+    ];
 
     constructor(
         private router: Router,
@@ -102,10 +121,35 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
         private merchandiseService: MerchandiseService,
         private discountService: DiscountService,
         private guaranteeApiService: GuaranteeApiService,
-        private sanitizer: DomSanitizer
+        private sanitizer: DomSanitizer,
+        private voucherCodeService: VoucherCodeService
     ) {
         localStorage.setItem('useGridCached', '1');
         this.saleOnlineService.setTicket(this.ticket, this.option);
+    }
+
+    // get tabList() {
+    //     return [
+    //         { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
+    //         { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
+    //         { label: 'Gói cước', count: this.ticket?.packages?.length ?? 0 },
+    //         { label: 'Chiết khấu', count: this.ticket?.discount?.length ?? 0 },
+    //         { label: 'Vận chuyển' },
+    //         { label: 'HĐĐT' }
+    //     ];
+    // }
+
+    get overviewData() {
+        const newOverview = [
+            ...this.ticket.merchandise.map(item => this.commonService.mapToOverview(item, 'Hàng hóa', 'merchandise')),
+            ...this.ticket.service.map(item => this.commonService.mapToOverview(item, 'Dịch vụ', 'service')),
+            ...this.ticket.packages.map(item => this.commonService.mapToOverview(item, 'Gói cước', 'packages'))
+        ];
+
+        if (JSON.stringify(newOverview) !== JSON.stringify(this.ticket.overview)) {
+            this.ticket.overview = newOverview;
+        }
+        return this.ticket.overview || [];
     }
 
     testData() {
@@ -198,7 +242,22 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                         if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
                             this.eInvoiceInfo = hddtTable.data[0];
                         }
-                        this.saleOnlineService.loadData(result.result as any as VoucherDto);
+                        this.saleOnlineService.loadData(result.result as any as VoucherDto, () => {
+                            // lấy tien_ck_max khi ban đầu load data
+                            const discountForMerchandise10 = this.ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE);
+                            discountForMerchandise10.forEach((discount: any) => {
+                                if (discount && discount.imei_hang_mua) {
+                                    this.commonService.voucherCheck(discount.imei_hang_mua, '', '', '', []).subscribe({
+                                        next: (voucherResult: any) => {
+                                            if (voucherResult?.Info) {
+                                                discount.tien_ck_max = voucherResult.Info.DiscountPrice || 0;
+                                            }
+                                        },
+                                        error: () => { }
+                                    });
+                                }
+                            });
+                        });
                         this.handleGetDeposit();
                         this.commonService.addToImeisInVoucher(this.ticket.merchandise.filter(e => e.ma_imei).map(e => e.ma_imei));
                         getStatusList();
@@ -254,6 +313,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
         this.handleGetDeposit();
         this.saleOnlineService.setIsNeedCalcDiscount(true);
         this.discountService.resetDiscount(this.ticket.discount);
+        this.voucherCodeService.resetVoucherCode(this.ticket);
         this.saleOnlineService.calcMoney();
         this.saleOnlineService.getConversionPoint().subscribe(result => {
             if (result && result.success && result.result !== null) {
@@ -333,6 +393,10 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
         this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh, addOrUpdate: this.addOrUpdateCustomer }, 'fullscreen-dialog')
             .afterClosed()
             .subscribe((customer: Customer) => {
+                if (this.addOrUpdateCustomer == 'create') {
+                    this.ticket.masterInfo.ma_hang = '';
+                    this.handleAddCustomer(customer);
+                }
                 customer && this.saleOnlineService.setInfoCustomer(customer);
             });
     }
@@ -405,6 +469,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
             this.commonService.focusControl2(this.tabIndex.imei);
             this.saleOnlineService.setIsNeedCalcDiscount(true);
             this.discountService.resetDiscount(this.ticket.discount);
+            this.voucherCodeService.resetVoucherCode(this.ticket);
             this.saleOnlineService.calcMoney();
             // khi add imei xử lý ck 09
             this.applyDiscount09ForMerchandise(merchandiseResponse);
@@ -614,6 +679,11 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     }
 
     onRemoveDiscount(event: { item: Discount }) {
+        if (this.ticket.voucherCode.length > 0 && event.item.loai_ck != DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE) {
+            this.commonService.showMessage('Chỉ được phép xóa chiết khấu mã giảm giá voucher website');
+            return;
+        }
+
         if (event.item.loai_ck === DISCOUNT_TYPE.GIFT) {
             this.commonService.showMessageByName('lblWarningNotDeleteDiscountGift');
             return;
@@ -622,6 +692,16 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
             this.commonService.showMessage('Không thể xóa chiết khấu hạng khách hàng');
             return;
         }
+        let isVoucherDiscount = event.item.loai_ck == DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE;
+        if (isVoucherDiscount) {
+            this.ticket.discount = this.ticket.discount.filter(
+                x => !(x.ma_ck.trim().toLowerCase() === event.item.ma_ck.trim().toLowerCase() &&
+                    x.imei_hang_mua.trim().toLowerCase() === event.item.imei_hang_mua.trim().toLowerCase())
+            );
+            this.ticket.voucherCode = this.ticket.voucherCode.filter(
+                (i) => i.ma_voucher.trim().toLowerCase() !== event.item.imei_hang_mua.trim().toLowerCase()
+            );
+        }
         const discountCurrent = this.discountService.getDiscountCurrent(this.ticket.discount.filter(x => x.ma_ck !== event.item.ma_ck));
         const rs = this.saleOnlineService.calcDiscount();
         if (rs) {
@@ -629,7 +709,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                 if (result.success) {
                     this.discountCanApply = this.discountService.convertDiscountFromList(result.result as any);
                     const discountAfterRemove = this.discountCanApply.filter((item) => discountCurrent.find(x => x.ma_ck == item.ma_ck));
-                    this.saleOnlineService.updateDiscount(discountAfterRemove);
+                    this.saleOnlineService.updateDiscount(discountAfterRemove, false, null, isVoucherDiscount);
                 }
                 else {
                     this.commonService.showMessageByName(result.message);
@@ -713,6 +793,9 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
             return;
         }
 
+        // kiểm tra vận chuyển
+        if (!this.validTransport()) return;
+
         const message = this.saleOnlineService.validateTicket(this.ticket);
         this.invalid = this.commonService.isInValidPayment(this.ticket.payment) || this.saleOnlineService.isInvalidForm(this.ticket.masterInfo);
         this.invalid && this.commonService.showMessage(Language.content.Missing_information);
@@ -729,17 +812,18 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                         this.isDisabled = false;
                         if (result.success) {
                             this.commonService.showMessage(Language.content.Update_Completed);
-                            if (this.ticket.masterInfo.status == '2') {
-                                this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
-                                    if (res.success) {
-                                        this.commonService.showMessageByName(res.message);
-                                    }
-                                    this.router.navigate(['sales/web-order']);
-                                });
-                            }
-                            else {
-                                this.router.navigate(['sales/web-order']);
-                            }
+                            // if (this.ticket.masterInfo.status == '2') {
+                            //     this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
+                            //         if (res.success) {
+                            //             this.commonService.showMessageByName(res.message);
+                            //         }
+                            //         this.router.navigate(['sales/web-order']);
+                            //     });
+                            // }
+                            // else {
+                            //     this.router.navigate(['sales/web-order']);
+                            // }
+                            this.router.navigate(['sales/web-order']);
                         } else {
                             if (result.result && result.result.length > 0) {
                                 this.commonService.showMessageByNameAdvance(result.message, ...result.result);
@@ -935,6 +1019,209 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
 
         // nếu vẫn còn áp dụng ck 09 thì gán ngược lại mã cũ
         this.ticket.masterInfo.ma_hang = ma_hang_backup;
+    }
+    //#endregion
+
+    validTransport() {
+        if (this.ticket.transport.ma_loaivc === '01' && this.ticket.masterInfo.t_con_no === 0) {
+            this.commonService.showMessageByName('warning_transport_cod_no_debt');
+            return false;
+        }
+        if (this.ticket.transport.ma_loaivc === '02' && this.ticket.masterInfo.t_con_no !== 0) {
+            this.commonService.showMessageByName('warning_transport_non_cod_with_debt');
+            return false;
+        }
+        return true;
+    }
+
+    //#region Mã giảm giá
+    handleChangeVoucherCode($event: any) {
+        if (this.isCheckingVoucher) return;
+
+        this.voucher_code = $event;
+
+        // valid voucher code
+        const message = this.voucherCodeService.validVoucherCode(this.ticket);
+        if (message) return this.commonService.showMessage(message);
+
+        // Lấy danh sách mã vật tư trong phiếu bán
+        const skus = this.ticket.merchandise
+            .map(item => item.ma_vt?.trim().toLowerCase())
+            .filter(Boolean); // Loại bỏ giá trị undefined/null
+
+        if (!this.voucher_code) return;
+
+        this.isCheckingVoucher = true;
+
+        const member = this.ticket.masterInfo.ma_hang.trim() || 'NEWMEMBER';
+        const phone = this.ticket.masterInfo.ma_kh.trim() || '';
+        const userJson = localStorage.getItem('user');
+        const userObj = userJson !== null && JSON.parse(userJson);
+        const stock = userObj['shop'] || '';
+        this.commonService.voucherCheck(this.voucher_code, member, phone, stock, skus).subscribe({
+            next: result => {
+                const response = result as any;
+                // tạm thời ko sử dụng phía client
+                // const validSkus = this.voucherCodeService.validateVoucherResponse(response, skus);
+                // if (validSkus) {
+                //   thi.addVoucherCode(validSkus, response, this.ticket);
+                // }
+
+                if (!response?.IsValid) return this.commonService.showMessage(response?.Message || 'Mã giảm giá không hợp lệ');
+                let validSkus: string[] = [];
+                if (response?.Config?.SKU?.IsEnable) {
+                    // Kiểm tra mã vật tư có trong danh sách hợp lệ không nếu IsEnable = true
+                    validSkus = (response?.Config?.SKU?.Items || []).map((item: string) => item.trim().toLowerCase());
+                    if (!skus.some(sku => validSkus.includes(sku))) {
+                        return this.commonService.showMessage('Mã giảm giá không áp dụng cho mã hàng này');
+                    }
+                }
+                // thêm mã voucher vào danh sách mã voucher
+                this.addVoucherCode(validSkus, response);
+            },
+            error: (err) => {
+                this.commonService.showMessage('Có lỗi xảy ra khi kiểm tra mã giảm giá');
+            },
+            complete: () => {
+                this.isCheckingVoucher = false;
+            }
+        });
+    }
+
+    addVoucherCode(validSkus: string[], inputResponse: any) {
+        // tiền ck & tl ck
+        const DiscountPrice = inputResponse?.Info?.DiscountPrice || 0;
+        const DiscountRate = inputResponse?.Info?.DiscountRate || 0;
+        const SKU = inputResponse?.Config?.SKU;
+        const Info = inputResponse?.Info;
+        const CampaignID = inputResponse?.Info?.Campaign[0]?.ID || '';
+        let ma_imei = '';
+        let ma_vt = '';
+        let type = 0; // 0: phân bổ hết các vt trong tab hàng hóa, 1: phân bổ theo mã vt được áp dụng, 2: áp dụng vật tư có giá trị cao nhất
+
+        let validMerchandise = [];
+
+        if (validSkus.length > 0) {
+            validMerchandise = this.ticket.merchandise.filter(item =>
+                validSkus.includes(item.ma_vt?.trim().toLowerCase())
+            );
+        } else {
+            validMerchandise = [...this.ticket.merchandise]; // Dùng toàn bộ nếu validSkus rỗng
+        }
+
+        if (validMerchandise.length === 0) {
+            return this.commonService.showMessage('Không có vật tư nào hợp lệ để áp dụng voucher');
+        }
+
+        // set vào sessionStorage để sử dụng tình phân bổ cho vật tư
+        sessionStorage.setItem('merchandise_apply_voucher', JSON.stringify(validMerchandise));
+
+        // Tìm ra vật tư có giá trị cao nhất trong danh sách được áp dụng
+        const maxMerchandise = validMerchandise.reduce((prev, current) =>
+            prev.gia_ban > current.gia_ban ? prev : current
+        );
+
+        if (SKU.IsEnable && Info.IsAllocation) { // true => áp dụng phân bổ cho các vt thỏa mãn
+            // ck phân bổ theo mã vt được áp dụng voucher
+            type = 1;
+
+            // nếu ko phải phân bổ: IsEnable = true
+            // và ma_vt trong hàng hóa đều giống nhau thì thực hiện ma_imei = '', ma_vt='' để phân bổ tiền ck
+            // if (this.ticket.merchandise && this.ticket.merchandise.length > 0) {
+            //   const uniqueMaVTs = new Set(this.ticket.merchandise.map(x => x.ma_vt.trim().toLowerCase()));
+
+            //   if (uniqueMaVTs.size === 1) {
+            //     ma_imei = '';
+            //     ma_vt = '';
+            //   }
+            // }
+        }
+
+        if (!Info.IsAllocation) { // false => ko phân bổ, áp dụng vật tư có giá trị cao nhất
+            // set ma_vt mà ma_imei nếu áp dụng cho vật tư có giá cao nhất
+            ma_imei = maxMerchandise.ma_imei || '';
+            ma_vt = maxMerchandise.ma_vt || '';
+
+            // áp dụng vật tư có giá trị cao nhất
+            type = 2;
+        }
+
+        // kiểm tra đã add voucher
+        if (this.ticket.voucherCode.some(item => item.ma_voucher.trim().toLowerCase() === this.voucher_code.trim().toLowerCase())) {
+            // xóa đi nếu ko add được voucher
+            sessionStorage.removeItem('merchandise_apply_voucher');
+            return this.commonService.showMessage('Mã giảm giá đã được áp dụng');
+        }
+
+        // xử lý lấy imei để check campaign
+        const duplicated = this.ticket.voucherCode.find(item =>
+            item.ma_td1?.trim().toLowerCase() === CampaignID.toString().trim().toLowerCase()
+        );
+        if (duplicated) {
+            // xóa đi nếu ko add được voucher
+            sessionStorage.removeItem('merchandise_apply_voucher');
+            return this.commonService.showMessage(`Mã giảm giá "${duplicated.ma_voucher}" đã được áp dụng cho chương trình hiện tại với IMEI "${duplicated.ma_imei}".`);
+        }
+
+        // cal api lấy ra chiết khấu loại 10
+        const ngay_ct = new Date(`${this.ticket.masterInfo.ngay_ct}Z`);
+        this.saleOnlineService.getDiscountVoucherCode(ngay_ct).subscribe(result => {
+            const response = result as any;
+
+            if (response.success && response.result != null) {
+                const discountRes = response.result[0] as any;
+
+                const discount = {
+                    ma_ck: discountRes.ma_ck || 'VOUCHERWEB',
+                    ma_imei: ma_imei,
+                    ma_vt: ma_vt,
+                    loai_ck: discountRes.loai_ck || DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE,
+                    ten_ck: discountRes.ten_ck || 'Chết khấu voucher website 2025',
+                    ten_loai: discountRes.ten_loai || 'Chiết khấu theo mã voucher website',
+                    imei_hang_mua: this.voucher_code,
+                    ngay_bd: discountRes.ngay_bd,
+                    ngay_kt: discountRes.ngay_kt,
+                    tien_qd: 0,
+                    tien_ck_max: DiscountPrice,
+                    tl_ck: DiscountRate,
+                    campaign_id: CampaignID,
+                    type: type
+                } as Discount;
+                this.discountService.addNew([discount], this.ticket.discount);
+
+                this.commonService.showMessage('Thêm mã giảm giá thành công');
+                this.handleAfterDiscountAdded(); // call api ck để lấy data tính toán ck sau đó calcMoney lại
+                this.voucher_code = ''; // reset input mã giảm giá
+
+            }
+        });
+    }
+
+    handleAfterDiscountAdded() {
+        const discountCurrent = this.discountService.getDiscountCurrent(this.ticket.discount.filter(x => x.ma_ck !== ''));
+        const rs = this.saleOnlineService.calcDiscount();
+        if (rs) {
+            rs.subscribe(result => {
+                if (result.success) {
+                    this.discountCanApply = this.discountService.convertDiscountFromList(result.result as any);
+                    const discountAfterRemove = this.discountCanApply.filter((item) => discountCurrent.find(x => x.ma_ck == item.ma_ck));
+                    this.saleOnlineService.updateDiscount(discountAfterRemove, false, null);
+
+                    // mảng voucherCode có dữ liệu thì thực hiện chuyển trạng thái hoàn thành
+                    if (this.ticket.voucherCode.length > 0) {
+                        this.ticket.masterInfo.status = "2";
+                    }
+                }
+                else {
+                    this.commonService.showMessageByName(result.message);
+                }
+
+                // mảng voucherCode có dữ liệu thì thực hiện chuyển trạng thái hoàn thành
+                if (this.ticket.voucherCode.length > 0) {
+                    this.ticket.masterInfo.status = "2";
+                }
+            });
+        }
     }
     //#endregion
 }

@@ -50,6 +50,9 @@ export const TICKET_CODE = {
 
     //phiếu chuyển tiền từ ca sáng sang ca tối
     TRANSFER_SHIFT_PAYMENT: 'PCF',
+
+    DEPOSIT_BAOKIM: 'PTG',  // nộp tiền qua bảo kim vào VPBank
+    WITHDRAW_BAOKIM: 'PCG',  // rút tiền qua bảo kim vào VPBank
 };
 
 export const TICKET_ENTITY = {
@@ -101,5 +104,9 @@ export const TICKET_ENTITY = {
 
     //phiếu chuyển tiền từ ca sáng sang ca tối
     TRANSFER_SHIFT_PAYMENT: 'CDTran_PCF',
+
+    DEPOSIT_BAOKIM: 'CRTran_PTG',  // nộp tiền qua bảo kim vào VPBank
+    WITHDRAW_BAOKIM: 'CRTran_PCG',  // rút tiền qua bảo kim vào VPBank
+
 };
 

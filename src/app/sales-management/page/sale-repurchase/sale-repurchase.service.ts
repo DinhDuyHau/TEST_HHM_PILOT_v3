@@ -14,6 +14,8 @@ import { VoucherDto } from '@app/sales-management/model/ticket/common-model/vouc
 import { Language } from '../common/language';
 import { PaymentService } from '../common/payment.service';
 import { getDateFormat } from '@app/_common/commonFunction';
+import { Observable } from 'rxjs';
+import { ResultNoPaging } from '@app/_models';
 
 @Injectable({
     providedIn: 'root'
@@ -87,7 +89,19 @@ export class SaleRepurchaseService {
         ticket.masterInfo.ma_nvbh = userObj['username'];
         ticket.masterInfo.ma_dvcs = userObj['unit'];
         this.ticketApiService.getVoucherNumber(TICKET_ENTITY.REPURCHASE).subscribe(result => {
-            ticket.masterInfo.so_ct = result.result as any;
+            // ticket.masterInfo.so_ct = result.result as any;
+            const newSoCT = result.result as any;
+            const voucherCheckJson = localStorage.getItem("voucherNumberCheck");
+            const voucherNumberCheck = voucherCheckJson ? JSON.parse(voucherCheckJson) : {};
+            const current_soct = voucherNumberCheck.so_ct || "";
+            if (current_soct === newSoCT) {
+                this.initTicket(ticket);
+            } else {
+                ticket.masterInfo.so_ct = newSoCT;
+                voucherNumberCheck[ticket.masterInfo.ma_ct] = newSoCT;
+                localStorage.setItem("voucherNumberCheck", JSON.stringify(voucherNumberCheck));
+                this.commonService.saveVoucherNumberLocalStorage(ticket.masterInfo.so_ct, TICKET_CODE.REPURCHASE);
+            }
         });
         this.ticketApiService.getVoucherDate().subscribe(result => {
             ticket.masterInfo.ngay_ct = result?.result as any || Date();
@@ -269,4 +283,16 @@ export class SaleRepurchaseService {
         this.commonService.updateBaseInfo(masterInfo, result);
         return result;
     };
+
+    adjustBuyPrice(ngay_ct: Date, ma_ncc: string, ma_loai: string, ma_vt: string, gia_bang_gia: any, gia_dc: any): Observable<ResultNoPaging<any>> | undefined {
+        return this.ticketApiService.getRepurchaseAdjustBuyPrice(ngay_ct, ma_ncc, ma_loai, ma_vt, gia_bang_gia, gia_dc);
+    }
+
+    getOldProgram(ma_ncc: string, ngay_ct: Date): Observable<ResultNoPaging<any>> | undefined {
+        return this.ticketApiService.getOldProgram(ma_ncc, ngay_ct);
+    }
+
+    getTypeStock(ma_cttc: string, ma_ncc: string, ngay_ct: Date): Observable<ResultNoPaging<any>> | undefined {
+        return this.ticketApiService.getTypeStock(ma_cttc, ma_ncc, ngay_ct);
+    }
 }

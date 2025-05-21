@@ -90,7 +90,19 @@ export class SaleServiceService {
         ticket.masterInfo.status = '0';
         ticket.masterInfo.ngay_ct = Date();
         this.ticketApiService.getVoucherNumber(TICKET_ENTITY.SERVICE).subscribe(result => {
-            ticket.masterInfo.so_ct = result.result as any;
+            // ticket.masterInfo.so_ct = result.result as any;
+            const newSoCT = result.result as any;
+            const voucherCheckJson = localStorage.getItem("voucherNumberCheck");
+            const voucherNumberCheck = voucherCheckJson ? JSON.parse(voucherCheckJson) : {};
+            const current_soct = voucherNumberCheck.so_ct || "";
+            if (current_soct === newSoCT) {
+                this.initTicket(ticket);
+            } else {
+                ticket.masterInfo.so_ct = newSoCT;
+                voucherNumberCheck[ticket.masterInfo.ma_ct] = newSoCT;
+                localStorage.setItem("voucherNumberCheck", JSON.stringify(voucherNumberCheck));
+                this.commonService.saveVoucherNumberLocalStorage(ticket.masterInfo.so_ct, TICKET_CODE.SERVICE);
+            }
         });
         this.ticketApiService.getVoucherDate().subscribe(result => {
             ticket.masterInfo.ngay_ct = result?.result as any || Date();
@@ -209,6 +221,10 @@ export class SaleServiceService {
             message = this.commonService.getMessage('lbl_invalid_t_tien');
         } else if (ticket.masterInfo.t_da_tra < 0) {
             message = this.commonService.getMessage('lbl_invalid_t_da_tra');
+        } else if (ticket.masterInfo.dien_giai.length > 250) {
+            message = 'Diễn giải không được vượt quá 250 ký tự';
+        } else if (ticket.service.some(item => item.ad_key) && !ticket.masterInfo.email_nhan_key) {
+            message = 'Dịch vụ key phải nhập email'
         }
         return message;
     }

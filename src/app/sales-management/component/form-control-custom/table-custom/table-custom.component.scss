@@ -7,6 +7,11 @@
   border-top: 1px solid #ccc;
 }
 
+.full-height-viewport {
+  min-height: 390px !important;
+  max-height: 70vh !important
+}
+
 table {
   width: 100%;
   // border: 0.8px solid #ebedf2;
@@ -223,3 +228,26 @@ th > * {
 ::-webkit-scrollbar-thumb {
   background: gray;
 }
+
+// color type overview
+.merchandise-return-type {
+  color: #0e3e87;
+}
+
+.merchandise-used-type {
+  color: #0e3e87;
+}
+
+.service-type {
+  color: #0b7508;
+}
+
+.packages-type {
+  color: #015b78;
+}
+
+.discount-type {
+  color: #6d0808;
+}
+
+

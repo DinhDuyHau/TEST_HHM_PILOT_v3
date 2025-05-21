@@ -189,7 +189,19 @@ export class SaleWholeService {
         ticket.masterInfo.ma_nvbh = userObj['username'];
         ticket.masterInfo.ma_dvcs = userObj['unit'];
         this.ticketApiService.getVoucherNumber(TICKET_ENTITY.WHOLE).subscribe(result => {
-            ticket.masterInfo.so_ct = result.result as any;
+            // ticket.masterInfo.so_ct = result.result as any;
+            const newSoCT = result.result as any;
+            const voucherCheckJson = localStorage.getItem("voucherNumberCheck");
+            const voucherNumberCheck = voucherCheckJson ? JSON.parse(voucherCheckJson) : {};
+            const current_soct = voucherNumberCheck.so_ct || "";
+            if (current_soct === newSoCT) {
+                this.initTicket(ticket);
+            } else {
+                ticket.masterInfo.so_ct = newSoCT;
+                voucherNumberCheck[ticket.masterInfo.ma_ct] = newSoCT;
+                localStorage.setItem("voucherNumberCheck", JSON.stringify(voucherNumberCheck));
+                this.commonService.saveVoucherNumberLocalStorage(ticket.masterInfo.so_ct, TICKET_ENTITY.WHOLE);
+            }
         });
         this.ticketApiService.getVoucherDate().subscribe(result => {
             ticket.masterInfo.ngay_ct = result?.result as any || Date();
@@ -322,10 +334,11 @@ export class SaleWholeService {
             .map(e => e.tien_thue)
             .reduce((pre, cur) => pre + cur, 0);
 
-        this.ticket.masterInfo.t_tien_nt2 = merchandiseMoney;
-        this.ticket.masterInfo.t_thue_nt = this.commonService.rouding(merchandiseTax);
+        this.ticket.masterInfo.t_tien_nt2 = Math.round(merchandiseMoney);
+        this.ticket.masterInfo.t_thue_nt = Math.round(merchandiseTax);
+        // this.ticket.masterInfo.t_thue_nt = this.commonService.rouding(merchandiseTax);
         this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_nt2 + this.ticket.masterInfo.t_thue_nt;
-        this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt);
+        // this.ticket.masterInfo.t_tt_nt = this.commonService.rouding(this.ticket.masterInfo.t_tt_nt);
         this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra;
         this.ticket.masterInfo.t_con_no = this.commonService.rouding(this.ticket.masterInfo.t_con_no);
 

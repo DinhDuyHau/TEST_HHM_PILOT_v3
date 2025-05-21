@@ -54,7 +54,7 @@ export class WarrantyOutDetailComponent extends Grid<ReceiptDetail> implements O
   imei = '';
   data!: Receipt;
   statusList: StatusTicket[] = [];
-  voucherCode = 'PXM';
+  voucherCode = 'PXW';
   submitted = false;
   loading = false;
   disabled = false;
@@ -252,7 +252,7 @@ export class WarrantyOutDetailComponent extends Grid<ReceiptDetail> implements O
           }
         }
       });
-      this.ticketApiService.getVoucherNumber('ISTran_PXM').subscribe(result => {
+      this.ticketApiService.getVoucherNumber('ISTran_PXW').subscribe(result => {
         this.data.masterInfo.so_ct = result.result as any;
         this.voucherForm = this.formBuilder.group({
           so_ct: [this.data.masterInfo.so_ct, Validators.required],
@@ -439,7 +439,7 @@ export class WarrantyOutDetailComponent extends Grid<ReceiptDetail> implements O
       return;
     }
 
-    if(!imei || imei.length < 5) {
+    if (!imei || imei.length < 5) {
       this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
       return;
     }
@@ -475,13 +475,13 @@ export class WarrantyOutDetailComponent extends Grid<ReceiptDetail> implements O
         const user = JSON.parse(localStorage.getItem('user') || '{}');
         this.commonService.openDialog(SearchDialogComponent
           , {
-          keyword: imei,
-          shop: user.shop,
-          componentName: SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES,
-          title: 'Danh sách kết quả tìm kiếm imei',
-          isFilter: false
-        }, 'search-style-dialog')
-          .afterClosed().subscribe( async (result) => {
+            keyword: imei,
+            shop: user.shop,
+            componentName: SEARCH_COMPONENT_NAME.IMEI_SEARCH_SALES,
+            title: 'Danh sách kết quả tìm kiếm imei',
+            isFilter: false
+          }, 'search-style-dialog')
+          .afterClosed().subscribe(async (result) => {
             if (result && result.ma_imei) {
               const ma_imei = result.ma_imei;
               await this.processImeiInfo(ma_imei);

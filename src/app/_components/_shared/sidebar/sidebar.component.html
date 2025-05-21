@@ -113,14 +113,31 @@
                     <div
                       *ngFor="let child of item.children"
                       class="flex flex-1 items-center py-1 px-2">
+
+                      <!-- Trường hợp là report link -->
                       <a
+                        *ngIf="isReportLink(child.link); else normalLink"
                         class="flex items-center h-full nav-link z-50 w-full hover:text-white"
                         style="color: #63968e; max-width: 246px !important;"
-                        [routerLink]="child.link"
-                        activeClassName="active"
-                        routerLinkActive="active"
-                        >{{ child.bar }}
+                        [attr.href]="child.link"
+                        [class.active]="isActive(child.link)"
+                      >
+                        {{ child.bar }}
                       </a>
+
+                      <!-- Trường hợp là router link -->
+                      <ng-template #normalLink>
+                        <a
+                          class="flex items-center h-full nav-link z-50 w-full hover:text-white"
+                          style="color: #63968e; max-width: 246px !important;"
+                          [routerLink]="child.link"
+                          activeClassName="active"
+                          routerLinkActive="active"
+                        >
+                          {{ child.bar }}
+                        </a>
+                      </ng-template>
+
                     </div>
                   </div>
                 </nav>

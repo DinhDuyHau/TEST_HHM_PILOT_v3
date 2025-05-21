@@ -27,6 +27,8 @@ import { WarrantyInModule } from './inventory/warranty-in/warranty-in.module';
 import { VoucherGridModule } from './voucher/voucher.module';
 import { ProposedPurchaseModule } from './inventory/proposed-purchase/proposed-purchase.module';
 import { StockShopCheckComponent } from './stock-shop-check/stock-shop-check.component';
+import { DepositBaokimModule } from './money-transaction/deposit-baokim/deposit-baokim.module';
+import { WithDrawBaokimModule } from './money-transaction/withdraw-baokim/withdraw-baokim.module';
 // import { VoucherComponent } from './voucher.component';
 
 
@@ -59,7 +61,9 @@ import { StockShopCheckComponent } from './stock-shop-check/stock-shop-check.com
     WarrantyOutModule,
     WarrantyInModule,
     VoucherGridModule,
-    OtherMoneyTransferModule
+    OtherMoneyTransferModule,
+    DepositBaokimModule,
+    WithDrawBaokimModule
   ]
 })
 export class VoucherModule { }

@@ -7,6 +7,7 @@ import { Discount } from '../model/ticket/common-model/discount.model';
 
 const GET_MANY_URL = `${environment.apiUrl}/Category/find/dmck`;
 const GET_ONE_URL = `${environment.apiUrl}/category/getbyid/dmck`;
+const GET_VOUCHER_SITE = `${environment.apiUrl}/option/getdiscountvouchercode`;
 const GET_DISCOUNT_FOR_TICKET = `${environment.apiUrl}/Voucher/calculatediscount/`;
 
 @Injectable({
@@ -20,6 +21,12 @@ export class DiscountApiService extends ApiService {
 
     getOneById(body: {}): Observable<ResultNoPaging<Discount>> {
         return this.post<ResultNoPaging<Discount>>(GET_ONE_URL, body);
+    }
+
+    getDiscountVoucherCode(ngay_ct: Date): Observable<ResultNoPaging<any>> {
+        let url = GET_VOUCHER_SITE;
+        url += `?ngay_ct=${ngay_ct.toISOString()}`;
+        return this.get<ResultNoPaging<any>>(url);
     }
 
     getDiscountForTicket(entity: string, merchandises: any[], ma_cuahang: string, ma_kh: string, ngay_lap: string, services: any[] = [], loai_ck: string = '', ma_ct: string = ''): Observable<ResultNoPaging<Discount>> {

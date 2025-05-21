@@ -1,11 +1,16 @@
 export const environment = {
     production: true,
-    appVersion: '1.0.1',
+    appVersion: '2.25.041702',
+
+    /* URL PRODUCT */
+    apiUrl: 'https://hhm-pilot-api.genbyte.net',
+    accountingUrl: 'http://hhm-qt.genbyte.net',
 
     /* URL HỆ THỐNG TEST */
-    apiUrl: 'https://test-hhm-ketnoi.genbyte.net',
-    accountingUrl: 'http://test-hhm-ketoan.genbyte.net',
-
+    // apiUrl: 'https://test-hhm-ketnoi-v2.genbyte.net',
+    // accountingUrl: 'http://test-hhm-ketoan.genbyte.net',
+    apiUrlVoucherHHM: 'https://api.hoanghamobile.com',
+    tokenHHMVoucher: 'a4122684257c3fb823ac18d45ef8e58a',
 
     receiverPublicKey: `-----BEGIN PUBLIC KEY-----
     MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHyTiwTAOZtUqSMVNF3kzScCRdKj

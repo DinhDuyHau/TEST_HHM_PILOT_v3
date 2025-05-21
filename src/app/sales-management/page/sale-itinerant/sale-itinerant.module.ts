@@ -22,6 +22,7 @@ import { EInvoiceInfoModule } from '@app/sales-management/component/e-invoice/e-
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
 import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
 import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
+import { SendEmailModule } from '@app/sales-management/component/send-email/send-email.module';
 
 @NgModule({
     imports: [
@@ -46,7 +47,8 @@ import { NavigationVoucheModule } from '@app/sales-management/component/navigati
         EInvoiceInfoModule,
         VoucherInfoModule,
         NavigationVoucheModule,
-        VoucherInfoHeaderModule
+        VoucherInfoHeaderModule,
+        SendEmailModule
     ],
     declarations: [
         SaleItinerantComponent

@@ -57,6 +57,7 @@ const GET_TELESALE_URL = `${environment.apiUrl}/category/find/vdmnvls`;
 const GET_VOUCHER_NAVIGATION_URL = `${environment.apiUrl}/voucher/navigation`;
 const GET_VERSION_APP = `${environment.apiUrl}/service/get_version_app`;
 const GET_LOOKUP_VOUCHER_URL = `${environment.apiUrl}/Voucher/getlookup`;
+const GET_DATE = `${environment.apiUrl}/option/getdate`;
 
 @Injectable({
     providedIn: 'root'
@@ -331,6 +332,18 @@ export class TicketApiService extends ApiService {
         return this.get<ResultNoPaging<any>>(url);
     }
 
+    getRepurchaseAdjustBuyPrice(ngay_ct: Date, ma_ncc: string, loai_hang_mua: string, ma_vt_mua: string, gia_ban: number, gia_dc: number): Observable<ResultNoPaging<any>> {
+        let url = `${environment.apiUrl}/Price/repurchase_adjust_buy_price`;
+        url += `?ngay_ct=${ngay_ct.toISOString()}`;
+        url += `&ma_ncc=${ma_ncc}`;
+        url += `&loai_hang_mua=${loai_hang_mua}`;
+        url += `&ma_vt_mua=${ma_vt_mua}`;
+        url += `&gia_ban=${gia_ban}`;
+        url += `&gia_dc=${gia_dc}`;
+
+        return this.get<ResultNoPaging<any>>(url);
+    }
+
     getReason(body: any, page_index: number, page_size: number): Observable<Result<any>> {
         const url = GET_REASON_URL;
         return this.post<Result<any>>(url, body, { page_index, page_size });
@@ -368,5 +381,27 @@ export class TicketApiService extends ApiService {
     getLookupVoucherByQuery(params: {}, page_index: number, page_size: number): Observable<Result<any>> {
         let url = GET_LOOKUP_VOUCHER_URL;
         return this.post<Result<any>>(url, {}, { ...params, page_index, page_size });
+    }
+
+    getOldProgram(ma_ncc: string, ngay_ct: Date): Observable<ResultNoPaging<any>> {
+        let url = `${environment.apiUrl}/Price/get_old_program`;
+        url += `?ngay_ct=${ngay_ct.toISOString()}`;
+        url += `&ma_ncc=${ma_ncc}`;
+
+        return this.get<ResultNoPaging<any>>(url);
+    }
+
+    getTypeStock(ma_cttc: string, ma_ncc: string, ngay_ct: Date): Observable<ResultNoPaging<any>> {
+        let url = `${environment.apiUrl}/Price/get_type_stock`;
+        url += `?ngay_ct=${ngay_ct.toISOString()}`;
+        url += `&ma_ncc=${ma_ncc}`;
+        url += `&ma_cttc=${ma_cttc}`;
+
+        return this.get<ResultNoPaging<any>>(url);
+    }
+
+    getDate(): Observable<ResultNoPaging<any>> {
+        const url = GET_DATE;
+        return this.get<ResultNoPaging<any>>(url);
     }
 }

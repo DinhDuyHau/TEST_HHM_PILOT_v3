@@ -45,6 +45,7 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     so_dh_vc = ''; // mã đơn hàng
     ma_nvvc = ''; // mã đơn vị vận chuyển
     ma_van_don = ''; // mã vận đơn
+    fcode3 = ''; // cửa hàng phiếu bán ra
 
     constructor(obj?: any) {
         super();

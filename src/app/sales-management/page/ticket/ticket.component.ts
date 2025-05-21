@@ -11,6 +11,7 @@ import { GridService } from '@app/_components/gridV2/grid.service';
 import { MenuReport } from '@app/_models';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 import { filter } from 'rxjs';
+import { SelectionService } from '@app/_services/selection.service';
 
 //khai báo column các chứng từ bán hàng
 const TICKET_FIELDS = require('@assets/fields/grid/sales-ticket.json')
@@ -52,7 +53,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
     QUICK_SEARCH: 2
   };
   page_index = 1;
-  page_size = 10;
+  page_size = 15;
   recordCount = 0;
   isOnpenInFile = false;
   menu_report: MenuReport[] = [];
@@ -127,6 +128,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
     private ticketApiService: TicketApiService,
     private commonService: CommonService,
     private gridService: GridService,
+    private selectionService: SelectionService
   ) {
     route.data.subscribe(result => {
       const rs: any = result;
@@ -147,15 +149,13 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       });
     }
 
-    this.onReload(true)
-
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       filter((event: any) => {
         return (this.route?.snapshot as any)['_routerState']?.url === event.url;
       })
     ).subscribe((event) => {
-      this.onReload()
+      this.onReload(true)
     });
   }
 
@@ -488,6 +488,26 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.entityName = TICKET_ENTITY.SERVICE_COMPENSATION;
         this.codeName = TICKET_CODE.SERVICE_COMPENSATION;
         break;
+      case TICKET_TYPE.DEPOSIT_BAOKIM:
+        this.columns = STOCK_FIELDS.DEPOSIT_BAOKIM as Cell[];
+        this.title = 'Phiếu nộp tiền Bảo Kim';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.DEPOSIT_BAOKIM;
+        this.codeName = TICKET_CODE.DEPOSIT_BAOKIM;
+        this.hasButton.create = false;
+        this.hasButton.delete = false;
+        this.hasButton.edit = false;
+        break;
+      case TICKET_TYPE.WITHDRAW_BAOKIM:
+        this.columns = STOCK_FIELDS.WITHDRAW_BAOKIM as Cell[];
+        this.title = 'Phiếu rút tiền Bảo Kim';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.WITHDRAW_BAOKIM;
+        this.codeName = TICKET_CODE.WITHDRAW_BAOKIM;
+        this.hasButton.create = false;
+        this.hasButton.delete = false;
+        this.hasButton.edit = false;
+        break;
     }
   }
 
@@ -515,6 +535,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           }
 
           this.dataSource = voucherData.map((voucherRecord: any) => {
+            this.processTypeTransaction(voucherRecord);
             this.sanitizeRecord(voucherRecord);
             this.processPayments(voucherRecord, paymentMethodData);
             return voucherRecord;
@@ -561,6 +582,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           this.commonService.saveTicketToLocalStorage(voucherData);
 
           this.dataSource = voucherData.map((voucherRecord: any) => {
+            this.processTypeTransaction(voucherRecord);
             this.sanitizeRecord(voucherRecord);
             this.processPayments(voucherRecord, paymentMethodData);
             return voucherRecord;
@@ -592,6 +614,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           this.commonService.saveTicketToLocalStorage(voucherData);
 
           this.dataSource = voucherData.map((voucherRecord: any) => {
+            this.processTypeTransaction(voucherRecord);
             this.sanitizeRecord(voucherRecord);
             this.processPayments(voucherRecord, paymentMethodData);
             return voucherRecord;
@@ -603,6 +626,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       complete: () => this.isLoading = false
     };
     if (!this.isLoading) {
+      this.isAdvanceSearch = false;
       if (params.so_ct && params.so_ct !== '') {
         this.getDataMode = this.dataMode.QUICK_SEARCH;
         this.isLoading = true;
@@ -637,6 +661,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   onCreate() {
+    this.selectionService.setSelectedItem(this.select_item_current);
     this.router.navigate([this.router.url + '/create']);
   }
 
@@ -644,7 +669,11 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   }
 
-  onReload(isReload = false) {
+  onReload(isReload = false, isRefresh = false) {
+    if (isRefresh) {
+      this.selectionService.setSelectedItem(null);
+    }
+
     if (this.getDataMode === this.dataMode.GETOP) {
       // Nếu isReload là true, luôn luôn tải lại dữ liệu
       if (!isReload && this.dataSource && this.dataSource.length > 0) {
@@ -810,6 +839,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         // cho phép sửa đối với trạng thái 0 (lập chứng từ)
         // hoặc status = 1 & mã chứng từ PXN (phiếu xuất bán nội bộ chờ duyệt)
         if (result && (result.status === '0' || (this.codeName === 'PXN' && result.status === '1'))) {
+          this.selectionService.setSelectedItem(this.select_item_current);
           const queryParams = {} as any;
           queryParams.key = this.select_item_current;
           this.router.navigate([this.router.url + '/update'], { queryParams });
@@ -830,6 +860,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   btnViewClickHandle() {
     if (this.select_item_current && this.select_item_current !== '') {
+      this.selectionService.setSelectedItem(this.select_item_current);
       const queryParams = {} as any;
       queryParams.key = this.select_item_current;
       this.router.navigate([this.router.url + '/view'], { queryParams });
@@ -869,6 +900,20 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
     }
   }
 
+  processTypeTransaction(voucherRecord: any): void {
+    if (this.codeName === TICKET_CODE.REPURCHASE) {
+      if (voucherRecord.fcode1.trim() === '1') {
+        voucherRecord.fcode1 = "1-Mua lại từ KH cá nhân"
+      }
+      if (voucherRecord.fcode1.trim() === '2') {
+        voucherRecord.fcode1 = "2-Mua lại từ KH doanh nghiệp"
+      }
+      if (voucherRecord.fcode1.trim() === '3') {
+        voucherRecord.fcode1 = "3-Mua thu cũ ko lên đời"
+      }
+    }
+  }
+
   /*
   * Hàm xử lý các thêm các trường tiền thanh toán cho phiếu
   */
@@ -884,6 +929,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       "TRAGOP": "tr_gop",
       "DIEMQD": "sd_diem",
       "VOUCHERDOITAC": "voucher_doi_tac",
+      "CONGNO": "t_con_no",
     };
 
     Object.values(paymentFieldMap).forEach(fieldName => {

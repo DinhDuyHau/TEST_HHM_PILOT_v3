@@ -6,6 +6,7 @@ import { DialogIMEIComponent } from './dialog-imei/dialog-imei.component';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DialogInputModule } from './dialog-input/dialog-input.module';
+import { DialogInputCustomModule } from './dialog-input-custom/dialog-input-custom.module';
 
 
 
@@ -15,7 +16,7 @@ import { DialogInputModule } from './dialog-input/dialog-input.module';
     DialogIMEIComponent
   ],
   imports: [
-    CommonModule, MatIconModule, FormsModule, MatSnackBarModule, DialogInputModule
+    CommonModule, MatIconModule, FormsModule, MatSnackBarModule, DialogInputModule, DialogInputCustomModule
   ],
   exports: [DialogComponent]
 })

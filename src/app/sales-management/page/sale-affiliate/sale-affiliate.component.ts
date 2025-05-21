@@ -37,7 +37,8 @@ const { DISCOUNT_LIST,
   GUARANTEE_LIST,
   MERCHANDISE_LIST,
   SERVICE_LIST,
-  PACKAGE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
+  PACKAGE_LIST,
+  OVERVIEW_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 @Component({
   selector: 'app-sale-affiliate',
   templateUrl: './sale-affiliate.component.html',
@@ -56,6 +57,7 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
   packageColumns = PACKAGE_LIST;
   discountColumns = DISCOUNT_LIST;
   guaranteeColumns = GUARANTEE_LIST;
+  overviewColumns = OVERVIEW_LIST;
   mode!: number;
   submitButtonTitle!: string;
   cancelButtonTitle!: string;
@@ -88,6 +90,14 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
   ma_imei = '';
   addOrUpdateCustomer = 'create';
 
+  tab_sources: any[] = [
+    { label: 'Tổng quan' },
+    { label: 'Hàng hoá', name: 'merchandise' },
+    { label: 'Dịch vụ', name: 'service' },
+    { label: 'Chiết khấu', name: 'discount' },
+    { label: 'HĐĐT' }
+  ];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -105,6 +115,27 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
   ) {
     localStorage.setItem('useGridCached', '1');
     this.saleAffiliateService.setTicket(this.ticket, this.option);
+  }
+
+  // get tabList() {
+  //   return [
+  //     { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
+  //     { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
+  //     { label: 'Chiết khấu', count: this.ticket?.discount?.length ?? 0 },
+  //     { label: 'HĐĐT' }
+  //   ];
+  // }
+
+  get overviewData() {
+    const newOverview = [
+      ...this.ticket.merchandise.map(item => this.commonService.mapToOverview(item, 'Hàng hóa', 'merchandise')),
+      ...this.ticket.service.map(item => this.commonService.mapToOverview(item, 'Dịch vụ', 'service'))
+    ];
+
+    if (JSON.stringify(newOverview) !== JSON.stringify(this.ticket.overview)) {
+      this.ticket.overview = newOverview;
+    }
+    return this.ticket.overview || [];
   }
 
   ngAfterViewInit(): void {
@@ -694,17 +725,18 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
             if (result.success) {
               // this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Update_Completed);
-              if (this.ticket.masterInfo.status == '2') {
-                this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
-                  if (res.success) {
-                    this.commonService.showMessageByName(res.message);
-                  }
-                  this.router.navigate(['sales/affiliate']);
-                });
-              }
-              else {
-                this.router.navigate(['sales/affiliate']);
-              }
+              // if (this.ticket.masterInfo.status == '2') {
+              //   this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
+              //     if (res.success) {
+              //       this.commonService.showMessageByName(res.message);
+              //     }
+              //     this.router.navigate(['sales/affiliate']);
+              //   });
+              // }
+              // else {
+              //   this.router.navigate(['sales/affiliate']);
+              // }
+              this.router.navigate(['sales/affiliate']);
             } else {
               if (result.result && result.result.length > 0) {
                 this.commonService.showMessageByNameAdvance(result.message, ...result.result);

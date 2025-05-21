@@ -18,6 +18,7 @@ export class DeliveryInfomationComponent implements OnInit, AfterViewInit, OnCha
   @Input() l_ma_don_vi: string = 'Mã đơn vị';
   @Input() l_ten_don_vi: string = 'Tên đơn vị';
   @Input() dataDefault: string = '';
+  @Input() isOtherLabel: boolean = false;
 
   deliveryType = DELIVERY_TYPE;
   dataFormat = dataFormat;

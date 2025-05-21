@@ -3,6 +3,7 @@
     "name": "stt",
     "title": "Stt",
     "isLockingColumn": true,
+    "allowSorting": true,
     "align": "center",
     "width": 50
   },
@@ -12,6 +13,7 @@
     "isLockingColumn": true,
     "allowFilter": true,
     "isPrimaryKey": true,
+    "allowSorting": true,
     "width": 120,
     "dataFormatString": "upperCaseFormat"
   },
@@ -20,11 +22,13 @@
     "title": "Tên vật tư",
     "allowFilter": true,
     "isLockingColumn": true,
+    "allowSorting": true,
     "width": 280
   },
   {
     "name": "dvt",
     "title": "Đvt",
+    "allowSorting": true,
     "width": 80
   },
   {
@@ -33,6 +37,7 @@
     "type": "number",
     "dataFormatString": "normalPrice",
     "align": "center",
+    "allowSorting": true,
     "width": 100
   },
   {
@@ -41,6 +46,7 @@
     "type": "number",
     "dataFormatString": "normalPrice",
     "align": "right",
+    "allowSorting": true,
     "width": 120
   }
 ]

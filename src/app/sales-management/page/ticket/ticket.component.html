@@ -68,7 +68,7 @@
           *ngIf="isOnpenInFile"
           class="fixed z-50 top-0 left-0 right-0 bottom-0"
           (click)="isOnpenInFile = false"></div>
-        <button class="btn-responsive btn-refresh" (click)="onReload(true)">
+        <button class="btn-responsive btn-refresh" (click)="onReload(true, true)">
           Làm mới
         </button>
       </div>
@@ -87,6 +87,8 @@
         [useEdit]="useEdit"
         [useDelete]="useDelete"
         [isShowDelete]="false"
+        [isStyleFullHeight]="true"
+        [enableSelected]="true"
         [hiddenPagination]="hiddenPagination"
         (handleUpdate)="onUpdateItem($event)"
         (handleDelete)="onDeleteItem($event)"

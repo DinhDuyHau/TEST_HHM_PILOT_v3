@@ -58,7 +58,7 @@
             [label]="getLabel('lbl_ma_kh')"
             #ma_kh
             name="ma_kh"
-            [disabled]="disabled"
+            [disabled]="disabled || this.data.details[0].data.length > 0"
             [value]="f['ma_kh'].value"
             [invalid]="submitted && f['ma_kh'].errors != null"
             (handleChangeLookup)="handleInputLookupChange($event)"

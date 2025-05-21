@@ -236,6 +236,7 @@
           [gridType]="gridType"
           [disabled]="disabled"
           [buttons]="buttons"
+          [isResizeColumn]="true"
           (handlePaging)="onPageChange($event)"
           (handleSelectColumn)="onSelectColumn($event)"
           (handleSortColumn)="onSortColumn($event)"
@@ -245,9 +246,12 @@
         </app-grid-v2>
       </tab-custom>
     </tabs-custom>
-    <div style="font-size: 18px;">Tổng số lượng: {{data.masterInfo.t_so_luong}}</div>
     <div class="transport d-flex flex-1 gap-3">
       <div class="d-flex gap-3 col-6">
+        <form-input-custom
+          class="flex-1"
+          [label]="'Tổng số lượng'"
+          [value]="data.masterInfo.t_so_luong" />
         <form-input-custom
           class="flex-1"
           [name]="'so_dh_vc'"

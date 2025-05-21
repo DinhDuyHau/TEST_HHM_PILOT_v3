@@ -2,7 +2,7 @@ import { Discount } from '../common-model/discount.model';
 import { Guarantee } from '../common-model/guarantee.model';
 import { Service } from '../common-model/service.model';
 import { Payment } from '../common-model/payment.model';
-import { BaseMasterInfo, BaseMerchandise, BaseTicket } from '../common-model/base-entity.model';
+import { BaseMasterInfo, BaseMerchandise, BaseTicket, Overview } from '../common-model/base-entity.model';
 
 export const TAB_NAME = {
   MERCHANDISE_RETURN: 'd582tl',
@@ -19,6 +19,7 @@ export class ChangeSaleTicket {
   discount: Discount[] = [];
   guarantee: Guarantee[] = [];
   service: ServiceChange[] = [];
+  overview: Overview[] = [];
   // payment: Payment = new Payment;
 }
 

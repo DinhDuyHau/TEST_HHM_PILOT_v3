@@ -707,17 +707,18 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
             if (result.success) {
               // this.commonService.clearImeiStorage();
               this.commonService.showMessage(Language.content.Update_Completed);
-              if (this.ticket.masterInfo.status == '2') {
-                this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
-                  if (res.success) {
-                    this.commonService.showMessageByName(res.message);
-                  }
-                  this.router.navigate(['voucher/compensation']);
-                });
-              }
-              else {
-                this.router.navigate(['voucher/compensation']);
-              }
+              // if (this.ticket.masterInfo.status == '2') {
+              //   this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
+              //     if (res.success) {
+              //       this.commonService.showMessageByName(res.message);
+              //     }
+              //     this.router.navigate(['voucher/compensation']);
+              //   });
+              // }
+              // else {
+              //   this.router.navigate(['voucher/compensation']);
+              // }
+              this.router.navigate(['voucher/compensation']);
             } else {
               if (result.result && result.result.length > 0) {
                 this.commonService.showMessageByNameAdvance(result.message, ...result.result);

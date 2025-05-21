@@ -59,6 +59,11 @@
             "title": "Tên chiết khấu"
         },
         {
+            "name": "imei_hang_mua",
+            "title": "Mã voucher",
+            "align": "center"
+        },
+        {
             "name": "ngay_bd",
             "title": "Ngày bắt đầu",
             "format": "datetimeFormat",
@@ -175,6 +180,14 @@
             "align": "center"
         },
         {
+            "name": "sl_td1",
+            "title": "Giá theo bảng giá",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number",
+            "visible": false
+        },
+        {
             "name": "s4",
             "title": "Giá (Full VAT)",
             "format": "moneyViewNoDigit",
@@ -214,6 +227,24 @@
             "format": "moneyViewNoDigit",
             "align": "right",
             "dataType": "number"
+        },
+        {
+            "name": "ma_td2",
+            "title": "Đại lý",
+            "align": "center",
+            "visible": false
+        },
+        {
+            "name": "ma_td3",
+            "title": "Loại HH",
+            "align": "center",
+            "visible": false
+        },
+        {
+            "name": "ma_td1",
+            "title": "Mã CTTC",
+            "align": "center",
+            "visible": false
         }
     ],
     "MERCHANDISE_THU_CU_LIST": [
@@ -388,7 +419,7 @@
       "align": "center"
     },
     {
-      "name": "gia_ban",
+      "name": "gia_vat",
       "title": "Giá bán",
       "format": "moneyView2Digit",
       "align": "right",
@@ -1355,19 +1386,22 @@
             "name": "giam_gia_yn",
             "title": "Giảm giá đặc biệt",
             "type": "checkbox",
-            "align": "center"
+            "align": "center",
+            "visible": false
         },
         {
             "name": "ty_le_giam",
             "title": "Tỷ lệ giảm",
             "dataType": "number",
             "format": "moneyView2Digit",
-            "align": "right"
+            "align": "right",
+            "visible": false
         },
         {
             "name": "ma_asm_duyet",
             "title": "ASM",
-            "align": "center"
+            "align": "center",
+            "visible": false
         }
     ],
     "MERCHANDISE_PROMOTION_LIST": [
@@ -2522,12 +2556,30 @@
             "isPrimaryKey": true
         },
         {
+            "name": "ma_cuahang",
+            "title": "Mã cửa hàng"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
         {
             "name": "ten_kh",
             "title": "Tên khách hàng"
+        },
+        {
+            "name": "ngay_ct",
+            "title": "Ngày tạo",
+            "format": "datetimeFormat",
+            "dataType": "date",
+            "align": "center"
+        },
+        {
+            "name": "t_tt_nt",
+            "title": "Tổng tiền",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
         }
     ],
     "WAREHOUSE_LIST": [
@@ -2869,7 +2921,116 @@
           "width": "300px",
           "min-width": "50px"
       }
-  ]
-
-
+  ],
+    "OVERVIEW_LIST": [
+        {
+            "name": "type",
+            "title": "#"
+        },
+        {
+            "name": "ma",
+            "title": "Mã"
+        },
+        {
+            "name": "ten",
+            "title": "Tên",
+            "width": "300px"
+        },
+        {
+            "name": "ma_imei",
+            "title": "Imei",
+            "align": "center"
+        },
+        {
+            "name": "dvt",
+            "title": "Đvt",
+            "align": "center"
+        },
+        {
+            "name": "ma_kho",
+            "title": "Mã kho",
+            "align": "center"
+        },
+        {
+            "name": "no_km_yn",
+            "title": "Nợ khuyến mãi",
+            "type": "checkbox",
+            "align": "center"
+        },
+        {
+            "name": "gia_ban",
+            "title": "Giá bán",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "gia_ck",
+            "title": "Giá đã CK",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+          "name": "so_luong",
+          "title": "Số lượng",
+          "format": "moneyViewNoDigit",
+          "align": "center"
+        },
+        {
+            "name": "thanh_tien",
+            "title": "Thành tiền",
+            "align": "right",
+            "format": "moneyViewNoDigit",
+            "dataType": "number"
+        },
+        {
+            "name": "thue_suat",
+            "title": "Thuế suất(%)",
+            "align": "center"
+        },
+        {
+            "name": "tien_thue",
+            "title": "Tiền thuế",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tien_ck",
+            "title": "Tổng tiền chiết khấu",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        },
+        {
+            "name": "tong_tien",
+            "title": "Tổng tiền",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        }
+    ],
+    "VOUCHER_CODE_LIST": [
+        {
+            "name": "ma_voucher",
+            "title": "Mã giảm giá"
+        },
+        {
+            "name": "ma_vt",
+            "title": "Mã vật tư"
+        },
+        {
+            "name": "ma_imei",
+            "title": "Mã imei",
+            "align": "center"
+        },
+        {
+            "name": "tien_ck",
+            "title": "Tiền chiết khấu",
+            "format": "moneyViewNoDigit",
+            "align": "right",
+            "dataType": "number"
+        }
+    ]
 }

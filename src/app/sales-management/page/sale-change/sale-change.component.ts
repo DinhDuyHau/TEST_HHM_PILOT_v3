@@ -26,7 +26,7 @@ import { EInvoiceInfo } from '@app/sales-management/model/dto/einvoice.dto';
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { ServiceOfMerchandiseService } from '../common/service.service';
 
-const { GUARANTEE_LIST, MERCHANDISE_CHANGE, SERVICE_CHANGE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
+const { GUARANTEE_LIST, MERCHANDISE_CHANGE, SERVICE_CHANGE_LIST, OVERVIEW_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-sale-change',
@@ -45,6 +45,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   merchandiseColumns = MERCHANDISE_CHANGE;
   guaranteeColumns = GUARANTEE_LIST;
   serviceColumns = SERVICE_CHANGE_LIST;
+  overviewColumns = OVERVIEW_LIST;
   mode!: number;
   submitButtonTitle!: string;
   cancelButtonTitle!: string;
@@ -65,6 +66,14 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   entity = TICKET_ENTITY.CHANGE;
   ma_imei_doi = '';
 
+  tab_sources: any[] = [
+    { label: 'Tổng quan' },
+    { label: 'Hàng dổi', name: 'merchandise_change' },
+    { label: 'Hàng trả', name: 'merchandise_return' },
+    { label: 'Đổi kèm dịch vụ', name: 'service' },
+    { label: 'HĐĐT', name: null }
+  ];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -81,6 +90,28 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   ) {
     localStorage.setItem('useGridCached', '1');
     this.saleChangeService.setTicket(this.ticket);
+  }
+
+  // get tabList() {
+  //   return [
+  //     { label: 'Hàng đổi', count: this.ticket?.merchandise_change?.length ?? 0 },
+  //     { label: 'Hàng trả', count: this.ticket?.merchandise_return?.length ?? 0 },
+  //     { label: 'Đổi kèm dịch vụ', count: this.ticket?.service?.length ?? 0 },
+  //     { label: 'HĐĐT' }
+  //   ];
+  // }
+
+  get overviewData() {
+    const newOverview = [
+      ...this.ticket.merchandise_change.map(item => this.commonService.mapToOverview(item, 'Hàng đổi', 'merchandise_change')),
+      ...this.ticket.merchandise_return.map(item => this.commonService.mapToOverview(item, 'Hàng trả', 'merchandise_return')),
+      ...this.ticket.service.map(item => this.commonService.mapToOverview(item, 'Đổi kèm dịch vụ', 'service'))
+    ];
+
+    if (JSON.stringify(newOverview) !== JSON.stringify(this.ticket.overview)) {
+      this.ticket.overview = newOverview;
+    }
+    return this.ticket.overview || [];
   }
 
   ngAfterViewInit(): void {
@@ -219,11 +250,14 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
     //   this.commonService.showMessage('Cần nhập mã khách trước khi nhập imei');
     //   return;
     // }
-    this.saleChangeService.getSoldInfo(ma_imei).subscribe((result: any) => {
+    this.saleChangeService.getSoldInfoChangeItem(ma_imei).subscribe((result: any) => {
       if (result && result.success && result.result && result.result.details) {
         if (!this.ticket.masterInfo.ma_kh) {
           this.onEnterCustomerCode(result.result.masterInfo.ma_kh);
         }
+
+        console.log(result.result);
+
 
         const merchandise = result.result.details[0].data;
         const service = result.result.details[1].data;
@@ -268,7 +302,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   }
 
   onEnterImeiChangeCode(ma_imei: string) {
-    if(this.ticket.merchandise_change.length == 0) {
+    if (this.ticket.merchandise_return.length == 0) {
       this.commonService.showMessage('Cần nhập IMEI trả trước khi nhập IMEI đổi');
       return;
     }

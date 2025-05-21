@@ -96,9 +96,19 @@
         optionValue="status"
         [value]="ticket.masterInfo.status"
         (handleChangeValue)="ticket.masterInfo.status = $event" />
+
+        <form-input-custom
+          #txt_dien_giai
+          class="box order-dynamic-2"
+          [name]="'dien_giai'"
+          [label]="getLabel('lbl_dien_giai')"
+          [value]="ticket.masterInfo.dien_giai"
+          (handleChangeValue)="
+            ticket.masterInfo.dien_giai = txt_dien_giai.value
+          " />
     </div>
 
-    <tabs-custom title="Thông tin hàng hóa">
+    <tabs-custom title="Thông tin hàng hóa" [titleListItems]="tab_sources" [dataModel]="ticket">
       <tab-custom label="Hàng hoá" class="w-100">
         <div class="pb-2">
           <button
@@ -183,40 +193,6 @@
         conversionPoints | formatData : 'number' : 'normalPrice'
       }}</span>
     </div>
-    <ng-container>
-      <payment-tab
-        [action]="action"
-        [shop]="shop"
-        [pay_hidden]="[
-          'quet_the',
-          'tra_gop',
-          'chiet_khau',
-          'giam_gia_crm',
-          'ma_giam_gia',
-          'sd_diem',
-          'voucher_doi_tac'
-        ]"
-        [hiddenChooseButton]="mode === 2"
-        [invalid]="invalid"
-        [readonly]="readonly"
-        [t_tong_tien]="ticket.masterInfo.t_tt_nt"
-        [data]="ticket.payment"
-        [t_con_no]="ticket.masterInfo.t_con_no"
-        [t_da_tra]="ticket.masterInfo.t_da_tra"
-        [he_so_qd]="ticket.masterInfo.he_so_qd_tien"
-        [diem_qd_max]="conversionPoints"
-        [t_gg]="ticket.masterInfo.t_gg"
-        [merchandise]="ticket.merchandise"
-        [ma_kh]="ticket.masterInfo.ma_kh"
-        [ngay_ct]="ticket.masterInfo.ngay_ct"
-        [reloadDepositOnInit]="true"
-        (handleChangeValue)="
-          ticket.masterInfo.t_con_no = $event.t_con_no;
-          ticket.masterInfo.t_da_tra = $event.t_da_tra;
-          ticket.masterInfo.t_gg = $event.t_gg;
-          ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck
-        " />
-    </ng-container>
 
     <div>
       <div class="title-content p-2">{{ getLabel('lbl_tc_don_hang') }}</div>
@@ -274,6 +250,42 @@
           format="moneyViewFormat"
           dataType="number" />
       </div>
+
+      <ng-container>
+        <payment-tab
+          [action]="action"
+          [shop]="shop"
+          [pay_hidden]="[
+            'tra_gop',
+            'chiet_khau',
+            'giam_gia_crm',
+            'ma_giam_gia',
+            'sd_diem',
+            'voucher_doi_tac',
+            'quet_the_tra_gop'
+          ]"
+          [hiddenChooseButton]="mode === 2"
+          [invalid]="invalid"
+          [readonly]="readonly"
+          [t_tong_tien]="ticket.masterInfo.t_tt_nt"
+          [data]="ticket.payment"
+          [t_con_no]="ticket.masterInfo.t_con_no"
+          [t_da_tra]="ticket.masterInfo.t_da_tra"
+          [he_so_qd]="ticket.masterInfo.he_so_qd_tien"
+          [diem_qd_max]="conversionPoints"
+          [t_gg]="ticket.masterInfo.t_gg"
+          [merchandise]="ticket.merchandise"
+          [ma_kh]="ticket.masterInfo.ma_kh"
+          [ngay_ct]="ticket.masterInfo.ngay_ct"
+          [reloadDepositOnInit]="true"
+          (handleChangeValue)="
+            ticket.masterInfo.t_con_no = $event.t_con_no;
+            ticket.masterInfo.t_da_tra = $event.t_da_tra;
+            ticket.masterInfo.t_gg = $event.t_gg;
+            ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck
+          " />
+      </ng-container>
+
       <div class="d-flex justify-content-between gap-2 m-3">
         <app-navigation-voucher
           [mode]="this.mode"

@@ -65,7 +65,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   constructor(
     public dialogRef: MatDialogRef<SearchDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      keyword: string,
+      keyword: any,
       shop: string,
       componentName: number,
       title: string,
@@ -165,6 +165,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         break;
       case SEARCH_COMPONENT_NAME.CONTRACT:
         this.columns = CONTRACT_SEARCH as any;
+        this.defaultFilters = [filter];
         break;
       case SEARCH_COMPONENT_NAME.ITINERANT:
         this.columns = PROJECT_SEARCH as any;
@@ -212,7 +213,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         this.columns = LIST_POS as any;
         filter.name = 'ma_pos';
         filter.value = `%${this.data.keyword}%`;
-        this.defaultFilters = [filter, { name: 'ma_cuahang', operator: '=', value: this.data.shop }];
+        this.defaultFilters = [filter, { name: 'ma_cuahang', operator: '=', value: this.data.shop }, ...(this.data.filter || [])];
         break;
       case SEARCH_COMPONENT_NAME.TYPE_RENEW:
         this.columns = LIST_PRICE_RENEW as any;
@@ -225,7 +226,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.name = 'nh_kh9';
         filter.value = 'NGKH99';
         filter.operator = "=";
-        this.filters = [filter];
+        this.filters = [filter, ...(this.data.filter || [])];
         break;
       case SEARCH_COMPONENT_NAME.APPROVER_DIRECTOR:
         this.columns = LIST_BGD as any;
@@ -324,7 +325,15 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.SERVICE:
         return this.merchandiseServiceApiService.findById(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.CONTRACT:
-        return this.ticketApiService.getLookupVoucherByQuery({ ma_ct: TICKET_CODE.CONTRACT }, this.page_index, this.page_size);
+        return this.ticketApiService.getLookupVoucherByQuery(
+          {
+            ma_ct: TICKET_CODE.CONTRACT,
+            so_ct: this.filters.find(x => x.name == 'so_ct')?.value || null,
+            ma_kh: this.filters.find(x => x.name == 'ma_kh')?.value || null,
+            ten_kh: this.filters.find(x => x.name == 'ten_kh')?.value || null
+          },
+          this.page_index, this.page_size
+        );
       case SEARCH_COMPONENT_NAME.ITINERANT:
         return this.ticketApiService.getProjects(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE:

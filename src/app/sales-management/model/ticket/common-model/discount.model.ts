@@ -21,6 +21,7 @@ export class DiscountRequest extends BaseEntity {
     tien_qd = 0;
     ma_imei = '';
     line_nbr = 0;
+    imei_hang_mua = '';
 
     constructor(obj?: any) {
         super();
@@ -50,6 +51,10 @@ export class Discount {
     type = 0;
     ma_imei = '';
     details: any;
+    imei_hang_mua = '';
+    tl_ck = 0;
+    campaign_id = '';
+    tien_ck_max = 0;
 
     constructor(obj?: any) {
         Object.assign(this, obj);
@@ -132,5 +137,6 @@ export const DISCOUNT_TYPE = {
     CROSS_SELLING: '05',
     ACCESSORY_COMBO: '06',
     SERVICE_DISCOUNT: '08',
-    DISCOUNT_CUSTOMER_RANK: '09'
+    DISCOUNT_CUSTOMER_RANK: '09',
+    DISCOUNT_VOUCHER_CODE: '10'
 };

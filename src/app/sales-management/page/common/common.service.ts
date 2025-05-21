@@ -19,6 +19,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { LookupComponent } from '@app/_components/lookup/lookup.component';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { getDateFormat } from '@app/_common/commonFunction';
+import { Overview } from '@app/sales-management/model/ticket/common-model/base-entity.model';
+import { VoucherCodeApiService } from '@app/sales-management/api/voucher-code.service';
 
 @Injectable({
     providedIn: 'root',
@@ -40,7 +42,8 @@ export class CommonService {
         public discountApiService: DiscountApiService,
         private imeisManagerService: ImeisManagerService,
         private language: Language,
-        private ticketApiService: TicketApiService
+        private ticketApiService: TicketApiService,
+        private voucherCodeApiService: VoucherCodeApiService
     ) {
         const isMobile = () => {
             const arr = ['windows'];
@@ -136,13 +139,15 @@ export class CommonService {
 
     showMessageByName(messageName: string, ...args: any[]) {
         const message = messageName && this.language.getMessage(messageName, ...args);
-        if (!message) {
+        if (!message || message === messageName) {
             this.ticketApiService.addNewResource({
                 name: messageName,
                 message: `chưa có message: ${messageName}`,
                 message2: `chưa có message2: ${messageName}`
             });
-            this.showMessage('Không tìm thấy message trong resources');
+            this.showMessage(messageName);
+            // this.showMessage('Không tìm thấy message trong resources');
+            return;
         }
         this.showMessage(message);
     }
@@ -154,7 +159,9 @@ export class CommonService {
                 message: `chưa có message: ${messageName}`,
                 message2: `chưa có message2: ${messageName}`
             });
-            this.showMessage('Không tìm thấy message trong resources');
+            this.showMessage(messageName);
+            // this.showMessage('Không tìm thấy message trong resources');
+            return;
         }
         this.showMessage(message);
     }
@@ -534,9 +541,9 @@ export class CommonService {
     * Lưu dữ liệu ticket vào localStorage khi: loading, advance search, quick search
     */
     saveTicketToLocalStorage(data: any) {
-        const sttRecArray = data.map((item: any) => item.stt_rec);
-        localStorage.removeItem('ticketData');
-        localStorage.setItem('ticketData', JSON.stringify(sttRecArray) || '[]');
+          const sttRecArray = data.map((item: any) => item.stt_rec);
+          localStorage.removeItem('ticketData');
+          localStorage.setItem('ticketData', JSON.stringify(sttRecArray) || '[]');
     }
 
     /*
@@ -584,12 +591,102 @@ export class CommonService {
     * Kiểm tra xem khách hàng đã đủ thông tin chỉ định hay chưa
     */
     shouldOpenDialog(customer: any): boolean {
-        // Các trường cần kiểm tra
-        const requiredFields = ['ma_kh', 'ten_kh', 'dia_chi', 'dien_thoai', 'ngay_sinh', 'email_cn'];
+          // Các trường cần kiểm tra
+          const requiredFields = ['ma_kh', 'ten_kh', 'dia_chi', 'dien_thoai', 'ngay_sinh', 'email_cn'];
 
-        // Kiểm tra nếu bất kỳ trường nào bị thiếu (null, undefined, hoặc chuỗi rỗng)
-        return requiredFields.some(field => !customer[field] || customer[field].trim() === '');
+          // Kiểm tra nếu bất kỳ trường nào bị thiếu (null, undefined, hoặc chuỗi rỗng)
+          return requiredFields.some(field => !customer[field] || customer[field].trim() === '');
+      }
+
+    /*
+    * Update value cho cột theo field truyền vào
+    * @param columns: danh sách cột
+    * @param columnsToUpdate: danh sách cập nhật
+    * Ví dụ @param columnsToUpdate:
+    * [
+    *     { name: 'sl_td1', field: 'visible', value: true },
+    *     { name: 'ma_td1', field: 'visible', value: true },
+    * ];
+    */
+    updateColumnsFields(columns: any[], columnsToUpdate: { name: string, field: string, value: any }[]): any[] {
+        return columns.map(col => {
+            // Lọc ra tất cả các cập nhật liên quan đến cột này
+            const updatesForColumn = columnsToUpdate.filter(update => update.name === col.name);
+
+            // Nếu có cập nhật, áp dụng tất cả các thay đổi
+            if (updatesForColumn.length > 0) {
+                const updatedColumn = { ...col };
+                updatesForColumn.forEach(update => {
+                    updatedColumn[update.field] = update.value;
+                });
+                return updatedColumn;
+            }
+
+            // Nếu không có thay đổi, trả về cột gốc
+            return col;
+        });
     }
+
+    mapToOverview(item: any, type: string, typeMap: string): Overview {
+        const mapping = {
+            'merchandise': { ma: 'ma_vt', ten: 'ten_vt', gia_ck: 'gia_ck', tong_tien: 'thanh_toan' },
+            'merchandise_change': { ma: 'ma_vt', ten: 'ten_vt', gia_ck: 'gia_ck', tong_tien: 'thanh_toan' },
+            'merchandise_return': { ma: 'ma_vt', ten: 'ten_vt', gia_ck: 'gia_ck', tong_tien: 'thanh_toan' },
+            'merchandise_new_sale': { ma: 'ma_vt', ten: 'ten_vt', gia_ck: 'gia_ck', tong_tien: 'thanh_toan' },
+            'merchandise_used': { ma: 'ma_vt', ten: 'ten_vt', gia_ck: '', tong_tien: 'thanh_toan' },
+            'service': { ma: 'ma_dv', ten: 'ten_dv', gia_ck: 'gia_ck', tong_tien: 'tong_tien' },
+            'packages': { ma: 'ma_dv', ten: 'ten_dv', gia_ck: 'gia_ban', tong_tien: 'tong_tien' }
+        };
+
+        const config = mapping[typeMap as keyof typeof mapping] || { ma: '', ten: '', gia_ck: 0, tong_tien: 0 };
+
+        let tienCk = 0;
+        if (typeMap === 'merchandise') {
+            const tienCkBase = item.tien_ck ?? 0;
+            const tienCk09 = item.tien_ck09 ?? 0;
+            tienCk = tienCkBase + tienCk09;
+        } else {
+            tienCk = 0;
+        }
+
+        return {
+            typeMap: typeMap,
+            type,
+            ma: item[config.ma] ?? '',
+            ten: item[config.ten] ?? '',
+            ma_imei: item.ma_imei ?? '',
+            dvt: item.dvt ?? '',
+            ma_kho: item.ma_kho ?? '',
+            no_km_yn: item.no_km_yn ?? false,
+            gia_ban: item.gia_ban ?? 0,
+            gia_ck: item[config.gia_ck] ?? 0,
+            so_luong: item.so_luong ?? 0,
+            thanh_tien: item.thanh_tien ?? 0,
+            thue_suat: item.thue_suat ?? 0,
+            tien_thue: item.tien_thue ?? 0,
+            tien_ck: tienCk || item.tien_ck || 0,
+            tong_tien: item[config.tong_tien] || item.tien_qd || 0,
+        };
+    }
+
+    saveVoucherNumberLocalStorage(so_ct: string, ma_ct: string) {
+        const data = { ma_ct: ma_ct, so_ct: so_ct };
+        localStorage.removeItem('voucherNumberCheck');
+        localStorage.setItem('voucherNumberCheck', JSON.stringify(data) || '{}');
+    }
+
+    voucherCheck(voucher_code: any, member: string, phone: string, stock: string, skus: any) {
+        const payload = {
+            Voucher: voucher_code,
+            Member: member,
+            Phone: phone,
+            Stock: stock,
+            SKU: skus
+        };
+
+        return this.voucherCodeApiService.voucherCheck(payload);
+    }
+
 }
 
 

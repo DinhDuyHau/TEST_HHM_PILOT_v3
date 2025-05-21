@@ -14,6 +14,7 @@ import { ScanQrcodeModule } from '@app/_components/scan-qrcode/scan-qrcode.modul
 import { CameraModule } from '@app/sales-management/component/webcam/webcam.module';
 import { VoucherInfoModule } from '@app/sales-management/component/form-control-custom/voucher-info/voucher-info.module';
 import { StockShopCheckComponent } from './stock-shop-check.component';
+import { SendEmailModule } from '@app/sales-management/component/send-email/send-email.module';
 
 @NgModule({
     imports: [
@@ -31,6 +32,7 @@ import { StockShopCheckComponent } from './stock-shop-check.component';
         ScanQrcodeModule,
         CameraModule,
         VoucherInfoModule,
+        SendEmailModule,
     ],
     declarations: [
         StockShopCheckComponent,

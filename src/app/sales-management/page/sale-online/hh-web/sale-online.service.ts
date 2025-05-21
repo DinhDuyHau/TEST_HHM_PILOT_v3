@@ -30,6 +30,8 @@ import { PackageForImeiComponent } from '@app/sales-management/component/merchan
 import { PackageOfMerchandiseService } from '../../common/package.service';
 import { Package, PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
 import { SaleOnlineDialogComponent } from './sale-online-dialog/sale-online-dialog.component';
+import { VoucherCodeApiService } from '@app/sales-management/api/voucher-code.service';
+import { VoucherCodeService } from '../../common/voucher-code.service';
 
 @Injectable({
     providedIn: 'root'
@@ -54,8 +56,9 @@ export class SaleOnlineService {
         private guanranteeService: GuanranteeService,
         private transportService: TransportService,
         private packageOfMerchandiseService: PackageOfMerchandiseService,
+        private voucherCodeApiService: VoucherCodeApiService,
+        private voucherCodeService: VoucherCodeService,
     ) {
-
     }
 
     //#region setter
@@ -70,12 +73,13 @@ export class SaleOnlineService {
     //#endregion setter
 
     // #region init
-    loadData(data: VoucherDto) {
+    loadData(data: VoucherDto, callback: any) {
         this.ticket.masterInfo = this.commonService.convertMasterInfoFromVoucher(data.masterInfo, MasterInfo);
         this.customerApiService.getOneById(data.masterInfo.ma_kh).subscribe(result => {
             const customer = result.result as any;
             this.ticket.masterInfo.ten_kh = customer.ten_kh;
             this.ticket.masterInfo.dia_chi = customer.dia_chi;
+            callback(customer.image);
         });
 
         this.customerApiService.getOneById(data.masterInfo.ma_nvvc).subscribe((result: any) => {
@@ -106,11 +110,14 @@ export class SaleOnlineService {
                     break;
                 case TAB_NAME.TRANSPORT:
                     this.ticket.transport = this.transportService.convertFromVoucher(e.data[0]);
-                    this.customerApiService.getOneById(this.ticket.transport.hhDelivery.ma_nv_giao).subscribe((result: any) => {
+                    this.customerApiService.getOneById(this.ticket.transport.cod.ma_nv_giao).subscribe((result: any) => {
                         if (result && result.success && result.result) {
-                            this.ticket.transport.hhDelivery.ten_nv = result.result.ten_kh;
+                            this.ticket.transport.cod.ten_nv = result.result.ten_kh;
                         }
                     });
+                    break;
+                case TAB_NAME.VOUCHERCODE:
+                    this.voucherCodeService.convertFromVoucher(e.data, this.ticket.voucherCode);
                     break;
                 default:
                     break;
@@ -128,8 +135,9 @@ export class SaleOnlineService {
         voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.DISCOUNT, data: this.discountService.convertDiscountToRequest(this.ticket.discount, voucherDto.masterInfo) }];
         voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
         voucherDto.details = [...voucherDto.details, { id: 5, name: TAB_NAME.GUARANTEE, data: this.guanranteeService.convertGuanranteeToRequest(this.ticket.guarantee, voucherDto.masterInfo) }];
-        voucherDto.details = [...voucherDto.details, { id: 6, name: TAB_NAME.TRANSPORT, data: [this.transportService.convertToRequest(this.ticket.transport, voucherDto.masterInfo)] }];
+        voucherDto.details = [...voucherDto.details, { id: 6, name: TAB_NAME.TRANSPORT, data: [this.transportService.convertToRequest2(this.ticket.transport, voucherDto.masterInfo)] }];
         voucherDto.details = [...voucherDto.details, { id: 7, name: TAB_NAME.PACKAGE, data: this.packageOfMerchandiseService.convertPackageToRequest(this.ticket.packages, voucherDto.masterInfo, PackageRequest) }];
+        voucherDto.details = [...voucherDto.details, { id: 8, name: TAB_NAME.VOUCHERCODE, data: this.voucherCodeService.convertVoucherCodeToRequest(this.ticket.voucherCode, voucherDto.masterInfo) }];
 
         return voucherDto;
     }
@@ -146,7 +154,19 @@ export class SaleOnlineService {
         ticket.masterInfo.ma_nvbh = userObj['username'];
         ticket.masterInfo.ma_dvcs = userObj['unit'];
         this.ticketApiService.getVoucherNumber(TICKET_ENTITY.ONLINE).subscribe(result => {
-            ticket.masterInfo.so_ct = result.result as any;
+            // ticket.masterInfo.so_ct = result.result as any;
+            const newSoCT = result.result as any;
+            const voucherCheckJson = localStorage.getItem("voucherNumberCheck");
+            const voucherNumberCheck = voucherCheckJson ? JSON.parse(voucherCheckJson) : {};
+            const current_soct = voucherNumberCheck.so_ct || "";
+            if (current_soct === newSoCT) {
+                this.initTicket(ticket);
+            } else {
+                ticket.masterInfo.so_ct = newSoCT;
+                voucherNumberCheck[ticket.masterInfo.ma_ct] = newSoCT;
+                localStorage.setItem("voucherNumberCheck", JSON.stringify(voucherNumberCheck));
+                this.commonService.saveVoucherNumberLocalStorage(ticket.masterInfo.so_ct, TICKET_ENTITY.ONLINE);
+            }
         });
         this.ticketApiService.getVoucherDate().subscribe(result => {
             ticket.masterInfo.ngay_ct = result?.result as any || Date();
@@ -343,15 +363,16 @@ export class SaleOnlineService {
         }
         return;
     }
-    updateDiscount(discounts: Discount[], isGridItem: boolean = false, row_item: Merchandise | null = null) {
-        this.discountService.resetDiscount(this.ticket.discount, isGridItem, row_item);
+    updateDiscount(discounts: Discount[], isGridItem: boolean = false, row_item: Merchandise | null = null, isGridDiscount = false) {
+        this.discountService.resetDiscount(this.ticket.discount, isGridItem, row_item, isGridDiscount);
         discounts.forEach(discount => {
             if (discount.loai_ck === DISCOUNT_TYPE.REDUTION_BY_MERCHANDISE_CODE ||
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_TICKET ||
                 discount.loai_ck === DISCOUNT_TYPE.CROSS_SELLING ||
                 discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO ||
-                discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT
+                discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT ||
+                discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE
             ) {
                 if (discount.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && row_item) {
                     //Nếu chọn chiết khấu ngoại giao thì cần phải chọn dòng trong grid hàng hóa để áp dụng ck
@@ -519,6 +540,10 @@ export class SaleOnlineService {
             message = this.commonService.getMessage('lbl_invalid_t_da_tra');
         } else if (ticket.discount.find(x => x.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER) && ((!ticket.masterInfo.nguoi_duyet_ck) || (ticket.masterInfo.nguoi_duyet_ck.trim() === ''))) {
             message = this.commonService.getMessage('lbl_invalid_ck04');
+        } else if (ticket.masterInfo.dien_giai.length > 250) {
+            message = 'Diễn giải không được vượt quá 250 ký tự';
+        } else if (ticket.service.some(item => item.ad_key) && !ticket.masterInfo.email_nhan_key) {
+            message = 'Dịch vụ key phải nhập email'
         }
         return message;
     }
@@ -541,6 +566,10 @@ export class SaleOnlineService {
             return true;
         }
         return false;
+    }
+
+    getDiscountVoucherCode(ngay_ct: Date) {
+        return this.discountApiService.getDiscountVoucherCode(ngay_ct);
     }
 
     // #endregion other

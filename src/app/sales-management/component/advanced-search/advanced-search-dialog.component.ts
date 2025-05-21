@@ -34,6 +34,8 @@ interface IFilter {
   ma_cuahang2: string;
   ten_cuahang2: string;
   ma_ct: string;
+  typeTransaction: string;
+  so_hd: string;
 }
 
 @Component({
@@ -72,7 +74,9 @@ export class AdvancedSearchDialogComponent implements OnInit {
     ten_cuahang: '',
     ma_cuahang2: '',
     ten_cuahang2: '',
-    ma_ct: ''
+    ma_ct: '',
+    typeTransaction: '*',
+    so_hd: '',
   };
 
   statusList: StatusTicket[] = [
@@ -88,6 +92,25 @@ export class AdvancedSearchDialogComponent implements OnInit {
       status: '2',
       statusname: 'Hoàn thành'
     },
+  ];
+
+  typeTransactions = [
+    {
+      typeTransaction: '*',
+      typeTransactionName: 'Tất cả'
+    },
+    {
+      typeTransaction: '1',
+      typeTransactionName: '1-Mua lại từ khách hàng cá nhân'
+    },
+    {
+      typeTransaction: '2',
+      typeTransactionName: '2-Mua lại từ khách hàng doanh nghiệp'
+    },
+    {
+      typeTransaction: '3',
+      typeTransactionName: '3-Mua thu cũ không lên đời'
+    }
   ];
 
   voucherCode = '';
@@ -358,7 +381,8 @@ export class AdvancedSearchDialogComponent implements OnInit {
       keyword: ma_vt || '',
       stockData: this.getDataStock(ma_kho),
       selectedStock: selectedStock,
-      componentName: SEARCH_V2_COMPONENT_NAME.WAREHOUSE
+      componentName: SEARCH_V2_COMPONENT_NAME.WAREHOUSE,
+      isFilter: true
     }, 'search-style-dialog')
       .afterClosed().subscribe(result => {
         if (result) {

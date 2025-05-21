@@ -4,7 +4,7 @@
     "title": "STT",
     "isLockingColumn": true,
     "align": "center",
-    "width": 40
+    "width": 80
   },
   {
     "name": "ma_vt",
@@ -67,7 +67,13 @@
     "width": 100
   },
   {
-    "name": "gia_nt",
+    "name": "gc_td1",
+    "title": "Đã sửa giá",
+    "type": "boolean",
+    "width": 100
+  },
+  {
+    "name": "gia",
     "title": "Đơn giá",
     "width": 120,
     "type": "number",
@@ -75,7 +81,7 @@
     "align": "right"
   },
   {
-    "name": "tien_nt",
+    "name": "tien",
     "title": "Thành tiền",
     "width": 120,
     "type": "number",
@@ -91,7 +97,7 @@
     "align": "right"
   },
   {
-    "name": "thue_nt",
+    "name": "thue",
     "title": "Tiền thuế",
     "width": 120,
     "type": "number",
@@ -99,7 +105,23 @@
     "align": "right"
   },
   {
-    "name": "tt_nt",
+    "name": "ck",
+    "title": "Tiền CK",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "thue_ck",
+    "title": "Thuế CK",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "tt",
     "title": "Thanh toán",
     "width": 120,
     "type": "number",
@@ -110,5 +132,12 @@
     "name": "ghi_chu",
     "title": "Ghi chú",
     "width": 120
+  },
+  {
+    "name": "action",
+    "title": "Thao tác",
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "action"
   }
 ]

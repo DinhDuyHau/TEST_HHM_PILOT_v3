@@ -1,0 +1,204 @@
+[
+  {
+    "name": "ma_dvcs",
+    "title": "Mã ĐVCS",
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_cuahang",
+    "title": "Cửa hàng",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_ca",
+    "title": "Mã ca",
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_loaigd",
+    "title": "Loại giao dịch",
+    "allowFilter": true,
+    "width": 120,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày ct",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "datetimeFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "so_ct",
+    "title": "Số ct",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách",
+    "allowFilter": true,
+    "width": 200,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_ck",
+    "title": "Mã chiết khấu",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_ck",
+    "title": "Tên chiết khấu",
+    "allowFilter": true,
+    "width": 200,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã hàng AD KM",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên hàng AD KM",
+    "allowFilter": true,
+    "width": 200,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_imei",
+    "title": "Imei AD KM",
+    "allowFilter": true,
+    "width": 150,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_kho",
+    "title": "Kho xuất AD KM",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "so_luong",
+    "title": "Số lượng",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "ma_vt_no",
+    "title": "Mã hàng nợ KM",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_vt_no",
+    "title": "Tên hàng nợ KM",
+    "allowFilter": true,
+    "width": 200,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_vt_tra",
+    "title": "Mã hàng đã trả",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_vt_tra",
+    "title": "Tên hàng đã trả",
+    "allowFilter": true,
+    "width": 200,
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_imei_tra",
+    "title": "Imei đã trả",
+    "allowFilter": true,
+    "width": 150,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_kho_tra",
+    "title": "Kho xuất đã trả",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ngay_ct_tra",
+    "title": "Ngày ct xuất trả",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "datetimeFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "so_ct_tra",
+    "title": "Số ct xuất trả",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_cuahang_tra",
+    "title": "Cửa hàng trả",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_nvbh",
+    "title": "Mã NVBH",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_nvbh",
+    "title": "Tên NVBH",
+    "allowFilter": true,
+    "width": 200,
+    "isLockingColumn": true
+  }
+]

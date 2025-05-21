@@ -446,7 +446,7 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
       return;
     }
 
-    if(!imei || imei.length < 5) {
+    if (!imei || imei.length < 5) {
       this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
       return;
     }
@@ -464,10 +464,10 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
     }
   }
   async addItem(imei: string) {
-    if (this.site_code == '') {
-      this.commonService.showMessageByName('lblWarningInvalidSite');
-      return;
-    }
+    // if (this.site_code == '') {
+    //   this.commonService.showMessageByName('lblWarningInvalidSite');
+    //   return;
+    // }
     if (this.data.details[0].data.find(x => x.ma_imei.trim() === imei.trim())) {
       this.commonService.showMessageByNameAdvance('lblWarningExistImei', { name: '%imei', value: imei });
       return;
@@ -495,7 +495,7 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
           title: 'Danh sách kết quả tìm kiếm imei',
           isFilter: false
         }, 'search-style-dialog')
-          .afterClosed().subscribe( async (result) => {
+          .afterClosed().subscribe(async (result) => {
             if (result && result.ma_imei) {
               const ma_imei = result.ma_imei;
               await this.processImeiInfo(ma_imei);
@@ -506,8 +506,14 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
         return false;
       }
     }
-    const result = await lastValueFrom(this.imeiService.getSoldInfo(imei, this.ma_cuahang));
+
+    //encode imei trước khi request để tránh các ký tự đặc biệt (=, &, ?, /)
+    const imei_encoded = encodeURIComponent(imei);
+
+    const result = await lastValueFrom(this.imeiService.getSoldInfo(imei_encoded, this.ma_cuahang));
     if (result.success && result.result) {
+      console.log(result.result);
+
       const master: MasterInfo = result.result.masterInfo;
       const response = result.result.details[0].data[0];
       if (master.ma_ct != 'PXM') {
@@ -520,6 +526,8 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
       this.f['ma_kh'].setValue(master.ma_kh);
       this.f['ong_ba'].setValue(master.ong_ba);
 
+      console.log(response);
+
       this.data.details[0].data.push({
         ma_imei: response.ma_imei,
         stt_rec0: '',
@@ -527,7 +535,7 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
         ma_vt: response.ma_vt,
         ten_vt: response.ten_vt,
         dvt: response.dvt,
-        ma_kho: this.site_code !== '' ? this.site_code : response.ma_kho,
+        ma_kho: this.site_code !== '' ? this.site_code : response.ma_khon,
         so_luong: response.so_luong,
         sl_td1: response.gia_nt,
         gia_nt: response.gia_nt,

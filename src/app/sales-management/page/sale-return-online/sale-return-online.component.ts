@@ -65,6 +65,13 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
   action = '';
   shop = '';
 
+  tab_sources: any[] = [
+    { label: 'Hàng hoá', name: 'merchandise' },
+    { label: 'Dịch vụ', name: 'service' },
+    { label: 'HĐĐT Bán hàng' },
+    { label: 'HĐĐT Nhập trả lại' }
+  ];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -82,6 +89,16 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
     localStorage.setItem('useGridCached', '1');
     this.saleReturnOnlineService.setTicket(this.ticket);
   }
+
+  // get tabList() {
+  //   return [
+  //     { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
+  //     { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
+  //     { label: 'HĐĐT Bán hàng' },
+  //     { label: 'HĐĐT Nhập trả lại' }
+  //   ];
+  // }
+
   ngAfterViewInit(): void {
     // this.commonService.focusControl(this.tabIndex.imei);
   }
@@ -435,6 +452,26 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
   }
   getLabel(label: string) {
     return this.commonService.getMessage(label);
+  }
+
+  onSaleDownChange(value: boolean) {
+    let updatesColumns;
+
+    if (value) {
+      updatesColumns = [
+        { name: 'giam_gia_yn', field: 'visible', value: true },
+        { name: 'ty_le_giam', field: 'visible', value: true },
+        { name: 'ma_asm_duyet', field: 'visible', value: true },
+      ];
+    } else {
+      updatesColumns = [
+        { name: 'giam_gia_yn', field: 'visible', value: false },
+        { name: 'ty_le_giam', field: 'visible', value: false },
+        { name: 'ma_asm_duyet', field: 'visible', value: false },
+      ];
+    }
+
+    this.merchandiseColumns = this.commonService.updateColumnsFields(this.merchandiseColumns, updatesColumns);
   }
 
 }

@@ -25,6 +25,7 @@ import {
 import { AuthenticationService, LoadingService, NotificationService } from '@app/_services';
 import { Shift, Shop, Unit } from '@app/_models';
 import { MessagingService } from '@app/_services/message.service';
+import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 
 @Component({
   templateUrl: 'login.component.html',
@@ -60,6 +61,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private titleService: Title,
     private messagingService: MessagingService,
     private notificationService: NotificationService,
+    private ticketApiService: TicketApiService,
     library: FaIconLibrary
   ) {
     this.titleService.setTitle('Đăng nhập');
@@ -172,18 +174,16 @@ export class LoginComponent implements OnInit, AfterViewInit {
       .getShiftList()
       .pipe(first())
       .subscribe({
-        next: (x: Shift[]) => {
-          this.shift_data = [];
-          if (x && x.length > 0) {
-            for (const item of x) {
-              this.shift_data.push({
-                value: item.ma_ca!,
-                label: item.ten_ca!,
-                selected: false,
-              });
-            }
-            this.f['shift'].setValue(this.shift_data[0].value);
-          }
+        next: (shifts: Shift[]) => {
+          if (!shifts || shifts.length === 0) return;
+
+          this.shift_data = shifts.map(item => ({
+            value: item.ma_ca!,
+            label: item.ten_ca!,
+            selected: false,
+          }));
+
+          this.getServerTimeAndSetShift(shifts);
         },
         error: (err: any) => {
           this.convertToErrorMessage(err);
@@ -196,6 +196,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (err === 'invalid_user_password') this.error = 'Sai tên đăng nhập hoặc mật khẩu';
     if (err === 'Runtime_err')
       this.error = 'Có sự cố khi thực hiện, vui lòng thử lại';
+
+    if (err === 'shop_right_not_allow') this.error = 'Chưa phân quyền truy cập cửa hàng hoặc IP không hợp lệ';
 
     if (err === 'Transaction_in_use') {
       this.error = 'Đã đăng nhập.';
@@ -276,6 +278,30 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (unit) {
       this.f['unit'].setValue(unit.value);
     }
+  }
+
+  getServerTimeAndSetShift(shifts: Shift[]) {
+    this.ticketApiService.getDate().pipe(first()).subscribe({
+      next: (response: any) => {
+        if (!response.success) return;
+
+        const serverTime = new Date(response.result);
+        const currentShift = this.findCurrentShift(serverTime, shifts);
+
+        this.f['shift'].setValue(currentShift?.ma_ca || this.shift_data[0].value);
+      },
+      error: (err) => this.convertToErrorMessage(err),
+    });
+  }
+
+  findCurrentShift(serverTime: Date, shifts: Shift[]): Shift | undefined {
+    const currentMinutes = serverTime.getHours() * 60 + serverTime.getMinutes();
+
+    return shifts.find(shift => {
+      const startMinutes = (shift.tu_gio ?? 0) * 60 + (shift.tu_phut ?? 0);
+      const endMinutes = (shift.den_gio ?? 0) * 60 + (shift.den_phut ?? 0);
+      return currentMinutes >= startMinutes && currentMinutes < endMinutes;
+    });
   }
 
 }

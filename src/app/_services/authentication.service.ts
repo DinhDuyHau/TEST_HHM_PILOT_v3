@@ -89,14 +89,16 @@ export class AuthenticationService {
                     localStorage.removeItem('useGridCached');
                     this.userSubject.next(null);
                     this.stopRefreshTokenTimer();
-                    this.router.navigate(['/login']);
+                    // this.router.navigate(['/login']);
+                    window.location.href = '/login';
                 },
                 error: (error) => {
                     localStorage.removeItem('menu');
                     localStorage.removeItem('user');
                     localStorage.removeItem('useGridCached');
                     this.stopRefreshTokenTimer();
-                    this.router.navigate(['/login']);
+                    // this.router.navigate(['/login']);
+                    window.location.href = '/login';
                 }
             });
         return;

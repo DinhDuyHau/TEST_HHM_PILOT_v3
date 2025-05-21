@@ -40,6 +40,7 @@ export class PaymentRequest extends BaseEntity {
     so_the_nh = '';
     ma_chuan_chi = '';
     ma_may_pos = '';
+    ten_may_pos = '';
     tk_nh_nhan = '';
     so_hd_vnpay = '';
     vi_dien_tu = '';
@@ -61,6 +62,9 @@ export class PaymentRequest extends BaseEntity {
     phi_quetthe = 0;
     phi_chuyendoi = 0;
     phi_cd_tragop = 0;
+    gc_td1 = '';
+    gc_td2 = '';
+    tra_gop_bank = false;
 
     constructor(obj?: any) {
         super();
@@ -81,6 +85,7 @@ export class Payment {
     giam_gia_crm: DiscountCodeCRM = new DiscountCodeCRM;
     quet_the_tra_gop: InstallmentCard = new InstallmentCard;
     voucher_doi_tac: VoucherParner = new VoucherParner;
+    quet_the_tra_gop_bidv: InstallmentCard = new InstallmentCard;
 }
 
 
@@ -116,6 +121,7 @@ export class InstallmentCard extends BaseModelPayment {
     phi_chuyendoi = 0;
     tk_nh_nhan = '';
     so_hd_vnpay = '';
+    gc_td2 = '';
 }
 
 export class Transfer extends BaseModelPayment {
@@ -137,6 +143,8 @@ export class Installment extends BaseModelPayment {
     ma_dv_tragop = '';
     phi_cd_tragop = 0;
     tk_nh_nhan = '';
+    gc_td1 = '';
+    gc_td2 = '';
 }
 
 
@@ -170,6 +178,7 @@ export class CardDetail extends BaseModelPayment {
     so_the = '';
     ma_chuan_chi = '';
     ma_may_pos = '';
+    ten_may_pos = '';
     tk_nh_nhan = '';
 }
 export class TransferDetail extends BaseModelPayment {

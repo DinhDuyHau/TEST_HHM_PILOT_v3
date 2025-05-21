@@ -1,0 +1,82 @@
+@mixin search-button-base {
+  $button-height: 32px;
+  $button-width: 32px;
+
+  .search-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $button-height;
+    width: $button-width;
+    border-radius: 50%;
+    border: none;
+    color: var(--primary_color);
+  }
+}
+
+@include search-button-base;
+
+.header-delivery {
+  display: flex;
+  flex-wrap: wrap;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #262f3d;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed #cbd5e0;
+}
+
+.box-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5%;
+  padding-bottom: 20px;
+  font-size: 12px;
+}
+
+.box {
+  display: block;
+  padding: 0px 5px;
+  width: 40%;
+}
+
+.box-check {
+  display: block;
+  padding: 0px 5px;
+  width: max-content;
+}
+
+.box-title {
+  margin-right: 10px;
+}
+
+.box-title,
+.title-current {
+  display: block;
+  padding: 0px 5px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  width: max-content;
+}
+
+@media only screen and (max-width: 992px) {
+  .box,
+  .box-title,
+  .box-check {
+    width: 100%;
+  }
+
+  .header-delivery {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .box-title,
+  .title-current {
+    font-size: 14px;
+  }
+}

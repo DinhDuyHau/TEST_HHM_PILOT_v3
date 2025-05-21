@@ -73,6 +73,14 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
     this.saleReturnServiceService.setTicket(this.ticket);
   }
 
+  get tabList() {
+    return [
+      { label: 'Hàng hoá', count: this.ticket?.service?.length ?? 0 },
+      { label: 'HĐĐT Bán hàng' },
+      { label: 'HĐĐT Nhập trả lại' }
+    ];
+  }
+
   ngAfterViewInit(): void {
     // this.commonService.focusControl(this.tabIndexFocusFirst);
   }

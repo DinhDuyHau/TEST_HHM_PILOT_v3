@@ -249,12 +249,27 @@ export class ReportComponent implements OnInit, OnChanges {
         !value[this.fields[event.index].name]);
     });
   }
+  /* Old function */
+  // onSortColumn(event: { name: string; direction: string }) {
+  //   this.sort = { name: event.name, direction: event.direction };
+  //   const filter: ItemFilter[] = this.fields.filter(x => x.allowFilter == true).map((item) => {
+  //     const temp: ItemFilter = { name: item.name, value: item.search };
+  //     return temp;
+  //   });
+  //   this.pageIndex = 0;
+  //   this.loadData({
+  //     pageIndex: this.pageIndex,
+  //     pageSize: this.pageSize,
+  //   }, this.sort, filter, false);
+  // }
   onSortColumn(event: { name: string; direction: string }) {
     this.sort = { name: event.name, direction: event.direction };
-    const filter: ItemFilter[] = this.fields.filter(x => x.allowFilter == true).map((item) => {
-      const temp: ItemFilter = { name: item.name, value: item.search };
-      return temp;
-    });
+    const filter: ItemFilter[] = [
+      {
+        name: "order_by",
+        value: `${event.name} ${event.direction}`,
+      },
+    ];
     this.pageIndex = 0;
     this.loadData({
       pageIndex: this.pageIndex,

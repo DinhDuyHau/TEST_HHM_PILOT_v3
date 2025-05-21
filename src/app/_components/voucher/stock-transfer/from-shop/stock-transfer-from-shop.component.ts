@@ -266,7 +266,7 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
         // được phép điều chuyển về 2 loại kho: hàng cũ, trôi bảo hành
         if (this.ma_loai === 'HC' || this.ma_loai === 'TL') {
           stock_operator = 'in'
-          ma_loai = 'HC,TBH';
+          ma_loai = 'HC,TBH,TL';
         }
         // hàng trải nghiệm
         // được phép điều chuyển về các loại kho: hàng cũ, trôi bảo hành, hàng trải nghiệm
@@ -669,17 +669,18 @@ export class StockTransferFromShopComponent implements OnInit, AfterViewInit {
             this.isDisabled = false;
             if (result.success) {
               this.commonService.showMessage(Language.content.Update_Completed);
-              if (this.ticket.masterInfo.status == '2') {
-                this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
-                  if (res.success) {
-                    this.commonService.showMessageByName(res.message);
-                  }
-                  this.router.navigate(['voucher/stock-tranfer-from-shop']);
-                });
-              }
-              else {
-                this.router.navigate(['voucher/stock-tranfer-from-shop']);
-              }
+              // if (this.ticket.masterInfo.status == '2') {
+              //   this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
+              //     if (res.success) {
+              //       this.commonService.showMessageByName(res.message);
+              //     }
+              //     this.router.navigate(['voucher/stock-tranfer-from-shop']);
+              //   });
+              // }
+              // else {
+              //   this.router.navigate(['voucher/stock-tranfer-from-shop']);
+              // }
+              this.router.navigate(['voucher/stock-tranfer-from-shop']);
             } else {
               if (result.result && result.result.length > 0) {
                 this.commonService.showMessageByNameAdvance(result.message, ...result.result);

@@ -30,6 +30,8 @@ import { PackageForImeiComponent } from '@app/sales-management/component/merchan
 import { Package, PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
 import { PackageOfMerchandiseService } from '../common/package.service';
 import { environment } from '@environments/environment';
+import { VoucherCodeApiService } from '@app/sales-management/api/voucher-code.service';
+import { VoucherCodeService } from '../common/voucher-code.service';
 
 @Injectable({
     providedIn: 'root'
@@ -55,6 +57,8 @@ export class SaleRenewService {
         private guanranteeService: GuanranteeService,
         private funcExtendService: FuncExtendService,
         private packageOfMerchandiseService: PackageOfMerchandiseService,
+        private voucherCodeApiService: VoucherCodeApiService,
+        private voucherCodeService: VoucherCodeService,
     ) {
 
     }
@@ -71,13 +75,14 @@ export class SaleRenewService {
     //#endregion setter
 
     // #region init
-    loadData(data: VoucherDto) {
+    loadData(data: VoucherDto, callback: any) {
         this.ticket.masterInfo = this.commonService.convertMasterInfoFromVoucher(data.masterInfo, MasterInfo);
         this.ticket.masterInfo.t_tien_ban = this.ticket.masterInfo.s4;
 
         this.customerApiService.getOneById(data.masterInfo.ma_kh).subscribe(result => {
             const customer = result.result as any;
             this.ticket.masterInfo.ten_kh = customer.ten_kh;
+            callback(customer.image);
         });
 
         this.customerApiService.getOneById(data.masterInfo.ma_nvvc).subscribe((result: any) => {
@@ -104,10 +109,13 @@ export class SaleRenewService {
                     this.discountService.convertDiscountFromVoucher(e.data, this.ticket.discount);
                     break;
                 case TAB_NAME.PAYMENT:
-                    this.paymentService.convertPaymentFromVoucher(e.data, this.ticket.payment);
+                    this.paymentService.convertPaymentFromVoucher(e.data, this.ticket.payment, TICKET_CODE.RENEW);
                     break;
                 case TAB_NAME.GUARANTEE:
                     this.ticket.guarantee = e.data;
+                    break;
+                case TAB_NAME.VOUCHERCODE:
+                    this.voucherCodeService.convertFromVoucher(e.data, this.ticket.voucherCode);
                     break;
                 default:
                     break;
@@ -123,10 +131,11 @@ export class SaleRenewService {
         voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.MERCHANDISE_NEW_SALE, data: this.merchandiseService.convertMerchandiseToRequest(this.ticket.merchandise_new_sale, voucherDto.masterInfo, MerchandiseRequest) }];
         voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.SERVICE, data: this.serviceOfMerchandiseService.convertServiceToRequest(this.ticket.service, voucherDto.masterInfo, ServiceRequest) }];
         voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.DISCOUNT, data: this.discountService.convertDiscountToRequest(this.ticket.discount, voucherDto.masterInfo) }];
-        voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
+        voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo, TICKET_CODE.RENEW) }];
         voucherDto.details = [...voucherDto.details, { id: 5, name: TAB_NAME.GUARANTEE, data: this.guanranteeService.convertGuanranteeToRequest(this.ticket.guarantee, voucherDto.masterInfo) }];
         voucherDto.details = [...voucherDto.details, { id: 6, name: TAB_NAME.MERCHANDISE_USED, data: this.merchandiseService.convertMerchandiseToRequest(this.ticket.merchandise_used, voucherDto.masterInfo, MerchandiseUsedRequest) }];
         voucherDto.details = [...voucherDto.details, { id: 7, name: TAB_NAME.PACKAGE, data: this.packageOfMerchandiseService.convertPackageToRequest(this.ticket.packages, voucherDto.masterInfo, PackageRequest) }];
+        voucherDto.details = [...voucherDto.details, { id: 8, name: TAB_NAME.VOUCHERCODE, data: this.voucherCodeService.convertVoucherCodeToRequest(this.ticket.voucherCode, voucherDto.masterInfo) }];
 
         return voucherDto;
     }
@@ -143,7 +152,19 @@ export class SaleRenewService {
         ticket.masterInfo.ma_nvbh = userObj['username'];
         ticket.masterInfo.ma_dvcs = userObj['unit'];
         this.ticketApiService.getVoucherNumber(TICKET_ENTITY.RENEW).subscribe(result => {
-            ticket.masterInfo.so_ct = result.result as any;
+            // ticket.masterInfo.so_ct = result.result as any;
+            const newSoCT = result.result as any;
+            const voucherCheckJson = localStorage.getItem("voucherNumberCheck");
+            const voucherNumberCheck = voucherCheckJson ? JSON.parse(voucherCheckJson) : {};
+            const current_soct = voucherNumberCheck.so_ct || "";
+            if (current_soct === newSoCT) {
+                this.initTicket(ticket);
+            } else {
+                ticket.masterInfo.so_ct = newSoCT;
+                voucherNumberCheck[ticket.masterInfo.ma_ct] = newSoCT;
+                localStorage.setItem("voucherNumberCheck", JSON.stringify(voucherNumberCheck));
+                this.commonService.saveVoucherNumberLocalStorage(ticket.masterInfo.so_ct, TICKET_CODE.RENEW);
+            }
         });
         this.ticketApiService.getVoucherDate().subscribe(result => {
             ticket.masterInfo.ngay_ct = result?.result as any || Date();
@@ -367,7 +388,8 @@ export class SaleRenewService {
                 discount.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_TICKET ||
                 discount.loai_ck === DISCOUNT_TYPE.CROSS_SELLING ||
                 discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO ||
-                discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT
+                discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT ||
+                discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE
             ) {
                 if (discount.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && row_item) {
                     //Nếu chọn chiết khấu ngoại giao thì cần phải chọn dòng trong grid hàng hóa để áp dụng ck
@@ -543,6 +565,11 @@ export class SaleRenewService {
         else if (ticket.discount.find(x => x.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER) && ((!ticket.masterInfo.nguoi_duyet_ck) || (ticket.masterInfo.nguoi_duyet_ck.trim() === ''))) {
             message = this.commonService.getMessage('lbl_invalid_ck04');
         }
+        else if (ticket.masterInfo.dien_giai.length > 250) {
+            message = 'Diễn giải không được vượt quá 250 ký tự';
+        } else if (ticket.service.some(item => item.ad_key) && !ticket.masterInfo.email_nhan_key) {
+            message = 'Dịch vụ key phải nhập email'
+        }
         return message;
     }
 
@@ -573,5 +600,9 @@ export class SaleRenewService {
         return this.ticketApiService.getRenewAdjustBuyPrice(ngay_ct, sale_item.ma_cttc ? sale_item.ma_cttc : '',
             ma_ncc, buy_item.ma_loai, buy_item.ma_vt, sale_item.ma_vt, buy_item.gia0, buy_item.gia_dc, sale_item.ma_td2);
 
+    }
+
+    getDiscountVoucherCode(ngay_ct: Date) {
+        return this.discountApiService.getDiscountVoucherCode(ngay_ct);
     }
 }

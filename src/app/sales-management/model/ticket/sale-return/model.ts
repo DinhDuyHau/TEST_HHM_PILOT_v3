@@ -31,9 +31,11 @@ export class MasterInfo extends BaseMasterInfo {
   t_da_tra = 0;
   stt_rec_hd = '';
   tra_lai_cod = false;
+  tra_lai_freedelivery = false;
   so_dh_vc = ''; // mã đơn hàng
   ma_nvvc = ''; // mã đơn vị vận chuyển
   ma_van_don = ''; // mã vận đơn
+  fcode3 = ''; // cửa hàng phiếu bán ra
 
   constructor(obj?: any) {
     super();

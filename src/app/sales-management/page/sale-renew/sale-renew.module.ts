@@ -25,6 +25,7 @@ import { ControlsModule } from '@app/_components/controls/controls.module'
 import { OldProductDialogComponent } from './old-product-dialog.component';
 import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
 import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
+import { SendEmailModule } from '@app/sales-management/component/send-email/send-email.module';
 
 @NgModule({
     declarations: [
@@ -56,7 +57,8 @@ import { NavigationVoucheModule } from '@app/sales-management/component/navigati
         VoucherInfoModule,
         ControlsModule,
         NavigationVoucheModule,
-        VoucherInfoHeaderModule
+        VoucherInfoHeaderModule,
+        SendEmailModule
     ]
 })
 export class SaleRenewModule { }

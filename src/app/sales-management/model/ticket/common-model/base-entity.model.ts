@@ -147,3 +147,31 @@ export interface BaseTicket {
     comment2: string;
     Hash: string
 }
+
+export class Overview {
+    typeMap: string = '';
+    type: string = '';
+    ma: string = '';
+    ten: string = '';
+    ma_imei: string = '';
+    dvt: string = '';
+    ma_kho: string = '';
+    no_km_yn: boolean = false;
+    gia_ban: number = 0;
+    gia_ck: number = 0;
+    so_luong: number = 0;
+    thanh_tien: number = 0;
+    thue_suat: number = 0;
+    tien_thue: number = 0;
+    tien_ck: number = 0;
+    tong_tien: number = 0;
+}
+
+export class VoucherCode {
+    ma_voucher: string = '';
+    ma_vt: string = '';
+    ma_imei: string = '';
+    tien_ck: number = 0;
+    tl_ck: number = 0;
+    ma_td1: string = ''; // Campaign id: lưu id của chiến dịch
+}

@@ -361,17 +361,18 @@ export class SaleRepurchaseServiceComponent implements OnInit, AfterViewInit {
 
             if (result.success) {
               this.commonService.showMessage(Language.content.Update_Completed);
-              if (this.ticket.masterInfo.status == '2') {
-                this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
-                  if (res.success) {
-                    this.commonService.showMessageByName(res.message);
-                  }
-                  this.router.navigate(['sales/repurchase-service']);
-                });
-              }
-              else {
-                this.router.navigate(['sales/repurchase-service']);
-              }
+              // if (this.ticket.masterInfo.status == '2') {
+              //   this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
+              //     if (res.success) {
+              //       this.commonService.showMessageByName(res.message);
+              //     }
+              //     this.router.navigate(['sales/repurchase-service']);
+              //   });
+              // }
+              // else {
+              //   this.router.navigate(['sales/repurchase-service']);
+              // }
+              this.router.navigate(['sales/repurchase-service']);
             } else {
               if (result.result && result.result.length > 0) {
                 this.commonService.showMessageByNameAdvance(result.message, ...result.result);

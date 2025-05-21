@@ -271,17 +271,18 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
                         this.isDisabled = false;
                         if (result.success) {
                             this.commonService.showMessage(Language.content.Update_Completed);
-                            if (this.ticket.masterInfo.status == '2') {
-                                this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
-                                    if (res.success) {
-                                        this.commonService.showMessageByName(res.message);
-                                    }
-                                    this.router.navigate(['voucher/service-compensation']);
-                                });
-                            }
-                            else {
-                                this.router.navigate(['voucher/service-compensation']);
-                            }
+                            // if (this.ticket.masterInfo.status == '2') {
+                            //     this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
+                            //         if (res.success) {
+                            //             this.commonService.showMessageByName(res.message);
+                            //         }
+                            //         this.router.navigate(['voucher/service-compensation']);
+                            //     });
+                            // }
+                            // else {
+                            //     this.router.navigate(['voucher/service-compensation']);
+                            // }
+                            this.router.navigate(['voucher/service-compensation']);
                         } else {
                             if (result.result && result.result.length > 0) {
                                 this.commonService.showMessageByNameAdvance(result.message, ...result.result);

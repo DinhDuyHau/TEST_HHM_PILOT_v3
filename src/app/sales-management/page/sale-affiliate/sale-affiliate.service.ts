@@ -135,7 +135,19 @@ export class SaleAffiliateService {
         ticket.masterInfo.ma_nvbh = userObj['username'];
         ticket.masterInfo.ma_dvcs = userObj['unit'];
         this.ticketApiService.getVoucherNumber(TICKET_ENTITY.AFFILIATE).subscribe(result => {
-            ticket.masterInfo.so_ct = result.result as any;
+            // ticket.masterInfo.so_ct = result.result as any;
+            const newSoCT = result.result as any;
+            const voucherCheckJson = localStorage.getItem("voucherNumberCheck");
+            const voucherNumberCheck = voucherCheckJson ? JSON.parse(voucherCheckJson) : {};
+            const current_soct = voucherNumberCheck.so_ct || "";
+            if (current_soct === newSoCT) {
+                this.initTicket(ticket);
+            } else {
+                ticket.masterInfo.so_ct = newSoCT;
+                voucherNumberCheck[ticket.masterInfo.ma_ct] = newSoCT;
+                localStorage.setItem("voucherNumberCheck", JSON.stringify(voucherNumberCheck));
+                this.commonService.saveVoucherNumberLocalStorage(ticket.masterInfo.so_ct, TICKET_ENTITY.AFFILIATE);
+            }
         });
         this.ticketApiService.getVoucherDate().subscribe(result => {
             ticket.masterInfo.ngay_ct = result?.result as any || Date();
@@ -503,8 +515,9 @@ export class SaleAffiliateService {
             message = this.commonService.getMessage('lbl_invalid_t_da_tra');
         } else if (ticket.discount.find(x => x.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER) && ((!ticket.masterInfo.nguoi_duyet_ck) || (ticket.masterInfo.nguoi_duyet_ck.trim() === ''))) {
             message = this.commonService.getMessage('lbl_invalid_ck04');
+        } else if (ticket.masterInfo.dien_giai.length > 250) {
+            message = 'Diễn giải không được vượt quá 250 ký tự';
         }
-
         return message;
     }
 

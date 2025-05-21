@@ -4,6 +4,8 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     ma_nv = '';
     t_con_no = 0;
     t_da_tra = 0;
+    dien_giai = '';
+
     constructor(obj?: any) {
         super();
         Object.assign(this, obj);

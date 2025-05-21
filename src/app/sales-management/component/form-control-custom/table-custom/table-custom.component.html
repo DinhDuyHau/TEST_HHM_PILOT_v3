@@ -1,5 +1,5 @@
 <div class="position-relative">
-  <div class="table-container">
+  <div #tableContainer class="table-container" [ngClass]="isStyleFullHeight ? 'full-height-viewport' : ''">
     <table
       [ngClass]="{'table-main': type && type == 'main'}"
       [ngClass]="{'table-search': type && type == 'search-dialog'}">
@@ -18,9 +18,10 @@
           <div class="cell-boder-right"></div>
         </ng-template>
         </th>
+        <ng-container *ngFor="let column of columns; index as i">
         <th
           class="table-title text-nowrap"
-          *ngFor="let column of columns; index as i">
+          *ngIf="column.visible">
           <div
             [ngStyle]="{
               width: column.width && column.width,
@@ -40,6 +41,7 @@
             class="cell-boder-right"
             (mousedown)="startResize($event, i)"></div>
         </th>
+        </ng-container>
         <th
           *ngIf="
             (handleDelete.observers.length ||
@@ -56,7 +58,8 @@
         id="record"
         #ref
         class="record"
-        [ngClass]="record.class"
+        [ngClass]="getRowClass(record)"
+        [attr.data-id]="record.stt_rec"
         *ngFor="let record of dataSource; index as i">
         <td *ngIf="selectByCheckbox" class="text-center">
           <input
@@ -65,8 +68,9 @@
             [(ngModel)]="record.selected"
             (change)="onChangeSelectCheckbox(record)" />
         </td>
+        <ng-container *ngFor="let column of columns">
         <td
-          *ngFor="let column of columns"
+          *ngIf="column.visible"
           class="justify-content-center"
           (click)="type && type == 'main' && onSelectItem(record, ref)">
           <div *ngIf="column.name === 'stt'">{{ i + 1 }}</div>
@@ -140,6 +144,7 @@
               " />
           </div>
         </td>
+        </ng-container>
         <td
           *ngIf="
             handleDelete.observers.length ||
@@ -188,13 +193,13 @@
               *ngIf="handleSwap.observers.length && record.km_yn && !readonly">
               <i class="fas fa-exchange icon-table"></i>
             </button>
-            <button
+            <!-- <button
               (click)="onActionItem(record)"
               *ngIf="
                 handleAction.observers.length && entityName === 'SVTran_DXA' && record.status != 1
               ">
               <span class="icon-table">Lập phiếu bán buôn</span>
-            </button>
+            </button> -->
             <button
               (click)="onDeleteDiscount09(record)"
               *ngIf="showRemoveDiscount09Button(record)"
@@ -221,7 +226,7 @@
             <button
               title="Xóa"
               (click)="onDeleteItem(record)"
-              *ngIf="(showDeleteButton(record) && record.status == 0) || isShowDelete">
+              *ngIf="showDeleteButton(record)">
               <i class="fas fa-trash-alt icon-table text-danger"></i>
             </button>
           </div>

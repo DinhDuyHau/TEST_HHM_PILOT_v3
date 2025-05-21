@@ -1,0 +1,97 @@
+[
+  {
+    "name": "ma_cuahang",
+    "title": "Cửa hàng",
+    "isLockingColumn": true,
+    "width": 100,
+    "align": "center",
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày",
+    "width": 100,
+    "allowSorting": true,
+    "allowFilter": true,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "so_ct",
+    "title": "Số",
+    "isLockingColumn": true,
+    "width": 120,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "isLockingColumn": true,
+    "width": 120,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách",
+    "width": 220
+  },
+  {
+    "name": "t_tt_nt",
+    "title": "Thanh toán",
+    "align": "right",
+    "width": 140,
+    "type": "number",
+    "dataFormatString": "normalPrice"
+  },
+  {
+    "name": "Dien_giai",
+    "title": "Diễn giải",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 200
+  },
+  {
+    "name": "statusname",
+    "title": "Trạng thái",
+    "isLockingColumn": false,
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 140
+  },
+  {
+    "name": "comment",
+    "title": "Người lập",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 120
+  },
+  {
+    "name": "comment2",
+    "title": "Người sửa",
+    "allowSorting": true,
+    "allowFilter": true,
+    "width": 120
+  },
+  {
+    "name": "stt_rec",
+    "title": "stt_rec",
+    "isPrimaryKey": true,
+    "allowSorting": true,
+    "allowFilter": true,
+    "hidden": true,
+    "width": 240
+  },
+  {
+    "name": "action",
+    "title": "Thao tác",
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "action"
+  }
+]

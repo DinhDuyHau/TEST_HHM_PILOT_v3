@@ -1,0 +1,11 @@
+{
+  "title": "Danh mục nhóm dịch vụ",
+  "entity": "dmnhdichvu",
+  "filter": [
+    {
+      "name": "loai_nh",
+      "operator": "=",
+      "value": "1"
+    }
+  ]
+}

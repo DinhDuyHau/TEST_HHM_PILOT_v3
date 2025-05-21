@@ -72,6 +72,13 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
         this.saleServiceService.setTicket(this.ticket);
     }
 
+    get tabList() {
+        return [
+            { label: 'Dịch vụ', count: this.ticket?.service?.length ?? 0 },
+            { label: 'HĐĐT' }
+        ];
+    }
+
     ngAfterViewInit(): void {
         // this.commonService.focusControl(this.tabIndexFocusFirst);
     }
@@ -101,6 +108,8 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
                         this.action = 'update';
                         break;
                     case 'view':
+                        this.readonly = true;
+                        this.submitButtonTitle = Language.content.save;
                         this.title = Language.content.view;
                         this.mode = MODE.VIEW;
                         this.cancelButtonTitle = Language.content.exit;
@@ -306,17 +315,18 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
 
                         if (result.success) {
                             this.commonService.showMessage(Language.content.Update_Completed);
-                            if (this.ticket.masterInfo.status == '2') {
-                                this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
-                                    if (res.success) {
-                                        this.commonService.showMessageByName(res.message);
-                                    }
-                                    this.router.navigate(['sales/service']);
-                                });
-                            }
-                            else {
-                                this.router.navigate(['sales/service']);
-                            }
+                            // if (this.ticket.masterInfo.status == '2') {
+                            //     this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
+                            //         if (res.success) {
+                            //             this.commonService.showMessageByName(res.message);
+                            //         }
+                            //         this.router.navigate(['sales/service']);
+                            //     });
+                            // }
+                            // else {
+                            //     this.router.navigate(['sales/service']);
+                            // }
+                            this.router.navigate(['sales/service']);
                         } else {
                             if (result.result && result.result.length > 0) {
                                 this.commonService.showMessageByNameAdvance(result.message, ...result.result);

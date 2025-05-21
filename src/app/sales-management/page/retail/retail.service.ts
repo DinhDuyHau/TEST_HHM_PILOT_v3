@@ -30,6 +30,10 @@ import { PackageOfMerchandiseService } from '../common/package.service';
 import { Package, PackageRequest } from '@app/sales-management/model/ticket/common-model/package.model';
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
 import { TransportService } from '../common/transport.service';
+import { VoucherCodeApiService } from '@app/sales-management/api/voucher-code.service';
+import { HttpHeaders } from '@angular/common/http';
+import { environment } from '@environments/environment';
+import { VoucherCodeService } from '../common/voucher-code.service';
 
 @Injectable({
     providedIn: 'root'
@@ -55,6 +59,8 @@ export class RetailService {
         private guanranteeService: GuanranteeService,
         private packageOfMerchandiseService: PackageOfMerchandiseService,
         private transportService: TransportService,
+        private voucherCodeApiService: VoucherCodeApiService,
+        private voucherCodeService: VoucherCodeService,
     ) {
 
     }
@@ -104,14 +110,17 @@ export class RetailService {
                     break;
                 case TAB_NAME.TRANSPORT:
                     this.ticket.transport = this.transportService.convertFromVoucher(e.data[0]);
-                    this.customerApiService.getOneById(this.ticket.transport.hhDelivery.ma_nv_giao).subscribe((result: any) => {
+                    this.customerApiService.getOneById(this.ticket.transport.cod.ma_nv_giao).subscribe((result: any) => {
                         if (result && result.success && result.result) {
-                            this.ticket.transport.hhDelivery.ten_nv = result.result.ten_kh;
+                            this.ticket.transport.cod.ten_nv = result.result.ten_kh;
                         }
                     });
                     break;
                 case TAB_NAME.PAYMENT:
-                    this.paymentService.convertPaymentFromVoucher(e.data, this.ticket.payment);
+                    this.paymentService.convertPaymentFromVoucher(e.data, this.ticket.payment, TICKET_CODE.RETAIL);
+                    break;
+                case TAB_NAME.VOUCHERCODE:
+                    this.voucherCodeService.convertFromVoucher(e.data, this.ticket.voucherCode);
                     break;
                 default:
                     break;
@@ -129,9 +138,10 @@ export class RetailService {
         voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.MERCHANDISE, data: this.merchandiseService.convertMerchandiseToRequest(this.ticket.merchandise, voucherDto.masterInfo, MerchandiseRequest) }];
         voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.SERVICE, data: this.serviceOfMerchandiseService.convertServiceToRequest(this.ticket.service, voucherDto.masterInfo, ServiceRequest) }];
         voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.DISCOUNT, data: this.discountService.convertDiscountToRequest(this.ticket.discount, voucherDto.masterInfo) }];
-        voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
-        voucherDto.details = [...voucherDto.details, { id: 6, name: TAB_NAME.TRANSPORT, data: [this.transportService.convertToRequest(this.ticket.transport, voucherDto.masterInfo)] }];
+        voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo, TICKET_CODE.RETAIL) }];
+        voucherDto.details = [...voucherDto.details, { id: 6, name: TAB_NAME.TRANSPORT, data: [this.transportService.convertToRequest2(this.ticket.transport, voucherDto.masterInfo)] }];
         voucherDto.details = [...voucherDto.details, { id: 5, name: TAB_NAME.PACKAGE, data: this.packageOfMerchandiseService.convertPackageToRequest(this.ticket.packages, voucherDto.masterInfo, PackageRequest) }];
+        voucherDto.details = [...voucherDto.details, { id: 7, name: TAB_NAME.VOUCHERCODE, data: this.voucherCodeService.convertVoucherCodeToRequest(this.ticket.voucherCode, voucherDto.masterInfo) }];
         return voucherDto;
     }
 
@@ -146,7 +156,19 @@ export class RetailService {
         ticket.masterInfo.ma_nvbh = userObj['username'];
         ticket.masterInfo.ma_dvcs = userObj['unit'];
         this.ticketApiService.getVoucherNumber(TICKET_ENTITY.RETAIL).subscribe(result => {
-            ticket.masterInfo.so_ct = result.result as any;
+            // ticket.masterInfo.so_ct = result.result as any;
+            const newSoCT = result.result as any;
+            const voucherCheckJson = localStorage.getItem("voucherNumberCheck");
+            const voucherNumberCheck = voucherCheckJson ? JSON.parse(voucherCheckJson) : {};
+            const current_soct = voucherNumberCheck.so_ct || "";
+            if (current_soct === newSoCT) {
+                this.initTicket(ticket);
+            } else {
+                ticket.masterInfo.so_ct = newSoCT;
+                voucherNumberCheck[ticket.masterInfo.ma_ct] = newSoCT;
+                localStorage.setItem("voucherNumberCheck", JSON.stringify(voucherNumberCheck));
+                this.commonService.saveVoucherNumberLocalStorage(ticket.masterInfo.so_ct, TICKET_CODE.RETAIL);
+            }
         });
         this.ticketApiService.getVoucherDate().subscribe(result => {
           ticket.masterInfo.ngay_ct = result?.result as any || Date();
@@ -367,6 +389,7 @@ export class RetailService {
         this.merchandiseService.removeMerchandise(merchandise, this.ticket.merchandise);
         const discounts = this.discountService.getDiscountsOfMerchandise(merchandise.ma_imei, this.ticket.discount);
         this.discountService.removeDiscount(discounts, this.ticket.discount);
+        this.ticket.voucherCode = [];
         this.guanranteeService.removeGuarantee(merchandise.ma_imei, this.ticket);
         this.merchandiseService.removePromotionMerchandiseByOrderImei(merchandise.ma_imei, this.ticket.merchandise);
         this.discountService.resetDiscount(this.ticket.discount, false, merchandise, false, true);
@@ -454,7 +477,8 @@ export class RetailService {
                 discount.loai_ck === DISCOUNT_TYPE.CROSS_SELLING ||
                 discount.loai_ck === DISCOUNT_TYPE.ACCESSORY_COMBO ||
                 discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT ||
-                discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK
+                discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK ||
+                discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE
             ) {
                 if (discount.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER && row_item) {
                     //Nếu chọn chiết khấu ngoại giao thì cần phải chọn dòng trong grid hàng hóa để áp dụng ck
@@ -670,9 +694,12 @@ export class RetailService {
             message = this.commonService.getMessage('lbl_invalid_t_tien');
         } else if (ticket.masterInfo.t_da_tra < 0) {
             message = this.commonService.getMessage('lbl_invalid_t_da_tra');
-        }
-        else if (ticket.discount.find(x => x.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER) && ((!ticket.masterInfo.nguoi_duyet_ck) || (ticket.masterInfo.nguoi_duyet_ck.trim() === ''))) {
+        } else if (ticket.discount.find(x => x.loai_ck == DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER) && ((!ticket.masterInfo.nguoi_duyet_ck) || (ticket.masterInfo.nguoi_duyet_ck.trim() === ''))) {
             message = this.commonService.getMessage('lbl_invalid_ck04');
+        } else if (ticket.masterInfo.dien_giai.length > 250) {
+            message = 'Diễn giải không được vượt quá 250 ký tự';
+        } else if (ticket.service.some(item => item.ad_key) && !ticket.masterInfo.email_nhan_key) {
+            message = 'Dịch vụ key phải nhập email'
         }
         return message;
     }
@@ -715,5 +742,7 @@ export class RetailService {
         return true;
     }
 
-
+    getDiscountVoucherCode(ngay_ct: Date) {
+        return this.discountApiService.getDiscountVoucherCode(ngay_ct);
+    }
 }

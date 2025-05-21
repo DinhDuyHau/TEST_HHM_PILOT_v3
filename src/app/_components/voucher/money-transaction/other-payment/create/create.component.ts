@@ -33,6 +33,9 @@ import { OtherPaymentService } from '../other-payment.service';
 import { BankingService } from '@app/_components/lookup/banking/banking.service';
 import { FeeService } from '@app/_components/lookup/Fee/fee.service';
 import { CommonService } from '@app/sales-management/page/common/common.service';
+import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
+import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
+import { Customer } from '@app/_components/category/customer/customer.model';
 
 @Component({
   selector: 'app-create',
@@ -74,6 +77,7 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
   sale_ma_kh = '';
   sale_so_ct = '';
   sale_ngay_ct?: Date;
+  isValidCustomerGroup3 = false;
 
   override gridType = GridType.GridDetail;
   actionButtons = [button.DeleteButton];
@@ -102,7 +106,8 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
     private ticketApiService: TicketApiService,
     private payment: Payment,
     private el: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private customerApiService: CustomerApiService
   ) {
     const filterItem = [
       { name: 'status', operator: '=', value: '1' },
@@ -142,6 +147,21 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
       item.masterInfo.ngay_ct = item.masterInfo.ngay_ct?.substring(0, 10);
       item.masterInfo.ngay_lct = item.masterInfo.ngay_lct?.substring(0, 10);
       this.data = item;
+
+      // Kiểm tra xem có cần hiển tab payment hay ko
+      const ma_kh = this.data.masterInfo.ma_kh;
+      this.customerService.getItem(ma_kh || '').subscribe((data) => {
+        const res = data as any;
+        if (res) {
+          if (res?.nh_kh3 == 'NBHH') {
+            this.resetPayment();
+            this.isValidCustomerGroup3 = false;
+          } else {
+            this.isValidCustomerGroup3 = true;
+          }
+        }
+      });
+
       this.voucherForm = this.formBuilder.group({
         so_ct: [this.data.masterInfo.so_ct, Validators.required],
         ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
@@ -162,7 +182,7 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
       this.stockService.setItemFilter([{ name: 'ma_cuahang', value: this.data.masterInfo.ma_cuahang }, { name: 'ma_loai', value: 'HM' }]);
       this.dataSource = new MatTableDataSource<ReceiptDetail>(this.data.details[0].data);
       if (this.data.details.length >= 2 && this.data.details[1].data) {
-        this.extend = this.data.details[1].data[0];
+        this.extend = this.data.details[1].data[0] || {};
       }
 
       this.sale_so_ct = this.data.masterInfo.fcode1!;
@@ -329,6 +349,13 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
 
   onSubmit() {
     this.data.details[1].data = [this.extend];
+
+    const message = this.validData();
+    if(message) {
+      this.commonService.showMessage(message);
+      return;
+    }
+
     this.submitted = true;
     this.disabled = true;
     let input_error: any;
@@ -418,6 +445,13 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
       if (this.f[item.control]) {
         this.f[item.control].setValue(item.value);
       }
+      if (item.control == 'nh_kh3') {
+        if (item.value == 'NBHH') {
+          this.isValidCustomerGroup3 = false;
+        } else {
+          this.isValidCustomerGroup3 = true;
+        }
+      }
     });
   }
   handleInputLookupChangeExtend($event: any): void {
@@ -498,6 +532,7 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
       ma_phi: this.fee.ma_phi,
       ten_phi: this.fee.ten_phi,
       tk_no: this.fee.tk_cp,
+      ma_td1: this.fee.tk_co,
     });
     this.calcTotal();
     this.dataSource.data = this.data.details[0].data;
@@ -532,6 +567,81 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
   getLabel(label: string) {
     return this.commonService.getMessage(label);
   }
+  onEnterCustomerCode(event: any, ma_kh: string) {
+    event.preventDefault();
+    this.resetPayment();
+
+    //kiểm tra nếu không tồn tại khách hàng theo value input => hiên thị popup thêm khách hàng
+    this.customerApiService.getOneById(ma_kh).subscribe(result => {
+      if (!(result.success && result.result)) {
+        this.openAddCustomerDialog(ma_kh);
+      } else {
+        const res = result.result as any;
+        if (res?.nh_kh3 == 'NBHH') {
+          this.isValidCustomerGroup3 = false;
+        } else {
+          this.isValidCustomerGroup3 = true;
+        }
+      }
+    });
+  }
+  openAddCustomerDialog(ma_kh = ''): void {
+    this.commonService.openDialog(CustomerCreateDialogComponent, { ma_kh: ma_kh }, 'fullscreen-dialog')
+      .afterClosed()
+      .subscribe((customer: Customer) => {
+        customer && ((customer: Customer) => {
+          this.f['ma_kh'].setValue(customer.ma_kh);
+          this.f['ten_kh'].setValue(customer.ten_kh);
+          this.f['dia_chi'].setValue(customer.dia_chi);
+
+        });
+      });
+  }
+
+  resetPayment() {
+
+  }
+
+  validData(): string | null {
+    const details = this.data.details[0]?.data || [];
+    const missingIndexes: number[] = [];
+    const missingTkNoIndexes: number[] = [];
+    let firstAccount: string | null = null;
+    let hasDifferentAccount = false;
+
+    for (let i = 0; i < details.length; i++) {
+      // kiểm tra mã phí ko được rỗng
+      if (!details[i].ma_phi || details[i].ma_phi.trim() === "") {
+        missingIndexes.push(i + 1);
+      }
+
+      // Kiểm tra tk_no không được rỗng
+      if (!details[i].ma_td1 || details[i].ma_td1.trim() === "") {
+        missingTkNoIndexes.push(i + 1);
+      }
+
+      // Kiểm tra sự đồng nhất của ma_td1
+      if (details[i].ma_td1) {
+        if (firstAccount === null) {
+          firstAccount = details[i].ma_td1; // Lưu tài khoản đầu tiên làm chuẩn
+        } else if (details[i].ma_td1 !== firstAccount) {
+          hasDifferentAccount = true;
+        }
+      }
+    }
+
+    if (missingIndexes.length > 0) {
+      return `Dòng ${missingIndexes.join(", ")} chưa có mã phí`;
+    }
+    if (missingTkNoIndexes.length > 0) {
+      return `Dòng ${missingTkNoIndexes.join(", ")} chưa có tài khoản`;
+    }
+    if (hasDifferentAccount) {
+      return "Các dòng tài khoản phải giống nhau";
+    }
+
+    return null;
+  }
 }
 
 
@@ -539,5 +649,6 @@ class Fee {
   ma_phi = '';
   ten_phi = '';
   tk_cp = '';
+  tk_co = '';
   [key: string]: any
 }

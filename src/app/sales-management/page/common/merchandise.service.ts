@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 import { Merchandise } from '@app/sales-management/model/ticket/retail/model';
 import { Service } from '@app/sales-management/model/ticket/common-model/service.model';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
+import { VoucherCodeService } from './voucher-code.service';
+import { VoucherCode } from '@app/sales-management/model/ticket/common-model/base-entity.model';
 
 
 
@@ -16,7 +18,8 @@ export class MerchandiseService {
 
     constructor(
         private imeiApiService: ImeiApiService,
-        private commonService: CommonService
+        private commonService: CommonService,
+        private voucherCodeService: VoucherCodeService
     ) { }
 
     getMerchandiseNotHaveImei(ma_vt: string, merchandise: any[]): any | undefined {
@@ -53,6 +56,20 @@ export class MerchandiseService {
         merchandiseNew.gc_td1 = merchandise.gc_td1;
         merchandiseNew.ma_td3 = merchandise.ma_cttc;
         merchandiseNew.ma_td2 = merchandise.ma_kb;
+        merchandises.push(merchandiseNew);
+    }
+
+    addNewRepurchase(merchandise: any, merchandises: any[], TCreator: { new(): any; }) {
+        const merchandiseNew = this.createNewMerchandise(merchandise, TCreator);
+        merchandiseNew.gia_ck = merchandiseNew.gia_ban;
+        merchandiseNew.line_nbr = merchandises.length + 1;
+        //giá niêm yết (s4)
+        merchandiseNew.s4 = merchandise.s4;
+        //giá điều chỉnh(s5)
+        merchandiseNew.s5 = 0;
+        merchandiseNew.gc_td1 = merchandise.gc_td1;
+        merchandiseNew.ma_td3 = merchandise.ma_td3;
+        merchandiseNew.ma_td2 = merchandise.ma_td2;
         merchandises.push(merchandiseNew);
     }
 
@@ -189,6 +206,153 @@ export class MerchandiseService {
         }
         // merchandiseUpdate.map((e: any) => { e.tien_ck = 0; });
 
+        //#region Chiết khấu 10 (chiết khấu mã giảm giá voucher)
+        const discountForMerchandise10 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE);
+        (discountForMerchandise10 as any).forEach((discount: any) => {
+            // console.log(discount);
+
+            if (discount) {
+                if (discount.type == 1) {
+                    // chiết khấu phân bổ cho mặt hàng được áp dụng voucher
+                    const merchandise_apply_voucher = JSON.parse(sessionStorage.getItem('merchandise_apply_voucher') || '[]');
+                    const { tien_ck_max, tl_ck, campaign_id } = discount; // tien_ck_max = DiscountPrice => tiền chiết khấu tối đa
+                    let tong_hang = merchandise_apply_voucher.reduce((sum: any, item: any) => sum + (item.gia_ban * item.so_luong), 0);
+                    let tong_thue = merchandise_apply_voucher.reduce((sum: any, item: any) => sum + (item.gia_ban * item.so_luong * item.thue_suat / 100), 0);
+                    let tong_tien = tong_hang + tong_thue;
+                    let tien_ck_calc = 0;
+
+                    // xử lý lấy tiền ck
+                    if (tl_ck > 0) {
+                        tien_ck_calc = this.commonService.rouding(tong_tien * tl_ck / 100);
+                    }
+                    if ((tien_ck_max > 0 && tien_ck_calc > tien_ck_max) || tl_ck == 0) {
+                        tien_ck_calc = tien_ck_max;
+                    }
+
+                    // tien_ck trong tab ck
+                    discount.tien_ck = tien_ck_calc;
+
+                    let sum_ck_applied = 0;
+                    const lastIndex = merchandise_apply_voucher.length - 1;
+                    merchandise_apply_voucher.forEach((item: any, index: any) => {
+                        let tien_ck_pb = this.commonService.rouding((item.gia_ban / tong_hang) * tien_ck_calc); // tiền ck phân bổ
+
+                        if (index === lastIndex) {
+                            tien_ck_pb = tien_ck_calc - sum_ck_applied; // tiền ck còn lại
+                        } else {
+                            sum_ck_applied += tien_ck_pb;
+                        }
+
+                        // set cho item trong tab hàng hóa
+                        const merchan = merchandiseUpdate.find(x => x.ma_vt.trim().toLowerCase() == item.ma_vt.trim().toLowerCase()
+                            && x.ma_imei.trim().toLowerCase() == item.ma_imei.trim().toLowerCase());
+                        if (merchan) {
+                            merchan.gia_ck -= tien_ck_pb;
+                            merchan.tien_ck += tien_ck_pb;
+                        }
+                        // item.gia_ck -= tien_ck_pb;
+                        // item.tien_ck += tien_ck_pb;
+
+                        // add và tab mã giảm giá
+                        const voucherCode = {
+                            ma_voucher: discount.imei_hang_mua,
+                            ma_vt: item.ma_vt,
+                            ma_imei: item.ma_imei,
+                            tien_ck: tien_ck_pb,
+                            tl_ck: tl_ck,
+                            ma_td1: campaign_id.toString()
+                        }
+                        this.voucherCodeService.addNew(voucherCode, ticket.voucherCode, VoucherCode);
+                    });
+                } else if (discount.type == 2) {
+                    // chiết khấu theo mã vật tư chỉ định
+                    const { ma_vt, tien_ck_max, tl_ck, ma_imei, campaign_id } = discount; // tien_ck_max = DiscountPrice => tiền chiết khấu tối đa
+                    let tien_vat = 0;
+                    let tien_ck_calc = 0;
+
+                    // tìm vật tư cần áp dụng mã giảm giá
+                    const mechandise = merchandiseUpdate.find(item =>
+                        item.ma_vt?.trim().toLowerCase() === ma_vt.trim().toLowerCase() &&
+                        item.ma_imei?.trim().toLowerCase() === ma_imei.trim().toLowerCase()
+                    );
+
+                    if (mechandise) {
+                        // xử lý lấy tiền ck
+                        if (tl_ck > 0) {
+                            tien_vat = (mechandise.gia_ban * mechandise.so_luong) + (mechandise.gia_ban * mechandise.so_luong * mechandise.thue_suat / 100)
+                            tien_ck_calc = this.commonService.rouding(tien_vat * tl_ck / 100);
+                        }
+                        if ((tien_ck_max > 0 && tien_ck_calc > tien_ck_max) || tl_ck == 0) {
+                            tien_ck_calc = tien_ck_max;
+                        }
+
+                        tien_ck_calc = this.commonService.rouding(tien_ck_calc);
+
+                        // tien_ck trong tab ck
+                        discount.tien_ck = tien_ck_calc;
+
+                        mechandise.gia_ck -= tien_ck_calc ? tien_ck_calc : 0;
+                        mechandise.tien_ck += tien_ck_calc ? tien_ck_calc : 0;
+
+                        const voucherCode = {
+                            ma_voucher: discount.imei_hang_mua,
+                            ma_vt: ma_vt,
+                            ma_imei: ma_imei,
+                            tien_ck: tien_ck_calc,
+                            tl_ck: tl_ck,
+                            ma_td1: campaign_id.toString()
+                        }
+                        this.voucherCodeService.addNew(voucherCode, ticket.voucherCode, VoucherCode);
+                    }
+                } else {
+                    // chiết khấu tổng đơn hàng phân bổ cho từng mặt hàng
+                    const { tien_ck_max, tl_ck, campaign_id } = discount; // tien_ck_max = DiscountPrice => tiền chiết khấu tối đa
+                    let tong_hang = merchandiseUpdate.reduce((sum, item) => sum + (item.gia_ban * item.so_luong), 0);
+                    let tong_thue = merchandiseUpdate.reduce((sum, item) => sum + (item.gia_ban * item.so_luong * item.thue_suat / 100), 0);
+                    let tong_tien = tong_hang + tong_thue;
+                    let tien_ck_calc = 0;
+
+                    // xử lý lấy tiền ck
+                    if (tl_ck > 0) {
+                        tien_ck_calc = this.commonService.rouding(tong_tien * tl_ck / 100);
+                    }
+                    if ((tien_ck_max > 0 && tien_ck_calc > tien_ck_max) || tl_ck == 0) {
+                        tien_ck_calc = tien_ck_max;
+                    }
+
+                    // tien_ck trong tab ck
+                    discount.tien_ck = tien_ck_calc;
+
+                    let sum_ck_applied = 0;
+                    const lastIndex = merchandiseUpdate.length - 1;
+                    merchandiseUpdate.forEach((item, index) => {
+                        let tien_ck_pb = this.commonService.rouding((item.gia_ban / tong_hang) * tien_ck_calc); // tiền ck phân bổ
+
+                        if (index === lastIndex) {
+                            tien_ck_pb = tien_ck_calc - sum_ck_applied; // tiền ck còn lại
+                        } else {
+                            sum_ck_applied += tien_ck_pb;
+                        }
+
+                        item.gia_ck -= tien_ck_pb;
+                        item.tien_ck += tien_ck_pb;
+
+                        // add và tab mã giảm giá
+                        const voucherCode = {
+                            ma_voucher: discount.imei_hang_mua,
+                            ma_vt: item.ma_vt,
+                            ma_imei: item.ma_imei,
+                            tien_ck: tien_ck_pb,
+                            tl_ck: tl_ck,
+                            ma_td1: campaign_id.toString()
+                        }
+                        this.voucherCodeService.addNew(voucherCode, ticket.voucherCode, VoucherCode);
+                    });
+                }
+            }
+        });
+        //#endregion
+
         // Lấy chi tiết chiết khấu loại 01: Chiết khấu giá trị theo mã vật tư để cộng vào chi tiết chiết khấu
         const discountForMerchandise01 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.REDUTION_BY_MERCHANDISE_CODE);
         (discountForMerchandise01 as any).forEach((discount: any) => {
@@ -278,12 +442,13 @@ export class MerchandiseService {
             */
             // => code thay thế đoạn code comment ở trên
             const detail: any[] = [];
-            for (const item_discount of discount.details) {
-                detail.push(item_discount);
-            }
+            if (discount && discount.details && discount.details.length > 0)
+                for (const item_discount of discount.details) {
+                    detail.push(item_discount);
+                }
             // 2024-11-13: end
 
-            if (detail.filter(x => x.hangban_yn).length < discount.details.filter((x: any) => x.hangban_yn).length || detail.filter(x => x.hangban_yn).length == detail.length) {
+            if (detail && detail.length > 0 && detail.filter(x => x.hangban_yn).length < discount.details.filter((x: any) => x.hangban_yn).length || detail.filter(x => x.hangban_yn).length == detail.length) {
                 markerArray.filter(marker => detail.find((item: any) => marker.ma_vt.trim() === item.ma_vt_ad.trim())).forEach(x => x.marker = false);
             }
             else {
@@ -598,7 +763,7 @@ export class MerchandiseService {
             e.gia_ck = e.gia_ban - (e.tien_ck / (1 + (e.thue_suat / 100)));
 
             // gọi hàm xử lý ck 09
-            this.calcDiscount09(ticket, merchandiseUpdate);
+            this.calcDiscount09(ticket, merchandiseUpdate, e);
 
             //Xử lý làm tròn giá ck sau khi trừ bị âm hoặc trong khoảng 0-0.49
             e.gia_ck = (e.gia_ck < 0 || (e.gia_ck > 0 && e.gia_ck < 0.5)) ? Math.abs(Math.round(e.gia_ck)) : e.gia_ck;
@@ -701,10 +866,16 @@ export class MerchandiseService {
             rs.thanh_tien = merchandise.tien2 || merchandise.tien_nt2 || merchandise.tien_nt;
             rs.tien_thue = merchandise.thue || merchandise.thue_nt;
             rs.thanh_toan = merchandise.tt || merchandise.tt_nt;
-            rs.stt_rec_hd = merchandise.stt_rec;
-            rs.stt_rec0hd = merchandise.stt_rec0;
+
+            //2025-03-10: không map trường stt_rec_hd đối với chứng từ trả nợ quà (BHI) => lấy theo dữ liệu response từ server
+            if (merchandise.ma_ct !== 'BHI') {
+                rs.stt_rec_hd = merchandise.stt_rec;
+                rs.stt_rec0hd = merchandise.stt_rec0;
+            }
+
             rs.hd_so = merchandise.so_ct || '';
             rs.s7 = merchandise.ngay_ct || '';
+            rs.no_km_yn = merchandise.no_km_yn == 1 ? true : false;
 
             // Kiểm tra nếu có truyền mảng ext và tìm đối tượng trong ext có stt_rec giống với stt_rec_dh1 của merchandise
             if (ext.length > 0) {
@@ -725,6 +896,22 @@ export class MerchandiseService {
         });
         result.map((e, i) => { e.line_nbr = i + 1; });
         des.push(...result);
+
+        // test nhân đôi hàng hoá
+        // result.forEach((e, i) => {
+        //     e.line_nbr = i * 2 + 1;
+
+        //     const clone = { ...e };
+        //     clone.line_nbr = i * 2 + 2;
+        //     if (clone.ma_imei) {
+        //         clone.ma_imei += '_CLONE';
+        //     } else {
+        //         clone.ma_imei = 'CLONE_' + (i + 1);
+        //     }
+
+        //     des.push(e);
+        //     des.push(clone);
+        // });
     }
 
     convertFromVoucherView(src: any[], des: any[], TCreator: { new(): any; }) {
@@ -738,7 +925,7 @@ export class MerchandiseService {
             rs.thanh_toan = merchandise.tt || merchandise.tt_nt;
             rs.stt_rec_dh = merchandise.stt_rec_dh;
             rs.hd_so = merchandise.hd_so || '';
-            rs.s7 = merchandise.s7 || '';
+            rs.s7 = (merchandise.s7?.includes('1900-01-01') ? '' : merchandise.s7) || '';
             rs.ma_td1 = merchandise.ma_td1 || '';
             rs.gc_td1 = merchandise.gc_td1 || '';
             rs.gc_td2 = merchandise.gc_td2 || '';
@@ -1192,6 +1379,26 @@ export class MerchandiseService {
             e.gia_ck = e.gia_ban;
         });
 
+        //ck 03
+        let t_tien_ck03 = 0;
+        const discountForMerchandise03 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.GIFT);
+        if (discountForMerchandise03 && discountForMerchandise03.length > 0) {
+            const arr_ck03 = [];
+            for (const discount of discountForMerchandise03) {
+                if (discount.tien_ck > 0) {
+                    t_tien_ck03 += discount.tien_ck;
+                    arr_ck03.push({ ma_imei: discount.ma_imei.trim(), tien_ck: discount.tien_ck });
+                }
+            }
+            if (t_tien_ck03 > 0 && arr_ck03 && arr_ck03.length > 0) {
+                // cập nhật lại tien_ck_qd cho merchandise tương ứng với từng mã imei
+                for (const item_ck03 of arr_ck03) {
+                    const mer_item = merchandises.find(x => x.ma_imei.trim() === item_ck03.ma_imei);
+                    if (mer_item) mer_item.tien_ck_qd = item_ck03.tien_ck;
+                }
+            }
+        }
+
         // Loại bỏ những hàng hoá là hàng khuyến mãi
         const merchandiseUpdate = merchandises.filter((e: any) => !e.km_yn);
         let serviceUpdate: any[] = [];
@@ -1199,6 +1406,149 @@ export class MerchandiseService {
             serviceUpdate = service.filter((e: any) => !e.km_yn);
         }
         // merchandiseUpdate.map((e: any) => { e.tien_ck = 0; });
+
+        //#region Chiết khấu 10 (chiết khấu mã giảm giá voucher)
+        const discountForMerchandise10 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE);
+        (discountForMerchandise10 as any).forEach((discount: any) => {
+            if (discount) {
+                if (discount.type == 1) {
+                    // chiết khấu phân bổ cho mặt hàng được áp dụng voucher
+                    const merchandise_apply_voucher = JSON.parse(sessionStorage.getItem('merchandise_apply_voucher') || '[]');
+                    const { tien_ck_max, tl_ck, campaign_id } = discount; // tien_ck_max = DiscountPrice => tiền chiết khấu tối đa
+                    let tong_hang = merchandise_apply_voucher.reduce((sum: any, item: any) => sum + (item.gia_ban * item.so_luong), 0);
+                    let tong_thue = merchandise_apply_voucher.reduce((sum: any, item: any) => sum + (item.gia_ban * item.so_luong * item.thue_suat / 100), 0);
+                    let tong_tien = tong_hang + tong_thue;
+                    let tien_ck_calc = 0;
+
+                    // xử lý lấy tiền ck
+                    if (tl_ck > 0) {
+                        tien_ck_calc = this.commonService.rouding(tong_tien * tl_ck / 100);
+                    }
+                    if ((tien_ck_max > 0 && tien_ck_calc > tien_ck_max) || tl_ck == 0) {
+                        tien_ck_calc = tien_ck_max;
+                    }
+
+                    // tien_ck trong tab ck
+                    discount.tien_ck = tien_ck_calc;
+
+                    let sum_ck_applied = 0;
+                    const lastIndex = merchandise_apply_voucher.length - 1;
+                    merchandise_apply_voucher.forEach((item: any, index: any) => {
+                        let tien_ck_pb = this.commonService.rouding((item.gia_ban / tong_hang) * tien_ck_calc); // tiền ck phân bổ
+
+                        if (index === lastIndex) {
+                            tien_ck_pb = tien_ck_calc - sum_ck_applied; // tiền ck còn lại
+                        } else {
+                            sum_ck_applied += tien_ck_pb;
+                        }
+
+                        // set cho item trong tab hàng hóa
+                        const merchan = merchandiseUpdate.find(x => x.ma_vt.trim().toLowerCase() == item.ma_vt.trim().toLowerCase()
+                            && x.ma_imei.trim().toLowerCase() == item.ma_imei.trim().toLowerCase());
+                        merchan.gia_ck -= tien_ck_pb;
+                        merchan.tien_ck += tien_ck_pb;
+                        // item.gia_ck -= tien_ck_pb;
+                        // item.tien_ck += tien_ck_pb;
+
+                        // add và tab mã giảm giá
+                        const voucherCode = {
+                            ma_voucher: discount.imei_hang_mua,
+                            ma_vt: item.ma_vt,
+                            ma_imei: item.ma_imei,
+                            tien_ck: tien_ck_pb,
+                            tl_ck: tl_ck,
+                            ma_td1: campaign_id.toString()
+                        }
+                        this.voucherCodeService.addNew(voucherCode, ticket.voucherCode, VoucherCode);
+                    });
+                } else if (discount.type == 2) {
+                    // chiết khấu theo mã vật tư chỉ định
+                    const { ma_vt, tien_ck_max, tl_ck, ma_imei, campaign_id } = discount; // tien_ck_max = DiscountPrice => tiền chiết khấu tối đa
+                    let tien_vat = 0;
+                    let tien_ck_calc = 0;
+
+                    // tìm vật tư cần áp dụng mã giảm giá
+                    const mechandise = merchandiseUpdate.find(item =>
+                        item.ma_vt?.trim().toLowerCase() === ma_vt.trim().toLowerCase() &&
+                        item.ma_imei?.trim().toLowerCase() === ma_imei.trim().toLowerCase()
+                    );
+
+                    if (mechandise) {
+                        // xử lý lấy tiền ck
+                        if (tl_ck > 0) {
+                            tien_vat = (mechandise.gia_ban * mechandise.so_luong) + (mechandise.gia_ban * mechandise.so_luong * mechandise.thue_suat / 100)
+                            tien_ck_calc = this.commonService.rouding(tien_vat * tl_ck / 100);
+                        }
+                        if ((tien_ck_max > 0 && tien_ck_calc > tien_ck_max) || tl_ck == 0) {
+                            tien_ck_calc = tien_ck_max;
+                        }
+
+                        tien_ck_calc = this.commonService.rouding(tien_ck_calc);
+
+                        // tien_ck trong tab ck
+                        discount.tien_ck = tien_ck_calc;
+
+                        mechandise.gia_ck -= tien_ck_calc ? tien_ck_calc : 0;
+                        mechandise.tien_ck += tien_ck_calc ? tien_ck_calc : 0;
+
+                        const voucherCode = {
+                            ma_voucher: discount.imei_hang_mua,
+                            ma_vt: ma_vt,
+                            ma_imei: ma_imei,
+                            tien_ck: tien_ck_calc,
+                            tl_ck: tl_ck,
+                            ma_td1: campaign_id.toString()
+                        }
+                        this.voucherCodeService.addNew(voucherCode, ticket.voucherCode, VoucherCode);
+                    }
+                } else {
+                    // chiết khấu tổng đơn hàng phân bổ cho từng mặt hàng
+                    const { tien_ck_max, tl_ck, campaign_id } = discount; // tien_ck_max = DiscountPrice => tiền chiết khấu tối đa
+                    let tong_hang = merchandiseUpdate.reduce((sum, item) => sum + (item.gia_ban * item.so_luong), 0);
+                    let tong_thue = merchandiseUpdate.reduce((sum, item) => sum + (item.gia_ban * item.so_luong * item.thue_suat / 100), 0);
+                    let tong_tien = tong_hang + tong_thue;
+                    let tien_ck_calc = 0;
+
+                    // xử lý lấy tiền ck
+                    if (tl_ck > 0) {
+                        tien_ck_calc = this.commonService.rouding(tong_tien * tl_ck / 100);
+                    }
+                    if ((tien_ck_max > 0 && tien_ck_calc > tien_ck_max) || tl_ck == 0) {
+                        tien_ck_calc = tien_ck_max;
+                    }
+
+                    // tien_ck trong tab ck
+                    discount.tien_ck = tien_ck_calc;
+
+                    let sum_ck_applied = 0;
+                    const lastIndex = merchandiseUpdate.length - 1;
+                    merchandiseUpdate.forEach((item, index) => {
+                        let tien_ck_pb = this.commonService.rouding((item.gia_ban / tong_hang) * tien_ck_calc); // tiền ck phân bổ
+
+                        if (index === lastIndex) {
+                            tien_ck_pb = tien_ck_calc - sum_ck_applied; // tiền ck còn lại
+                        } else {
+                            sum_ck_applied += tien_ck_pb;
+                        }
+
+                        item.gia_ck -= tien_ck_pb;
+                        item.tien_ck += tien_ck_pb;
+
+                        // add và tab mã giảm giá
+                        const voucherCode = {
+                            ma_voucher: discount.imei_hang_mua,
+                            ma_vt: item.ma_vt,
+                            ma_imei: item.ma_imei,
+                            tien_ck: tien_ck_pb,
+                            tl_ck: tl_ck,
+                            ma_td1: campaign_id.toString()
+                        }
+                        this.voucherCodeService.addNew(voucherCode, ticket.voucherCode, VoucherCode);
+                    });
+                }
+            }
+        });
+        //#endregion
 
         // Lấy chi tiết chiết khấu loại 01: Chiết khấu giá trị theo mã vật tư để cộng vào chi tiết chiết khấu
         const discountForMerchandise01 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.REDUTION_BY_MERCHANDISE_CODE);
@@ -1565,7 +1915,7 @@ export class MerchandiseService {
             e.gia_ck = e.gia_ban - (e.tien_ck / (1 + (e.thue_suat / 100)));
 
             // gọi hàm xử lý ck 09
-            this.calcDiscount09(ticket, merchandiseUpdate);
+            this.calcDiscount09(ticket, merchandiseUpdate, e);
 
             //Xử lý làm tròn giá ck sau khi trừ bị âm hoặc trong khoảng 0-0.49
             e.gia_ck = (e.gia_ck < 0 || (e.gia_ck > 0 && e.gia_ck < 0.5)) ? Math.abs(Math.round(e.gia_ck)) : e.gia_ck;
@@ -1607,9 +1957,13 @@ export class MerchandiseService {
     // #endregion convert
 
     //#region Chiết khấu 09
-    calcDiscount09(ticket: any, merchandiseUpdate: any) {
+    calcDiscount09(ticket: any, merchandiseUpdate: any, current_item: any | undefined = null) {
         // Lấy chi tiết chiết khấu loại 09: Chiết khấu theo giá hạng khách hàng
-        const discountForMerchandise09 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK);
+        const discountForMerchandise09 = ticket.discount.filter((e: any) => e.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK && (!current_item || (
+            e.ma_imei.trim().toLowerCase() == current_item.ma_imei.trim().toLowerCase()
+            && e.ma_vt.trim().toLowerCase() == current_item.ma_vt.trim().toLowerCase()
+        )));
+
         (discountForMerchandise09 as any).forEach((discount: any) => {
             if (discount) {
                 let { ma_vt, tien_ck_tv, tl_ck, ma_imei, tien_max, tien_ck, ma_ck } = discount;
@@ -1618,7 +1972,8 @@ export class MerchandiseService {
                 // Tổng tiền hàng bán của phiếu có trong chiết khấu
                 result.forEach((e: Merchandise, index) => {
                     // kiểm tra đúng imei và ma_vt thì gán tien_ck
-                    if (e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase() && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
+                    if (e.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase()
+                        && e.ma_vt.trim().toLowerCase() == ma_vt.trim().toLowerCase()) {
 
                         // Sử dụng tl_ck từ e.tl_ck09 nếu tl_ck không tồn tại hoặc không có giá trị
                         const tl_ck_final = tl_ck || e.tl_ck09 || 0;
@@ -1634,7 +1989,6 @@ export class MerchandiseService {
 
                             // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
                             tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
-                            e.gia_ck -= Math.round(tien_ck);
                         } else {
                             // Trường hợp không có tien_ck_tv, tính theo tl_ck
                             const tien_ck_raw = e.gia_ck * (tl_ck_final / 100); // Tính giá trị chưa kiểm tra với tien_max
@@ -1642,14 +1996,16 @@ export class MerchandiseService {
 
                             // Lấy giá trị chiết khấu cuối cùng, không vượt quá tien_max điều chỉnh
                             tien_ck = tien_ck_raw > tien_max_adjusted ? tien_max_adjusted : tien_ck_raw;
-                            e.gia_ck -= Math.round(tien_ck);
                         }
 
-                        // làm tròn tien_ck
-                        tien_ck = Math.round(tien_ck);
+                        // tiền ck add vào phiếu là tiền ck full vat & làm tròn đến 1000đ
+                        tien_ck = this.commonService.rouding(tien_ck + ((tien_ck * e.thue_suat) / 100));
 
-                        // tiền ck add vào phiếu là tiền ck full vat
-                        tien_ck = this.commonService.rouding(tien_ck + Math.round((tien_ck * e.thue_suat) / 100));
+                        // tính lại tiền ck 09 trước thuế sau khi làm tròn đến 1000đ
+                        const tien_ck09_truoc_vat = Math.round(tien_ck / (1 + (e.thue_suat / 100)));
+
+                        // trừ tiền ck09 vào giá sau ck
+                        e.gia_ck -= tien_ck09_truoc_vat;
 
                         // add ck 09 vào
                         e.tl_ck09 = tl_ck_final;
@@ -1666,5 +2022,6 @@ export class MerchandiseService {
             }
         });
     }
+
     //#endregion
 }

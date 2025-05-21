@@ -64,6 +64,14 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
   action = '';
   shop = '';
 
+  tab_sources: any[] = [
+    { label: 'Hàng hoá', name: 'merchandise' },
+    { label: 'Bảo hành', name: 'guarantee' },
+    { label: 'Vận chuyển' },
+    { label: 'Hồ sơ hợp đồng' },
+    { label: 'HĐĐT' }
+  ];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -77,6 +85,16 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
     localStorage.setItem('useGridCached', '1');
     this.saleWholeService.setTicket(this.ticket);
   }
+
+  // get tabList() {
+  //   return [
+  //     { label: 'Hàng hoá', count: this.ticket?.merchandise?.length ?? 0 },
+  //     { label: 'Bảo hành', count: this.ticket?.guarantee?.length ?? 0 },
+  //     { label: 'Vận chuyển' },
+  //     { label: 'Hồ sơ hợp đồng' },
+  //     { label: 'HĐĐT' }
+  //   ];
+  // }
 
   ngAfterViewInit(): void {
     // this.commonService.focusControl(this.tabIndexFocusFirst);
@@ -152,6 +170,9 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== this.statuses.CREATE) {
               this.router.navigate(['/404']);
             }
+            // set cửa hàng để truyền sang payment tab
+            this.shop = (result.result as any).masterInfo.ma_cuahang;
+
             const hddtTable = (result.result as any).details.find((item: any) => item.id === 10);
             if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
               this.eInvoiceInfo = hddtTable.data[0];
@@ -319,8 +340,8 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
         this.itemSelected.gia_vat = this.itemSelected.gia_full_vat;
         this.itemSelected.gia_ban = Math.round(this.itemSelected.gia_vat / (1 + this.itemSelected.thue_suat / 100));
         this.itemSelected.thanh_tien = this.itemSelected.gia_ban * this.itemSelected.so_luong_imei;
-        this.itemSelected.tien_thue = Math.round((this.itemSelected.thanh_tien * this.itemSelected.thue_suat) / 100);
-        this.itemSelected.thanh_toan = this.itemSelected.thanh_tien + this.itemSelected.tien_thue;
+        this.itemSelected.thanh_toan = this.itemSelected.gia_full_vat * this.itemSelected.so_luong_imei;
+        this.itemSelected.tien_thue = this.itemSelected.thanh_toan - this.itemSelected.thanh_tien;
         this.saleWholeService.calcMoney();
       }
       else {
@@ -424,6 +445,11 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
 
       if (duplicates.length > 0) {
         mechandise_dup.push({ line: lineNumber, duplicates });
+      }
+      console.log(this.ticket.masterInfo.status)
+      if (item.so_luong_imei < item.so_luong && this.ticket.masterInfo.status == '2') {
+        this.commonService.showMessage('Vui lòng nhập đầy đủ Imei');
+        return;
       }
     }
     if (mechandise_dup.length > 0) {
