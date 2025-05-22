@@ -9,8 +9,8 @@ import { getResource } from '@app/_common/commonFunction';
 export class CustomerService {
     constructor(private http: HttpClient) { }
 
-    getPaymentDebit(ma_kh: string, ma_dvcs: string, ngay_ct: string) {
-        return this.http.get<any[]>(`${environment.apiUrl}/customer/get_payment_debit?ma_kh=${ma_kh}&ma_dvcs=${ma_dvcs}&ngay_ct=${ngay_ct}`);
+    getPaymentDebit(ma_kh: string, ma_dvcs: string, ngay_ct: Date) {
+        return this.http.get<any[]>(`${environment.apiUrl}/customer/get_payment_debit?ma_kh=${ma_kh}&ma_dvcs=${ma_dvcs}&ngay_ct=${ngay_ct.toISOString()}`);
     }
     getPaymentDeposit(ma_kh: string, ma_dvcs: string, ngay_ct: string) {
         return this.http.get<any[]>(`${environment.apiUrl}/customer/get_payment_deposit?ma_kh=${ma_kh}&ma_dvcs=${ma_dvcs}&ngay_ct=${ngay_ct}`);
