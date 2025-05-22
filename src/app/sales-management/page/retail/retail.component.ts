@@ -968,7 +968,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
                 this.commonService.showMessageByNameAdvance(result.message, ...result.result);
               }
               else {
-                this.commonService.showMessageByName(result.toString());
+                this.commonService.showMessageByName(result.message);
               }
             }
           });
