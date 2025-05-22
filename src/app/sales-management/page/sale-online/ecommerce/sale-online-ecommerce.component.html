@@ -447,9 +447,14 @@
             [entity]="entity"
             class="text-base"
             [voucherId]="ticket.masterInfo.stt_rec" />
-          <div class="btn-responsive btn-in-file">
+          <!-- <div class="btn-responsive btn-in-file">
             <span>{{ getLabel('btnPrint') }}</span>
-          </div>
+          </div> -->
+          <app-print
+            [voucherId]="this.ticket.masterInfo.stt_rec"
+            [status]="this.ticket.masterInfo.status"
+            [entityName]="this.entity"/>
+
           <div class="btn-responsive btn-cancel" (click)="onCancel()">
             {{ cancelButtonTitle }}
           </div>
