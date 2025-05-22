@@ -116,6 +116,9 @@ export class SaleReturnService {
                 this.commonService.saveVoucherNumberLocalStorage(ticket.masterInfo.so_ct, TICKET_CODE.RETURN);
             }
         });
+        this.ticketApiService.getVoucherDate().subscribe(result => {
+            ticket.masterInfo.ngay_ct = result?.result as any || Date();
+        });
     }
 
     //#endregion init
@@ -145,8 +148,8 @@ export class SaleReturnService {
     //     return this.imeiApiService.getSoldInfo(imei, this.ticket.masterInfo.ma_cuahang, this.ticket.masterInfo.ma_ct, rate, tien_giam, loai_tra_lai, tra_lai_cod);
     // }
 
-    getSoldInfoReturn(imei: string, rate = -1, tien_giam = 0, loai_tra_lai = "", tra_lai_cod = false) {
-        return this.imeiApiService.getSoldInfoReturn(imei, this.ticket.masterInfo.ma_cuahang, this.ticket.masterInfo.ma_ct, rate, tien_giam, loai_tra_lai, tra_lai_cod);
+    getSoldInfoReturn(imei: string, rate = -1, tien_giam = 0, loai_tra_lai = "", tra_lai_cod = false, tra_lai_freedelivery = false) {
+        return this.imeiApiService.getSoldInfoReturn(imei, this.ticket.masterInfo.ma_cuahang, this.ticket.masterInfo.ma_ct, rate, tien_giam, loai_tra_lai, tra_lai_cod, tra_lai_freedelivery);
     }
 
     getMerchandiseInfo(ma_vt: string) {

@@ -200,6 +200,9 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
     }));
   }
   ngOnInit() {
+    // check quyền truy cập
+    this.commonService.processAuthorization();
+
     const userJson = localStorage.getItem('user');
     const userObj = userJson !== null && JSON.parse(userJson);
     this.ma_cuahang = userObj['shop'];
@@ -278,6 +281,9 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
           imei: [this.imei],
           detail: [this.data.details || [], Validators.required],
         });
+      });
+      this.ticketApiService.getVoucherDate().subscribe(result => {
+        this.data.masterInfo.ngay_ct = result?.result as any || Date();
       });
     }
     else {
@@ -500,8 +506,14 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
         return false;
       }
     }
-    const result = await lastValueFrom(this.imeiService.getSoldInfo(imei, this.ma_cuahang));
+
+    //encode imei trước khi request để tránh các ký tự đặc biệt (=, &, ?, /)
+    const imei_encoded = encodeURIComponent(imei);
+
+    const result = await lastValueFrom(this.imeiService.getSoldInfo(imei_encoded, this.ma_cuahang));
     if (result.success && result.result) {
+      console.log(result.result);
+
       const master: MasterInfo = result.result.masterInfo;
       const response = result.result.details[0].data[0];
       if (master.ma_ct != 'PXM') {
@@ -513,6 +525,8 @@ export class LoanRecoveryDetailComponent extends Grid<ReceiptDetail> implements 
       this.data.masterInfo['ten_kh'] = master['ten_kh'];
       this.f['ma_kh'].setValue(master.ma_kh);
       this.f['ong_ba'].setValue(master.ong_ba);
+
+      console.log(response);
 
       this.data.details[0].data.push({
         ma_imei: response.ma_imei,

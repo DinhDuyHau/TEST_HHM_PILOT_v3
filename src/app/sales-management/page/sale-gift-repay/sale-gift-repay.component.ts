@@ -87,6 +87,9 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    // check quyền truy cập
+    this.commonService.processAuthorization();
+
     this.route.url.subscribe(urlSegment => {
       const path = urlSegment[0].path;
       if (urlSegment[0].path) {

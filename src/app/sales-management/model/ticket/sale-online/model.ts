@@ -3,7 +3,7 @@ import { Guarantee } from '../common-model/guarantee.model';
 import { Service } from '../common-model/service.model';
 import { Payment } from '../common-model/payment.model';
 import { Transport } from '../../common/delivery.mode';
-import { BaseEntity, BaseMasterInfo, BaseMerchandise, BaseTicket, Overview } from '../common-model/base-entity.model';
+import { BaseEntity, BaseMasterInfo, BaseMerchandise, BaseTicket, Overview, VoucherCode } from '../common-model/base-entity.model';
 import { Package } from '../common-model/package.model';
 
 export class SaleOnlineTicket {
@@ -16,6 +16,7 @@ export class SaleOnlineTicket {
   payment: Payment = new Payment;
   transport: Transport = new Transport;
   overview: Overview[] = [];
+  voucherCode: VoucherCode[] = [];
 }
 
 export type SaleOnlineTicketList = BaseTicket
@@ -27,7 +28,8 @@ export const TAB_NAME = {
   DISCOUNT: 'd561ck',
   GUARANTEE: 'ddd',
   PAYMENT: 'd561tt',
-  TRANSPORT: 'm561ext'
+  TRANSPORT: 'm561ext',
+  VOUCHERCODE: 'd561ctck'
 };
 
 export class MasterInfo extends BaseMasterInfo {

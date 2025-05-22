@@ -150,6 +150,9 @@ export class SaleItinerantService {
                 this.commonService.saveVoucherNumberLocalStorage(ticket.masterInfo.so_ct, TICKET_CODE.ITINERANT);
             }
         });
+        this.ticketApiService.getVoucherDate().subscribe(result => {
+            ticket.masterInfo.ngay_ct = result?.result as any || Date();
+        });
     }
 
     //#endregion init

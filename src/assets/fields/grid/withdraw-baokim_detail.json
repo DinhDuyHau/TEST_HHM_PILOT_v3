@@ -12,6 +12,11 @@
     "width": 220
   },
   {
+    "name": "gc_td2",
+    "title": "Mã FT",
+    "width": 120
+  },
+  {
     "name": "tien_phi_baokim",
     "title": "Phí (Full VAT)",
     "width": 120,

@@ -67,7 +67,7 @@
     "dataFormatString": "normalQuantity"
   },
   {
-    "name": "t_tien_nt",
+    "name": "t_tien",
     "title": "Tiền",
     "align": "right",
     "width": 160,
@@ -75,7 +75,7 @@
     "dataFormatString": "normalPrice"
   },
   {
-    "name": "t_thue_nt",
+    "name": "t_thue",
     "title": "Thuế",
     "align": "right",
     "width": 160,
@@ -83,7 +83,7 @@
     "dataFormatString": "normalPrice"
   },
   {
-    "name": "t_tt_nt",
+    "name": "t_tt",
     "title": "Thanh toán",
     "align": "right",
     "width": 180,

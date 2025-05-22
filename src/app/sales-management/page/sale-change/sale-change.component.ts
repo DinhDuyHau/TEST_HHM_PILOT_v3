@@ -119,6 +119,9 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    // check quyền truy cập
+    this.commonService.processAuthorization();
+
     this.route.url.subscribe(urlSegment => {
       const path = urlSegment[0].path;
       if (urlSegment[0].path) {
@@ -253,6 +256,9 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
           this.onEnterCustomerCode(result.result.masterInfo.ma_kh);
         }
 
+        console.log(result.result);
+
+
         const merchandise = result.result.details[0].data;
         const service = result.result.details[1].data;
         const src_merchandise = merchandise.filter((x: any) => x.ma_imei.toLowerCase().trim() === ma_imei.toLowerCase().trim());
@@ -296,7 +302,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   }
 
   onEnterImeiChangeCode(ma_imei: string) {
-    if(this.ticket.merchandise_return.length == 0) {
+    if (this.ticket.merchandise_return.length == 0) {
       this.commonService.showMessage('Cần nhập IMEI trả trước khi nhập IMEI đổi');
       return;
     }

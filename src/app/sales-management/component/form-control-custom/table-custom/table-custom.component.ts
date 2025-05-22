@@ -54,6 +54,8 @@ export class TableCustomComponent implements
   @Input() hasButton = { create: true, delete: true, view: true, edit: true };
   @Input() useFilter: boolean = false;
   @Input() isShowDelete: boolean = true;
+  @Input() useEdit: boolean = false;
+  @Input() useDelete: boolean = false;
   @Input() isStyleFullHeight: boolean = false;
   @Input() enableTypeColorOverview: boolean = false;
   @Input() enableSelected: boolean = false;
@@ -86,6 +88,49 @@ export class TableCustomComponent implements
   isAddCellBoder = false
   pageIndexRange: number[] = []
   pageIndexTotal!: number
+  entityNamesAuthorization = [
+    "SVTran",
+    "SVTran_BHC",
+    "SVTran_BHW",
+    "SVTran_DXA",
+    "SVTran_BHB",
+    "SVTran_BHD",
+    "SVTran_BHE",
+    "SVTran_BHF",
+    "SVTran_DV1",
+    "SVTran_BHG",
+    "SVTran_BHI",
+    "SVTran_BHK",
+    "PR3Tran",
+    "ITTran",
+    "IPTran",
+    "ITNTran",
+    "IPNTran",
+    "ITTran_PXB2",
+    "RUTran",
+    "ISTran_PXK",
+    "ISTran_PXM",
+    "ISTran_PXW",
+    "SVTran_XD1",
+    "SVTran_XD2",
+    "IRTran_PNM",
+    "IRTran_PNW",
+    "SVTran_HDF",
+    "SVTran_HDR",
+    "SVTran_HD3",
+    "PVTran",
+    "SVTran_MHA",
+    "PVTran_PN1",
+    "RPTran",
+    "DRTran",
+    "PTCTran",
+    "PTHTran",
+    "ORTran",
+    "CDTran_PCH",
+    "PCCTran",
+    "OPTran",
+    "CDTran_PCF",
+  ];
   selectedRecordId: string | null = null;
 
   constructor(
@@ -376,6 +421,11 @@ export class TableCustomComponent implements
     if (this.handleUpdate.observers.length === 0) {
       return false;
     }
+    if(this.entityNamesAuthorization.includes(this.entityName)) {
+      if(!this.useEdit) {
+        return false;
+      }
+    }
     if (this.entityName === TICKET_ENTITY.CONTRACT) {
       return false;
     }
@@ -406,6 +456,16 @@ export class TableCustomComponent implements
   }
 
   showDeleteButton(record: any) {
+    if (this.handleDelete.observers.length === 0) {
+      return false;
+    }
+
+    if(this.entityNamesAuthorization.includes(this.entityName)) {
+      if(!this.useDelete) {
+        return false;
+      }
+    }
+
     if (this.readonly) {
       return false;
     }

@@ -115,6 +115,25 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
       }
       // console.log(Object.keys(params).map(key => ({ key, value: params[key] })));
     });
+
+    // call api lấy thông tin khach hàng từ website nếu là create
+    if(this.addOrUpdate == "create") {
+      this.customerService.getCustomerInfoByWebsite(this.customer.ma_kh.trim()).subscribe((result) => {
+        const customerInfo = result as any || {};
+
+        if (customerInfo) {
+          this.customer.ma_kh = customerInfo.Phone || this.customer.ma_kh;
+          this.customer.ten_kh = customerInfo.Title || '';
+          this.customer.dia_chi = customerInfo.Address || '';
+          this.customer.dien_thoai = customerInfo.Phone || '';
+          // const BirthDayformatted = customerInfo?.UserBirthDate?.split(" ")[0].replace(/-/g, "/");
+          const BirthDayformatted  = this.parseBirthDateAsUTC(customerInfo?.UserBirthDate);
+          this.customer.ngay_sinh = BirthDayformatted  || '';
+          this.customer.email_cn = customerInfo.Email || '';
+          this.customer.gioi_tinh = customerInfo.Sex || '';
+        }
+      });
+    }
   }
   initData(ma_kh: string) {
     this.customerService.getItem(ma_kh).subscribe((item) => {
@@ -160,7 +179,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
     this.customer.ma_ct = TICKET_CODE.ONLINE_ECOMMERCE;
 
     // bắt buộc chọn giới tính
-    if(this.customer.gioi_tinh == "" || this.customer.gioi_tinh?.includes("Chọn giới tính")) {
+    if (this.customer.gioi_tinh == "" || this.customer.gioi_tinh?.includes("Chọn giới tính")) {
       this.commonService.showMessage('Vui lòng chọn giới tính');
       return;
     }
@@ -314,6 +333,33 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
       }
     }
     return trimmedObject;
+  }
+
+  parseBirthDateAsUTC(raw: string): string | null {
+    if (!raw) return null;
+
+    const [datePart, timePart, ampm] = raw.split(' ');
+
+    if (!datePart) return null;
+
+    const [day, month, year] = datePart.split('-').map(Number);
+
+    let hour = 0, minute = 0, second = 0;
+    if (timePart) {
+      [hour, minute, second] = timePart.split(':').map(Number);
+
+      if (ampm?.toUpperCase() === 'PM' && hour < 12) {
+        hour += 12;
+      }
+      if (ampm?.toUpperCase() === 'AM' && hour === 12) {
+        hour = 0;
+      }
+    }
+
+    // Tạo Date UTC chuẩn
+    const utcString = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}Z`;
+
+    return utcString; // đã chuẩn UTC ISO
   }
 
 }

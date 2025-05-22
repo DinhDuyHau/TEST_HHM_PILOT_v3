@@ -18,6 +18,24 @@ export interface ReceiptDetail {
     xstatus_name?: string,
 }
 
+export interface ReceiptDiscountDetail {
+    line_nbr: number,
+    dien_giai?: string,
+    thue_suat?: number,
+    tien?: number,
+}
+
+export interface ReceiptDiscountDetailRequest {
+    stt_rec?: string;
+    stt_rec0?: string;
+    ma_ct?: string;
+    ngay_ct?: string;
+    so_ct?: string;
+    dien_giai?: string;
+    thue_suat: number;
+    tien: number;
+}
+
 export interface DetailInfo {
     id: number,
     name: string,
@@ -67,5 +85,7 @@ export interface MasterInfo {
     t_ck?: number,
     t_ck_nt?: number,
     s4?: number, // thuế suất ck
+    s5?: number, // tt thuế ck
+    s6?: number, // tt ck trước vat
     [key: string]: any
 }
