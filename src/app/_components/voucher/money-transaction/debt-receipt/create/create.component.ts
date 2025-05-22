@@ -164,7 +164,8 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
           this.commonService.showMessageByName('lblWarningNotValidCustomer');
           return;
         }
-        this.customerServiceDebt.getPaymentDebit(this.data.masterInfo.ma_kh || '', this.data.masterInfo.ma_dvcs, this.data.masterInfo.ngay_ct || '').subscribe((res: any) => {
+        const ngay_ct = this.data.masterInfo.ngay_ct ? new Date(this.data.masterInfo.ngay_ct) : new Date();
+        this.customerServiceDebt.getPaymentDebit(this.data.masterInfo.ma_kh || '', this.data.masterInfo.ma_dvcs, ngay_ct).subscribe((res: any) => {
           if (res.success) {
             if (res.result && res.result.length == 0) {
               this.commonService.showMessageByName('lblWarningNotDept');
