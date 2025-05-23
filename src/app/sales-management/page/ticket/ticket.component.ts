@@ -646,6 +646,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
               this.commonService.saveTicketToLocalStorage(voucherData);
 
               this.dataSource = voucherData.map((voucherRecord: any) => {
+                this.processTypeTransaction(voucherRecord);
                 this.sanitizeRecord(voucherRecord);
                 this.processPayments(voucherRecord, paymentMethodData);
                 return voucherRecord;
@@ -902,13 +903,13 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
   processTypeTransaction(voucherRecord: any): void {
     if (this.codeName === TICKET_CODE.REPURCHASE) {
-      if (voucherRecord.fcode1.trim() === '1') {
+      if (voucherRecord?.fcode1?.trim() === '1') {
         voucherRecord.fcode1 = "1-Mua lại từ KH cá nhân"
       }
-      if (voucherRecord.fcode1.trim() === '2') {
+      if (voucherRecord?.fcode1?.trim() === '2') {
         voucherRecord.fcode1 = "2-Mua lại từ KH doanh nghiệp"
       }
-      if (voucherRecord.fcode1.trim() === '3') {
+      if (voucherRecord?.fcode1?.trim() === '3') {
         voucherRecord.fcode1 = "3-Mua thu cũ ko lên đời"
       }
     }
