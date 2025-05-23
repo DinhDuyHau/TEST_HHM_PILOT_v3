@@ -14,7 +14,7 @@ export class AppComponent {
         notification_id: 1
     };
     animationState = 'out'; // Ban đầu ẩn
-	  appVersion: string = environment.appVersion;
+    appVersion: string = environment.appVersion;
 
     constructor(
         private messagingService: MessagingService,
@@ -60,9 +60,12 @@ export class AppComponent {
                 next: (result: ResultNoPaging<string>) => {
                     if (result && result.success) {
                         const res_version = result.result as any;
-                        if(this.appVersion && res_version) {
-                            if(this.appVersion != res_version.version) {
-                                window.location.href = window.location.href.split('?')[0] + "?nocache=" + new Date().getTime();
+                        if (this.appVersion && res_version) {
+                            if (this.appVersion != res_version.version) {
+                                // window.location.href = window.location.href.split('?')[0] + "?nocache=" + new Date().getTime();
+                                const url = new URL(window.location.href);
+                                url.searchParams.set('nocache', new Date().getTime().toString());
+                                window.location.href = url.toString();
                             }
                         }
                     }
