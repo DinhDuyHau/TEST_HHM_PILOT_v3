@@ -451,7 +451,8 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
         this.f[item.control].setValue(item.value);
       }
       if (item.control == 'ma_kh') {
-        this.depositReturnPaymentService.setItemFilter([{ name: item.control, operator: '=', value: item.value }, { name: 'ma_dvcs', operator: '=', value: this.ma_dvcs }, { name: 'ngay_ct', operator: '=', value: this.data.masterInfo.ngay_ct }]);
+        const ngay_ct = this.data.masterInfo.ngay_ct ? new Date(this.data.masterInfo.ngay_ct) : new Date();
+        this.depositReturnPaymentService.setItemFilter([{ name: item.control, operator: '=', value: item.value }, { name: 'ma_dvcs', operator: '=', value: this.ma_dvcs }, { name: 'ngay_ct', operator: '=', value: ngay_ct.toISOString() }]);
       }
     });
   }
