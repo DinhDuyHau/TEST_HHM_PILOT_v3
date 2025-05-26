@@ -28,6 +28,7 @@ import { EcommerceDialogComponent } from './ecommerce-dialog/ecommerce-dialog.co
 import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
 import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 import { SendEmailModule } from '@app/sales-management/component/send-email/send-email.module';
+import { PrintModule } from '@app/sales-management/component/print/print.module';
 
 @NgModule({
   imports: [
@@ -56,7 +57,8 @@ import { SendEmailModule } from '@app/sales-management/component/send-email/send
     VoucherInfoModule,
     NavigationVoucheModule,
     VoucherInfoHeaderModule,
-    SendEmailModule
+    SendEmailModule,
+    PrintModule
   ],
   declarations: [
     SaleOnlineEcommerceComponent,

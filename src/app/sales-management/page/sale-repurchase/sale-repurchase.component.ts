@@ -23,6 +23,7 @@ import { CustomerCreateDialogComponent } from '@app/sales-management/component/c
 import { IMEIService } from '@app/_services/imei.service';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { checkValidImei } from '@app/_common/commonFunction';
+import { formatDate } from '@angular/common';
 
 const { MERCHANDISE_REPURCHASE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
@@ -758,7 +759,11 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
             this.renew.gia_mua = result.gia_nt;
             this.renew.ma_ncc = result.ma_kh;
 
-            const ngay_ct = new Date(`${this.ticket.masterInfo.ngay_ct}Z`);
+            // const ngay_ct = new Date(`${this.ticket.masterInfo.ngay_ct}Z`);
+            let ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+            const vc_date = formatDate(ngay_ct, 'yyyy/MM/dd', 'en_US');
+            ngay_ct = new Date(`${vc_date}Z`);
+
             this.saleRepurchaseService.getOldProgram(
               this.renew.ma_ncc,
               ngay_ct,
@@ -841,7 +846,11 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     }
 
     // kiểm tra giá mua điều chỉnh có vượt tỉ lệ khai báo ko
-    const ngay_ct = new Date(`${this.ticket.masterInfo.ngay_ct}Z`);
+    // const ngay_ct = new Date(`${this.ticket.masterInfo.ngay_ct}Z`);
+    let ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+    const vc_date = formatDate(ngay_ct, 'yyyy/MM/dd', 'en_US');
+    ngay_ct = new Date(`${vc_date}Z`);
+
     this.saleRepurchaseService.adjustBuyPrice(
       ngay_ct,
       this.renew.ma_ncc,

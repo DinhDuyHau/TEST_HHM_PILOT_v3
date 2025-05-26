@@ -275,43 +275,36 @@ input {
   }
 }
 
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
 .print_options {
   position: absolute;
-  z-index: 100000000000000;
-  top: calc(100% + -165px);
-  right: 70px;
-  border-radius: 6px;
-  background-color: #fff;
-  color: #1a212a;
-  box-shadow: rgba(145, 158, 171, 0.2) 0px 5px 5px -3px,
-    rgba(145, 158, 171, 0.14) 0px 8px 10px 1px,
-    rgba(145, 158, 171, 0.12) 0px 3px 14px 2px;
-
-  .print_option {
-    padding: 15px 20px;
-    cursor: pointer;
-    &:hover {
-      background-color: rgba(145, 158, 171, 0.08);
-    }
-  }
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 8px; 
+  z-index: 999;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px 0;
+  min-width: 150px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.loading-icon {
-  border: 2px solid #f3f3f3; /* Light grey */
-  border-top: 2px solid #3498db; /* Blue */
-  border-radius: 50%;
-  width: 16px;
-  height: 16px;
-  animation: spin 1s linear infinite;
-  display: inline-block;
-  margin-right: 5px;
+.print_option {
+  padding: 8px 12px;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.print_option:hover {
+  background-color: #f0f0f0;
+}
+
+.btn-in-file {
+  position: relative;
+  z-index: 1;
 }

@@ -2,14 +2,7 @@
   class="dropdown-container"
   tabindex="0"
   (click)="toggleOpenOptionInFile()">
-  <button class="btn-responsive btn-in-file"
-    [disabled]="isLoading">
-    <ng-container *ngIf="!isLoading">In</ng-container>
-    <ng-container *ngIf="isLoading">
-      <span class="loading-icon"></span>
-    </ng-container>
-  </button>
-  <div class="print_options" *ngIf="isOnpenInFile">
+   <div class="print_options" *ngIf="isOnpenInFile">
     <div
       class="print_option"
       *ngFor="let option_report of menu_report"
@@ -17,4 +10,12 @@
       {{ option_report.name }}
     </div>
   </div>
+  <button class="btn-responsive btn-in-file"
+    [disabled]="isLoading">
+    <ng-container *ngIf="!isLoading">In</ng-container>
+    <ng-container *ngIf="isLoading">
+      <span class="loading-icon"></span>
+    </ng-container>
+  </button>
+ 
 </div>

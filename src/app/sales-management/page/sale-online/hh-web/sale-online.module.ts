@@ -27,6 +27,7 @@ import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher
 import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 import { DeliveryInfomationModule2 } from '@app/sales-management/component/delivery/infomation2/delivery-infomation-2.module';
 import { SendEmailModule } from '@app/sales-management/component/send-email/send-email.module';
+import { PrintModule } from '@app/sales-management/component/print/print.module';
 
 @NgModule({
   imports: [
@@ -55,7 +56,8 @@ import { SendEmailModule } from '@app/sales-management/component/send-email/send
     VoucherInfoModule,
     NavigationVoucheModule,
     VoucherInfoHeaderModule,
-    SendEmailModule
+    SendEmailModule,
+    PrintModule
   ],
   declarations: [
     SaleOnlineComponent,
