@@ -112,6 +112,27 @@ export class MerchandiseService {
             merchandiseMain.tien_ck_qd += merchandise.tien_kmqd;
             merchandiseMain.tien_ck += merchandise.tien_kmqd;
             merchandiseMain.gia_ck = merchandiseMain.gia_ban - (merchandiseMain.tien_ck / (1 + (merchandiseMain.thue_suat / 100)));
+
+            // xử lý tính lại giá tmdt cho phiếu bán tmđt
+            // đây là hàm chung nên cần kiểm tra xem có các trường cần thiết không trước khi tính toán
+            if ('gia_tmdt' in merchandiseMain &&
+                'gia_tmdt_vat' in merchandiseMain &&
+                'tong_phi' in merchandiseMain &&
+                'gia_vat' in merchandiseMain
+            ) {
+                // cộng lại tổng phí lần nữa cho chính xác
+                merchandiseMain.tong_phi = merchandiseMain.phi_san_01 +
+                    merchandiseMain.phi_san_02 + merchandiseMain.phi_san_03 +
+                    merchandiseMain.phi_san_04 + merchandiseMain.phi_san_05 +
+                    merchandiseMain.phi_san_06 + merchandiseMain.phi_san_07 +
+                    merchandiseMain.phi_dc_khac;
+                // làm tròn tổng phí
+                merchandiseMain.tong_phi = Math.round(merchandiseMain.tong_phi);
+                // tính lại giá tmdt
+                merchandiseMain.gia_tmdt_vat = merchandiseMain.gia_vat + Math.round(merchandiseMain.tong_phi) - merchandiseMain.tien_ck;
+                merchandiseMain.gia_tmdt = Math.round(merchandiseMain.gia_tmdt_vat / (1 + merchandiseMain.thue_suat / 100));
+            }
+
             merchandiseMain.thanh_tien = Math.round(merchandiseMain.gia_ck * merchandiseMain.so_luong);
             // merchandiseMain.tien_thue = this.commonService.rouding(merchandiseMain.thanh_tien * merchandiseMain.thue_suat / 100, option_thue);
             merchandiseMain.thanh_toan = (merchandiseMain.gia_vat * merchandiseMain.so_luong) - merchandiseMain.tien_ck;
