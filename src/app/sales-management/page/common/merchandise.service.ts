@@ -138,7 +138,7 @@ export class MerchandiseService {
             merchandiseMain.thanh_toan = (merchandiseMain.gia_vat * merchandiseMain.so_luong) - merchandiseMain.tien_ck;
             merchandiseMain.tien_thue = merchandiseMain.thanh_toan - merchandiseMain.thanh_tien;
             const discount = discounts.find(x => {
-                return x.ma_imei && merchandise.imei_mua && x.ma_imei.trim() == merchandise.imei_mua.trim();
+                return x.ma_imei && merchandise.imei_mua && x.ma_imei.trim().toLowerCase() == merchandise.imei_mua.trim().toLowerCase();
             });
 
             if (discount) {
