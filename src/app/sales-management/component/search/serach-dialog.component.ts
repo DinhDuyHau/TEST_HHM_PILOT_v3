@@ -161,7 +161,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         this.columns = SERVICE_SEARCH as any;
         filter.name = 'ma_dv';
         filter.value = `%${this.data.keyword}%`;
-        this.defaultFilters = [filter];
+        this.filters = [{ name: 'status', operator: '=', value: '1' }];
+        this.defaultFilters = [filter, { name: 'status', operator: '=', value: '1' }];
         break;
       case SEARCH_COMPONENT_NAME.CONTRACT:
         this.columns = CONTRACT_SEARCH as any;
