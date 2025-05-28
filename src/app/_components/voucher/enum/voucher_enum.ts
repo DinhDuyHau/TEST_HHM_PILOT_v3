@@ -235,4 +235,13 @@ export const VOUCHER_TYPE = {
         field_detail: 'withdraw-baokim_detail',
         button: [button.AddButton, button.ViewButton, button.EditButton, button.DeleteButton, button.PrintButton, button.RefreshButton]
     },
+    REFUND_BAOKIM: {
+        reuse: true,
+        sysid: 'CDTran_PCL',
+        voucherCode: 'PCL',
+        title: 'Phiếu chi hoàn tiền Bảo Kim',
+        field: 'refund-baokim',
+        field_detail: 'refund-baokim_detail',
+        button: [button.AddButton, button.ViewButton, button.EditButton, button.DeleteButton, button.PrintButton, button.RefreshButton]
+    },
 };
