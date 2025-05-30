@@ -314,6 +314,14 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
   }
 
   onSubmit() {
+    //Check nếu tồn tại mã phí thì httt phải là TM hoặc CHUYENKHOAN
+    const hasValidPhi = this.data.details[0].data.some(item => item.ma_phi != null && item.ma_phi.trim() !== '');
+    const hasInvalidPayment = this.data.details[1].data.some(item => item.ma_tt !== 'TM' && item.ma_tt !== 'CHUYENKHOAN');
+    if (hasValidPhi && hasInvalidPayment) {
+      this.commonService.showMessage('Hình thức thanh toán phải là Tiền mặt hoặc Chuyển khoản.');
+      return;
+    }
+
     // Check âm tiền nợ
     if (this.data.masterInfo.t_con_no !== undefined && this.data.masterInfo.t_con_no < 0) {
       this.commonService.showMessage('Tiền nợ không được âm');
@@ -490,7 +498,7 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
       this.fee[item.control] = item.value;
     });
     // nếu có ma_phi thì ẩn: vi_dien_tu, vnpay
-    if(this.fee.ma_phi) {
+    if (this.fee.ma_phi) {
       this.payment_hidden = [
         't_tien_phi',
         'quet_the',
