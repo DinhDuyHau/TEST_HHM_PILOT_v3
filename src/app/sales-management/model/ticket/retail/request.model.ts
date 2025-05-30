@@ -40,6 +40,7 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     ghi_chu_gh = '';
     ma_hang = '';
     tl_tich_diem = 0;
+    fnote3 = ''; // xác định có lập hddt ko
 
     constructor(obj?: any) {
         super();

@@ -950,7 +950,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
             this.isDisabled = false;
             if (result.success) {
               // this.commonService.clearImeiStorage();
-              this.commonService.showMessage(Language.content.Update_Completed);
+              this.commonService.showMessageByName(result.message || Language.content.Update_Completed);
               // if (this.ticket.masterInfo.status == '2') {
               //   this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
               //     if (res.success) {
@@ -1414,6 +1414,35 @@ export class RetailComponent implements OnInit, AfterViewInit {
     }
   }
   //#endregion
+
+  // xử lý trước khi thực hiện hàm onSave()
+  beforeSave() {
+    // nếu status là 2 và action là update thì hỏi có lập hóa đơn điện tử hay không
+    if (this.ticket.masterInfo.status === '2' && this.mode === MODE.UPDATE) {
+      const title = 'Có lập HĐĐT (nháp) cho phiếu xuất bán hàng này hay không?';
+
+      this.commonService.openDialog(DialogConfirmComponent, { title: title })
+        .afterClosed().subscribe(result => {
+          if (result) {
+            const { hd_mst, hd_email, hd_ten_kh, hd_dia_chi } = this.ticket.masterInfo;
+            if (!hd_mst || !hd_email || !hd_ten_kh || !hd_dia_chi) {
+              this.commonService.showMessageByName('invoice_info_not_enough');
+              return;
+            }
+          }
+
+          // Gán flag cho BE biết
+          this.ticket.masterInfo.fnote3 = result ? '1' : '0';
+
+          // Gọi submit như bình thường
+          this.onSave();
+        });
+    } else {
+      // Không cần hỏi → submit luôn
+      this.ticket.masterInfo.fnote3 = '0';
+      this.onSave();
+    }
+  }
 }
 
 
