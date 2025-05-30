@@ -68,7 +68,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
 
   tab_sources: any[] = [
     { label: 'Tổng quan' },
-    { label: 'Hàng dổi', name: 'merchandise_change' },
+    { label: 'Hàng đổi', name: 'merchandise_change' },
     { label: 'Hàng trả', name: 'merchandise_return' },
     { label: 'Đổi kèm dịch vụ', name: 'service' },
     { label: 'HĐĐT', name: null }
