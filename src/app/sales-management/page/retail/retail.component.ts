@@ -38,6 +38,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { VoucherCodeService } from '../common/voucher-code.service';
 import { VoucherCode } from '@app/sales-management/model/ticket/common-model/base-entity.model';
 import { DiscountApiService } from '@app/sales-management/api/discount-api.service';
+import { InternalSaleDetailService } from '@app/_components/voucher/inventory/internal-sale/create/internal-sale-detail.service';
 
 const {
   DISCOUNT_LIST,
@@ -105,6 +106,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   voucherCode = TICKET_CODE.RETAIL;
   voucher_code = ''; // Mã giảm giá
   isCheckingVoucher = false;
+  isCreateDraftInvoice = false;
 
   tab_sources: any[] = [
     { label: 'Tổng quan' },
@@ -132,7 +134,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
     private guaranteeApiService: GuaranteeApiService,
     private fileService: FileService,
     private sanitizer: DomSanitizer,
-    private voucherCodeService: VoucherCodeService
+    private voucherCodeService: VoucherCodeService,
+    public internalSaleDeatailService: InternalSaleDetailService,
   ) {
     localStorage.setItem('useGridCached', '1');
     this.retailService.setTicket(this.ticket, this.option);
@@ -280,7 +283,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
                         discount.tien_ck_max = voucherResult.Info.DiscountPrice || 0;
                       }
                     },
-                    error: () => {}
+                    error: () => { }
                   });
                 }
               });
@@ -1442,6 +1445,47 @@ export class RetailComponent implements OnInit, AfterViewInit {
       this.ticket.masterInfo.fnote3 = '0';
       this.onSave();
     }
+  }
+
+  handleCreateDraftInvoice() {
+    if (this.ticket.masterInfo.status === '2') {
+      const title = 'Có lập HĐĐT (nháp) cho phiếu xuất bán hàng này hay không?';
+
+      this.commonService.openDialog(DialogConfirmComponent, { title: title })
+        .afterClosed().subscribe(result => {
+          if (result) {
+            const { hd_mst, hd_email, hd_ten_kh, hd_dia_chi } = this.ticket.masterInfo;
+            if (!hd_mst || !hd_email || !hd_ten_kh || !hd_dia_chi) {
+              this.commonService.showMessageByName('invoice_info_not_enough');
+              return;
+            }
+
+            this.onCreateDraft();
+          }
+        });
+    }
+  }
+
+  onCreateDraft() {
+    this.isCreateDraftInvoice = true;
+
+
+    this.internalSaleDeatailService.createDraft(this.ticket).subscribe({
+      next: (result: any) => {
+        if (result.success) {
+          this.commonService.showMessageByName(result.message || 'create_draft_invoice_success');
+        } else {
+          this.commonService.showMessageByName(result.message || 'Unknown_err');
+        }
+      },
+      error: (err) => {
+        this.commonService.showMessageByName('Unknown_err');
+        console.error('Draft invoice error:', err);
+      },
+      complete: () => {
+        this.isCreateDraftInvoice = false;
+      }
+    });
   }
 }
 
