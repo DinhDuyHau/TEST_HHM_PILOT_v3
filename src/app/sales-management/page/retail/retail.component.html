@@ -407,7 +407,7 @@
           </div>
           <button class="btn-responsive btn-add"
             [disabled]="isDisabled"
-            (click)="onSave()"
+            (click)="beforeSave()"
             *ngIf="!readonly">
             {{ submitButtonTitle }}
           </button>
