@@ -397,6 +397,15 @@
             <span>{{ getLabel('btnPrint') }}</span>
           </div> -->
 
+          <button
+            class="btn-responsive btn-cancel"
+            (click)="handleCreateDraftInvoice()"
+            [disabled]="isCreateDraftInvoice"
+            *ngIf="this.ticket.masterInfo.status == '2'"
+          >
+            Lập HĐĐT nháp
+          </button>
+
           <app-print
           [voucherId]="this.ticket.masterInfo.stt_rec"
           [status]="this.ticket.masterInfo.status"
