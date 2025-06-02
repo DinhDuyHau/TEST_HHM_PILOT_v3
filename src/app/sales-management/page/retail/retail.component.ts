@@ -943,6 +943,11 @@ export class RetailComponent implements OnInit, AfterViewInit {
     if (message) {
       this.commonService.showMessage(message);
     } else if (!this.invalid && !message) {
+      // Tab HĐĐT: nếu không chọn httt => set mặc định là TMCK
+      if (!this.ticket.masterInfo.hd_httt || this.ticket.masterInfo.hd_httt === '') {
+        this.ticket.masterInfo.hd_httt = 'TMCK';
+      }
+
       const voucherDto = this.retailService.prepareVoucher();
       this.route.queryParams.subscribe((data: any) => {
         if (this.mode === MODE.UPDATE && !this.isSaving) {
@@ -1422,8 +1427,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
   beforeSave() {
     // nếu status là 2 và action là update thì hỏi có lập hóa đơn điện tử hay không
     if (this.ticket.masterInfo.status === '2' && this.mode === MODE.UPDATE) {
+      /*
       const title = 'Có lập HĐĐT (nháp) cho phiếu xuất bán hàng này hay không?';
-
       this.commonService.openDialog(DialogConfirmComponent, { title: title })
         .afterClosed().subscribe(result => {
           if (result) {
@@ -1440,6 +1445,19 @@ export class RetailComponent implements OnInit, AfterViewInit {
           // Gọi submit như bình thường
           this.onSave();
         });
+      */
+
+      // comment code phía trên và sửa lại như sau: 
+      // - Mặc định check phải nhập đủ thông tin hóa đơn điện tử mới cho lưu phiếu với status "hoàn thành"
+      // - Hoàn thành phiếu sẽ chưa xử lý lập nháp hđ đt ngay, người dùng sẽ chủ động quay lại mở phiếu và click button "lập nháp HĐĐT"
+      const { hd_mst, hd_email, hd_ten_kh, hd_dia_chi } = this.ticket.masterInfo;
+      if (!hd_mst || !hd_ten_kh || !hd_dia_chi) {
+        this.commonService.showMessageByName('invoice_info_not_enough');
+        return;
+      }
+      this.ticket.masterInfo.fnote3 = '0';
+      this.onSave();
+
     } else {
       // Không cần hỏi → submit luôn
       this.ticket.masterInfo.fnote3 = '0';
@@ -1455,7 +1473,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
         .afterClosed().subscribe(result => {
           if (result) {
             const { hd_mst, hd_email, hd_ten_kh, hd_dia_chi } = this.ticket.masterInfo;
-            if (!hd_mst || !hd_email || !hd_ten_kh || !hd_dia_chi) {
+            if (!hd_mst || !hd_ten_kh || !hd_dia_chi) {
               this.commonService.showMessageByName('invoice_info_not_enough');
               return;
             }
@@ -1468,8 +1486,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
 
   onCreateDraft() {
     this.isCreateDraftInvoice = true;
-
-
     this.internalSaleDeatailService.createDraft(this.ticket).subscribe({
       next: (result: any) => {
         if (result.success) {
