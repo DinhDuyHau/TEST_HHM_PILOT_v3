@@ -1466,9 +1466,30 @@ export class RetailComponent implements OnInit, AfterViewInit {
     }
   }
 
+  handleGetInvoice() {
+    let title = 'Có lấy HĐĐT cho phiếu bán hàng này hay không?';
+
+    this.commonService.openDialog(DialogConfirmComponent, { title: title })
+      .afterClosed().subscribe(result => {
+        if (result) {
+          this.internalSaleDeatailService.getPublishedInv(this.ticket).subscribe((res: any) => {
+            if (res.result.errorCode) {
+              this.commonService.showMessage(res.result.description);
+              return;
+            }
+            if (res) {
+              this.commonService.showMessageByName(res.message);
+              location.reload();
+            }
+          }, (err: any) => {
+            this.commonService.showMessageByName(err);
+          });
+        }
+      });
+  }
+
   onCreateDraft() {
     this.isCreateDraftInvoice = true;
-
 
     this.internalSaleDeatailService.createDraft(this.ticket).subscribe({
       next: (result: any) => {
@@ -1481,6 +1502,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
       error: (err) => {
         this.commonService.showMessageByName('Unknown_err');
         console.error('Draft invoice error:', err);
+        this.isCreateDraftInvoice = false;
       },
       complete: () => {
         this.isCreateDraftInvoice = false;

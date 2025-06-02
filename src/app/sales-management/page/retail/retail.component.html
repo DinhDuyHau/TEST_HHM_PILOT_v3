@@ -399,6 +399,15 @@
 
           <button
             class="btn-responsive btn-cancel"
+            (click)="handleGetInvoice()"
+            [disabled]="isCreateDraftInvoice"
+            *ngIf="this.ticket.masterInfo.status == '2'"
+          >
+            Lấy số HĐĐT
+          </button>
+
+          <button
+            class="btn-responsive btn-cancel"
             (click)="handleCreateDraftInvoice()"
             [disabled]="isCreateDraftInvoice"
             *ngIf="this.ticket.masterInfo.status == '2'"
