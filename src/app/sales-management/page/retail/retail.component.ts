@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { RetailService } from './retail.service';
 import { Merchandise, RetailSaleTicket, TAB_NAME } from '@app/sales-management/model/ticket/retail/model';
 import dataFormat from '@app/_common/dataFormat';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Customer } from '@app/_components/category/customer/customer.model';
 import { StatusTicket } from '@app/sales-management/model/common/status.model';
 import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '../../component/search/serach-dialog.component';
@@ -39,6 +39,7 @@ import { VoucherCodeService } from '../common/voucher-code.service';
 import { VoucherCode } from '@app/sales-management/model/ticket/common-model/base-entity.model';
 import { DiscountApiService } from '@app/sales-management/api/discount-api.service';
 import { InternalSaleDetailService } from '@app/_components/voucher/inventory/internal-sale/create/internal-sale-detail.service';
+import { PrinterComponent } from '@app/_components/printer/printer.component';
 
 const {
   DISCOUNT_LIST,
@@ -1465,6 +1466,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // #region EInvoice
   handleCreateDraftInvoice() {
     if (this.ticket.masterInfo.status === '2') {
       const title = 'Có lập HĐĐT (nháp) cho phiếu xuất bán hàng này hay không?';
@@ -1506,6 +1508,36 @@ export class RetailComponent implements OnInit, AfterViewInit {
       });
   }
 
+  handleGetPDFInvoice() {
+    let title = 'Có lấy PDF HĐĐT cho phiếu bán hàng này hay không?';
+
+    this.commonService.openDialog(DialogConfirmComponent, { title: title })
+      .afterClosed().subscribe(result => {
+        if (result) {
+          let dialogRef: any = null;
+          this.internalSaleDeatailService.getPdfFile(this.ticket).subscribe((res: any) => {
+            if (res.success && res?.result && res?.result?.fileToBytes) {
+              const pdfBase64 = 'data:application/pdf;base64,' + res?.result?.fileToBytes;
+              const dialogConfig = new MatDialogConfig();
+              dialogConfig.width = '100%';
+              dialogConfig.height = '90%';
+              dialogConfig.disableClose = true;
+              dialogConfig.data = {
+                title: res?.result?.fileName || 'Hóa đơn điện tử',
+                pdf: pdfBase64
+              };
+              dialogRef = this.dialog.open(PrinterComponent, dialogConfig);
+            } else {
+              this.commonService.showMessageByName(res.message || 'Không có dữ liệu hóa đơn điện tử');
+            }
+          }, (err: any) => {
+            this.commonService.showMessageByName(err);
+          });
+          return dialogRef;
+        }
+      });
+  }
+
   onCreateDraft() {
     this.isCreateDraftInvoice = true;
 
@@ -1527,6 +1559,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  //#endregion
 }
 
 
