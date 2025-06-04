@@ -351,7 +351,7 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
     this.data.details[1].data = [this.extend];
 
     const message = this.validData();
-    if(message) {
+    if (message) {
       this.commonService.showMessage(message);
       return;
     }
@@ -409,7 +409,7 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'edit_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/other-payment');
         }
       });
     }
@@ -424,7 +424,7 @@ export class OtherPaymentDetailComponent extends Grid<ReceiptDetail> implements 
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'add_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/other-payment');
         }
       });
     }

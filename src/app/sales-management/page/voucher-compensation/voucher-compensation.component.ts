@@ -720,12 +720,7 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
               // }
               this.router.navigate(['voucher/compensation']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'voucher/compensation');
             }
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
@@ -739,12 +734,7 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
               this.commonService.showMessage(Language.content.Successful_Create);
               this.router.navigate(['voucher/compensation']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'voucher/compensation');
             }
           });
         }

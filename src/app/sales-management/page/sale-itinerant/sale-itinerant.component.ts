@@ -755,20 +755,15 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
               //     if (res.success) {
               //       this.commonService.showMessageByName(res.message);
               //     }
-              //     this.router.navigate(['sales/retail']);
+              //     this.router.navigate(['sales/itinerant']);
               //   });
               // }
               // else {
-              //   this.router.navigate(['sales/retail']);
+              //   this.router.navigate(['sales/itinerant']);
               // }
-              this.router.navigate(['sales/retail']);
+              this.router.navigate(['sales/itinerant']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/itinerant');
             }
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
@@ -782,12 +777,7 @@ export class SaleItinerantComponent implements OnInit, AfterViewInit {
               this.commonService.showMessage(Language.content.Successful_Create);
               this.router.navigate(['sales/itinerant']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/itinerant');
             }
           });
         }

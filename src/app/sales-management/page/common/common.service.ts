@@ -541,9 +541,9 @@ export class CommonService {
     * Lưu dữ liệu ticket vào localStorage khi: loading, advance search, quick search
     */
     saveTicketToLocalStorage(data: any) {
-          const sttRecArray = data.map((item: any) => item.stt_rec);
-          localStorage.removeItem('ticketData');
-          localStorage.setItem('ticketData', JSON.stringify(sttRecArray) || '[]');
+        const sttRecArray = data.map((item: any) => item.stt_rec);
+        localStorage.removeItem('ticketData');
+        localStorage.setItem('ticketData', JSON.stringify(sttRecArray) || '[]');
     }
 
     /*
@@ -591,12 +591,12 @@ export class CommonService {
     * Kiểm tra xem khách hàng đã đủ thông tin chỉ định hay chưa
     */
     shouldOpenDialog(customer: any): boolean {
-          // Các trường cần kiểm tra
-          const requiredFields = ['ma_kh', 'ten_kh', 'dia_chi', 'dien_thoai', 'ngay_sinh', 'email_cn'];
+        // Các trường cần kiểm tra
+        const requiredFields = ['ma_kh', 'ten_kh', 'dia_chi', 'dien_thoai', 'ngay_sinh', 'email_cn'];
 
-          // Kiểm tra nếu bất kỳ trường nào bị thiếu (null, undefined, hoặc chuỗi rỗng)
-          return requiredFields.some(field => !customer[field] || customer[field].trim() === '');
-      }
+        // Kiểm tra nếu bất kỳ trường nào bị thiếu (null, undefined, hoặc chuỗi rỗng)
+        return requiredFields.some(field => !customer[field] || customer[field].trim() === '');
+    }
 
     /*
     * Update value cho cột theo field truyền vào
@@ -685,6 +685,21 @@ export class CommonService {
         };
 
         return this.voucherCodeApiService.voucherCheck(payload);
+    }
+
+    handleResponseErrorVoucher(result: any, route: string) {
+        if (result.result && result.result.length > 0) {
+            if (result.message == 'Runtime_err') {
+                this.showMessageByName('Runtime_err');
+                this.router.navigate([route]);
+                return;
+            }
+            this.showMessageByNameAdvance(result.message, ...result.result);
+        }
+        else {
+            this.showMessageByName(result.message || 'Runtime_err');
+            this.router.navigate([route]);
+        }
     }
 
 }

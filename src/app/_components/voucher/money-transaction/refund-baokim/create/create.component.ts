@@ -351,7 +351,7 @@ export class RefundBaokimDetailComponent extends Grid<RefundDetail> implements O
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'edit_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/refund-baokim');
         }
       });
     }
@@ -366,7 +366,7 @@ export class RefundBaokimDetailComponent extends Grid<RefundDetail> implements O
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'add_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/refund-baokim');
         }
       });
     }

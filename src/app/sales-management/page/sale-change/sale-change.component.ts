@@ -516,12 +516,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
               this.commonService.showMessageByContent(Language.content.Update_Completed);
               this.router.navigate(['sales/change']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/change');
             }
           });
         } else if (this.mode === MODE.CREATE) {
@@ -535,12 +530,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
               this.commonService.showMessageByContent(Language.content.Successful_Create);
               this.router.navigate(['sales/change']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/change');
             }
           });
         }

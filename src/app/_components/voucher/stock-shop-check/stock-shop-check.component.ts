@@ -338,12 +338,7 @@ export class StockShopCheckComponent {
               // }
               this.router.navigate(['voucher/stock-tranfer-from-shop']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'voucher/stock-tranfer-from-shop');
             }
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
@@ -356,12 +351,7 @@ export class StockShopCheckComponent {
               this.commonService.showMessage(Language.content.Successful_Create);
               this.router.navigate(['voucher/stock-tranfer-from-shop']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'voucher/stock-tranfer-from-shop');
             }
           });
         }

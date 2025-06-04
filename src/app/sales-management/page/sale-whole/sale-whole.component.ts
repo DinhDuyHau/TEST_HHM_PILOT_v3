@@ -402,12 +402,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
             this.commonService.showMessage(Language.content.Update_Completed);
             this.router.navigate(['sales/whole']);
           } else {
-            if (result.result && result.result.length > 0) {
-              this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-            }
-            else {
-              this.commonService.showMessageByName(result.message);
-            }
+            this.commonService.handleResponseErrorVoucher(result, 'sales/whole');
           }
         });
       } else if (this.mode === MODE.CREATE && !this.isSaving) {
@@ -421,12 +416,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
             this.commonService.showMessage(Language.content.Successful_Create);
             this.router.navigate(['sales/whole']);
           } else {
-            if (result.result && result.result.length > 0) {
-              this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-            }
-            else {
-              this.commonService.showMessageByName(result.message);
-            }
+            this.commonService.handleResponseErrorVoucher(result, 'sales/whole');
           }
         });
       }
@@ -540,11 +530,11 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
       const objEinvoice = this.ticket.masterInfo.fnote2;
       const { hd_mst, hd_ten_kh, hd_dia_chi } = this.ticket.masterInfo;
 
-      if(objEinvoice == '0' && (!hd_ten_kh || !hd_dia_chi)) {
+      if (objEinvoice == '0' && (!hd_ten_kh || !hd_dia_chi)) {
         this.commonService.showMessage('Cá nhân cần cung cấp tên và địa chỉ để lập HĐĐT');
         return;
       }
-      if(objEinvoice == '1' && (!hd_mst || !hd_ten_kh || !hd_dia_chi)) {
+      if (objEinvoice == '1' && (!hd_mst || !hd_ten_kh || !hd_dia_chi)) {
         this.commonService.showMessage('Doanh nghiệp cần cung cấp mã số thuế, tên và địa chỉ để lập HĐĐT');
         return;
       }

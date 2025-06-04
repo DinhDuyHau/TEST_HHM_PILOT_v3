@@ -738,12 +738,7 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
               // }
               this.router.navigate(['sales/affiliate']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/affiliate');
             }
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
@@ -771,12 +766,7 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
                 this.ticket.masterInfo.stt_rec = result.result.stt_rec;
                 this.router.navigate(['sales/affiliate']);
               } else {
-                if (result.result && result.result.length > 0) {
-                  this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-                }
-                else {
-                  this.commonService.showMessageByName(result.message);
-                }
+                this.commonService.handleResponseErrorVoucher(result, 'sales/affiliate');
               }
             });
           }

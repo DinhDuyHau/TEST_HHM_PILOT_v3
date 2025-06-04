@@ -396,7 +396,7 @@ export class CloseShiftPaymentDetailComponent extends Grid<ReceiptDetail> implem
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'edit_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/close-shift-payment');
         }
       });
     }
@@ -410,7 +410,7 @@ export class CloseShiftPaymentDetailComponent extends Grid<ReceiptDetail> implem
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'add_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/close-shift-payment');
         }
       });
     }

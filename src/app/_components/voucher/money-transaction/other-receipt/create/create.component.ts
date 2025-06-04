@@ -374,7 +374,7 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'edit_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/other-receipt');
         }
       });
     }
@@ -389,7 +389,7 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'add_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/other-receipt');
         }
       });
     }
