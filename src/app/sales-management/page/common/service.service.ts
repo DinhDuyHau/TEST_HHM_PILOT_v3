@@ -122,6 +122,8 @@ export class ServiceOfMerchandiseService {
             rs.km_yn = service.km_yn ? 1 : 0;
             rs.gia_vat = service.gia_vat;
             rs.gia_vat_nt = service.gia_vat;
+            rs.stt_rec_px = service.stt_rec_px || '';
+            rs.stt_rec0px = service.stt_rec0px || '';
 
             return rs;
         });

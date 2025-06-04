@@ -1,4 +1,5 @@
 import { BaseMasterInfoRequest, BaseMerchandiseRequest } from '../common-model/base-entity.model';
+import { ServiceRequest } from '../common-model/service.model';
 
 export class MerchandiseRequest extends BaseMerchandiseRequest {
     stt_rec_hd1 = '';
@@ -46,6 +47,16 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     ma_nvvc = ''; // mã đơn vị vận chuyển
     ma_van_don = ''; // mã vận đơn
     fcode3 = ''; // cửa hàng phiếu bán ra
+
+    constructor(obj?: any) {
+        super();
+        Object.assign(this, obj);
+    }
+}
+
+export class SaleReturnServiceRequest extends ServiceRequest {
+    stt_rec_px = '';
+    stt_rec0px = '';
 
     constructor(obj?: any) {
         super();

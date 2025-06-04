@@ -344,7 +344,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
               result.result.details.map((detail: any) => {
                 switch (detail.name.toLocaleLowerCase()) {
                   case 'services':
-                    this.serviceOfMerchandiseService.convertFromVoucher(detail.data, this.ticket.service);
+                    this.saleReturnService.convertFromVoucherService(detail.data, this.ticket.service);
                     break;
                   case 'electric_biill':
                     this.ticket.electronic_bill = this.commonService.convertDateOfModelFromVoucher(detail.data[0]);
