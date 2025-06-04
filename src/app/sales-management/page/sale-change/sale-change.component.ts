@@ -371,6 +371,23 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   // #region merchandise
   onRemoveMerchandiseReturn(event: { item: Merchandise }) {
     this.saleChangeService.removeMerchandiseReturn(event.item);
+    this.resetForm();
+  }
+
+  // reset form khi xóa hàng trả
+  resetForm() {
+    const imei_tra = document.querySelector(`input[id='imei_tra']`) as HTMLInputElement;
+    if (imei_tra) imei_tra.value = '';
+    const imei_doi = document.querySelector(`input[id='imei_doi']`) as HTMLInputElement;
+    if (imei_doi) imei_doi.value = '';
+
+    this.ticket.masterInfo.ma_kh = '';
+    this.ticket.masterInfo.ten_kh = '';
+    this.ticket.masterInfo.dia_chi = '';
+    this.ticket.masterInfo.ma_nvvc = '';
+    this.ticket.masterInfo.ten_nvvc = '';
+    this.ticket.masterInfo.dien_giai = '';
+    this.ticket.merchandise_change = [];
   }
 
   onRemoveMerchandiseChange(event: { item: Merchandise }) {
