@@ -119,10 +119,10 @@ export class SaleServiceService {
         this.ticket.masterInfo.email_nhan_key = customer.email_cn;
 
         //Thông tin khách hàng trên hóa đơn điện tử
-        this.ticket.masterInfo.hd_dia_chi = customer.hoadon_diachi || '';
+        this.ticket.masterInfo.hd_dia_chi = this.ticket.masterInfo.hd_dia_chi ? this.ticket.masterInfo.hd_dia_chi : customer.dia_chi || '';
         this.ticket.masterInfo.hd_email = customer.hoadon_email || '';
         this.ticket.masterInfo.hd_mst = customer.hoadon_mst || '';
-        this.ticket.masterInfo.hd_ten_kh = customer.hoadon_tenkh || '';
+        this.ticket.masterInfo.hd_ten_kh = this.ticket.masterInfo.hd_ten_kh ? this.ticket.masterInfo.hd_ten_kh : customer.ten_kh || '';
     }
 
     resetCustomerInfo(ticket: ServiceSaleTicket) {

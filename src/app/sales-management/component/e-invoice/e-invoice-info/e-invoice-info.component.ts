@@ -15,6 +15,7 @@ export class EInvoiceInfoComponent implements OnChanges {
   @Output() handleChangeData = new EventEmitter<any>();
 
   payment!: any[];
+  einvoiceObject!: any[];
   constructor(private paymentService: Payment, private commonService: CommonService) {
     this.paymentService.getPaymentInvoice(this.xuat_yn).subscribe(result => {
       this.payment = result;
@@ -22,6 +23,11 @@ export class EInvoiceInfoComponent implements OnChanges {
         this.data.hd_httt = this.payment[0].ma_httt;
       }
     });
+
+    this.einvoiceObject = [
+      { ma: '0', ten: 'Cá nhân' },
+      { ma: '1', ten: 'Doanh nghiệp' },
+    ];
   }
 
   handleChangeTaxCode(event: string) {

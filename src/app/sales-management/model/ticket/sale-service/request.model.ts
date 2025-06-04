@@ -7,6 +7,8 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     t_da_tra = 0;
     t_con_no = 0;
     email_nhan_key = '';
+    fnote3 = ''; // xác định có lập hddt ko
+    fnote2 = ''; // đối tượng hóa đơn điện tử
 
     constructor(obj?: any) {
         super();

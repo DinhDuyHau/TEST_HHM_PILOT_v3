@@ -400,19 +400,21 @@
           <button
             class="btn-responsive btn-cancel"
             (click)="handleGetPDFInvoice()"
-            [disabled]="isCreateDraftInvoice"
+            [disabled]="isGetPdfInvoice"
             *ngIf="this.ticket.masterInfo.status == '2'"
           >
-            Tải PDF HĐĐT
+            <span *ngIf="isGetPdfInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isGetPdfInvoice">Tải PDF HĐĐT</span>
           </button>
 
           <button
             class="btn-responsive btn-cancel"
             (click)="handleGetInvoice()"
-            [disabled]="isCreateDraftInvoice"
+            [disabled]="isGetInvoice"
             *ngIf="this.ticket.masterInfo.status == '2'"
           >
-            Lấy số HĐĐT
+            <span *ngIf="isGetInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isGetInvoice">Lấy số HĐĐT</span>
           </button>
 
           <button
@@ -420,7 +422,8 @@
             (click)="handleCreateDraftInvoice()"
             [disabled]="isCreateDraftInvoice"
           >
-            Lập HĐĐT nháp
+            <span *ngIf="isCreateDraftInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isCreateDraftInvoice">Lập HĐĐT nháp</span>
           </button>
 
           <app-print

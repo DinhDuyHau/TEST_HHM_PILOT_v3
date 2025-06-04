@@ -66,6 +66,8 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     ma_ncc = '';
     ma_hang = '';
     tl_tich_diem = 0;
+    fnote3 = ''; // xác định có lập hddt ko
+    fnote2 = ''; // đối tượng hóa đơn điện tử
 
     constructor(obj?: any) {
         super();

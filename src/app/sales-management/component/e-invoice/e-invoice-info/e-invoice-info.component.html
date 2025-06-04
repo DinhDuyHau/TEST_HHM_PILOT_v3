@@ -1,5 +1,14 @@
 <div
   class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-1 lg:gap-x-10 gap-y-1 lg:gap-y-3 pt-0.5 md:pt-1 lg:pt-2">
+  <select-custom
+    class="flex-1"
+    label="Đối tượng"
+    [options]="einvoiceObject"
+    optionDes="ten"
+    optionValue="ma"
+    [isDisable]="disabled"
+    [value]="data.fnote2"
+    (handleChangeValue)="data.fnote2 = $event" />
   <form-input-custom
     class="flex-1"
     [label]="'Mã số thuế'"

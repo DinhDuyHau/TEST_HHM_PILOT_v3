@@ -26,6 +26,7 @@ import { OldProductDialogComponent } from './old-product-dialog.component';
 import { VoucherInfoHeaderModule } from '@app/sales-management/component/voucher-info-header/voucher-info-header.module';
 import { NavigationVoucheModule } from '@app/sales-management/component/navigation-voucher/navigation-voucher.module';
 import { SendEmailModule } from '@app/sales-management/component/send-email/send-email.module';
+import { DeliveryInfomationModule2 } from "../../component/delivery/infomation2/delivery-infomation-2.module";
 
 @NgModule({
     declarations: [
@@ -34,31 +35,32 @@ import { SendEmailModule } from '@app/sales-management/component/send-email/send
     ],
     exports: [],
     imports: [
-        CommonModule,
-        MatIconModule,
-        MatTableModule,
-        MatTabsModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatFormFieldModule,
-        FormsModule,
-        GridModule,
-        SearchDialogModule,
-        PaymentTabModule,
-        TabsCustomModule,
-        TabCustomModule,
-        FormInputCustomModule,
-        FormCheckboxCustomModule,
-        FormSelectCustomModule,
-        TableCustomModule,
-        EInvoiceTabModule,
-        EInvoiceInfoModule,
-        DataFormatPipeModule,
-        VoucherInfoModule,
-        ControlsModule,
-        NavigationVoucheModule,
-        VoucherInfoHeaderModule,
-        SendEmailModule
-    ]
+    CommonModule,
+    MatIconModule,
+    MatTableModule,
+    MatTabsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    FormsModule,
+    GridModule,
+    SearchDialogModule,
+    PaymentTabModule,
+    TabsCustomModule,
+    TabCustomModule,
+    FormInputCustomModule,
+    FormCheckboxCustomModule,
+    FormSelectCustomModule,
+    TableCustomModule,
+    EInvoiceTabModule,
+    EInvoiceInfoModule,
+    DataFormatPipeModule,
+    VoucherInfoModule,
+    ControlsModule,
+    NavigationVoucheModule,
+    VoucherInfoHeaderModule,
+    SendEmailModule,
+    DeliveryInfomationModule2
+]
 })
 export class SaleRenewModule { }

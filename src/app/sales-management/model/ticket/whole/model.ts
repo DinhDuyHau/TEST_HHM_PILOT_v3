@@ -32,6 +32,8 @@ export class MasterInfo extends BaseMasterInfo {
   thanh_toan = 0;
   ong_ba = '';
   dien_giai = '';
+  fnote3 = ''; // xác định có lập hddt ko
+  fnote2 = ''; // đối tượng hóa đơn điện tử
 
   constructor(obj?: any) {
     super();

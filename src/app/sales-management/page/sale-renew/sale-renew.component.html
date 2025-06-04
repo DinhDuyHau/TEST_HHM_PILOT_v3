@@ -319,6 +319,9 @@
           (handleCustomeUpdate)="onUsedMerchandiseUpdate($event)"
           (handleDelete)="onRemoveUsedMerchandise($event)" />
       </tab-custom>
+      <tab-custom label="Vận chuyển" class="w-100">
+
+      </tab-custom>
       <tab-custom label="HĐĐT" class="w-100">
         <div
           class="text-medium font-medium flex flex-1 border-b-0.5 border-dashed border-neutrals07_color">
@@ -326,7 +329,7 @@
         </div>
         <e-invoice-info
           [data]="ticket.masterInfo"
-          [disabled]="readonly || ticket.voucherCode.length > 0"></e-invoice-info>
+          [disabled]="readonly"></e-invoice-info>
         <div
           class="text-medium font-medium flex flex-1 border-b-0.5 border-dashed border-neutrals07_color pt-1 md:pt-3 lg:pt-7">
           {{ getLabel('lbl_hddt_phat_hanh') }}
@@ -471,6 +474,36 @@
             [entity]="entity"
             class="text-base"
             [voucherId]="ticket.masterInfo.stt_rec" />
+
+          <button
+            class="btn-responsive btn-cancel"
+            (click)="handleGetPDFInvoice()"
+            [disabled]="isGetPdfInvoice"
+            *ngIf="this.ticket.masterInfo.status == '2'"
+          >
+            <span *ngIf="isGetPdfInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isGetPdfInvoice">Tải PDF HĐĐT</span>
+          </button>
+
+          <button
+            class="btn-responsive btn-cancel"
+            (click)="handleGetInvoice()"
+            [disabled]="isGetInvoice"
+            *ngIf="this.ticket.masterInfo.status == '2'"
+          >
+            <span *ngIf="isGetInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isGetInvoice">Lấy số HĐĐT</span>
+          </button>
+
+          <button
+            class="btn-responsive btn-cancel"
+            (click)="handleCreateDraftInvoice()"
+            [disabled]="isCreateDraftInvoice"
+          >
+            <span *ngIf="isCreateDraftInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isCreateDraftInvoice">Lập HĐĐT nháp</span>
+          </button>
+
           <div class="btn-responsive btn-in-file">
             <span>{{ getLabel('btnPrint') }}</span>
           </div>
@@ -480,7 +513,7 @@
           <button
             class="btn-responsive btn-add"
             [disabled]="isDisabled"
-            (click)="onSave()"
+            (click)="beforeSave()"
             *ngIf="!readonly">
             {{ submitButtonTitle }}
           </button>
