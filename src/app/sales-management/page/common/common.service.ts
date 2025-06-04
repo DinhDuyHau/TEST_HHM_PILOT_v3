@@ -697,7 +697,7 @@ export class CommonService {
             this.showMessageByNameAdvance(result.message, ...result.result);
         }
         else {
-            if (result.message == 'Runtime_err') {
+            if (result.message == 'Runtime_err' || !result.message || result.message === '') {
                 this.showMessageByName('Runtime_err');
                 this.router.navigate([route]);
                 return;
