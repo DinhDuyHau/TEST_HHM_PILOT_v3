@@ -1061,6 +1061,11 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       return false;
     }
 
+    if (this.data.mb_qr.money_create_qr > this.t_con_no) {
+      this.commonService.showMessage("Không thể tạo mã QR lớn hơn số tiền còn nợ");
+      return false;
+    }
+
     return true;
   }
 
