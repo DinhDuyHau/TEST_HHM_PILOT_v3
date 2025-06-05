@@ -18,5 +18,21 @@
     "type": "number",
     "dataFormatString": "normalPrice",
     "align": "right"
+  },
+  {
+    "name": "s4",
+    "title": "Tiền phí",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "s5",
+    "title": "Thuế phí",
+    "width": 120,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
   }
 ]

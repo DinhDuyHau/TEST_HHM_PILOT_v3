@@ -28,12 +28,12 @@
           [label]="getLabel('lbl_ngay_ct')"
           class="flex-1"
           type="date"
-          name="ngay_ct"
+          name="ngay_lct"
           type="text"
-          [value]="f['ngay_ct'].value"
+          [value]="f['ngay_lct'].value"
           [disabled]="true"
           [dataFormatString]="'datetimeFormat'"
-          (handleChange)="handleInputChange('ngay_ct', $event)"
+          (handleChange)="handleInputChange('ngay_lct', $event)"
           (handleEnter)="onEnter($event)"></app-input-custom-v2>
       </div>
       <div class="flex gap-2">
@@ -79,7 +79,7 @@
             "></app-input-custom-v2>
         </div>
       </div>
-      <div class="flex">
+      <div class="flex gap-2">
         <select-custom
           class="flex-1"
           [label]="getLabel('lbl_trang_thai')"
@@ -89,6 +89,17 @@
           [isDisable]="disabled"
           [value]="data.masterInfo.status"
           (handleChangeValue)="data.masterInfo.status = $event" />
+        <app-input-custom-v2
+          [label]="'Ngày hạch toán'"
+          class="flex-1"
+          type="date"
+          name="ngay_ct"
+          type="text"
+          [value]="f['ngay_ct'].value"
+          [disabled]="true"
+          [dataFormatString]="'datetimeFormat'"
+          (handleChange)="handleInputChange('ngay_ct', $event)"
+          (handleEnter)="onEnter($event)"></app-input-custom-v2>
       </div>
       <div class="flex gap-2">
         <div class="flex flex-1">
