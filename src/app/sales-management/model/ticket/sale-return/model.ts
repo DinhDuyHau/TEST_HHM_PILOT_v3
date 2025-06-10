@@ -36,6 +36,8 @@ export class MasterInfo extends BaseMasterInfo {
   ma_nvvc = ''; // mã đơn vị vận chuyển
   ma_van_don = ''; // mã vận đơn
   fcode3 = ''; // cửa hàng phiếu bán ra
+  fnote3 = ''; // xác định có lập hddt ko
+  fnote2 = ''; // đối tượng hóa đơn điện tử
 
   constructor(obj?: any) {
     super();

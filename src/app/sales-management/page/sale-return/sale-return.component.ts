@@ -1,8 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { SaleReturnService } from './sale-return.service';
-import { Merchandise, ReturnSaleTicketCreate } from '@app/sales-management/model/ticket/sale-return/model';
+import { electronic_bill, Merchandise, ReturnSaleTicketCreate } from '@app/sales-management/model/ticket/sale-return/model';
 import dataFormat from '@app/_common/dataFormat';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Customer } from '@app/_components/category/customer/customer.model';
 import { StatusTicket } from '@app/sales-management/model/common/status.model';
 import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
@@ -25,6 +25,11 @@ import { ServiceOfMerchandiseService } from '../common/service.service';
 import { PaymentService } from '../common/payment.service';
 import { Service } from '@app/sales-management/model/ticket/sale-return-service/model';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { InternalSaleDetailService } from '@app/_components/voucher/inventory/internal-sale/create/internal-sale-detail.service';
+import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
+import { PrinterComponent } from '@app/_components/printer/printer.component';
+import { EInvoiceInfo } from '@app/sales-management/model/dto/einvoice.dto';
+import { formatDate } from '@angular/common';
 
 const { SERVICE_LIST_SALE_RETURN, MERCHANDISE_RETURN_LIST } = require('@assets/fields/grid/sales-fields-table.json')
 
@@ -73,6 +78,10 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
 
   disable_tl_giam = false;
   disable_tien_giam = false;
+  isCreateDraftInvoice = false;
+  isGetInvoice = false;
+  isGetPdfInvoice = false;
+  eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
 
   saleReturnType: any[] = [
     { ma_loai: '01', ten_loai: 'Nhập trả lại áp dụng chính sách' },
@@ -103,6 +112,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
     private imeiService: IMEIService,
     private serviceOfMerchandiseService: ServiceOfMerchandiseService,
     private paymentService: PaymentService,
+    public internalSaleDeatailService: InternalSaleDetailService,
   ) {
     localStorage.setItem('useGridCached', '1');
     this.saleReturnService.setTicket(this.ticket);
@@ -176,6 +186,12 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
 
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_RETURN.CREATE) {
               this.router.navigate(['/404']);
+            }
+            const hddtTable = (result.result as any).details.find((item: any) => item.id === 10);
+            if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
+              this.eInvoiceInfo = hddtTable.data[0];
+              this.eInvoiceInfo.hddt_ngay_hd = (formatDate(new Date(this.eInvoiceInfo.hddt_ngay_hd ?? ''), 'yyyy-MM-dd', 'en_US')) as any;
+              this.eInvoiceInfo.hddt_ngay_ky = (formatDate(new Date(this.eInvoiceInfo.hddt_ngay_ky ?? ''), 'yyyy-MM-dd', 'en_US')) as any;
             }
             this.saleReturnService.loadData(result.result as any as VoucherDto);
             this.isCODReturn = this.ticket.masterInfo.tra_lai_cod;
@@ -346,8 +362,8 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
                   case 'services':
                     this.saleReturnService.convertFromVoucherService(detail.data, this.ticket.service);
                     break;
-                  case 'electric_biill':
-                    this.ticket.electronic_bill = this.commonService.convertDateOfModelFromVoucher(detail.data[0]);
+                  case 'einvoice':
+                    this.ticket.electronic_bill = this.saleReturnService.convertElectronicFromVoucher(detail.data[0], electronic_bill);
                     break;
                   default:
                     break;
@@ -649,6 +665,157 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // xử lý trước khi thực hiện hàm onSave()
+  beforeSave() {
+    // nếu status là 2 và action là update thì hỏi có lập hóa đơn điện tử hay không
+    if (this.ticket.masterInfo.status === '2' && this.mode === MODE.UPDATE) {
+      /*
+      const title = 'Có lập HĐĐT (nháp) cho phiếu xuất bán hàng này hay không?';
+      this.commonService.openDialog(DialogConfirmComponent, { title: title })
+        .afterClosed().subscribe(result => {
+          if (result) {
+            const { hd_mst, hd_email, hd_ten_kh, hd_dia_chi } = this.ticket.masterInfo;
+            if (!hd_mst || !hd_email || !hd_ten_kh || !hd_dia_chi) {
+              this.commonService.showMessageByName('invoice_info_not_enough');
+              return;
+            }
+          }
+
+          // Gán flag cho BE biết
+          this.ticket.masterInfo.fnote3 = result ? '1' : '0';
+
+          // Gọi submit như bình thường
+          this.onSave();
+        });
+      */
+
+      // comment code phía trên và sửa lại như sau:
+      // - Mặc định check phải nhập đủ thông tin hóa đơn điện tử mới cho lưu phiếu với status "hoàn thành"
+      // - Hoàn thành phiếu sẽ chưa xử lý lập nháp hđ đt ngay, người dùng sẽ chủ động quay lại mở phiếu và click button "lập nháp HĐĐT"
+      // this.ticket.masterInfo.fnote2 = this.ticket.masterInfo.fnote2 ? this.ticket.masterInfo.fnote2 : '0';
+      // const objEinvoice = this.ticket.masterInfo.fnote2;
+      // const { hd_mst, hd_ten_kh, hd_dia_chi } = this.ticket.masterInfo;
+
+      // if (objEinvoice == '0' && (!hd_ten_kh || !hd_dia_chi)) {
+      //   this.commonService.showMessage('Cá nhân cần cung cấp tên và địa chỉ để lập HĐĐT');
+      //   return;
+      // }
+      // if (objEinvoice == '1' && (!hd_mst || !hd_ten_kh || !hd_dia_chi)) {
+      //   this.commonService.showMessage('Doanh nghiệp cần cung cấp mã số thuế, tên và địa chỉ để lập HĐĐT');
+      //   return;
+      // }
+      this.ticket.masterInfo.fnote3 = '0';
+      this.onSave();
+
+    } else {
+      // Không cần hỏi → submit luôn
+      this.ticket.masterInfo.fnote3 = '0';
+      this.onSave();
+    }
+  }
+
+  // #region EInvoice
+  handleCreateDraftInvoice() {
+    if (this.ticket.masterInfo.status === '2') {
+      const title = 'Có lập HĐĐT (nháp) cho phiếu xuất bán hàng này hay không?';
+
+      this.commonService.openDialog(DialogConfirmComponent, { title: title })
+        .afterClosed().subscribe(result => {
+          if (result) {
+            this.onCreateDraft();
+          }
+        });
+    }
+  }
+
+  handleGetInvoice() {
+    let title = 'Có lấy HĐĐT cho phiếu bán hàng này hay không?';
+
+    this.commonService.openDialog(DialogConfirmComponent, { title: title })
+      .afterClosed().subscribe(result => {
+        if (result) {
+          this.isGetInvoice = true;
+
+          this.internalSaleDeatailService.getPublishedInv(this.ticket).subscribe((res: any) => {
+            if (res.result.errorCode) {
+              this.commonService.showMessage(res.result.description);
+              this.isGetInvoice = false;
+              return;
+            }
+            if (res) {
+              this.commonService.showMessageByName(res.message);
+              location.reload();
+            }
+          }, (err: any) => {
+            this.isGetInvoice = false;
+            this.commonService.showMessageByName(err);
+          });
+        } else {
+          this.isGetInvoice = false;
+        }
+      });
+  }
+
+  handleGetPDFInvoice() {
+    let title = 'Có lấy PDF HĐĐT cho phiếu bán hàng này hay không?';
+
+    this.commonService.openDialog(DialogConfirmComponent, { title: title })
+      .afterClosed().subscribe(result => {
+        if (result) {
+          this.isGetPdfInvoice = true;
+
+          let dialogRef: any = null;
+          this.internalSaleDeatailService.getPdfFile(this.ticket).subscribe((res: any) => {
+            if (res.success && res?.result && res?.result?.fileToBytes) {
+              const pdfBase64 = 'data:application/pdf;base64,' + res?.result?.fileToBytes;
+              const dialogConfig = new MatDialogConfig();
+              dialogConfig.width = '100%';
+              dialogConfig.height = '90%';
+              dialogConfig.disableClose = true;
+              dialogConfig.data = {
+                title: res?.result?.fileName || 'Hóa đơn điện tử',
+                pdf: pdfBase64
+              };
+              dialogRef = this.dialog.open(PrinterComponent, dialogConfig);
+              this.isGetPdfInvoice = false;
+            } else {
+              this.isGetPdfInvoice = false;
+              this.commonService.showMessageByName(res.message || 'Không có dữ liệu hóa đơn điện tử');
+            }
+          }, (err: any) => {
+            this.isGetPdfInvoice = false;
+            this.commonService.showMessageByName(err);
+          });
+          return dialogRef;
+        } else {
+          this.isGetPdfInvoice = false;
+        }
+      });
+  }
+
+  onCreateDraft() {
+    this.isCreateDraftInvoice = true;
+
+    this.internalSaleDeatailService.createDraft(this.ticket).subscribe({
+      next: (result: any) => {
+        if (result.success) {
+          this.commonService.showMessageByName(result.message || 'create_draft_invoice_success');
+        } else {
+          this.commonService.showMessageByName(result.message || 'Unknown_err');
+        }
+      },
+      error: (err) => {
+        this.commonService.showMessageByName('Unknown_err');
+        console.error('Draft invoice error:', err);
+        this.isCreateDraftInvoice = false;
+      },
+      complete: () => {
+        this.isCreateDraftInvoice = false;
+      }
+    });
+  }
+
+  //#endregion
 }
 
 

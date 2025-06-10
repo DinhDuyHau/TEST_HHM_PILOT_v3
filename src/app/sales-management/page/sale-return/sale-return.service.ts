@@ -16,6 +16,7 @@ import { Language } from '../common/language';
 import { Service, ServiceRequest } from '@app/sales-management/model/ticket/common-model/service.model';
 import { ServiceForImeiComponent } from '@app/sales-management/component/merchandise-service/service-for-imei/service-for-imei.component';
 import { ServiceOfMerchandiseService } from '../common/service.service';
+import { formatDate } from '@angular/common';
 
 
 @Injectable({
@@ -358,4 +359,19 @@ export class SaleReturnService {
         rs.map((e, i) => { e.line_nbr = i; });
         des.push(...rs);
     }
+
+    convertElectronicFromVoucher = (Electronic: any, TCreator: { new(): any; }) => {
+        const ElectronicNew = new TCreator();
+        Object.keys(ElectronicNew).forEach(key => {
+            ElectronicNew.bh_mau_hd = Electronic.mau_hoa_don || '';
+            ElectronicNew.bh_so_seri = Electronic.so_seri || '';
+            ElectronicNew.bh_ngay_hd = formatDate(new Date(Electronic.ngay_ct), 'yyyy-MM-dd', 'en_US') || '';
+            ElectronicNew.bh_ngay_ky = formatDate(new Date(Electronic.ngay_ky), 'yyyy-MM-dd', 'en_US') || '';
+            ElectronicNew.bh_so_hd = Electronic.so_hoa_don || '';
+            ElectronicNew.bh_status = Electronic.status || '';
+            ElectronicNew.bh_ma_so_thue = Electronic.ma_so_thue || '';
+            ElectronicNew.bh_ma_tra_cuu = Electronic.ma_bi_mat || '';
+        });
+        return ElectronicNew;
+    };
 }
