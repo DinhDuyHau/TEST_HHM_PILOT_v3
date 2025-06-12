@@ -74,6 +74,24 @@
     "allowSorting": true,
     "isLockingColumn": true
   },
+    {
+    "name": "nh_vt2",
+    "title": "Hãng SX",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
+    "isLockingColumn": true
+  },
+  {
+    "name": "nh_vt3",
+    "title": "Loại nhóm hàng (Model)",
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat",
+    "allowSorting": true,
+    "isLockingColumn": true
+  },
   {
     "name": "ma_vt",
     "title": "Mã vật tư",
