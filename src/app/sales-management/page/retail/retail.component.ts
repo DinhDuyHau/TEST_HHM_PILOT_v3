@@ -1451,10 +1451,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
       // - Mặc định check phải nhập đủ thông tin hóa đơn điện tử mới cho lưu phiếu với status "hoàn thành"
       // - Hoàn thành phiếu sẽ chưa xử lý lập nháp hđ đt ngay, người dùng sẽ chủ động quay lại mở phiếu và click button "lập nháp HĐĐT"
       const { hd_mst, hd_email, hd_ten_kh, hd_dia_chi } = this.ticket.masterInfo;
-      if (!hd_mst || !hd_ten_kh || !hd_dia_chi) {
-        this.commonService.showMessageByName('invoice_info_not_enough');
-        return;
-      }
+      // if (!hd_mst || !hd_ten_kh || !hd_dia_chi) {
+      //   this.commonService.showMessageByName('invoice_info_not_enough');
+      //   return;
+      // }
       this.ticket.masterInfo.fnote3 = '0';
       this.onSave();
 
