@@ -316,7 +316,9 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
   onSubmit() {
     //Check nếu tồn tại mã phí thì httt phải là TM hoặc CHUYENKHOAN
     const hasValidPhi = this.data.details[0].data.some(item => item.ma_phi != null && item.ma_phi.trim() !== '');
-    const hasInvalidPayment = this.data.details[1].data.some(item => item.ma_tt !== 'TM' && item.ma_tt !== 'CHUYENKHOAN');
+    const hasInvalidPayment = this.data.details[1].data.some(item => item.ma_tt && item.ma_tt.trim().toUpperCase() !== 'TM'
+      && item.ma_tt.trim().toUpperCase() !== 'CHUYENKHOAN');
+
     if (hasValidPhi && hasInvalidPayment) {
       this.commonService.showMessage('Hình thức thanh toán phải là Tiền mặt hoặc Chuyển khoản.');
       return;
