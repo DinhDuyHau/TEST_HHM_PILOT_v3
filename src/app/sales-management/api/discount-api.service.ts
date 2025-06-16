@@ -9,6 +9,8 @@ const GET_MANY_URL = `${environment.apiUrl}/Category/find/dmck`;
 const GET_ONE_URL = `${environment.apiUrl}/category/getbyid/dmck`;
 const GET_VOUCHER_SITE = `${environment.apiUrl}/option/getdiscountvouchercode`;
 const GET_DISCOUNT_FOR_TICKET = `${environment.apiUrl}/Voucher/calculatediscount/`;
+const GET_DISCOUNT_CRM = `${environment.apiUrl}/DiscountCode/get_discount_crm`;
+const GET_PROGRAM_CRM = `${environment.apiUrl}/DiscountCode/get_program_crm`;
 
 @Injectable({
     providedIn: 'root'
@@ -63,5 +65,13 @@ export class DiscountApiService extends ApiService {
 
         const url = GET_DISCOUNT_FOR_TICKET + entity;
         return this.post<ResultNoPaging<Discount>>(url, body, params);
+    }
+
+    getDiscountCRM(ma_vt: any, ngay_ct: Date): Observable<ResultNoPaging<any>> {
+        return this.get<ResultNoPaging<any>>(GET_DISCOUNT_CRM, { ma_vt: ma_vt, ngay_ct: ngay_ct.toISOString() });
+    }
+
+    getProgramCRM(ma_ctr: any, ma_vt: any, ngay_ct: Date): Observable<ResultNoPaging<any>> {
+        return this.get<ResultNoPaging<any>>(GET_PROGRAM_CRM, { ma_ctr: ma_ctr, ma_vt: ma_vt, ngay_ct: ngay_ct.toISOString() });
     }
 }

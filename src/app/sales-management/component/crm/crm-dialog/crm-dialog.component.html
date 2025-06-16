@@ -1,0 +1,64 @@
+<div class="service-for-imei-container">
+  <div class="title">Cập nhật chiết khấu CRM của đối tác</div>
+  <div>
+    <div>
+      <div class="box-container">
+        <form-input-custom
+          class="box"
+          label="Mã vật tư"
+          [disabled]="true"
+          [value]="currentItem.ma_vt"
+        />
+        <form-input-custom
+          class="box"
+          label="Tên vật tư"
+          [disabled]="true"
+          [value]="currentItem.ten_vt"
+        />
+      </div>
+    </div>
+    <div>
+      <div class="box-container">
+        <form-input-custom
+          class="box order-dynamic-2"
+          label="Mã chương trình CRM"
+          [readonly]="true"
+          [value]="dataResponse.ma_ctr"
+          (handleClickOpenDialog)="openCRMSelectDialog()"
+        />
+        <form-input-custom
+          class="box"
+          label="Tên chương trình CRM"
+          [disabled]="true"
+          [value]="dataResponse.ten_ctr"
+        />
+      </div>
+    </div>
+    <div>
+      <div class="box-container">
+        <form-input-custom
+          class="box"
+          label="Tiền chiết khấu"
+          [disabled]="true"
+          [value]="dataResponse.tien_ck"
+          dataType="number"
+          [align]="'end'"
+          format="moneyInputFormat"
+        />
+        <form-input-custom
+          class="box"
+          label="Mã giảm giá (CRM Code)"
+          (handleChangeValue)="changeCRMCode($event)"
+          [value]="dataResponse.crmCode"
+        />
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions class="d-flex justify-end gap-2 m-2">
+    <div class="btn-responsive btn-cancel" (click)="onCancel()">Hủy bỏ</div>
+    <div class="btn-responsive btn-add" (click)="onSave()">Cập nhật</div>
+  </div>
+  <div class="close-btn" (click)="onCancel()">
+    <i class="fas fa-times"></i>
+  </div>
+</div>
