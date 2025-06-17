@@ -864,14 +864,20 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
       // - Hoàn thành phiếu sẽ chưa xử lý lập nháp hđ đt ngay, người dùng sẽ chủ động quay lại mở phiếu và click button "lập nháp HĐĐT"
       this.ticket.masterInfo.fnote2 = this.ticket.masterInfo.fnote2 ? this.ticket.masterInfo.fnote2 : '0';
       const objEinvoice = this.ticket.masterInfo.fnote2;
-      const { hd_mst, hd_ten_kh, hd_dia_chi } = this.ticket.masterInfo;
+      const { hd_mst, hd_ten_kh, hd_dia_chi, hd_nguoi_mua } = this.ticket.masterInfo;
 
-      if (objEinvoice == '0' && (!hd_ten_kh || !hd_dia_chi)) {
-        this.commonService.showMessage('Cá nhân cần cung cấp tên và địa chỉ để lập HĐĐT');
+      if (objEinvoice == '0' && (!hd_nguoi_mua)) {
+        this.commonService.showMessageByName('invoice_individuals_info');
         return;
       }
       if (objEinvoice == '1' && (!hd_mst || !hd_ten_kh || !hd_dia_chi)) {
-        this.commonService.showMessage('Doanh nghiệp cần cung cấp mã số thuế, tên và địa chỉ để lập HĐĐT');
+        this.commonService.showMessageByName('invoice_bussiness_info');
+        return;
+      }
+      const hd_loai_giay_to = this.ticket.masterInfo.hd_loai_giay_to;
+      const hd_so_giay_to = this.ticket.masterInfo.hd_so_giay_to;
+      if((hd_loai_giay_to == '1' || hd_loai_giay_to == '2') && !hd_so_giay_to) {
+        this.commonService.showMessageByName('invoice_papersType_info');
         return;
       }
       this.ticket.masterInfo.fnote3 = '0';

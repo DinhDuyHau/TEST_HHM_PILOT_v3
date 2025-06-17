@@ -39,6 +39,9 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     tl_tich_diem = 0;
     fnote3 = ''; // xác định có lập hddt ko
     fnote2 = ''; // đối tượng hóa đơn điện tử
+    hd_nguoi_mua = '';
+    hd_loai_giay_to = '';
+    hd_so_giay_to = '';
 
     constructor(obj?: any) {
         super();
