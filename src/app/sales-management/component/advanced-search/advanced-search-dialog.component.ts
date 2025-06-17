@@ -196,6 +196,27 @@ export class AdvancedSearchDialogComponent implements OnInit {
       this.lbl_trang_thai2 = 'Trạng thái PX';
     }
 
+    if ([TICKET_CODE.DEPOSIT_BAOKIM, TICKET_CODE.WITHDRAW_BAOKIM].includes(this.voucherCode)) {
+      this.statusList = [
+        {
+          status: '*',
+          statusname: 'Tất cả'
+        },
+        {
+          status: '1',
+          statusname: 'Chờ duyệt'
+        },
+        {
+          status: '2',
+          statusname: 'Hoàn thành'
+        },
+        {
+          status: '4',
+          statusname: 'Hủy'
+        },
+      ];
+    }
+
     //set mặc định trạng thái 2
     convert.status2 = this.statusList[0].status;
 
