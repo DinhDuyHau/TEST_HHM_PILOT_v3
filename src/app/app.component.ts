@@ -5,6 +5,7 @@ import { Notification } from './_components/_notification/notification.model';
 import { environment } from '@environments/environment.prod';
 import { TicketApiService } from './sales-management/api/ticket-api.service';
 import { ResultNoPaging } from './_models';
+import { LoadingService } from './_services';
 @Component({ selector: 'app-root', templateUrl: 'app.component.html', animations: [slideInOutAnimation], })
 export class AppComponent {
     notification: Notification = {
@@ -18,7 +19,8 @@ export class AppComponent {
 
     constructor(
         private messagingService: MessagingService,
-        private ticketApiService: TicketApiService
+        private ticketApiService: TicketApiService,
+        private loadingService: LoadingService
     ) {
         // const app = initializeApp(environment.firebaseConfig);
     }
@@ -62,10 +64,13 @@ export class AppComponent {
                         const res_version = result.result as any;
                         if (this.appVersion && res_version) {
                             if (this.appVersion != res_version.version) {
-                                // window.location.href = window.location.href.split('?')[0] + "?nocache=" + new Date().getTime();
-                                const url = new URL(window.location.href);
-                                url.searchParams.set('nocache', new Date().getTime().toString());
-                                window.location.href = url.toString();
+                                // tải lại menu sau đó reload lại page
+                                this.loadingService.getMenu().subscribe(menu => {
+                                    // window.location.href = window.location.href.split('?')[0] + "?nocache=" + new Date().getTime();
+                                    const url = new URL(window.location.href);
+                                    url.searchParams.set('nocache', new Date().getTime().toString());
+                                    window.location.href = url.toString();
+                                });
                             }
                         }
                     }
