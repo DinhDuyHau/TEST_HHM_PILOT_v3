@@ -29,7 +29,7 @@ export class DiscountApiService extends ApiService {
         return this.get<ResultNoPaging<any>>(url);
     }
 
-    getDiscountForTicket(entity: string, merchandises: any[], ma_cuahang: string, ma_kh: string, ngay_lap: string, services: any[] = [], loai_ck: string = '', ma_ct: string = ''): Observable<ResultNoPaging<Discount>> {
+    getDiscountForTicket(entity: string, merchandises: any[], ma_cuahang: string, ma_kh: string, ngay_lap: string, services: any[] = [], loai_ck: string = '', ma_ct: string = '', stt_rec: string = ''): Observable<ResultNoPaging<Discount>> {
         const body = merchandises.map(e => {
             return {
                 ma_vt: e.ma_vt,
@@ -59,6 +59,9 @@ export class DiscountApiService extends ApiService {
 
         if (ma_ct) {
             params.ma_ct = ma_ct;
+        }
+        if (stt_rec) {
+            params.stt_rec = stt_rec;
         }
 
         const url = GET_DISCOUNT_FOR_TICKET + entity;

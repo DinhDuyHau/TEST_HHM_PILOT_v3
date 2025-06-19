@@ -348,8 +348,9 @@ export class SaleItinerantService {
         const entity = TICKET_ENTITY.RETAIL;
         const merchandise = this.ticket.merchandise.filter(x => !x.km_yn);
         const service = this.ticket.service;
+        const stt_rec = this.ticket.masterInfo.stt_rec || '';
         if (this.isNeedCalcDiscount) {
-            return this.discountApiService.getDiscountForTicket(entity, merchandise, ma_cuahang, ma_kh, ngay_lap, service, '', TICKET_CODE.ITINERANT);
+            return this.discountApiService.getDiscountForTicket(entity, merchandise, ma_cuahang, ma_kh, ngay_lap, service, '', TICKET_CODE.ITINERANT, stt_rec);
         }
         return;
     }
