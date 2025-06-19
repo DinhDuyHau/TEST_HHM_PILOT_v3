@@ -1012,6 +1012,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
             if (data.status == 'success') {
               matchedItem.status = 'success';
               matchedItem.ftCode = data.ftCode || '';
+              matchedItem.tk_nh_nhan = data.terminalLabel || '';
 
               // tính tổng tiền QR
               group.tien = group.detail

@@ -159,6 +159,7 @@ export class PaymentService {
                     transferMbDetail.refcode = e.gc_td1;
                     transferMbDetail.status = e.gc_td2;
                     transferMbDetail.ftCode = e.gc_td3;
+                    transferMbDetail.tk_nh_nhan = e.tk_nh_nhan;
                     des.mb_qr.detail.push(transferMbDetail);
                     des.mb_qr.selected = true;
                     break;
@@ -412,7 +413,8 @@ export class PaymentService {
                         gc_td2: element.status,
                         gc_td3: element.ftCode,
                         tien: element.tien,
-                        tien_nt: element.tien_nt2
+                        tien_nt: element.tien_nt2,
+                        tk_nh_nhan: element.tk_nh_nhan
                     }),
                 ];
             });

@@ -213,4 +213,5 @@ export class TransferMBDetail extends BaseModelPayment {
     ftCode = '';
     status = '';
     index = 0;
+    tk_nh_nhan = '';
 }
