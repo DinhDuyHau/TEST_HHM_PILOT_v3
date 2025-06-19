@@ -1720,6 +1720,17 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       });
     }
   }
+
+  onChangeCheckbox(data: any) {
+    if (data.checked == true) {
+      this.ticket.packages.filter(e => e.ma_dv == data.item.ma_dv).forEach(e => e.naptien_hh_yn = data.checked)
+      this.saleRenewService.calcMoney();
+    }
+    else {
+      this.ticket.packages.filter(e => e.ma_dv == data.item.ma_dv).forEach(e => e.naptien_hh_yn = data.checked)
+      this.saleRenewService.calcMoney();
+    }
+  }
   //#endregion
 
   // xử lý trước khi thực hiện hàm onSave()

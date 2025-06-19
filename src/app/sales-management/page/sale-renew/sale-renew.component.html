@@ -275,6 +275,7 @@
           [dataSource]="ticket.packages"
           [columns]="packageColumns"
           [readonly]="readonly || ticket.voucherCode.length > 0"
+          (handleChangeCheckbox)="onChangeCheckbox($event)"
           (handleDelete)="onRemovePackage($event)" />
         <div class="flex gap-0 md:gap-4 lg:gap-8">
           <div class="flex-1 hidden lg:block"></div>
