@@ -132,6 +132,7 @@ export class RetailService {
     // create or update
     prepareVoucher(): VoucherDto {
         const voucherDto: VoucherDto = new VoucherDto;
+        this.commonService.mapDiscountApprover(this.ticket);
         voucherDto.details = [];
         //console.log(this.ticket.masterInfo);
         voucherDto.masterInfo = this.commonService.convertMasterInfo(this.ticket.masterInfo, MasterInfoRequest);

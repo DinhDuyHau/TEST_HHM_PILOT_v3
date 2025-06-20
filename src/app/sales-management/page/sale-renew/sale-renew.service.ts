@@ -126,6 +126,7 @@ export class SaleRenewService {
     // create or update
     prepareVoucher(): VoucherDto {
         const voucherDto: VoucherDto = new VoucherDto;
+        this.commonService.mapDiscountApprover(this.ticket);
         voucherDto.details = [];
         voucherDto.masterInfo = this.commonService.convertMasterInfo(this.ticket.masterInfo, MasterInfoRequest);
         voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.MERCHANDISE_NEW_SALE, data: this.merchandiseService.convertMerchandiseToRequest(this.ticket.merchandise_new_sale, voucherDto.masterInfo, MerchandiseRequest) }];

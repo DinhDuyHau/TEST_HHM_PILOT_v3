@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DiscountApiService } from '@app/sales-management/api/discount-api.service';
 import { ImeiApiService } from '@app/sales-management/api/imei-api.service';
 import { MerchandiseApiService } from '@app/sales-management/api/merchandise-api.service';
-import { Discount } from '@app/sales-management/model/ticket/common-model/discount.model';
+import { Discount, DISCOUNT_TYPE } from '@app/sales-management/model/ticket/common-model/discount.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Payment } from '@app/sales-management/model/ticket/common-model/payment.model';
 import { ImeisManagerService } from './imeisManager.service';
@@ -703,6 +703,17 @@ export class CommonService {
                 return;
             }
             this.showMessageByName(result.message);
+        }
+    }
+
+    mapDiscountApprover(ticket: any) {
+        const approver = ticket.masterInfo?.nguoi_duyet_ck?.trim();
+        if (ticket.discount.some((x: any) => x.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER) && approver) {
+            ticket.discount.forEach((x: any) => {
+                if (x.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER) {
+                    x.ma_td1 = approver;
+                }
+            });
         }
     }
 
