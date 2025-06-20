@@ -363,14 +363,14 @@ export class SaleReturnService {
     convertElectronicFromVoucher = (Electronic: any, TCreator: { new(): any; }) => {
         const ElectronicNew = new TCreator();
         Object.keys(ElectronicNew).forEach(key => {
-            ElectronicNew.bh_mau_hd = Electronic.mau_hoa_don || '';
-            ElectronicNew.bh_so_seri = Electronic.so_seri || '';
-            ElectronicNew.bh_ngay_hd = formatDate(new Date(Electronic.ngay_ct), 'yyyy-MM-dd', 'en_US') || '';
-            ElectronicNew.bh_ngay_ky = formatDate(new Date(Electronic.ngay_ky), 'yyyy-MM-dd', 'en_US') || '';
-            ElectronicNew.bh_so_hd = Electronic.so_hoa_don || '';
-            ElectronicNew.bh_status = Electronic.status || '';
-            ElectronicNew.bh_ma_so_thue = Electronic.ma_so_thue || '';
-            ElectronicNew.bh_ma_tra_cuu = Electronic.ma_bi_mat || '';
+            ElectronicNew.bh_mau_hd = Electronic?.mau_hoa_don || '';
+            ElectronicNew.bh_so_seri = Electronic?.so_seri || '';
+            ElectronicNew.bh_ngay_hd = Electronic?.ngay_ct ? formatDate(new Date(Electronic?.ngay_ct), 'yyyy-MM-dd', 'en_US') : null;
+            ElectronicNew.bh_ngay_ky = Electronic?.ngay_ky ? formatDate(new Date(Electronic?.ngay_ky), 'yyyy-MM-dd', 'en_US') : null;
+            ElectronicNew.bh_so_hd = Electronic?.so_hoa_don || '';
+            ElectronicNew.bh_status = Electronic?.status || '';
+            ElectronicNew.bh_ma_so_thue = Electronic?.ma_so_thue || '';
+            ElectronicNew.bh_ma_tra_cuu = Electronic?.ma_bi_mat || '';
         });
         return ElectronicNew;
     };
