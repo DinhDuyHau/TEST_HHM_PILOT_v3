@@ -144,6 +144,7 @@ export class SaleChangeService {
         this.ticket.masterInfo.hd_email = customer.hoadon_email || '';
         this.ticket.masterInfo.hd_mst = customer.hoadon_mst || '';
         this.ticket.masterInfo.hd_ten_kh = customer.hoadon_tenkh || '';
+        this.ticket.masterInfo.hd_nguoi_mua = customer.ten_kh || '';
     }
 
     resetCustomerInfo(ticket: ChangeSaleTicket) {

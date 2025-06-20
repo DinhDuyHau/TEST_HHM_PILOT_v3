@@ -255,6 +255,9 @@ export class SaleWholeService {
                 this.ticket.contractInfo.ten_kh = this.ticket.masterInfo.ten_kh;
                 this.ticket.contractInfo.dia_chi = this.ticket.masterInfo.dia_chi;
 
+                // hddt
+                this.ticket.masterInfo.hd_nguoi_mua = customer.ten_kh || '';
+
                 //Thông tin khách hàng trên hóa đơn điện tử ==> Phần này sẽ phải call đến api lấy mã số thuế
                 if (customer.ma_kh) {
                     this.handleChangeTaxCode(customer.ma_kh);
