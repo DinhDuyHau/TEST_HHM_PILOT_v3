@@ -595,6 +595,8 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     handleRemoveMerchandise(merchandise: Merchandise) {
         if (merchandise.km_yn) {
             this.saleOnlineService.removePromotionMechandise(merchandise);
+            // tính lại tiền khi xóa hàng khuyến mại
+            this.saleOnlineService.calcMoney();
         } else {
             this.saleOnlineService.removeMerchandise(merchandise);
             this.handleCheckDeposit(merchandise.ma_vt, false);
