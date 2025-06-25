@@ -113,6 +113,15 @@
     "width": 100
   },
   {
+    "name": "tien_hh",
+    "allowFilter": true,
+    "title": "Hoa hồng BH",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
     "name": "ma_vt_chinh",
     "title": "Mã hàng chính",
     "isLockingColumn": true,
@@ -156,6 +165,15 @@
     "width": 100
   },
   {
+    "name": "tien_hh_chinh",
+    "allowFilter": true,
+    "title": "Hoa hồng SP chính",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
     "name": "ma_vt_bk",
     "title": "Mã SP bán kèm",
     "isLockingColumn": true,
@@ -190,9 +208,18 @@
     "width": 100
   },
   {
-    "name": "tien_hang_pk",
+    "name": "tien_hang_bk",
     "allowFilter": true,
     "title": "Tiền SP bán kèm",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tien_hh_bk",
+    "allowFilter": true,
+    "title": "Hoa hồng SP BK",
     "type": "number",
     "dataFormatString": "normalPrice",
     "align": "right",
