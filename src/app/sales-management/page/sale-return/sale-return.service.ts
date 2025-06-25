@@ -327,6 +327,7 @@ export class SaleReturnService {
             serviceNew.line_nbr = i;
             serviceNew.stt_rec_px = e.stt_rec || '';
             serviceNew.stt_rec0px = e.stt_rec0 || '';
+            serviceNew.px_so = e.so_ct || '';
             return serviceNew;
         });
         rs.map((e, i) => { e.line_nbr = i; });
@@ -352,8 +353,10 @@ export class SaleReturnService {
             serviceNew.key = e.stt_rec_hd + e.stt_rec0hd;
             serviceNew.gia_nhap_mua = e.gia_vat;
             serviceNew.line_nbr = i;
-            serviceNew.stt_rec_px = e.stt_rec || '';
-            serviceNew.stt_rec0px = e.stt_rec0 || '';
+            serviceNew.stt_rec0 = e.stt_rec0 || '';
+            serviceNew.stt_rec_px = e.stt_rec_px || '';
+            serviceNew.stt_rec0px = e.stt_rec0px || '';
+            serviceNew.px_so = e.px_so || '';
             return serviceNew;
         });
         rs.map((e, i) => { e.line_nbr = i; });

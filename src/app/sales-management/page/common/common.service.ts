@@ -221,7 +221,7 @@ export class CommonService {
     updateBaseInfo = (masterInfo: any, model: any[]) => {
         model.forEach(e => {
             e.stt_rec = masterInfo.stt_rec;
-            e.stt_rec0 = masterInfo.stt_rec0;
+            // e.stt_rec0 = masterInfo.stt_rec0; // bảng master ko có stt_rec0 mà update bằng bẳng master cho bảng detail?
             e.ma_ct = masterInfo.ma_ct;
             e.ngay_ct = masterInfo.ngay_ct;
             e.ma_cuahang = masterInfo.ma_cuahang;

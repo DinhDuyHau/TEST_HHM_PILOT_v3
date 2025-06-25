@@ -10,6 +10,7 @@ const GET_MANY_URL = `${environment.apiUrl}/Category/find/dmdichvu`;
 const GET_ONE_URL = `${environment.apiUrl}/category/getbyid/dmdichvu`;
 const GET_MANY_TYPE_Service_URL = `${environment.apiUrl}/category/find/dmloaikho`;
 const GET_MANY_WAREHOUSE_URL = `${environment.apiUrl}/category/find/dmkho`;
+const GET_SERVICE_RETURN_BUYBACK = `${environment.apiUrl}/service/get_service_return_buyback`;
 
 @Injectable({
     providedIn: 'root'
@@ -35,5 +36,9 @@ export class ServiceApiService extends ApiService {
 
     getManyWarehouse(body: {}): Observable<Result<Service>> {
         return this.post<Result<Service>>(GET_MANY_WAREHOUSE_URL, body);
+    }
+
+    getServiceReturnOrBuyBack(stt_rec_px: string, stt_rec0px: string): Observable<ResultNoPaging<any>> {
+        return this.get<ResultNoPaging<any>>(GET_SERVICE_RETURN_BUYBACK, { stt_rec_px, stt_rec0px });
     }
 }

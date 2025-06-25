@@ -59,6 +59,7 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
 export class SaleReturnServiceRequest extends ServiceRequest {
     stt_rec_px = '';
     stt_rec0px = '';
+    px_so = '';
 
     constructor(obj?: any) {
         super();

@@ -104,6 +104,7 @@ export class electronic_bill {
 export class SaleReturnServiceModel extends Service {
   stt_rec_px = '';
   stt_rec0px = '';
+  px_so = '';
 
   constructor(obj?: any) {
     super();

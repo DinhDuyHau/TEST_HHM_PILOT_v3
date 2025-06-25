@@ -21,6 +21,7 @@ import { ServiceOfMerchandiseService } from '../common/service.service';
 import { CustomerCreateDialogComponent } from '@app/sales-management/component/customer/customer-create-dialog/customer-create-dialog.component';
 import { ServiceOrderComponent } from '@app/sales-management/component/merchandise-service/service-order/service-order.component';
 import { PaymentService } from '../common/payment.service';
+import { ServiceApiService } from '@app/sales-management/api/service-api.service';
 
 const { SALE_SERVICE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
@@ -51,7 +52,7 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
   };
   previewImage = '';
   tabIndexFocusFirst = 'so_dh';
-  entity = TICKET_ENTITY.WHOLE;
+  entity = TICKET_ENTITY.RETURN_SERVICE;
   dataOrderAdded: Service[] = [];
 
   action = '';
@@ -68,6 +69,7 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
     private commonService: CommonService,
     private serviceOfMerchandiseService: ServiceOfMerchandiseService,
     private paymentService: PaymentService,
+    private serviceApiService: ServiceApiService,
   ) {
     localStorage.setItem('useGridCached', '1');
     this.saleReturnServiceService.setTicket(this.ticket);
@@ -220,8 +222,19 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
 
   addOrder(orders: any) {
     this.ticket.service = [];
-    this.serviceOfMerchandiseService.convertReturnServiceFromVoucher(orders, this.ticket.service, Service);
-    this.saleReturnServiceService.calcMoney();
+
+    // **Check dịch vụ mua lại**
+    orders.forEach((service: any) => {
+      this.serviceApiService.getServiceReturnOrBuyBack(service?.stt_rec, service?.stt_rec0).subscribe((response) => {
+        if (response && response.success && response.result) {
+          this.commonService.showMessage(`Dịch vụ đã được nhập / mua lại ở phiếu: ${response.result}`);
+        } else {
+          // **Thêm các dịch vụ mới**
+          this.serviceOfMerchandiseService.convertReturnServiceFromVoucher(orders, this.ticket.service, Service);
+          this.saleReturnServiceService.calcMoney();
+        }
+      });
+    });
   }
 
   onEnterSalesOrderNumber(order: string) {

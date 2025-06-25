@@ -21,6 +21,7 @@ import { Language } from '../common/language';
 import { EInvoiceInfo, EInvoiceInfoOutput } from '@app/sales-management/model/dto/einvoice.dto';
 import { ServiceOrderComponent } from '@app/sales-management/component/merchandise-service/service-order/service-order.component';
 import { PurchasePriceDialogComponent } from './purchase-price-dialog/purchase-price-dialog.component';
+import { ServiceApiService } from '@app/sales-management/api/service-api.service';
 
 const { SALE_REPURCHASE_SERVICE, BUY_BACK_SERVICE } = require('@assets/fields/grid/sales-fields-table.json');
 
@@ -70,6 +71,7 @@ export class SaleRepurchaseServiceComponent implements OnInit, AfterViewInit {
     private customerApiService: CustomerApiService,
     private ticketApiService: TicketApiService,
     private commonService: CommonService,
+    private serviceApiService: ServiceApiService,
   ) {
     localStorage.setItem('useGridCached', '1');
     this.saleServiceService.setTicket(this.ticket);
@@ -250,14 +252,23 @@ export class SaleRepurchaseServiceComponent implements OnInit, AfterViewInit {
         // **Xóa các dịch vụ bị bỏ chọn**
         this.ticket.service = this.ticket.service.filter((service: any) => newServices.includes(service.ma_dv));
 
-        // **Thêm các dịch vụ mới**
-        services.forEach((newService: any) => {
-          if (!currentServices.includes(newService.ma_dv)) {
-            this.saleServiceService.handleAddService(newService);
-          }
-        });
+        // **Check dịch vụ mua lại**
+        services.forEach((service: any) => {
+          this.serviceApiService.getServiceReturnOrBuyBack(service?.stt_rec, service?.stt_rec0).subscribe((response) => {
+            if (response && response.success && response.result) {
+              this.commonService.showMessage(`Dịch vụ đã được nhập / mua lại ở phiếu: ${response.result}`);
+            } else {
+              // **Thêm các dịch vụ mới**
+              services.forEach((newService: any) => {
+                if (!currentServices.includes(newService.ma_dv)) {
+                  this.saleServiceService.handleAddService(newService);
+                }
+              });
 
-        this.saleServiceService.calcMoney();
+              this.saleServiceService.calcMoney();
+            }
+          });
+        });
       });
   }
 

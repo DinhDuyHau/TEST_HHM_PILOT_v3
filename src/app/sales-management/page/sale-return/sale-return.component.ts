@@ -30,6 +30,7 @@ import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/d
 import { PrinterComponent } from '@app/_components/printer/printer.component';
 import { EInvoiceInfo } from '@app/sales-management/model/dto/einvoice.dto';
 import { formatDate } from '@angular/common';
+import { ServiceApiService } from '@app/sales-management/api/service-api.service';
 
 const { SERVICE_LIST_SALE_RETURN, MERCHANDISE_RETURN_LIST } = require('@assets/fields/grid/sales-fields-table.json')
 
@@ -113,6 +114,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
     private serviceOfMerchandiseService: ServiceOfMerchandiseService,
     private paymentService: PaymentService,
     public internalSaleDeatailService: InternalSaleDetailService,
+    private serviceApiService: ServiceApiService,
   ) {
     localStorage.setItem('useGridCached', '1');
     this.saleReturnService.setTicket(this.ticket);
@@ -360,7 +362,19 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
               result.result.details.map((detail: any) => {
                 switch (detail.name.toLocaleLowerCase()) {
                   case 'services':
-                    this.saleReturnService.convertFromVoucherService(detail.data, this.ticket.service);
+                    // check xem được nhập dịch vụ hay không
+                    const services = detail.data as any;
+                    if (services && services.length > 0) {
+                      services.forEach((service: any) => {
+                        this.serviceApiService.getServiceReturnOrBuyBack(service?.stt_rec, service?.stt_rec0).subscribe((response) => {
+                          if (response && response.success && response.result) {
+                            this.commonService.showMessage(`Dịch vụ đã được nhập / mua lại ở phiếu: ${response.result}`);
+                          } else {
+                            this.saleReturnService.convertFromVoucherService(detail.data, this.ticket.service);
+                          }
+                        });
+                      });
+                    }
                     break;
                   case 'einvoice':
                     this.ticket.electronic_bill = this.saleReturnService.convertElectronicFromVoucher(detail.data[0], electronic_bill);

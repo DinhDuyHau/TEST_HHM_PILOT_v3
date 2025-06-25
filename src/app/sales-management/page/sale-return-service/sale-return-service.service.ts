@@ -81,6 +81,7 @@ export class SaleReturnServiceService {
             serviceNew.tong_tien = e.tt;
             serviceNew.key = e.stt_rec_hd1 + e.stt_rec0hd1;
             serviceNew.line_nbr = i;
+            serviceNew.stt_rec0 = e.stt_rec0 || '';
             return serviceNew;
         });
         rs.map((e, i) => { e.line_nbr = i; });
@@ -111,7 +112,7 @@ export class SaleReturnServiceService {
             returnService.gia_ban = item.gia_ban;
             returnService.gia_tra_lai = item.gia_tra_lai;
             returnService.stt_rec = masterInfo.stt_rec;
-            returnService.stt_rec0 = '';
+            returnService.stt_rec0 = item.stt_rec0;
             returnService.ma_ct = masterInfo.ma_ct;
             returnService.ngay_ct = masterInfo.ngay_ct;
             returnService.so_ct = masterInfo.so_ct;
