@@ -1,0 +1,273 @@
+[
+  {
+    "name": "ma_dvcs",
+    "title": "Mã ĐVCS",
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ma_cuahang",
+    "title": "Mã cửa hàng",
+    "allowFilter": true,
+    "width": 100,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "ten_cuahang",
+    "title": "Tên cửa hàng",
+    "allowFilter": true,
+    "width": 250
+  },
+  {
+    "name": "ma_ca",
+    "title": "Mã ca",
+    "allowFilter": true,
+    "width": 80,
+    "dataFormatString": "upperCaseFormat",
+    "isLockingColumn": true
+  },
+  {
+    "name": "so_ct",
+    "title": "Số ct",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ngay_ct",
+    "title": "Ngày ct",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 100,
+    "type": "date",
+    "dataFormatString": "datetimeFormat"
+  },
+  {
+    "name": "ma_nvbh",
+    "title": "Mã NVBH",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "dien_giai",
+    "title": "Tên NVBH",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 280
+  },
+  {
+    "name": "ma_kh",
+    "title": "Mã khách",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_kh",
+    "title": "Tên khách",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 280
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã hàng",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên hàng",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 280
+  },
+  {
+    "name": "ma_imei",
+    "title": "Số Imei",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "tien_hang",
+    "allowFilter": true,
+    "title": "Tiền hàng",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tien_hh",
+    "allowFilter": true,
+    "title": "Hoa hồng BH",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "ma_vt_chinh",
+    "title": "Mã hàng chính",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt_chinh",
+    "title": "Tên hàng chính",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 280
+  },
+  {
+    "name": "ma_imei_chinh",
+    "title": "Số Imei chính",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "sl_chinh",
+    "allowFilter": true,
+    "title": "SL hàng chính",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tien_hang_chinh",
+    "allowFilter": true,
+    "title": "Tiền hàng chính",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tien_hh_chinh",
+    "allowFilter": true,
+    "title": "Hoa hồng SP chính",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "ma_vt_bk",
+    "title": "Mã SP bán kèm",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt_bk",
+    "title": "Tên SP bán kèm",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 280
+  },
+  {
+    "name": "ma_imei_bk",
+    "title": "Số imei SP bán kèm",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "sl_bk",
+    "allowFilter": true,
+    "title": "SL SP bán kèm",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tien_hang_bk",
+    "allowFilter": true,
+    "title": "Tiền SP bán kèm",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tien_hh_bk",
+    "allowFilter": true,
+    "title": "Hoa hồng SP BK",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tl_cl",
+    "allowFilter": true,
+    "title": "Tỷ lệ bán kèm PK (%)",
+    "type": "number",
+    "dataFormatString": "moneyView2Digit",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "tl_dtbk",
+    "allowFilter": true,
+    "title": "Tỷ lệ DT bán kèm/tổng DT",
+    "type": "number",
+    "dataFormatString": "moneyView2Digit",
+    "align": "right",
+    "width": 100
+  },
+  {
+    "name": "nh_vt1",
+    "title": "Chủng loại",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "nh_vt2",
+    "title": "Hãng SX",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "nh_vt3",
+    "title": "Loại nhóm hàng",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "allowFilter": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  }
+]
