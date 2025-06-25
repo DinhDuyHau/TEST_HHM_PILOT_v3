@@ -511,12 +511,24 @@ export class SaleRenewService {
             .map(e => e.gia_ban)
             .reduce((pre, cur) => pre + cur, 0);
 
+        //lấy tiền gói cước
+        let packages_thanh_tien = 0;
+        let packages_tien_thue = 0;
+        let packages_tong_tien = 0;
+        this.ticket.packages.forEach(item => {
+            if (item.naptien_hh_yn == true) {
+                packages_thanh_tien += item.thanh_tien;
+                packages_tien_thue += item.tien_thue;
+                packages_tong_tien += item.tong_tien;
+            }
+        })
+
         this.ticket.masterInfo.t_tc_tien_nt2 = merchandiseUsedMoney;
         this.ticket.masterInfo.t_tien_thu_cu = merchandiseUsedMoney;
         this.ticket.masterInfo.t_tien_thu_cu_nt = merchandiseUsedMoney;
 
         const serviceMoney = this.ticket?.service?.map(e => e.gia_ck * e.so_luong).reduce((pre, cur) => pre + cur, 0) || 0;
-        this.ticket.masterInfo.t_tien_nt2 = merchandiseMoney + serviceMoney;
+        this.ticket.masterInfo.t_tien_nt2 = merchandiseMoney + serviceMoney + packages_thanh_tien;
 
         const serviceTax = this.ticket.service.map(e => e.tien_thue).reduce((pre, cur) => pre + cur, 0);
         const merchandiseTax = this.ticket.merchandise_new_sale
@@ -526,14 +538,13 @@ export class SaleRenewService {
 
         const t_tt_hanghoa = this.ticket.merchandise_new_sale.map(e => e.thanh_toan).reduce((pre, cur) => pre + cur, 0) || 0;
         const t_tt_dichvu = this.ticket.service.map(e => e.tong_tien).reduce((pre, cur) => pre + cur, 0) || 0;
+        this.ticket.masterInfo.t_tien_ban = t_tt_hanghoa + t_tt_dichvu + packages_thanh_tien;
 
-        this.ticket.masterInfo.t_thue_nt = serviceTax + merchandiseTax;
+        this.ticket.masterInfo.t_thue_nt = serviceTax + merchandiseTax + packages_tien_thue;
         this.ticket.masterInfo.t_ck = this.ticket.discount.map(e => e.tien_ck).reduce((pre, cur) => pre + cur, 0);
-        this.ticket.masterInfo.t_tt_nt = (t_tt_hanghoa + t_tt_dichvu) - this.ticket.masterInfo.t_tc_tien_nt2;
+        this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tien_ban - this.ticket.masterInfo.t_tc_tien_nt2;
         this.ticket.masterInfo.t_tt_nt = this.ticket.masterInfo.t_tt_nt < 0 ? 0 : this.ticket.masterInfo.t_tt_nt;
         this.ticket.masterInfo.t_con_no = this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra;
-
-        this.ticket.masterInfo.t_tien_ban = t_tt_hanghoa + t_tt_dichvu;
 
         this.ticket.masterInfo.diem_qd = this.commonService.calcPointRateExchange(this.ticket);
     }
