@@ -817,13 +817,17 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
 
   openCalcDiscountCRMDialog(event: { item: Merchandise }) {
-    const ngay_ct = new Date(`${this.ticket.masterInfo.ngay_ct}Z`);
+    let dateStr = this.ticket.masterInfo.ngay_ct;
+    if (!dateStr.endsWith('Z') && !dateStr.includes('+') && !dateStr.includes('-')) {
+      dateStr += 'Z'; // Chỉ thêm nếu không có thông tin múi giờ
+    }
+    let dateObj = new Date(dateStr);
     const relatedDiscounts = this.ticket.discount.filter(d => d.ma_imei === event.item.ma_imei);
     const matchedVoucher = relatedDiscounts
       .map(discount => this.ticket.voucherCode.find(v => v.ma_voucher === discount.imei_hang_mua))
       .find(voucher => !!voucher); // Lấy voucher đầu tiên tìm thấy
 
-    this.commonService.openDialog(CrmDialogComponent, { currentItem: event.item, voucherCode: matchedVoucher, ngay_ct: ngay_ct })
+    this.commonService.openDialog(CrmDialogComponent, { currentItem: event.item, voucherCode: matchedVoucher, ngay_ct: dateObj })
       .afterClosed().subscribe(res => {
         if (res) {
           // thêm vào tab chiết khấu
