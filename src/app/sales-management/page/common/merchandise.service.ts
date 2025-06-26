@@ -2039,7 +2039,8 @@ export class MerchandiseService {
 
                 // update lại tien_ck tab ck cho loại 09
                 const discountUpdate = ticket.discount.find((x: any) => x.ma_ck == ma_ck && x.ma_imei == ma_imei && x.ma_vt == ma_vt);
-                discountUpdate.tien_ck = tien_ck;
+                discountUpdate.tien_ck = tien_ck || 0;
+                discountUpdate.tien_ck_nt = tien_ck || 0;
             }
         });
     }
