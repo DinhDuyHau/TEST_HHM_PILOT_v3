@@ -1,0 +1,169 @@
+{
+  "width": 700,
+  "height": 900,
+  "control": [
+    [
+      {
+        "name": "den_ngay",
+        "label": "Ngày",
+        "type": "date",
+        "dataFormatString": "datetimeFormat",
+        "class": "basis-1/3"
+      }
+    ],
+    [
+      {
+        "name": "ma_nh",
+        "label": "Nhóm kho",
+        "isLookup": "true",
+        "control": "dmnhkho",
+        "dataFormatString": "uppercaseFormat",
+        "reference": [
+          "ma_nh",
+          "ten_nh"
+        ],
+        "class": "basis-1/3"
+      },
+      {
+        "name": "ten_nh",
+        "label": "Tên nhóm",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ],
+    [
+      {
+        "name": "ma_cuahang",
+        "label": "Mã cửa hàng",
+        "isLookup": "true",
+        "control": "zcdmcuahang",
+        "dataFormatString": "uppercaseFormat",
+        "reference": [
+          "ma_cuahang",
+          "ten_cuahang"
+        ],
+        "class": "basis-1/3"
+      },
+      {
+        "name": "ten_cuahang",
+        "label": "Tên cửa hàng",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
+      }
+    ],
+    [
+      {
+        "name": "ma_vt",
+        "label": "Mã vật tư",
+        "isLookup": "true",
+        "control": "dmvt",
+        "dataFormatString": "uppercaseFormat",
+        "reference": [
+          "ma_vt"
+        ],
+        "class": "flex-1",
+        "isChoose": true
+      }
+    ],
+    [
+      {
+        "name": "nh_vt1",
+        "label": "Chủng loại",
+        "isLookup": "true",
+        "control": "dmnhvt1",
+        "dataFormatString": "uppercaseFormat",
+        "reference": [
+          "ma_nh"
+        ],
+        "mapper": {
+          "ma_nh": "nh_vt1"
+        },
+        "class": "flex-1",
+        "isChoose": true
+      }
+    ],
+    [
+      {
+        "name": "nh_vt2",
+        "label": "Hãng sản xuất",
+        "isLookup": "true",
+        "control": "dmnhvt2",
+        "dataFormatString": "uppercaseFormat",
+        "reference": [
+          "ma_nh"
+        ],
+        "mapper": {
+          "ma_nh": "nh_vt2"
+        },
+        "class": "flex-1",
+        "isChoose": true
+      }
+    ],
+    [
+      {
+        "name": "nh_vt3",
+        "label": "Loại nhóm hàng",
+        "isLookup": "true",
+        "control": "dmnhvt3",
+        "dataFormatString": "uppercaseFormat",
+        "reference": [
+          "ma_nh"
+        ],
+        "mapper": {
+          "ma_nh": "nh_vt3"
+        },
+        "class": "flex-1",
+        "isChoose": true
+      }
+    ],
+    [
+      {
+        "name": "nh_vt4",
+        "label": "Dung lượng",
+        "isLookup": "true",
+        "control": "dmnhvt4",
+        "dataFormatString": "uppercaseFormat",
+        "reference": [
+          "ma_nh"
+        ],
+        "mapper": {
+          "ma_nh": "nh_vt4"
+        },
+        "class": "flex-1",
+        "isChoose": true
+      }
+    ],
+    [
+      {
+        "name": "nh_vt5",
+        "label": "Kèm dịch vụ",
+        "isLookup": "true",
+        "control": "dmnhvt5",
+        "dataFormatString": "uppercaseFormat",
+        "reference": [
+          "ma_nh"
+        ],
+        "mapper": {
+          "ma_nh": "nh_vt5"
+        },
+        "class": "flex-1",
+        "isChoose": true
+      }
+    ],
+    [
+      {
+        "name": "ma_nganh",
+        "label": "Ngành hàng",
+        "isLookup": "true",
+        "control": "dmnganhhang",
+        "dataFormatString": "uppercaseFormat",
+        "reference": [
+          "ma_nganh"
+        ],
+        "isChoose": true
+      }
+    ]
+  ]
+}

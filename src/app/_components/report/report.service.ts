@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Field, IGridService, ItemFilter, ItemSort, Result } from '../gridV2/grid.model';
+import { Field, IGridService, ItemFilter, ItemSort, PivotReportConfig, Result } from '../gridV2/grid.model';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable, catchError, lastValueFrom, map, of, switchMap } from 'rxjs';
@@ -87,6 +87,15 @@ export class ReportService implements IGridService<any> {
           return { ...new Field(), ...item, dataFormatString: (dataFormat as any)[item.dataFormatString === undefined ? '' : item.dataFormatString] };
         });
         return of(data);
+      })
+    );
+  }
+
+  getPivotConfig(): Observable<PivotReportConfig> {
+    const randomParam = new Date().getTime();
+    return this.http.get<PivotReportConfig>(`assets/pivot-report/${this.entity}.json?r=${randomParam}`).pipe(
+      switchMap(data => {
+        return of({ ...new PivotReportConfig(), ...data });
       })
     );
   }

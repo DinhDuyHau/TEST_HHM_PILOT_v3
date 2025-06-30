@@ -233,4 +233,30 @@ export interface Button {
   class?: string;
 }
 
+export class PivotReportConfig {
+  /** Vị trí bắt đầu thêm cột */
+  startInsertColumnIndex: number = 0;
+
+  /** Bảng phụ nằm ở extraTables[index] */
+  extraTableIndex: number = 0;
+
+  /** Trường tiêu đề cột động */
+  pivotHeaderField: string = '';
+
+  /** Trường dữ liệu trong item để lấy giá trị */
+  pivotDataField: string = '';
+
+  /** Loại trừ các header không muốn thêm */
+  excludeHeaders: string[] = [] ;
+
+  /** Các trường dùng để group dòng dữ liệu */
+  groupByFields: string[] = [];
+
+  /** Các trường cần cộng dồn khi group data lại */
+  sumFields: string[] = [];
+
+  /** // Trường để xác định bản ghi */
+  keyField: string = '';
+}
+
 export const GridType = { Grid: 0, Lookup: 1, GridDetail: 2, Category: 4 };

@@ -1,0 +1,10 @@
+{
+  "startInsertColumnIndex": 7,
+  "extraTableIndex": 0,
+  "pivotHeaderField": "header",
+  "pivotDataField": "name",
+  "excludeHeaders": [],
+  "groupByFields": ["ma_vt"],
+  "sumFields": ["so_luong"],
+  "keyField": "sysColumn"
+}
