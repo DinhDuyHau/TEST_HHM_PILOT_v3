@@ -857,8 +857,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
             ma_ck: res.ma_ck || '',
           }
 
-          this.upsertDiscount(discount);
-          this.upsertVoucherCode(voucherCode);
+          this.insertDiscount(discount);
+          this.insertVoucherCode(voucherCode);
 
           // tính lại tiền
           this.retailService.calcMoney();
@@ -870,7 +870,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
       });
   }
 
-  upsertDiscount(discount: Discount): void {
+  insertDiscount(discount: Discount): void {
     const index = this.ticket.discount.findIndex(d =>
       d.ma_imei === discount.ma_imei &&
       d.loai_ck === discount.loai_ck
@@ -883,7 +883,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     }
   }
 
-  upsertVoucherCode(voucherCode: any): void {
+  insertVoucherCode(voucherCode: any): void {
     const index = this.ticket.voucherCode.findIndex(v =>
       v.ma_imei === voucherCode.ma_imei &&
       v.ma_ck === voucherCode.ma_ck
@@ -902,9 +902,16 @@ export class RetailComponent implements OnInit, AfterViewInit {
       !(d.ma_imei === ma_imei && d.loai_ck === DISCOUNT_TYPE.DISCOUNT_CRM)
     );
 
-    // Xóa dòng voucher CRM
+    // Xóa voucherCode tương ứng với discount CRM đã bị xóa
+    // logic: giữ lại voucherCode nếu còn discount CRM khớp, loại bỏ nếu không còn.
     this.ticket.voucherCode = this.ticket.voucherCode.filter(v =>
-      !(v.ma_imei === ma_imei && v.ma_ck === DISCOUNT_TYPE.DISCOUNT_CRM)
+      this.ticket.discount.some(d =>
+        d.loai_ck === DISCOUNT_TYPE.DISCOUNT_CRM &&
+        d.ma_ck === v.ma_ck &&
+        d.imei_hang_mua === v.ma_voucher &&
+        d.ma_imei === v.ma_imei &&
+        d.ma_vt == v.ma_vt
+      )
     );
   }
   // #endregion discount
