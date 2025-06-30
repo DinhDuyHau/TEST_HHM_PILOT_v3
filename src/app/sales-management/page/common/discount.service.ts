@@ -137,7 +137,9 @@ export class DiscountService {
             }
             else {
                 //Thực hiện gọi tính ck từ button trên form master => giữ lại chiết khấu ngoại giao, tính lại các ck khác
-                let discount_keep_adv = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER);
+                let discount_keep_adv = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||
+                    e.loai_ck === DISCOUNT_TYPE.DISCOUNT_CRM
+                );
 
                 //Nếu thực hiện xóa dòng trong grid hàng hóa => loại bỏ ck ngoại giao tương ứng với imei đang xóa
                 if (isRemoveMerchandise && currentRowitem && currentRowitem.ma_imei) {

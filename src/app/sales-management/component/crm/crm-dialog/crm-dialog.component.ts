@@ -91,8 +91,8 @@ export class CrmDialogComponent implements OnInit {
   }
 
   onSave(): void {
-    if (!this.dataResponse.crmCode) {
-      this.commonService.showMessage('Vui lòng nhập mã CRM');
+    if (!this.dataResponse.crmCode || !this.dataResponse.ma_ctr) {
+      this.commonService.showMessage('Vui lòng nhập Mã chương trình và mã CRM');
       return;
     }
     this.dialogRef.close(this.dataResponse);
