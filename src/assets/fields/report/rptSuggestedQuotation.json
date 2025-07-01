@@ -3,7 +3,6 @@
     "name": "stt",
     "title": "Stt",
     "isLockingColumn": true,
-    "allowSorting": true,
     "align": "center",
     "width": 50
   },
@@ -13,7 +12,6 @@
     "isLockingColumn": true,
     "allowFilter": true,
     "isPrimaryKey": true,
-    "allowSorting": true,
     "width": 120,
     "dataFormatString": "upperCaseFormat"
   },
@@ -22,7 +20,6 @@
     "title": "Tên vật tư",
     "allowFilter": true,
     "isLockingColumn": true,
-    "allowSorting": true,
     "width": 280
   },
   {
