@@ -42,6 +42,7 @@ export class ReportComponent implements OnInit, OnChanges {
   gridType = GridType.Category;
   reportService!: ReportService;
   isLoadReport = false;
+  isPivotReport = false;
 
   mapperVoucher: Map<string, any> = new Map();
 
@@ -91,6 +92,9 @@ export class ReportComponent implements OnInit, OnChanges {
     pageIndex: number
     pageSize: number
   }, sort?: ItemSort, filter?: ItemFilter[], reset?: boolean): void {
+    // Reset trạng thái pivot trước khi gọi API để tránh giữ giá trị cũ
+    this.isPivotReport = false;
+
     if (!filter) {
       filter = [];
       filter.push({ name: 'tu_ngay', operator: '', value: localStorage.getItem('tu_ngay') || getFirstDayOfMonth(new Date()) });
@@ -116,8 +120,11 @@ export class ReportComponent implements OnInit, OnChanges {
           });
         }
 
+        // gán biến xác định là báo cáo xoay, luôn ép kiểu boolean
+        this.isPivotReport = !!result.isPivotReport;
+
         // nếu là báo cáo xoay thì thêm cột vào bảng dựa vào extraTables
-        if (result.isPivotReport) {
+        if (this.isPivotReport) {
           // gọi cấu hình và lấy lại fields chuẩn để dựng
           forkJoin([
             this.reportService.getPivotConfig(),
@@ -142,6 +149,7 @@ export class ReportComponent implements OnInit, OnChanges {
         this.isLoadReport = false;
       }
       else {
+        this.isPivotReport = false;
         this.isLoadReport = false;
         this.dataSource = new MatTableDataSource<any>([]);
         this._snackBar.open(getResource(res.message), 'Đóng', { duration: 5000 });
@@ -199,7 +207,7 @@ export class ReportComponent implements OnInit, OnChanges {
         this.openFilterModel();
         break;
       case button.ExportButton.id:
-        this.reportService.exportExcel(this.entity, this.filter, this.fields);
+        this.reportService.exportExcel(this.entity, this.filter, this.fields, this.isPivotReport);
         break;
       default:
         break;

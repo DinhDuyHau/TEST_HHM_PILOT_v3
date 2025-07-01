@@ -165,14 +165,14 @@ export class ReportService implements IGridService<any> {
     }
   }
 
-  async exportExcel(sysid: string, filter?: ItemFilter[], fields?: Field[]) {
+  async exportExcel(sysid: string, filter?: ItemFilter[], fields?: Field[], isPivotReport: boolean = false) {
     let body: any = {};
     if (filter) {
       filter.forEach((item, index) => {
         body[item.name] = item.value;
       });
     }
-    body = { ...body, title: this.title };
+    body = { ...body, title: this.title, isPivotReport: isPivotReport };
 
     const rpt_fields = fields?.map(x => {
       return {
