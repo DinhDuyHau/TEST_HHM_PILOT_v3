@@ -1,6 +1,6 @@
 {
   "width": 700,
-  "height": 320,
+  "height": 400,
   "control": [
     [
       {
@@ -16,6 +16,24 @@
         "type": "date",
         "dataFormatString": "datetimeFormat",
         "class": "basis-1/4"
+      }
+    ],
+    [
+      {
+        "name": "tk",
+        "label": "Tài khoản",
+        "isLookup": "true",
+        "control": "dmtk141",
+        "dataFormatString": "uppercaseFormat",
+        "reference": ["tk", "ten_tk"],
+        "class": "basis-1/4"
+      },
+      {
+        "name": "ten_tk",
+        "label": "Tên tài khoản",
+        "disabled": true,
+        "isExternalField": true,
+        "class": "flex-1"
       }
     ],
     [

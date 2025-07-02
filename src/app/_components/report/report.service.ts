@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Field, IGridService, ItemFilter, ItemSort, Result } from '../gridV2/grid.model';
+import { Field, IGridService, ItemFilter, ItemSort, PivotReportConfig, Result } from '../gridV2/grid.model';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable, catchError, lastValueFrom, map, of, switchMap } from 'rxjs';
@@ -91,6 +91,15 @@ export class ReportService implements IGridService<any> {
     );
   }
 
+  getPivotConfig(): Observable<PivotReportConfig> {
+    const randomParam = new Date().getTime();
+    return this.http.get<PivotReportConfig>(`assets/pivot-report/${this.entity}.json?r=${randomParam}`).pipe(
+      switchMap(data => {
+        return of({ ...new PivotReportConfig(), ...data });
+      })
+    );
+  }
+
   openDialog(type: number): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '100%';
@@ -156,14 +165,14 @@ export class ReportService implements IGridService<any> {
     }
   }
 
-  async exportExcel(sysid: string, filter?: ItemFilter[], fields?: Field[]) {
+  async exportExcel(sysid: string, filter?: ItemFilter[], fields?: Field[], isPivotReport: boolean = false) {
     let body: any = {};
     if (filter) {
       filter.forEach((item, index) => {
         body[item.name] = item.value;
       });
     }
-    body = { ...body, title: this.title };
+    body = { ...body, title: this.title, isPivotReport: isPivotReport };
 
     const rpt_fields = fields?.map(x => {
       return {

@@ -1,0 +1,61 @@
+[
+  {
+    "name": "stt",
+    "title": "Stt",
+    "isLockingColumn": true,
+    "align": "center",
+    "width": 50
+  },
+  {
+    "name": "ma_vt",
+    "title": "Mã vật tư",
+    "isLockingColumn": true,
+    "allowFilter": true,
+    "isPrimaryKey": true,
+    "width": 120,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
+    "name": "ten_vt",
+    "title": "Tên vật tư",
+    "allowFilter": true,
+    "isLockingColumn": true,
+    "width": 280
+  },
+  {
+    "name": "sl_kcty",
+    "title": "KCTY",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "sl_pkcty",
+    "title": "PKCTY",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "sl_hcmhh",
+    "title": "HCMHH",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "sl_hcmpk",
+    "title": "HCMPK",
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  },
+  {
+    "name": "so_luong",
+    "title": "Số lượng",
+    "hidden": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "align": "right"
+  }
+]

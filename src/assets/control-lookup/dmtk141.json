@@ -1,0 +1,11 @@
+{
+  "title": "Danh mục tài khoản",
+  "entity": "dmtk",
+  "filter": [
+    {
+      "name": "tk",
+      "operator": "like",
+      "value": "141%"
+    }
+  ]
+}

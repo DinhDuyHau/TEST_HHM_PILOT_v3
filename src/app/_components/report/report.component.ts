@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Field, Grid, GridType, ItemFilter, ItemSort } from '../gridV2/grid.model';
+import { Field, Grid, GridType, ItemFilter, ItemSort, PivotReportConfig } from '../gridV2/grid.model';
 import { ReportService } from './report.service';
 import button from '@app/_common/button';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,6 +13,7 @@ import { Control } from '../filter/filter.model';
 import { DataFormatPipe } from '@app/_pipe/dataFormat/data-format.pipe';
 import dataFormat from '@app/_common/dataFormat';
 import { MenuItem } from '../header/header.model';
+import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -34,12 +35,14 @@ export class ReportComponent implements OnInit, OnChanges {
   titleGrid = '';
   pageSizeOptions = [10, 20, 50, 100, 150, 200, 250];
   fields: Field[] = [];
+  pivotConfig: PivotReportConfig = new PivotReportConfig();
   isLockingColumn = false;
   sort?: ItemSort;
   filter?: ItemFilter[];
   gridType = GridType.Category;
   reportService!: ReportService;
   isLoadReport = false;
+  isPivotReport = false;
 
   mapperVoucher: Map<string, any> = new Map();
 
@@ -89,6 +92,9 @@ export class ReportComponent implements OnInit, OnChanges {
     pageIndex: number
     pageSize: number
   }, sort?: ItemSort, filter?: ItemFilter[], reset?: boolean): void {
+    // Reset trạng thái pivot trước khi gọi API để tránh giữ giá trị cũ
+    this.isPivotReport = false;
+
     if (!filter) {
       filter = [];
       filter.push({ name: 'tu_ngay', operator: '', value: localStorage.getItem('tu_ngay') || getFirstDayOfMonth(new Date()) });
@@ -104,6 +110,7 @@ export class ReportComponent implements OnInit, OnChanges {
     }
     this.reportService.getItems(page, filter || [], sort || { name: '', direction: '' }).subscribe(res => {
       if (res && res.success) {
+        const result = res.result as any;
         const data = res.result.items;
         const field = this.fields.find(x => x.link);
         if (field) {
@@ -112,12 +119,37 @@ export class ReportComponent implements OnInit, OnChanges {
             x.linkToVoucher = this.mapperVoucher.get(x.ma_ct)?.link + (link.includes('voucher/') ? '/view?stt_rec=' : '/view?key=') + (field.key ? x[field.key] : x['stt_rec']);
           });
         }
-        this.dataSource = new MatTableDataSource<any>(res.result.items);
+
+        // gán biến xác định là báo cáo xoay, luôn ép kiểu boolean
+        this.isPivotReport = !!result.isPivotReport;
+
+        // nếu là báo cáo xoay thì thêm cột vào bảng dựa vào extraTables
+        if (this.isPivotReport) {
+          // gọi cấu hình và lấy lại fields chuẩn để dựng
+          forkJoin([
+            this.reportService.getPivotConfig(),
+            this.reportService.getFields()
+          ]).subscribe(([pivot, fields]) => {
+            this.pivotConfig = pivot;
+            this.fields = fields;
+
+            // GHÉP CỘT PIVOT TỪ CẤU HÌNH GỐC
+            this.fields = this.insertPivotColumns(this.fields, result.extraTables, this.pivotConfig);
+
+            // PROCESS DATA
+            const updatedItems = this.processPivotDataToItemsDynamic(result.items);
+            this.dataSource = new MatTableDataSource<any>(updatedItems);
+          });
+        } else {
+          this.dataSource = new MatTableDataSource<any>(res.result.items);
+        }
+
         this.totalItems = res.result.recordCount;
         this.pageCount = res.result.pageCount;
         this.isLoadReport = false;
       }
       else {
+        this.isPivotReport = false;
         this.isLoadReport = false;
         this.dataSource = new MatTableDataSource<any>([]);
         this._snackBar.open(getResource(res.message), 'Đóng', { duration: 5000 });
@@ -175,7 +207,7 @@ export class ReportComponent implements OnInit, OnChanges {
         this.openFilterModel();
         break;
       case button.ExportButton.id:
-        this.reportService.exportExcel(this.entity, this.filter, this.fields);
+        this.reportService.exportExcel(this.entity, this.filter, this.fields, this.isPivotReport);
         break;
       default:
         break;
@@ -307,4 +339,69 @@ export class ReportComponent implements OnInit, OnChanges {
       pageSize: this.pageSize,
     }, this.sort, this.filter, false);
   }
+
+  insertPivotColumns(fields: any[], extraTables: any[][], pivotConfig: PivotReportConfig): any[] {
+    if (!pivotConfig || !extraTables || extraTables.length <= pivotConfig.extraTableIndex) return fields;
+
+    const pivotCols = extraTables[pivotConfig.extraTableIndex];
+    const startIndex = pivotConfig.startInsertColumnIndex ?? fields.length;
+    const fieldPrefixRegex = /^([a-zA-Z0-9_]+)\$\d+$/;
+
+    const pivotFields: any[] = [];
+
+    // Tập tên cột pivot sẽ được thêm
+    const pivotFieldNames = pivotCols.map(col => col[pivotConfig.pivotDataField]?.trim());
+    // Xoá các cột động cũ (nằm trong pivotFieldNames), giữ lại cột gốc
+    const baseFields = fields.filter(f => !pivotFieldNames.includes(f.name));
+
+    pivotCols.forEach((col: any) => {
+      const header = col[pivotConfig.pivotHeaderField];
+      const name = col[pivotConfig.pivotDataField];
+
+      if (pivotConfig.excludeHeaders?.includes(header)) return;
+
+      // Phân tích prefix từ "so_luong$1" -> "so_luong"
+      const match = name.match(fieldPrefixRegex);
+      const baseName = match ? match[1] : name;
+
+      // Tìm field gốc trong cấu hình ban đầu
+      const baseField = fields.find(f => f.name === baseName);
+
+      // tính toán độ rộng cột dựa trên độ dài của tiêu đề
+      const estimatedWidth = Math.min(Math.max(header.length * 15, 80), 200);
+
+      const newField = {
+        name: name.trim(),
+        title: header.trim(),
+        isLockingColumn: true,
+        allowSorting: false,
+        allowFilter: false,
+        width: estimatedWidth,
+        type: baseField?.type || '',
+        dataFormatString: baseField?.dataFormatString || '',
+        align: baseField?.align || '',
+      };
+
+      pivotFields.push(newField);
+    });
+
+    return [
+      ...baseFields.slice(0, startIndex),
+      ...pivotFields,
+      ...baseFields.slice(startIndex)
+    ];
+  }
+
+  processPivotDataToItemsDynamic(items: any[]) {
+    // convert value = 0 thành ''
+    return items.map(row => {
+      const newRow: any = {};
+      for (const key in row) {
+        const value = row[key];
+        newRow[key] = value === 0 ? '' : value;
+      }
+      return newRow;
+    });
+  }
+
 }
