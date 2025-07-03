@@ -87,8 +87,7 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
     'giam_gia_crm',
     'chiet_khau',
     'voucher_doi_tac',
-    'quet_the_tra_gop',
-    'mb_qr'
+    'quet_the_tra_gop'
   ];
 
 
