@@ -315,6 +315,9 @@
 
     <ng-container *ngIf="this.isValidCustomerGroup3">
       <payment-tab
+        [status]="data.masterInfo.status || ''"
+        [so_ct]="data.masterInfo.so_ct || ''"
+        [stt_rec]="data.masterInfo.stt_rec || ''"
         [action]="action"
         [shop]="shop"
         [invalid]="invalid"
