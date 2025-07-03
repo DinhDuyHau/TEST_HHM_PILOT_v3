@@ -409,7 +409,7 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
       this.commonService.showMessage("Cần thực hiện phân bổ tiền thanh toán trước khi lưu phiếu");
       return;
     }
-    if (this.data.masterInfo.t_da_tra == 0) {
+    if (this.data.masterInfo.t_da_tra == 0 && this.data.masterInfo.status == "2") {
       this.commonService.showMessage("Cần chọn hình thức thanh toán trước khi lưu phiếu");
       return;
     }

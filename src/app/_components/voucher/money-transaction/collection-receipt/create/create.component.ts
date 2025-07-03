@@ -367,7 +367,9 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
       this.commonService.showMessageByName('lblWarningLackDetail');
       return;
     }
-    if (this.data.masterInfo.t_da_tra == 0 && this.isValidCustomerGroup3) {
+
+    // Nếu mã khách không phải là cửa hàng => check chọn hình thức thanh toán
+    if (this.data.masterInfo.t_da_tra == 0 && this.isValidCustomerGroup3 && this.data.masterInfo.status == "2") {
       this.commonService.showMessage("Cần chọn hình thức thanh toán trước khi lưu phiếu");
       return;
     }
