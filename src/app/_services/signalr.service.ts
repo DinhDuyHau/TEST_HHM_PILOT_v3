@@ -30,6 +30,7 @@ export class SignalRService {
 
   // Lắng nghe message từ 'ReceivePaymentStatus' server
   public onPaymentReceived(callback: (data: any) => void): void {
+    this.connection.off('ReceivePaymentStatus'); // Xóa hết handler cũ (nếu có)
     this.connection.on('ReceivePaymentStatus', callback);
   }
 
