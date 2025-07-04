@@ -58,7 +58,7 @@
             [label]="getLabel('lbl_ma_kh')"
             #ma_kh
             name="ma_kh"
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             [value]="f['ma_kh'].value"
             [invalid]="submitted && f['ma_kh'].errors != null"
             (handleChangeLookup)="handleInputLookupChange($event)"
@@ -84,7 +84,7 @@
             [label]="getLabel('lbl_dia_chi')"
             #dia_chi
             name="dia_chi"
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             (handleEnter)="onEnter($event)"
             name="dia_chi"
             (handleChange)="handleInputChange('dia_chi', $event)"
@@ -111,7 +111,7 @@
             [label]="getLabel('lbl_nguoi_nop')"
             class="flex-1"
             #input2
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             (handleEnter)="onEnter($event)"
             name="ong_ba"
             (handleChange)="handleInputChange('ong_ba', $event)"
@@ -126,7 +126,7 @@
           [label]="getLabel('lbl_ly_do_nop')"
           class="flex-1"
           #input2
-          [disabled]="disabled"
+          [disabled]="isInputDisabled()"
           (handleEnter)="onEnter($event)"
           name="ten_kh"
           (handleChange)="handleInputChange('dien_giai', $event)"
@@ -142,7 +142,7 @@
             [label]="getLabel('lbl_ma_cp')"
             #ma_phi
             name="ma_phi"
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             [readonly]="true"
             [value]="fee.ma_phi"
             (handleChangeLookup)="handleInputLookupChangeFee($event)"
@@ -178,7 +178,7 @@
             (handleChange)="this.ghi_chu = $event"
             name="ghi_chu"
             type="text"
-            [disabled]="disabled"></app-input-custom-v2>
+            [disabled]="isInputDisabled()"></app-input-custom-v2>
         </div>
       </div>
       <div class="flex gap-2">
@@ -195,7 +195,7 @@
             [action]="true"
             (handleAction)="onEnterItem()"
             (handleEnter)="onEnterItem()"
-            [disabled]="disabled"></app-input-custom-v2>
+            [disabled]="isInputDisabled()"></app-input-custom-v2>
         </div>
       </div>
     </div>
@@ -209,7 +209,7 @@
           [gridType]="gridType"
           [buttons]="buttons"
           [actionButtons]="actionButtons"
-          [disabled]="disabled"
+          [disabled]="isInputDisabled()"
           (handlePaging)="onPageChange($event)"
           (handleSelectColumn)="onSelectColumn($event)"
           (handleActionButton)="onHandleActionButton($event)"

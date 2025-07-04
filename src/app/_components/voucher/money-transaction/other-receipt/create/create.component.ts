@@ -178,6 +178,19 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
       this.stockService.setItemFilter([{ name: 'ma_cuahang', value: this.data.masterInfo.ma_cuahang }, { name: 'ma_loai', value: 'HM' }]);
       this.dataSource = new MatTableDataSource<ReceiptDetail>(this.data.details[0].data);
       this.paymentServiceShop.convertPaymentFromVoucher(this.data.details[1].data, this.payment);
+      this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
+        this.statusList = result;
+        // Nếu trạng thái hiện tại là '1' thì loại bỏ trạng thái '0' khỏi statusList
+        if (this.data.masterInfo.status == '1') {
+          this.statusList = this.statusList.filter(x => x.status !== '0');
+        }
+        if (!this.data.masterInfo.status) {
+          this.data.masterInfo.status = this.statusList[0].status;
+          if (this.f) {
+            this.f['status'].setValue(this.data.masterInfo.status);
+          }
+        }
+      });
     }));
   }
   ngOnInit() {
@@ -242,15 +255,6 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
       ]
     };
     if (this.mode == MODE.CREATE) {
-      this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
-        this.statusList = result;
-        if (!this.data.masterInfo.status) {
-          this.data.masterInfo.status = this.statusList[0].status;
-          if (this.f) {
-            this.f['status'].setValue(this.data.masterInfo.status);
-          }
-        }
-      });
       this.ticketApiService.getVoucherNumber('ORTran').subscribe(result => {
         this.data.masterInfo.so_ct = result.result as any;
         this.voucherForm = this.formBuilder.group({
@@ -275,15 +279,6 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
       this.route.queryParams.subscribe((params: any) => {
         if (params['key']) {
           this.initData(params['key']);
-          this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
-            this.statusList = result;
-            if (!this.data.masterInfo.status) {
-              this.data.masterInfo.status = this.statusList[0].status;
-              if (this.f) {
-                this.f['status'].setValue(this.data.masterInfo.status);
-              }
-            }
-          });
         }
       });
     }
@@ -484,7 +479,7 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
       this.fee[item.control] = item.value;
     });
     // nếu có ma_phi thì ẩn: vi_dien_tu, vnpay
-    if(this.fee.ma_phi) {
+    if (this.fee.ma_phi) {
       this.payment_hidden = [
         't_tien_phi',
         'quet_the',
@@ -501,6 +496,10 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
       ];
     }
 
+  }
+
+  isInputDisabled() {
+    return this.disabled || Object.values(this.payment).some(p => p?.selected === true);
   }
 }
 

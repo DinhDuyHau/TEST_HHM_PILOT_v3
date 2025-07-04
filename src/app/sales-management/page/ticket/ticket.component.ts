@@ -758,7 +758,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   btnUpdateClickHandle() {
-    const editableCodes = ['PXN', 'BHA']; // các code được phép edit khi status = '1'
+    const editableCodes = ['PXN', 'BHA', 'PTK', 'PTN', 'PTC', 'PTH']; // các code được phép edit khi status = '1'
 
     if (this.select_item_current && this.select_item_current !== '') {
       this.ticketApiService.getVoucherStatus(this.entityName, this.select_item_current).subscribe((result: any) => {
