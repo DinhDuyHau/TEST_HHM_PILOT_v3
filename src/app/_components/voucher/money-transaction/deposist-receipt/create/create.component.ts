@@ -306,6 +306,16 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
       ]
     };
     if (this.mode == MODE.CREATE) {
+      this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
+        // Loại bỏ trạng thái '1' khỏi list
+        this.statusList = result?.filter(x => x?.status !== '1');
+        if (!this.data.masterInfo.status) {
+          this.data.masterInfo.status = this.statusList[0]?.status;
+          if (this.f) {
+            this.f['status'].setValue(this.data.masterInfo.status);
+          }
+        }
+      });
       this.ticketApiService.getVoucherNumber('PTCTran').subscribe(result => {
         this.data.masterInfo.so_ct = result.result as any;
         this.voucherForm = this.formBuilder.group({
