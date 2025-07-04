@@ -341,7 +341,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
 
   onSubmit() {
     // Check âm tiền nợ
-    if (this.data.masterInfo.t_con_no !== undefined && this.data.masterInfo.t_con_no != 0) {
+    if (this.data.masterInfo.t_con_no !== undefined && this.data.masterInfo.t_con_no != 0 && this.data.masterInfo.status == "2") {
       this.commonService.showMessage('Tiền nợ phải bằng 0.');
       return;
     }

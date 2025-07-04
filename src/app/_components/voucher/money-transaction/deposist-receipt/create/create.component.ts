@@ -402,7 +402,7 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
       this.commonService.showMessage("Cần chọn hình thức thanh toán trước khi lưu phiếu");
       return;
     }
-    if (this.data.masterInfo.t_con_no != 0) {
+    if (this.data.masterInfo.t_con_no != 0 && this.data.masterInfo.status == "2") {
       this.commonService.showMessageByName('lblWarningInvalidMoneyOwed');
       return;
     }
@@ -514,7 +514,7 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
   }
 
   addDeposistType02(ma_vt: string, ten_vt: string, tien_coc: number) {
-    if(Object.values(this.payment).some(p => p?.selected === true)) return;
+    if (Object.values(this.payment).some(p => p?.selected === true)) return;
 
     const line = this.dataSource.data.length + 1;
     const new_data: any = {
