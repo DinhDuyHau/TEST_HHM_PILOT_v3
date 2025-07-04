@@ -233,10 +233,7 @@
         [data]="payment"
         [t_con_no]="data.masterInfo.t_con_no || 0"
         [t_da_tra]="data.masterInfo.t_da_tra || 0"
-        (handleChangeValue)="
-          data.masterInfo.t_con_no = $event.t_con_no;
-          data.masterInfo.t_da_tra = $event.t_da_tra
-        " />
+        (handleChangeValue)="onPaymentChange($event)" />
     </ng-container>
     <div
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-1 lg:gap-x-10 gap-y-1 lg:gap-y-3">

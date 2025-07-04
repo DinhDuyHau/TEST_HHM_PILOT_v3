@@ -211,11 +211,7 @@
         [data]="payment"
         [t_con_no]="data.masterInfo.t_con_no || 0"
         [t_da_tra]="data.masterInfo.t_da_tra || 0"
-        (handleChangeValue)="
-          data.masterInfo.t_con_no = $event.t_con_no;
-          data.masterInfo.t_da_tra = $event.t_da_tra;
-          this.tien = $event.t_da_tra + ''
-        "
+        (handleChangeValue)="onPaymentChange($event)"
         [buttons]="buttonsAfterPayment"
         (handleButton)="onClickButtonInput($event)">
       </payment-tab>

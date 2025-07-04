@@ -571,6 +571,12 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
   }
   //#endregion
 
+  onPaymentChange($event: any) {
+    this.data.masterInfo.t_con_no = $event.t_con_no;
+    this.data.masterInfo.t_da_tra = $event.t_da_tra;
+    this.data.masterInfo.status = $event.status;
+  }
+
   isInputDisabled() {
     return this.disabled || Object.values(this.payment).some(p => p?.selected === true);
   }
