@@ -49,6 +49,7 @@ export class TableCustomComponent implements
   @Input() isLoading = false;
   @Input() isTicket = true;
   @Input() isShowDiscountNG = false;
+  @Input() isShowDiscountCRM = false;
   @Input() isShowCustomeEdit = false;
   @Input() hiddenAddServiceButton = false;
   @Input() hasButton = { create: true, delete: true, view: true, edit: true };
@@ -80,6 +81,7 @@ export class TableCustomComponent implements
   @Output() handleAddDiscountNG = new EventEmitter<{ item: any }>();
   @Output() handleCustomeUpdate = new EventEmitter<{ item: any }>();
   @Output() handleDeleteDiscount09 = new EventEmitter<{ item: any }>();
+  @Output() handleAddDiscountCRM = new EventEmitter<{ item: any }>();
   @ViewChildren('ref') rowRefs: QueryList<ElementRef> | undefined;
   @ViewChild('tableContainer') tableContainer: ElementRef | undefined;
 
@@ -591,6 +593,10 @@ export class TableCustomComponent implements
       [record.type_color_overview || '']: !!record.type_color_overview,
       'selected': record.selectedRow === true
     };
+  }
+
+  onAddDiscountCRM(item: any) {
+    this.handleAddDiscountCRM.emit({ item });
   }
 
 }

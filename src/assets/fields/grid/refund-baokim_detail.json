@@ -13,7 +13,7 @@
   },
   {
     "name": "tien_nt",
-    "title": "Tiền",
+    "title": "Tiền giao dịch",
     "width": 120,
     "type": "number",
     "dataFormatString": "normalPrice",
@@ -22,7 +22,7 @@
   {
     "name": "s4",
     "title": "Tiền phí",
-    "width": 120,
+    "width": 100,
     "type": "number",
     "dataFormatString": "normalPrice",
     "align": "right"
@@ -30,7 +30,7 @@
   {
     "name": "s5",
     "title": "Thuế phí",
-    "width": 120,
+    "width": 100,
     "type": "number",
     "dataFormatString": "normalPrice",
     "align": "right"

@@ -1197,8 +1197,8 @@
             "dataType": "number"
         },
         {
-            "name": "dien_giai",
-            "title": "Diễn giải",
+            "name": "dia_chi",
+            "title": "Ghi chú",
             "width": "300px"
         },
         {

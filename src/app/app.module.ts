@@ -43,6 +43,9 @@ import { SelectSearchComponent } from './sales-management/component/form-control
 import { PromotionSelectModule } from './sales-management/component/promotion/promotion-select.module';
 
 import { SearchV2DialogModule } from './sales-management/component/search-v2/serach-v2-dialog.module';
+import { CrmDialogComponent } from './sales-management/component/crm/crm-dialog/crm-dialog.component';
+import { CrmDialogModule } from './sales-management/component/crm/crm-dialog/crm-dialog.module';
+import { CRMSelectModule } from './sales-management/component/crm/crm-select/crm-select.module';
 
 
 @NgModule({
@@ -78,6 +81,8 @@ import { SearchV2DialogModule } from './sales-management/component/search-v2/ser
     SettingChangeModule,
     PromotionSelectModule,
     SearchV2DialogModule,
+    CrmDialogModule,
+    CRMSelectModule
   ],
   declarations: [AppComponent, LoginComponent, AppLayoutComponent, LookupV2Component, Home2Component,
     ScanComponent,

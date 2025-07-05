@@ -3032,5 +3032,43 @@
             "align": "right",
             "dataType": "number"
         }
+    ],
+    "CRM_SELECT": [
+        {
+            "name": "ma_ctr",
+            "title": "Mã chương trình"
+        },
+        {
+            "name": "ten_ctr",
+            "title": "Tên chương trình"
+        },
+        {
+            "name": "ngay_hl",
+            "title": "Ngày bắt đầu",
+            "format": "datetimeFormat",
+            "dataType": "date",
+            "align": "center"
+        },
+        {
+            "name": "ngay_hl2",
+            "title": "Ngày kết thúc",
+            "format": "datetimeFormat",
+            "dataType": "date",
+            "align": "center"
+        },
+        {
+            "name": "tl_giam",
+            "title": "Tỉ lệ giảm(%)",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
+            "align": "right"
+        },
+        {
+            "name": "tien_giam",
+            "title": "Tiền giảm",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
+            "align": "right"
+        }
     ]
 }
