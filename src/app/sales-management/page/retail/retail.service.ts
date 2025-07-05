@@ -389,7 +389,7 @@ export class RetailService {
         this.merchandiseService.removeMerchandise(merchandise, this.ticket.merchandise);
         const discounts = this.discountService.getDiscountsOfMerchandise(merchandise.ma_imei, this.ticket.discount);
         this.discountService.removeDiscount(discounts, this.ticket.discount);
-        this.ticket.voucherCode = [];
+        this.voucherCodeService.resetVoucherCode(this.ticket);
         this.guanranteeService.removeGuarantee(merchandise.ma_imei, this.ticket);
         this.merchandiseService.removePromotionMerchandiseByOrderImei(merchandise.ma_imei, this.ticket.merchandise);
         this.discountService.resetDiscount(this.ticket.discount, false, merchandise, false, true);

@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { VoucherCode, VoucherCodeRequest } from "@app/sales-management/model/ticket/common-model/voucher-code.model";
 import { CommonService } from "./common.service";
+import { DISCOUNT_TYPE } from "@app/sales-management/model/ticket/common-model/discount.model";
 
 @Injectable({
     providedIn: 'root'
@@ -83,7 +84,22 @@ export class VoucherCodeService {
     }
 
     resetVoucherCode(ticket: any) {
-        ticket.voucherCode = [];
+        // Only remove voucherCode items that match the voucher code discount type and by ma_voucher, ma_vt, ma_imei
+        if (!Array.isArray(ticket.voucherCode) || !Array.isArray(ticket.discount)) return;
+
+        // Collect all voucher discounts
+        const voucherDiscounts = ticket.discount.filter((x: any) => x.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE);
+        if (!voucherDiscounts.length) return;
+
+        // Remove only matching voucherCode items
+        ticket.voucherCode = ticket.voucherCode.filter((vc: any) => {
+            // If any voucherDiscount matches all 3 keys, remove it
+            return !voucherDiscounts.some((d: any) =>
+                d.ma_voucher === vc.ma_voucher &&
+                d.ma_vt === vc.ma_vt &&
+                d.ma_imei === vc.ma_imei
+            );
+        });
     }
 
     validateVoucherResponse(response: any, skus: string[], ticket: any) {

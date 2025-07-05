@@ -39,6 +39,7 @@ import { VoucherCodeService } from '../common/voucher-code.service';
 import { VoucherCode } from '@app/sales-management/model/ticket/common-model/base-entity.model';
 import { DiscountApiService } from '@app/sales-management/api/discount-api.service';
 import { InternalSaleDetailService } from '@app/_components/voucher/inventory/internal-sale/create/internal-sale-detail.service';
+import { CrmDialogComponent } from '@app/sales-management/component/crm/crm-dialog/crm-dialog.component';
 
 const {
   DISCOUNT_LIST,
@@ -756,8 +757,11 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
 
   onRemoveDiscount(event: { item: Discount }) {
-    if (this.ticket.voucherCode.length > 0 && event.item.loai_ck != DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE) {
-      this.commonService.showMessage('Chỉ được phép xóa chiết khấu mã giảm giá voucher website');
+    const isVoucherDiscount = event.item.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE;
+    const isCRM = event.item.loai_ck === DISCOUNT_TYPE.DISCOUNT_CRM;
+
+    if (this.ticket.voucherCode.length > 0 && !isVoucherDiscount && !isCRM) {
+      this.commonService.showMessage('Chỉ được phép xóa chiết khấu mã giảm giá voucher website và chiết khấu CRM');
       return;
     }
 
@@ -769,11 +773,19 @@ export class RetailComponent implements OnInit, AfterViewInit {
       this.commonService.showMessage('Không thể xóa chiết khấu hạng khách hàng');
       return;
     }
-    let isVoucherDiscount = event.item.loai_ck == DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE;
     if (isVoucherDiscount) {
       this.ticket.discount = this.ticket.discount.filter(
         x => !(x.ma_ck.trim().toLowerCase() === event.item.ma_ck.trim().toLowerCase() &&
           x.imei_hang_mua.trim().toLowerCase() === event.item.imei_hang_mua.trim().toLowerCase())
+      );
+      this.ticket.voucherCode = this.ticket.voucherCode.filter(
+        (i) => i.ma_voucher.trim().toLowerCase() !== event.item.imei_hang_mua.trim().toLowerCase()
+      );
+    }
+    if (isCRM) {
+      this.ticket.discount = this.ticket.discount.filter(
+        x => !(x.ma_ck.trim().toLowerCase() === event.item.ma_ck.trim().toLowerCase() &&
+          x.ma_imei.trim().toLowerCase() === event.item.ma_imei.trim().toLowerCase())
       );
       this.ticket.voucherCode = this.ticket.voucherCode.filter(
         (i) => i.ma_voucher.trim().toLowerCase() !== event.item.imei_hang_mua.trim().toLowerCase()
@@ -802,6 +814,105 @@ export class RetailComponent implements OnInit, AfterViewInit {
     // this.retailService.updateDiscount(this.ticket.discount.filter(x => x.ma_ck !== event.item.ma_ck));
     // this.retailService.removeDiscount([event.item]);
     // this.retailService.calcMoney();
+  }
+
+  openCalcDiscountCRMDialog(event: { item: Merchandise }) {
+    let dateStr = this.ticket.masterInfo.ngay_ct;
+    if (!dateStr.endsWith('Z') && !dateStr.includes('+') && !dateStr.includes('-')) {
+      dateStr += 'Z'; // Chỉ thêm nếu không có thông tin múi giờ
+    }
+    let dateObj = new Date(dateStr);
+    const relatedDiscounts = this.ticket.discount.filter(d => d.ma_imei === event.item.ma_imei);
+    const matchedVoucher = relatedDiscounts
+      .map(discount => this.ticket.voucherCode.find(v => v.ma_voucher === discount.imei_hang_mua))
+      .find(voucher => !!voucher); // Lấy voucher đầu tiên tìm thấy
+
+    this.commonService.openDialog(CrmDialogComponent, { currentItem: event.item, voucherCode: matchedVoucher, ngay_ct: dateObj })
+      .afterClosed().subscribe(res => {
+        if (res) {
+          // thêm vào tab chiết khấu
+          const discount = {
+            ma_ck: res.ma_ck || '',
+            ma_imei: event.item.ma_imei,
+            ma_vt: event.item.ma_vt,
+            loai_ck: DISCOUNT_TYPE.DISCOUNT_CRM,
+            ten_ck: res.ten_ck,
+            ten_loai: res.ten_loai_ck || '',
+            imei_hang_mua: res.crmCode || '',
+            ngay_bd: res.ngay_hl || '',
+            ngay_kt: res.ngay_hl2 || '',
+            tien_ck: res.tien_ck || 0,
+            tien_ck_nt: res.tien_ck || 0,
+            tien_qd: 0
+          } as Discount;
+
+          // thêm vào tab mã giảm giá
+          const voucherCode = {
+            ma_voucher: res.crmCode,
+            ma_vt: event.item.ma_vt,
+            ma_imei: event.item.ma_imei,
+            tien_ck: res.tien_ck,
+            tl_ck: 0,
+            ma_td1: res.ma_ctr,
+            ma_ck: res.ma_ck || '',
+          }
+
+          this.insertDiscount(discount);
+          this.insertVoucherCode(voucherCode);
+
+          // tính lại tiền
+          this.retailService.calcMoney();
+        } else {
+          // xử lý xóa voucher crm khỏi discount & voucherCode nếu ko có res
+          this.removeCRMDiscountAndVoucher(event.item.ma_imei);
+          this.retailService.calcMoney();
+        }
+      });
+  }
+
+  insertDiscount(discount: Discount): void {
+    const index = this.ticket.discount.findIndex(d =>
+      d.ma_imei === discount.ma_imei &&
+      d.loai_ck === discount.loai_ck
+    );
+
+    if (index !== -1) {
+      this.ticket.discount[index] = discount;
+    } else {
+      this.discountService.addNew([discount], this.ticket.discount);
+    }
+  }
+
+  insertVoucherCode(voucherCode: any): void {
+    const index = this.ticket.voucherCode.findIndex(v =>
+      v.ma_imei === voucherCode.ma_imei &&
+      v.ma_ck === voucherCode.ma_ck
+    );
+
+    if (index !== -1) {
+      this.ticket.voucherCode[index] = voucherCode;
+    } else {
+      this.voucherCodeService.addNew(voucherCode, this.ticket.voucherCode, VoucherCode);
+    }
+  }
+
+  removeCRMDiscountAndVoucher(ma_imei: string): void {
+    // Xóa dòng chiết khấu CRM
+    this.ticket.discount = this.ticket.discount.filter(d =>
+      !(d.ma_imei === ma_imei && d.loai_ck === DISCOUNT_TYPE.DISCOUNT_CRM)
+    );
+
+    // Xóa voucherCode tương ứng với discount CRM đã bị xóa
+    // logic: giữ lại voucherCode nếu còn discount CRM khớp, loại bỏ nếu không còn.
+    this.ticket.voucherCode = this.ticket.voucherCode.filter(v =>
+      this.ticket.discount.some(d =>
+        d.loai_ck === DISCOUNT_TYPE.DISCOUNT_CRM &&
+        d.ma_ck === v.ma_ck &&
+        d.imei_hang_mua === v.ma_voucher &&
+        d.ma_imei === v.ma_imei &&
+        d.ma_vt == v.ma_vt
+      )
+    );
   }
   // #endregion discount
 
@@ -1447,7 +1558,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
         });
       */
 
-      // comment code phía trên và sửa lại như sau: 
+      // comment code phía trên và sửa lại như sau:
       // - Mặc định check phải nhập đủ thông tin hóa đơn điện tử mới cho lưu phiếu với status "hoàn thành"
       // - Hoàn thành phiếu sẽ chưa xử lý lập nháp hđ đt ngay, người dùng sẽ chủ động quay lại mở phiếu và click button "lập nháp HĐĐT"
       const { hd_mst, hd_email, hd_ten_kh, hd_dia_chi } = this.ticket.masterInfo;
@@ -1503,6 +1614,68 @@ export class RetailComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  //#region Readonly
+  isGeneralReadonly(): boolean {
+    if (this.readonly) return true;
+
+    const voucherList = this.ticket?.voucherCode ?? [];
+    const discountList = this.ticket?.discount ?? [];
+
+    for (const voucher of voucherList) {
+      const matchedDiscount = discountList.find(discount =>
+        discount.imei_hang_mua === voucher.ma_voucher &&
+        discount.loai_ck === '10'
+      );
+
+      if (matchedDiscount && voucher.ma_voucher?.length > 0) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  isReadonlyOnTypeDiscount10(): boolean {
+    const voucherList = this.ticket?.voucherCode ?? [];
+    const discountList = this.ticket?.discount ?? [];
+
+    for (const voucher of voucherList) {
+      const matchedDiscount = discountList.find(discount =>
+        discount.imei_hang_mua === voucher.ma_voucher &&
+        discount.loai_ck === '10'
+      );
+
+      if (matchedDiscount && voucher.ma_voucher?.length > 0) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  isStatusSelectDisabled(): boolean {
+    if (this.readonly || this.disableSelectStatus) return true;
+
+    const voucherList = this.ticket?.voucherCode ?? [];
+    const discountList = this.ticket?.discount ?? [];
+
+    for (const voucher of voucherList) {
+      const matchedDiscount = discountList.find(discount =>
+        discount.imei_hang_mua === voucher.ma_voucher &&
+        discount.loai_ck === '10'
+      );
+
+      if (matchedDiscount && voucher.ma_voucher?.length > 0) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  //#region
+
 }
 
 

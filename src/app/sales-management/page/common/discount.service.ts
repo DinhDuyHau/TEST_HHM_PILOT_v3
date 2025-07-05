@@ -137,7 +137,9 @@ export class DiscountService {
             }
             else {
                 //Thực hiện gọi tính ck từ button trên form master => giữ lại chiết khấu ngoại giao, tính lại các ck khác
-                let discount_keep_adv = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER);
+                let discount_keep_adv = discounts.filter(e => e.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER ||
+                    e.loai_ck === DISCOUNT_TYPE.DISCOUNT_CRM
+                );
 
                 //Nếu thực hiện xóa dòng trong grid hàng hóa => loại bỏ ck ngoại giao tương ứng với imei đang xóa
                 if (isRemoveMerchandise && currentRowitem && currentRowitem.ma_imei) {
@@ -407,6 +409,7 @@ export class DiscountService {
         const discountForService = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.SERVICE_DISCOUNT);
         const discountForRankCustomer = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_CUSTOMER_RANK);
         const discountForVoucherCode = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_VOUCHER_CODE);
+        const discountForCRM = src.filter(discount => discount.loai_ck === DISCOUNT_TYPE.DISCOUNT_CRM);
 
         const giftDiscountNew = this.handleConvertDiscountFromVoucher(giftDiscount, GiveMerchandiseDiscountDetail);
         const discountForCustomerNew = this.handleConvertDiscountFromVoucher(discountForCustomer, DiscountForCustomerDetail);
@@ -417,6 +420,7 @@ export class DiscountService {
         const discountForServiceNew = this.handleConvertDiscountFromVoucher(discountForService, DiscountForMerchandiseDetail);
         const discountForRankCustomerNew = this.handleConvertDiscountFromVoucher(discountForRankCustomer, DiscountForMerchandiseDetail);
         const discountForVoucherCodeNew = this.handleConvertDiscountFromVoucher(discountForVoucherCode, DiscountForMerchandiseDetail);
+        const discountForCRMNew = this.handleConvertDiscountFromVoucher(discountForCRM, DiscountForMerchandiseDetail);
 
         if (giftDiscountNew) {
             des.push(...giftDiscountNew);
@@ -444,6 +448,9 @@ export class DiscountService {
         }
         if (discountForVoucherCodeNew) {
             des.push(...discountForVoucherCodeNew);
+        }
+        if (discountForCRMNew) {
+            des.push(...discountForCRMNew);
         }
         des.map((e, i) => { e.line_nbr = i; });
     }
