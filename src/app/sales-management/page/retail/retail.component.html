@@ -399,6 +399,15 @@
           <!-- <div class="btn-responsive btn-in-file">
             <span>{{ getLabel('btnPrint') }}</span>
           </div> -->
+          <button
+            class="btn-responsive btn-cancel"
+            (click)="handleGetPDFInvoiceDraft()"
+            [disabled]="isGetPdfInvoice"
+            *ngIf="this.ticket.masterInfo.status == '0'"
+          >
+            <span *ngIf="isGetPdfInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isGetPdfInvoice">Tải PDF HĐĐT Nháp</span>
+          </button>
 
           <button
             class="btn-responsive btn-cancel"

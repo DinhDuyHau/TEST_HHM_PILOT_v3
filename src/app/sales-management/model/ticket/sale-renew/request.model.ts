@@ -71,6 +71,7 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     hd_nguoi_mua = '';
     hd_loai_giay_to = '';
     hd_so_giay_to = '';
+    xtag = ''; // hiện tên người mua trên HĐĐT hay ko, 1: có 0: ko
 
     constructor(obj?: any) {
         super();

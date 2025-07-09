@@ -34,6 +34,7 @@ export class MasterInfo extends BaseMasterInfo {
   dien_giai = '';
   fnote3 = ''; // xác định có lập hddt ko
   fnote2 = ''; // đối tượng hóa đơn điện tử
+  xtag = ''; // hiện tên người mua trên HĐĐT hay ko, 1: có 0: ko
 
   constructor(obj?: any) {
     super();

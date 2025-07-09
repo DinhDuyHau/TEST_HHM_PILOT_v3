@@ -44,12 +44,23 @@
     [value]="data.hd_dia_chi"
     [disabled]="disabled"
     (handleChangeValue)="data.hd_dia_chi = $event"></form-input-custom>
-  <form-input-custom
-    class="flex-1"
-    [label]="'Tên người mua'"
-    [value]="data.hd_nguoi_mua"
-    [disabled]="true"
-    (handleChangeValue)="handleChange($event, 'hd_nguoi_mua')"></form-input-custom>
+  <div>
+    <form-input-custom
+      class="flex-1"
+      [label]="'Tên người mua'"
+      [value]="data.hd_nguoi_mua"
+      [disabled]="true"
+      (handleChangeValue)="handleChange($event, 'hd_nguoi_mua')"></form-input-custom>
+    <app-checkbox
+      *ngIf="data.fnote2 == '1'"
+      [id]="'xtag'"
+      [name]="'xtag'"
+      [label]="'Không hiện tên người mua trên HĐĐT'"
+      [value]="data.xtag == '1'"
+      [disabled]="disabled"
+      (handleChangeValue)="handleCheck($event)">
+    </app-checkbox>
+  </div>
   <select-custom
     class="flex-1"
     label="Loại giấy tờ"

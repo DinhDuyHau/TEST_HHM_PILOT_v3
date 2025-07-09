@@ -66,8 +66,22 @@ export class EInvoiceInfoComponent implements OnChanges {
     }
 
     if(fileds == 'hd_so_giay_to' && $event.length > 100) {
-      this.commonService.showMessageByName('invoice_buyerIdNo_info');
-      return;
+      if ($event.length > 100) {
+        this.commonService.showMessageByName('invoice_buyerIdNo_info');
+        return;
+      }
+
+      const idType = this.data['hd_loai_giay_to'];
+
+      if (idType == '1' && $event.length < 12) {
+        this.commonService.showMessageByName('invoice_buyerIdNo_min12_info'); // CCCD phải đủ 12 ký tự
+        return;
+      }
+
+      if (idType == '3' && $event.length > 20) {
+        this.commonService.showMessageByName('invoice_buyerIdNo_max20_info'); // Hộ chiếu tối đa 20 ký tự
+        return;
+      }
     }
 
     this.data[fileds] = $event;
@@ -79,10 +93,15 @@ export class EInvoiceInfoComponent implements OnChanges {
       this.data.hd_ten_kh = this.data.hd_ten_kh ? this.data.hd_ten_kh : this.data.ten_kh;
       this.data.hd_dia_chi = this.data.hd_dia_chi ? this.data.hd_dia_chi : this.data.dia_chi;
     } else {
+      this.data.xtag = '0';
       this.data.hd_ten_kh = '';
       this.data.hd_dia_chi = '';
     }
 
     this.data.fnote2 = $event;
+  }
+
+  handleCheck(checked: boolean) {
+    this.data.xtag = checked ? '1' : '0';
   }
 }

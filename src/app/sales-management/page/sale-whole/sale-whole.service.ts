@@ -257,6 +257,7 @@ export class SaleWholeService {
 
                 // hddt
                 this.ticket.masterInfo.hd_nguoi_mua = customer.ten_kh || '';
+                this.ticket.masterInfo.hd_dia_chi = customer.dia_chi || '';
 
                 //Thông tin khách hàng trên hóa đơn điện tử ==> Phần này sẽ phải call đến api lấy mã số thuế
                 if (customer.ma_kh) {

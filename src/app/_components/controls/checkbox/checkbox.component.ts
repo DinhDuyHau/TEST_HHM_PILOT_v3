@@ -9,6 +9,7 @@ export class CheckboxComponent {
   @Input() value: boolean = true;
   @Input() name!: string;
   @Input() label!: string;
+  @Input() disabled!: boolean;
 
   @Output() handleChangeValue = new EventEmitter<any>();
 
