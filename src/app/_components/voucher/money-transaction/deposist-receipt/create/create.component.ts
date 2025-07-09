@@ -506,7 +506,7 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
       t_tien_nt += item.tien_nt || 0;
     });
     this.data.masterInfo = { ...this.data.masterInfo, t_tien_nt: t_tien_nt, t_tt_nt: t_tien_nt, t_tien: t_tien_nt, t_tt: t_tien_nt };
-    this.data.masterInfo.t_con_no = this.data.masterInfo.t_tt_nt! - this.data.masterInfo.t_da_tra!;
+    this.data.masterInfo.t_con_no = this.data.masterInfo.t_tt_nt! - (this.data.masterInfo.t_da_tra || 0);
   }
 
   getLabel(label: string) {
