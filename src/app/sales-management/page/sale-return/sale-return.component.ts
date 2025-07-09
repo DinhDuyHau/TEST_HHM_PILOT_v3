@@ -734,8 +734,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
 
   // #region EInvoice
   handleCreateDraftInvoice() {
-    // if (this.ticket.masterInfo.status === '0') {
-      // bỏ tạm check sau phải thêm lại
+    if (this.ticket.masterInfo.status === '0') {
       const title = 'Có lập HĐĐT (nháp) cho phiếu xuất bán hàng này hay không?';
 
       this.commonService.openDialog(DialogConfirmComponent, { title: title })
@@ -744,7 +743,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
             this.onCreateDraft();
           }
         });
-    // }
+    }
   }
 
   handleGetInvoice() {
