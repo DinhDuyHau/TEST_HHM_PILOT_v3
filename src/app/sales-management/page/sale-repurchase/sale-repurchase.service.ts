@@ -138,7 +138,9 @@ export class SaleRepurchaseService {
         return this.imeiApiService.getImeisState(imeis);
     }
     getImeisStateAndItem(imeis: string[]) {
-        return this.imeiApiService.getImeisStateAndItem(imeis);
+        // return this.imeiApiService.getImeisStateAndItem(imeis);
+        return this.imeiApiService.getImeisStateAndItemNoEncode(imeis);
+
     }
     getMerchandiseInfo(ma_vt: string) {
         return this.merchandiseApiService.getOneById(ma_vt);

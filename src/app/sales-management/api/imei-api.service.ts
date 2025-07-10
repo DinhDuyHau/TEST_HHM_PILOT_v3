@@ -86,6 +86,10 @@ export class ImeiApiService extends ApiService {
         return this.post<ResultNoPaging<ImeiInfo>>(GET_IMEI_STATE_AND_ITEM_URL, imeis);
     }
 
+    getImeisStateAndItemNoEncode(imeis: string[]): Observable<ResultNoPaging<ImeiInfo>> {
+        return this.post<ResultNoPaging<ImeiInfo>>(GET_IMEI_STATE_AND_ITEM_URL, imeis);
+    }
+
 
     getSoldInfo(ma_imei: string, ma_cuahang: string, ma_ct = '', rate = -1, tien_giam = 0, loai_tra_lai = '', tra_lai_cod = false): Observable<ResultNoPaging<Imei>> {
         ma_imei = encodeURIComponent(ma_imei);
