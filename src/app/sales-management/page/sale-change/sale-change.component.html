@@ -139,7 +139,8 @@
         <table-custom
           [readonly]="readonly"
           [dataSource]="ticket.service"
-          [columns]="serviceColumns" />
+          [columns]="serviceColumns"
+          (handleDelete)="onRemoveServiceChange($event)" />
       </tab-custom>
       <!-- <tab-custom label="Bảo hành" class="w-100">
         <table-custom

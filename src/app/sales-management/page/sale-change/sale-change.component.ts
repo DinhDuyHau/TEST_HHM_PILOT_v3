@@ -559,6 +559,11 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  onRemoveServiceChange($event: any) {
+    const itemRemove = $event.item;
+    this.ticket.service = this.ticket.service.filter(item => item.ma_dv !== itemRemove.ma_dv);
+  }
 }
 
 
