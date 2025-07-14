@@ -345,11 +345,7 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
                         this.isSaving = false;
                         this.isDisabled = false;
                         if (result.success) {
-                            if (result.message) {
-                                this.commonService.showMessageByName(result.message || Language.content.Successful_Create);
-                            } else {
-                                this.commonService.showMessage(Language.content.Successful_Create);
-                            }
+                            this.commonService.showMessageByName(result.message || Language.content.Successful_Create);
                             this.router.navigate(['sales/service']);
                         } else {
                             this.commonService.handleResponseErrorVoucher(result, 'sales/service');

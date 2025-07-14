@@ -413,11 +413,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
           this.isDisabled = false;
           if (result.success) {
             // this.commonService.clearImeiStorage();
-            if (result.message) {
-              this.commonService.showMessageByName(result.message || Language.content.Successful_Create);
-            } else {
-              this.commonService.showMessage(Language.content.Successful_Create);
-            }
+            this.commonService.showMessageByName(result.message || Language.content.Successful_Create);
             this.router.navigate(['sales/whole']);
           } else {
             this.commonService.handleResponseErrorVoucher(result, 'sales/whole');
