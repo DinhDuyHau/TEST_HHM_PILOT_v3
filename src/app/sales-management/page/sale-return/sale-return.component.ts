@@ -512,7 +512,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
             this.isSaving = false;
             this.isDisabled = false;
             if (result.success) {
-              this.commonService.showMessage(Language.content.Update_Completed);
+              this.commonService.showMessageByName(result.message || Language.content.Update_Completed);
               this.router.navigate(['sales/return']);
             } else {
               this.commonService.handleResponseErrorVoucher(result, 'sales/return');

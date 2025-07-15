@@ -1222,7 +1222,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
             this.isDisabled = false;
             if (result.success) {
               // this.commonService.clearImeiStorage();
-              this.commonService.showMessage(Language.content.Update_Completed);
+              this.commonService.showMessageByName(result.message || Language.content.Update_Completed);
               // if (this.ticket.masterInfo.status == '2') {
               //   this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
               //     if (res.success) {
