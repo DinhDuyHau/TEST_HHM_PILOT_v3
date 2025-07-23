@@ -58,7 +58,7 @@
             [label]="getLabel('lbl_ma_kh')"
             #ma_kh
             name="ma_kh"
-            [disabled]="disabled || this.data.details[0].data.length > 0"
+            [disabled]="isInputDisabledCustomer()"
             [value]="f['ma_kh'].value"
             [invalid]="submitted && f['ma_kh'].errors != null"
             (handleChangeLookup)="handleInputLookupChange($event)"
@@ -84,7 +84,7 @@
             [label]="getLabel('lbl_dia_chi')"
             #dia_chi
             name="dia_chi"
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             (handleEnter)="onEnter($event)"
             name="dia_chi"
             (handleChange)="handleInputChange('dia_chi', $event)"
@@ -111,7 +111,7 @@
             [label]="getLabel('lbl_nguoi_nop')"
             class="flex-1"
             #input2
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             (handleEnter)="onEnter($event)"
             name="ong_ba"
             (handleChange)="handleInputChange('ong_ba', $event)"
@@ -126,7 +126,7 @@
           [label]="getLabel('lbl_ly_do_nop')"
           class="flex-1"
           #input2
-          [disabled]="disabled"
+          [disabled]="isInputDisabled()"
           (handleEnter)="onEnter($event)"
           name="ten_kh"
           (handleChange)="handleInputChange('dien_giai', $event)"
@@ -142,7 +142,7 @@
             [label]="getLabel('lbl_ma_loai_thu_ho')"
             #ma_loai_thu_ho
             name="ma_td"
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             [value]="this.ma_td"
             (handleChangeLookup)="handleInputLookupChange($event)"
             (handleEnter)="onEnter($event)"
@@ -161,7 +161,7 @@
             #ten_loai_thu_ho
             [value]="this.ten_td"
             name="ten_td"
-            [disabled]="true || disabled"></app-input-custom-v2>
+            [disabled]="true || isInputDisabled()"></app-input-custom-v2>
         </div>
         <div class="flex-1 hidden">
           <app-input-custom-v2
@@ -170,7 +170,7 @@
             #sd_imei
             [value]="this.sd_imei_yn"
             name="sd_imei_yn"
-            [disabled]="true || disabled"></app-input-custom-v2>
+            [disabled]="true || isInputDisabled()"></app-input-custom-v2>
         </div>
       </div>
       <div class="flex gap-2">
@@ -182,12 +182,12 @@
             name="ma_td2"
             [value]="ma_td2_thuho"
             [filter]="[{ name: 'nh_kh9', operator: '=', value: 'NGKH86' }]"
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             (handleChangeLookup)="handleInputChange_Ma_kh_thuho($event)"
             (handleEnter)="onEnter($event)"
             (handleChangeResponse)="onChangeResponse($event)"
             [control]="customer_dvth_service"
-            [lookup]="true || disabled"
+            [lookup]="true || isInputDisabled()"
             [reference]="[ma_kh_thu_ho]"></app-input-custom-v2>
         </div>
         <div class="flex-1">
@@ -197,7 +197,7 @@
             [value]="ten_kh_thuho"
             #ten_kh_thu_ho
             name="ten_kh"
-            [disabled]="true || disabled"></app-input-custom-v2>
+            [disabled]="true || isInputDisabled()"></app-input-custom-v2>
         </div>
       </div>
       <div class="flex gap-2" *ngIf="sd_imei_yn">
@@ -207,7 +207,7 @@
             [label]="getLabel('lbl_imei')"
             name="imei"
             [value]="imei"
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             [codeScanner]="true"
             type="text"
             (handleChange)="this.imei = $event"
@@ -224,7 +224,7 @@
             (handleChange)="this.ghi_chu = $event"
             name="ghi_chu"
             type="text"
-            [disabled]="disabled"></app-input-custom-v2>
+            [disabled]="isInputDisabled()"></app-input-custom-v2>
         </div>
       </div>
       <div class="flex gap-2">
@@ -234,12 +234,12 @@
             [label]="'Mã DV thu hộ'"
             #ma_dv_thu_ho
             name="ma_dvth"
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             [value]="this.ma_dvth"
             (handleChangeLookup)="handleInputLookupChange($event)"
             (handleEnter)="onEnter($event)"
             [control]="dvthuhoService"
-            [lookup]="true || disabled"
+            [lookup]="true || isInputDisabled()"
             [reference]="[ma_dv_thu_ho, ten_dv_thu_ho]"></app-input-custom-v2>
         </div>
         <div class="flex-1">
@@ -249,7 +249,7 @@
             #ten_dv_thu_ho
             [value]="this.ten_dvth"
             name="ten_dvth"
-            [disabled]="true || disabled"></app-input-custom-v2>
+            [disabled]="true || isInputDisabled()"></app-input-custom-v2>
         </div>
       </div>
       <div class="flex gap-2">
@@ -266,7 +266,7 @@
             [action]="true"
             (handleAction)="onEnterItem()"
             (handleEnter)="onEnterItem()"
-            [disabled]="disabled"></app-input-custom-v2>
+            [disabled]="isInputDisabled()"></app-input-custom-v2>
         </div>
       </div>
     </div>
@@ -280,7 +280,7 @@
           [gridType]="gridType"
           [buttons]="buttons"
           [actionButtons]="actionButtons"
-          [disabled]="disabled"
+          [disabled]="isInputDisabled()"
           (handlePaging)="onPageChange($event)"
           (handleSelectColumn)="onSelectColumn($event)"
           (handleActionButton)="onHandleActionButton($event)"
@@ -315,6 +315,9 @@
 
     <ng-container *ngIf="this.isValidCustomerGroup3">
       <payment-tab
+        [status]="data.masterInfo.status || ''"
+        [so_ct]="data.masterInfo.so_ct || ''"
+        [stt_rec]="data.masterInfo.stt_rec || ''"
         [action]="action"
         [shop]="shop"
         [invalid]="invalid"
@@ -333,10 +336,7 @@
         [data]="payment"
         [t_con_no]="data.masterInfo.t_con_no || 0"
         [t_da_tra]="data.masterInfo.t_da_tra || 0"
-        (handleChangeValue)="
-          data.masterInfo.t_con_no = $event.t_con_no;
-          data.masterInfo.t_da_tra = $event.t_da_tra
-        " />
+        (handleChangeValue)="onPaymentChange($event)" />
     </ng-container>
 
 

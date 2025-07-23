@@ -20,6 +20,8 @@ import { formatDate } from '@angular/common';
 import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AuthenticationService } from '@app/_services';
+import { PaymentDynamicService } from '@app/_services/payment-dynamic.service';
+import { SignalRService } from '@app/_services/signalr.service';
 
 @Component({
   selector: 'app-payment-tab-dialog',
@@ -82,6 +84,9 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   reloadDepositOnInit = false;
   shop: string = '';
   voucherCode = '';
+  isLoadingQR = false;
+  status = '';
+  currentSlideQR = 0;
 
   constructor(
     public dialogRef: MatDialogRef<PaymentTabDialogComponent>,
@@ -105,7 +110,10 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       reloadDepositOnInit: boolean,
       action: string,
       shop: string,
-      voucherCode: string
+      voucherCode: string,
+      so_ct: string,
+      stt_rec: string,
+      status: string
     },
     private dialog: MatDialog,
     private commonService: CommonService,
@@ -114,7 +122,9 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     private viewDiscountProgramService: ViewDiscountProgramService,
     private paymentApiService: PaymentApiService,
     private customerApiService: CustomerApiService,
-    private authenticateService: AuthenticationService
+    private authenticateService: AuthenticationService,
+    private paymentDynamicService: PaymentDynamicService,
+    private signalRService: SignalRService
   ) {
     this.data = dataPayment.data;
     this.t_tong_tien = dataPayment.t_tong_tien;
@@ -135,6 +145,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     this.ngay_ct = dataPayment.ngay_ct;
     this.reloadDepositOnInit = dataPayment.reloadDepositOnInit;
     this.voucherCode = this.dataPayment.voucherCode;
+    this.status = dataPayment.status;
 
     if (this.isPaymentHH) {
       if (!this.data.chuyen_khoan.selected) {
@@ -164,6 +175,9 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
 
   ngOnInit(): void {
     // console.log(this.data);
+
+    // mở kết nối signalR
+    this.signalRService.startConnection();
 
     // mặc định thông tin thanh toán hình thức quẹt thẻ trả góp bidv
     // this.data.quet_the_tra_gop_bidv.ma_may_pos = '21601736';
@@ -292,6 +306,11 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       this.data.voucher_doi_tac.ma_ctr = '';
       this.data.voucher_doi_tac.ma_chuan_chi = '';
     }
+    if (!this.data.mb_qr.selected) {
+      this.data.mb_qr.tien = 0;
+      this.data.mb_qr.money_create_qr = 0;
+      this.data.mb_qr.detail = [];
+    }
     // END
 
     if (this.data.sd_diem.diem_qd >= 0 && this.he_so_qd) {
@@ -377,6 +396,11 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       //Voucher đối tác
       if (this.data.voucher_doi_tac.selected && this.data.voucher_doi_tac.tien) {
         this.t_con_no -= this.data.voucher_doi_tac.tien;
+      }
+
+      //Chuyển khoản QR MB
+      if (this.data.mb_qr.selected && this.data.mb_qr.tien) {
+        this.t_con_no -= this.data.mb_qr.tien;
       }
 
       //Tổng tiền phí
@@ -836,6 +860,14 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       return true;
     }
 
+    // kiểm tra qr mb
+    const isSelectedMBQR = this.data.mb_qr.selected;
+    const hasPending = this.data.mb_qr.detail.some((item: any) => item.status === 'pending');
+    if (isSelectedMBQR && hasPending) {
+      this.commonService.showMessage("Có QR chưa thanh toán");
+      return true;
+    }
+
     if (this.t_con_no < 0) {
       this.commonService.showMessage("Tiền còn nợ không được là số âm");
       return true;
@@ -851,8 +883,35 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     if (this.validateFail()) {
       return;
     } else {
-      this.dialogRef.close({ t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, nguoi_duyet_ck: this.approveDiscount, t_chi_phi: this.t_tien_phi });
+      this.handleResetQrText();
+      this.signalRService.stopConnection(); // đóng kết nối signalR
+
+      // cập nhật lại trạng thái của phiếu
+      if (Object.values(this.data).some(p => p?.selected === true)) {
+        this.status = '1';
+      } else {
+        this.status = '0';
+      }
+
+      this.dialogRef.close({
+        t_con_no: this.t_con_no,
+        t_da_tra: this.t_da_tra,
+        t_gg: this.t_gg,
+        nguoi_duyet_ck: this.approveDiscount,
+        t_chi_phi: this.t_tien_phi,
+        status: this.status
+      });
     }
+  }
+
+  // xử lý reset qrText về '' để khi view lại ko hiển thị nữa
+  // xóa những qr ko thành công
+  handleResetQrText() {
+    // reset MB
+    this.data.mb_qr.detail = this.data.mb_qr.detail
+      .filter((item: any) => item.status.trim() === 'success')
+      .map((item: any) => (item.qrText = '', item));
+    this.currentSlideQR = 0;
   }
 
   onChangeGhichuTragop($event: any) {
@@ -886,5 +945,157 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
       this.data.quet_the_tra_gop_bidv.gc_td2 = $event;
     }
   }
+
+  //#region QR code
+  // paymentKey: phải đúng với khai báo trong class 'Payment'
+  // paymentCode: phải là mã api cổng thanh toán tồn tại
+  handleGetQr(paymentKey: any, paymentCode: any) {
+    const group = (this.data as any)[paymentKey];
+    const user = this.authenticateService.userValue;
+
+    if (!this.validateBeforeQr(group)) return;
+
+    this.isLoadingQR = true;
+
+    // Lấy refCode
+    this.paymentDynamicService.getRefCode(paymentCode).subscribe({
+      next: (res: any) => {
+        if (res && res.success && res.result) {
+          let body = {
+            stt_rec: this.dataPayment.stt_rec, // stt_rec
+            ref_code: res.result, // ref_code
+            shop: user?.shop || '', // shop thanh toán
+            amount: `${group.money_create_qr}`, // số tiền tạo QR
+            so_ct: this.dataPayment.so_ct // số chứng từ
+          };
+
+          this.createQr(body, group, paymentCode);
+        } else {
+          this.isLoadingQR = false;
+          this.commonService.showMessageByName(res?.message || 'cannot_get_refcode');
+        }
+      },
+      error: (error) => {
+        this.isLoadingQR = false;
+        this.commonService.showMessageByName(error || 'Unknown_err');
+      }
+    });
+  }
+
+  createQr(body: any, group: any, paymentCode: any): void {
+    this.paymentDynamicService.createQrCode(body, paymentCode).subscribe({
+      next: (res: any) => {
+        this.isLoadingQR = false;
+
+        if (res?.success) {
+          group.detail.push({
+            refcode: body.ref_code,
+            qrText: res.result,
+            status: 'pending',
+            index: group.detail.length + 1,
+            tien: group.money_create_qr || 0,
+            tien_nt2: group.money_create_qr || 0,
+            selected: false
+          });
+
+          this.currentSlideQR = group.detail.filter((x: any) => !!x.qrText).length - 1;
+
+          // reset lại tiền tạo QR
+          group.money_create_qr = 0;
+
+          // lắng nghe sự kiện từ signalR
+          this.signalRService.onPaymentReceived(data => {
+            const matchedItem = group.detail.find((x: any) => x.refcode.trim().toLowerCase() === data.refcode.trim().toLowerCase());
+
+            if (!matchedItem || data.paymentcode.trim().toLowerCase() !== paymentCode.trim().toLowerCase()) return;
+
+            if (data.status == 'success') {
+              matchedItem.status = 'success';
+              matchedItem.ftCode = data.ftCode || '';
+              matchedItem.tk_nh_nhan = data.terminalLabel || '';
+
+              // tính tổng tiền QR
+              group.tien = group.detail
+                .filter((item: any) => item.status === 'success')
+                .reduce((sum: number, cur: any) => sum + cur.tien, 0);
+
+              // tính lại tiền đã trả và tiền còn nợ
+              this.onChange();
+            }
+
+            if (data.status === 'fail') {
+              matchedItem.status = 'fail';
+              this.onChange();
+            }
+          });
+
+          this.commonService.showMessageByName(res?.message || 'createqr_success');
+        } else {
+          this.commonService.showMessageByName(res?.message || 'createqr_faild');
+        }
+      },
+      error: (error) => {
+        this.isLoadingQR = false;
+        this.commonService.showMessageByName(error || 'Unknown_err');
+      }
+    });
+  }
+
+  validateBeforeQr(group: any) {
+    if (!group) {
+      this.commonService.showMessage("Cổng thanh toán không hợp lệ");
+      return false;
+    }
+
+    if (!group.money_create_qr) {
+      this.commonService.showMessage("Cần nhập số tiền cần tạo QR");
+      return false;
+    }
+
+    if (!this.dataPayment.so_ct) {
+      this.commonService.showMessage("Không có số chứng từ không thể tạo mã QR");
+      return false;
+    }
+
+    if (!this.dataPayment.stt_rec) {
+      this.commonService.showMessage("Không thể tạo mã QR khi chưa lưu phiếu");
+      return false;
+    }
+
+    if (this.data.mb_qr.money_create_qr > this.t_con_no) {
+      this.commonService.showMessage("Không thể tạo mã QR lớn hơn số tiền còn nợ");
+      return false;
+    }
+
+    return true;
+  }
+
+  handleDeleteQr(item: any, paymentCode: any) {
+    if (item && item?.item?.qrText) {
+      const body = {
+        qrCode: item?.item?.qrText
+      };
+
+      // thực hiện gọi api xóa mã QR
+      this.paymentDynamicService.deleteQrCode(body, paymentCode).subscribe({
+        next: (res: any) => {
+          if (res && res.success && res.result && res.result.isSuccess) {
+            item.item.status = 'faild';
+            item.item.qrText = '';
+
+            this.currentSlideQR = this.data.mb_qr.detail.filter((x: any) => !!x.qrText).length - 1;
+
+            this.commonService.showMessageByName(res?.message || 'deleteqr_success');
+          } else {
+            this.commonService.showMessageByName(res?.message || 'deleteqr_faild');
+          }
+        },
+        error: (error) => {
+          this.commonService.showMessageByName(error || 'Unknown_err');
+        }
+      });
+    }
+  }
+  //#endregion
 }
 

@@ -13,6 +13,7 @@ export const PAYMENT_CODE = {
     DISCOUNTPROGRAMCRM: 'CRM',
     CARDINSTALLMENT: 'QTTG',
     VOUCHERPARNER: 'VOUCHERDOITAC',
+    MBQR: 'MBQR',
 };
 
 export const PAYMENT_NAME = {
@@ -28,6 +29,7 @@ export const PAYMENT_NAME = {
     DISCOUNTPROGRAMCRM: 'Mã giảm giá của hãng',
     CARDINSTALLMENT: 'Quẹt thẻ trả góp',
     VOUCHERPARNER: 'Voucher của đối tác',
+    MBQR: 'Thanh toán QR động MB',
 };
 
 
@@ -64,6 +66,7 @@ export class PaymentRequest extends BaseEntity {
     phi_cd_tragop = 0;
     gc_td1 = '';
     gc_td2 = '';
+    gc_td3 = '';
     tra_gop_bank = false;
 
     constructor(obj?: any) {
@@ -86,6 +89,7 @@ export class Payment {
     quet_the_tra_gop: InstallmentCard = new InstallmentCard;
     voucher_doi_tac: VoucherParner = new VoucherParner;
     quet_the_tra_gop_bidv: InstallmentCard = new InstallmentCard;
+    mb_qr: TransferQrMB = new TransferQrMB;
 }
 
 
@@ -196,4 +200,18 @@ export class EWalletDetail extends BaseModelPayment {
 export class VNPayDetail extends BaseModelPayment {
     so_hd_vnpay = '';
     index = 0;
+}
+
+export class TransferQrMB extends BaseModelPayment {
+    money_create_qr = 0;
+    detail: TransferMBDetail[] = [];
+}
+
+export class TransferMBDetail extends BaseModelPayment {
+    qrText = '';
+    refcode = '';
+    ftCode = '';
+    status = '';
+    index = 0;
+    tk_nh_nhan = '';
 }
