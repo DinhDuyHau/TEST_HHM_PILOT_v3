@@ -253,7 +253,12 @@ export class RetailComponent implements OnInit, AfterViewInit {
 
     const getStatusList = () => {
       this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.RETAIL }]).subscribe(result => {
-        this.statusList = result.result.items as StatusTicket[];
+        const allItems = result.result.items as StatusTicket[];
+        if (this.ticket.masterInfo.status === '1') {
+          this.statusList = allItems.filter(item => item.status != '0');
+        } else {
+          this.statusList = allItems;
+        }
       });
     };
 
@@ -265,9 +270,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
             this.shop = (result.result as any).masterInfo.ma_cuahang;
 
             this.dataTransport(result.result);
-            if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.RETAIL.CREATE) {
-              this.router.navigate(['/404']);
-            }
+            // comment lại để cho phép sửa khi trạng thái là 1
+            // if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.RETAIL.CREATE) {
+            //   this.router.navigate(['/404']);
+            // }
             const hddtTable = (result.result as any).details.find((item: any) => item.id === 10);
             if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
               this.eInvoiceInfo = hddtTable.data[0];
@@ -1148,6 +1154,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.t_gg = $event.t_gg;
     this.ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck;
     this.ticket.masterInfo.t_cp_khac = $event.t_chi_phi;
+    this.ticket.masterInfo.status = $event.status;
 
     this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
   }
@@ -1542,147 +1549,25 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
   //#endregion
 
-  // xử lý trước khi thực hiện hàm onSave()
-  beforeSave() {
-    // nếu status là 2 và action là update thì hỏi có lập hóa đơn điện tử hay không
-    if (this.ticket.masterInfo.status === '2' && this.mode === MODE.UPDATE) {
-      /*
-      const title = 'Có lập HĐĐT (nháp) cho phiếu xuất bán hàng này hay không?';
-      this.commonService.openDialog(DialogConfirmComponent, { title: title })
-        .afterClosed().subscribe(result => {
-          if (result) {
-            const { hd_mst, hd_email, hd_ten_kh, hd_dia_chi } = this.ticket.masterInfo;
-            if (!hd_mst || !hd_email || !hd_ten_kh || !hd_dia_chi) {
-              this.commonService.showMessageByName('invoice_info_not_enough');
-              return;
-            }
-          }
-
-          // Gán flag cho BE biết
-          this.ticket.masterInfo.fnote3 = result ? '1' : '0';
-
-          // Gọi submit như bình thường
-          this.onSave();
-        });
-      */
-
-      // comment code phía trên và sửa lại như sau:
-      // - Mặc định check phải nhập đủ thông tin hóa đơn điện tử mới cho lưu phiếu với status "hoàn thành"
-      // - Hoàn thành phiếu sẽ chưa xử lý lập nháp hđ đt ngay, người dùng sẽ chủ động quay lại mở phiếu và click button "lập nháp HĐĐT"
-      const { hd_mst, hd_email, hd_ten_kh, hd_dia_chi } = this.ticket.masterInfo;
-      // if (!hd_mst || !hd_ten_kh || !hd_dia_chi) {
-      //   this.commonService.showMessageByName('invoice_info_not_enough');
-      //   return;
-      // }
-      this.ticket.masterInfo.fnote3 = '0';
-      this.onSave();
-
-    } else {
-      // Không cần hỏi → submit luôn
-      this.ticket.masterInfo.fnote3 = '0';
-      this.onSave();
-    }
+  isInputDisabled() {
+    return this.ticket.voucherCode.length > 0 || Object.values(this.ticket.payment).some(p => p?.selected === true);
   }
 
-  handleCreateDraftInvoice() {
-    if (this.ticket.masterInfo.status === '2') {
-      const title = 'Có lập HĐĐT (nháp) cho phiếu xuất bán hàng này hay không?';
-
-      this.commonService.openDialog(DialogConfirmComponent, { title: title })
-        .afterClosed().subscribe(result => {
-          if (result) {
-            const { hd_mst, hd_email, hd_ten_kh, hd_dia_chi } = this.ticket.masterInfo;
-            if (!hd_mst || !hd_ten_kh || !hd_dia_chi) {
-              this.commonService.showMessageByName('invoice_info_not_enough');
-              return;
-            }
-
-            this.onCreateDraft();
-          }
-        });
-    }
+  isInputDisabledFull() {
+    return (
+      this.readonly ||
+      this.disableSelectStatus ||
+      this.ticket.voucherCode.length > 0
+    );
   }
 
-  onCreateDraft() {
-    this.isCreateDraftInvoice = true;
-    this.internalSaleDeatailService.createDraft(this.ticket).subscribe({
-      next: (result: any) => {
-        if (result.success) {
-          this.commonService.showMessageByName(result.message || 'create_draft_invoice_success');
-        } else {
-          this.commonService.showMessageByName(result.message || 'Unknown_err');
-        }
-      },
-      error: (err) => {
-        this.commonService.showMessageByName('Unknown_err');
-        console.error('Draft invoice error:', err);
-      },
-      complete: () => {
-        this.isCreateDraftInvoice = false;
-      }
-    });
+  isInputReadonly() {
+    return this.readonly || this.ticket.voucherCode.length > 0 || Object.values(this.ticket.payment).some(p => p?.selected === true);
   }
 
-  //#region Readonly
-  isGeneralReadonly(): boolean {
-    if (this.readonly) return true;
-
-    const voucherList = this.ticket?.voucherCode ?? [];
-    const discountList = this.ticket?.discount ?? [];
-
-    for (const voucher of voucherList) {
-      const matchedDiscount = discountList.find(discount =>
-        discount.imei_hang_mua === voucher.ma_voucher &&
-        discount.loai_ck === '10'
-      );
-
-      if (matchedDiscount && voucher.ma_voucher?.length > 0) {
-        return true;
-      }
-    }
-
-    return false;
+  isAnyPaymentSelected(): boolean {
+    return Object.values(this.ticket.payment).some(p => p?.selected === true);
   }
-
-  isReadonlyOnTypeDiscount10(): boolean {
-    const voucherList = this.ticket?.voucherCode ?? [];
-    const discountList = this.ticket?.discount ?? [];
-
-    for (const voucher of voucherList) {
-      const matchedDiscount = discountList.find(discount =>
-        discount.imei_hang_mua === voucher.ma_voucher &&
-        discount.loai_ck === '10'
-      );
-
-      if (matchedDiscount && voucher.ma_voucher?.length > 0) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  isStatusSelectDisabled(): boolean {
-    if (this.readonly || this.disableSelectStatus) return true;
-
-    const voucherList = this.ticket?.voucherCode ?? [];
-    const discountList = this.ticket?.discount ?? [];
-
-    for (const voucher of voucherList) {
-      const matchedDiscount = discountList.find(discount =>
-        discount.imei_hang_mua === voucher.ma_voucher &&
-        discount.loai_ck === '10'
-      );
-
-      if (matchedDiscount && voucher.ma_voucher?.length > 0) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  //#region
 
 }
 

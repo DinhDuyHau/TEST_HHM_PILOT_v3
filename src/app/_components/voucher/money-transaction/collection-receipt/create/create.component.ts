@@ -204,6 +204,19 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
       this.paymentServiceShop.convertPaymentFromVoucher(this.data.details[1].data, this.payment);
 
       this.dvthuhoService.setItemFilter([{ name: 'ma_loai', operator: '=', value: this.ma_td }]);
+      this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
+        this.statusList = result;
+        // Nếu trạng thái hiện tại là '1' thì loại bỏ trạng thái '0' khỏi statusList
+        if (this.data.masterInfo.status == '1') {
+          this.statusList = this.statusList.filter(x => x.status !== '0');
+        }
+        if (!this.data.masterInfo.status) {
+          this.data.masterInfo.status = this.statusList[0].status;
+          if (this.f) {
+            this.f['status'].setValue(this.data.masterInfo.status);
+          }
+        }
+      });
     }));
   }
   ngOnInit() {
@@ -273,9 +286,10 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
     };
     if (this.mode == MODE.CREATE) {
       this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
-        this.statusList = result;
+        // Loại bỏ trạng thái '1' khỏi list
+        this.statusList = result?.filter(x => x?.status !== '1');
         if (!this.data.masterInfo.status) {
-          this.data.masterInfo.status = this.statusList[0].status;
+          this.data.masterInfo.status = this.statusList[0]?.status;
           if (this.f) {
             this.f['status'].setValue(this.data.masterInfo.status);
           }
@@ -308,15 +322,6 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
       this.route.queryParams.subscribe((params: any) => {
         if (params['key']) {
           this.initData(params['key']);
-          this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
-            this.statusList = result;
-            if (!this.data.masterInfo.status) {
-              this.data.masterInfo.status = this.statusList[0].status;
-              if (this.f) {
-                this.f['status'].setValue(this.data.masterInfo.status);
-              }
-            }
-          });
         }
       });
     }
@@ -724,5 +729,19 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
     this.data.masterInfo.t_con_no = totalTienNT;
 
     this.data.masterInfo.t_da_tra = 0;
+  }
+
+  onPaymentChange($event: any) {
+    this.data.masterInfo.t_con_no = $event.t_con_no;
+    this.data.masterInfo.t_da_tra = $event.t_da_tra;
+    this.data.masterInfo.status = $event.status;
+  }
+
+  isInputDisabled() {
+    return this.disabled || Object.values(this.payment).some(p => p?.selected === true);
+  }
+
+  isInputDisabledCustomer() {
+    return this.disabled || this.data.details[0].data.length > 0 || Object.values(this.payment).some(p => p?.selected === true);
   }
 }

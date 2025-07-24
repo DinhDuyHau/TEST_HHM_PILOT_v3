@@ -167,7 +167,7 @@
 
         </div>
 
-        <div class="box">    
+        <div class="box">
           <!-- VÍ ĐIỆN TỬ -->
           <dropdown-custom
             [disabled]="readonly"
@@ -286,7 +286,7 @@
                 [value]="data.quet_the_tra_gop_bidv.gc_td2"
                 (handleChangeValue)="onChangeKyHanTragop_PosPAYOO($event); onChange()"
               />
-            </div>            
+            </div>
             <div class="d-flex gap-2">
               <form-payment-custom
                 [readonly]="readonly"
@@ -447,7 +447,7 @@
             </div>
           </dropdown-custom>
           <!-- END: quẹt thẻ trả góp PAYOO -->
-          
+
           <!-- QUẸT THẺ TRẢ GÓP BIDV -->
           <dropdown-custom
             *ngIf="!(pay_hidden && pay_hidden.includes('quet_the_tra_gop'))"
@@ -623,7 +623,7 @@
                 (handleChangeValue)="
                   data.quet_the_tra_gop_bidv.phi_chuyendoi = $event; onChange()
                 " />
-              
+
             </div>
           </dropdown-custom>
           <!-- END: quẹt thẻ trả góp BIDV -->
@@ -980,6 +980,57 @@
           </dropdown-custom>
           <!-- END: Giảm giá voucher HHM -->
 
+          <!-- QR MB -->
+          <dropdown-custom
+            *ngIf="!(pay_hidden && pay_hidden.includes('mb_qr'))"
+            [disabled]="readonly || data.mb_qr.tien > 0"
+            name="mb_qr"
+            label="Chuyển khoản QR MB"
+            [selected]="data.mb_qr.selected"
+            (handleChangeValue)="
+              data.mb_qr.selected = $event; onChange()
+          ">
+            <div class="d-flex gap-2">
+              <form-payment-custom
+                class="flex-1"
+                [disabled]="true"
+                label="Tổng tiền QR"
+                [value]="data.mb_qr.tien"
+                [align]="'end'"
+                dataType="number"
+                format="moneyViewFormat"
+                (handleChangeValue)="
+                  data.mb_qr.tien = $event; onChange()
+                " />
+              <form-payment-custom
+                class="flex-1"
+                label="Số tiền tạo QR"
+                [value]="data.mb_qr.money_create_qr"
+                [align]="'end'"
+                dataType="number"
+                format="moneyInputFormat"
+                (handleChangeValue)="
+                  data.mb_qr.money_create_qr = $event; onChange()
+                " />
+            </div>
+            <div class="deposit_payment pt-2">
+              <button
+                class="flex-1 btn act-deposit-btn text-nowrap"
+                [disabled]="isLoadingQR"
+                (click)="handleGetQr('mb_qr', 'mb')">
+                <span *ngIf="isLoadingQR" class="spinner-border"></span>
+                <span *ngIf="!isLoadingQR">Tạo QR</span>
+              </button>
+            </div>
+
+            <app-qr-carousel
+              *ngIf="data?.mb_qr?.detail?.length"
+              [qrList]="data.mb_qr.detail"
+              [currentSlide]="currentSlideQR"
+              (handleDeleteQr)="handleDeleteQr($event, 'mb')">
+            </app-qr-carousel>
+          </dropdown-custom>
+          <!-- END: QR MB -->
         </div>
       </div>
       <div class="box-container pt-3">

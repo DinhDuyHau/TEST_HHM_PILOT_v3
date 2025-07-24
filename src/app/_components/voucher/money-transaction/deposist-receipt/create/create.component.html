@@ -14,6 +14,7 @@
         class="flex-1 btn act-input-data-btn text-nowrap"
         style="height:36px;"
         (click)="openAddCustomerDialog()"
+        [disabled]="isInputDisabled()"
       >
         {{ getLabel('lbl_add_customer') }}
       </button>
@@ -58,7 +59,7 @@
             [label]="getLabel('lbl_ma_kh')"
             #ma_kh
             name="ma_kh"
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             [value]="f['ma_kh'].value"
             [invalid]="submitted && f['ma_kh'].errors != null"
             (handleChangeLookup)="handleInputLookupChange($event)"
@@ -84,7 +85,7 @@
             [label]="getLabel('lbl_dia_chi')"
             #dia_chi
             name="dia_chi"
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             (handleEnter)="onEnter($event)"
             name="dia_chi"
             (handleChange)="handleInputChange('dia_chi', $event)"
@@ -103,7 +104,7 @@
           [options]="tran_type"
           optionDes="ten_loai"
           optionValue="ma_loai"
-          [isDisable]="disabled"
+          [isDisable]="isInputDisabled()"
           [value]="data.masterInfo.fnote3"
           (handleChangeValue)="data.masterInfo.fnote3 = $event" />
       </div>
@@ -114,7 +115,7 @@
             [label]="getLabel('lbl_dien_giai')"
             class="flex-1"
             #input_dien_giai
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             (handleEnter)="onEnter($event)"
             name="dien_giai"
             (handleChange)="handleInputChange('dien_giai', $event)"
@@ -130,7 +131,7 @@
             [label]="getLabel('lbl_nguoi_nop')"
             class="flex-1"
             #input2
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             (handleEnter)="onEnter($event)"
             name="ong_ba"
             (handleChange)="handleInputChange('ong_ba', $event)"
@@ -168,7 +169,7 @@
             #ma_vt
             name="ma_vt"
             [value]="ma_vt_coc"
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             (handleChangeLookup)="ma_vt_coc = $event[0].value; ten_vt_coc = $event[1].value"
             (handleEnter)="onEnter($event)"
             [control]="itemService"
@@ -194,6 +195,7 @@
             #input_tien_coc
             name="tien_coc"
             [dataFormatString]="'moneyInputFormat'"
+            [disabled]="isInputDisabled()"
             type="number"
             [align]="'right'"
             [value]="tien_dat_coc"
@@ -219,7 +221,7 @@
           [gridType]="gridType"
           [buttons]="buttons"
           [actionButtons]="actionButtons"
-          [disabled]="disabled"
+          [disabled]="isInputDisabled()"
           (handlePaging)="onPageChange($event)"
           (handleSelectColumn)="onSelectColumn($event)"
           (handleActionButton)="onHandleActionButton($event)"
@@ -254,6 +256,9 @@
 
     <ng-container>
       <payment-tab
+        [status]="data.masterInfo.status || ''"
+        [so_ct]="data.masterInfo.so_ct || ''"
+        [stt_rec]="data.masterInfo.stt_rec || ''"
         [action]="action"
         [shop]="shop"
         [invalid]="invalid"
@@ -272,10 +277,7 @@
         [data]="payment"
         [t_con_no]="data.masterInfo.t_con_no || 0"
         [t_da_tra]="data.masterInfo.t_da_tra || 0"
-        (handleChangeValue)="
-          data.masterInfo.t_con_no = $event.t_con_no;
-          data.masterInfo.t_da_tra = $event.t_da_tra
-        " />
+        (handleChangeValue)="onPaymentChange($event)" />
     </ng-container>
 
     <div class="px-4 py-2 flex flex-1 justify-end">

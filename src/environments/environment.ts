@@ -9,6 +9,7 @@ export const environment = {
     apiUrl: 'http://localhost:5000',
     // accountingUrl: 'http://test-hhm-ketoan.genbyte.net', // link 130
     accountingUrl: 'http://hhm-qt.genbyte.net', // link 115
+    apiBankUrl: 'https://hhm-bank-api.genbyte.net', // api bank
 
     //Khóa công khai của người nhận
     receiverPublicKey: `-----BEGIN PUBLIC KEY-----

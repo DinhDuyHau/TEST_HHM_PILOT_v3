@@ -12,6 +12,7 @@ export const environment = {
 
     /* URL API WEBSITE HHM */
     apiUrlVoucherHHM: 'https://api.hoanghamobile.com',
+    apiBankUrl: 'https://hhm-bank-api.genbyte.net', // api bank
 
     receiverPublicKey: `-----BEGIN PUBLIC KEY-----
     MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHyTiwTAOZtUqSMVNF3kzScCRdKj

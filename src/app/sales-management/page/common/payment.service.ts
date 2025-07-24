@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CardDetail, DepositDetail, DiscountCodeCRMDetail, EWalletDetail, PAYMENT_CODE, PAYMENT_NAME, Payment, TransferDetail, VNPayDetail } from '@app/sales-management/model/ticket/common-model/payment.model';
+import { CardDetail, DepositDetail, DiscountCodeCRMDetail, EWalletDetail, PAYMENT_CODE, PAYMENT_NAME, Payment, TransferDetail, TransferMBDetail, VNPayDetail } from '@app/sales-management/model/ticket/common-model/payment.model';
 import { PaymentRequest } from '@app/sales-management/model/ticket/common-model/payment.model';
 import { CommonService } from './common.service';
 
@@ -19,6 +19,7 @@ export class PaymentService {
         let eWalletDetail = new EWalletDetail;
         let vnpayDetail = new VNPayDetail;
         let transferDetail = new TransferDetail;
+        let transferMbDetail = new TransferMBDetail;
         const hasVoucher = voucherCode === 'BHA' || voucherCode === 'BHK';
 
         src.forEach(e => {
@@ -150,6 +151,17 @@ export class PaymentService {
                     des.voucher_doi_tac.ma_gg = e.ma_gg;
                     des.voucher_doi_tac.ma_chuan_chi = e.ma_chuan_chi;
                     des.voucher_doi_tac.selected = true;
+                    break;
+                case PAYMENT_CODE.MBQR:
+                    des.mb_qr.tien += e.tien;
+                    transferMbDetail = new TransferMBDetail;
+                    transferMbDetail.tien = e.tien;
+                    transferMbDetail.refcode = e.gc_td1;
+                    transferMbDetail.status = e.gc_td2;
+                    transferMbDetail.ftCode = e.gc_td3;
+                    transferMbDetail.tk_nh_nhan = e.tk_nh_nhan;
+                    des.mb_qr.detail.push(transferMbDetail);
+                    des.mb_qr.selected = true;
                     break;
                 default:
                     break;
@@ -388,6 +400,24 @@ export class PaymentService {
                     ma_chuan_chi: src.voucher_doi_tac.ma_chuan_chi
                 })
             ];
+        }
+        if (src.mb_qr.selected) {
+            src.mb_qr.detail.forEach(element => {
+                //
+                des = [
+                    ...des,
+                    new PaymentRequest({
+                        ma_thanhtoan: PAYMENT_CODE.MBQR,
+                        ten_thanhtoan: PAYMENT_NAME.MBQR,
+                        gc_td1: element.refcode,
+                        gc_td2: element.status,
+                        gc_td3: element.ftCode,
+                        tien: element.tien,
+                        tien_nt: element.tien_nt2,
+                        tk_nh_nhan: element.tk_nh_nhan
+                    }),
+                ];
+            });
         }
         des.map(e => {
             e.tien_nt = e.tien;
