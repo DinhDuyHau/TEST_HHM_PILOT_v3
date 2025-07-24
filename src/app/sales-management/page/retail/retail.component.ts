@@ -40,6 +40,7 @@ import { VoucherCode } from '@app/sales-management/model/ticket/common-model/bas
 import { DiscountApiService } from '@app/sales-management/api/discount-api.service';
 import { InternalSaleDetailService } from '@app/_components/voucher/inventory/internal-sale/create/internal-sale-detail.service';
 import { CrmDialogComponent } from '@app/sales-management/component/crm/crm-dialog/crm-dialog.component';
+import { formatDate } from '@angular/common';
 
 const {
   DISCOUNT_LIST,
@@ -817,11 +818,18 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
 
   openCalcDiscountCRMDialog(event: { item: Merchandise }) {
+    /*
     let dateStr = this.ticket.masterInfo.ngay_ct;
     if (!dateStr.endsWith('Z') && !dateStr.includes('+') && !dateStr.includes('-')) {
       dateStr += 'Z'; // Chỉ thêm nếu không có thông tin múi giờ
     }
     let dateObj = new Date(dateStr);
+    */
+    //sửa lại cách lấy ngày chứng từ => cách lấy trên vẫn bị bug trừ lùi 7h do múi giờ
+    let ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+    const vc_date = formatDate(ngay_ct, 'yyyy/MM/dd', 'en_US');
+    let dateObj = new Date(`${vc_date}Z`);
+
     const relatedDiscounts = this.ticket.discount.filter(d => d.ma_imei === event.item.ma_imei);
     const matchedVoucher = relatedDiscounts
       .map(discount => this.ticket.voucherCode.find(v => v.ma_voucher === discount.imei_hang_mua))
