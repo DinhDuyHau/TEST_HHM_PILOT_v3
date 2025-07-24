@@ -90,7 +90,8 @@ export class OtherReceiptDetailComponent extends Grid<ReceiptDetail> implements 
     'quet_the_tra_gop',
     'quet_the',
     'vi_dien_tu',
-    'vnpay'
+    'vnpay',
+    'mb_qr'
   ];
 
 
