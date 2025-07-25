@@ -611,6 +611,6 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
   }
 
   isInputDisabled() {
-    return this.disabled || Object.values(this.payment).some(p => p?.selected === true);
+    return this.disabled || Object.values(this.payment).some(p => p?.mb_qr?.selected === true);
   }
 }

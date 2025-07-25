@@ -1420,7 +1420,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   //#endregion
 
   isInputDisabled() {
-    return this.ticket.voucherCode.length > 0 || Object.values(this.ticket.payment).some(p => p?.selected === true);
+    return this.ticket.voucherCode.length > 0 || Object.values(this.ticket.payment).some(p => p?.mb_qr?.selected === true);
   }
 
   isInputDisabledFull() {
@@ -1432,11 +1432,11 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
 
   isInputReadonly() {
-    return this.readonly || this.ticket.voucherCode.length > 0 || Object.values(this.ticket.payment).some(p => p?.selected === true);
+    return this.readonly || this.ticket.voucherCode.length > 0 || Object.values(this.ticket.payment).some(p => p?.mb_qr?.selected === true);
   }
 
   isAnyPaymentSelected(): boolean {
-    return Object.values(this.ticket.payment).some(p => p?.selected === true);
+    return Object.values(this.ticket.payment).some(p => p?.mb_qr?.selected === true);
   }
 
 }

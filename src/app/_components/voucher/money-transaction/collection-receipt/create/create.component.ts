@@ -729,10 +729,10 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
   }
 
   isInputDisabled() {
-    return this.disabled || Object.values(this.payment).some(p => p?.selected === true);
+    return this.disabled || Object.values(this.payment).some(p => p?.mb_qr?.selected === true);
   }
 
   isInputDisabledCustomer() {
-    return this.disabled || this.data.details[0].data.length > 0 || Object.values(this.payment).some(p => p?.selected === true);
+    return this.disabled || this.data.details[0].data.length > 0 || Object.values(this.payment).some(p => p?.mb_qr?.selected === true);
   }
 }
