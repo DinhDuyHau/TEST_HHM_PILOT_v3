@@ -692,8 +692,25 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   }
 
   openPaymentSearchPOSDialogBank() {
+    /**
+     * 03BIDV - CTY
+     * 04BIDV - HCM
+     * 05BIDV - THO
+     * 06BIDV - HPH
+     */
+    const shops: any = JSON.parse(localStorage.getItem('shop')!);
+    let ma_dvcs = shops.find((x: any) => x.ma_cuahang === this.shop).ma_dvcs;
+    let tk_nganhang = '03BIDV';
+    if (ma_dvcs === 'HCM') tk_nganhang = '04BIDV';
+    if (ma_dvcs === 'THO') tk_nganhang = '05BIDV';
+    if (ma_dvcs === 'HPH') tk_nganhang = '06BIDV';
+
     this.commonService.openDialog(SearchDialogComponent,
-      { shop: this.shop, keyword: '', componentName: SEARCH_COMPONENT_NAME.POS, title: 'Danh sách máy POS', filter: [{ name: 'tk_nganhang', operator: '=', value: '03BIDV' }] }, 'search-style-dialog')
+      {
+        shop: this.shop, keyword: '', componentName: SEARCH_COMPONENT_NAME.POS,
+        title: 'Danh sách máy POS',
+        filter: [{ name: 'tk_nganhang', operator: '=', value: tk_nganhang }]
+      }, 'search-style-dialog')
       .afterClosed()
       .subscribe((pos: POSModel) => pos && this.handleAddPOSBank(pos));
   }
