@@ -1549,25 +1549,60 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
   //#endregion
 
+  //#region Readonly
   isInputDisabled() {
-    return this.ticket.voucherCode.length > 0 || Object.values(this.ticket.payment).some(p => p?.mb_qr?.selected === true);
+    const voucherList = this.ticket?.voucherCode ?? [];
+    const discountList = this.ticket?.discount ?? [];
+
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.mb_qr?.selected === true);
+
+    const hasReadonlyType10 = voucherList.some(voucher =>
+      discountList.some(discount =>
+        discount.imei_hang_mua === voucher.ma_voucher &&
+        discount.loai_ck === '10'
+      ) && voucher.ma_voucher?.length > 0
+    );
+
+    return hasSelectedPayment || hasReadonlyType10;
   }
 
-  isInputDisabledFull() {
-    return (
-      this.readonly ||
-      this.disableSelectStatus ||
-      this.ticket.voucherCode.length > 0
+  isInputDisabledFull(): boolean {
+    const voucherList = this.ticket?.voucherCode ?? [];
+    const discountList = this.ticket?.discount ?? [];
+
+    const hasReadonlyOrDisabled = this.readonly || this.disableSelectStatus;
+
+    const hasReadonlyType10 = voucherList.some(voucher =>
+      discountList.some(discount =>
+        discount.imei_hang_mua === voucher.ma_voucher &&
+        discount.loai_ck === '10'
+      ) && voucher.ma_voucher?.length > 0
     );
+
+    return hasReadonlyOrDisabled || hasReadonlyType10;
   }
 
   isInputReadonly() {
-    return this.readonly || this.ticket.voucherCode.length > 0 || Object.values(this.ticket.payment).some(p => p?.mb_qr?.selected === true);
+    const voucherList = this.ticket?.voucherCode ?? [];
+    const discountList = this.ticket?.discount ?? [];
+
+    const isReadonlyFlag = this.readonly;
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.mb_qr?.selected === true);
+
+    const hasReadonlyType10 = voucherList.some(voucher =>
+      discountList.some(discount =>
+        discount.imei_hang_mua === voucher.ma_voucher &&
+        discount.loai_ck === '10'
+      ) && voucher.ma_voucher?.length > 0
+    );
+
+    return isReadonlyFlag || hasSelectedPayment || hasReadonlyType10;
   }
 
   isAnyPaymentSelected(): boolean {
     return Object.values(this.ticket.payment).some(p => p?.mb_qr?.selected === true);
   }
+  //#endregion
 
 }
 
