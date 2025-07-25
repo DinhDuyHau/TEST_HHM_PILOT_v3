@@ -1742,7 +1742,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const voucherList = this.ticket?.voucherCode ?? [];
     const discountList = this.ticket?.discount ?? [];
 
-    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.mb_qr?.selected === true);
 
     const hasReadonlyType10 = voucherList.some(voucher =>
       discountList.some(discount =>
@@ -1775,7 +1775,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const discountList = this.ticket?.discount ?? [];
 
     const isReadonlyFlag = this.readonly;
-    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.mb_qr?.selected === true);
 
     const hasReadonlyType10 = voucherList.some(voucher =>
       discountList.some(discount =>
@@ -1788,7 +1788,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
 
   isAnyPaymentSelected(): boolean {
-    return Object.values(this.ticket.payment).some(p => p?.selected === true);
+    return Object.values(this.ticket.payment).some(p => p?.mb_qr?.selected === true);
   }
   //#endregion
 
