@@ -584,6 +584,6 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
   }
 
   isInputDisabled() {
-    return this.disabled || Object.values(this.payment).some(p => p?.selected === true);
+    return this.disabled || Object.values(this.payment).some(p => p?.mb_qr?.selected === true);
   }
 }
