@@ -9,6 +9,7 @@ export const environment = {
     apiUrl: 'http://localhost:5000',
     // accountingUrl: 'http://test-hhm-ketoan.genbyte.net', // link 130
     accountingUrl: 'http://hhm-qt.genbyte.net', // link 115
+    apiBankUrl: 'https://hhm-bank-api.genbyte.net', // api bank
 
     //Khóa công khai của người nhận
     receiverPublicKey: `-----BEGIN PUBLIC KEY-----
@@ -21,18 +22,18 @@ export const environment = {
     //Khóa bí mật của người gửi
     senderPrivateKey: `-----BEGIN RSA PRIVATE KEY-----
     MIICXAIBAAKBgQDQOc4/7Oeqtz1i57FygAA9b1SY6G6rLJOT1kFOdSNasoih6aUV
-    bjNTiZwl7OvlXsOB+dlVImhiB1rD1GwILDivikafavNRODDe90tWFBD87/QpHD3o
-    7Hu0AsClFZRhns6GYgUT1sNC/ha5L9R9MiE9+H5+iVymBIHo2IjwUPqIbQIDAQAB
-    AoGAHv5rt9IwjZWm2oD4Rb3Ny1c19WiriGkjMl8y61W+RHLMqaUYgH8dvrJ9/pss
-    ZcDcQw2IjwaHGQhVN074IaNLcHjSjvxaOHbqWFqI44ERKBwNc/PC5qAl0cac+Pjk
-    nGU7advd2pq8qhz/AJ4q1856RjRQ2GhWEE5rnYo5+399FqECQQDvWUtnWbDffA0Y
-    ehydInPQkNMcJMjIjYwwnwDILvEuNDT61Jex+fMajxnlu3MPEUvcHPSeOUDQm23D
-    a39IQk01AkEA3rY5F1RS0j4QOg7DX1kn9zi3nljVUgcJLxcuhwllyhHuVB5JRPQD
-    ZkTlgtlmr/wdSpE6vR87aUfRIyQqvjoNWQJAAlZc5iV6FLShbBvFK8OqXd8MMLor
-    O8omFFN5LntG36yi19A7qwFF3nyHRDcQaJVCqGOf/+uPNnpOGBp0o8ACAQJANeLf
-    Q27Kr0YHBRUnXn2i9uVJQE38J2G+bh9syY2TjGX0RXQihEWKQQdwhM13VCNrLuye
-    yr2w0VNoHdmVYfuH2QJBAMD1Ms32G3NNZi7jfKrTNo4vheHL4q6iQ9tD5qbXeul4
-    pW3P8AtbBQp+HUuqhHmUju+8ngjoOY06cRrP2wMP0s4=
+bjNTiZwl7OvlXsOB+dlVImhiB1rD1GwILDivikafavNRODDe90tWFBD87/QpHD3o
+7Hu0AsClFZRhns6GYgUT1sNC/ha5L9R9MiE9+H5+iVymBIHo2IjwUPqIbQIDAQAB
+AoGAHv5rt9IwjZWm2oD4Rb3Ny1c19WiriGkjMl8y61W+RHLMqaUYgH8dvrJ9/pss
+ZcDcQw2IjwaHGQhVN074IaNLcHjSjvxaOHbqWFqI44ERKBwNc/PC5qAl0cac+Pjk
+nGU7advd2pq8qhz/AJ4q1856RjRQ2GhWEE5rnYo5+399FqECQQDvWUtnWbDffA0Y
+ehydInPQkNMcJMjIjYwwnwDILvEuNDT61Jex+fMajxnlu3MPEUvcHPSeOUDQm23D
+a39IQk01AkEA3rY5F1RS0j4QOg7DX1kn9zi3nljVUgcJLxcuhwllyhHuVB5JRPQD
+ZkTlgtlmr/wdSpE6vR87aUfRIyQqvjoNWQJAAlZc5iV6FLShbBvFK8OqXd8MMLor
+O8omFFN5LntG36yi19A7qwFF3nyHRDcQaJVCqGOf/+uPNnpOGBp0o8ACAQJANeLf
+Q27Kr0YHBRUnXn2i9uVJQE38J2G+bh9syY2TjGX0RXQihEWKQQdwhM13VCNrLuye
+yr2w0VNoHdmVYfuH2QJBAMD1Ms32G3NNZi7jfKrTNo4vheHL4q6iQ9tD5qbXeul4
+pW3P8AtbBQp+HUuqhHmUju+8ngjoOY06cRrP2wMP0s4=
     -----END RSA PRIVATE KEY-----`,
 
     /*

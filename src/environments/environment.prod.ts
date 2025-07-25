@@ -9,8 +9,10 @@ export const environment = {
     /* URL HỆ THỐNG TEST */
     // apiUrl: 'https://test-hhm-ketnoi-v2.genbyte.net',
     // accountingUrl: 'http://test-hhm-ketoan.genbyte.net',
+
+    /* URL API WEBSITE HHM */
     apiUrlVoucherHHM: 'https://api.hoanghamobile.com',
-    tokenHHMVoucher: 'a4122684257c3fb823ac18d45ef8e58a',
+    apiBankUrl: 'https://hhm-bank-api.genbyte.net', // api bank
 
     receiverPublicKey: `-----BEGIN PUBLIC KEY-----
     MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHyTiwTAOZtUqSMVNF3kzScCRdKj

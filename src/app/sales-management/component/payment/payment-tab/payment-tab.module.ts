@@ -18,6 +18,7 @@ import { TransferModule } from '../transfer/transfer.module';
 import { PaymentTabDialogComponent } from './payment-tab-dialog/payment-tab-dialog.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { VNPayModule } from '../vnpay/vnpay.module';
+import { QrCarouselModule } from '@app/_components/qr-carousel/qr-carousel.module';
 
 @NgModule({
     declarations: [PaymentTabComponent, PaymentTabDialogComponent],
@@ -38,7 +39,8 @@ import { VNPayModule } from '../vnpay/vnpay.module';
         EWalletModule,
         VNPayModule,
         TransferModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        QrCarouselModule
     ],
     exports: [PaymentTabComponent],
 

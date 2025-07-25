@@ -237,6 +237,19 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
       this.stockService.setItemFilter([{ name: 'ma_cuahang', value: this.data.masterInfo.ma_cuahang }, { name: 'ma_loai', value: 'HM' }]);
       this.dataSource = new MatTableDataSource<ReceiptDetail>(this.data.details[0].data);
       this.paymentServiceShop.convertPaymentFromVoucher(this.data.details[1].data, this.payment);
+          this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
+        this.statusList = result;
+        // Nếu trạng thái hiện tại là '1' thì loại bỏ trạng thái '0' khỏi statusList
+        if (this.data.masterInfo.status == '1') {
+          this.statusList = this.statusList.filter(x => x.status !== '0');
+        }
+        if (!this.data.masterInfo.status) {
+          this.data.masterInfo.status = this.statusList[0].status;
+          if (this.f) {
+            this.f['status'].setValue(this.data.masterInfo.status);
+          }
+        }
+      });
     }));
   }
   ngOnInit() {
@@ -307,9 +320,10 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
     };
     if (this.mode == MODE.CREATE) {
       this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
-        this.statusList = result;
+        // Loại bỏ trạng thái '1' khỏi list
+        this.statusList = result?.filter(x => x?.status !== '1');
         if (!this.data.masterInfo.status) {
-          this.data.masterInfo.status = this.statusList[0].status;
+          this.data.masterInfo.status = this.statusList[0]?.status;
           if (this.f) {
             this.f['status'].setValue(this.data.masterInfo.status);
           }
@@ -342,15 +356,6 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
       this.route.queryParams.subscribe((params: any) => {
         if (params['key']) {
           this.initData(params['key']);
-          this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
-            this.statusList = result;
-            if (!this.data.masterInfo.status) {
-              this.data.masterInfo.status = this.statusList[0].status;
-              if (this.f) {
-                this.f['status'].setValue(this.data.masterInfo.status);
-              }
-            }
-          });
         }
       });
     }
@@ -416,7 +421,7 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
       this.commonService.showMessage("Cần thực hiện phân bổ tiền thanh toán trước khi lưu phiếu");
       return;
     }
-    if (this.data.masterInfo.t_da_tra == 0) {
+    if (this.data.masterInfo.t_da_tra == 0 && this.data.masterInfo.status == "2") {
       this.commonService.showMessage("Cần chọn hình thức thanh toán trước khi lưu phiếu");
       return;
     }
@@ -605,4 +610,14 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
 
   //#endregion
 
+  onPaymentChange($event: any) {
+    this.data.masterInfo.t_con_no = $event.t_con_no;
+    this.data.masterInfo.t_da_tra = $event.t_da_tra;
+    this.tien = $event.t_da_tra + ''
+    this.data.masterInfo.status = $event.status;
+  }
+
+  isInputDisabled() {
+    return this.disabled || Object.values(this.payment).some(p => p?.selected === true);
+  }
 }

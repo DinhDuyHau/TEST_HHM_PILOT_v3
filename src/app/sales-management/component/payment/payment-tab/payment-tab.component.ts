@@ -54,8 +54,11 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   // biến xác định là update hay save
   @Input() action: string = '';
   @Input() shop: string = '';
+  @Input() so_ct: string = '';
+  @Input() stt_rec: string = '';
+  @Input() status: string = '';
 
-  @Output() handleChangeValue = new EventEmitter<{ t_con_no: number; t_da_tra: number; t_gg: number; nguoi_duyet_ck: string; t_chi_phi: number }>();
+  @Output() handleChangeValue = new EventEmitter<{ t_con_no: number; t_da_tra: number; t_gg: number; nguoi_duyet_ck: string; t_chi_phi: number, status: string }>();
   @Output() handleButton = new EventEmitter<string>();
 
   tong_no = 0;
@@ -114,7 +117,10 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
         reloadDepositOnInit: this.reloadDepositOnInit,
         action: this.action,
         shop: this.shop,
-        voucherCode: this.voucherCode
+        voucherCode: this.voucherCode,
+        so_ct: this.so_ct,
+        stt_rec: this.stt_rec,
+        status: this.status
       }, 'search-style-dialog')
       .afterClosed()
       .subscribe((data) => {
@@ -123,10 +129,11 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
           this.t_da_tra = data.t_da_tra;
           this.t_gg = data.t_gg;
           this.t_cp = data.t_chi_phi;
+          this.status = data.status;
 
           // this.approveDiscount = data.approveDiscount;
           this.approveDiscount = data.nguoi_duyet_ck;
-          this.handleChangeValue.emit({ t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, nguoi_duyet_ck: this.approveDiscount, t_chi_phi: this.t_cp });
+          this.handleChangeValue.emit({ t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, nguoi_duyet_ck: this.approveDiscount, t_chi_phi: this.t_cp, status: this.status });
           this.initViewPayment();
         }
         //this.onChange();
@@ -205,6 +212,8 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
           };
         case PAYMENT_CODE.VOUCHERPARNER:
           return { payment: item.ten_thanhtoan, note: `Đơn vị phát hành: ${item.ma_ctr}, mã voucher: ${item.ma_gg}, mã giao dịch: ${item.ma_chuan_chi}`, money: item.tien };
+        case PAYMENT_CODE.MBQR:
+          return { payment: item.ten_thanhtoan, note: `${item.ten_ngan_hang}`, money: item.tien };
         default:
           return null;
       }
@@ -220,7 +229,7 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
     });
   }
   onChangeApproveDiscount() {
-    this.handleChangeValue.emit({ t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, nguoi_duyet_ck: this.approveDiscount, t_chi_phi: this.t_cp });
+    this.handleChangeValue.emit({ t_con_no: this.t_con_no, t_da_tra: this.t_da_tra, t_gg: this.t_gg, nguoi_duyet_ck: this.approveDiscount, t_chi_phi: this.t_cp, status: this.status });
   }
 
   onClickButton($event: any, id: string) {

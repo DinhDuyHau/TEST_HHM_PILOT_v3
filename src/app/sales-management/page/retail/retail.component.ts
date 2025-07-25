@@ -41,6 +41,7 @@ import { DiscountApiService } from '@app/sales-management/api/discount-api.servi
 import { InternalSaleDetailService } from '@app/_components/voucher/inventory/internal-sale/create/internal-sale-detail.service';
 import { PrinterComponent } from '@app/_components/printer/printer.component';
 import { CrmDialogComponent } from '@app/sales-management/component/crm/crm-dialog/crm-dialog.component';
+import { formatDate } from '@angular/common';
 
 const {
   DISCOUNT_LIST,
@@ -255,7 +256,12 @@ export class RetailComponent implements OnInit, AfterViewInit {
 
     const getStatusList = () => {
       this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.RETAIL }]).subscribe(result => {
-        this.statusList = result.result.items as StatusTicket[];
+        const allItems = result.result.items as StatusTicket[];
+        if (this.ticket.masterInfo.status === '1') {
+          this.statusList = allItems.filter(item => item.status != '0');
+        } else {
+          this.statusList = allItems;
+        }
       });
     };
 
@@ -267,9 +273,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
             this.shop = (result.result as any).masterInfo.ma_cuahang;
 
             this.dataTransport(result.result);
-            if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.RETAIL.CREATE) {
-              this.router.navigate(['/404']);
-            }
+            // comment lại để cho phép sửa khi trạng thái là 1
+            // if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.RETAIL.CREATE) {
+            //   this.router.navigate(['/404']);
+            // }
             const hddtTable = (result.result as any).details.find((item: any) => item.id === 10);
             if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
               this.eInvoiceInfo = hddtTable.data[0];
@@ -820,11 +827,18 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
 
   openCalcDiscountCRMDialog(event: { item: Merchandise }) {
+    /*
     let dateStr = this.ticket.masterInfo.ngay_ct;
     if (!dateStr.endsWith('Z') && !dateStr.includes('+') && !dateStr.includes('-')) {
       dateStr += 'Z'; // Chỉ thêm nếu không có thông tin múi giờ
     }
     let dateObj = new Date(dateStr);
+    */
+    //sửa lại cách lấy ngày chứng từ => cách lấy trên vẫn bị bug trừ lùi 7h do múi giờ
+    let ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+    const vc_date = formatDate(ngay_ct, 'yyyy/MM/dd', 'en_US');
+    let dateObj = new Date(`${vc_date}Z`);
+
     const relatedDiscounts = this.ticket.discount.filter(d => d.ma_imei === event.item.ma_imei);
     const matchedVoucher = relatedDiscounts
       .map(discount => this.ticket.voucherCode.find(v => v.ma_voucher === discount.imei_hang_mua))
@@ -1133,6 +1147,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.t_gg = $event.t_gg;
     this.ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck;
     this.ticket.masterInfo.t_cp_khac = $event.t_chi_phi;
+    this.ticket.masterInfo.status = $event.status;
 
     this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
   }
@@ -1721,66 +1736,61 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
 
   //#endregion
+
   //#region Readonly
-  isGeneralReadonly(): boolean {
-    if (this.readonly) return true;
-
+  isInputDisabled() {
     const voucherList = this.ticket?.voucherCode ?? [];
     const discountList = this.ticket?.discount ?? [];
 
-    for (const voucher of voucherList) {
-      const matchedDiscount = discountList.find(discount =>
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+
+    const hasReadonlyType10 = voucherList.some(voucher =>
+      discountList.some(discount =>
         discount.imei_hang_mua === voucher.ma_voucher &&
         discount.loai_ck === '10'
-      );
+      ) && voucher.ma_voucher?.length > 0
+    );
 
-      if (matchedDiscount && voucher.ma_voucher?.length > 0) {
-        return true;
-      }
-    }
-
-    return false;
+    return hasSelectedPayment || hasReadonlyType10;
   }
 
-  isReadonlyOnTypeDiscount10(): boolean {
+  isInputDisabledFull(): boolean {
     const voucherList = this.ticket?.voucherCode ?? [];
     const discountList = this.ticket?.discount ?? [];
 
-    for (const voucher of voucherList) {
-      const matchedDiscount = discountList.find(discount =>
+    const hasReadonlyOrDisabled = this.readonly || this.disableSelectStatus;
+
+    const hasReadonlyType10 = voucherList.some(voucher =>
+      discountList.some(discount =>
         discount.imei_hang_mua === voucher.ma_voucher &&
         discount.loai_ck === '10'
-      );
+      ) && voucher.ma_voucher?.length > 0
+    );
 
-      if (matchedDiscount && voucher.ma_voucher?.length > 0) {
-        return true;
-      }
-    }
-
-    return false;
+    return hasReadonlyOrDisabled || hasReadonlyType10;
   }
 
-  isStatusSelectDisabled(): boolean {
-    if (this.readonly || this.disableSelectStatus) return true;
-
+  isInputReadonly() {
     const voucherList = this.ticket?.voucherCode ?? [];
     const discountList = this.ticket?.discount ?? [];
 
-    for (const voucher of voucherList) {
-      const matchedDiscount = discountList.find(discount =>
+    const isReadonlyFlag = this.readonly;
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+
+    const hasReadonlyType10 = voucherList.some(voucher =>
+      discountList.some(discount =>
         discount.imei_hang_mua === voucher.ma_voucher &&
         discount.loai_ck === '10'
-      );
+      ) && voucher.ma_voucher?.length > 0
+    );
 
-      if (matchedDiscount && voucher.ma_voucher?.length > 0) {
-        return true;
-      }
-    }
-
-    return false;
+    return isReadonlyFlag || hasSelectedPayment || hasReadonlyType10;
   }
 
-  //#region
+  isAnyPaymentSelected(): boolean {
+    return Object.values(this.ticket.payment).some(p => p?.selected === true);
+  }
+  //#endregion
 
 }
 

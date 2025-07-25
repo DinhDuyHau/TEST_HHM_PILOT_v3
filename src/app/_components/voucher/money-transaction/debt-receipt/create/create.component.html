@@ -58,7 +58,7 @@
             [label]="getLabel('lbl_ma_kh')"
             #ma_kh
             name="ma_kh"
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             [value]="f['ma_kh'].value"
             [invalid]="submitted && f['ma_kh'].errors != null"
             (handleChangeLookup)="handleInputLookupChange($event); resetDebt()"
@@ -84,7 +84,7 @@
             [label]="getLabel('lbl_dia_chi')"
             #dia_chi
             name="dia_chi"
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             (handleEnter)="onEnter($event)"
             name="dia_chi"
             (handleChange)="handleInputChange('dia_chi', $event)"
@@ -111,7 +111,7 @@
             [label]="getLabel('lbl_nguoi_nop')"
             class="flex-1"
             #input2
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             (handleEnter)="onEnter($event)"
             name="ong_ba"
             (handleChange)="handleInputChange('ong_ba', $event)"
@@ -126,7 +126,7 @@
           [label]="getLabel('lbl_ly_do_nop')"
           class="flex-1"
           #input2
-          [disabled]="disabled"
+          [disabled]="isInputDisabled()"
           (handleEnter)="onEnter($event)"
           name="dien_giai"
           (handleChange)="handleInputChange('dien_giai', $event)"
@@ -144,7 +144,7 @@
             (handleChange)="this.ghi_chu = $event"
             name="ghi_chu"
             type="text"
-            [disabled]="disabled"
+            [disabled]="isInputDisabled()"
             [buttons]="buttonsInput"
             (handleButton)="onClickButtonInput($event)" />
         </div>
@@ -177,7 +177,7 @@
           [gridType]="gridType"
           [buttons]="buttons"
           [actionButtons]="actionButtons"
-          [disabled]="disabled"
+          [disabled]="isInputDisabled()"
           (handlePaging)="onPageChange($event)"
           (handleSelectColumn)="onSelectColumn($event)"
           (handleActionButton)="onHandleActionButton($event)"
@@ -189,6 +189,9 @@
     </tabs-custom>
     <ng-container>
       <payment-tab
+        [status]="data.masterInfo.status || ''"
+        [so_ct]="data.masterInfo.so_ct || ''"
+        [stt_rec]="data.masterInfo.stt_rec || ''"
         [action]="action"
         [shop]="shop"
         [invalid]="invalid"
@@ -201,18 +204,15 @@
           'giam_gia_crm',
           'chiet_khau',
           'voucher_doi_tac',
-          'quet_the_tra_gop'
+          'quet_the_tra_gop',
+          'mb_qr'
         ]"
         [readonly]="disabled"
         [t_tong_tien]="data.masterInfo.s4 || 0"
         [data]="payment"
         [t_con_no]="data.masterInfo.t_con_no || 0"
         [t_da_tra]="data.masterInfo.t_da_tra || 0"
-        (handleChangeValue)="
-          data.masterInfo.t_con_no = $event.t_con_no;
-          data.masterInfo.t_da_tra = $event.t_da_tra;
-          this.tien = $event.t_da_tra + ''
-        "
+        (handleChangeValue)="onPaymentChange($event)"
         [buttons]="buttonsAfterPayment"
         (handleButton)="onClickButtonInput($event)">
       </payment-tab>

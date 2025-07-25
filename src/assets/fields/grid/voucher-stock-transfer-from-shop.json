@@ -56,7 +56,9 @@
     "MERCHANDISE_LIST": [
         {
             "name": "line_nbr",
-            "title": "Stt"
+            "title": "Stt",
+            "width": "60px",
+            "align": "center"
         },
         {
             "name": "ma_vt",
