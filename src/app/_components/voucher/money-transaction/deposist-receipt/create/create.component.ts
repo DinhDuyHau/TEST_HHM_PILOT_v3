@@ -227,19 +227,7 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
       this.stockService.setItemFilter([{ name: 'ma_cuahang', value: this.data.masterInfo.ma_cuahang }, { name: 'ma_loai', value: 'HM' }]);
       this.dataSource = new MatTableDataSource<ReceiptDetail>(this.data.details[0].data);
       this.paymentServiceShop.convertPaymentFromVoucher(this.data.details[1].data, this.payment);
-      this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
-        this.statusList = result;
-        // Nếu trạng thái hiện tại là '1' thì loại bỏ trạng thái '0' khỏi statusList
-        if (this.data.masterInfo.status == '1') {
-          this.statusList = this.statusList.filter(x => x.status !== '0');
-        }
-        if (!this.data.masterInfo.status) {
-          this.data.masterInfo.status = this.statusList[0].status;
-          if (this.f) {
-            this.f['status'].setValue(this.data.masterInfo.status);
-          }
-        }
-      });
+      this.getStatusList();
     }));
   }
   ngOnInit() {
@@ -364,6 +352,30 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
       t_tien_nt: [this.data.masterInfo.t_tien_nt, Validators.required],
       t_tt_nt: [this.data.masterInfo.t_tt_nt, Validators.required],
       detail: [this.data.details || [], Validators.required],
+    });
+  }
+
+  getStatusList = () => {
+    this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
+      this.statusList = result;
+
+      const currentStatus = this.data.masterInfo.status;
+
+      if (currentStatus === '1') {
+        // Nếu đang là "Chờ thanh toán" thì không cho người dùng chọn lại "Lập chứng từ"
+        this.statusList = this.statusList.filter(x => x.status !== '0');
+      } else if (currentStatus === '0') {
+        // Nếu đang là "Lập chứng từ" thì không cho người dùng chọn "Chờ thanh toán"
+        this.statusList = this.statusList.filter(x => x.status !== '1');
+      }
+
+      // Nếu chưa có trạng thái thì set trạng thái đầu tiên
+      if (!currentStatus && this.statusList.length > 0) {
+        this.data.masterInfo.status = this.statusList[0].status;
+        if (this.f?.['status']) {
+          this.f['status'].setValue(this.data.masterInfo.status);
+        }
+      }
     });
   }
 
@@ -581,9 +593,10 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
     this.data.masterInfo.t_con_no = $event.t_con_no;
     this.data.masterInfo.t_da_tra = $event.t_da_tra;
     this.data.masterInfo.status = $event.status;
+    this.getStatusList();
   }
 
   isInputDisabled() {
-    return this.disabled || Object.values(this.payment).some(p => p?.mb_qr?.selected === true);
+    return this.disabled || Object.values(this.payment).some(p => p?.selected === true);
   }
 }

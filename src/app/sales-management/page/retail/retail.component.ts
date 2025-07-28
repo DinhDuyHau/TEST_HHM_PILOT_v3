@@ -254,17 +254,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
       }
     });
 
-    const getStatusList = () => {
-      this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.RETAIL }]).subscribe(result => {
-        const allItems = result.result.items as StatusTicket[];
-        if (this.ticket.masterInfo.status === '1') {
-          this.statusList = allItems.filter(item => item.status != '0');
-        } else {
-          this.statusList = allItems;
-        }
-      });
-    };
-
     this.route.queryParams.pipe().subscribe((data: any) => {
       if (data.key) {
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.RETAIL, data.key).subscribe((result) => {
@@ -302,7 +291,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
             this.list_imei_old = this.ticket.merchandise.map(x => x.ma_imei);
             this.handleGetDeposit();
             this.commonService.addToImeisInVoucher(this.ticket.merchandise.filter(e => e.ma_imei).map(e => e.ma_imei));
-            getStatusList();
+            this.getStatusList();
             this.tabIndexFocusFirst = this.tabIndex.imei;
             this.commonService.getPointRateExchange(this.ticket, this.option);
 
@@ -327,7 +316,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
         });
       } else {
         this.retailService.initTicket(this.ticket);
-        getStatusList();
+        this.getStatusList();
         this.tabIndexFocusFirst = this.tabIndex.ma_kh;
         this.commonService.getPointRateExchange(this.ticket, this.option);
       }
@@ -336,6 +325,25 @@ export class RetailComponent implements OnInit, AfterViewInit {
     // dùng để truyền sang navigation call api lấy trang prev and next
     this.table_name = TAB_NAME.MERCHANDISE;
   }
+
+  getStatusList = () => {
+    this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.RETAIL }]).subscribe(result => {
+      const allItems = result.result.items as StatusTicket[];
+      const currentStatus = this.ticket.masterInfo.status;
+
+      if (currentStatus === '1') {
+        // Nếu là "Chờ thanh toán" → loại bỏ "Lập chứng từ"
+        this.statusList = allItems.filter(item => item.status !== '0');
+      } else if (currentStatus === '0') {
+        // Nếu là "Lập chứng từ" → loại bỏ "Chờ thanh toán"
+        this.statusList = allItems.filter(item => item.status !== '1');
+      } else {
+        // Các trạng thái khác → giữ nguyên
+        this.statusList = allItems;
+      }
+    });
+  };
+
   // Lấy file ảnh từ khách hàng
   getImageCustomerFile(image: string) {
     this.fileService.getFileFromUrl(image).subscribe((res: Blob) => {
@@ -811,6 +819,11 @@ export class RetailComponent implements OnInit, AfterViewInit {
           // this.retailService.removeDiscount(discountsInvalid);
           const discountAfterRemove = this.discountCanApply.filter((item) => discountCurrent.find(x => x.ma_ck == item.ma_ck));
           this.retailService.updateDiscount(discountAfterRemove, false, null, isVoucherDiscount);
+
+          if (this.ticket.voucherCode.length === 0) {
+            this.ticket.masterInfo.status = '0';
+            this.getStatusList();
+          }
         }
         else {
           this.commonService.showMessageByName(result.message);
@@ -1148,8 +1161,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck;
     this.ticket.masterInfo.t_cp_khac = $event.t_chi_phi;
     this.ticket.masterInfo.status = $event.status;
-
     this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
+
+    // cập nhật lại trạng thái
+    this.getStatusList();
   }
 
   handleProcessImei(ma_imei: string) {
@@ -1524,18 +1539,15 @@ export class RetailComponent implements OnInit, AfterViewInit {
           const discountAfterRemove = this.discountCanApply.filter((item) => discountCurrent.find(x => x.ma_ck == item.ma_ck));
           this.retailService.updateDiscount(discountAfterRemove, false, null, false);
 
-          // mảng voucherCode có dữ liệu thì thực hiện chuyển trạng thái hoàn thành
+          // mảng voucherCode có dữ liệu thì thực hiện chuyển trạng thái chờ thanh toán
           if (this.ticket.voucherCode.length > 0) {
-            this.ticket.masterInfo.status = "2";
+            this.ticket.masterInfo.status = "1";
+            // cập nhật lại trạng thái
+            this.getStatusList();
           }
         }
         else {
           this.commonService.showMessageByName(result.message);
-        }
-
-        // mảng voucherCode có dữ liệu thì thực hiện chuyển trạng thái hoàn thành
-        if (this.ticket.voucherCode.length > 0) {
-          this.ticket.masterInfo.status = "2";
         }
       });
     }
@@ -1742,7 +1754,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const voucherList = this.ticket?.voucherCode ?? [];
     const discountList = this.ticket?.discount ?? [];
 
-    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.mb_qr?.selected === true);
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
 
     const hasReadonlyType10 = voucherList.some(voucher =>
       discountList.some(discount =>
@@ -1754,20 +1766,9 @@ export class RetailComponent implements OnInit, AfterViewInit {
     return hasSelectedPayment || hasReadonlyType10;
   }
 
-  isInputDisabledFull(): boolean {
-    const voucherList = this.ticket?.voucherCode ?? [];
-    const discountList = this.ticket?.discount ?? [];
-
+  isInputDisabledStatus(): boolean {
     const hasReadonlyOrDisabled = this.readonly || this.disableSelectStatus;
-
-    const hasReadonlyType10 = voucherList.some(voucher =>
-      discountList.some(discount =>
-        discount.imei_hang_mua === voucher.ma_voucher &&
-        discount.loai_ck === '10'
-      ) && voucher.ma_voucher?.length > 0
-    );
-
-    return hasReadonlyOrDisabled || hasReadonlyType10;
+    return hasReadonlyOrDisabled;
   }
 
   isInputReadonly() {
@@ -1775,7 +1776,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const discountList = this.ticket?.discount ?? [];
 
     const isReadonlyFlag = this.readonly;
-    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.mb_qr?.selected === true);
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
 
     const hasReadonlyType10 = voucherList.some(voucher =>
       discountList.some(discount =>
@@ -1788,7 +1789,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
 
   isAnyPaymentSelected(): boolean {
-    return Object.values(this.ticket.payment).some(p => p?.mb_qr?.selected === true);
+    return Object.values(this.ticket.payment).some(p => p?.selected === true);
   }
   //#endregion
 
