@@ -747,6 +747,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
     this.data.masterInfo.t_con_no = $event.t_con_no;
     this.data.masterInfo.t_da_tra = $event.t_da_tra;
     this.data.masterInfo.status = $event.status;
+    this.getStatusList();
   }
 
   isInputDisabled() {
