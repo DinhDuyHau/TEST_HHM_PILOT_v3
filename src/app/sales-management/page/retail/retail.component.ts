@@ -1582,6 +1582,14 @@ export class RetailComponent implements OnInit, AfterViewInit {
     return hasReadonlyOrDisabled || hasReadonlyType10;
   }
 
+  isInputDisabledStatus(): boolean {
+    const voucherList = this.ticket?.voucherCode ?? [];
+    const discountList = this.ticket?.discount ?? [];
+    const hasReadonlyOrDisabled = this.readonly || this.disableSelectStatus;
+
+    return hasReadonlyOrDisabled;
+  }
+
   isInputReadonly() {
     const voucherList = this.ticket?.voucherCode ?? [];
     const discountList = this.ticket?.discount ?? [];
