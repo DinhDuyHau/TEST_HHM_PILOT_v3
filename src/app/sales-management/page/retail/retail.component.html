@@ -66,7 +66,7 @@
         [name]="'dien_giai'"
         [label]="getLabel('lbl_dien_giai')"
         [value]="ticket.masterInfo.dien_giai"
-        [disabled]="isInputDisabled()"
+        [disabled]="readonly"
         (handleChangeValue)="
           ticket.masterInfo.dien_giai = txt_dien_giai.value
         " />
@@ -243,7 +243,7 @@
         l_ten_don_vi="Tên đơn vị / Shipper"
         dataDefault="03"
         [data]="ticket.transport"
-        [readonly]="readonly"
+        [readonly]="isInputDisabled()"
         [isOtherLabel]="true" />
       </tab-custom>
       <!-- <tab-custom label="Bảo hành" class="w-100">
