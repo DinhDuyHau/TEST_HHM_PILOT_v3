@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DiscountApiService } from '@app/sales-management/api/discount-api.service';
 import { ImeiApiService } from '@app/sales-management/api/imei-api.service';
 import { MerchandiseApiService } from '@app/sales-management/api/merchandise-api.service';
-import { Discount } from '@app/sales-management/model/ticket/common-model/discount.model';
+import { Discount, DISCOUNT_TYPE } from '@app/sales-management/model/ticket/common-model/discount.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Payment } from '@app/sales-management/model/ticket/common-model/payment.model';
 import { ImeisManagerService } from './imeisManager.service';
@@ -221,7 +221,7 @@ export class CommonService {
     updateBaseInfo = (masterInfo: any, model: any[]) => {
         model.forEach(e => {
             e.stt_rec = masterInfo.stt_rec;
-            e.stt_rec0 = masterInfo.stt_rec0;
+            // e.stt_rec0 = masterInfo.stt_rec0; // bảng master ko có stt_rec0 mà update bằng bẳng master cho bảng detail?
             e.ma_ct = masterInfo.ma_ct;
             e.ngay_ct = masterInfo.ngay_ct;
             e.ma_cuahang = masterInfo.ma_cuahang;
@@ -541,9 +541,9 @@ export class CommonService {
     * Lưu dữ liệu ticket vào localStorage khi: loading, advance search, quick search
     */
     saveTicketToLocalStorage(data: any) {
-          const sttRecArray = data.map((item: any) => item.stt_rec);
-          localStorage.removeItem('ticketData');
-          localStorage.setItem('ticketData', JSON.stringify(sttRecArray) || '[]');
+        const sttRecArray = data.map((item: any) => item.stt_rec);
+        localStorage.removeItem('ticketData');
+        localStorage.setItem('ticketData', JSON.stringify(sttRecArray) || '[]');
     }
 
     /*
@@ -591,12 +591,12 @@ export class CommonService {
     * Kiểm tra xem khách hàng đã đủ thông tin chỉ định hay chưa
     */
     shouldOpenDialog(customer: any): boolean {
-          // Các trường cần kiểm tra
-          const requiredFields = ['ma_kh', 'ten_kh', 'dia_chi', 'dien_thoai', 'ngay_sinh', 'email_cn'];
+        // Các trường cần kiểm tra
+        const requiredFields = ['ma_kh', 'ten_kh', 'dia_chi', 'dien_thoai', 'ngay_sinh', 'email_cn'];
 
-          // Kiểm tra nếu bất kỳ trường nào bị thiếu (null, undefined, hoặc chuỗi rỗng)
-          return requiredFields.some(field => !customer[field] || customer[field].trim() === '');
-      }
+        // Kiểm tra nếu bất kỳ trường nào bị thiếu (null, undefined, hoặc chuỗi rỗng)
+        return requiredFields.some(field => !customer[field] || customer[field].trim() === '');
+    }
 
     /*
     * Update value cho cột theo field truyền vào
@@ -685,6 +685,36 @@ export class CommonService {
         };
 
         return this.voucherCodeApiService.voucherCheck(payload);
+    }
+
+    handleResponseErrorVoucher(result: any, route: string) {
+        if (result.result && result.result.length > 0) {
+            if (result.message == 'Runtime_err') {
+                this.showMessageByName('Runtime_err');
+                this.router.navigate([route]);
+                return;
+            }
+            this.showMessageByNameAdvance(result.message, ...result.result);
+        }
+        else {
+            if (result.message == 'Runtime_err' || !result.message || result.message === '') {
+                this.showMessageByName('Runtime_err');
+                this.router.navigate([route]);
+                return;
+            }
+            this.showMessageByName(result.message);
+        }
+    }
+
+    mapDiscountApprover(ticket: any) {
+        const approver = ticket.masterInfo?.nguoi_duyet_ck?.trim();
+        if (ticket.discount.some((x: any) => x.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER) && approver) {
+            ticket.discount.forEach((x: any) => {
+                if (x.loai_ck === DISCOUNT_TYPE.REDUTION_FOR_CUSTOMER) {
+                    x.ma_td1 = approver;
+                }
+            });
+        }
     }
 
 }

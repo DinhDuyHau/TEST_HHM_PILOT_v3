@@ -248,9 +248,9 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
     // Submit
     onSave() {
         // Check âm tiền nợ
-        if(this.ticket.masterInfo.t_con_no < 0) {
-          this.commonService.showMessage('Tiền nợ không được âm');
-          return;
+        if (this.ticket.masterInfo.t_con_no < 0) {
+            this.commonService.showMessage('Tiền nợ không được âm');
+            return;
         }
 
         const message = this.serviceCompensationService.validateTicket(this.ticket);
@@ -263,8 +263,8 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
             const voucherDto = this.serviceCompensationService.prepareVoucher();
 
             this.route.queryParams.subscribe((data: any) => {
-                  this.isDisabled = true;
-                  if (this.mode === MODE.UPDATE && !this.isSaving) {
+                this.isDisabled = true;
+                if (this.mode === MODE.UPDATE && !this.isSaving) {
                     this.isSaving = true;
                     this.ticketApiService.updateVoucher(TICKET_ENTITY.SERVICE_COMPENSATION, voucherDto).subscribe(result => {
                         this.isSaving = false;
@@ -284,12 +284,7 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
                             // }
                             this.router.navigate(['voucher/service-compensation']);
                         } else {
-                            if (result.result && result.result.length > 0) {
-                                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-                            }
-                            else {
-                                this.commonService.showMessageByName(result.message);
-                            }
+                            this.commonService.handleResponseErrorVoucher(result, 'voucher/service-compensation');
                         }
                     });
                 } else if (this.mode === MODE.CREATE && !this.isSaving) {
@@ -302,12 +297,7 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
                             this.commonService.showMessage(Language.content.Successful_Create);
                             this.router.navigate(['voucher/service-compensation']);
                         } else {
-                            if (result.result && result.result.length > 0) {
-                                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-                            }
-                            else {
-                                this.commonService.showMessageByName(result.message);
-                            }
+                            this.commonService.handleResponseErrorVoucher(result, 'voucher/service-compensation');
                         }
                     });
                 }

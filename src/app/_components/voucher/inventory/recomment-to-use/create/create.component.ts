@@ -367,12 +367,7 @@ export class RecommentToUseDetailComponent extends Grid<ReceiptDetail> implement
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         }
         else {
-          if (item.result && item.result.length > 0) {
-            this.commonService.showMessageByNameAdvance(item.message, ...item.result);
-          }
-          else {
-            this.commonService.showMessageByName(item.message);
-          }
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/recomment-to-use');
         }
       });
     }
@@ -386,12 +381,7 @@ export class RecommentToUseDetailComponent extends Grid<ReceiptDetail> implement
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');
         }
         else {
-          if (item.result && item.result.length > 0) {
-            this.commonService.showMessageByNameAdvance(item.message, ...item.result);
-          }
-          else {
-            this.commonService.showMessageByName(item.message);
-          }
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/recomment-to-use');
         }
       });
     }
@@ -442,7 +432,7 @@ export class RecommentToUseDetailComponent extends Grid<ReceiptDetail> implement
       return;
     }
 
-    if(!imei || imei.length < 5) {
+    if (!imei || imei.length < 5) {
       this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
       return;
     }
@@ -484,7 +474,7 @@ export class RecommentToUseDetailComponent extends Grid<ReceiptDetail> implement
           title: 'Danh sách kết quả tìm kiếm imei',
           isFilter: false
         }, 'search-style-dialog')
-          .afterClosed().subscribe( async (result) => {
+          .afterClosed().subscribe(async (result) => {
             if (result && result.ma_imei) {
               const ma_imei = result.ma_imei;
               await this.processImeiInfo(ma_imei);

@@ -133,8 +133,9 @@ export class InternalSaleDetailService implements IGridService<ReceiptDetail>{
       }
     });
   }
-  getPdfFile(data: any) {
-    return this.http.post(`${environment.apiUrl}/EInvoice/invoicePDFV2?stt_rec=${data.masterInfo.stt_rec}&ma_ct=${data.masterInfo.ma_ct}`, {});
+  // type: official|draft
+  getPdfFile(data: any, type: string = 'official') {
+    return this.http.post(`${environment.apiUrl}/EInvoice/invoicePDFV2?stt_rec=${data.masterInfo.stt_rec}&ma_ct=${data.masterInfo.ma_ct}&type=${type}`, {});
   }
   createDraft(data: any) {
     return this.http.post(`${environment.apiUrl}/EInvoice/CreateDraftV2?stt_rec=${data.masterInfo.stt_rec}&ma_ct=${data.masterInfo.ma_ct}`, {});

@@ -345,12 +345,7 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
               this.commonService.showMessage(Language.content.Update_Completed);
               this.router.navigate(['sales/gift-repay']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/gift-repay');
             }
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
@@ -364,12 +359,7 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
               this.commonService.showMessage(Language.content.Successful_Create);
               this.router.navigate(['sales/gift-repay']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/gift-repay');
             }
           });
         }

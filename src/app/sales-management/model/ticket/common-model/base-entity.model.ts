@@ -61,6 +61,9 @@ export class BaseMasterInfo extends BaseEntity {
     hd_dia_chi = '';
     hd_httt = '';
     hd_email = '';
+    hd_nguoi_mua = '';
+    hd_loai_giay_to = '';
+    hd_so_giay_to = '';
 
     nguoi_duyet_ck = '';
 }

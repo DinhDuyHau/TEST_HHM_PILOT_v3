@@ -22,6 +22,7 @@ export class DiscountRequest extends BaseEntity {
     ma_imei = '';
     line_nbr = 0;
     imei_hang_mua = '';
+    ma_td1 = ''; // người duyệt ck 04
 
     constructor(obj?: any) {
         super();
@@ -55,6 +56,7 @@ export class Discount {
     tl_ck = 0;
     campaign_id = '';
     tien_ck_max = 0;
+    ma_td1 = '';
 
     constructor(obj?: any) {
         Object.assign(this, obj);

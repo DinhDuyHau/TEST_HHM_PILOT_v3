@@ -373,12 +373,7 @@ export class StockTranferCreateComponent extends Grid<ReceiptDetail> implements 
         // this.commonService.clearImeiStorage();
       }
       else {
-        if (item.result && item.result.length > 0) {
-          this.commonService.showMessageByNameAdvance(item.message, ...item.result);
-        }
-        else {
-          this.commonService.showMessageByName(item.message);
-        }
+        this.commonService.handleResponseErrorVoucher(item, 'voucher/stock-tranfer');
       }
     });
   }

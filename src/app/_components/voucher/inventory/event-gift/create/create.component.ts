@@ -210,7 +210,7 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
       });
       this.stockService.setItemFilter([{ name: 'ma_cuahang', value: this.data.masterInfo.ma_cuahang }, { name: 'ma_loai', value: 'HM' }]);
       this.dataSource = new MatTableDataSource<ReceiptDetail>(this.data.details[0].data);
-      if(this.data.masterInfo.fcode3) {
+      if (this.data.masterInfo.fcode3) {
         this.duyet_yn = true;
       }
     }));
@@ -374,7 +374,7 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
       this.commonService.showMessageByName('lblWarningLackDetail');
       return;
     }
-    if(this.duyet_yn && !this.data.masterInfo.fcode3) {
+    if (this.duyet_yn && !this.data.masterInfo.fcode3) {
       this.commonService.showMessage('Cần chọn ASM duyệt trước khi lưu');
       return;
     }
@@ -389,7 +389,7 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'edit_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/event-gift');
         }
       });
     }
@@ -403,7 +403,7 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'add_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/event-gift');
         }
       });
     }
@@ -433,7 +433,7 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
       if (this.f[item.control]) {
         this.f[item.control].setValue(item.value);
       }
-      if(item.control == 'duyet_yn') {
+      if (item.control == 'duyet_yn') {
         this.duyet_yn = item.value;
       }
       if (item.control == 'ma_sukien') {

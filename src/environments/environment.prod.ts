@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    appVersion: '2.25.072001',
+    appVersion: '1.0.1',
 
     /* URL PRODUCT */
     apiUrl: 'https://hhm-pilot-api.genbyte.net',

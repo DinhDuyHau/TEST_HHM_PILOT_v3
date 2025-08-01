@@ -111,6 +111,7 @@ export class SaleAffiliateService {
     // create or update
     prepareVoucher(): VoucherDto {
         const voucherDto: VoucherDto = new VoucherDto;
+        this.commonService.mapDiscountApprover(this.ticket);
         voucherDto.details = [];
         voucherDto.masterInfo = this.commonService.convertMasterInfo(this.ticket.masterInfo, MasterInfoRequest);
         voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.MERCHANDISE, data: this.merchandiseService.convertMerchandiseToRequest(this.ticket.merchandise, voucherDto.masterInfo, MerchandiseRequest) }];
@@ -164,10 +165,11 @@ export class SaleAffiliateService {
         this.ticket.masterInfo.email_nhan_key = customer.email_cn;
 
         //Thông tin khách hàng trên hóa đơn điện tử
-        this.ticket.masterInfo.hd_dia_chi = customer.hoadon_diachi || '';
+        // this.ticket.masterInfo.hd_dia_chi = customer.dia_chi || '';
         this.ticket.masterInfo.hd_email = customer.hoadon_email || '';
-        this.ticket.masterInfo.hd_mst = customer.hoadon_mst || '';
-        this.ticket.masterInfo.hd_ten_kh = customer.hoadon_tenkh || '';
+        // this.ticket.masterInfo.hd_mst = customer.hoadon_mst || '';
+        // this.ticket.masterInfo.hd_ten_kh = customer.hoadon_tenkh || '';
+        this.ticket.masterInfo.hd_nguoi_mua = customer.ten_kh || '';
     }
 
     resetCustomerInfo(ticket: SaleAffiliateceTicket) {
@@ -342,8 +344,9 @@ export class SaleAffiliateService {
         const entity = TICKET_ENTITY.RETAIL;
         const merchandise = this.ticket.merchandise.filter(x => !x.km_yn);
         const service = this.ticket.service;
+        const stt_rec = this.ticket.masterInfo.stt_rec || '';
         if (this.isNeedCalcDiscount) {
-            return this.discountApiService.getDiscountForTicket(entity, merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck, TICKET_CODE.AFFILIATE);
+            return this.discountApiService.getDiscountForTicket(entity, merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck, TICKET_CODE.AFFILIATE, stt_rec);
         }
         return;
     }

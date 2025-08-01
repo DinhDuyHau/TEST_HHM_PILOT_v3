@@ -282,12 +282,12 @@
               [readonly]="readonly"
               [name]="'bh_mau_hd'"
               [label]="getLabel('lbl_hddt_mau_hd')"
-              [value]="ticket.electronic_bill.tl_mau_hd"
+              [value]="this.eInvoiceInfo.hddt_mau_hd"
               [disabled]="true" />
             <form-input-custom
               [name]="'bh_ngay_hd'"
               [label]="getLabel('lbl_hddt_ngay_hd')"
-              [value]="ticket.electronic_bill.tl_ngay_hd"
+              [value]="this.eInvoiceInfo.hddt_ngay_hd"
               dataType="date"
               type="date"
               [disabled]="true" />
@@ -295,19 +295,19 @@
               [readonly]="readonly"
               [name]="'bh_so_hd'"
               [label]="getLabel('lbl_hddt_so_hd')"
-              [value]="ticket.electronic_bill.tl_so_hd"
+              [value]="this.eInvoiceInfo.hddt_so_hd"
               [disabled]="true" />
             <form-input-custom
               [readonly]="readonly"
               [name]="'bh_ma_so_thue'"
               [label]="getLabel('lbl_hddt_ma_so_thue')"
-              [value]="ticket.electronic_bill.tl_ma_so_thue"
+              [value]="this.eInvoiceInfo.hddt_ma_so_thue"
               [disabled]="true" />
             <form-input-custom
               [readonly]="readonly"
               [name]="'bh_ma_tra_cuu'"
               [label]="getLabel('lbl_hddt_ma_tra_cuu')"
-              [value]="ticket.electronic_bill.tl_ma_tra_cuu"
+              [value]="this.eInvoiceInfo.hddt_ma_tra_cuu"
               [disabled]="true" />
           </div>
           <div class="box-2">
@@ -315,12 +315,12 @@
               [readonly]="readonly"
               [name]="'bh_so_seri'"
               [label]="getLabel('lbl_hddt_so_seri')"
-              [value]="ticket.electronic_bill.tl_so_seri"
+              [value]="this.eInvoiceInfo.hddt_so_seri"
               [disabled]="true" />
             <form-input-custom
               [name]="'bh_ngay_ky'"
               [label]="getLabel('lbl_hddt_ngay_ky')"
-              [value]="ticket.electronic_bill.tl_ngay_ky"
+              [value]="this.eInvoiceInfo.hddt_ngay_ky"
               dataType="date"
               type="date"
               [disabled]="true" />
@@ -328,7 +328,7 @@
               [readonly]="readonly"
               [name]="'bh_status'"
               [label]="getLabel('lbl_hddt_status')"
-              [value]="ticket.electronic_bill.bh_status"
+              [value]="this.eInvoiceInfo.hddt_status"
               [disabled]="true" />
           </div>
         </div>
@@ -468,6 +468,46 @@
             [entity]="entity"
             class="text-base"
             [voucherId]="ticket.masterInfo.stt_rec" />
+
+          <button
+            class="btn-responsive btn-cancel"
+            (click)="handleGetPDFInvoiceDraft()"
+            [disabled]="isGetPdfInvoice"
+            *ngIf="this.ticket.masterInfo.status == '0'"
+          >
+            <span *ngIf="isGetPdfInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isGetPdfInvoice">Tải PDF HĐĐT Nháp</span>
+          </button>
+
+          <button
+            class="btn-responsive btn-cancel"
+            (click)="handleGetPDFInvoice()"
+            [disabled]="isGetPdfInvoice"
+            *ngIf="this.ticket.masterInfo.status == '2'"
+          >
+            <span *ngIf="isGetPdfInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isGetPdfInvoice">Tải PDF HĐĐT</span>
+          </button>
+
+          <button
+            class="btn-responsive btn-cancel"
+            (click)="handleGetInvoice()"
+            [disabled]="isGetInvoice"
+            *ngIf="this.ticket.masterInfo.status == '2'"
+          >
+            <span *ngIf="isGetInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isGetInvoice">Lấy số HĐĐT</span>
+          </button>
+
+          <button
+            class="btn-responsive btn-cancel"
+            (click)="handleCreateDraftInvoice()"
+            [disabled]="isCreateDraftInvoice"
+          >
+            <span *ngIf="isCreateDraftInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isCreateDraftInvoice">Lập HĐĐT nháp</span>
+          </button>
+
           <div class="btn-responsive btn-in-file">
             <span>{{ getLabel('btnPrint') }}</span>
           </div>
@@ -477,7 +517,7 @@
           <button
             class="btn-responsive btn-add"
             [disabled]="isDisabled"
-            (click)="onSave()"
+            (click)="beforeSave()"
             *ngIf="!readonly">
             {{ submitButtonTitle }}
           </button>

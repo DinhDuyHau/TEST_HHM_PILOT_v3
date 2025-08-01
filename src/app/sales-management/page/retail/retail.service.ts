@@ -132,6 +132,7 @@ export class RetailService {
     // create or update
     prepareVoucher(): VoucherDto {
         const voucherDto: VoucherDto = new VoucherDto;
+        this.commonService.mapDiscountApprover(this.ticket);
         voucherDto.details = [];
         //console.log(this.ticket.masterInfo);
         voucherDto.masterInfo = this.commonService.convertMasterInfo(this.ticket.masterInfo, MasterInfoRequest);
@@ -185,10 +186,11 @@ export class RetailService {
         this.ticket.masterInfo.email_nhan_key = customer.email_cn;
 
         //Thông tin khách hàng trên hóa đơn điện tử
-        this.ticket.masterInfo.hd_dia_chi = customer.hoadon_diachi || '';
+        this.ticket.masterInfo.hd_dia_chi = customer.dia_chi || '';
         this.ticket.masterInfo.hd_email = customer.hoadon_email || '';
         this.ticket.masterInfo.hd_mst = customer.hoadon_mst || '';
         this.ticket.masterInfo.hd_ten_kh = customer.hoadon_tenkh || '';
+        this.ticket.masterInfo.hd_nguoi_mua = customer.ten_kh || '';
     }
 
     resetCustomerInfo(ticket: RetailSaleTicket) {
@@ -455,8 +457,9 @@ export class RetailService {
         const entity = TICKET_ENTITY.RETAIL;
         const merchandise = this.ticket.merchandise.filter(x => !x.km_yn);
         const service = this.ticket.service;
+        const stt_rec = this.ticket.masterInfo.stt_rec || '';
         if (this.isNeedCalcDiscount) {
-            return this.discountApiService.getDiscountForTicket(entity, merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck, TICKET_CODE.RETAIL);
+            return this.discountApiService.getDiscountForTicket(entity, merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck, TICKET_CODE.RETAIL, stt_rec);
         }
         return;
     }

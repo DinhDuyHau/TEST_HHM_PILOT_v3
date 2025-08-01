@@ -416,7 +416,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'edit_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/collection-receipt');
         }
       });
     }
@@ -431,7 +431,7 @@ export class CollectionReceiptDetailComponent extends Grid<ReceiptDetail> implem
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'add_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/collection-receipt');
         }
       });
     }

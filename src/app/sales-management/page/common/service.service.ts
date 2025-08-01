@@ -3,6 +3,7 @@ import { Service, ServiceRequest } from '@app/sales-management/model/ticket/comm
 import { CommonService } from './common.service';
 import { Discount } from '@app/sales-management/model/ticket/common-model/discount.model';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
+import { ServiceApiService } from '@app/sales-management/api/service-api.service';
 
 
 @Injectable({
@@ -122,6 +123,9 @@ export class ServiceOfMerchandiseService {
             rs.km_yn = service.km_yn ? 1 : 0;
             rs.gia_vat = service.gia_vat;
             rs.gia_vat_nt = service.gia_vat;
+            rs.stt_rec0 = service.stt_rec0 || '';
+            rs.stt_rec_px = service.stt_rec_px || '';
+            rs.stt_rec0px = service.stt_rec0px || '';
 
             return rs;
         });
@@ -149,6 +153,7 @@ export class ServiceOfMerchandiseService {
             serviceNew.key = e.stt_rec_hd + e.stt_rec0hd;
             serviceNew.gia_nhap_mua = e.gia_vat;
             serviceNew.line_nbr = i;
+            serviceNew.stt_rec0 = e.stt_rec0 || '';
             return serviceNew;
         });
         rs.map((e, i) => { e.line_nbr = i; });
@@ -220,6 +225,7 @@ export class ServiceOfMerchandiseService {
             rs.stt_rec0hd = service.stt_rec0hd;
             rs.so_ct_hd = service.so_ct_hd;
             rs.ngay_ct_hd = service.ngay_ct_hd;
+            rs.stt_rec0 = service.stt_rec0;
 
             return rs;
         });

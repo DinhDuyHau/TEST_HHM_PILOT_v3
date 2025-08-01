@@ -23,6 +23,7 @@ import { CustomerCreateDialogComponent } from '@app/sales-management/component/c
 import { Service } from '@app/sales-management/model/ticket/common-model/service.model';
 import { ServiceOfMerchandiseService } from '../common/service.service';
 import { PaymentService } from '../common/payment.service';
+import { ServiceApiService } from '@app/sales-management/api/service-api.service';
 
 const { MERCHANDISE_RETURN_ONLINE_LIST, SERVICE_LIST, SERVICE_LIST_SALE_RETURN } = require('@assets/fields/grid/sales-fields-table.json');
 
@@ -84,7 +85,8 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
     private merchandiseService: MerchandiseService,
     private serviceOfMerchandiseService: ServiceOfMerchandiseService,
     private paymentService: PaymentService,
-    private imeiService: IMEIService
+    private imeiService: IMEIService,
+    private serviceApiService: ServiceApiService,
   ) {
     localStorage.setItem('useGridCached', '1');
     this.saleReturnOnlineService.setTicket(this.ticket);
@@ -263,7 +265,19 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
                   details.map((detail: any) => {
                     switch (detail.name.toLocaleLowerCase()) {
                       case 'services':
-                        this.serviceOfMerchandiseService.convertFromVoucher(detail.data, this.ticket.service);
+                        // check xem được nhập dịch vụ hay không
+                        const services = detail.data as any;
+                        if (services && services.length > 0) {
+                          services.forEach((service: any) => {
+                            this.serviceApiService.getServiceReturnOrBuyBack(service?.stt_rec, service?.stt_rec0).subscribe((response) => {
+                              if (response && response.success && response.result) {
+                                this.commonService.showMessage(`Dịch vụ đã được nhập / mua lại ở phiếu: ${response.result}`);
+                              } else {
+                                this.saleReturnOnlineService.convertFromVoucherService(detail.data, this.ticket.service);
+                              }
+                            });
+                          });
+                        }
                         break;
                       case 'electric_biill':
                         this.ticket.electronic_bill = this.commonService.convertDateOfModelFromVoucher(detail.data[0]);
@@ -372,12 +386,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
               this.commonService.showMessage(Language.content.Update_Completed);
               this.router.navigate(['sales/return-online']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/return-online');
             }
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
@@ -391,12 +400,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
               this.commonService.showMessage(Language.content.Successful_Create);
               this.router.navigate(['sales/return-online']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/return-online');
             }
           });
         }

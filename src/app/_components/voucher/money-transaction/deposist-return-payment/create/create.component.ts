@@ -275,7 +275,7 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
     };
     if (this.mode == MODE.CREATE) {
       this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
-        if(result) {
+        if (result) {
           this.statusList = result.filter(x => x.status.trim() === '0' || x.status.trim() == '2');
           if (!this.data.masterInfo.status) {
             this.data.masterInfo.status = this.statusList[0].status;
@@ -286,7 +286,7 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
         }
       });
       this.payment.getPayment().subscribe(result => {
-        if(result) {
+        if (result) {
           this.paymentList = result.filter(payment => payment.ma_thanhtoan.trim() === 'TM');
           if (!this.data.masterInfo.ma_thanhtoan) {
             this.data.masterInfo.ma_thanhtoan = this.paymentList[0].ma_thanhtoan;
@@ -325,7 +325,7 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
         if (params['key']) {
           this.initData(params['key']);
           this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
-            if(result) {
+            if (result) {
               this.statusList = result.filter(x => x.status.trim() === '0' || x.status.trim() == '2');
               if (!this.data.masterInfo.status) {
                 this.data.masterInfo.status = this.statusList[0].status;
@@ -336,7 +336,7 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
             }
           });
           this.payment.getPayment().subscribe(result => {
-            if(result) {
+            if (result) {
               this.paymentList = result.filter(payment => payment.ma_thanhtoan.trim() === 'TM');;;
               if (!this.data.masterInfo.ma_thanhtoan) {
                 this.data.masterInfo.ma_thanhtoan = this.paymentList[0].ma_thanhtoan;
@@ -417,7 +417,7 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'edit_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/deposit-return-payment');
         }
       });
     }
@@ -431,7 +431,7 @@ export class DeposistReturnReceiptDetailComponent extends Grid<ReceiptDetail> im
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'add_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/deposit-return-payment');
         }
       });
     }
