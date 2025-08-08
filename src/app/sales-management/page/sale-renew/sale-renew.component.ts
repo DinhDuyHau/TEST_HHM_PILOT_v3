@@ -1177,7 +1177,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     }
 
     //Check imei trùng trong grid chi tiết
-    const mechandise_dup = [];
+    let mechandise_dup = [];
     const counter: { [key: string]: number } = {};
     // check imei bán mới
     for (const item of this.ticket.merchandise_new_sale) {
@@ -1193,6 +1193,8 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         mechandise_dup.push(item.ma_imei);
       }
     }
+    //loại bỏ các mã imei là chuỗi rỗng
+    mechandise_dup = mechandise_dup.filter((x: any) => x.ma_imei && x.ma_imei !== '')
     if (mechandise_dup && mechandise_dup.length > 0) {
       const duplicate_imeis = mechandise_dup.join(',');
       this.commonService.showMessage(`Các imei xuất hiện nhiều lần trong chi tiết phiếu: ${duplicate_imeis}`);

@@ -532,7 +532,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           this.commonService.saveTicketToLocalStorage(voucherData);
 
           // chỉ xử lý các phiếu chỉ định
-          if(this.entityNamesAuthorization.includes(this.entityName)) {
+          if (this.entityNamesAuthorization.includes(this.entityName)) {
             const authorizationData = result?.result[2]?.authorization[0] || [];
             this.saveAuthorization(authorizationData);
             this.setAuthorization();
@@ -730,7 +730,7 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       /* END */
 
       // trạng thái lct ko được in
-      if (this.selected_status_row === '0') {
+      if (this.selected_status_row === '0' || this.selected_status_row === '1') {
         this.commonService.showMessage('Không thể in phiếu chưa hoàn thành');
         return;
       }
