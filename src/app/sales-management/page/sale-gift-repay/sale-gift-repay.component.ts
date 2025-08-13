@@ -58,6 +58,7 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
   eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
   entity = TICKET_ENTITY.GIFT_REPAY;
   ma_imei = '';
+  invoice_model_status = '0';
 
   constructor(
     private router: Router,
@@ -128,6 +129,9 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
         this.disableSelectStatus = false;
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.GIFT_REPAY, data.key).subscribe((result) => {
           if (result.result) {
+            //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+            this.invoice_model_status = (result.result as any).masterInfo.status;
+
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_GIFT_REPAY.CREATE) {
               this.router.navigate(['/404']);
             }
@@ -203,7 +207,7 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if(!ma_imei || ma_imei.length < 5) {
+    if (!ma_imei || ma_imei.length < 5) {
       this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
       return;
     }

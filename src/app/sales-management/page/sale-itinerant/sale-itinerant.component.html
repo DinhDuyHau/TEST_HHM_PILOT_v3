@@ -37,6 +37,7 @@
         [label]="getLabel('lbl_ma_du_an')"
         [value]="ticket.masterInfo.job_id"
         [readonly]="readonly"
+        [disabled]="isInputDisabled()"
         [invalid]="invalid"
         (handleEnterInput)="onEnterProjectCode($event)"
         (handleClickOpenDialog)="openSearchProjectDialog()" />
@@ -52,6 +53,7 @@
         [label]="getLabel('lbl_ma_kh')"
         [value]="ticket.masterInfo.ma_kh"
         [readonly]="readonly"
+        [disabled]="isInputDisabled()"
         [invalid]="invalid"
         [fireChangeWhenBlur]="false"
         (handleChangeValue)="onEnterCustomerCode($event)"
@@ -70,6 +72,7 @@
         [name]="'ma_nvvc'"
         [label]="getLabel('lbl_ma_nvvc')"
         [readonly]="readonly"
+        [disabled]="isInputDisabled()"
         [value]="ticket.masterInfo.ma_nvvc"
         (handleEnterInput)="onEnterDECode($event)"
         (handleClickOpenDialog)="openSearchDEDialog()" />
@@ -85,12 +88,13 @@
         name="ma_vt"
         [label]="getLabel('lbl_ma_vt')"
         *ngIf="!readonly"
+        [disabled]="isInputDisabled()"
         (handleEnterInput)="onEnterMerchandiseCode($event)"
         (handleClickOpenDialog)="openMerchandiseDialog()" />
 
       <form-select-custom
         class="box order-dynamic-1 width-full"
-        [isDisable]="readonly || disableSelectStatus"
+        [isDisable]="isInputDisabledStatus()"
         [label]="getLabel('lbl_trang_thai')"
         [options]="statusList"
         optionDes="statusname"
@@ -102,6 +106,7 @@
         [name]="'imei'"
         [label]="getLabel('lbl_imei')"
         *ngIf="!readonly"
+        [disabled]="isInputDisabled()"
         (handleEnterInput)="onEnterImeiCode($event)"
         (handleClickCodeScanner)="onClickCodeScanner()"
         [uploadImage]="true" />
@@ -117,11 +122,13 @@
         </button>
         <button
           class="flex-1 btn act-input-data-btn text-nowrap"
+          [disabled]="isInputDisabled()"
           (click)="openCalcDiscountDialog()">
           {{ getLabel('lbl_calc_discount') }}
         </button>
         <button
           class="flex-1 btn act-input-data-btn text-nowrap"
+          [disabled]="isInputDisabled()"
           (click)="openAddCustomerDialog()">
           {{ getLabel('lbl_add_customer') }}
         </button>
@@ -139,7 +146,7 @@
 
       <tab-custom label="Hàng hoá" class="w-100">
         <table-custom
-          [readonly]="readonly"
+          [readonly]="isInputReadonly()"
           [dataSource]="ticket.merchandise"
           [columns]="merchandiseColumns"
           [isChangeColorWhenSelected]="true"
@@ -152,7 +159,7 @@
       </tab-custom>
       <tab-custom label="Dịch vụ" class="w-100">
         <table-custom
-          [readonly]="readonly"
+          [readonly]="isInputReadonly()"
           [dataSource]="ticket.service"
           [columns]="serviceColumns"
           (handleDelete)="onRemoveService($event)" />
@@ -174,7 +181,7 @@
         <table-custom
           [dataSource]="ticket.packages"
           [columns]="packageColumns"
-          [readonly]="readonly"
+          [readonly]="isInputReadonly()"
           (handleDelete)="onRemovePackage($event)" />
         <div class="flex gap-0 md:gap-4 lg:gap-8">
           <div class="flex-1 hidden lg:block"></div>
@@ -193,7 +200,7 @@
       </tab-custom>
       <tab-custom label="Chiết khấu" class="w-100">
         <table-custom
-          [readonly]="readonly"
+          [readonly]="isDiscountReadonly()"
           [dataSource]="ticket.discount"
           [columns]="discountColumns"
           (handleDelete)="onRemoveDiscount($event)" />
@@ -343,7 +350,10 @@
         [merchandise]="ticket.merchandise"
         [ma_kh]="ticket.masterInfo.ma_kh"
         [ngay_ct]="ticket.masterInfo.ngay_ct"
-        (handleChangeValue)="onPaymentChange($event)" />
+        (handleChangeValue)="onPaymentChange($event)" 
+        [status]="ticket.masterInfo.status" 
+        [model_status]="invoice_model_status"
+        />
     </ng-container>
 
     <div>
@@ -364,7 +374,7 @@
             class="btn-responsive btn-cancel"
             (click)="handleGetPDFInvoiceDraft()"
             [disabled]="isGetPdfInvoice"
-            *ngIf="this.ticket.masterInfo.status == '0'"
+            *ngIf="this.ticket.masterInfo.status == '0' || this.ticket.masterInfo.status == '1' || this.ticket.masterInfo.status == '3'"
           >
             <span *ngIf="isGetPdfInvoice" class="spinner-border spinner-border-sm mr-1"></span>
             <span *ngIf="!isGetPdfInvoice">Tải PDF HĐĐT Nháp</span>

@@ -95,6 +95,7 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
   isCreateDraftInvoice = false;
   isGetInvoice = false;
   isGetPdfInvoice = false;
+  invoice_model_status = '0';
 
   tab_sources: any[] = [
     { label: 'Tổng quan' },
@@ -196,6 +197,9 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
           if (result.result) {
             // set cửa hàng để truyền sang payment tab
             this.shop = (result.result as any).masterInfo.ma_cuahang;
+
+            //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+            this.invoice_model_status = (result.result as any).masterInfo.status;
 
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_AFFILIATE.CREATE) {
               this.router.navigate(['/404']);
@@ -830,7 +834,7 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
     });
   }
 
- // xử lý trước khi thực hiện hàm onSave()
+  // xử lý trước khi thực hiện hàm onSave()
   beforeSave() {
     // nếu là CREATE thực hiện valid
     if (this.mode === MODE.CREATE) {
@@ -860,10 +864,13 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
       this.ticket.masterInfo.fnote2 = this.ticket.masterInfo.fnote2 ? this.ticket.masterInfo.fnote2 : '0';
       const objEinvoice = this.ticket.masterInfo.fnote2;
       const { hd_mst, hd_ten_kh, hd_dia_chi } = this.ticket.masterInfo;
+      //phiếu bán liên kết không xử lý lập hddt trực tiếp cho từng phiếu => bỏ qua đoạn check ở dưới
+      /*
       if (objEinvoice == '1' && (!hd_mst || !hd_ten_kh || !hd_dia_chi)) {
         this.commonService.showMessageByName('invoice_bussiness_info');
         return;
       }
+      */
       const hd_loai_giay_to = this.ticket.masterInfo.hd_loai_giay_to;
       const hd_so_giay_to = this.ticket.masterInfo.hd_so_giay_to;
       if ((hd_loai_giay_to == '1' || hd_loai_giay_to == '2') && !hd_so_giay_to) {

@@ -65,6 +65,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
   entity = TICKET_ENTITY.CHANGE;
   ma_imei_doi = '';
+  invoice_model_status = '0';
 
   tab_sources: any[] = [
     { label: 'Tổng quan' },
@@ -160,6 +161,9 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
       if (data.key) {
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.CHANGE, data.key).subscribe((result) => {
           if (result.result) {
+            //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+            this.invoice_model_status = (result.result as any).masterInfo.status;
+
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_CHANGE.CREATE) {
               this.router.navigate(['/404']);
             }

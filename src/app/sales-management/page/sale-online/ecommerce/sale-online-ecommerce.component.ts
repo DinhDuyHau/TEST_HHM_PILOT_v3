@@ -95,6 +95,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   isCreateDraftInvoice = false;
   isGetInvoice = false;
   isGetPdfInvoice = false;
+  invoice_model_status = '0';
 
   tab_sources: any[] = [
     { label: 'Tổng quan' },
@@ -218,8 +219,24 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
     });
 
     const getStatusList = () => {
-      this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.ONLINE_ECOMMERCE }]).subscribe(result => {
-        this.statusList = result.result.items as StatusTicket[];
+      this.ticketApiService.getStatusWithOrder([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.ONLINE_ECOMMERCE }], 'xorder,status').subscribe(result => {
+        const allItems = result.result.items as StatusTicket[];
+        const currentStatus = this.ticket.masterInfo.status;
+
+        if (currentStatus === '1') {
+          // Nếu là "Chờ thanh toán" → loại bỏ "Lập chứng từ", "Hoàn thành"
+          this.statusList = allItems.filter(item => item.status !== '0' && item.status !== '2');
+        } else if (currentStatus === '0') {
+          // Nếu là "Lập chứng từ" → loại bỏ "Chờ thanh toán", "Hoàn thành"
+          this.statusList = allItems.filter(item => item.status !== '1' && item.status !== '2');
+        } else if (currentStatus === '3') {
+          // Nếu là "Chờ phát hành" → chỉ hiện "Chờ phát hành", "Hoàn thành"
+          this.statusList = allItems.filter(item => item.status === '3' || item.status === '2');
+        }
+        else {
+          // Các trạng thái khác → giữ nguyên
+          this.statusList = allItems;
+        }
       });
     };
 
@@ -231,7 +248,15 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
             // set cửa hàng để truyền sang payment tab
             this.shop = (result.result as any).masterInfo.ma_cuahang;
 
-            if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_ONLINE_ECOMMERCE.CREATE) {
+            //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+            this.invoice_model_status = (result.result as any).masterInfo.status;
+
+            // Chỉ cho phép sửa khi trạng thái là 0, 1, 3
+            if (this.mode === MODE.UPDATE &&
+              !((result.result as any).masterInfo.status === STATUS_LIST.SALE_ONLINE_ECOMMERCE.CREATE
+                || (result.result as any).masterInfo.status === STATUS_LIST.SALE_ONLINE_ECOMMERCE.PENDING_PAYMENT
+                || (result.result as any).masterInfo.status === STATUS_LIST.SALE_ONLINE_ECOMMERCE.PENDING_PUBLISH
+              )) {
               this.router.navigate(['/404']);
             }
             const hddtTable = (result.result as any).details.find((item: any) => item.id === 10);
@@ -250,6 +275,9 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
                 // this.ticket.payment.sd_diem.diem_qd = result.result;
               }
             });
+
+            console.log('end here');
+
           }
         });
       } else {
@@ -1026,6 +1054,34 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
         this.isCreateDraftInvoice = false;
       }
     });
+  }
+
+  //#endregion
+
+  //#region Readonly
+  isInputDisabled() {
+    const discountList = this.ticket?.discount ?? [];
+
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+    return hasSelectedPayment || this.invoice_model_status === '1' || this.invoice_model_status === '3';
+  }
+
+  isDiscountReadonly(): boolean {
+    return this.readonly || this.invoice_model_status === '3';
+  }
+
+  isInputDisabledStatus(): boolean {
+    const hasReadonlyOrDisabled = this.readonly || this.disableSelectStatus;
+    return hasReadonlyOrDisabled;
+  }
+
+  isInputReadonly() {
+    const discountList = this.ticket?.discount ?? [];
+
+    const isReadonlyFlag = this.readonly;
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+
+    return isReadonlyFlag || hasSelectedPayment || this.invoice_model_status === '3';
   }
 
   //#endregion

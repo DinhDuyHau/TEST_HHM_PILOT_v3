@@ -76,6 +76,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
   action = '';
   shop = '';
   isValidItemOld = false;
+  invoice_model_status = '0';
 
   transactionTypeOptions = [
     {
@@ -196,6 +197,9 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
           if (result.result) {
             // set cửa hàng để truyền sang payment tab
             this.shop = (result.result as any).masterInfo.ma_cuahang;
+
+            //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+            this.invoice_model_status = (result.result as any).masterInfo.status;
 
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_REPURCHASE.CREATE) {
               this.router.navigate(['/404']);

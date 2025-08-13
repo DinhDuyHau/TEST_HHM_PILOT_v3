@@ -42,6 +42,7 @@ import { InternalSaleDetailService } from '@app/_components/voucher/inventory/in
 import { PrinterComponent } from '@app/_components/printer/printer.component';
 import { CrmDialogComponent } from '@app/sales-management/component/crm/crm-dialog/crm-dialog.component';
 import { formatDate } from '@angular/common';
+import { SwapImeiDialogComponent } from '@app/sales-management/component/tool-swapimei-dialog/swapimei-dialog.component';
 
 const {
   DISCOUNT_LIST,
@@ -112,6 +113,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
   isCreateDraftInvoice = false;
   isGetInvoice = false;
   isGetPdfInvoice = false;
+  invoice_model_status = '0';
 
   tab_sources: any[] = [
     { label: 'Tổng quan' },
@@ -261,11 +263,18 @@ export class RetailComponent implements OnInit, AfterViewInit {
             // set cửa hàng để truyền sang payment tab
             this.shop = (result.result as any).masterInfo.ma_cuahang;
 
+            //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+            this.invoice_model_status = (result.result as any).masterInfo.status;
+
             this.dataTransport(result.result);
-            // comment lại để cho phép sửa khi trạng thái là 1
-            // if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.RETAIL.CREATE) {
-            //   this.router.navigate(['/404']);
-            // }
+            // Chỉ cho phép sửa khi trạng thái là 0, 1, 3
+            if (this.mode === MODE.UPDATE &&
+              !((result.result as any).masterInfo.status === STATUS_LIST.RETAIL.CREATE
+                || (result.result as any).masterInfo.status === STATUS_LIST.RETAIL.PENDING_PAYMENT
+                || (result.result as any).masterInfo.status === STATUS_LIST.RETAIL.PENDING_PUBLISH
+              )) {
+              this.router.navigate(['/404']);
+            }
             const hddtTable = (result.result as any).details.find((item: any) => item.id === 10);
             if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
               this.eInvoiceInfo = hddtTable.data[0];
@@ -327,17 +336,21 @@ export class RetailComponent implements OnInit, AfterViewInit {
   }
 
   getStatusList = () => {
-    this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.RETAIL }]).subscribe(result => {
+    this.ticketApiService.getStatusWithOrder([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.RETAIL }], 'xorder,status').subscribe(result => {
       const allItems = result.result.items as StatusTicket[];
       const currentStatus = this.ticket.masterInfo.status;
 
       if (currentStatus === '1') {
-        // Nếu là "Chờ thanh toán" → loại bỏ "Lập chứng từ"
-        this.statusList = allItems.filter(item => item.status !== '0');
+        // Nếu là "Chờ thanh toán" → loại bỏ "Lập chứng từ", "Hoàn thành"
+        this.statusList = allItems.filter(item => item.status !== '0' && item.status !== '2');
       } else if (currentStatus === '0') {
-        // Nếu là "Lập chứng từ" → loại bỏ "Chờ thanh toán"
-        this.statusList = allItems.filter(item => item.status !== '1');
-      } else {
+        // Nếu là "Lập chứng từ" → loại bỏ "Chờ thanh toán", "Hoàn thành"
+        this.statusList = allItems.filter(item => item.status !== '1' && item.status !== '2');
+      } else if (currentStatus === '3') {
+        // Nếu là "Chờ phát hành" → chỉ hiện "Chờ phát hành", "Hoàn thành"
+        this.statusList = allItems.filter(item => item.status === '3' || item.status === '2');
+      }
+      else {
         // Các trạng thái khác → giữ nguyên
         this.statusList = allItems;
       }
@@ -1016,6 +1029,24 @@ export class RetailComponent implements OnInit, AfterViewInit {
     if (this.ticket.masterInfo.t_con_no < 0) {
       this.commonService.showMessage('Tiền nợ không được âm');
       return;
+    }
+
+    // Kiểm tra trạng thái phiếu:
+    // Nếu trạng thái trước khi cập nhật là '3' (chờ phát hành) => check tiếp tài khoản thực hiện update phiếu
+    if (this.invoice_model_status === '3') {
+      const user_authorization = JSON.parse(localStorage.getItem('authorization')!);
+      if (user_authorization && user_authorization.sa_yn) {
+        if (this.ticket.masterInfo.status !== '3') {
+          this.commonService.showMessage('Tài khoản QTHT chỉ được lưu phiếu ở trạng thái "Chờ phát hành".');
+          return;
+        }
+      }
+      else {
+        if (this.ticket.masterInfo.status !== '2') {
+          this.commonService.showMessage('Phiếu chờ phát hành chỉ được lưu chuyển sang trạng thái "hoàn thành", cần kiểm tra kỹ thông tin trước khi hoàn thành phiếu.');
+          return;
+        }
+      }
     }
 
     // check tổng tiền hàng hóa với các tab: hàng hóa, dịch vụ, gói cước
@@ -1763,12 +1794,18 @@ export class RetailComponent implements OnInit, AfterViewInit {
       ) && voucher.ma_voucher?.length > 0
     );
 
-    return hasSelectedPayment || hasReadonlyType10;
+    const hasReadonlyStatus3 = (this.invoice_model_status === '3');
+
+    return hasSelectedPayment || hasReadonlyType10 || hasReadonlyStatus3;
   }
 
   isInputDisabledStatus(): boolean {
     const hasReadonlyOrDisabled = this.readonly || this.disableSelectStatus;
     return hasReadonlyOrDisabled;
+  }
+
+  isDiscountReadonly(): boolean {
+    return this.readonly || this.invoice_model_status === '3';
   }
 
   isInputReadonly() {
@@ -1785,13 +1822,42 @@ export class RetailComponent implements OnInit, AfterViewInit {
       ) && voucher.ma_voucher?.length > 0
     );
 
-    return isReadonlyFlag || hasSelectedPayment || hasReadonlyType10;
+    const hasReadonlyStatus3 = (this.invoice_model_status === '3');
+
+    return isReadonlyFlag || hasSelectedPayment || hasReadonlyType10 || hasReadonlyStatus3;
   }
 
   isAnyPaymentSelected(): boolean {
     return Object.values(this.ticket.payment).some(p => p?.selected === true);
   }
+
+  allowAdminEdit(): boolean {
+    const user_authorization = JSON.parse(localStorage.getItem('authorization')!);
+
+    return user_authorization && user_authorization.sa_yn;
+  }
   //#endregion
+
+  onSwapMerchandiseImei(event: { item: Merchandise }) {
+    const current_imei = event.item.ma_imei;
+    this.commonService.openDialog(SwapImeiDialogComponent, { ma_imei: current_imei }, 'service-imei-style')
+      .afterClosed().subscribe((new_imei: string) => {
+        //Kiểm tra tồn tại imei, trạng thái imei, tồn kho imei
+        const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+        this.retailService.getImeiInStore(new_imei, ngay_ct).subscribe(result => {
+          if (result.success && result.result.length) {
+            if (this.merchandiseService.checkImeiExistMerchandise(new_imei, this.ticket.merchandise)) {
+              this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: this.ma_imei });
+              return;
+            }
+            //thỏa mãn các điều kiện => thay imei mới
+            event.item.ma_imei = new_imei;
+          } else {
+            this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: this.ma_imei });
+          }
+        })
+      });
+  }
 
 }
 

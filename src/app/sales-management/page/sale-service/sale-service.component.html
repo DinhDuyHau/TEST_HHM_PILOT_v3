@@ -31,6 +31,7 @@
         [value]="ticket.masterInfo.ma_kh"
         [invalid]="invalid"
         [readonly]="readonly"
+        [disabled]="isInputDisabled()"
         [fireChangeWhenBlur]="false"
         (handleChangeValue)="onEnterCustomerCode($event)"
         (handleClickOpenDialog)="openSearchCustomerDialog()"
@@ -65,11 +66,12 @@
         name="ma_dv"
         [label]="getLabel('lbl_ma_dv')"
         *ngIf="!readonly"
+        [disabled]="isInputDisabled()"
         (handleEnterInput)="(null)"
         (handleClickOpenDialog)="openSearchServiceDialog()" />
       <form-select-custom
         class="box"
-        [isDisable]="readonly || disableSelectStatus"
+        [isDisable]="isInputDisabledStatus()"
         [label]="getLabel('lbl_trang_thai')"
         [options]="statusList"
         optionDes="statusname"
@@ -87,6 +89,7 @@
       <div class="d-flex box align-items-end gap-3 mt-3 align-self-end">
         <button
           *ngIf="!readonly"
+          [disabled]="isInputDisabled()"
           class="flex-1 btn act-input-data-btn text-nowrap"
           (click)="openAddCustomerDialog()">
           {{ getLabel('lbl_add_customer') }}
@@ -97,7 +100,7 @@
     <tabs-custom [titleListWithCount]="tabList">
       <tab-custom label="Dịch vụ" class="w-100">
         <table-custom
-          [readonly]="readonly"
+          [readonly]="isInputReadonly()"
           [dataSource]="ticket.service"
           [columns]="serviceColumns"
           [isTicket]="false"
@@ -112,7 +115,7 @@
               class="flex-1"
               name="email"
               type="email"
-              [readonly]="readonly"
+              [readonly]="isInputReadonly()"
               [label]="getLabel('lbl_email_key')"
               [value]="ticket.masterInfo.email_nhan_key"
               (handleChangeValue)="ticket.masterInfo.email_nhan_key = $event" />
@@ -215,11 +218,10 @@
         [diem_qd_max]="conversionPoints"
         [ma_kh]="ticket.masterInfo.ma_kh"
         [ngay_ct]="ticket.masterInfo.ngay_ct"
-        (handleChangeValue)="
-          ticket.masterInfo.t_con_no = $event.t_con_no;
-          ticket.masterInfo.t_da_tra = $event.t_da_tra;
-          ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck
-        " />
+        (handleChangeValue)="onPaymentChange($event)" 
+        [status]="ticket.masterInfo.status" 
+        [model_status]="invoice_model_status"
+        />
     </ng-container>
     <div>
       <div class="d-flex justify-content-between gap-2 m-3">
@@ -239,7 +241,7 @@
             class="btn-responsive btn-cancel"
             (click)="handleGetPDFInvoiceDraft()"
             [disabled]="isGetPdfInvoice"
-            *ngIf="this.ticket.masterInfo.status == '0'"
+            *ngIf="this.ticket.masterInfo.status == '0' || this.ticket.masterInfo.status == '1' || this.ticket.masterInfo.status == '3'"
           >
             <span *ngIf="isGetPdfInvoice" class="spinner-border spinner-border-sm mr-1"></span>
             <span *ngIf="!isGetPdfInvoice">Tải PDF HĐĐT Nháp</span>

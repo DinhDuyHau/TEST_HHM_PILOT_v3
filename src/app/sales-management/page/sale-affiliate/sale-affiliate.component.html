@@ -415,7 +415,7 @@
 
           <app-print
             [voucherId]="this.ticket.masterInfo.stt_rec"
-            [status]="this.ticket.masterInfo.status"
+            [status]="invoice_model_status"
             [entityName]="this.entity"/>
           <div class="btn-responsive btn-cancel" (click)="onCancel()">
             {{ cancelButtonTitle }}

@@ -90,6 +90,7 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
   action = '';
   shop = '';
   ma_imei = '';
+  invoice_model_status = '0';
 
   constructor(
     private router: Router,
@@ -162,11 +163,7 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
       }
     });
 
-    const getStatusList = () => {
-      this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.STOCK_COMPENSATION }]).subscribe(result => {
-        this.statusList = result.result.items as StatusTicket[];
-      });
-    };
+    this.getStatusList();
 
     this.route.queryParams.pipe().subscribe((data: any) => {
       if (data.key) {
@@ -175,10 +172,19 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
             // set cửa hàng để truyền sang payment tab
             this.shop = (result.result as any).masterInfo.ma_cuahang;
 
+            //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+            this.invoice_model_status = (result.result as any).masterInfo.status;
+
             this.dataTransport(result.result);
-            if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.STOCK_COMPENSATION.CREATE) {
+            // Chỉ cho phép sửa khi trạng thái là 0, 1, 3
+            if (this.mode === MODE.UPDATE &&
+              !((result.result as any).masterInfo.status === STATUS_LIST.STOCK_COMPENSATION.CREATE
+                || (result.result as any).masterInfo.status === STATUS_LIST.STOCK_COMPENSATION.PENDING_PAYMENT
+                || (result.result as any).masterInfo.status === STATUS_LIST.STOCK_COMPENSATION.PENDING_PUBLISH
+              )) {
               this.router.navigate(['/404']);
             }
+
             const hddtTable = (result.result as any).details.find((item: any) => item.id === 10);
             if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
               this.eInvoiceInfo = hddtTable.data[0];
@@ -188,7 +194,7 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
             this.list_imei_old = this.ticket.merchandise.map(x => x.ma_imei);
             this.handleGetDeposit();
             this.commonService.addToImeisInVoucher(this.ticket.merchandise.filter(e => e.ma_imei).map(e => e.ma_imei));
-            getStatusList();
+            this.getStatusList();
             this.tabIndexFocusFirst = this.tabIndex.imei;
             this.commonService.getPointRateExchange(this.ticket, this.option);
 
@@ -206,12 +212,35 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
         });
       } else {
         this.voucherCompensationService.initTicket(this.ticket);
-        getStatusList();
+        this.getStatusList();
         this.tabIndexFocusFirst = this.tabIndex.ma_kh;
         this.commonService.getPointRateExchange(this.ticket, this.option);
       }
     });
   }
+
+  getStatusList = () => {
+    this.ticketApiService.getStatusWithOrder([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.STOCK_COMPENSATION }], 'xorder,status').subscribe(result => {
+      const allItems = result.result.items as StatusTicket[];
+      const currentStatus = this.ticket.masterInfo.status;
+
+      if (currentStatus === '1') {
+        // Nếu là "Chờ thanh toán" → loại bỏ "Lập chứng từ", "Hoàn thành"
+        this.statusList = allItems.filter(item => item.status !== '0' && item.status !== '2');
+      } else if (currentStatus === '0') {
+        // Nếu là "Lập chứng từ" → loại bỏ "Chờ thanh toán", "Hoàn thành"
+        this.statusList = allItems.filter(item => item.status !== '1' && item.status !== '2');
+      } else if (currentStatus === '3') {
+        // Nếu là "Chờ phát hành" → chỉ hiện "Chờ phát hành", "Hoàn thành"
+        this.statusList = allItems.filter(item => item.status === '3' || item.status === '2');
+      }
+      else {
+        // Các trạng thái khác → giữ nguyên
+        this.statusList = allItems;
+      }
+    });
+  };
+
   // Lấy file ảnh từ khách hàng
   getImageCustomerFile(image: string) {
     this.fileService.getFileFromUrl(image).subscribe((res: Blob) => {
@@ -769,6 +798,10 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.t_cp_khac = $event.t_chi_phi;
 
     this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
+
+    this.ticket.masterInfo.status = $event.status;
+    // cập nhật lại trạng thái
+    this.getStatusList();
   }
 
   handleProcessImei(ma_imei: string) {
@@ -790,6 +823,55 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  //#region Readonly
+  isInputDisabled() {
+    const voucherList = this.ticket?.voucherCode ?? [];
+    const discountList = this.ticket?.discount ?? [];
+
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+
+    const hasReadonlyType10 = voucherList.some(voucher =>
+      discountList.some(discount =>
+        discount.imei_hang_mua === voucher.ma_voucher &&
+        discount.loai_ck === '10'
+      ) && voucher.ma_voucher?.length > 0
+    );
+
+    return hasSelectedPayment || hasReadonlyType10;
+  }
+
+  isInputDisabledStatus(): boolean {
+    const hasReadonlyOrDisabled = this.readonly || this.disableSelectStatus;
+    return hasReadonlyOrDisabled;
+  }
+
+  isDiscountReadonly(): boolean {
+    return this.readonly || this.invoice_model_status === '3';
+  }
+
+  isInputReadonly() {
+    const voucherList = this.ticket?.voucherCode ?? [];
+    const discountList = this.ticket?.discount ?? [];
+
+    const isReadonlyFlag = this.readonly;
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+
+    const hasReadonlyType10 = voucherList.some(voucher =>
+      discountList.some(discount =>
+        discount.imei_hang_mua === voucher.ma_voucher &&
+        discount.loai_ck === '10'
+      ) && voucher.ma_voucher?.length > 0
+    );
+
+    return isReadonlyFlag || hasSelectedPayment || hasReadonlyType10;
+  }
+
+  isAnyPaymentSelected(): boolean {
+    return Object.values(this.ticket.payment).some(p => p?.selected === true);
+  }
+  //#endregion
+
 }
 
 

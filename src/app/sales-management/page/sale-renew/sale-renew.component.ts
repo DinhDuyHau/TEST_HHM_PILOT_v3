@@ -137,6 +137,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   isCreateDraftInvoice = false;
   isGetInvoice = false;
   isGetPdfInvoice = false;
+  invoice_model_status = '0';
 
   tab_sources: any[] = [
     { label: 'Tổng quan' },
@@ -269,11 +270,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       }
     });
 
-    const getStatusList = () => {
-      this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.RENEW }]).subscribe(result => {
-        this.statusList = result.result.items as StatusTicket[];
-      });
-    };
+    this.getStatusList();
     const getDefaultStock = () => {
       this.ticketApiService.getStockRenew(this.ticket.masterInfo.ma_cuahang, this.defaultRenew_StockType).subscribe(result => {
         if (result && result.success && result.result.items && result.result.items[0]) {
@@ -288,9 +285,18 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
             // set cửa hàng để truyền sang payment tab
             this.shop = (result.result as any).masterInfo.ma_cuahang;
 
-            if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_RENEW.CREATE) {
+            //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+            this.invoice_model_status = (result.result as any).masterInfo.status;
+
+            // Chỉ cho phép sửa khi trạng thái là 0, 1, 3
+            if (this.mode === MODE.UPDATE &&
+              !((result.result as any).masterInfo.status === STATUS_LIST.SALE_RENEW.CREATE
+                || (result.result as any).masterInfo.status === STATUS_LIST.SALE_RENEW.PENDING_PAYMENT
+                || (result.result as any).masterInfo.status === STATUS_LIST.SALE_RENEW.PENDING_PUBLISH
+              )) {
               this.router.navigate(['/404']);
             }
+
             const hddtTable = (result.result as any).details.find((item: any) => item.id === 10);
             if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
               this.eInvoiceInfo = hddtTable.data[0];
@@ -312,7 +318,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
               });
             });
             this.commonService.addToImeisInVoucher(this.ticket.merchandise_new_sale.filter(e => e.ma_imei).map(e => e.ma_imei));
-            getStatusList();
+            this.getStatusList();
             getDefaultStock();
             this.commonService.getPointRateExchange(this.ticket, this.option);
 
@@ -335,13 +341,35 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         });
       } else {
         this.saleRenewService.initTicket(this.ticket);
-        getStatusList();
+        this.getStatusList();
         getDefaultStock();
         this.commonService.getPointRateExchange(this.ticket, this.option);
         this.tabIndexFocusFirst = this.tabIndex.ma_kh;
       }
     });
   }
+
+  getStatusList = () => {
+    this.ticketApiService.getStatusWithOrder([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.RENEW }], 'xorder,status').subscribe(result => {
+      const allItems = result.result.items as StatusTicket[];
+      const currentStatus = this.ticket.masterInfo.status;
+
+      if (currentStatus === '1') {
+        // Nếu là "Chờ thanh toán" → loại bỏ "Lập chứng từ", "Hoàn thành"
+        this.statusList = allItems.filter(item => item.status !== '0' && item.status !== '2');
+      } else if (currentStatus === '0') {
+        // Nếu là "Lập chứng từ" → loại bỏ "Chờ thanh toán", "Hoàn thành"
+        this.statusList = allItems.filter(item => item.status !== '1' && item.status !== '2');
+      } else if (currentStatus === '3') {
+        // Nếu là "Chờ phát hành" → chỉ hiện "Chờ phát hành", "Hoàn thành"
+        this.statusList = allItems.filter(item => item.status === '3' || item.status === '2');
+      }
+      else {
+        // Các trạng thái khác → giữ nguyên
+        this.statusList = allItems;
+      }
+    });
+  };
 
   // #region customer
   handleAddCustomer(customer: Customer) {
@@ -1927,4 +1955,64 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   }
 
   //#endregion
+
+  //#region Readonly
+  isInputDisabled() {
+    const voucherList = this.ticket?.voucherCode ?? [];
+    const discountList = this.ticket?.discount ?? [];
+
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+
+    const hasReadonlyType10 = voucherList.some(voucher =>
+      discountList.some(discount =>
+        discount.imei_hang_mua === voucher.ma_voucher &&
+        discount.loai_ck === '10'
+      ) && voucher.ma_voucher?.length > 0
+    );
+
+    return hasSelectedPayment || hasReadonlyType10;
+  }
+
+  isInputDisabledStatus(): boolean {
+    const hasReadonlyOrDisabled = this.readonly || this.disableSelectSatus;
+    return hasReadonlyOrDisabled;
+  }
+
+  isDiscountReadonly(): boolean {
+    return this.readonly || this.invoice_model_status === '3';
+  }
+
+  isInputReadonly() {
+    const voucherList = this.ticket?.voucherCode ?? [];
+    const discountList = this.ticket?.discount ?? [];
+
+    const isReadonlyFlag = this.readonly;
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+
+    const hasReadonlyType10 = voucherList.some(voucher =>
+      discountList.some(discount =>
+        discount.imei_hang_mua === voucher.ma_voucher &&
+        discount.loai_ck === '10'
+      ) && voucher.ma_voucher?.length > 0
+    );
+
+    return isReadonlyFlag || hasSelectedPayment || hasReadonlyType10;
+  }
+
+  isAnyPaymentSelected(): boolean {
+    return Object.values(this.ticket.payment).some(p => p?.selected === true);
+  }
+  //#endregion
+
+  onPaymentChange($event: any) {
+    this.ticket.masterInfo.t_con_no = $event.t_con_no;
+    this.ticket.masterInfo.t_da_tra = $event.t_da_tra;
+    this.ticket.masterInfo.t_gg = $event.t_gg;
+    this.ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck
+
+    this.ticket.masterInfo.status = $event.status;
+
+    // cập nhật lại trạng thái
+    this.getStatusList();
+  }
 }

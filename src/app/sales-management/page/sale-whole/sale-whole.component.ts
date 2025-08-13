@@ -14,7 +14,7 @@ import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/t
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { CommonService } from '../common/common.service';
 import { MerchandiseService } from '../common/merchandise.service';
-import { MODE } from '@app/sales-management/enum/ticket.enum';
+import { MODE, STATUS_LIST } from '@app/sales-management/enum/ticket.enum';
 import { ScanQrcodeComponent } from '@app/_components/scan-qrcode/scan-qrcode.component';
 import { Language } from '../common/language';
 import { EInvoiceInfo, EInvoiceInfoOutput } from '@app/sales-management/model/dto/einvoice.dto';
@@ -69,6 +69,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
   isCreateDraftInvoice = false;
   isGetInvoice = false;
   isGetPdfInvoice = false;
+  invoice_model_status = '0';
 
   tab_sources: any[] = [
     { label: 'Hàng hoá', name: 'merchandise' },
@@ -141,11 +142,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
       }
     });
 
-    const getStatusList = () => {
-      this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.WHOLE }]).subscribe(result => {
-        this.statusList = result.result.items as StatusTicket[];
-      });
-    };
+    this.getStatusList();
 
     this.route.queryParams.subscribe((data: any) => {
       const { key, fromContract } = data;
@@ -156,8 +153,11 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
           // set cửa hàng để truyền sang payment tab
           this.shop = (result.result as any).masterInfo.ma_cuahang;
 
+          //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+          this.invoice_model_status = (result.result as any).masterInfo.status;
+
           this.saleWholeService.initTicket(this.ticket);
-          getStatusList();
+          this.getStatusList();
           this.commonService.getPointRateExchange(this.ticket);
           result && this.saleWholeService.loadDataMerchandiseFromContract(result.result);
           //Reset các trường tiền bằng 0
@@ -174,11 +174,20 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
       } else if (key && !fromContract) {
         this.ticketApiService.getVoucherByid(ticketEntity, key).subscribe((result: any) => {
           if (result.success && result.result) {
-            if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== this.statuses.CREATE) {
+            // Chỉ cho phép sửa khi trạng thái là 0, 1, 3
+            if (this.mode === MODE.UPDATE &&
+              !((result.result as any).masterInfo.status === STATUS_LIST.SALE_WHOLE.CREATE
+                || (result.result as any).masterInfo.status === STATUS_LIST.SALE_WHOLE.PENDING_PAYMENT
+                || (result.result as any).masterInfo.status === STATUS_LIST.SALE_WHOLE.PENDING_PUBLISH
+              )) {
               this.router.navigate(['/404']);
             }
+
             // set cửa hàng để truyền sang payment tab
             this.shop = (result.result as any).masterInfo.ma_cuahang;
+
+            //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+            this.invoice_model_status = (result.result as any).masterInfo.status;
 
             const hddtTable = (result.result as any).details.find((item: any) => item.id === 10);
             if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
@@ -186,7 +195,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
             }
             this.saleWholeService.loadData(result.result as any as VoucherDto, this.mode);
             this.commonService.addToImeisInVoucher(this.ticket.merchandise.filter(e => e.ma_imei).map(e => e.ma_imei.split(';')).flat());
-            getStatusList();
+            this.getStatusList();
             this.commonService.getPointRateExchange(this.ticket);
             this.saleWholeService.getConversionPoint().subscribe(result => {
               if (result && result.success && result.result !== null) {
@@ -199,12 +208,34 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
         });
       } else {
         this.saleWholeService.initTicket(this.ticket);
-        getStatusList();
+        this.getStatusList();
         this.commonService.getPointRateExchange(this.ticket);
         this.tabIndexFocusFirst = this.tabIndex.so_ct_hd;
       }
     });
   }
+
+  getStatusList = () => {
+    this.ticketApiService.getStatusWithOrder([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.WHOLE }], 'xorder,status').subscribe(result => {
+      const allItems = result.result.items as StatusTicket[];
+      const currentStatus = this.ticket.masterInfo.status;
+
+      if (currentStatus === '1') {
+        // Nếu là "Chờ thanh toán" → loại bỏ "Lập chứng từ", "Hoàn thành"
+        this.statusList = allItems.filter(item => item.status !== '0' && item.status !== '2');
+      } else if (currentStatus === '0') {
+        // Nếu là "Lập chứng từ" → loại bỏ "Chờ thanh toán", "Hoàn thành"
+        this.statusList = allItems.filter(item => item.status !== '1' && item.status !== '2');
+      } else if (currentStatus === '3') {
+        // Nếu là "Chờ phát hành" → chỉ hiện "Chờ phát hành", "Hoàn thành"
+        this.statusList = allItems.filter(item => item.status === '3' || item.status === '2');
+      }
+      else {
+        // Các trạng thái khác → giữ nguyên
+        this.statusList = allItems;
+      }
+    });
+  };
 
   // #region customer
   handleAddCustomer(ma_kh: string) {
@@ -693,6 +724,45 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
   }
 
   //#endregion
+
+  //#region Readonly
+  isInputDisabled() {
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+    return hasSelectedPayment;
+  }
+
+  isInputDisabledStatus(): boolean {
+    const hasReadonlyOrDisabled = this.readonly || this.disableSelectStatus;
+    return hasReadonlyOrDisabled;
+  }
+
+  isDiscountReadonly(): boolean {
+    return this.readonly || this.invoice_model_status === '3';
+  }
+
+  isInputReadonly() {
+    const isReadonlyFlag = this.readonly;
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+
+    return isReadonlyFlag || hasSelectedPayment;
+  }
+
+  isAnyPaymentSelected(): boolean {
+    return Object.values(this.ticket.payment).some(p => p?.selected === true);
+  }
+  //#endregion
+
+  onPaymentChange($event: any) {
+    this.ticket.masterInfo.t_con_no = $event.t_con_no;
+    this.ticket.masterInfo.t_da_tra = $event.t_da_tra;
+    this.ticket.masterInfo.t_gg = $event.t_gg;
+    this.ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck
+    this.ticket.masterInfo.status = $event.status;
+
+    // cập nhật lại trạng thái
+    this.getStatusList();
+  }
+
 }
 
 
