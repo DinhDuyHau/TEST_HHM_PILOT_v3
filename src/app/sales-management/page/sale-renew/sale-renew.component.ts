@@ -365,8 +365,12 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         this.statusList = allItems.filter(item => item.status === '3' || item.status === '2');
       }
       else {
-        // Các trạng thái khác → giữ nguyên
-        this.statusList = allItems;
+        if (this.mode === MODE.VIEW) {
+          this.statusList = allItems.filter(item => item.status === currentStatus);
+        }
+        else
+          // Các trạng thái khác → giữ nguyên
+          this.statusList = allItems;
       }
     });
   };
