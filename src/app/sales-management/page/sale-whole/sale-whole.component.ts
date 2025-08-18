@@ -21,6 +21,7 @@ import { EInvoiceInfo, EInvoiceInfoOutput } from '@app/sales-management/model/dt
 import { InternalSaleDetailService } from '@app/_components/voucher/inventory/internal-sale/create/internal-sale-detail.service';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 import { PrinterComponent } from '@app/_components/printer/printer.component';
+import { isValidEmail } from '@app/_common/commonFunction';
 
 const { GUARANTEE_LIST, MERCHANDISE_LIST_WHOLESALE, SERVICE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
@@ -463,6 +464,13 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
     // Check âm tiền nợ
     if (this.ticket.masterInfo.t_con_no < 0) {
       this.commonService.showMessage('Tiền nợ không được âm');
+      return;
+    }
+
+    //Kiểm tra định dạng email của tab HĐĐT
+    if (this.ticket.masterInfo.hd_email && this.ticket.masterInfo.hd_email !== ''
+      && !isValidEmail(this.ticket.masterInfo.hd_email)) {
+      this.commonService.showMessage('Định dạng email nhận hóa đơn điện tử không hợp lệ');
       return;
     }
 

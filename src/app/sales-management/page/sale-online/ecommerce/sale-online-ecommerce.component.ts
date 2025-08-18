@@ -34,6 +34,7 @@ import { PromotionSelectComponent } from '@app/sales-management/component/promot
 import { InternalSaleDetailService } from '@app/_components/voucher/inventory/internal-sale/create/internal-sale-detail.service';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 import { PrinterComponent } from '@app/_components/printer/printer.component';
+import { isValidEmail } from '@app/_common/commonFunction';
 
 const { DISCOUNT_LIST,
   GUARANTEE_LIST,
@@ -754,6 +755,13 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
     // Check âm tiền nợ
     if (this.ticket.masterInfo.t_con_no < 0) {
       this.commonService.showMessage('Tiền nợ không được âm');
+      return;
+    }
+
+    //Kiểm tra định dạng email của tab HĐĐT
+    if (this.ticket.masterInfo.hd_email && this.ticket.masterInfo.hd_email !== ''
+      && !isValidEmail(this.ticket.masterInfo.hd_email)) {
+      this.commonService.showMessage('Định dạng email nhận hóa đơn điện tử không hợp lệ');
       return;
     }
 

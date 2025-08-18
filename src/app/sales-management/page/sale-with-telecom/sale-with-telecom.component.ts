@@ -31,6 +31,7 @@ import { Option } from '@app/sales-management/model/ticket/common-model/option.m
 import { environment } from '@environments/environment';
 import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
+import { isValidEmail } from '@app/_common/commonFunction';
 
 const { DISCOUNT_LIST,
   GUARANTEE_LIST,
@@ -725,6 +726,13 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
     // Check âm tiền nợ
     if (this.ticket.masterInfo.t_con_no < 0) {
       this.commonService.showMessage('Tiền nợ không được âm');
+      return;
+    }
+
+    //Kiểm tra định dạng email của tab HĐĐT
+    if (this.ticket.masterInfo.hd_email && this.ticket.masterInfo.hd_email !== ''
+      && !isValidEmail(this.ticket.masterInfo.hd_email)) {
+      this.commonService.showMessage('Định dạng email nhận hóa đơn điện tử không hợp lệ');
       return;
     }
 
