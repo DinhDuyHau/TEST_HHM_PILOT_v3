@@ -76,6 +76,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
   action = '';
   shop = '';
   isValidItemOld = false;
+  invoice_model_status = '0';
 
   transactionTypeOptions = [
     {
@@ -196,6 +197,9 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
           if (result.result) {
             // set cửa hàng để truyền sang payment tab
             this.shop = (result.result as any).masterInfo.ma_cuahang;
+
+            //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+            this.invoice_model_status = (result.result as any).masterInfo.status;
 
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_REPURCHASE.CREATE) {
               this.router.navigate(['/404']);
@@ -541,12 +545,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
               this.commonService.showMessage(Language.content.Update_Completed);
               this.router.navigate(['sales/repurchase']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/repurchase');
             }
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
@@ -560,12 +559,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
               this.commonService.showMessage(Language.content.Successful_Create);
               this.router.navigate(['sales/repurchase']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/repurchase');
             }
           });
         }

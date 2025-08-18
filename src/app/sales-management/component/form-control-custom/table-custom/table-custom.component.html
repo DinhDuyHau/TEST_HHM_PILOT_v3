@@ -201,8 +201,14 @@
             <button
               title="Thay đổi hàng khuyến mại"
               (click)="onSwapItem(record)"
-              *ngIf="handleSwap.observers.length && record.km_yn && !readonly">
+              *ngIf="handleSwap.observers.length && record.km_yn && (!readonly || isSysAdminEdit)">
               <i class="fas fa-exchange icon-table"></i>
+            </button>
+            <button
+              title="Thay đổi imei hàng hóa"
+              (click)="onSwapImei(record)"
+              *ngIf="handleSwapImei.observers.length && isSysAdminEdit">
+              <i class="fas fa-solid fa-arrows-rotate icon-table"></i>
             </button>
             <!-- <button
               (click)="onActionItem(record)"

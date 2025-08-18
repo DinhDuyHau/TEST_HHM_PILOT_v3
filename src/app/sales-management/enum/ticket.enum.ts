@@ -72,11 +72,15 @@ export const MODE = {
 export const STATUS_LIST = {
     RETAIL: {
         CREATE: '0',
-        COMPLETE: '2'
+        COMPLETE: '2',
+        PENDING_PAYMENT: '1',
+        PENDING_PUBLISH: '3'
     },
     SALE_ONLINE: {
         CREATE: '0',
-        COMPLETE: '2'
+        COMPLETE: '2',
+        PENDING_PAYMENT: '1',
+        PENDING_PUBLISH: '3'
     },
     COMPLETE: {
         CREATE: '0',
@@ -84,31 +88,45 @@ export const STATUS_LIST = {
     },
     SALE_ONLINE_ECOMMERCE: {
         CREATE: '0',
-        COMPLETE: '2'
+        COMPLETE: '2',
+        PENDING_PAYMENT: '1',
+        PENDING_PUBLISH: '3'
     },
     SALE_WHOLE: {
         CREATE: '0',
-        COMPLETE: '2'
+        COMPLETE: '2',
+        PENDING_PAYMENT: '1',
+        PENDING_PUBLISH: '3'
     },
     SALE_AFFILIATE: {
         CREATE: '0',
-        COMPLETE: '2'
+        COMPLETE: '2',
+        PENDING_PAYMENT: '1',
+        PENDING_PUBLISH: '3'
     },
     SALE_TELECOM: {
         CREATE: '0',
-        COMPLETE: '2'
+        COMPLETE: '2',
+        PENDING_PAYMENT: '1',
+        PENDING_PUBLISH: '3'
     },
     SALE_ITINERANT: {
         CREATE: '0',
-        COMPLETE: '2'
+        COMPLETE: '2',
+        PENDING_PAYMENT: '1',
+        PENDING_PUBLISH: '3'
     },
     SALE_SERVICE: {
         CREATE: '0',
-        COMPLETE: '2'
+        COMPLETE: '2',
+        PENDING_PAYMENT: '1',
+        PENDING_PUBLISH: '3'
     },
     SALE_RETURN: {
         CREATE: '0',
-        COMPLETE: '2'
+        COMPLETE: '2',
+        PENDING_PAYMENT: '1',
+        PENDING_PUBLISH: '3'
     },
     SALE_RETURN_ONLINE: {
         CREATE: '0',
@@ -116,7 +134,9 @@ export const STATUS_LIST = {
     },
     SALE_RETURN_SERVICE: {
         CREATE: '0',
-        COMPLETE: '2'
+        COMPLETE: '2',
+        PENDING_PAYMENT: '1',
+        PENDING_PUBLISH: '3'
     },
     SALE_CHANGE: {
         CREATE: '0',
@@ -132,7 +152,9 @@ export const STATUS_LIST = {
     },
     SALE_RENEW: {
         CREATE: '0',
-        COMPLETE: '2'
+        COMPLETE: '2',
+        PENDING_PAYMENT: '1',
+        PENDING_PUBLISH: '3'
     },
     SALE_CONTRACT: {
         CREATE: '0',
@@ -140,11 +162,15 @@ export const STATUS_LIST = {
     },
     STOCK_COMPENSATION: {
         CREATE: '0',
-        COMPLETE: '2'
+        COMPLETE: '2',
+        PENDING_PAYMENT: '1',
+        PENDING_PUBLISH: '3'
     },
     SERVICE_COMPENSATION: {
         CREATE: '0',
-        COMPLETE: '2'
+        COMPLETE: '2',
+        PENDING_PAYMENT: '1',
+        PENDING_PUBLISH: '3'
     },
     SALE_REPURCHASE_SERVICE: {
         CREATE: '0',

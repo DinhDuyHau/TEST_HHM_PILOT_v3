@@ -126,6 +126,7 @@ export class SaleRenewService {
     // create or update
     prepareVoucher(): VoucherDto {
         const voucherDto: VoucherDto = new VoucherDto;
+        this.commonService.mapDiscountApprover(this.ticket);
         voucherDto.details = [];
         voucherDto.masterInfo = this.commonService.convertMasterInfo(this.ticket.masterInfo, MasterInfoRequest);
         voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.MERCHANDISE_NEW_SALE, data: this.merchandiseService.convertMerchandiseToRequest(this.ticket.merchandise_new_sale, voucherDto.masterInfo, MerchandiseRequest) }];
@@ -178,13 +179,15 @@ export class SaleRenewService {
         if (customer) {
             this.ticket.masterInfo.ma_kh = customer.ma_kh;
             this.ticket.masterInfo.ten_kh = customer.ten_kh;
+            this.ticket.masterInfo.dia_chi = customer.dia_chi;
             this.ticket.masterInfo.email_nhan_key = customer.email_cn;
 
             //Thông tin khách hàng trên hóa đơn điện tử
-            this.ticket.masterInfo.hd_dia_chi = customer.hoadon_diachi || '';
+            this.ticket.masterInfo.hd_dia_chi = customer.dia_chi || '';
             this.ticket.masterInfo.hd_email = customer.hoadon_email || '';
             this.ticket.masterInfo.hd_mst = customer.hoadon_mst || '';
             this.ticket.masterInfo.hd_ten_kh = customer.hoadon_tenkh || '';
+            this.ticket.masterInfo.hd_nguoi_mua = customer.ten_kh || '';
         }
     }
 
@@ -368,6 +371,7 @@ export class SaleRenewService {
         const entity = TICKET_ENTITY.RETAIL;
         const merchandise = this.ticket.merchandise_new_sale.filter(x => !x.km_yn);
         const service = this.ticket.service;
+        const stt_rec = this.ticket.masterInfo.stt_rec || '';
         if (this.isNeedCalcDiscount) {
             //Sử dụng deep copy để tạo mảng mới => tránh làm thay đổi giá bán ở mảng cũ
             let renew_merchandise: any[] = this.funcExtendService.deepCopy(merchandise);
@@ -375,7 +379,7 @@ export class SaleRenewService {
             //lấy giá bán theo giá niêm yết để tính chiết khấu
             renew_merchandise.forEach(x => x.gia_ban = x.s4);
 
-            return this.discountApiService.getDiscountForTicket(entity, renew_merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck, TICKET_CODE.RENEW);
+            return this.discountApiService.getDiscountForTicket(entity, renew_merchandise, ma_cuahang, ma_kh, ngay_lap, service, loai_ck, TICKET_CODE.RENEW, stt_rec);
         }
         return;
     }

@@ -57,6 +57,15 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() so_ct: string = '';
   @Input() stt_rec: string = '';
   @Input() status: string = '';
+  @Input() model_status: string = '';
+
+  // khai báo khóa chức năng thanh toán ngay cả với user admin
+  isAdminLock = true;
+
+  user_authorization: { access_yn: boolean, sa_yn: boolean } = {
+    access_yn: false,
+    sa_yn: false
+  };
 
   @Output() handleChangeValue = new EventEmitter<{ t_con_no: number; t_da_tra: number; t_gg: number; nguoi_duyet_ck: string; t_chi_phi: number, status: string }>();
   @Output() handleButton = new EventEmitter<string>();
@@ -80,6 +89,8 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.user_authorization = JSON.parse(localStorage.getItem('authorization')!);
+    if (this.user_authorization && this.user_authorization.sa_yn) this.isAdminLock = false;
   }
 
   ngAfterViewInit(): void {
@@ -89,6 +100,14 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   ngOnChanges(changes: SimpleChanges): void {
     this.initViewPayment();
     //
+  }
+
+  isPaymentDisable() {
+    return this.model_status === '2' || (this.isAdminLock && this.model_status === '3');
+  }
+
+  isShowPaymentButton() {
+    return !this.hiddenChooseButton && this.model_status !== '2' && (!this.isAdminLock || this.model_status !== '3');
   }
 
   onClickPaymentDialog() {
@@ -129,7 +148,7 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
           this.t_da_tra = data.t_da_tra;
           this.t_gg = data.t_gg;
           this.t_cp = data.t_chi_phi;
-          this.status = data.status;
+          if (this.model_status !== '3') this.status = data.status;        // chỉ cho thay đổi status nếu không phải trạng thái 'chờ phát hành'
 
           // this.approveDiscount = data.approveDiscount;
           this.approveDiscount = data.nguoi_duyet_ck;

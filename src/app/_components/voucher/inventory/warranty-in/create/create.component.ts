@@ -381,12 +381,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         }
         else {
-          if (item.result && item.result.length > 0) {
-            this.commonService.showMessageByNameAdvance(item.message, ...item.result);
-          }
-          else {
-            this.commonService.showMessageByName(item.message);
-          }
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/warranty-in');
         }
       });
     }
@@ -400,12 +395,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');
         }
         else {
-          if (item.result && item.result.length > 0) {
-            this.commonService.showMessageByNameAdvance(item.message, ...item.result);
-          }
-          else {
-            this.commonService.showMessageByName(item.message);
-          }
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/warranty-in');
         }
       });
     }

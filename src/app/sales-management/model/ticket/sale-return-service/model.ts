@@ -54,6 +54,7 @@ export class Service {
   key = '';
   ngay_ct_hd1 = '';
   so_ct_hd1 = '';
+  stt_rec0 = '';
 
   constructor(obj?: any) {
     Object.assign(this, obj);

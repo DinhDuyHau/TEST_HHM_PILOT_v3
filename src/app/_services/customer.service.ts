@@ -18,4 +18,7 @@ export class CustomerService {
     getConversionPoint(ma_kh: string, ngay_ct: string) {
         return this.http.get<any>(`${environment.apiUrl}/customer/get_conversion_point?ma_kh=${ma_kh}&ngay_ct=${ngay_ct}`);
     }
+    getInfoMobiphoneByShop(shop: string) {
+        return this.http.get<any>(`${environment.apiUrl}/customer/get_info_mobiphone_by_shop/${shop}`);
+    }
 }

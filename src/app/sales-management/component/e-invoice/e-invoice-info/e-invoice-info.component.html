@@ -1,10 +1,19 @@
 <div
   class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-1 lg:gap-x-10 gap-y-1 lg:gap-y-3 pt-0.5 md:pt-1 lg:pt-2">
+  <select-custom
+    class="flex-1"
+    label="Đối tượng"
+    [options]="einvoiceObject"
+    optionDes="ten"
+    optionValue="ma"
+    [isDisable]="disabled || entity == 'SVTran_BHD'"
+    [value]="data.fnote2"
+    (handleChangeValue)="handleChangeObjectInvoice($event)" />
   <form-input-custom
     class="flex-1"
     [label]="'Mã số thuế'"
     [value]="data.hd_mst && data.hd_mst.trim()"
-    [disabled]="disabled"
+    [disabled]="disabled || entity == 'SVTran_BHD'"
     (handleChangeValue)="
       data.hd_mst = $event; handleChangeTaxCode($event)
     "></form-input-custom>
@@ -25,14 +34,46 @@
     (handleChangeValue)="data.hd_httt = $event" />
   <form-input-custom
     class="flex-1"
-    [label]="'Tên khách hàng'"
+    [label]="'Tên đơn vị'"
     [value]="data.hd_ten_kh"
-    [disabled]="disabled"
+    [disabled]="disabled || entity == 'SVTran_BHD'"
     (handleChangeValue)="data.hd_ten_kh = $event"></form-input-custom>
   <form-input-custom
     class="flex-1"
     [label]="'Địa chỉ'"
     [value]="data.hd_dia_chi"
-    [disabled]="disabled"
+    [disabled]="disabled || entity == 'SVTran_BHD'"
     (handleChangeValue)="data.hd_dia_chi = $event"></form-input-custom>
+  <div>
+    <form-input-custom
+      class="flex-1"
+      [label]="'Tên người mua'"
+      [value]="data.hd_nguoi_mua"
+      [disabled]="true"
+      (handleChangeValue)="handleChange($event, 'hd_nguoi_mua')"></form-input-custom>
+    <app-checkbox
+      *ngIf="data.fnote2 == '1'"
+      [id]="'xtag'"
+      [name]="'xtag'"
+      [label]="'Không hiện tên người mua trên HĐĐT'"
+      [value]="data.xtag == '1'"
+      [disabled]="disabled || entity == 'SVTran_BHD'"
+      (handleChangeValue)="handleCheck($event)">
+    </app-checkbox>
+  </div>
+  <select-custom
+    class="flex-1"
+    label="Loại giấy tờ"
+    [options]="typePapers"
+    optionDes="ten"
+    optionValue="ma"
+    [isDisable]="disabled"
+    [value]="data.hd_loai_giay_to"
+    (handleChangeValue)="handleChange($event, 'hd_loai_giay_to')" />
+  <form-input-custom
+    class="flex-1"
+    [label]="'Số giấy tờ'"
+    [value]="data.hd_so_giay_to"
+    [disabled]="disabled"
+    (handleChangeValue)="handleChange($event, 'hd_so_giay_to')"></form-input-custom>
 </div>

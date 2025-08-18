@@ -9,4 +9,5 @@ export interface StatusTicket {
     xdel?: boolean;
     xedit?: boolean;
     disabled?: boolean;
+    xorder?: number;
 }

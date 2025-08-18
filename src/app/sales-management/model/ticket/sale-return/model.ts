@@ -5,7 +5,7 @@ import { Service } from '../common-model/service.model';
 export class ReturnSaleTicketCreate {
   masterInfo: MasterInfo = new MasterInfo;
   merchandise: Merchandise[] = [];
-  service: Service[] = [];
+  service: SaleReturnServiceModel[] = [];
   payment: Payment = new Payment;
   electronic_bill: electronic_bill = new electronic_bill;
 }
@@ -36,6 +36,8 @@ export class MasterInfo extends BaseMasterInfo {
   ma_nvvc = ''; // mã đơn vị vận chuyển
   ma_van_don = ''; // mã vận đơn
   fcode3 = ''; // cửa hàng phiếu bán ra
+  fnote3 = ''; // xác định có lập hddt ko
+  fnote2 = ''; // đối tượng hóa đơn điện tử
 
   constructor(obj?: any) {
     super();
@@ -97,4 +99,15 @@ export class electronic_bill {
   tl_status = '';  // Tình trạng hóa đơn
   tl_ma_so_thue = '';  // Mã số thuế
   tl_ma_tra_cuu = '';  // Mã tra cứu
+}
+
+export class SaleReturnServiceModel extends Service {
+  stt_rec_px = '';
+  stt_rec0px = '';
+  px_so = '';
+
+  constructor(obj?: any) {
+    super();
+    Object.assign(this, obj);
+  }
 }

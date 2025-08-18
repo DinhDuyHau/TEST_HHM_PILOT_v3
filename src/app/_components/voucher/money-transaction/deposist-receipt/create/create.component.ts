@@ -441,7 +441,7 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'edit_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/deposist-receipt');
         }
       });
     }
@@ -456,7 +456,7 @@ export class DeposistReceiptDetailComponent extends Grid<ReceiptDetail> implemen
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'add_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/deposist-receipt');
         }
       });
     }

@@ -3,7 +3,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { SaleOnlineEcommerceService } from './sale-online-ecommerce.service';
 import { Merchandise, SaleOnlineEcommerceTicket } from '@app/sales-management/model/ticket/sale-online-ecommerce/model';
 import dataFormat from '@app/_common/dataFormat';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Customer } from '@app/_components/category/customer/customer.model';
 import { StatusTicket } from '@app/sales-management/model/common/status.model';
 import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '../../../component/search/serach-dialog.component';
@@ -31,6 +31,9 @@ import { Option } from '@app/sales-management/model/ticket/common-model/option.m
 import { environment } from '@environments/environment';
 import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
+import { InternalSaleDetailService } from '@app/_components/voucher/inventory/internal-sale/create/internal-sale-detail.service';
+import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
+import { PrinterComponent } from '@app/_components/printer/printer.component';
 
 const { DISCOUNT_LIST,
   GUARANTEE_LIST,
@@ -89,6 +92,10 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   shop = '';
   ma_imei = '';
   addOrUpdateCustomer = 'create';
+  isCreateDraftInvoice = false;
+  isGetInvoice = false;
+  isGetPdfInvoice = false;
+  invoice_model_status = '0';
 
   tab_sources: any[] = [
     { label: 'Tổng quan' },
@@ -112,6 +119,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
     private merchandiseService: MerchandiseService,
     private discountService: DiscountService,
     private guaranteeApiService: GuaranteeApiService,
+    public internalSaleDeatailService: InternalSaleDetailService,
   ) {
     localStorage.setItem('useGridCached', '1');
     this.saleOnlineEcommerceService.setTicket(this.ticket, this.option);
@@ -211,8 +219,28 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
     });
 
     const getStatusList = () => {
-      this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.ONLINE_ECOMMERCE }]).subscribe(result => {
-        this.statusList = result.result.items as StatusTicket[];
+      this.ticketApiService.getStatusWithOrder([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.ONLINE_ECOMMERCE }], 'xorder,status').subscribe(result => {
+        const allItems = result.result.items as StatusTicket[];
+        const currentStatus = this.ticket.masterInfo.status;
+
+        if (currentStatus === '1') {
+          // Nếu là "Chờ thanh toán" → loại bỏ "Lập chứng từ", "Hoàn thành"
+          this.statusList = allItems.filter(item => item.status !== '0' && item.status !== '2');
+        } else if (currentStatus === '0') {
+          // Nếu là "Lập chứng từ" → loại bỏ "Chờ thanh toán", "Hoàn thành"
+          this.statusList = allItems.filter(item => item.status !== '1' && item.status !== '2');
+        } else if (currentStatus === '3') {
+          // Nếu là "Chờ phát hành" → chỉ hiện "Chờ phát hành", "Hoàn thành"
+          this.statusList = allItems.filter(item => item.status === '3' || item.status === '2');
+        }
+        else {
+          if (this.mode === MODE.VIEW) {
+            this.statusList = allItems.filter(item => item.status === currentStatus);
+          }
+          else
+            // Các trạng thái khác → giữ nguyên
+            this.statusList = allItems;
+        }
       });
     };
 
@@ -224,7 +252,15 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
             // set cửa hàng để truyền sang payment tab
             this.shop = (result.result as any).masterInfo.ma_cuahang;
 
-            if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_ONLINE_ECOMMERCE.CREATE) {
+            //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+            this.invoice_model_status = (result.result as any).masterInfo.status;
+
+            // Chỉ cho phép sửa khi trạng thái là 0, 1, 3
+            if (this.mode === MODE.UPDATE &&
+              !((result.result as any).masterInfo.status === STATUS_LIST.SALE_ONLINE_ECOMMERCE.CREATE
+                || (result.result as any).masterInfo.status === STATUS_LIST.SALE_ONLINE_ECOMMERCE.PENDING_PAYMENT
+                || (result.result as any).masterInfo.status === STATUS_LIST.SALE_ONLINE_ECOMMERCE.PENDING_PUBLISH
+              )) {
               this.router.navigate(['/404']);
             }
             const hddtTable = (result.result as any).details.find((item: any) => item.id === 10);
@@ -243,6 +279,9 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
                 // this.ticket.payment.sd_diem.diem_qd = result.result;
               }
             });
+
+            console.log('end here');
+
           }
         });
       } else {
@@ -751,7 +790,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
             this.isDisabled = false;
             if (result.success) {
               // this.commonService.clearImeiStorage();
-              this.commonService.showMessage(Language.content.Update_Completed);
+              this.commonService.showMessageByName(result.message || Language.content.Update_Completed);
               // if (this.ticket.masterInfo.status == '2') {
               //   this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
               //     if (res.success) {
@@ -765,12 +804,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
               // }
               this.router.navigate(['sales/online']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/online');
             }
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
@@ -781,15 +815,10 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
             this.isDisabled = false;
             if (result.success) {
               // this.commonService.clearImeiStorage();
-              this.commonService.showMessage(Language.content.Successful_Create);
+              this.commonService.showMessageByName(result.message || Language.content.Successful_Create);
               this.router.navigate(['sales/online']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/online');
             }
           });
         }
@@ -839,4 +868,234 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  // xử lý trước khi thực hiện hàm onSave()
+  beforeSave() {
+    // nếu là CREATE thực hiện valid
+    if (this.mode === MODE.CREATE) {
+      /*
+      const title = 'Có lập HĐĐT (nháp) cho phiếu xuất bán hàng này hay không?';
+      this.commonService.openDialog(DialogConfirmComponent, { title: title })
+        .afterClosed().subscribe(result => {
+          if (result) {
+            const { hd_mst, hd_email, hd_ten_kh, hd_dia_chi } = this.ticket.masterInfo;
+            if (!hd_mst || !hd_email || !hd_ten_kh || !hd_dia_chi) {
+              this.commonService.showMessageByName('invoice_info_not_enough');
+              return;
+            }
+          }
+
+          // Gán flag cho BE biết
+          this.ticket.masterInfo.fnote3 = result ? '1' : '0';
+
+          // Gọi submit như bình thường
+          this.onSave();
+        });
+      */
+
+      // comment code phía trên và sửa lại như sau:
+      // - Mặc định check phải nhập đủ thông tin hóa đơn điện tử mới cho lưu phiếu với status "hoàn thành"
+      // - Hoàn thành phiếu sẽ chưa xử lý lập nháp hđ đt ngay, người dùng sẽ chủ động quay lại mở phiếu và click button "lập nháp HĐĐT"
+      this.ticket.masterInfo.fnote2 = this.ticket.masterInfo.fnote2 ? this.ticket.masterInfo.fnote2 : '0';
+      const objEinvoice = this.ticket.masterInfo.fnote2;
+      const { hd_mst, hd_ten_kh, hd_dia_chi, hd_nguoi_mua } = this.ticket.masterInfo;
+
+      if (objEinvoice == '0' && (!hd_nguoi_mua)) {
+        this.commonService.showMessageByName('invoice_individuals_info');
+        return;
+      }
+      if (objEinvoice == '1' && (!hd_mst || !hd_ten_kh || !hd_dia_chi)) {
+        this.commonService.showMessageByName('invoice_bussiness_info');
+        return;
+      }
+      const hd_loai_giay_to = this.ticket.masterInfo.hd_loai_giay_to;
+      const hd_so_giay_to = this.ticket.masterInfo.hd_so_giay_to;
+      if ((hd_loai_giay_to == '1' || hd_loai_giay_to == '2') && !hd_so_giay_to) {
+        this.commonService.showMessageByName('invoice_papersType_info');
+        return;
+      }
+      this.ticket.masterInfo.fnote3 = '0';
+      this.onSave();
+
+    } else {
+      // Không cần hỏi → submit luôn
+      this.ticket.masterInfo.fnote3 = '0';
+      this.onSave();
+    }
+  }
+
+  // #region EInvoice
+  handleCreateDraftInvoice() {
+    if (this.ticket.masterInfo.status === '0' || this.allowAdminEdit()) {
+      const title = 'Có lập HĐĐT (nháp) cho phiếu xuất bán hàng này hay không?';
+
+      this.commonService.openDialog(DialogConfirmComponent, { title: title })
+        .afterClosed().subscribe(result => {
+          if (result) {
+            this.onCreateDraft();
+          }
+        });
+    }
+  }
+
+  handleGetInvoice() {
+    let title = 'Có lấy HĐĐT cho phiếu bán hàng này hay không?';
+
+    this.commonService.openDialog(DialogConfirmComponent, { title: title })
+      .afterClosed().subscribe(result => {
+        if (result) {
+          this.isGetInvoice = true;
+
+          this.internalSaleDeatailService.getPublishedInv(this.ticket).subscribe((res: any) => {
+            if (res.result.errorCode) {
+              this.commonService.showMessage(res.result.description);
+              this.isGetInvoice = false;
+              return;
+            }
+            if (res) {
+              this.commonService.showMessageByName(res.message);
+              location.reload();
+            }
+          }, (err: any) => {
+            this.isGetInvoice = false;
+            this.commonService.showMessageByName(err);
+          });
+        } else {
+          this.isGetInvoice = false;
+        }
+      });
+  }
+
+  handleGetPDFInvoice() {
+    let title = 'Có lấy PDF HĐĐT cho phiếu bán hàng này hay không?';
+
+    this.commonService.openDialog(DialogConfirmComponent, { title: title })
+      .afterClosed().subscribe(result => {
+        if (result) {
+          this.isGetPdfInvoice = true;
+
+          let dialogRef: any = null;
+          this.internalSaleDeatailService.getPdfFile(this.ticket).subscribe((res: any) => {
+            if (res.success && res?.result && res?.result?.fileToBytes) {
+              const pdfBase64 = 'data:application/pdf;base64,' + res?.result?.fileToBytes;
+              const dialogConfig = new MatDialogConfig();
+              dialogConfig.width = '100%';
+              dialogConfig.height = '90%';
+              dialogConfig.disableClose = true;
+              dialogConfig.data = {
+                title: res?.result?.fileName || 'Hóa đơn điện tử',
+                pdf: pdfBase64
+              };
+              dialogRef = this.dialog.open(PrinterComponent, dialogConfig);
+              this.isGetPdfInvoice = false;
+            } else {
+              this.isGetPdfInvoice = false;
+              this.commonService.showMessageByName(res.message || 'Không có dữ liệu hóa đơn điện tử');
+            }
+          }, (err: any) => {
+            this.isGetPdfInvoice = false;
+            this.commonService.showMessageByName(err);
+          });
+          return dialogRef;
+        } else {
+          this.isGetPdfInvoice = false;
+        }
+      });
+  }
+
+  handleGetPDFInvoiceDraft() {
+    let title = 'Có lấy PDF HĐĐT nháp cho phiếu này hay không?';
+
+    this.commonService.openDialog(DialogConfirmComponent, { title: title })
+      .afterClosed().subscribe(result => {
+        if (result) {
+          this.isGetPdfInvoice = true;
+
+          let dialogRef: any = null;
+          this.internalSaleDeatailService.getPdfFile(this.ticket, 'draft').subscribe((res: any) => {
+            if (res.success && res?.result && res?.result?.fileToBytes) {
+              const pdfBase64 = 'data:application/pdf;base64,' + res?.result?.fileToBytes;
+              const dialogConfig = new MatDialogConfig();
+              dialogConfig.width = '100%';
+              dialogConfig.height = '90%';
+              dialogConfig.disableClose = true;
+              dialogConfig.data = {
+                title: res?.result?.fileName || 'Hóa đơn điện tử',
+                pdf: pdfBase64
+              };
+              dialogRef = this.dialog.open(PrinterComponent, dialogConfig);
+              this.isGetPdfInvoice = false;
+            } else {
+              this.isGetPdfInvoice = false;
+              this.commonService.showMessageByName(res.message || 'Không có dữ liệu hóa đơn điện tử');
+            }
+          }, (err: any) => {
+            this.isGetPdfInvoice = false;
+            this.commonService.showMessageByName(err);
+          });
+          return dialogRef;
+        } else {
+          this.isGetPdfInvoice = false;
+        }
+      });
+  }
+
+  onCreateDraft() {
+    this.isCreateDraftInvoice = true;
+
+    this.internalSaleDeatailService.createDraft(this.ticket).subscribe({
+      next: (result: any) => {
+        if (result.success) {
+          this.commonService.showMessageByName(result.message || 'create_draft_invoice_success');
+        } else {
+          this.commonService.showMessageByName(result.message || 'Unknown_err');
+        }
+      },
+      error: (err) => {
+        this.commonService.showMessageByName('Unknown_err');
+        console.error('Draft invoice error:', err);
+        this.isCreateDraftInvoice = false;
+      },
+      complete: () => {
+        this.isCreateDraftInvoice = false;
+      }
+    });
+  }
+
+  //#endregion
+
+  //#region Readonly
+  isInputDisabled() {
+    const discountList = this.ticket?.discount ?? [];
+
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+    return hasSelectedPayment || this.invoice_model_status === '1' || this.invoice_model_status === '3';
+  }
+
+  isDiscountReadonly(): boolean {
+    return this.readonly || this.invoice_model_status === '3';
+  }
+
+  isInputDisabledStatus(): boolean {
+    const hasReadonlyOrDisabled = this.readonly || this.disableSelectStatus;
+    return hasReadonlyOrDisabled;
+  }
+
+  isInputReadonly() {
+    const discountList = this.ticket?.discount ?? [];
+
+    const isReadonlyFlag = this.readonly;
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+
+    return isReadonlyFlag || hasSelectedPayment || this.invoice_model_status === '3';
+  }
+
+  //#endregion
+
+  allowAdminEdit(): boolean {
+    const user_authorization = JSON.parse(localStorage.getItem('authorization')!);
+
+    return user_authorization && user_authorization.sa_yn;
+  }
+
 }

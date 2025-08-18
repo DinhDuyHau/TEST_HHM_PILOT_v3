@@ -1,4 +1,5 @@
 import { BaseMasterInfoRequest, BaseMerchandiseRequest } from '../common-model/base-entity.model';
+import { ServiceRequest } from '../common-model/service.model';
 
 export class MerchandiseRequest extends BaseMerchandiseRequest {
     stt_rec_hd1 = '';
@@ -41,6 +42,17 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     t_con_no = 0;
     tien_dat_coc = 0;
     email_nhan_key = '';
+
+    constructor(obj?: any) {
+        super();
+        Object.assign(this, obj);
+    }
+}
+
+export class SaleReturnServiceOnlineRequest extends ServiceRequest {
+    stt_rec_px = '';
+    stt_rec0px = '';
+    px_so = '';
 
     constructor(obj?: any) {
         super();

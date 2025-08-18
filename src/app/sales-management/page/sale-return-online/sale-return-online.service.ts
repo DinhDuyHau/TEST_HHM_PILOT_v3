@@ -6,10 +6,10 @@ import { MerchandiseApiService } from '@app/sales-management/api/merchandise-api
 import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
 import { Payment, TransferDetail } from '@app/sales-management/model/ticket/common-model/payment.model';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
-import { MasterInfo, Merchandise, ReturnSaleOnlineTicketCreate, TAB_NAME } from '@app/sales-management/model/ticket/sale-return-online/model';
+import { MasterInfo, Merchandise, ReturnSaleOnlineTicketCreate, SaleReturnServiceOnlineModel, TAB_NAME } from '@app/sales-management/model/ticket/sale-return-online/model';
 import { CommonService } from '../common/common.service';
 import { MerchandiseService } from '../common/merchandise.service';
-import { MerchandiseRequest, MasterInfoRequest } from '@app/sales-management/model/ticket/sale-return-online/request.model';
+import { MerchandiseRequest, MasterInfoRequest, SaleReturnServiceOnlineRequest } from '@app/sales-management/model/ticket/sale-return-online/request.model';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { PaymentService } from '../common/payment.service';
 import { Language } from '../common/language';
@@ -64,7 +64,7 @@ export class SaleReturnOnlineService {
                     this.paymentService.convertPaymentFromVoucher(e.data, this.ticket.payment);
                     break;
                 case TAB_NAME.SERVICE:
-                    this.serviceOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
+                    this.convertFromVoucher(e.data, this.ticket.service);
                     break;
                 default:
                     break;
@@ -81,7 +81,7 @@ export class SaleReturnOnlineService {
         // voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.ELECTRONIC_BILL, data: [] }];
         voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.ELECTRONIC_BILL, data: [this.commonService.convertDateOfModelToRequest(this.ticket.electronic_bill, voucherDto.masterInfo)] }];
         voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
-        voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.SERVICE, data: this.serviceOfMerchandiseService.convertServiceToRequest(this.ticket.service, voucherDto.masterInfo, ServiceRequest) }];
+        voucherDto.details = [...voucherDto.details, { id: 4, name: TAB_NAME.SERVICE, data: this.serviceOfMerchandiseService.convertServiceToRequest(this.ticket.service, voucherDto.masterInfo, SaleReturnServiceOnlineRequest) }];
         return voucherDto;
     }
 
@@ -277,5 +277,62 @@ export class SaleReturnOnlineService {
 
     getListImeiInfo(ma_imei: string[]) {
         return this.imeiApiService.getImeisState(ma_imei);
+    }
+
+    convertFromVoucherService(src: any[], des: any[], TCreator?: { new(): any; }) {
+        const rs = src.map((e: any, i: number) => {
+            let serviceNew = new SaleReturnServiceOnlineModel();
+            if (TCreator) {
+                serviceNew = new TCreator();
+            }
+            Object.keys(serviceNew).map((key: string) => {
+                if (e.hasOwnProperty(key)) {
+                    (serviceNew as any)[key] = e[key];
+                }
+            });
+            serviceNew.tien_ck = e.ck;
+            serviceNew.gia_ban = e.gia;
+            serviceNew.thanh_tien = e.tien2;
+            serviceNew.tien_thue = e.thue;
+            serviceNew.tong_tien = e.tt;
+            serviceNew.key = e.stt_rec_hd + e.stt_rec0hd;
+            serviceNew.gia_nhap_mua = e.gia_vat;
+            serviceNew.line_nbr = i;
+            serviceNew.stt_rec_px = e.stt_rec || '';
+            serviceNew.stt_rec0px = e.stt_rec0 || '';
+            serviceNew.px_so = e.so_ct || '';
+            return serviceNew;
+        });
+        rs.map((e, i) => { e.line_nbr = i; });
+        des.push(...rs);
+    }
+
+    convertFromVoucher(src: any[], des: any[], TCreator?: { new(): any; }) {
+        const rs = src.map((e: any, i: number) => {
+            let serviceNew = new SaleReturnServiceOnlineModel();
+            if (TCreator) {
+                serviceNew = new TCreator();
+            }
+            Object.keys(serviceNew).map((key: string) => {
+                if (e.hasOwnProperty(key)) {
+                    (serviceNew as any)[key] = e[key];
+                }
+            });
+            serviceNew.tien_ck = e.ck;
+            serviceNew.gia_ban = e.gia;
+            serviceNew.thanh_tien = e.tien2;
+            serviceNew.tien_thue = e.thue;
+            serviceNew.tong_tien = e.tt;
+            serviceNew.key = e.stt_rec_hd + e.stt_rec0hd;
+            serviceNew.gia_nhap_mua = e.gia_vat;
+            serviceNew.line_nbr = i;
+            serviceNew.stt_rec0 = e.stt_rec0 || '';
+            serviceNew.stt_rec_px = e.stt_rec_px || '';
+            serviceNew.stt_rec0px = e.stt_rec0px || '';
+            serviceNew.px_so = e.px_so || '';
+            return serviceNew;
+        });
+        rs.map((e, i) => { e.line_nbr = i; });
+        des.push(...rs);
     }
 }

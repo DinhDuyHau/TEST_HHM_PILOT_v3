@@ -158,11 +158,13 @@ export class RefundBaokimDetailComponent extends Grid<RefundDetail> implements O
       // set cửa hàng để truyền sang payment tab
       this.shop = item.masterInfo.ma_cuahang ?? '';
 
+      item.masterInfo.ngay_lct = item.masterInfo.ngay_lct?.substring(0, 10);
       item.masterInfo.ngay_ct = item.masterInfo.ngay_ct?.substring(0, 10);
       this.data = item;
       this.voucherForm = this.formBuilder.group({
         so_ct: [this.data.masterInfo.so_ct, Validators.required],
         ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
+        ngay_lct: [this.data.masterInfo.ngay_lct, Validators.required],
         status: [this.data.masterInfo.status, Validators.required],
         ma_cuahang: [this.data.masterInfo.ma_cuahang, Validators.required],
         ten_cuahang: [this.ten_cuahang],
@@ -223,6 +225,7 @@ export class RefundBaokimDetailComponent extends Grid<RefundDetail> implements O
         ma_ct: this.voucherCode,
         so_ct: '',
         ngay_ct: getDateFormat(new Date()),
+        ngay_lct: getDateFormat(new Date()),
         ma_dvcs: userObj['unit'],
         ma_ca: userObj['shift'],
         ma_cuahang: userObj['shop'],
@@ -253,6 +256,7 @@ export class RefundBaokimDetailComponent extends Grid<RefundDetail> implements O
         this.voucherForm = this.formBuilder.group({
           so_ct: [this.data.masterInfo.so_ct, Validators.required],
           ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
+          ngay_lct: [this.data.masterInfo.ngay_lct, Validators.required],
           status: [this.data.masterInfo.status, Validators.required],
           ma_cuahang: [this.data.masterInfo.ma_cuahang, Validators.required],
           ten_cuahang: [this.ten_cuahang],
@@ -289,6 +293,7 @@ export class RefundBaokimDetailComponent extends Grid<RefundDetail> implements O
     this.voucherForm = this.formBuilder.group({
       so_ct: [this.data.masterInfo.so_ct, Validators.required],
       ngay_ct: [this.data.masterInfo.ngay_ct, Validators.required],
+      ngay_lct: [this.data.masterInfo.ngay_lct, Validators.required],
       status: [this.data.masterInfo.status, Validators.required],
       ma_cuahang: [this.data.masterInfo.ma_cuahang, Validators.required],
       ten_cuahang: [this.ten_cuahang],
@@ -351,7 +356,7 @@ export class RefundBaokimDetailComponent extends Grid<RefundDetail> implements O
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'edit_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/refund-baokim');
         }
       });
     }
@@ -366,7 +371,7 @@ export class RefundBaokimDetailComponent extends Grid<RefundDetail> implements O
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'add_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/refund-baokim');
         }
       });
     }

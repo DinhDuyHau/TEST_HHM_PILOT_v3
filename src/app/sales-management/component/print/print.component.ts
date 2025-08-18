@@ -50,7 +50,7 @@ export class PrintComponent implements OnChanges, OnInit {
 
   onClickInvoicePrint(option_report: MenuReport) {
     if (this.voucherId && option_report.controller && option_report.form_id) {
-      if (this.status === '0') {
+      if (this.status === '0' || this.status === '1') {
         this.commonService.showMessage('Không thể in phiếu chưa hoàn thành');
         return;
       }

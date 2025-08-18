@@ -5,7 +5,7 @@ import { Service } from '../common-model/service.model';
 export class ReturnSaleOnlineTicketCreate {
   masterInfo: MasterInfo = new MasterInfo;
   merchandise: Merchandise[] = [];
-  service: Service[] = [];
+  service: SaleReturnServiceOnlineModel[] = [];
   payment: Payment = new Payment;
   electronic_bill: electronic_bill = new electronic_bill;
 }
@@ -91,4 +91,15 @@ export class electronic_bill {
   tl_status = '';  // Tình trạng hóa đơn
   tl_ma_so_thue = '';  // Mã số thuế
   tl_ma_tra_cuu = '';  // Mã tra cứu
+}
+
+export class SaleReturnServiceOnlineModel extends Service {
+  stt_rec_px = '';
+  stt_rec0px = '';
+  px_so = '';
+
+  constructor(obj?: any) {
+    super();
+    Object.assign(this, obj);
+  }
 }

@@ -371,12 +371,7 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         }
         else {
-          if (item.result && item.result.length > 0) {
-            this.commonService.showMessageByNameAdvance(item.message, ...item.result);
-          }
-          else {
-            this.commonService.showMessageByName(item.message);
-          }
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/return-supplier');
         }
       });
     }
@@ -390,12 +385,7 @@ export class ReturnSupplierDetailComponent extends Grid<ReceiptDetail> implement
           this.commonService.showMessageByName(item.message ? item.message : 'add_success');
         }
         else {
-          if (item.result && item.result.length > 0) {
-            this.commonService.showMessageByNameAdvance(item.message, ...item.result);
-          }
-          else {
-            this.commonService.showMessageByName(item.message);
-          }
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/return-supplier');
         }
       });
     }

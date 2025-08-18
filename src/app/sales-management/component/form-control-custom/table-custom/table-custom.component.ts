@@ -60,6 +60,7 @@ export class TableCustomComponent implements
   @Input() isStyleFullHeight: boolean = false;
   @Input() enableTypeColorOverview: boolean = false;
   @Input() enableSelected: boolean = false;
+  @Input() isSysAdminEdit = false;
 
   pageSizeOptions: number[] = [10, 20, 50, 100, 150, 200];
 
@@ -82,6 +83,8 @@ export class TableCustomComponent implements
   @Output() handleCustomeUpdate = new EventEmitter<{ item: any }>();
   @Output() handleDeleteDiscount09 = new EventEmitter<{ item: any }>();
   @Output() handleAddDiscountCRM = new EventEmitter<{ item: any }>();
+  @Output() handleSwapImei = new EventEmitter<{ item: any }>();
+
   @ViewChildren('ref') rowRefs: QueryList<ElementRef> | undefined;
   @ViewChild('tableContainer') tableContainer: ElementRef | undefined;
 
@@ -189,7 +192,7 @@ export class TableCustomComponent implements
       }
 
       // gán màu chữ cho loại hiển thị ở tổng quan
-      if(this.enableTypeColorOverview) {
+      if (this.enableTypeColorOverview) {
         this.dataSource = this.dataSource.map(item => ({
           ...item,
           type_color_overview: item.typeMap ? this.getTypeOverviewClass(item.typeMap) : ''
@@ -423,8 +426,8 @@ export class TableCustomComponent implements
     if (this.handleUpdate.observers.length === 0) {
       return false;
     }
-    if(this.entityNamesAuthorization.includes(this.entityName)) {
-      if(!this.useEdit) {
+    if (this.entityNamesAuthorization.includes(this.entityName)) {
+      if (!this.useEdit) {
         return false;
       }
     }
@@ -462,8 +465,8 @@ export class TableCustomComponent implements
       return false;
     }
 
-    if(this.entityNamesAuthorization.includes(this.entityName)) {
-      if(!this.useDelete) {
+    if (this.entityNamesAuthorization.includes(this.entityName)) {
+      if (!this.useDelete) {
         return false;
       }
     }
@@ -474,7 +477,7 @@ export class TableCustomComponent implements
 
     if (this.isShowDelete) return true
 
-    if(!this.isShowDelete) {
+    if (!this.isShowDelete) {
       return record.status == 0
     }
 
@@ -599,4 +602,12 @@ export class TableCustomComponent implements
     this.handleAddDiscountCRM.emit({ item });
   }
 
+  onSwapImei(item: any) {
+    if (!item || !item.ma_imei || item.ma_imei === '') {
+      this.commonService.showMessage('Hàng hóa chưa nhập mã imei');
+      return;
+    }
+
+    this.handleSwapImei.emit({ item });
+  }
 }

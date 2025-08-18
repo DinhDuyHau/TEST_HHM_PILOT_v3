@@ -89,6 +89,7 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
   shop = '';
   ma_imei = '';
   addOrUpdateCustomer = 'create';
+  invoice_model_status = '0';
 
   tab_sources: any[] = [
     { label: 'Tổng quan' },
@@ -209,11 +210,7 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
       }
     });
 
-    const getStatusList = () => {
-      this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.TELECOM }]).subscribe(result => {
-        this.statusList = result.result.items as StatusTicket[];
-      });
-    };
+    this.getStatusList();
 
     this.route.queryParams.subscribe((data: any) => {
       if (data.key) {
@@ -222,16 +219,25 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
             // set cửa hàng để truyền sang payment tab
             this.shop = (result.result as any).masterInfo.ma_cuahang;
 
-            if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_TELECOM.CREATE) {
+            //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+            this.invoice_model_status = (result.result as any).masterInfo.status;
+
+            // Chỉ cho phép sửa khi trạng thái là 0, 1, 3
+            if (this.mode === MODE.UPDATE &&
+              !((result.result as any).masterInfo.status === STATUS_LIST.SALE_TELECOM.CREATE
+                || (result.result as any).masterInfo.status === STATUS_LIST.SALE_TELECOM.PENDING_PAYMENT
+                || (result.result as any).masterInfo.status === STATUS_LIST.SALE_TELECOM.PENDING_PUBLISH
+              )) {
               this.router.navigate(['/404']);
             }
+
             const hddtTable = (result.result as any).details.find((item: any) => item.id === 10);
             if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
               this.eInvoiceInfo = hddtTable.data[0];
             }
             this.saleWithTelecomService.loadData(result.result as any as VoucherDto);
             this.handleGetDeposit();
-            getStatusList();
+            this.getStatusList();
             this.commonService.getPointRateExchange(this.ticket, this.option);
             this.saleWithTelecomService.getConversionPoint().subscribe(result => {
               if (result && result.success && result.result !== null) {
@@ -244,12 +250,34 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
         });
       } else {
         this.saleWithTelecomService.initTicket(this.ticket);
-        getStatusList();
+        this.getStatusList();
         this.commonService.getPointRateExchange(this.ticket, this.option);
         this.tabIndexFocusFirst = this.tabIndex.ma_kh;
       }
     });
   }
+
+  getStatusList = () => {
+    this.ticketApiService.getStatusWithOrder([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.TELECOM }], 'xorder,status').subscribe(result => {
+      const allItems = result.result.items as StatusTicket[];
+      const currentStatus = this.ticket.masterInfo.status;
+
+      if (currentStatus === '1') {
+        // Nếu là "Chờ thanh toán" → loại bỏ "Lập chứng từ", "Hoàn thành"
+        this.statusList = allItems.filter(item => item.status !== '0' && item.status !== '2');
+      } else if (currentStatus === '0') {
+        // Nếu là "Lập chứng từ" → loại bỏ "Chờ thanh toán", "Hoàn thành"
+        this.statusList = allItems.filter(item => item.status !== '1' && item.status !== '2');
+      } else if (currentStatus === '3') {
+        // Nếu là "Chờ phát hành" → chỉ hiện "Chờ phát hành", "Hoàn thành"
+        this.statusList = allItems.filter(item => item.status === '3' || item.status === '2');
+      }
+      else {
+        // Các trạng thái khác → giữ nguyên
+        this.statusList = allItems;
+      }
+    });
+  };
 
   // #region customer
   handleAddCustomer(customer: Customer) {
@@ -737,12 +765,7 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
               this.commonService.showMessage(Language.content.Update_Completed);
               this.router.navigate(['sales/telecom']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/telecom');
             }
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
@@ -767,12 +790,7 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
               // }
               this.router.navigate(['sales/telecom']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/telecom');
             }
           });
         }
@@ -808,6 +826,10 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
     this.ticket.masterInfo.t_cp_khac = $event.t_chi_phi;
 
     this.ticket.masterInfo.fqty1 = this.ticket.masterInfo.t_tt_nt + this.ticket.masterInfo.t_cp_khac;
+
+    this.ticket.masterInfo.status = $event.status;
+    // cập nhật lại trạng thái
+    this.getStatusList();
   }
 
   handleProcessImei(ma_imei: string) {
@@ -827,6 +849,38 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  //#region Readonly
+  isInputDisabled() {
+    const discountList = this.ticket?.discount ?? [];
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+
+    return hasSelectedPayment;
+  }
+
+  isInputDisabledStatus(): boolean {
+    const hasReadonlyOrDisabled = this.readonly || this.disableSelectStatus;
+    return hasReadonlyOrDisabled;
+  }
+
+  isDiscountReadonly(): boolean {
+    return this.readonly || this.invoice_model_status === '3';
+  }
+
+  isInputReadonly() {
+    const discountList = this.ticket?.discount ?? [];
+
+    const isReadonlyFlag = this.readonly;
+    const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+
+    return isReadonlyFlag || hasSelectedPayment;
+  }
+
+  isAnyPaymentSelected(): boolean {
+    return Object.values(this.ticket.payment).some(p => p?.selected === true);
+  }
+  //#endregion
+
 }
 
 

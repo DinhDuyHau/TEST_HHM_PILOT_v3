@@ -58,6 +58,7 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
   eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
   entity = TICKET_ENTITY.GIFT_REPAY;
   ma_imei = '';
+  invoice_model_status = '0';
 
   constructor(
     private router: Router,
@@ -128,6 +129,9 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
         this.disableSelectStatus = false;
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.GIFT_REPAY, data.key).subscribe((result) => {
           if (result.result) {
+            //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+            this.invoice_model_status = (result.result as any).masterInfo.status;
+
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_GIFT_REPAY.CREATE) {
               this.router.navigate(['/404']);
             }
@@ -347,12 +351,7 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
               this.commonService.showMessage(Language.content.Update_Completed);
               this.router.navigate(['sales/gift-repay']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/gift-repay');
             }
           });
         } else if (this.mode === MODE.CREATE && !this.isSaving) {
@@ -366,12 +365,7 @@ export class SaleGiftRepayComponent implements OnInit, AfterViewInit {
               this.commonService.showMessage(Language.content.Successful_Create);
               this.router.navigate(['sales/gift-repay']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/gift-repay');
             }
           });
         }

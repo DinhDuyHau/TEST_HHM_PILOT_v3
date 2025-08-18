@@ -15,7 +15,7 @@ import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/t
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { Service } from '@app/sales-management/model/ticket/sale-service/model';
 import { CommonService } from '../common/common.service';
-import { MODE } from '@app/sales-management/enum/ticket.enum';
+import { MODE, STATUS_LIST } from '@app/sales-management/enum/ticket.enum';
 import { CameraComponent } from '@app/sales-management/component/webcam/webcam.component';
 import { ViewImageComponent } from '@app/sales-management/component/view-image/view-image.component';
 import { Language } from '../common/language';
@@ -57,6 +57,7 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
     entity = TICKET_ENTITY.SERVICE_COMPENSATION;
     action = '';
     shop = '';
+    invoice_model_status = '0';
 
     constructor(
         private router: Router,
@@ -109,11 +110,7 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
             }
         });
 
-        const getStatusList = () => {
-            this.ticketApiService.getStatus([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.SERVICE_COMPENSATION }]).subscribe(result => {
-                this.statusList = result.result.items as StatusTicket[];
-            });
-        };
+        this.getStatusList();
 
         this.route.queryParams.subscribe((data: any) => {
             if (data.key) {
@@ -123,12 +120,24 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
                         // set cửa hàng để truyền sang payment tab
                         this.shop = (result.result as any).masterInfo.ma_cuahang;
 
+                        //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+                        this.invoice_model_status = (result.result as any).masterInfo.status;
+
+                        // Chỉ cho phép sửa khi trạng thái là 0, 1, 3
+                        if (this.mode === MODE.UPDATE &&
+                            !((result.result as any).masterInfo.status === STATUS_LIST.SERVICE_COMPENSATION.CREATE
+                                || (result.result as any).masterInfo.status === STATUS_LIST.SERVICE_COMPENSATION.PENDING_PAYMENT
+                                || (result.result as any).masterInfo.status === STATUS_LIST.SERVICE_COMPENSATION.PENDING_PUBLISH
+                            )) {
+                            this.router.navigate(['/404']);
+                        }
+
                         const hddtTable = (result.result as any).details.find((item: any) => item.id === 10);
                         if (hddtTable && hddtTable.data && hddtTable.data.length && hddtTable.data[0]) {
                             this.eInvoiceInfo = hddtTable.data[0];
                         }
                         this.serviceCompensationService.loadData(result.result as any as VoucherDto);
-                        getStatusList();
+                        this.getStatusList();
                         this.commonService.getPointRateExchange(this.ticket);
                         this.serviceCompensationService.getConversionPoint().subscribe(result => {
                             if (result && result.success && result.result !== null) {
@@ -142,12 +151,34 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
             } else {
                 this.disableSelectStatus = true;
                 this.serviceCompensationService.initTicket(this.ticket);
-                getStatusList();
+                this.getStatusList();
                 this.commonService.getPointRateExchange(this.ticket);
                 this.tabIndexFocusFirst = this.tabIndex.ma_kh;
             }
         });
     }
+
+    getStatusList = () => {
+        this.ticketApiService.getStatusWithOrder([{ Name: 'ma_ct', Operator: '=', Value: TICKET_CODE.SERVICE_COMPENSATION }], 'xorder,status').subscribe(result => {
+            const allItems = result.result.items as StatusTicket[];
+            const currentStatus = this.ticket.masterInfo.status;
+
+            if (currentStatus === '1') {
+                // Nếu là "Chờ thanh toán" → loại bỏ "Lập chứng từ", "Hoàn thành"
+                this.statusList = allItems.filter(item => item.status !== '0' && item.status !== '2');
+            } else if (currentStatus === '0') {
+                // Nếu là "Lập chứng từ" → loại bỏ "Chờ thanh toán", "Hoàn thành"
+                this.statusList = allItems.filter(item => item.status !== '1' && item.status !== '2');
+            } else if (currentStatus === '3') {
+                // Nếu là "Chờ phát hành" → chỉ hiện "Chờ phát hành", "Hoàn thành"
+                this.statusList = allItems.filter(item => item.status === '3' || item.status === '2');
+            }
+            else {
+                // Các trạng thái khác → giữ nguyên
+                this.statusList = allItems;
+            }
+        });
+    };
 
     // #region customer
     handleAddCustomer(customer: Customer) {
@@ -248,9 +279,9 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
     // Submit
     onSave() {
         // Check âm tiền nợ
-        if(this.ticket.masterInfo.t_con_no < 0) {
-          this.commonService.showMessage('Tiền nợ không được âm');
-          return;
+        if (this.ticket.masterInfo.t_con_no < 0) {
+            this.commonService.showMessage('Tiền nợ không được âm');
+            return;
         }
 
         const message = this.serviceCompensationService.validateTicket(this.ticket);
@@ -263,8 +294,8 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
             const voucherDto = this.serviceCompensationService.prepareVoucher();
 
             this.route.queryParams.subscribe((data: any) => {
-                  this.isDisabled = true;
-                  if (this.mode === MODE.UPDATE && !this.isSaving) {
+                this.isDisabled = true;
+                if (this.mode === MODE.UPDATE && !this.isSaving) {
                     this.isSaving = true;
                     this.ticketApiService.updateVoucher(TICKET_ENTITY.SERVICE_COMPENSATION, voucherDto).subscribe(result => {
                         this.isSaving = false;
@@ -284,12 +315,7 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
                             // }
                             this.router.navigate(['voucher/service-compensation']);
                         } else {
-                            if (result.result && result.result.length > 0) {
-                                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-                            }
-                            else {
-                                this.commonService.showMessageByName(result.message);
-                            }
+                            this.commonService.handleResponseErrorVoucher(result, 'voucher/service-compensation');
                         }
                     });
                 } else if (this.mode === MODE.CREATE && !this.isSaving) {
@@ -302,12 +328,7 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
                             this.commonService.showMessage(Language.content.Successful_Create);
                             this.router.navigate(['voucher/service-compensation']);
                         } else {
-                            if (result.result && result.result.length > 0) {
-                                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-                            }
-                            else {
-                                this.commonService.showMessageByName(result.message);
-                            }
+                            this.commonService.handleResponseErrorVoucher(result, 'voucher/service-compensation');
                         }
                     });
                 }
@@ -324,6 +345,44 @@ export class ServiceCompensationComponent implements OnInit, AfterViewInit {
 
     onChange_dien_giai(event: any) {
         this.ticket.masterInfo.dien_giai = event;
+    }
+
+    //#region Readonly
+    isInputDisabled() {
+        const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+
+        return hasSelectedPayment;
+    }
+
+    isInputDisabledStatus(): boolean {
+        const hasReadonlyOrDisabled = this.readonly || this.disableSelectStatus;
+        return hasReadonlyOrDisabled;
+    }
+
+    isDiscountReadonly(): boolean {
+        return this.readonly || this.invoice_model_status === '3';
+    }
+
+    isInputReadonly() {
+        const isReadonlyFlag = this.readonly;
+        const hasSelectedPayment = Object.values(this.ticket?.payment ?? {}).some(p => p?.selected === true);
+
+        return isReadonlyFlag || hasSelectedPayment;
+    }
+
+    isAnyPaymentSelected(): boolean {
+        return Object.values(this.ticket.payment).some(p => p?.selected === true);
+    }
+    //#endregion
+
+    onPaymentChange($event: any) {
+        this.ticket.masterInfo.t_con_no = $event.t_con_no;
+        this.ticket.masterInfo.t_da_tra = $event.t_da_tra;
+        this.ticket.masterInfo.nguoi_duyet_ck = $event.nguoi_duyet_ck
+        this.ticket.masterInfo.status = $event.status;
+
+        // cập nhật lại trạng thái
+        this.getStatusList();
     }
 
 }

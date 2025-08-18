@@ -359,7 +359,7 @@ export class InternalPurchaseCreateComponent extends Grid<ReceiptDetail> impleme
           this.commonService.showMessageByName(item.message ? item.message : 'edit_success');
         }
         else {
-          this.commonService.showMessageByName(item.message ? item.message : 'edit_error');
+          this.commonService.handleResponseErrorVoucher(item, 'voucher/internal-purchase');
         }
       });
     }

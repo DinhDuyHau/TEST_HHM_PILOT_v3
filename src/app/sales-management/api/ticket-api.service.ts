@@ -86,6 +86,11 @@ export class TicketApiService extends ApiService {
         return this.post<Result<StatusTicket>>(GET_STATUS_TICKET_URL, body);
     }
 
+    getStatusWithOrder(body: {}, order_fields = ''): Observable<Result<StatusTicket>> {
+        const order_by = order_fields;
+        return this.post<Result<StatusTicket>>(GET_STATUS_TICKET_URL, body, { order_by });
+    }
+
     getVoucherNumber(entity: string): Observable<ResultNoPaging<string>> {
         const url = GET_VOUCHER_NUMBER_URL + entity;
         return this.get<ResultNoPaging<string>>(url);

@@ -65,6 +65,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   eInvoiceInfo: EInvoiceInfo = new EInvoiceInfo();
   entity = TICKET_ENTITY.CHANGE;
   ma_imei_doi = '';
+  invoice_model_status = '0';
 
   tab_sources: any[] = [
     { label: 'Tổng quan' },
@@ -160,6 +161,9 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
       if (data.key) {
         this.ticketApiService.getVoucherByid(TICKET_ENTITY.CHANGE, data.key).subscribe((result) => {
           if (result.result) {
+            //set status để xử lý vấn đề in ngay trên màn hình xem chứng từ
+            this.invoice_model_status = (result.result as any).masterInfo.status;
+
             if (this.mode === MODE.UPDATE && (result.result as any).masterInfo.status !== STATUS_LIST.SALE_CHANGE.CREATE) {
               this.router.navigate(['/404']);
             }
@@ -371,6 +375,23 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
   // #region merchandise
   onRemoveMerchandiseReturn(event: { item: Merchandise }) {
     this.saleChangeService.removeMerchandiseReturn(event.item);
+    this.resetForm();
+  }
+
+  // reset form khi xóa hàng trả
+  resetForm() {
+    const imei_tra = document.querySelector(`input[id='imei_tra']`) as HTMLInputElement;
+    if (imei_tra) imei_tra.value = '';
+    const imei_doi = document.querySelector(`input[id='imei_doi']`) as HTMLInputElement;
+    if (imei_doi) imei_doi.value = '';
+
+    this.ticket.masterInfo.ma_kh = '';
+    this.ticket.masterInfo.ten_kh = '';
+    this.ticket.masterInfo.dia_chi = '';
+    this.ticket.masterInfo.ma_nvvc = '';
+    this.ticket.masterInfo.ten_nvvc = '';
+    this.ticket.masterInfo.dien_giai = '';
+    this.ticket.merchandise_change = [];
   }
 
   onRemoveMerchandiseChange(event: { item: Merchandise }) {
@@ -501,12 +522,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
               this.commonService.showMessageByContent(Language.content.Update_Completed);
               this.router.navigate(['sales/change']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/change');
             }
           });
         } else if (this.mode === MODE.CREATE) {
@@ -520,12 +536,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
               this.commonService.showMessageByContent(Language.content.Successful_Create);
               this.router.navigate(['sales/change']);
             } else {
-              if (result.result && result.result.length > 0) {
-                this.commonService.showMessageByNameAdvance(result.message, ...result.result);
-              }
-              else {
-                this.commonService.showMessageByName(result.message);
-              }
+              this.commonService.handleResponseErrorVoucher(result, 'sales/change');
             }
           });
         }

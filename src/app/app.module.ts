@@ -46,6 +46,7 @@ import { SearchV2DialogModule } from './sales-management/component/search-v2/ser
 import { CrmDialogComponent } from './sales-management/component/crm/crm-dialog/crm-dialog.component';
 import { CrmDialogModule } from './sales-management/component/crm/crm-dialog/crm-dialog.module';
 import { CRMSelectModule } from './sales-management/component/crm/crm-select/crm-select.module';
+import { SwapImeiDialogModule } from './sales-management/component/tool-swapimei-dialog/swapimei-dialog.module';
 
 
 @NgModule({
@@ -82,7 +83,8 @@ import { CRMSelectModule } from './sales-management/component/crm/crm-select/crm
     PromotionSelectModule,
     SearchV2DialogModule,
     CrmDialogModule,
-    CRMSelectModule
+    CRMSelectModule,
+    SwapImeiDialogModule
   ],
   declarations: [AppComponent, LoginComponent, AppLayoutComponent, LookupV2Component, Home2Component,
     ScanComponent,

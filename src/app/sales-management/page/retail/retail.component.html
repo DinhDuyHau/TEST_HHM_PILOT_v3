@@ -182,10 +182,12 @@
           [dataSource]="ticket.merchandise"
           [columns]="merchandiseColumns"
           [readonly]="isInputReadonly()"
+          [isSysAdminEdit]="allowAdminEdit()"
           [isChangeColorWhenSelected]="true"
           [isShowDiscountNG]="true"
           [isShowDiscountCRM]="true"
           (handleSwap)="onSwapPromotionMerchandise($event)"
+          (handleSwapImei)="onSwapMerchandiseImei($event)"
           (handleAddDiscountNG)="openCalcDiscountDialog(true, $event, '04')"
           (handleAddDiscountCRM)="openCalcDiscountCRMDialog($event)"
           (handleDelete)="onRemoveMerchandise($event)"
@@ -228,7 +230,7 @@
         <table-custom
           [dataSource]="ticket.discount"
           [columns]="discountColumns"
-          [readonly]="readonly"
+          [readonly]="isDiscountReadonly()"
           (handleDelete)="onRemoveDiscount($event)" />
       </tab-custom>
       <tab-custom label="Mã giảm giá" class="w-100">
@@ -243,7 +245,7 @@
         l_ten_don_vi="Tên đơn vị / Shipper"
         dataDefault="03"
         [data]="ticket.transport"
-        [readonly]="isInputDisabled()"
+        [readonly]="isInputDisabled() && !allowAdminEdit()"
         [isOtherLabel]="true" />
       </tab-custom>
       <!-- <tab-custom label="Bảo hành" class="w-100">
@@ -385,7 +387,9 @@
         [ngay_ct]="ticket.masterInfo.ngay_ct"
         (handleChangeValue)="onPaymentChange($event)"
         [voucherCode]="voucherCode"
-        [status]="ticket.masterInfo.status" />
+        [status]="ticket.masterInfo.status" 
+        [model_status]="invoice_model_status"
+        />
     </ng-container>
 
     <div>
@@ -404,18 +408,58 @@
           <!-- <div class="btn-responsive btn-in-file">
             <span>{{ getLabel('btnPrint') }}</span>
           </div> -->
+          <button
+            class="btn-responsive btn-cancel"
+            (click)="handleGetPDFInvoiceDraft()"
+            [disabled]="isGetPdfInvoice"
+            *ngIf="this.allowAdminEdit() || this.ticket.masterInfo.status == '0' || this.ticket.masterInfo.status == '1' || this.ticket.masterInfo.status == '3'"
+          >
+            <span *ngIf="isGetPdfInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isGetPdfInvoice">Tải PDF HĐĐT Nháp</span>
+          </button>
 
-          <!-- <button
+          <button
+            class="btn-responsive btn-cancel"
+            (click)="handleGetPDFInvoice()"
+            [disabled]="isGetPdfInvoice"
+            *ngIf="this.ticket.masterInfo.status == '2'"
+          >
+            <span *ngIf="isGetPdfInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isGetPdfInvoice">Tải PDF HĐĐT</span>
+          </button>
+
+          <button
+            class="btn-responsive btn-cancel"
+            (click)="handleGetInvoice()"
+            [disabled]="isGetInvoice"
+            *ngIf="this.ticket.masterInfo.status == '2'"
+          >
+            <span *ngIf="isGetInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isGetInvoice">Lấy số HĐĐT</span>
+          </button>
+
+          <button
             class="btn-responsive btn-cancel"
             (click)="handleCreateDraftInvoice()"
             [disabled]="isCreateDraftInvoice"
           >
-            Lập HĐĐT nháp
-          </button> -->
+            <span *ngIf="isCreateDraftInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isCreateDraftInvoice">Lập HĐĐT nháp</span>
+          </button>
+
+          <button
+            *ngIf="this.allowAdminEdit() && invoice_model_status === '2'"
+            class="btn-responsive btn-cancel"
+            (click)="onPublishEInvoice()"
+            [disabled]="!this.allowAdminEdit() || isPublistEInvoice || invoice_model_status !== '2'"
+          >
+            <span *ngIf="isPublistEInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isPublistEInvoice">Phát hành HĐĐT</span>
+          </button>
 
           <app-print
           [voucherId]="this.ticket.masterInfo.stt_rec"
-          [status]="this.ticket.masterInfo.status"
+          [status]="invoice_model_status"
           [entityName]="this.entity"/>
 
           <div class="btn-responsive btn-cancel" (click)="onCancel()">

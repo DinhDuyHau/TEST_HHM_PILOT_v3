@@ -89,6 +89,14 @@ export class AdvancedSearchDialogComponent implements OnInit {
       statusname: 'Lập chứng từ'
     },
     {
+      status: '1',
+      statusname: 'Chờ thanh toán'
+    },
+    {
+      status: '3',
+      statusname: 'Chờ phát hành'
+    },
+    {
       status: '2',
       statusname: 'Hoàn thành'
     },
