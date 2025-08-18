@@ -362,7 +362,8 @@
       <payment-tab
         [pay_hidden]="[
           'sd_diem',
-          'giam_gia_crm'
+          'giam_gia_crm',
+          'mb_qr'
         ]"
         [action]="action"
         [shop]="shop"
@@ -411,7 +412,7 @@
             class="btn-responsive btn-cancel"
             (click)="handleGetPDFInvoiceDraft()"
             [disabled]="isGetPdfInvoice"
-            *ngIf="this.ticket.masterInfo.status == '0' || this.ticket.masterInfo.status == '1' || this.ticket.masterInfo.status == '3'"
+            *ngIf="this.allowAdminEdit() || this.ticket.masterInfo.status == '0' || this.ticket.masterInfo.status == '1' || this.ticket.masterInfo.status == '3'"
           >
             <span *ngIf="isGetPdfInvoice" class="spinner-border spinner-border-sm mr-1"></span>
             <span *ngIf="!isGetPdfInvoice">Tải PDF HĐĐT Nháp</span>
@@ -444,6 +445,16 @@
           >
             <span *ngIf="isCreateDraftInvoice" class="spinner-border spinner-border-sm mr-1"></span>
             <span *ngIf="!isCreateDraftInvoice">Lập HĐĐT nháp</span>
+          </button>
+
+          <button
+            *ngIf="this.allowAdminEdit() && invoice_model_status === '2'"
+            class="btn-responsive btn-cancel"
+            (click)="onPublishEInvoice()"
+            [disabled]="!this.allowAdminEdit() || isPublistEInvoice || invoice_model_status !== '2'"
+          >
+            <span *ngIf="isPublistEInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isPublistEInvoice">Phát hành HĐĐT</span>
           </button>
 
           <app-print

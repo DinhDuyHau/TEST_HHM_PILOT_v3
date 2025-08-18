@@ -36,6 +36,7 @@ import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/d
 import { VoucherCodeService } from '../../common/voucher-code.service';
 import { InternalSaleDetailService } from '@app/_components/voucher/inventory/internal-sale/create/internal-sale-detail.service';
 import { PrinterComponent } from '@app/_components/printer/printer.component';
+import { SwapImeiDialogComponent } from '@app/sales-management/component/tool-swapimei-dialog/swapimei-dialog.component';
 
 const { DISCOUNT_LIST,
     GUARANTEE_LIST,
@@ -102,6 +103,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
     isGetInvoice = false;
     isGetPdfInvoice = false;
     invoice_model_status = '0';
+    isPublistEInvoice = false;
 
     tab_sources: any[] = [
         { label: 'Tổng quan' },
@@ -1313,7 +1315,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
 
     // #region EInvoice
     handleCreateDraftInvoice() {
-        if (this.ticket.masterInfo.status === '0') {
+        if (this.ticket.masterInfo.status === '0' || this.allowAdminEdit()) {
             const title = 'Có lập HĐĐT (nháp) cho phiếu xuất bán hàng này hay không?';
 
             this.commonService.openDialog(DialogConfirmComponent, { title: title })
@@ -1323,6 +1325,45 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                     }
                 });
         }
+    }
+
+    onPublishEInvoice() {
+        //check trạng thái phiếu
+        if (this.invoice_model_status !== '2') {
+            this.commonService.showMessageByName('Phiếu chưa hoàn thành, không thể phát hành HĐĐT.');
+            return;
+        }
+
+        //check quyền sys admin
+        if (!this.allowAdminEdit()) {
+            console.log('Không phải tk sysadmin');
+            return;
+        }
+
+        let title = `Thực hiện phát hành HĐĐT cho phiếu số: ${this.ticket.masterInfo.so_ct}?`;
+        this.commonService.openDialog(DialogConfirmComponent, { title: title })
+            .afterClosed().subscribe(result => {
+                if (result) {
+                    this.isPublistEInvoice = true;
+                    this.internalSaleDeatailService.publishInvoiceBySysAdmin(this.ticket).subscribe({
+                        next: (result: any) => {
+                            if (result.success) {
+                                this.commonService.showMessageByName(result.message || 'create_publish_invoice_success');
+                            } else {
+                                this.commonService.showMessageByName(result.message || 'Unknown_err');
+                            }
+                        },
+                        error: (err) => {
+                            this.commonService.showMessageByName('Unknown_err');
+                            console.error('Draft invoice error:', err);
+                            this.isPublistEInvoice = false;
+                        },
+                        complete: () => {
+                            this.isPublistEInvoice = false;
+                        }
+                    });
+                }
+            });
     }
 
     handleGetInvoice() {
@@ -1509,6 +1550,33 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
         return Object.values(this.ticket.payment).some(p => p?.selected === true);
     }
     //#endregion
+
+    allowAdminEdit(): boolean {
+        const user_authorization = JSON.parse(localStorage.getItem('authorization')!);
+        return user_authorization && user_authorization.sa_yn;
+    }
+
+    onSwapMerchandiseImei(event: { item: Merchandise }) {
+        const current_imei = event.item.ma_imei;
+        this.commonService.openDialog(SwapImeiDialogComponent, { ma_imei: current_imei }, 'service-imei-style')
+            .afterClosed().subscribe((new_imei: string) => {
+                //Kiểm tra tồn tại imei, trạng thái imei, tồn kho imei
+                const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+                this.saleOnlineService.getImeiInStore(new_imei, ngay_ct).subscribe(result => {
+                    if (result.success && result.result.length) {
+                        if (this.merchandiseService.checkImeiExistMerchandise(new_imei, this.ticket.merchandise)) {
+                            this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: this.ma_imei });
+                            return;
+                        }
+                        //thỏa mãn các điều kiện => thay imei mới
+                        event.item.ma_imei = new_imei;
+                    } else {
+                        this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: this.ma_imei });
+                    }
+                })
+            });
+    }
+
 }
 
 

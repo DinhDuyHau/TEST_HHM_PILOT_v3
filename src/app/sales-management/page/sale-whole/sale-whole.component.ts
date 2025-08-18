@@ -231,8 +231,12 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
         this.statusList = allItems.filter(item => item.status === '3' || item.status === '2');
       }
       else {
-        // Các trạng thái khác → giữ nguyên
-        this.statusList = allItems;
+        if (this.mode === MODE.VIEW) {
+          this.statusList = allItems.filter(item => item.status === currentStatus);
+        }
+        else
+          // Các trạng thái khác → giữ nguyên
+          this.statusList = allItems;
       }
     });
   };
@@ -587,7 +591,7 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
 
   // #region EInvoice
   handleCreateDraftInvoice() {
-    if (this.ticket.masterInfo.status === '0') {
+    if (this.ticket.masterInfo.status === '0' || this.allowAdminEdit()) {
       const title = 'Có lập HĐĐT (nháp) cho phiếu xuất bán hàng này hay không?';
 
       this.commonService.openDialog(DialogConfirmComponent, { title: title })
@@ -761,6 +765,12 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
 
     // cập nhật lại trạng thái
     this.getStatusList();
+  }
+
+  allowAdminEdit(): boolean {
+    const user_authorization = JSON.parse(localStorage.getItem('authorization')!);
+
+    return user_authorization && user_authorization.sa_yn;
   }
 
 }

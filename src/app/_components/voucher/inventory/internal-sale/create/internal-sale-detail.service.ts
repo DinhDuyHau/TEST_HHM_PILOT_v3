@@ -140,6 +140,9 @@ export class InternalSaleDetailService implements IGridService<ReceiptDetail>{
   createDraft(data: any) {
     return this.http.post(`${environment.apiUrl}/EInvoice/CreateDraftV2?stt_rec=${data.masterInfo.stt_rec}&ma_ct=${data.masterInfo.ma_ct}`, {});
   }
+  publishInvoiceBySysAdmin(data: any) {
+    return this.http.post(`${environment.apiUrl}/EInvoice/syspublish?stt_rec=${data.masterInfo.stt_rec}&ma_ct=${data.masterInfo.ma_ct}`, {});
+  }
   getPublishedInv(data: any) {
     return this.http.post(`${environment.apiUrl}/EInvoice/GetPublishedInvV2?stt_rec=${data.masterInfo.stt_rec}&ma_ct=${data.masterInfo.ma_ct}`, {});
   }
