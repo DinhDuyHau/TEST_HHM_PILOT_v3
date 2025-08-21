@@ -8,10 +8,23 @@ import { CommonService } from '@app/sales-management/page/common/common.service'
   styleUrls: ['./e-invoice-info.component.scss']
 })
 export class EInvoiceInfoComponent implements OnChanges {
-  @Input() data!: any;
+  //@Input() data!: any;
   @Input() disabled = false;
   @Input() xuat_yn = true;
   @Input() entity = '';
+
+  private _data: any;
+  @Input() set data(val: any) {
+    this._data = val;
+    if (this._data?.ten_kh) {
+      this._data.hd_nguoi_mua = this._data.ten_kh;
+    }
+  }
+
+  get data(): any {
+    return this._data;
+  }
+
 
   @Output() handleChangeData = new EventEmitter<any>();
 
@@ -43,13 +56,16 @@ export class EInvoiceInfoComponent implements OnChanges {
   }
 
   handleChangeTaxCode(event: string) {
+    this.data.hd_ten_kh = '';
+    this.data.hd_dia_chi = '';
     this.commonService.getCustomerInfoByTax(event).subscribe((result: any) => {
       if (result.success) {
         this.data.hd_dia_chi = result.result.dia_chi;
         this.data.hd_ten_kh = result.result.ten_kh;
       }
       else {
-        this.commonService.showMessageByName(result.message);
+        if (event)
+          this.commonService.showMessageByName(result.message);
       }
     });
   }
@@ -68,7 +84,7 @@ export class EInvoiceInfoComponent implements OnChanges {
       const shop = userObj['shop'] || "";
       if (shop) {
         this.customerService.getInfoMobiphoneByShop(shop).subscribe(result => {
-          if(result.success && result.result) {
+          if (result.success && result.result) {
             const info = result.result as any;
             this.data.hd_mst = info?.ma_so_thue || '';
             this.data.hd_dia_chi = info?.dia_chi || '';
