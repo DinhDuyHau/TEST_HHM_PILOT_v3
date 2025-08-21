@@ -641,7 +641,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
   }
 
   onChangeThueSuat(event: any) {
-    this.ticket.masterInfo.fqty1 = event
+    this.ticket.masterInfo.fqty1 = Number(event)
   }
 
   handleChangeTaxCode(event: string) {
