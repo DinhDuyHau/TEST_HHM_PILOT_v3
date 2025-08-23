@@ -97,6 +97,7 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
   isGetInvoice = false;
   isGetPdfInvoice = false;
   invoice_model_status = '0';
+  isPublistEInvoice = false;
 
   tab_sources: any[] = [
     { label: 'Tổng quan' },
@@ -1068,6 +1069,45 @@ export class SaleOnlineEcommerceComponent implements OnInit, AfterViewInit {
         this.isCreateDraftInvoice = false;
       }
     });
+  }
+
+  onPublishEInvoice() {
+    //check trạng thái phiếu
+    if (this.invoice_model_status !== '2') {
+      this.commonService.showMessageByName('Phiếu chưa hoàn thành, không thể phát hành HĐĐT.');
+      return;
+    }
+
+    //check quyền sys admin
+    if (!this.allowAdminEdit()) {
+      console.log('Không phải tk sysadmin');
+      return;
+    }
+
+    let title = `Thực hiện phát hành HĐĐT cho phiếu số: ${this.ticket.masterInfo.so_ct}?`;
+    this.commonService.openDialog(DialogConfirmComponent, { title: title })
+      .afterClosed().subscribe(result => {
+        if (result) {
+          this.isPublistEInvoice = true;
+          this.internalSaleDeatailService.publishInvoiceBySysAdmin(this.ticket).subscribe({
+            next: (result: any) => {
+              if (result.success) {
+                this.commonService.showMessageByName(result.message || 'create_publish_invoice_success');
+              } else {
+                this.commonService.showMessageByName(result.message || 'Unknown_err');
+              }
+            },
+            error: (err) => {
+              this.commonService.showMessageByName('Unknown_err');
+              console.error('Draft invoice error:', err);
+              this.isPublistEInvoice = false;
+            },
+            complete: () => {
+              this.isPublistEInvoice = false;
+            }
+          });
+        }
+      });
   }
 
   //#endregion

@@ -438,14 +438,14 @@
             <span *ngIf="!isGetInvoice">Lấy số HĐĐT</span>
           </button>
 
-          <button
+          <!-- <button
             class="btn-responsive btn-cancel"
             (click)="handleCreateDraftInvoice()"
             [disabled]="isCreateDraftInvoice"
           >
             <span *ngIf="isCreateDraftInvoice" class="spinner-border spinner-border-sm mr-1"></span>
             <span *ngIf="!isCreateDraftInvoice">Lập HĐĐT nháp</span>
-          </button>
+          </button> -->
 
           <button
             *ngIf="this.allowAdminEdit() && invoice_model_status === '2'"
