@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { VoucherCompensationService } from './voucher-compensation.service';
 import { Merchandise, RetailSaleTicket } from '@app/sales-management/model/ticket/retail/model';
 import dataFormat from '@app/_common/dataFormat';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Customer } from '@app/_components/category/customer/customer.model';
 import { StatusTicket } from '@app/sales-management/model/common/status.model';
 import { SEARCH_COMPONENT_NAME, SearchDialogComponent } from '../../component/search/serach-dialog.component';
@@ -33,6 +33,9 @@ import { Option } from '@app/sales-management/model/ticket/common-model/option.m
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
 import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
 import { Transport } from '../../model/common/delivery.mode';
+import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
+import { InternalSaleDetailService } from '@app/_components/voucher/inventory/internal-sale/create/internal-sale-detail.service';
+import { PrinterComponent } from '@app/_components/printer/printer.component';
 
 const {
   DISCOUNT_LIST,
@@ -91,6 +94,7 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
   shop = '';
   ma_imei = '';
   invoice_model_status = '0';
+  isGetPdfInvoice = false;
 
   constructor(
     private router: Router,
@@ -105,7 +109,8 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
     private merchandiseService: MerchandiseService,
     private discountService: DiscountService,
     private guaranteeApiService: GuaranteeApiService,
-    private fileService: FileService
+    private fileService: FileService,
+    public internalSaleDeatailService: InternalSaleDetailService,
   ) {
     localStorage.setItem('useGridCached', '1');
     this.voucherCompensationService.setTicket(this.ticket, this.option);
@@ -235,8 +240,12 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
         this.statusList = allItems.filter(item => item.status === '3' || item.status === '2');
       }
       else {
-        // Các trạng thái khác → giữ nguyên
-        this.statusList = allItems;
+        if (this.mode === MODE.VIEW) {
+          this.statusList = allItems.filter(item => item.status === currentStatus);
+        }
+        else
+          // Các trạng thái khác → giữ nguyên
+          this.statusList = allItems;
       }
     });
   };
@@ -871,6 +880,48 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
     return Object.values(this.ticket.payment).some(p => p?.selected === true);
   }
   //#endregion
+
+  allowAdminEdit(): boolean {
+    const user_authorization = JSON.parse(localStorage.getItem('authorization')!);
+    return user_authorization && user_authorization.sa_yn;
+  }
+
+  handleGetPDFInvoiceDraft() {
+    let title = 'Có lấy PDF HĐĐT nháp cho phiếu này hay không?';
+
+    this.commonService.openDialog(DialogConfirmComponent, { title: title })
+      .afterClosed().subscribe(result => {
+        if (result) {
+          this.isGetPdfInvoice = true;
+
+          let dialogRef: any = null;
+          this.internalSaleDeatailService.getPdfFile(this.ticket, 'draft').subscribe((res: any) => {
+            if (res.success && res?.result && res?.result?.fileToBytes) {
+              const pdfBase64 = 'data:application/pdf;base64,' + res?.result?.fileToBytes;
+              const dialogConfig = new MatDialogConfig();
+              dialogConfig.width = '100%';
+              dialogConfig.height = '90%';
+              dialogConfig.disableClose = true;
+              dialogConfig.data = {
+                title: res?.result?.fileName || 'Hóa đơn điện tử',
+                pdf: pdfBase64
+              };
+              dialogRef = this.dialog.open(PrinterComponent, dialogConfig);
+              this.isGetPdfInvoice = false;
+            } else {
+              this.isGetPdfInvoice = false;
+              this.commonService.showMessageByName(res.message || 'Không có dữ liệu hóa đơn điện tử');
+            }
+          }, (err: any) => {
+            this.isGetPdfInvoice = false;
+            this.commonService.showMessageByName(err);
+          });
+          return dialogRef;
+        } else {
+          this.isGetPdfInvoice = false;
+        }
+      });
+  }
 
 }
 
