@@ -204,7 +204,9 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     if (user) {
       ma_dvcs = user.unit;
     }
-    const ngay_ct = formatDate(this.ngay_ct, 'yyyy/MM/dd', 'en_US');
+
+    let ngay_ct = '';
+    if (this.ngay_ct) ngay_ct = formatDate(this.ngay_ct, 'yyyy/MM/dd', 'en_US');
 
     if (!this.ma_kh || this.ma_kh === '' || ma_dvcs === '' || ngay_ct === '')
       return;
@@ -981,7 +983,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
           let body = {
             stt_rec: this.dataPayment.stt_rec, // stt_rec
             ref_code: res.result, // ref_code
-            shop: user?.shop || '', // shop thanh toán
+            shop: this.shop || '', // shop thanh toán
             amount: `${group.money_create_qr}`, // số tiền tạo QR
             so_ct: this.dataPayment.so_ct // số chứng từ
           };
