@@ -32,7 +32,7 @@ export function isValidEmail(email: string): boolean {
  * @param mst chuỗi mã số thuế cần kiểm tra
  */
 export function isValidTaxcode(mst: string) {
-    const VAT_REGEX = /^(?!0{10})(\d{10})(?:-?(?!000)\d{3})?$/;
+    const VAT_REGEX = /^(?!0{10})(\d{10})(?:-?(?!000)\d{3})?$|^(?!0{12})\d{12}$|^(?!0{13})\d{13}$/;
 
     if (typeof mst !== "string") return false;
     const s = mst.trim();
@@ -41,11 +41,13 @@ export function isValidTaxcode(mst: string) {
     const match = s.match(VAT_REGEX);
     if (!match) return false;
 
-    // Lấy phần 10 số gốc
-    const base10 = match[1];
-    if (!base10) return false;
+    // Nếu là 12 hoặc 13 số liền => hộ kinh doanh
+    if (/^\d{12}$/.test(s) || /^\d{13}$/.test(s)) {
+        return true; // chỉ validate định dạng, chưa áp checksum
+    }
 
-    // Tính checksum
+    // Nếu là 10 số gốc (có thể thêm -xxx)
+    const base10 = s.substring(0, 10);
     const digits = base10.split("").map(Number);
     const weights = [31, 29, 23, 19, 17, 13, 7, 5, 3];
 
