@@ -31,7 +31,7 @@ import { Option } from '@app/sales-management/model/ticket/common-model/option.m
 import { environment } from '@environments/environment';
 import { Package } from '@app/sales-management/model/ticket/common-model/package.model';
 import { PromotionSelectComponent } from '@app/sales-management/component/promotion/promotion-select.component';
-import { isValidEmail } from '@app/_common/commonFunction';
+import { isValidEmail, isValidTaxcode } from '@app/_common/commonFunction';
 
 const { DISCOUNT_LIST,
   GUARANTEE_LIST,
@@ -733,6 +733,13 @@ export class SaleWithTelecomComponent implements OnInit, AfterViewInit {
     if (this.ticket.masterInfo.hd_email && this.ticket.masterInfo.hd_email !== ''
       && !isValidEmail(this.ticket.masterInfo.hd_email)) {
       this.commonService.showMessage('Định dạng email nhận hóa đơn điện tử không hợp lệ');
+      return;
+    }
+
+    //Kiểm tra định dạng mã số thuế của tab HĐĐT
+    if (this.ticket.masterInfo.hd_mst && this.ticket.masterInfo.hd_mst !== ''
+      && !isValidTaxcode(this.ticket.masterInfo.hd_mst)) {
+      this.commonService.showMessage('Mã số thuế không hợp lệ, vui lòng kiểm tra lại');
       return;
     }
 

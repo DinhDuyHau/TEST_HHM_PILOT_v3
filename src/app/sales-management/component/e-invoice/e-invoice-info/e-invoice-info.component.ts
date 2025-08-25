@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
 import { CustomerService, Payment } from '@app/_services';
 import { CommonService } from '@app/sales-management/page/common/common.service';
+import { isValidTaxcode } from '@app/_common/commonFunction';
 
 @Component({
   selector: 'e-invoice-info',
@@ -12,6 +13,11 @@ export class EInvoiceInfoComponent implements OnChanges {
   @Input() disabled = false;
   @Input() xuat_yn = true;
   @Input() entity = '';
+
+  is_disable_ten_kh = false;
+  is_disable_dia_chi = false;
+
+
 
   private _data: any;
   @Input() set data(val: any) {
@@ -58,10 +64,21 @@ export class EInvoiceInfoComponent implements OnChanges {
   handleChangeTaxCode(event: string) {
     this.data.hd_ten_kh = '';
     this.data.hd_dia_chi = '';
+    this.is_disable_ten_kh = false;
+    this.is_disable_dia_chi = false;
+
+    // kiểm tra valid mã số thuế
+    if (!isValidTaxcode(event)) {
+      this.commonService.showMessageByName('Mã số thuế không hợp lệ');
+      return;
+    }
+
     this.commonService.getCustomerInfoByTax(event).subscribe((result: any) => {
       if (result.success) {
         this.data.hd_dia_chi = result.result.dia_chi;
         this.data.hd_ten_kh = result.result.ten_kh;
+        this.is_disable_ten_kh = true;
+        // this.is_disable_dia_chi = true;
       }
       else {
         if (event)

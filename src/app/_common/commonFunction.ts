@@ -28,6 +28,37 @@ export function isValidEmail(email: string): boolean {
 }
 
 /**
+ * Kiểm tra chuỗi mã số thuế nhập vào có hợp lệ hay không
+ * @param mst chuỗi mã số thuế cần kiểm tra
+ */
+export function isValidTaxcode(mst: string) {
+    const VAT_REGEX = /^(?!0{10})(\d{10})(?:-?(?!000)\d{3})?$/;
+
+    if (typeof mst !== "string") return false;
+    const s = mst.trim();
+
+    // Kiểm tra format
+    const match = s.match(VAT_REGEX);
+    if (!match) return false;
+
+    // Lấy phần 10 số gốc
+    const base10 = match[1];
+    if (!base10) return false;
+
+    // Tính checksum
+    const digits = base10.split("").map(Number);
+    const weights = [31, 29, 23, 19, 17, 13, 7, 5, 3];
+
+    let sum = 0;
+    for (let i = 0; i < 9; i++) {
+        sum += digits[i] * weights[i];
+    }
+    const checksum = (10 - (sum % 11)) % 10;
+
+    return digits[9] === checksum;
+}
+
+/**
  * convert chuỗi tiếng việt có dấu thành không dấu
  * @param text chuỗi input cần convert
  * @returns

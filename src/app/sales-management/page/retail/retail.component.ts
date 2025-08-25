@@ -43,7 +43,7 @@ import { PrinterComponent } from '@app/_components/printer/printer.component';
 import { CrmDialogComponent } from '@app/sales-management/component/crm/crm-dialog/crm-dialog.component';
 import { formatDate } from '@angular/common';
 import { SwapImeiDialogComponent } from '@app/sales-management/component/tool-swapimei-dialog/swapimei-dialog.component';
-import { isValidEmail } from '@app/_common/commonFunction';
+import { isValidEmail, isValidTaxcode } from '@app/_common/commonFunction';
 
 const {
   DISCOUNT_LIST,
@@ -1119,6 +1119,13 @@ export class RetailComponent implements OnInit, AfterViewInit {
     if (this.ticket.masterInfo.hd_email && this.ticket.masterInfo.hd_email !== ''
       && !isValidEmail(this.ticket.masterInfo.hd_email)) {
       this.commonService.showMessage('Định dạng email nhận hóa đơn điện tử không hợp lệ');
+      return;
+    }
+
+    //Kiểm tra định dạng mã số thuế của tab HĐĐT
+    if (this.ticket.masterInfo.hd_mst && this.ticket.masterInfo.hd_mst !== ''
+      && !isValidTaxcode(this.ticket.masterInfo.hd_mst)) {
+      this.commonService.showMessage('Mã số thuế không hợp lệ, vui lòng kiểm tra lại');
       return;
     }
 

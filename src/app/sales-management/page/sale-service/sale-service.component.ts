@@ -23,7 +23,7 @@ import { EInvoiceInfo, EInvoiceInfoOutput } from '@app/sales-management/model/dt
 import { InternalSaleDetailService } from '@app/_components/voucher/inventory/internal-sale/create/internal-sale-detail.service';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 import { PrinterComponent } from '@app/_components/printer/printer.component';
-import { isValidEmail } from '@app/_common/commonFunction';
+import { isValidEmail, isValidTaxcode } from '@app/_common/commonFunction';
 
 const { SERVICE_SELECT_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
@@ -191,8 +191,12 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
                 this.statusList = allItems.filter(item => item.status === '3' || item.status === '2');
             }
             else {
-                // Các trạng thái khác → giữ nguyên
-                this.statusList = allItems;
+                if (this.mode === MODE.VIEW) {
+                    this.statusList = allItems.filter(item => item.status === currentStatus);
+                }
+                else
+                    // Các trạng thái khác → giữ nguyên
+                    this.statusList = allItems;
             }
         });
     };
@@ -339,6 +343,13 @@ export class SaleServiceComponent implements OnInit, AfterViewInit {
         if (this.ticket.masterInfo.hd_email && this.ticket.masterInfo.hd_email !== ''
             && !isValidEmail(this.ticket.masterInfo.hd_email)) {
             this.commonService.showMessage('Định dạng email nhận hóa đơn điện tử không hợp lệ');
+            return;
+        }
+
+        //Kiểm tra định dạng mã số thuế của tab HĐĐT
+        if (this.ticket.masterInfo.hd_mst && this.ticket.masterInfo.hd_mst !== ''
+            && !isValidTaxcode(this.ticket.masterInfo.hd_mst)) {
+            this.commonService.showMessage('Mã số thuế không hợp lệ, vui lòng kiểm tra lại');
             return;
         }
 
