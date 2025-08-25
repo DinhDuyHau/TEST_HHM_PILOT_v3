@@ -462,6 +462,8 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
         /*
         * Ko đúng imei sẽ mở dialog tìm kiếm
         */
+        //2025-08-25: KHÓA KHÔNG MỞ DIALOG TÌM KIẾM IMEI GẦN ĐÚNG THEO KÝ TỰ NHẬP
+        /*
         const user = JSON.parse(localStorage.getItem('user') || '{}');
         this.commonService.openDialog(SearchDialogComponent, {
           keyword: ma_imei,
@@ -474,6 +476,14 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
               this.handleProcessImei(this.ma_imei);
             }
           });
+        */
+        //2025-08-25: code thay thế => hiển thị thông báo
+        if (result.message === 'dat_hang_yn_yes' && result.result && result.result.length > 0) {
+          this.commonService.showMessage('Imei đã được đặt hàng trên phiếu khác');
+          return;
+        }
+        this.commonService.showMessage('Imei không tồn tại trong hệ thống hoặc không tồn kho tại cửa hàng');
+        return;
       }
     });
   }

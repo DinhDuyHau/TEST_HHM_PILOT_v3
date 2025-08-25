@@ -139,6 +139,7 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
   isGetInvoice = false;
   isGetPdfInvoice = false;
   invoice_model_status = '0';
+  current_renew_item: any = null;
 
   tab_sources: any[] = [
     { label: 'Tổng quan' },
@@ -885,10 +886,12 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         }
 
       } else {
+        //2025-08-25: KHÓA KHÔNG MỞ DIALOG TÌM KIẾM IMEI GẦN ĐÚNG THEO KÝ TỰ NHẬP
+        /*
         if (isEnterImei) {
           /*
           * Ko đúng imei sẽ mở dialog tìm kiếm
-          */
+          /
           const user = JSON.parse(localStorage.getItem('user') || '{}');
           this.commonService.openDialog(SearchDialogComponent, {
             keyword: ma_imei,
@@ -910,6 +913,31 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
           }
           this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: ma_imei });
         }
+        */
+        // 2025-08-25: code thay thế
+        // Hiển thị thông báo không tồn tại imei bán, và reset tab Hàng thu cũ
+        if (this.ticket.merchandise_used && this.ticket.merchandise_used.length > 0) {
+          this.renew.ma_imei = this.ticket.merchandise_used[0].ma_imei;
+          this.renew.ma_vt = this.ticket.merchandise_used[0].ma_vt;
+          this.renew.ten_vt = this.ticket.merchandise_used[0].ten_vt;
+          this.renew.dvt = this.ticket.merchandise_used[0].dvt;
+          this.renew.ma_kho = this.ticket.merchandise_used[0].ma_kho;
+          if (this.current_renew_item && this.current_renew_item.ma_loai.trim().toLowerCase() === this.ticket.merchandise_used[0].ma_loai.trim().toLocaleLowerCase()) {
+            this.renew.loai_hh = this.current_renew_item.ten_loai;
+            this.renew.ma_loai = this.current_renew_item.ma_loai;
+            this.renew.gia_nt = this.current_renew_item.gia_nt;
+            this.ticket.masterInfo.ma_ncc = this.current_renew_item.ma_kh;
+          }
+          else {
+            this.resetRew();
+          }
+
+          //clear items
+          this.ticket.merchandise_used.splice(0, this.ticket.merchandise_used.length);
+          this.saleRenewService.calcMoney();
+        }
+        this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: ma_imei });
+
       }
     });
   }
@@ -997,6 +1025,8 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
             if (!this.ticket.masterInfo.ma_ncc) {
               this.ticket.masterInfo.ma_ncc = result.ma_kh;
             }
+            this.current_renew_item = result;
+
             // this.ticketApiService.getStocks(TICKET_ENTITY.REPURCHASE, {
             //   ma_cuahang: this.ticket.masterInfo.ma_cuahang,
             //   ma_loai: result.ma_loai
