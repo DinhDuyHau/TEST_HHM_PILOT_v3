@@ -476,7 +476,7 @@ export class MerchandiseService {
                 if (discount.type == 1) {
                     // const tien_ck = detail.map(e => e.tien_ck || e.tien_ck_tl).reduce((pre, cur) => pre + cur, 0);
                     const tien_ck = discount.details
-                        .map((e: { tien_ck: any; tien_ck_tl: any; tien_max: any; }) => Math.min(e.tien_ck ?? e.tien_ck_tl ?? 0, e.tien_max ?? Infinity))
+                        .map((e: { tien_ck: any; tien_ck_tl: any; tien_max: any; }) => e.tien_ck ?? e.tien_ck_tl ?? 0)
                         .reduce((pre: any, cur: any) => pre + cur, 0);
                     discount.tien_ck = tien_ck;
                     if (discount.details) {
@@ -1095,8 +1095,8 @@ export class MerchandiseService {
                 if (discount.type == 1) {
                     // const tien_ck = detail.map(e => e.tien_ck || e.tien_ck_tl).reduce((pre, cur) => pre + cur, 0);
                     const tien_ck = discount.details
-                      .map((e: { tien_ck: any; tien_ck_tl: any; tien_max: any; }) => Math.min(e.tien_ck ?? e.tien_ck_tl ?? 0, e.tien_max ?? Infinity))
-                      .reduce((pre: any, cur: any) => pre + cur, 0);
+                        .map((e: { tien_ck: any; tien_ck_tl: any; tien_max: any; }) => Math.min(e.tien_ck ?? e.tien_ck_tl ?? 0, e.tien_max ?? Infinity))
+                        .reduce((pre: any, cur: any) => pre + cur, 0);
                     discount.tien_ck = tien_ck;
                     if (discount.details) {
                         discount.details.forEach((detail: any) => {
