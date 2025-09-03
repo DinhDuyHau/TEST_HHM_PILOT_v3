@@ -730,7 +730,10 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
       /* END */
 
       // trạng thái lct ko được in
-      if (this.selected_status_row === '0' || this.selected_status_row === '1') {
+      if (this.selected_status_row === '0' || (this.selected_status_row === '1'
+        //cho phép in phiếu đề nghị xuất dùng ở trạng thái 'chờ duyệt'
+        && this.ticketType !== TICKET_TYPE.STOCK_RECOMMENT_TO_USE
+      )) {
         this.commonService.showMessage('Không thể in phiếu chưa hoàn thành');
         return;
       }
