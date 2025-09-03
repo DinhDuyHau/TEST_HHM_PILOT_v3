@@ -526,6 +526,12 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    //check valid giao dịch mua lại của khách hàng doanh nghiệp
+    if (this.ticket.masterInfo.fcode1 === '2' && !this.validateByFromCompany()) {
+      this.commonService.showMessage(`Cần nhập đầy đủ các trường sau của tab "thuế đầu vào": Số hóa đơn, ký hiệu, ngày hóa đơn, mã số thuế, tên khách hàng, địa chỉ.`);
+      return;
+    }
+
     const message = this.saleRepurchaseService.validateTicket(this.ticket);
     this.invalid = this.saleRepurchaseService.isInvalidForm(this.ticket.masterInfo);
     this.invalid && this.commonService.showMessage(Language.content.Missing_information);
@@ -939,4 +945,24 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     return null;
   }
   // #endregion 3.mua thu cũ không lên đời
+
+  validateByFromCompany(): boolean {
+    let is_valid = true;
+
+    if (!this.ticket.masterInfo.so_ct0 || this.ticket.masterInfo.so_ct0 === '')
+      is_valid = false;
+    if (!this.ticket.masterInfo.so_seri0 || this.ticket.masterInfo.so_seri0 === '')
+      is_valid = false;
+    if (!this.ticket.masterInfo.ngay_ct0 || this.ticket.masterInfo.ngay_ct0 === '')
+      is_valid = false;
+    if (!this.ticket.masterInfo.hd_mst || this.ticket.masterInfo.hd_mst === '')
+      is_valid = false;
+    if (!this.ticket.masterInfo.hd_ten_kh || this.ticket.masterInfo.hd_ten_kh === '')
+      is_valid = false;
+    if (!this.ticket.masterInfo.hd_dia_chi || this.ticket.masterInfo.hd_dia_chi === '')
+      is_valid = false;
+
+    return is_valid;
+  }
+
 }
