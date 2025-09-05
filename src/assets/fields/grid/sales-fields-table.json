@@ -1843,6 +1843,14 @@
           "title": "Tên dịch vụ"
       },
       {
+          "name": "ten_vt",
+          "title": "Tên sản phẩm"
+      },
+        {
+            "name": "ma_imei",
+            "title": "Imei"
+        },
+      {
           "name": "vt_ton_kho",
           "title": "Theo dõi kho",
           "align": "center",
