@@ -13,6 +13,7 @@ import { getResource } from '@app/_common/commonFunction';
 import { CommonService } from '@app/sales-management/page/common/common.service';
 import { Language } from '@app/sales-management/page/common/language';
 import { TICKET_CODE } from '@app/sales-management/model/common/ticket-code.model';
+import { isValidEmail } from '@app/_common/commonFunction';
 
 @Component({
   selector: 'app-customer-create',
@@ -117,7 +118,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
     });
 
     // call api lấy thông tin khach hàng từ website nếu là create
-    if(this.addOrUpdate == "create") {
+    if (this.addOrUpdate == "create") {
       this.customerService.getCustomerInfoByWebsite(this.customer.ma_kh.trim()).subscribe((result) => {
         const customerInfo = result as any || {};
 
@@ -127,8 +128,8 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
           this.customer.dia_chi = customerInfo.Address || '';
           this.customer.dien_thoai = customerInfo.Phone || '';
           // const BirthDayformatted = customerInfo?.UserBirthDate?.split(" ")[0].replace(/-/g, "/");
-          const BirthDayformatted  = this.parseBirthDateAsUTC(customerInfo?.UserBirthDate);
-          this.customer.ngay_sinh = BirthDayformatted  || '';
+          const BirthDayformatted = this.parseBirthDateAsUTC(customerInfo?.UserBirthDate);
+          this.customer.ngay_sinh = BirthDayformatted || '';
           this.customer.email_cn = customerInfo.Email || '';
           this.customer.gioi_tinh = customerInfo.Sex || '';
         }
@@ -177,12 +178,31 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
     }
 
     this.customer.ma_ct = TICKET_CODE.ONLINE_ECOMMERCE;
+    if (!this.customer.dia_chi || this.customer.dia_chi.trim() == '') {
+      this.commonService.showMessage('Vui lòng nhập địa chỉ');
+      return;
+    }
+    if (!this.customer.dien_thoai || this.customer.dien_thoai.trim() == '') {
+      this.commonService.showMessage('Vui lòng nhập số điện thoại');
+      return;
+    }
 
     // bắt buộc chọn giới tính
     if (this.customer.gioi_tinh == "" || this.customer.gioi_tinh?.includes("Chọn giới tính")) {
       this.commonService.showMessage('Vui lòng chọn giới tính');
       return;
     }
+    if (!this.customer.email_cn) {
+      this.commonService.showMessage('Vui lòng nhập Email');
+      return;
+    }
+    else {
+      if (!isValidEmail(this.customer.email_cn)) {
+        this.commonService.showMessage('Email không hợp lệ');
+        return;
+      }
+    }
+
 
     this.submitted = true;
 
