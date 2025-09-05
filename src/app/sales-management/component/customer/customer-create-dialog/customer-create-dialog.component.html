@@ -8,7 +8,7 @@
         [ma_ct]="data.ma_ct || ''"
         (handleCreateSucess)="onCreateSuccess($event)" />
     </div>
-    <div class="close-btn" (click)="onCancel()">
+    <div class="close-btn" (click)="onCancel()" *ngIf="data.addOrUpdate !== 'update'">
       <i class="fas fa-times"></i>
     </div>
   </div>

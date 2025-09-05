@@ -317,6 +317,7 @@
           {{ submitButtonTitle }}
         </button>
         <div
+          *ngIf="this.addOrUpdate !== 'update'"
           (click)="onCancel()"
           form=""
           class="px-4 ml-2 rounded min-w-button min-h-button bg-neutrals08_color hover:bg-slate-200 py-1 flex items-center justify-center border-0.5 border-solid border-gray-300 cursor-pointer">
