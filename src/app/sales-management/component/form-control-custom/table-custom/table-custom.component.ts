@@ -202,7 +202,7 @@ export class TableCustomComponent implements
       // Gọi hàm xử lý selectedRecord
       this.handleSelectedRecord();
 
-      this.pageIndexTotal = Math.trunc(this.totalItem / this.size) + 1
+      this.pageIndexTotal = this.totalItem % this.size === 0 ? (this.totalItem / this.size) : (Math.trunc(this.totalItem / this.size) + 1);
 
       const range = {
         start: 0,

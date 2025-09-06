@@ -12,6 +12,7 @@ import { POSService } from '@app/sales-management/api/pos-api.service';
 import { AuthenticationService } from '@app/_services';
 import { TICKET_CODE, TICKET_ENTITY } from '@app/sales-management/model/common/ticket-code.model';
 import { CommonService } from '@app/sales-management/page/common/common.service';
+import { FuncExtendService } from '@app/_utils';
 
 const {
   // TICKET_ENTITY,
@@ -61,6 +62,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   isLoading = false;
   isFilter = true;
   isCheckInventory = true;
+  customizeFilters: ItemFilter[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<SearchDialogComponent>,
@@ -84,7 +86,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
     private merchandiseApiService: MerchandiseApiService,
     private authenticateService: AuthenticationService,
     private cdr: ChangeDetectorRef,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private funcExtService: FuncExtendService
   ) {
   }
 
@@ -150,6 +153,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.name = 'ma_kh';
         filter.value = `%${this.data.keyword}%`;
         this.defaultFilters = [filter, { name: 'nh_kh9', operator: '=', value: 'NGKH88' }];
+        this.customizeFilters = this.funcExtService.deepCopy(this.defaultFilters);
         break;
       case SEARCH_COMPONENT_NAME.WALLET:
         this.columns = CUSTOMER_SEARCH as any;
@@ -320,7 +324,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.BANK_PUBLISH_CARD:
         return this.paymentApiService.findBankPublishCard(this.data.keyword, this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.INSTALLMENT_UNIT:
-        return this.customerApiService.findById(this.defaultFilters, this.page_index, this.page_size);
+        // return this.customerApiService.findById(this.defaultFilters, this.page_index, this.page_size);
+        return this.customerApiService.findById(this.customizeFilters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.WALLET:
         return this.customerApiService.findById(this.defaultFilters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.SERVICE:
@@ -469,8 +474,12 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return item2.name == item.name;
       });
     });
-
     this.filters = [..._defaultFilters, ...filters];
+
+    this.customizeFilters = this.funcExtService.deepCopy(this.defaultFilters);
+    if (this.data.componentName === SEARCH_COMPONENT_NAME.INSTALLMENT_UNIT)
+      this.customizeFilters.push(...filters);
+
     this.handleLoadata();
   }
 
