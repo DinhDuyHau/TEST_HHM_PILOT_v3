@@ -72,17 +72,17 @@
         <div
           class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-x-10 gap-y-1 lg:gap-y-1 pb-2 px-2 lg:px-0">
           <div>
-            <app-input-custom-v2
-              [label]="this.label.birthday"
-              class="flex-1"
-              [disabled]="disabled"
-              (handleEnter)="onEnter($event)"
-              name="ngay_sinh"
-              type="date"
-              dataFormatString="datetimeFormat"
-              (handleChange)="customer.ngay_sinh = $event"
-              [value]="customer.ngay_sinh"></app-input-custom-v2>
+            <label class="col-form-label">Ngày sinh</label>
+            <app-input-date
+              [cssClass]="'flex-1'"
+              [text]="this.customer.ngay_sinh || 'mm/dd/yyyy'" 
+              (handleChangeValue)="this.customer.ngay_sinh = $event"
+              (handleKeyUp)="onEnter($event)"
+            >
+            </app-input-date>
           </div>
+
+
           <div>
             <app-input-custom-v2
               [label]="'Độ tuổi'"
