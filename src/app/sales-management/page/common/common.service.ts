@@ -592,7 +592,7 @@ export class CommonService {
     */
     shouldOpenDialog(customer: any): boolean {
         // Các trường cần kiểm tra
-        const requiredFields = ['ma_kh', 'ten_kh', 'dia_chi', 'dien_thoai', 'ngay_sinh', 'email_cn'];
+        const requiredFields = ['ma_kh', 'ten_kh', 'dia_chi', 'email_cn'];
 
         // Kiểm tra nếu bất kỳ trường nào bị thiếu (null, undefined, hoặc chuỗi rỗng)
         return requiredFields.some(field => !customer[field] || customer[field].trim() === '');

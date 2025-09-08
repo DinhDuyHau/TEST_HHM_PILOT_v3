@@ -425,6 +425,11 @@ export class RetailComponent implements OnInit, AfterViewInit {
       if (result.success && result.result) {
         const customer: any = result.result;
 
+        if (customer && customer.email_cn && customer.email_cn != '') {
+          customer.hoadon_email = customer.email_cn;
+          this.ticket.masterInfo.hd_email = customer.email_cn;
+        }
+
         this.ticketApiService.getRankCustomer({ ma_kh: customer.ma_kh }).subscribe(result => {
           const { ma_hang, mau_chu, tl_tich_diem } = result.result as any;
           this.ticket.masterInfo.ma_hang = ma_hang || '';
