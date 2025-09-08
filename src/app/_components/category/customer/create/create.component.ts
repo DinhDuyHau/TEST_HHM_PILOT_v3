@@ -160,6 +160,13 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
       }
     }
   }
+  onBlurDateStart(event: any, ref: any) {
+    this.customer.ngay_sinh = ref.isoDateString.toString();
+  }
+  onEnterDate(event: any) {
+    if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13)
+      this.onEnter(event);
+  }
   onSubmit() {
     // Nếu là bán tmđt không cần check
     if (this.ma_ct === '' || this.ma_ct !== TICKET_CODE.ONLINE_ECOMMERCE) {

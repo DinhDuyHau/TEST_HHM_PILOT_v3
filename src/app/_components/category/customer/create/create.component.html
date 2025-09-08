@@ -73,11 +73,12 @@
           class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-x-10 gap-y-1 lg:gap-y-1 pb-2 px-2 lg:px-0">
           <div>
             <label class="col-form-label">Ngày sinh</label>
-            <app-input-date
+            <app-input-date #voucher_date
               [cssClass]="'flex-1'"
-              [text]="this.customer.ngay_sinh || 'mm/dd/yyyy'" 
-              (handleChangeValue)="this.customer.ngay_sinh = $event"
-              (handleKeyUp)="onEnter($event)"
+              [id]="customer.ngay_sinh"
+              [text]="customer.ngay_sinh || '01/01/1900'"  
+              (handleBlur)="onBlurDateStart($event, voucher_date)"
+              (handleKeyUp)="onEnterDate($event)"
             >
             </app-input-date>
           </div>
