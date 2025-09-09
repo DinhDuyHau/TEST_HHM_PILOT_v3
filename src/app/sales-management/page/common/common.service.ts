@@ -688,6 +688,11 @@ export class CommonService {
     }
 
     handleResponseErrorVoucher(result: any, route: string) {
+        if (result.result && result.message == 'publish_vat_fail') {
+            this.showMessageByNameAdvance('publish_vat_fail', { name: '%error', value: result.result.toString() });
+            return;
+        }
+
         if (result.result && result.result.length > 0) {
             if (result.message == 'Runtime_err') {
                 this.showMessageByName('Runtime_err');
