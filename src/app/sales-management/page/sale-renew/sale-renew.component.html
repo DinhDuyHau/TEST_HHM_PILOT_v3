@@ -434,9 +434,10 @@
       <ng-container>
         <payment-tab
           [pay_hidden]="[
-            'sd_diem',
-            'mb_qr'
+            'sd_diem'
           ]"
+          [so_ct]="ticket.masterInfo.so_ct"
+          [stt_rec]="ticket.masterInfo.stt_rec"
           [action]="action"
           [shop]="shop"
           [invalid]="invalid"
