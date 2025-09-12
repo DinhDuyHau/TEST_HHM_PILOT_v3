@@ -340,6 +340,8 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
 
             this.loadCustomerInfo(result.result.masterInfo.ma_kh);
             const merchandise = result.result.details[0].data;
+            console.log(merchandise);
+
 
             //xử lý set các trường giá & tiền = 0 cho hàng khuyến mại
             const promotion_items = merchandise.filter((x: { km_yn: number; }) => x.km_yn === 1);
@@ -485,6 +487,15 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
         mechandise_dup.push(item.ma_imei);
       }
     }
+
+    //check trống mã kho trong chi tiết phiếu
+    for (const item of this.ticket.merchandise) {
+      if (item && (!item.ma_kho || item.ma_kho === '')) {
+        this.commonService.showMessage(`Chưa khai báo mã kho cho imei: ${item.ma_imei}`);
+        return;
+      }
+    }
+
     //loại bỏ các mã imei là chuỗi rỗng
     mechandise_dup = mechandise_dup.filter((x: any) => x.ma_imei && x.ma_imei !== '')
     if (mechandise_dup && mechandise_dup.length > 0) {

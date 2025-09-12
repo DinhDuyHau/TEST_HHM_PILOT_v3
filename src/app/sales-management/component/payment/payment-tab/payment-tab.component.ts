@@ -232,7 +232,7 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
         case PAYMENT_CODE.VOUCHERPARNER:
           return { payment: item.ten_thanhtoan, note: `Đơn vị phát hành: ${item.ma_ctr}, mã voucher: ${item.ma_gg}, mã giao dịch: ${item.ma_chuan_chi}`, money: item.tien };
         case PAYMENT_CODE.MBQR:
-          return { payment: item.ten_thanhtoan, note: `${item.ten_ngan_hang}`, money: item.tien };
+          return { payment: item.ten_thanhtoan, note: `Mã FT: ${item.gc_td3}. ${item.ten_ngan_hang}`, money: item.tien };
         default:
           return null;
       }

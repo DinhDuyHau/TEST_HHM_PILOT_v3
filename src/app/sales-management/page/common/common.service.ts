@@ -592,7 +592,7 @@ export class CommonService {
     */
     shouldOpenDialog(customer: any): boolean {
         // Các trường cần kiểm tra
-        const requiredFields = ['ma_kh', 'ten_kh', 'dia_chi', 'dien_thoai', 'ngay_sinh', 'email_cn'];
+        const requiredFields = ['ma_kh', 'ten_kh', 'dia_chi', 'email_cn'];
 
         // Kiểm tra nếu bất kỳ trường nào bị thiếu (null, undefined, hoặc chuỗi rỗng)
         return requiredFields.some(field => !customer[field] || customer[field].trim() === '');
@@ -688,6 +688,11 @@ export class CommonService {
     }
 
     handleResponseErrorVoucher(result: any, route: string) {
+        if (result.result && result.message == 'publish_vat_fail') {
+            this.showMessageByNameAdvance('publish_vat_fail', { name: '%error', value: result.result.toString() });
+            return;
+        }
+
         if (result.result && result.result.length > 0) {
             if (result.message == 'Runtime_err') {
                 this.showMessageByName('Runtime_err');
