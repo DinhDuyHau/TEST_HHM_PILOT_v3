@@ -35,7 +35,7 @@ import { PromotionSelectComponent } from '@app/sales-management/component/promot
 import { InternalSaleDetailService } from '@app/_components/voucher/inventory/internal-sale/create/internal-sale-detail.service';
 import { DialogConfirmComponent } from '@app/_components/dialog/dialog-confirm/dialog-confirm.component';
 import { PrinterComponent } from '@app/_components/printer/printer.component';
-import { isValidEmail } from '@app/_common/commonFunction';
+import { isValidEmail, isValidTaxcode } from '@app/_common/commonFunction';
 
 const { DISCOUNT_LIST,
   GUARANTEE_LIST,
@@ -446,6 +446,8 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
         /*
         * Ko đúng imei sẽ mở dialog tìm kiếm
         */
+        //2025-08-25: KHÓA KHÔNG MỞ DIALOG TÌM KIẾM IMEI GẦN ĐÚNG THEO KÝ TỰ NHẬP
+        /*
         const user = JSON.parse(localStorage.getItem('user') || '{}');
         this.commonService.openDialog(SearchDialogComponent, {
           keyword: ma_imei,
@@ -458,6 +460,14 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
               this.handleProcessImei(this.ma_imei);
             }
           });
+        */
+        //2025-08-25: code thay thế => hiển thị thông báo
+        if (result.message === 'dat_hang_yn_yes' && result.result && result.result.length > 0) {
+          this.commonService.showMessage('Imei đã được đặt hàng trên phiếu khác');
+          return;
+        }
+        this.commonService.showMessage('Imei không tồn tại trong hệ thống hoặc không tồn kho tại cửa hàng');
+        return;
       }
     });
   }
@@ -703,6 +713,13 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
     if (this.ticket.masterInfo.hd_email && this.ticket.masterInfo.hd_email !== ''
       && !isValidEmail(this.ticket.masterInfo.hd_email)) {
       this.commonService.showMessage('Định dạng email nhận hóa đơn điện tử không hợp lệ');
+      return;
+    }
+
+    //Kiểm tra định dạng mã số thuế của tab HĐĐT
+    if (this.ticket.masterInfo.hd_mst && this.ticket.masterInfo.hd_mst !== ''
+      && !isValidTaxcode(this.ticket.masterInfo.hd_mst)) {
+      this.commonService.showMessage('Mã số thuế không hợp lệ, vui lòng kiểm tra lại');
       return;
     }
 

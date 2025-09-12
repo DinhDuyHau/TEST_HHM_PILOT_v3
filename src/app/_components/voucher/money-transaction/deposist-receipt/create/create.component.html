@@ -11,6 +11,7 @@
     <div class="flex">
       <button
         *ngIf="this.mode === 0 || this.mode === 1"
+        type="button"
         class="flex-1 btn act-input-data-btn text-nowrap"
         style="height:36px;"
         (click)="openAddCustomerDialog()"
@@ -270,8 +271,7 @@
           'giam_gia_crm',
           'chiet_khau',
           'voucher_doi_tac',
-          'quet_the_tra_gop',
-          'mb_qr'
+          'quet_the_tra_gop'
         ]"
         [readonly]="disabled"
         [t_tong_tien]="data.masterInfo.t_tt_nt || 0"

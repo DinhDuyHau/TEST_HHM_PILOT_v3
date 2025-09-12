@@ -4,6 +4,7 @@
       <div class="flex w-full md:justify-normal justify-between items-center">
         <div class="title-content p-2">Hình thức thanh toán</div>
         <button *ngIf="isShowPaymentButton()"
+          type="button"
           class="btn-choose-payment px-8 md:ml-16 rounded mr-2"
           [disabled]="isPaymentDisable()"
           (click)="onClickPaymentDialog()"

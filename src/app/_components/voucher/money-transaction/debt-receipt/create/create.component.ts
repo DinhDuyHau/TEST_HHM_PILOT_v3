@@ -429,7 +429,8 @@ export class DebtReceiptDetailComponent extends Grid<ReceiptDetail> implements O
     this.data.details[0].data.forEach((item) => {
       sum_tien_nt += item.tien_nt;
     });
-    if (sum_tien_nt == 0) {
+    // 2025-08-25: Nếu lưu phiếu ở trạng thái LCT => cho phép lưu phiếu không phân bổ
+    if (this.data.masterInfo.status !== "0" && sum_tien_nt == 0) {
       this.commonService.showMessage("Cần thực hiện phân bổ tiền thanh toán trước khi lưu phiếu");
       return;
     }
