@@ -244,4 +244,13 @@ export const VOUCHER_TYPE = {
         field_detail: 'refund-baokim_detail',
         button: [button.AddButton, button.ViewButton, button.EditButton, button.DeleteButton, button.PrintButton, button.RefreshButton]
     },
+    REFUND_QRBANKING: {
+        reuse: true,
+        sysid: 'CDTran_HT1',
+        voucherCode: 'HT1',
+        title: 'Phiếu đề nghị hoàn tiền thanh toán QR',
+        field: 'refund-banking',
+        field_detail: 'refund-banking_detail',
+        button: [button.AddButton, button.ViewButton, button.EditButton, button.DeleteButton, button.PrintButton, button.RefreshButton]
+    },
 };

@@ -1,0 +1,51 @@
+input[type='checkbox'] {
+    outline: none;
+    width: 16px;
+    margin-left: 8px;
+  }
+  input[type='text'] {
+    width: 100%;
+    outline: none;
+  }
+  input[type='date'] {
+    height: 24px;
+    width: 100%;
+    outline: none;
+  }
+  select {
+    height: 24px;
+    width: 100%;
+    outline: none;
+  }
+  // .content {
+  //   box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+  //     0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+  // }
+  ::ng-deep tab-custom .tab-custom {
+    height: 100%;
+    padding: 0px 0px !important;
+  }
+  ::ng-deep tabs-custom .tab-content {
+    min-height: 320px !important;
+  }
+  .title-page {
+    font-size: 32px;
+    font-weight: 600;
+    border-bottom: 1px dashed #cbd5e0;
+  }
+  
+  .act-deposit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: border-radius;
+    font-weight: 500;
+    height: 32px;
+    color: #005447;
+    border: 1px solid #005447;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }

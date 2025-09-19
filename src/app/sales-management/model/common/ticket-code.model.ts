@@ -54,6 +54,9 @@ export const TICKET_CODE = {
     DEPOSIT_BAOKIM: 'PTG',  // nộp tiền qua bảo kim vào VPBank
     WITHDRAW_BAOKIM: 'PCG',  // rút tiền qua bảo kim vào VPBank
     REFUND_BAOKIM: 'PCL',  // phiếu chi hoàn tiền Bảo kim
+
+    //phiếu đề nghị hoàn tiền thanh toán QR của ngân hàng
+    REFUND_QRBANKING: 'HT1',
 };
 
 export const TICKET_ENTITY = {
@@ -110,5 +113,7 @@ export const TICKET_ENTITY = {
     WITHDRAW_BAOKIM: 'CRTran_PCG',  // rút tiền qua bảo kim vào VPBank
     REFUND_BAOKIM: 'CDTran_PCL',  // phiếu chi hoàn tiền Bảo kim
 
+    //phiếu đề nghị hoàn tiền thanh toán QR của ngân hàng
+    REFUND_QRBANKING: 'CDTran_HT1',
 };
 

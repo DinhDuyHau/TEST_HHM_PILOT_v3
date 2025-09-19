@@ -58,6 +58,7 @@ const GET_VOUCHER_NAVIGATION_URL = `${environment.apiUrl}/voucher/navigation`;
 const GET_VERSION_APP = `${environment.apiUrl}/service/get_version_app`;
 const GET_LOOKUP_VOUCHER_URL = `${environment.apiUrl}/Voucher/getlookup`;
 const GET_DATE = `${environment.apiUrl}/option/getdate`;
+const GET_FTCODE_QRPAYMENT = `${environment.apiUrl}/qrpayment/getftcodebycustomer`;
 
 @Injectable({
     providedIn: 'root'
@@ -309,6 +310,11 @@ export class TicketApiService extends ApiService {
 
     findStocks(body: any, page_index: number, page_size: number): Observable<Result<any>> {
         return this.post<Result<any>>(GET_STOCK_BY_SHOP, body, { page_index, page_size });
+    }
+
+    findFTCode(ma_kh: string, filter: any, page_index: number, page_size: number): Observable<Result<any>> {
+        const body: any = { ma_kh: ma_kh, filter: filter };
+        return this.post<Result<any>>(GET_FTCODE_QRPAYMENT, body, { page_index, page_size });
     }
 
     findOneByCode(ma_kho: string): Observable<Result<any>> {

@@ -72,6 +72,7 @@ import { OtherMoneyTransferDetailComponent } from './_components/voucher/money-t
 import { DepositBaokimDetailComponent } from './_components/voucher/money-transaction/deposit-baokim/create/create.component';
 import { WithdrawBaokimDetailComponent } from './_components/voucher/money-transaction/withdraw-baokim/create/create.component';
 import { RefundBaokimDetailComponent } from './_components/voucher/money-transaction/refund-baokim/create/create.component';
+import { RefundQrBankingDetailComponent } from './_components/voucher/money-transaction/refund-qrbanking/create/refund-qrbanking-detail.component';
 
 
 const homeModule = () => import('./home/home.module').then(x => x.HomeModule);
@@ -280,7 +281,7 @@ const routes: Routes = [
       { path: 'view', component: WithdrawBaokimDetailComponent, canActivate: [AuthGuard] },
     ]
   },
-    {
+  {
     path: 'voucher/refund-baokim', component: AppLayoutComponent, canActivate: [AuthGuard],
     children: [
       { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.REFUND_BAOKIM, reuse: true } },
@@ -583,6 +584,15 @@ const routes: Routes = [
       { path: 'create', component: OtherMoneyTransferDetailComponent, canActivate: [AuthGuard] },
       { path: 'update', component: OtherMoneyTransferDetailComponent, canActivate: [AuthGuard] },
       { path: 'view', component: OtherMoneyTransferDetailComponent, canActivate: [AuthGuard] },
+    ]
+  },
+  {
+    path: 'voucher/refund-banking', component: AppLayoutComponent, canActivate: [AuthGuard],
+    children: [
+      { path: '', component: TicketComponent, canActivate: [AuthGuard], data: { ticketType: TICKET_TYPE.REFUND_QRBANKING, reuse: true } },
+      { path: 'create', component: RefundQrBankingDetailComponent, canActivate: [AuthGuard] },
+      { path: 'update', component: RefundQrBankingDetailComponent, canActivate: [AuthGuard] },
+      { path: 'view', component: RefundQrBankingDetailComponent, canActivate: [AuthGuard] },
     ]
   },
   {

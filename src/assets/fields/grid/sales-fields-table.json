@@ -3078,5 +3078,37 @@
             "format": "moneyViewNoDigit",
             "align": "right"
         }
+    ],
+    "QRBANK_FTCODE_SEARCH": [
+        {
+            "name": "ma_ft",
+            "title": "Mã FT",
+            "isPrimaryKey": true
+        },
+        {
+            "name": "so_ct",
+            "title": "Số chứng từ"
+        },
+        {
+            "name": "ngay_ct",
+            "title": "Ngày chứng từ",
+            "format": "datetimeFormat",
+            "dataType": "date",
+            "align": "center"
+        },
+        {
+            "name": "t_tien_tt",
+            "title": "Tiền thanh toán",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
+            "align": "right"
+        },
+        {
+            "name": "t_tien_hoan",
+            "title": "Tiền đã hoàn",
+            "dataType": "number",
+            "format": "moneyViewNoDigit",
+            "align": "right"
+        }
     ]
 }

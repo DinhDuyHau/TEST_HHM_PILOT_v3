@@ -30,6 +30,7 @@ import { StockShopCheckComponent } from './stock-shop-check/stock-shop-check.com
 import { DepositBaokimModule } from './money-transaction/deposit-baokim/deposit-baokim.module';
 import { WithDrawBaokimModule } from './money-transaction/withdraw-baokim/withdraw-baokim.module';
 import { RefundBaokimModule } from './money-transaction/refund-baokim/refund-baokim.module';
+import { RefundQrBankingModule } from './money-transaction/refund-qrbanking/refund-qrbanking.module';
 // import { VoucherComponent } from './voucher.component';
 
 
@@ -65,7 +66,8 @@ import { RefundBaokimModule } from './money-transaction/refund-baokim/refund-bao
     OtherMoneyTransferModule,
     DepositBaokimModule,
     WithDrawBaokimModule,
-    RefundBaokimModule
+    RefundBaokimModule,
+    RefundQrBankingModule
   ]
 })
 export class VoucherModule { }

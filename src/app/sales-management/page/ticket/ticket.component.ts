@@ -518,6 +518,13 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
         this.hasButton.delete = false;
         this.hasButton.edit = true;
         break;
+      case TICKET_TYPE.REFUND_QRBANKING:
+        this.columns = STOCK_FIELDS.REFUND_QRBANKING as Cell[];
+        this.title = 'Phiếu hoàn tiền thanh toán ngân hàng';
+        this.primaryKey = 'stt_rec';
+        this.entityName = TICKET_ENTITY.REFUND_QRBANKING;
+        this.codeName = TICKET_CODE.REFUND_QRBANKING;
+        break;
     }
   }
 
@@ -848,7 +855,8 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   btnUpdateClickHandle() {
-    const editableCodes = ['PXN', 'BHA', 'BHB', 'BHW', 'BHE', 'BHF', 'BHK', 'DV1', 'XD1', 'XD2', 'HDF', 'PTK', 'PTN', 'PTC', 'PTH']; // các code được phép edit khi status = '1'
+    // khai báo các mã chứng từ được phép edit khi status = '1'
+    const editableCodes = ['PXN', 'BHA', 'BHB', 'BHW', 'BHE', 'BHF', 'BHK', 'DV1', 'XD1', 'XD2', 'HDF', 'PTK', 'PTN', 'PTC', 'PTH'];
 
     //khai báo các mã chứng từ được phép edit khi status = '3'
     const editablePublishPendingCodes = ['BHA', 'BHB', 'BHC', 'BHD', 'BHE', 'BHF', 'BHK', 'BHW', 'DV1', 'HDF', 'XD1', 'XD2']

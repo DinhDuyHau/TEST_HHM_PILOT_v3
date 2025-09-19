@@ -37,7 +37,8 @@ const {
   IMEI_SEARCH_SALES,
   REASON_SEARCH,
   TELESALE_SEARCH,
-  GROUP_INVENTORY
+  GROUP_INVENTORY,
+  QRBANK_FTCODE_SEARCH
 } = require('@assets/fields/grid/sales-fields-table.json');
 
 const { STOCK_LIST, SHOP_INFO } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
@@ -285,6 +286,9 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.value = `%${this.data.keyword}%`;
         this.defaultFilters = [filter];
         break;
+      case SEARCH_COMPONENT_NAME.QRBANK_FTCODE_SEARCH:
+        this.columns = QRBANK_FTCODE_SEARCH as any;
+        break;
       default:
         break;
     }
@@ -394,6 +398,9 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return this.ticketApiService.getReason(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.TELESALE_SEARCH:
         return this.ticketApiService.getTelesale(this.filters, this.page_index, this.page_size);
+      case SEARCH_COMPONENT_NAME.QRBANK_FTCODE_SEARCH:
+        return this.ticketApiService.findFTCode(this.data.filter!.find(x => x.name == 'ma_kh')?.value,
+          this.customizeFilters, this.page_index, this.page_size);
       default:
         return of();
     }
@@ -480,6 +487,9 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
     if (this.data.componentName === SEARCH_COMPONENT_NAME.INSTALLMENT_UNIT)
       this.customizeFilters.push(...filters);
 
+    if (this.data.componentName === SEARCH_COMPONENT_NAME.QRBANK_FTCODE_SEARCH)
+      this.customizeFilters = this.funcExtService.deepCopy(filters);
+
     this.handleLoadata();
   }
 
@@ -559,6 +569,7 @@ export const SEARCH_COMPONENT_NAME = {
   IMEI_SEARCH_SALES: 27,
   TELESALE_SEARCH: 28,
   REPURCHASE_TYPE_INVENTORY: 29,
-  REPURCHASE_GROUP_INVENTORY: 30
+  REPURCHASE_GROUP_INVENTORY: 30,
+  QRBANK_FTCODE_SEARCH: 31,
 };
 

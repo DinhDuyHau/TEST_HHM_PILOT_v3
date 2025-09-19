@@ -53,6 +53,7 @@ export class FormInputCustomComponent implements OnChanges, OnInit {
   @Input() isLookup = false;
   @Input() controller = '';
   @Input() fireChangeWhenBlur = true;
+  @Input() lookupIconAsButton = true;
 
   @ViewChild('ref') input!: ElementRef;
 

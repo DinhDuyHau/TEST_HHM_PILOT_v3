@@ -55,6 +55,9 @@ export const TICKET_TYPE = {
     DEPOSIT_BAOKIM: 43, // nộp tiền qua bảo kim vào VPBank
     WITHDRAW_BAOKIM: 44, // rút tiền qua bảo kim vào VPBank
     REFUND_BAOKIM: 45, // phiếu chi hoàn tiền Bảo kim
+
+    //phiếu đề nghị hoàn tiền thanh toán QR của ngân hàng
+    REFUND_QRBANKING: 46
 };
 
 
