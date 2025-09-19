@@ -1198,6 +1198,13 @@
             "title": "Tên khách hàng"
         },
         {
+            "name": "giam_gia_yn",
+            "title": "Giảm giá đặc biệt",
+            "type": "checkbox",
+            "align": "center",
+            "disabled": true
+        },
+        {
             "name": "dien_giai",
             "title": "Diễn giải",
             "width": "300px",
