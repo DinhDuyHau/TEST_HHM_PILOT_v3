@@ -1493,6 +1493,12 @@
             "title": "Trạng thái"
         },
         {
+            "name": "ngay_duyet",
+            "title": "Ngày duyệt",
+            "dataType": "date",
+            "format": "datetimeFormat"
+        },
+        {
             "name": "ma_kh",
             "title": "Mã khách"
         },
@@ -1501,7 +1507,7 @@
             "title": "Tên khách"
         },
         {
-            "name": "t_tt",
+            "name": "tien_hoan",
             "title": "Tiền hoàn",
             "align": "right",
             "format": "moneyViewNoDigit",

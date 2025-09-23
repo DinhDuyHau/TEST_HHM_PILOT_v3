@@ -55,6 +55,7 @@ export interface MasterInfo {
 
     so_ct_tt?: string,
     ngay_ct_tt?: string,
+    ten_ct_tt?: string,
     tien?: number,
     tien_nt?: number,
 

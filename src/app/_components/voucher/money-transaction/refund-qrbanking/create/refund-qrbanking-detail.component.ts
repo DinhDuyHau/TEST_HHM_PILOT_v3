@@ -82,6 +82,7 @@ export class RefundQrBankingDetailComponent extends Grid<ReceiptDetail> implemen
   mode = 1;
   submitButtonTitle = '';
   cancelButtonTitle = '';
+  field_require_css = '<span style="color:#f00;">(*)</span>';
 
   [key: string]: any;
   entity = VOUCHER_TYPE.REFUND_QRBANKING.sysid;
@@ -543,6 +544,7 @@ export class RefundQrBankingDetailComponent extends Grid<ReceiptDetail> implemen
 
         this.data.masterInfo.so_ct_tt = result.so_ct;
         this.data.masterInfo.ngay_ct_tt = result.ngay_ct;
+        this.data.masterInfo.ten_ct_tt = result.ten_ct;
 
         this.data.masterInfo.tien = result.t_tien_tt;
         this.data.masterInfo.tien_nt = result.t_tien_tt;

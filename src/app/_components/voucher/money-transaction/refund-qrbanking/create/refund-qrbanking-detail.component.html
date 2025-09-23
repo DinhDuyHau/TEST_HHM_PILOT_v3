@@ -63,6 +63,7 @@
           <app-input-custom-v2
             class="flex-1"
             [label]="getLabel('lbl_ma_kh')"
+            [showRequireLabel]="true"
             #ma_kh
             name="ma_kh"
             [value]="f['ma_kh'].value"
@@ -86,6 +87,7 @@
       <div class="flex gap-2">
         <app-input-custom-v2
           [label]="'Lý do hoàn'"
+          [showRequireLabel]="true"
           class="flex-1"
           #ly_do_hoan
           [disabled]="disabled"
@@ -123,6 +125,7 @@
       <div class="flex gap-2">
         <app-input-custom-v2
           [label]="'Nội dung gửi banking'"
+          [showRequireLabel]="true"
           class="flex-1"
           #dien_giai
           [disabled]="disabled"
@@ -137,6 +140,7 @@
         <form-input-custom #ma_ft
           class="flex-1"
           [lookupIconAsButton]="false"
+          [showRequireLabel]="true"
           [name]="'ma_ft'"
           [label]="'Mã FT'"
           [value]="this.data.masterInfo['ma_ft']"
@@ -206,6 +210,7 @@
         <app-input-custom-v2 #so_tien
             class="flex-1"
             [label]="'Tiền hoàn'"
+            [showRequireLabel]="true"
             name="tien"
             [value]="tien"
             [dataFormatString]="'normalQuantity'"
@@ -219,6 +224,16 @@
             [disabled]="disabled"></app-input-custom-v2>
       </div>
       
+      <div class="flex gap-2">
+        <app-input-custom-v2
+          #ten_ct
+          [label]="'Tên c.từ thanh toán'"
+          class="flex-1"
+          name="ten_ct_tt"
+          [disabled]="true"
+          type="text"
+          [value]="data.masterInfo.ten_ct_tt"></app-input-custom-v2>
+      </div>
       <div class="flex gap-2">
         <app-input-custom-v2
           [label]="'Lý do hủy'"
