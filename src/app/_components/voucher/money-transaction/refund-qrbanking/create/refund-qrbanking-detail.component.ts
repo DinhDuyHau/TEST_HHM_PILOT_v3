@@ -79,10 +79,17 @@ export class RefundQrBankingDetailComponent extends Grid<ReceiptDetail> implemen
   isDisabled = false;
   readonly = false;
 
+  label = {
+    ma_kh: 'Mã khách<span class="text-red-600 font-bold"> (*)</span>',
+    ly_do_hoan: 'Lý do hoàn<span class="text-red-600 font-bold"> (*)</span>',
+    dien_giai: 'Nội dung gửi banking<span class="text-red-600 font-bold"> (*)</span>',
+    ma_ft: 'Mã FT<span class="text-red-600 font-bold"> (*)</span>',
+    tien_hoan: 'Tiền hoàn<span class="text-red-600 font-bold"> (*)</span>',
+  }
+
   mode = 1;
   submitButtonTitle = '';
   cancelButtonTitle = '';
-  field_require_css = '<span style="color:#f00;">(*)</span>';
 
   [key: string]: any;
   entity = VOUCHER_TYPE.REFUND_QRBANKING.sysid;

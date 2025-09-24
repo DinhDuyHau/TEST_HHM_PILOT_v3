@@ -50,7 +50,6 @@ export class InputCustomV2Component implements OnChanges, OnInit {
   @Input() buttons: Button[] = [];
   @Input() filter: ItemFilter[] = [];
   @Input() filterOther: any;
-  @Input() showRequireLabel = false;
 
   @ViewChild('ma') input!: ElementRef;
 
