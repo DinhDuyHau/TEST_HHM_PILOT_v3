@@ -496,7 +496,7 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                 if (discount) {
                     this.discountService.attachImeiForDiscount(merchandiseResponse.ma_imei, discount);
                     const discountInDetail = this.ticket.discount.find(x => x.ma_ck.trim() === discount.ma_ck.trim());
-                    if (!discountInDetail) {
+                    if (!discountInDetail || discountInDetail && discountInDetail.loai_ck?.trim() === '03') {
                         this.discountService.addNew([discount], this.ticket.discount);
                     }
                     else {
