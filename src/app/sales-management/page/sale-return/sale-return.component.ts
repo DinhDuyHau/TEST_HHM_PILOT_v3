@@ -340,8 +340,6 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
 
             this.loadCustomerInfo(result.result.masterInfo.ma_kh);
             const merchandise = result.result.details[0].data;
-            console.log(merchandise);
-
 
             //xử lý set các trường giá & tiền = 0 cho hàng khuyến mại
             const promotion_items = merchandise.filter((x: { km_yn: number; }) => x.km_yn === 1);
@@ -372,7 +370,8 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
                           if (response && response.success && response.result) {
                             this.commonService.showMessage(`Dịch vụ đã được nhập / mua lại ở phiếu: ${response.result}`);
                           } else {
-                            this.saleReturnService.convertFromVoucherService(detail.data, this.ticket.service);
+                            const service_item: any[] = [service];
+                            this.saleReturnService.convertFromVoucherService(service_item, this.ticket.service);
                           }
                         });
                       });
@@ -407,11 +406,11 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
 
               //tính số tiền còn nợ
               this.ticket.masterInfo.t_con_no = Math.abs(this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra);
+              this.saleReturnService.calcMoney();
 
               this.commonService.clearText2([this.tabIndex.imei]);
               this.commonService.focusControl2(this.tabIndex.imei);
               // this.commonService.addImeiToStorage(ma_imei);
-              this.saleReturnService.calcMoney();
 
               this.resetSaleDown();
               //Khóa trường

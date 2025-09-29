@@ -1589,10 +1589,34 @@ export class SaleOnlineComponent implements OnInit, AfterViewInit {
                 const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
                 this.saleOnlineService.getImeiInStore(new_imei, ngay_ct).subscribe(result => {
                     if (result.success && result.result.length) {
+                        // check imei đã xuất hiện trong grid chi tiết
                         if (this.merchandiseService.checkImeiExistMerchandise(new_imei, this.ticket.merchandise)) {
                             this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: this.ma_imei });
                             return;
                         }
+
+                        // check imei thay thế trùng mã vật tư với imei cũ
+                        if (result.result.length > 0 && result.result[0].ma_vt.trim() !== event.item.ma_vt.trim()) {
+                            this.commonService.showMessage(`imei mới ${new_imei} có mã vật tư ${result.result[0].ma_vt.trim()} không trùng mã vật tư với imei cần thay thế trên phiếu (${event.item.ma_vt.trim()})`);
+                            return;
+                        }
+
+                        // thay imei mới mapping vào tab dịch vụ
+                        const imei_service_buy = this.ticket.service.filter(x => x.ma_imei.trim() === current_imei);
+                        if (imei_service_buy) imei_service_buy.forEach(x => x.ma_imei = new_imei);
+
+                        // thay imei mới mapping vào tab chiết khấu
+                        const imei_discount_buy = this.ticket.discount.filter(x => x.ma_imei.trim() === current_imei);
+                        if (imei_discount_buy) imei_discount_buy.forEach(x => x.ma_imei = new_imei);
+
+                        // thay imei mới mapping vào tab gói cước
+                        const imei_packages_buy = this.ticket.packages.filter(x => x.ma_imei.trim() === current_imei);
+                        if (imei_packages_buy) imei_packages_buy.forEach(x => x.ma_imei = new_imei);
+
+                        // thay imei mới mapping vào tab mã giảm giá
+                        const imei_vouchercode_buy = this.ticket.voucherCode.filter(x => x.ma_imei.trim() === current_imei);
+                        if (imei_vouchercode_buy) imei_vouchercode_buy.forEach(x => x.ma_imei = new_imei);
+
                         //thỏa mãn các điều kiện => thay imei mới
                         event.item.ma_imei = new_imei;
                     } else {
