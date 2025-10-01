@@ -23,7 +23,8 @@ export function checkValidImei(imei: string): boolean {
  * @param email chuỗi email cần kiểm tra
  */
 export function isValidEmail(email: string): boolean {
-    const regex = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;;
+    // const regex = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;;
+    const regex = /^[A-Za-z0-9]+[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]*@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;;
     return regex.test(email.trim());
 }
 
