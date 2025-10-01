@@ -131,7 +131,8 @@
           (handleChange)="this.f['dien_giai'].setValue($event); data.masterInfo.dien_giai = $event; validRefundDescription();"
           [invalid]="
             submitted && f['dien_giai'].errors != null
-          "></app-input-custom-v2>
+          "
+          [maxlength]="26"></app-input-custom-v2>
       </div>
       <div class="flex gap-2">
         <form-input-custom #ma_ft

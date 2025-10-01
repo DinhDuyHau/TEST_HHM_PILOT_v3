@@ -499,8 +499,8 @@ export class RefundQrBankingDetailComponent extends Grid<ReceiptDetail> implemen
   }
 
   validRefundDescription(): boolean {
-    if (this.data.masterInfo.dien_giai && this.data.masterInfo.dien_giai?.length > 50) {
-      this.commonService.showMessage('Nội dung gửi banking không được vượt quá 50 ký tự');
+    if (this.data.masterInfo.dien_giai && this.data.masterInfo.dien_giai?.length >= 26) {
+      this.commonService.showMessage('Nội dung gửi banking không được vượt quá 26 ký tự');
       return false;
     }
     return true;
