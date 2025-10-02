@@ -50,6 +50,8 @@ export class InputCustomV2Component implements OnChanges, OnInit {
   @Input() buttons: Button[] = [];
   @Input() filter: ItemFilter[] = [];
   @Input() filterOther: any;
+  @Input() maxlength: number | null = null;
+
 
   @ViewChild('ma') input!: ElementRef;
 
@@ -61,6 +63,7 @@ export class InputCustomV2Component implements OnChanges, OnInit {
   @Input('mapper') mapper!: any;
   @Input('invalid') invalid = false;
   @Input('isChoose') isChoose!: boolean;
+
 
   status = true;
   previousValue!: string;
