@@ -1522,6 +1522,10 @@
             "min-width": "50px"
         },
         {
+            "name": "so_ct",
+            "title": "Số c.từ"
+        },
+        {
             "name": "ngay_ct",
             "title": "Ngày chứng từ",
             "format": "datetimeFormat",

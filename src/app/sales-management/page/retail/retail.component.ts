@@ -1058,12 +1058,6 @@ export class RetailComponent implements OnInit, AfterViewInit {
           return;
         }
       }
-      // else {
-      //   if (this.ticket.masterInfo.status !== '2') {
-      //     this.commonService.showMessage('Phiếu chờ phát hành chỉ được lưu chuyển sang trạng thái "hoàn thành", cần kiểm tra kỹ thông tin trước khi hoàn thành phiếu.');
-      //     return;
-      //   }
-      // }
     }
 
     // check tổng tiền hàng hóa với các tab: hàng hóa, dịch vụ, gói cước
@@ -1399,11 +1393,16 @@ export class RetailComponent implements OnInit, AfterViewInit {
     );
 
     // set bằng rỗng ma_hang
-    this.ticket.masterInfo.ma_hang = '';
+    // 2025-10-06: bỏ clear mã hạng do chỉ xóa tiền ck09 cho item chỉ định, item khác có thể vẫn giữ ck09
+    // this.ticket.masterInfo.ma_hang = '';
 
     this.ticket.merchandise.map(item => {
       if (item.ma_imei && item.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase()) {
+        // thực hiện clear ck09 cho item nên chỉ xử lý reset tiền & tỷ lê ck = 0, 
+        // không cần gửi request (comment code dưới)
+        /*
         this.applyDiscount09ForMerchandise(item);
+        */
 
         item.tl_ck09 = 0;
         item.tien_kb09 = 0;
@@ -1411,7 +1410,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
         item.tien_ck09 = 0;
         item.tl_ck_sau_vat09 = 0;
       }
-    })
+    });
+
+    // tính lại tiền
+    this.retailService.calcMoney();
 
     // nếu vẫn còn áp dụng ck 09 thì gán ngược lại mã cũ
     this.ticket.masterInfo.ma_hang = ma_hang_backup;
@@ -1869,6 +1871,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const hasReadonlyStatus3 = (this.invoice_model_status === '3');
 
     return hasSelectedPayment || hasReadonlyType10 || hasReadonlyStatus3;
+    // return hasSelectedPayment;
   }
 
   isInputDisabledStatus(): boolean {
@@ -1897,6 +1900,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const hasReadonlyStatus3 = (this.invoice_model_status === '3');
 
     return isReadonlyFlag || hasSelectedPayment || hasReadonlyType10 || hasReadonlyStatus3;
+    // return isReadonlyFlag;
+
   }
 
   isAnyPaymentSelected(): boolean {

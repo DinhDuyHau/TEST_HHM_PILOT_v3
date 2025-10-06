@@ -1591,19 +1591,26 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     );
 
     // set bằng rỗng ma_hang
-    this.ticket.masterInfo.ma_hang = '';
+    // 2025-10-06: bỏ clear mã hạng do chỉ xóa tiền ck09 cho item chỉ định, item khác có thể vẫn giữ ck09
+    // this.ticket.masterInfo.ma_hang = '';
 
     this.ticket.merchandise_new_sale.map(item => {
       if (item.ma_imei && item.ma_imei.trim().toLowerCase() == ma_imei.trim().toLowerCase()) {
+        // thực hiện clear ck09 cho item nên chỉ xử lý reset tiền & tỷ lê ck = 0, 
+        // không cần gửi request (comment code dưới)
+        /*
         this.applyDiscount09ForMerchandise(item);
-
+        */
         item.tl_ck09 = 0;
         item.tien_kb09 = 0;
         item.tien_max09 = 0;
         item.tien_ck09 = 0;
         item.tl_ck_sau_vat09 = 0;
       }
-    })
+    });
+
+    // tính lại tiền
+    this.saleRenewService.calcMoney();
 
     // nếu vẫn còn áp dụng ck 09 thì gán ngược lại mã cũ
     this.ticket.masterInfo.ma_hang = ma_hang_backup;
