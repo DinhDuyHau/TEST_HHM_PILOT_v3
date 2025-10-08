@@ -1285,17 +1285,17 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     }
 
     // Kiểm tra tiền thuế != thành tiền x thuế suất ở các tab hàng hóa, dịch vụ, gói cước
-    const invalid_tax_merchandise = this.ticket.merchandise_new_sale.some(x => x.tien_thue !== Math.round(x.thanh_tien * x.thue_suat / 100));
+    const invalid_tax_merchandise = this.ticket.merchandise_new_sale.some(x => !(x.tien_thue + 2 > Math.round(x.thanh_tien * x.thue_suat / 100) && x.tien_thue - 2 < Math.round(x.thanh_tien * x.thue_suat / 100)));
     if (invalid_tax_merchandise) {
       this.commonService.showMessage('Tiền thuế của tab "Hàng hóa" không đúng với công thức (tiền thuế = thành tiền x thuế suất)');
       return;
     }
-    const invalid_tax_service = this.ticket.service.some(x => x.tien_thue !== Math.round(x.thanh_tien * x.thue_suat / 100));
+    const invalid_tax_service = this.ticket.service.some(x => !(x.tien_thue + 2 > Math.round(x.thanh_tien * x.thue_suat / 100) && x.tien_thue - 2 < Math.round(x.thanh_tien * x.thue_suat / 100)));
     if (invalid_tax_service) {
       this.commonService.showMessage('Tiền thuế của tab "Dịch vụ" không đúng với công thức (tiền thuế = thành tiền x thuế suất)');
       return;
     }
-    const invalid_tax_package = this.ticket.packages.some(x => x.tien_thue !== Math.round(x.thanh_tien * x.thue_suat / 100));
+    const invalid_tax_package = this.ticket.packages.some(x => !(x.tien_thue + 2 > Math.round(x.thanh_tien * x.thue_suat / 100) && x.tien_thue - 2 < Math.round(x.thanh_tien * x.thue_suat / 100)));
     if (invalid_tax_package) {
       this.commonService.showMessage('Tiền thuế của tab "Gói cước" không đúng với công thức (tiền thuế = thành tiền x thuế suất)');
       return;
