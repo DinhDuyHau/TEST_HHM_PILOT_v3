@@ -347,7 +347,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.ITINERANT:
         return this.ticketApiService.getProjects(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE:
-        return this.merchandiseApiService.getMany(this.filters);
+        return this.merchandiseApiService.getManyV2(this.filters);
       case SEARCH_COMPONENT_NAME.TYPE_INVENTORY:
         return this.merchandiseApiService.getManyTypeMerchadise(this.filters);
       case SEARCH_COMPONENT_NAME.REPURCHASE_TYPE_INVENTORY:

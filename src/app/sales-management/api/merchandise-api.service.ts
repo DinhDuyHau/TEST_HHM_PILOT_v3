@@ -13,6 +13,8 @@ const GET_MANY_WAREHOUSE_URL = `${environment.apiUrl}/category/find/dmkho`
 const GET_MANY_TYPE_MERCHANDISE_BY_STORE_URL = `${environment.apiUrl}/category/find/vdmkho`
 const GET_GROUP_STOCK_URL = `${environment.apiUrl}/category/find/dmnhkho`
 
+const GET_MANY_V2_URL = `${environment.apiUrl}/Category/find/vdmvt`
+
 @Injectable({
     providedIn: 'root'
 })
@@ -45,5 +47,11 @@ export class MerchandiseApiService extends ApiService {
 
     getManyWarehouse(body: {}): Observable<Result<Merchandise>> {
         return this.post<Result<Merchandise>>(GET_MANY_WAREHOUSE_URL, body);
+    }
+
+
+    //Data view
+    getManyV2(body: {}): Observable<Result<Merchandise>> {
+        return this.post<Result<Merchandise>>(GET_MANY_V2_URL, body);
     }
 }
