@@ -423,7 +423,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
 
   // #region merchandise
   openTypeMerchandiseDialog(ma_vt?: string) {
-    this.commonService.openDialog(SearchDialogComponent, { keyword: ma_vt || '', componentName: SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE })
+    this.commonService.openDialog(SearchDialogComponent, { keyword: ma_vt || '', componentName: SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE_V2 })
       .afterClosed().subscribe(result => {
         this.repurchase.ma_vt = result.ma_vt;
         this.repurchase.ten_vt = result.ten_vt;
