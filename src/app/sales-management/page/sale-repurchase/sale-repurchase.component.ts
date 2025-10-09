@@ -46,6 +46,8 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     loai_hh: '',
     ma_loai: '',
     dvt: '',
+    ma_thue: '',
+    thue_suat: 0,
   };
 
   discountCanApply: Discount[] = [];
@@ -333,7 +335,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
               const merchandise = new Merchandise;
               // nếu loại giao dịch là 2 thì mới lấy thuế suất
               if (this.ticket.masterInfo.fcode1 == "2") {
-                merchandise.thue_suat = this.ticket.masterInfo.fqty1;
+                merchandise.thue_suat = this.repurchase.ma_thue ? this.repurchase.thue_suat : this.ticket.masterInfo.fqty1;
                 merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua / (1 + (merchandise.thue_suat / 100));
               } else {
                 merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua;
@@ -370,7 +372,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
             }
 
             // Tính toán các giá trị trước
-            const thue_suat = this.ticket.masterInfo.fcode1 == "2" ? this.ticket.masterInfo.fqty1 : 0;
+            const thue_suat = this.ticket.masterInfo.fcode1 == "2" ? (this.repurchase.ma_thue ? this.repurchase.thue_suat : 0) : 0;
             const gia_ban = this.ticket.masterInfo.fcode1 == "2"
               ? this.ticket.masterInfo.gia_nhap_mua / (1 + (thue_suat / 100))
               : this.ticket.masterInfo.gia_nhap_mua;
@@ -421,11 +423,13 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
 
   // #region merchandise
   openTypeMerchandiseDialog(ma_vt?: string) {
-    this.commonService.openDialog(SearchDialogComponent, { keyword: ma_vt || '', componentName: SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE })
+    this.commonService.openDialog(SearchDialogComponent, { keyword: ma_vt || '', componentName: SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE_V2 })
       .afterClosed().subscribe(result => {
         this.repurchase.ma_vt = result.ma_vt;
         this.repurchase.ten_vt = result.ten_vt;
         this.repurchase.dvt = result.dvt;
+        this.repurchase.ma_thue = result.ma_thue;
+        this.repurchase.thue_suat = result.thue_suat;
 
         // loai gd 3: mua thu cũ không lên đời
         this.renew.ma_vt = result.ma_vt;

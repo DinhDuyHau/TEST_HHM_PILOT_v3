@@ -77,17 +77,31 @@
             [disabled]="true || disabled"></app-input-custom-v2>
         </div>
       </div>
-      <div class="flex">
-        <select-custom
-          class="flex-1"
-          [label]="getLabel('lbl_trang_thai')"
-          [options]="statusList"
-          optionDes="statusname"
-          optionValue="status"
-          [isDisable]="disabled"
-          [value]="data.masterInfo.status"
-          (handleChangeValue)="data.masterInfo.status = $event" />
+      <div class="flex gap-2">
+        <div class="flex-1">
+          <select-custom
+            class="flex-1"
+            [label]="getLabel('lbl_trang_thai')"
+            [options]="statusList"
+            optionDes="statusname"
+            optionValue="status"
+            [isDisable]="disabled"
+            [value]="data.masterInfo.status"
+            (handleChangeValue)="data.masterInfo.status = $event" />
+        </div>
+        <div class="flex-1">
+          <app-input-custom-v2
+            #ong_ba
+            class="flex-1"
+            [label]="'Người nhận'"
+            type="text"
+            name="ong_ba"
+            [value]="data.masterInfo.ong_ba"
+            (handleChange)="handleInputChange('ong_ba', $event)"
+            [disabled]="disabled"></app-input-custom-v2>
+        </div>
       </div>
+      
       <div class="flex gap-2">
         <div class="flex flex-1">
           <app-input-custom-v2

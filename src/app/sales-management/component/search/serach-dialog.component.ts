@@ -21,6 +21,7 @@ const {
   IMEI_SEARCH,
   BANK_ACCOUNT_SEARCH,
   TYPE_MERCHANDISE,
+  TYPE_MERCHANDISE_V2,
   TYPE_INVENTORY,
   LIST_ASM,
   SERVICE_SEARCH,
@@ -181,6 +182,12 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         break;
       case SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE:
         this.columns = TYPE_MERCHANDISE as any;
+        filter.name = 'ma_vt';
+        filter.value = `%${this.data.keyword}%`;
+        this.defaultFilters = [filter];
+        break;
+      case SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE_V2:
+        this.columns = TYPE_MERCHANDISE_V2 as any;
         filter.name = 'ma_vt';
         filter.value = `%${this.data.keyword}%`;
         this.defaultFilters = [filter];
@@ -348,6 +355,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         return this.ticketApiService.getProjects(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE:
         return this.merchandiseApiService.getMany(this.filters);
+      case SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE_V2:
+        return this.merchandiseApiService.getManyV2(this.filters);
       case SEARCH_COMPONENT_NAME.TYPE_INVENTORY:
         return this.merchandiseApiService.getManyTypeMerchadise(this.filters);
       case SEARCH_COMPONENT_NAME.REPURCHASE_TYPE_INVENTORY:
@@ -571,5 +580,6 @@ export const SEARCH_COMPONENT_NAME = {
   REPURCHASE_TYPE_INVENTORY: 29,
   REPURCHASE_GROUP_INVENTORY: 30,
   QRBANK_FTCODE_SEARCH: 31,
+  TYPE_MERCHANDISE_V2: 32,
 };
 

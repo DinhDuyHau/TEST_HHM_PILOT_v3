@@ -1438,6 +1438,30 @@
             "title": "Đơn vị tính"
         }
     ],
+    "TYPE_MERCHANDISE_V2": [
+        {
+            "name": "ma_vt",
+            "title": "Mã vật tư",
+            "isPrimaryKey": true
+        },
+        {
+            "name": "ten_vt",
+            "title": "Tên vật tư"
+        },
+        {
+            "name": "ten_vt2",
+            "title": "Tên vật tư 2"
+        },
+        {
+            "name": "dvt",
+            "title": "Đơn vị tính"
+        },
+        {
+            "name": "thue_suat",
+            "title": "Thuế suất (%)",
+            "align": "center"
+        }
+    ],
     "MERCHANDISE_LIST_IN_GIFT_REPAY": [
         {
             "name": "so_ct_hd",
