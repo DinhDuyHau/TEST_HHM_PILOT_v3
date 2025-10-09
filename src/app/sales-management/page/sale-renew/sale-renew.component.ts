@@ -43,6 +43,7 @@ import { VoucherCodeService } from '../common/voucher-code.service';
 import { InternalSaleDetailService } from '@app/_components/voucher/inventory/internal-sale/create/internal-sale-detail.service';
 import { PrinterComponent } from '@app/_components/printer/printer.component';
 import { isValidEmail, isValidTaxcode } from '@app/_common/commonFunction';
+import { CryptoService, FuncExtendService } from '@app/_utils';
 
 const { DISCOUNT_LIST,
   GUARANTEE_LIST,
@@ -61,6 +62,7 @@ const { DISCOUNT_LIST,
 })
 export class SaleRenewComponent implements OnInit, AfterViewInit {
   ticket: RenewSaleTicketCreate = new RenewSaleTicketCreate;
+  oldTicketData: RenewSaleTicketCreate = new RenewSaleTicketCreate;
   statusList: StatusTicket[] = [];
   dataFormat = dataFormat;
   title = '';
@@ -171,6 +173,8 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     private sanitizer: DomSanitizer,
     private voucherCodeService: VoucherCodeService,
     public internalSaleDeatailService: InternalSaleDetailService,
+    public funcExtService: FuncExtendService,
+    public cryptoService: CryptoService,
   ) {
     localStorage.setItem('useGridCached', '1');
     this.saleRenewService.setTicket(this.ticket, this.option);
@@ -339,6 +343,11 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
             });
 
             this.tabIndexFocusFirst = this.tabIndex.imei_used;
+          }
+
+          // nếu action = UPDATE|VIEW: copy data gốc của ticket trước khi thực hiện sửa
+          if (this.mode === MODE.UPDATE || this.mode === MODE.VIEW) {
+            this.oldTicketData = this.funcExtService.deepCopy(this.ticket);
           }
         });
       } else {
@@ -1076,7 +1085,6 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
       this.saleRenewService.removeMerchandise(merchandise);
       this.saleRenewService.setIsNeedCalcDiscount(true);
       this.handleRemoveDiscountProgram(merchandise.ma_imei);
-      this.ticket.discount = [];
       this.removeDiscount09(merchandise.ma_imei);
     }
   }
@@ -2090,4 +2098,53 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     // cập nhật lại trạng thái
     this.getStatusList();
   }
+
+  async onCheckBeforePayment(): Promise<boolean> {
+    if (this.mode === MODE.CREATE) return true;
+
+    let is_valid = true;
+    if (this.oldTicketData && this.ticket) {
+      // Kiểm tra thay đổi dữ liệu tab hàng hóa
+      let old_merchandise_md5 = '';
+      if (this.oldTicketData.merchandise_new_sale && this.oldTicketData.merchandise_new_sale.length > 0)
+        old_merchandise_md5 = this.cryptoService.hashMD5(JSON.stringify(this.oldTicketData.merchandise_new_sale));
+      let new_merchandise_md5 = '';
+      if (this.ticket.merchandise_new_sale && this.ticket.merchandise_new_sale.length > 0) {
+        const new_merchadise_object = this.funcExtService.deepCopy(this.ticket.merchandise_new_sale);
+        //Bỏ qua trường tl_ck_sau_vat09
+        new_merchadise_object.forEach((x: any) => x.tl_ck_sau_vat09 = 0);
+        new_merchandise_md5 = this.cryptoService.hashMD5(JSON.stringify(new_merchadise_object));
+      }
+      if (old_merchandise_md5 !== '' && old_merchandise_md5 !== new_merchandise_md5) {
+        this.commonService.showMessage('Đã có thay đổi trong tab HÀNG HÓA, hãy lưu phiếu trước khi thực hiện thanh toán');
+        return false;
+      }
+
+      // Kiểm tra thay đổi dữ liệu tab dịch vụ
+      let old_service_md5 = '';
+      if (this.oldTicketData.service && this.oldTicketData.service.length > 0)
+        old_service_md5 = this.cryptoService.hashMD5(JSON.stringify(this.oldTicketData.service));
+      let new_service_md5 = '';
+      if (this.ticket.service && this.ticket.service.length > 0)
+        new_service_md5 = this.cryptoService.hashMD5(JSON.stringify(this.ticket.service));
+      if (old_service_md5 !== '' && old_service_md5 !== new_service_md5) {
+        this.commonService.showMessage('Đã có thay đổi trong tab DỊCH VỤ, hãy lưu phiếu trước khi thực hiện thanh toán');
+        return false;
+      }
+
+      // Kiểm tra thay đổi dữ liệu tab gói cước
+      let old_packages_md5 = '';
+      if (this.oldTicketData.packages && this.oldTicketData.packages.length > 0)
+        old_packages_md5 = this.cryptoService.hashMD5(JSON.stringify(this.oldTicketData.packages));
+      let new_packages_md5 = '';
+      if (this.ticket.packages && this.ticket.packages.length > 0)
+        new_packages_md5 = this.cryptoService.hashMD5(JSON.stringify(this.ticket.packages));
+      if (old_packages_md5 !== '' && old_packages_md5 !== new_packages_md5) {
+        this.commonService.showMessage('Đã có thay đổi trong tab GÓI CƯỚC, hãy lưu phiếu trước khi thực hiện thanh toán');
+        return false;
+      }
+    }
+    return is_valid;
+  }
+
 }

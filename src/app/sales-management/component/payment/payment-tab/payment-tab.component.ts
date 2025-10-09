@@ -59,6 +59,10 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() status: string = '';
   @Input() model_status: string = '';
 
+  // khai báo flag để nhận diện tính hợp lệ (truyền vào từ component cha) => cho phép bật dialog thanh toán
+  // Nhận callback từ component cha
+  @Input() checkValidForPaymentDialog: () => Promise<boolean> | boolean = () => true;
+
   // khai báo khóa chức năng thanh toán ngay cả với user admin
   isAdminLock = true;
 
@@ -110,9 +114,13 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
     return !this.hiddenChooseButton && this.model_status !== '2' && (!this.isAdminLock || this.model_status !== '3');
   }
 
-  onClickPaymentDialog() {
+  async onClickPaymentDialog() {
     if (this.disableChooseButton || this.hiddenChooseButton)
       return;
+
+    // Lấy kết quả kiểm tra dữ liệu từ component cha, nếu hợp lệ mới bật dialog hình thức thanh toán
+    const is_valid_data = await Promise.resolve(this.checkValidForPaymentDialog());
+    if (!is_valid_data) return;
 
     this.commonService.openDialog(PaymentTabDialogComponent,
       {

@@ -458,6 +458,7 @@
           [voucherCode]="voucherCode" 
           [status]="ticket.masterInfo.status" 
           [model_status]="invoice_model_status"
+          [checkValidForPaymentDialog]="onCheckBeforePayment.bind(this)"
           />
       </ng-container>
     </div>
