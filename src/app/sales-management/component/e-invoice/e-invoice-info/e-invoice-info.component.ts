@@ -16,6 +16,7 @@ export class EInvoiceInfoComponent implements OnChanges {
 
   is_disable_ten_kh = false;
   is_disable_dia_chi = false;
+  is_disabled_so_giay_to = false;
 
 
 
@@ -91,6 +92,12 @@ export class EInvoiceInfoComponent implements OnChanges {
       this.data.hd_httt = this.payment[0].ma_httt;
     }
 
+    if (this.data.hd_loai_giay_to == '') {
+      this.is_disabled_so_giay_to = true;
+    } else {
+      this.is_disabled_so_giay_to = false;
+    }
+
     if (this.entity == 'SVTran_BHD') {
       this.handleChangeObjectInvoice('1');
       this.data.xtag = '1';
@@ -113,6 +120,15 @@ export class EInvoiceInfoComponent implements OnChanges {
   }
 
   handleChange($event: any, fileds: string) {
+    if (fileds == 'hd_loai_giay_to') {
+      if ($event == '') {
+        this.data.hd_so_giay_to = '';
+        this.is_disabled_so_giay_to = true;
+      } else {
+        this.is_disabled_so_giay_to = false;
+      }
+    }
+
     if (fileds == 'hd_nguoi_mua' && $event.length > 200) {
       this.commonService.showMessageByName('invoice_buyerName_info');
       return;
