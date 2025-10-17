@@ -273,6 +273,15 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
               this.ticket.merchandise = merchandiseList.data.map((item: any) => {
                 const merchandiseItem = new Merchandise(item);
                 merchandiseItem.gia_ban = item.gia_nt2;
+
+                // kế thừa thông tin hoa hồng từ phụ lục hợp đồng
+                merchandiseItem.ma_td1 = item.ma_td1;
+                merchandiseItem.ma_td2 = item.ma_td2;
+                merchandiseItem.ma_td3 = item.ma_td3;
+                merchandiseItem.sl_td1 = item.sl_td1;
+                merchandiseItem.sl_td2 = item.sl_td2;
+                merchandiseItem.s1 = item.s1;
+
                 return merchandiseItem;
               });
               this.saleWholeService.setContactInfo(data.result.masterInfo);

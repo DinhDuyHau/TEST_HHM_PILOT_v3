@@ -12,6 +12,10 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     hd_so_giay_to = '';
     xtag = ''; // hiện tên người mua trên HĐĐT hay ko, 1: có 0: ko
 
+    fcode1 = '';
+    fcode2 = '';
+    fcode3 = '';
+
     constructor(obj?: any) {
         super();
         Object.assign(this, obj);
@@ -21,6 +25,16 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
 export class MerchandiseRequest extends BaseMerchandiseRequest {
     gia_vat = 0;
     s4 = 0;
+
+    ma_td1 = '';
+    ma_td2 = '';
+    ma_td3 = '';
+
+    sl_td1 = 0;
+    sl_td2 = 0;
+    sl_td3 = 0;
+
+    s1 = '';
 
     constructor(obj?: any) {
         super();

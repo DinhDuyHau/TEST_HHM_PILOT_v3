@@ -163,6 +163,10 @@ export class SaleWholeService {
         this.ticket.contractInfo.so_ct_hd = data.so_ct.trim();
         this.ticket.contractInfo.stt_rec_hd = data.stt_rec;
         this.ticket.contractInfo.ngay_ct_hd = data.ngay_ct;
+
+        this.ticket.masterInfo.fcode1 = data.fcode1;
+        this.ticket.masterInfo.fcode2 = data.fcode2;
+        this.ticket.masterInfo.fcode3 = data.fcode3;
     }
 
     // create or update

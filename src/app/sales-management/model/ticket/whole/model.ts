@@ -36,6 +36,10 @@ export class MasterInfo extends BaseMasterInfo {
   fnote2 = ''; // đối tượng hóa đơn điện tử
   xtag = ''; // hiện tên người mua trên HĐĐT hay ko, 1: có 0: ko
 
+  fcode1 = '';    //Mã hoa hồng tổng đơn
+  fcode2 = '';    //Loại hoa hồng (00 - Không hoa hồng, 01 - HH tổng đơn, 02 - HH chi tiết)
+  fcode3 = '';    //Đối tượng ghi nhận hạch toán tiền hoa hồng (nhân viên đàm phán ký hợp đồng bán buôn)
+
   constructor(obj?: any) {
     super();
     Object.assign(this, obj);
@@ -52,6 +56,14 @@ export class Merchandise extends BaseMerchandise {
   tt_nt = 0;
   gia2 = 0;
   gia_nt2 = 0;
+
+  ma_td1 = '';
+  ma_td2 = '';
+  ma_td3 = '';
+
+  sl_td1 = 0;
+  sl_td2 = 0;
+  s1 = '';
 
   constructor(obj?: any) {
     super();
