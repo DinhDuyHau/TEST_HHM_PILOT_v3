@@ -250,65 +250,70 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
             const merchandise = result.result.details[0].data;
             const ext = result.result.details[5].data;
             const details = result.result.details
+
+            /* 2025-10-17: bỏ xử lý set trạng thái đặt hàng ngày sau khi quét imei (chuyển xử lý tại BE khi lưu phiếu) */
+            /*
             this.imeiApiService.updateImeiState([ma_imei], true, 1).subscribe(result => {
-              if (result.success && result.result[0].dat_hang_yn) {
-                if (!this.ticket.merchandise.find(mer => mer.ma_imei === merchandise[0].ma_imei)) {
-                  merchandise[0].stt_rec_hd1 = merchandise[0].stt_rec;
-                  merchandise[0].ma_asm_duyet = this.ma_asm;
-                  merchandise[0].ten_asm_duyet = this.ten_asm;
-                  merchandise[0].ty_le_giam = Number.parseFloat(this.rate);
-                  merchandise[0].tien_giam = this.tien_giam;
-                  merchandise[0].giam_gia_yn = this.isSaleDown;
-
-                  this.merchandiseService.convertFromVoucher(merchandise, this.ticket.merchandise, Merchandise, ext);
-
-                  details.map((detail: any) => {
-                    switch (detail.name.toLocaleLowerCase()) {
-                      case 'services':
-                        // check xem được nhập dịch vụ hay không
-                        const services = detail.data as any;
-                        if (services && services.length > 0) {
-                          services.forEach((service: any) => {
-                            this.serviceApiService.getServiceReturnOrBuyBack(service?.stt_rec, service?.stt_rec0).subscribe((response) => {
-                              if (response && response.success && response.result) {
-                                this.commonService.showMessage(`Dịch vụ đã được nhập / mua lại ở phiếu: ${response.result}`);
-                              } else {
-                                this.saleReturnOnlineService.convertFromVoucherService(detail.data, this.ticket.service);
-                              }
-                            });
-                          });
-                        }
-                        break;
-                      case 'electric_biill':
-                        this.ticket.electronic_bill = this.commonService.convertDateOfModelFromVoucher(detail.data[0]);
-                        break;
-                      case 'payments':
-                        this.paymentService.convertPaymentFromVoucher(detail.data, this.ticket.payment);
-                        break;
-                      default:
-                        break;
-                    }
-                  })
-
-                  this.saleReturnOnlineService.calcMoney();
-                  this.commonService.clearText2([this.tabIndex.imei]);
-                  this.commonService.focusControl2(this.tabIndex.imei);
-                  this.commonService.addImeiToStorage(ma_imei);
-                  this.resetSaleDown();
-
-                  //Tính tổng tiền
-                  // let t_tt = this.ticket.merchandise.map(e => e.tt || e.tt_nt).reduce((pre: any, cur: any) => pre + cur, 0);
-                  // if (this.ticket.service && this.ticket.service.length) {
-                  //   t_tt += this.ticket.service.map(e => e.tt || e.tt_nt).reduce((pre: any, cur: any) => pre + cur, t_tt);
-                  // }
-                  // console.log(t_tt);
-                  // this.ticket.masterInfo.t_tt_nt = t_tt;
-
-                } else {
-                  this.commonService.showMessageByName('lblWarningProductExist');
-                }
+              if (result.success && result.result[0].dat_hang_yn) {    
               }
             });
+            */
+
+            if (!this.ticket.merchandise.find(mer => mer.ma_imei === merchandise[0].ma_imei)) {
+              merchandise[0].stt_rec_hd1 = merchandise[0].stt_rec;
+              merchandise[0].ma_asm_duyet = this.ma_asm;
+              merchandise[0].ten_asm_duyet = this.ten_asm;
+              merchandise[0].ty_le_giam = Number.parseFloat(this.rate);
+              merchandise[0].tien_giam = this.tien_giam;
+              merchandise[0].giam_gia_yn = this.isSaleDown;
+
+              this.merchandiseService.convertFromVoucher(merchandise, this.ticket.merchandise, Merchandise, ext);
+
+              details.map((detail: any) => {
+                switch (detail.name.toLocaleLowerCase()) {
+                  case 'services':
+                    // check xem được nhập dịch vụ hay không
+                    const services = detail.data as any;
+                    if (services && services.length > 0) {
+                      services.forEach((service: any) => {
+                        this.serviceApiService.getServiceReturnOrBuyBack(service?.stt_rec, service?.stt_rec0).subscribe((response) => {
+                          if (response && response.success && response.result) {
+                            this.commonService.showMessage(`Dịch vụ đã được nhập / mua lại ở phiếu: ${response.result}`);
+                          } else {
+                            this.saleReturnOnlineService.convertFromVoucherService(detail.data, this.ticket.service);
+                          }
+                        });
+                      });
+                    }
+                    break;
+                  case 'electric_biill':
+                    this.ticket.electronic_bill = this.commonService.convertDateOfModelFromVoucher(detail.data[0]);
+                    break;
+                  case 'payments':
+                    this.paymentService.convertPaymentFromVoucher(detail.data, this.ticket.payment);
+                    break;
+                  default:
+                    break;
+                }
+              })
+
+              this.saleReturnOnlineService.calcMoney();
+              this.commonService.clearText2([this.tabIndex.imei]);
+              this.commonService.focusControl2(this.tabIndex.imei);
+              this.commonService.addImeiToStorage(ma_imei);
+              this.resetSaleDown();
+
+              //Tính tổng tiền
+              // let t_tt = this.ticket.merchandise.map(e => e.tt || e.tt_nt).reduce((pre: any, cur: any) => pre + cur, 0);
+              // if (this.ticket.service && this.ticket.service.length) {
+              //   t_tt += this.ticket.service.map(e => e.tt || e.tt_nt).reduce((pre: any, cur: any) => pre + cur, t_tt);
+              // }
+              // console.log(t_tt);
+              // this.ticket.masterInfo.t_tt_nt = t_tt;
+
+            } else {
+              this.commonService.showMessageByName('lblWarningProductExist');
+            }
           } else {
             this.commonService.showMessageByName('lblWarningInvalidProduct');
           }
