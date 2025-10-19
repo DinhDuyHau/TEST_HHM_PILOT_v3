@@ -507,6 +507,16 @@
             <span *ngIf="!isGetInvoice">Lấy số HĐĐT</span>
           </button>
 
+          <button
+            *ngIf="this.allowAdminEdit() && invoice_model_status === '2'"
+            class="btn-responsive btn-cancel"
+            (click)="onPublishEInvoice()"
+            [disabled]="!this.allowAdminEdit() || isPublistEInvoice || invoice_model_status !== '2'"
+          >
+            <span *ngIf="isPublistEInvoice" class="spinner-border spinner-border-sm mr-1"></span>
+            <span *ngIf="!isPublistEInvoice">Phát hành HĐĐT</span>
+          </button>
+
           <!-- <button
             class="btn-responsive btn-cancel"
             (click)="handleCreateDraftInvoice()"
