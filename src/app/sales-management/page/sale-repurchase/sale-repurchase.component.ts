@@ -191,7 +191,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     };
 
     this.ticket.masterInfo.fcode1 = '1';
-    this.ticket.masterInfo.fqty1 = 0;
+    // this.ticket.masterInfo.fqty1 = 0;
 
     this.route.queryParams.subscribe((data: any) => {
       if (data.key) {
@@ -335,7 +335,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
               const merchandise = new Merchandise;
               // nếu loại giao dịch là 2 thì mới lấy thuế suất
               if (this.ticket.masterInfo.fcode1 == "2") {
-                merchandise.thue_suat = this.repurchase.ma_thue ? this.repurchase.thue_suat : this.ticket.masterInfo.fqty1;
+                merchandise.thue_suat = imei_info.ma_thue ? imei_info.thue_suat : this.repurchase.thue_suat;
                 merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua / (1 + (merchandise.thue_suat / 100));
               } else {
                 merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua;
@@ -610,7 +610,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
       ];
       this.merchandiseColumns = this.commonService.updateColumnsFields(this.merchandiseColumns, updatesColumns);
 
-      this.ticket.masterInfo.fqty1 = 0;
+      // this.ticket.masterInfo.fqty1 = 0;
       // reset
       this.resetDataItem();
     }
@@ -623,7 +623,7 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
       ];
       this.merchandiseColumns = this.commonService.updateColumnsFields(this.merchandiseColumns, updatesColumns);
 
-      this.ticket.masterInfo.fqty1 = 10;
+      //this.ticket.masterInfo.fqty1 = 0;
       // reset
       this.resetDataItem();
     }
@@ -650,9 +650,9 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onChangeThueSuat(event: any) {
-    this.ticket.masterInfo.fqty1 = Number(event)
-  }
+  // onChangeThueSuat(event: any) {
+  //   this.ticket.masterInfo.fqty1 = Number(event)
+  // }
 
   handleChangeTaxCode(event: string) {
     this.commonService.getCustomerInfoByTax(event).subscribe((result: any) => {

@@ -94,7 +94,7 @@
         (handleClickOpenDialog)="openSearchTypeMerchandiseDialog()" />
       <div class="d-flex gap-2 box">&nbsp;</div>
       <div class="d-flex gap-2 box" *ngIf="ticket.masterInfo.fcode1 != '3'">
-        <form-select-custom
+        <!-- <form-select-custom
           *ngIf="ticket.masterInfo.fcode1 == '2'"
           class="flex-1"
           [isDisable]="readonly || this.mode !== 0"
@@ -103,7 +103,7 @@
           optionDes="label"
           optionValue="value"
           [value]="ticket.masterInfo.fqty1"
-          (handleChangeValue)="onChangeThueSuat($event)" />
+          (handleChangeValue)="onChangeThueSuat($event)" /> -->
         <form-input-custom
           class="flex-1"
           [label]="'Giá nhập mua (Full VAT)'"

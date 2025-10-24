@@ -23,4 +23,6 @@ export interface ImeiInfo {
     ma_vt: string,
     ten_vt: string,
     dvt: string,
+    ma_thue: string,
+    thue_suat: number,
 }
