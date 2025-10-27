@@ -1,7 +1,7 @@
 ﻿<div class="overflow-hidden flex flex-col md:flex-row">
-  <div class="hidden 2xl:basis-1/2 lg:basis-2/5 lg:flex md:hidden sm:hidden content_left z-10">
-    <div class="flex flex-1 justify-center items-center relative z-10">
-      <img src="/assets/images/logo_login.png" alt="Ảnh logo" srcset="" class="h-16 z-10 2xl:h-40 lg:h-24" />
+  <div class="hidden 2xl:basis-1/2 lg:basis-1/2 lg:flex md:hidden sm:hidden content_left z-10 flex-col">
+    <div class="flex flex-1 justify-center relative z-10 pt-[1rem]">
+      <img src="/assets/images/logo_login.png" alt="Ảnh logo" srcset="" class="h-16 z-10 2xl:h-40 lg:h-16" />
       <div class="absolute top-0 left-0 z-0">
         <div class="content_left_line1 my-5 absolute"></div>
         <div class="content_left_line2 my-5 absolute"></div>
@@ -9,6 +9,44 @@
         <div class="content_left_line4 my-5 absolute"></div>
       </div>
     </div>
+    <div class="text-white text-base z-10 p-4 mt-3">
+        <h1 class="text-white text-2xl font-bold text-center drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">QUY ĐỊNH SỬ DỤNG</h1>
+        <ol class="pl-5 space-y-3 text-gray-100 leading-relaxed text-sm">
+         <li><span class="text-teal-200 font-semibold">1. Không tuân thủ quy trình nội bộ</span><br>
+            (bỏ qua bước, làm tắt, không kiểm tra xác nhận)<br>
+            Thực hiện đầy đủ, chính xác, tuần tự các bước theo quy trình nội bộ, luôn kiểm tra trước khi xác nhận, kiểm tra kỹ trước khi hoàn thành đơn.
+          </li>
+          <li><span class="text-teal-200 font-semibold">2. Trộm cắp</span><br>
+            Tuyệt đối không được lấy cắp, chiếm đoạt tài sản của công ty, đồng nghiệp hoặc khách hàng.
+          </li>
+          <li><span class="text-teal-200 font-semibold">3. Sử dụng tài sản công ty sai mục đích</span><br>
+            (dùng cho việc cá nhân, để mất mát, hư hỏng)<br>
+            Tài sản công ty phải được quản lý, bảo vệ, chỉ sử dụng cho mục đích công việc, tuyệt đối không dùng cho việc cá nhân. Không mang ra khỏi cửa hàng nếu không được phép.
+          </li>
+          <li><span class="text-teal-200 font-semibold">4. Sử dụng các hình thức thanh toán cá nhân</span><br>
+            Mọi giao dịch tại cửa hàng phải thực hiện bằng tài khoản/công cụ thanh toán của công ty, tuyệt đối không dùng tài khoản cá nhân, nguồn thanh toán phải đến từ chính khách hàng.
+          </li>
+          <li><span class="text-teal-200 font-semibold">5. Không nhập hàng thu cũ lên hệ thống Genbyte</span><br>
+            (thỏa thuận miệng, giao dịch ngoài)<br>
+            Mọi giao dịch thu mua phải được nhập và phản ánh đúng trên hệ thống Genbyte, khớp với thực tế.
+          </li>
+          <li><span class="text-teal-200 font-semibold">6. Mang hoặc kinh doanh hàng hoá/dịch vụ ngoài về/tại cửa hàng</span><br>
+            Nghiêm cấm tự ý mang hoặc kinh doanh hàng hóa/dịch vụ ngoài sự quản lý của công ty tại cửa hàng; mọi trường hợp liên quan phải báo cáo và được CBLĐ có thẩm quyền phê duyệt.
+          </li>
+          <li><span class="text-teal-200 font-semibold">7. Tư vấn gói bảo hành Hcare thiếu minh bạch, sai sự thật</span><br>
+            Tư vấn rõ ràng, trung thực, đầy đủ quyền lợi và điều kiện của Hcare.
+          </li>
+          <li><span class="text-teal-200 font-semibold">8. Che giấu lỗi của đồng nghiệp</span><br>
+            Khi phát hiện vi phạm/dấu hiệu bất thường phải báo cáo kịp thời cho quản lý trực tiếp hoặc P.KSNB; tuyệt đối không bao che.
+          </li>
+          <li><span class="text-teal-200 font-semibold">9. Không lập và gửi hóa đơn/phiếu xuất hàng cho khách hàng</span><br>
+            Mọi giao dịch bán hàng phải in hóa đơn/phiếu xuất gửi khách hàng.
+          </li>
+          <li><span class="text-teal-200 font-semibold">10. Mang hàng hóa ra khỏi cửa hàng nhưng không xuất trên hệ thống</span><br>
+            Mọi hàng hóa mang ra khỏi cửa hàng đảm bảo đều có giao dịch thể hiện trên hệ thống Genbyte.
+          </li>
+        </ol>
+      </div>
   </div>
   <div class="block md:hidden">
     <div class="flex flex-1 justify-center items-center relative z-10 h-40 container_logo_mobile">
@@ -29,8 +67,8 @@
             </div>
           </div>
         </div> -->
-        <div class="flex flex-1">
-          <form [formGroup]="loginForm" (ngSubmit)="onSubmit(txtUser)" class="flex flex-1">
+        <div class="flex flex-1 flex-col">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit(txtUser)" class="flex flex-1 pt-8">
             <div class="form flex flex-1 flex-col mt-5 md:mt-0">
               <h3 class="text-3xl text-primary02_color font-medium">
                 Đăng nhập
@@ -210,6 +248,56 @@
               </div>
             </div> -->
           </form>
+          <!-- QUY ĐỊNH SỬ DỤNG - BẢN CHO MOBILE -->
+          <div class="block lg:hidden text-white bg-primary02_color mt-10 p-4 rounded-t-2xl shadow-inner">
+            <h1 class="text-white text-xl font-bold text-center mb-3">QUY ĐỊNH SỬ DỤNG</h1>
+            <ol class="pl-5 space-y-3 text-gray-100 leading-relaxed text-sm">
+              <li>
+                <span class="text-teal-200 font-semibold">1. Không tuân thủ quy trình nội bộ</span><br>
+                <span class="block text-gray-300 italic mt-1">(bỏ qua bước, làm tắt, không kiểm tra xác nhận)</span>
+                Thực hiện đầy đủ, chính xác, tuần tự các bước theo quy trình nội bộ; luôn kiểm tra trước khi xác nhận, kiểm tra kỹ trước khi hoàn thành đơn.
+              </li>
+              <li>
+                <span class="text-teal-200 font-semibold">2. Trộm cắp</span><br>
+                Tuyệt đối không được lấy cắp, chiếm đoạt tài sản của công ty, đồng nghiệp hoặc khách hàng.
+              </li>
+              <li>
+                <span class="text-teal-200 font-semibold">3. Sử dụng tài sản công ty sai mục đích</span><br>
+                <span class="block text-gray-300 italic mt-1">(dùng cho việc cá nhân, để mất mát, hư hỏng)</span>
+                Tài sản công ty phải được quản lý, bảo vệ, chỉ sử dụng cho mục đích công việc, tuyệt đối không dùng cho việc cá nhân. Không mang ra khỏi cửa hàng nếu không được phép.
+              </li>
+              <li>
+                <span class="text-teal-200 font-semibold">4. Sử dụng các hình thức thanh toán cá nhân</span><br>
+                Mọi giao dịch tại cửa hàng phải thực hiện bằng tài khoản/công cụ thanh toán của công ty, tuyệt đối không dùng tài khoản cá nhân, nguồn thanh toán phải đến từ chính khách hàng.
+              </li>
+              <li>
+                <span class="text-teal-200 font-semibold">5. Không nhập hàng thu cũ lên hệ thống Genbyte</span><br>
+                <span class="block text-gray-300 italic mt-1">(thỏa thuận miệng, giao dịch ngoài)</span>
+                Mọi giao dịch thu mua phải được nhập và phản ánh đúng trên hệ thống Genbyte, khớp với thực tế.
+              </li>
+              <li>
+                <span class="text-teal-200 font-semibold">6. Mang hoặc kinh doanh hàng hoá/dịch vụ ngoài về/tại cửa hàng</span><br>
+                Nghiêm cấm tự ý mang hoặc kinh doanh hàng hóa/dịch vụ ngoài sự quản lý của công ty tại cửa hàng; mọi trường hợp liên quan phải báo cáo và được CBLĐ có thẩm quyền phê duyệt.
+              </li>
+              <li>
+                <span class="text-teal-200 font-semibold">7. Tư vấn gói bảo hành Hcare thiếu minh bạch, sai sự thật</span><br>
+                Tư vấn rõ ràng, trung thực, đầy đủ quyền lợi và điều kiện của Hcare.
+              </li>
+              <li>
+                <span class="text-teal-200 font-semibold">8. Che giấu lỗi của đồng nghiệp</span><br>
+                Khi phát hiện vi phạm/dấu hiệu bất thường phải báo cáo kịp thời cho quản lý trực tiếp hoặc P.KSNB; tuyệt đối không bao che.
+              </li>
+              <li>
+                <span class="text-teal-200 font-semibold">9. Không lập và gửi hóa đơn/phiếu xuất hàng cho khách hàng</span><br>
+                Mọi giao dịch bán hàng phải in hóa đơn/phiếu xuất gửi khách hàng.
+              </li>
+              <li>
+                <span class="text-teal-200 font-semibold">10. Mang hàng hóa ra khỏi cửa hàng nhưng không xuất trên hệ thống</span><br>
+                Mọi hàng hóa mang ra khỏi cửa đảm bảo đều có giao dịch thể hiện trên hệ thống Genbyte.
+              </li>
+            </ol>
+          </div>
+
         </div>
         <!-- <div id="footer-box">
           <div class="hotline-wrap flex justify-center align-middle">
