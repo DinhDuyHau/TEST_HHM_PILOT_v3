@@ -378,6 +378,14 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
       this.commonService.showMessage('Cần chọn ASM duyệt trước khi lưu');
       return;
     }
+
+    // lưu người duyệt (fcode3) và trường ma_td3 của bảng chi tiết
+    if (this.duyet_yn && this.data.masterInfo.fcode3 && this.data.details[0]) {
+      this.data.details[0].data.forEach((item: any) => {
+        item.ma_td3 = this.data.masterInfo.fcode3;
+      });
+    }
+
     this.loading = true;
     this.isDisabled = true;
     if (this.mode == MODE.UPDATE) {
