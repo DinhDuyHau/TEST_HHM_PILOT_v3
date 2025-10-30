@@ -273,6 +273,8 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   public castIcon(value: string): IconName {
     return value as IconName;
   }
-
+  trackByIndex(index: number, item: any): number {
+    return index;
+  }
 }
 

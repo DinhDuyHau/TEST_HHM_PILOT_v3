@@ -51,7 +51,7 @@
           </th>
         </thead>
         <tbody>
-          <tr *ngFor="let item of viewPayment; let index = index">
+          <tr *ngFor="let item of viewPayment; let index = index; trackBy: trackByIndex">
             <td class="text-sm md:text-md">
               {{ item.payment }}
             </td>
