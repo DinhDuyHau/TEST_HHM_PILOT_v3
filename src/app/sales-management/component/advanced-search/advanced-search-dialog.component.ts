@@ -225,6 +225,27 @@ export class AdvancedSearchDialogComponent implements OnInit {
       ];
     }
 
+    if ([TICKET_CODE.STOCK_RETURN_SUPPILER].includes(this.voucherCode)) {
+      this.statusList = [
+        {
+          status: '*',
+          statusname: 'Tất cả'
+        },
+        {
+          status: '0',
+          statusname: 'Lập chứng từ'
+        },
+        {
+          status: '1',
+          statusname: 'Chờ duyệt'
+        },
+        {
+          status: '2',
+          statusname: 'Hoàn thành'
+        },
+      ];
+    }
+
     //set mặc định trạng thái 2
     convert.status2 = this.statusList[0].status;
 
