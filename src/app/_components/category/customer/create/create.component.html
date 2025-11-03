@@ -260,7 +260,7 @@
               [disabled]="disabled"
               (handleEnter)="onEnter($event)"
               name="hoadon_email"
-              (handleChange)="customer.hoadon_email = $event"
+              (handleChange)="customer.hoadon_email = $event; this.exists_hoadon_email = customer.hoadon_email ? true : false"
               [value]="customer.hoadon_email"></app-input-custom-v2>
           </div>
         </div>
