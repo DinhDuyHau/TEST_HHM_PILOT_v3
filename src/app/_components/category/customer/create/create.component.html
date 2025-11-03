@@ -124,7 +124,7 @@
               [disabled]="disabled"
               (handleEnter)="onEnter($event)"
               name="email_cn"
-              (handleChange)="customer.email_cn = $event; customer.hoadon_email = customer.hoadon_email ? customer.hoadon_email : $event"
+              (handleChange)="customer.email_cn = $event; customer.hoadon_email = this.exists_hoadon_email ? customer.hoadon_email : $event"
               [value]="customer.email_cn"></app-input-custom-v2>
           </div>
         </div>
