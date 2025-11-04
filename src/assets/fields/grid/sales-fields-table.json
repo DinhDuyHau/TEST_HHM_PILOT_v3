@@ -146,6 +146,11 @@
     ],
     "MERCHANDISE_REPURCHASE_LIST": [
         {
+            "name": "line_nbr",
+            "title": "STT",
+            "align": "center"
+        },
+        {
             "name": "ma_vt",
             "title": "Mã vật tư"
         },

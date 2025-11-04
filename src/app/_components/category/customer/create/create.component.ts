@@ -41,6 +41,7 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
   disabled_ma_kh = false;
   isDisabled = false;
   readonly = false;
+  exists_hoadon_email = false;
 
   mode = 1;
   submitButtonTitle = '';
@@ -99,6 +100,9 @@ export class CreateCustomerComponent extends Grid<Customer> implements OnInit {
             this.submitButtonTitle = 'Sửa';
             this.cancelButtonTitle = 'Hủy bỏ';
             this.disabled_ma_kh = true;
+            if (this.customer.hoadon_email != '') {
+              this.exists_hoadon_email = true;
+            }
             break;
           case 'view':
             this.disabled = true;
