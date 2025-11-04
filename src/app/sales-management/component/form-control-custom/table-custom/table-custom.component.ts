@@ -42,6 +42,7 @@ export class TableCustomComponent implements
   @Input() type!: string;
   @Input() selectByCheckbox = false;
   @Input() selectByCheckboxAll = false;
+  @Input() selectSingle = false;
   @Input() readonly = false;
   @Input() isChangeColorWhenSelected = false;
   @Input() filters: ItemFilter[] = [];
@@ -307,6 +308,12 @@ export class TableCustomComponent implements
   }
 
   onChangeSelectCheckbox(item: any) {
+    if (this.selectSingle) {
+      this.dataSource.forEach(record => {
+        record.selected = false;
+      });
+      item.selected = true;
+    }
     this.handleChangeSelectCheckbox.emit(item);
   }
 
