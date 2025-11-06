@@ -149,8 +149,8 @@ export class SaleReturnService {
     //     return this.imeiApiService.getSoldInfo(imei, this.ticket.masterInfo.ma_cuahang, this.ticket.masterInfo.ma_ct, rate, tien_giam, loai_tra_lai, tra_lai_cod);
     // }
 
-    getSoldInfoReturn(imei: string, rate = -1, tien_giam = 0, loai_tra_lai = "", tra_lai_cod = false, tra_lai_freedelivery = false) {
-        return this.imeiApiService.getSoldInfoReturn(imei, this.ticket.masterInfo.ma_cuahang, this.ticket.masterInfo.ma_ct, rate, tien_giam, loai_tra_lai, tra_lai_cod, tra_lai_freedelivery);
+    getSoldInfoReturn(imei: string, rate = -1, tien_giam = 0, loai_tra_lai = "", tra_lai_cod = false, tra_lai_freedelivery = false, dieu_chinh_gia = false) {
+        return this.imeiApiService.getSoldInfoReturn(imei, this.ticket.masterInfo.ma_cuahang, this.ticket.masterInfo.ma_ct, rate, tien_giam, loai_tra_lai, tra_lai_cod, tra_lai_freedelivery, dieu_chinh_gia);
     }
 
     getMerchandiseInfo(ma_vt: string) {

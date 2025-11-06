@@ -295,7 +295,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
           }
         }
 
-        this.saleReturnService.getSoldInfoReturn(ma_imei, rate, this.tien_giam, this.ticket.masterInfo.fcode1, this.isCODReturn, this.isFreeDeliveryReturn).subscribe((result: any) => {
+        this.saleReturnService.getSoldInfoReturn(ma_imei, rate, this.tien_giam, this.ticket.masterInfo.fcode1, this.isCODReturn, this.isFreeDeliveryReturn, this.isSaleDown).subscribe((result: any) => {
           if (result && result.success && result.result && result.result.details) {
 
             // chỉ được nhập trên cùng 1 phiếu xuất bán
