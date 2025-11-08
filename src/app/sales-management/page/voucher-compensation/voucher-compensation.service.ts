@@ -88,14 +88,10 @@ export class VoucherCompensationService {
             }
         });
 
-        console.log(data.details)
-
         data.details.forEach(e => {
             switch (e.name) {
                 case TAB_NAME.MERCHANDISE:
-                    console.log(e.data)
                     this.merchandiseService.convertFromVoucher(e.data, this.ticket.merchandise, Merchandise);
-                    console.log(this.ticket.merchandise)
                     break;
                 case TAB_NAME.SERVICE:
                     this.serviceOfMerchandiseService.convertFromVoucher(e.data, this.ticket.service);
