@@ -603,7 +603,7 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
         return false;
       }
     }
-    const result = await lastValueFrom(this.imeiService.getImeiInfo(imei, this.ma_cuahang, this.voucherCode));
+    const result = await lastValueFrom(this.imeiService.getImeiInfoV2(imei, this.ma_cuahang, this.voucherCode));
     if (result.success && result.result) {
       const response = result.result[0];
       if (!this.list_item_event.find(x => x.ma_sp.trim() == response.ma_vt.trim())) {
