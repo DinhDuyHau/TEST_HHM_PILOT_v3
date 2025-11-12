@@ -149,7 +149,7 @@
           <div class="box-2">
             <div class="mb-3">
               <form-input-custom
-                [readonly]="isInputDisabled()"
+                [readonly]="ticket.masterInfo.status !== '1' ? isInputDisabled() : false"
                 [name]="'ma_co'"
                 [label]="getLabel('ma_co')"
                 [value]="ticket.contractInfo.ma_co"
