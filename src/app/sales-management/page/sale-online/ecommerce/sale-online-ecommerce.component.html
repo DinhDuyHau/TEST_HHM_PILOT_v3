@@ -77,10 +77,11 @@
         (handleEnterInput)="onEnterImeiCode($event)"
         (handleClickCodeScanner)="onClickCodeScanner()"
         [uploadImage]="true" />
+      <!-- lbl_ma_vt -->
       <form-input-custom
         class="box"
         name="ma_vt"
-        [label]="getLabel('lbl_ma_vt')"
+        [label]="getLabel('lbl_tra_ton_gia')"
         *ngIf="!readonly"
         [disabled]="isInputDisabled()"
         (handleEnterInput)="onEnterMerchandiseCode($event)"

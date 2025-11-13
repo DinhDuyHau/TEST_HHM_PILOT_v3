@@ -495,8 +495,12 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
       .afterClosed().subscribe(result => {
         if (result && result.ma_imei) {
           // this.onEnterImeiCode(result.ma_imei);
+
+          // 2025-11-13: Sửa lại chỉ sử dụng dialog vật tư để tra cứu tồn và giá, không add imei vào phiếu
+          /*
           this.ma_imei = result.ma_imei;
           this.handleProcessImei(this.ma_imei);
+          */
         }
       });
   }

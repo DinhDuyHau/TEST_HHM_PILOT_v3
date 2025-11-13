@@ -1038,9 +1038,9 @@
             "title": "Đvt"
         },
         {
-            "name": "gia_nt2",
-            "title": "Đơn giá",
-            "format": "moneyView2Digit",
+            "name": "gia_vat",
+            "title": "Đơn giá (Full VAT)",
+            "format": "moneyViewNoDigit",
             "align": "right",
             "dataType": "number"
         },

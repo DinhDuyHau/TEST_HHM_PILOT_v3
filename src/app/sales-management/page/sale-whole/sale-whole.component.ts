@@ -420,7 +420,10 @@ export class SaleWholeComponent implements OnInit, AfterViewInit {
     this.commonService.openDialog(SearchDialogComponent, { keyword: ma_vt || '', componentName: SEARCH_COMPONENT_NAME.MERCHANDISE })
       .afterClosed().subscribe(result => {
         if (result) {
+          // 2025-11-13: Sửa lại chỉ sử dụng dialog vật tư để tra cứu tồn và giá, không add imei vào phiếu
+          /*
           this.onEnterImeiCode(result.ma_imei);
+          */
         }
       });
   }

@@ -967,7 +967,10 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     this.commonService.openDialog(SearchDialogComponent, { keyword: ma_vt || '', componentName: SEARCH_COMPONENT_NAME.MERCHANDISE }, 'search-style-dialog')
       .afterClosed().subscribe(result => {
         /* false: ko phải enter imei */
+        // 2025-11-13: Sửa lại chỉ sử dụng dialog vật tư để tra cứu tồn và giá, không add imei vào phiếu
+        /*
         this.onEnterImeiNewMerchandiseCode(result.ma_imei, false);
+        */
       });
   }
 
