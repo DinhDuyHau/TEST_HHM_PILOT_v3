@@ -98,7 +98,7 @@ export class SaleOnlineEcommerceService {
                     this.ticket.guarantee = e.data;
                     break;
                 case TAB_NAME.ECOMMERCE:
-                    this.ticket.ecommerce = this.commonService.convertDateOfModelFromVoucher(e.data[0]);
+                    this.ticket.ecommerce = this.commonService.convertDateOfModelFromVoucherV2(e.data[0]);
                     this.ticket.masterInfo.ma_kh_tmdt = this.ticket.ecommerce.ma_kh_tmdt;
                     this.ticket.masterInfo.tien_phi_01 = this.ticket.ecommerce.tien_phi_01;
                     this.ticket.masterInfo.tien_phi_02 = this.ticket.ecommerce.tien_phi_02;

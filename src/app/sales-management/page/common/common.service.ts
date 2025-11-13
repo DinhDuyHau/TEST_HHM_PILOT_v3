@@ -315,6 +315,27 @@ export class CommonService {
         return result;
     }
 
+    convertDateOfModelFromVoucherV2(model: any) {
+        const result = { ...model } as any;
+        Object.keys(result).forEach(key => {
+            const value = model[key];
+
+            // Chỉ xử lý khi value là chuỗi và có định dạng ngày rõ ràng
+            if (typeof value === 'string' && this.isValidDateString(value)) {
+                result[key] = formatDate(new Date(value), 'yyyy-MM-dd', 'en_US');
+            }
+        });
+        return result;
+    }
+
+    // Hàm kiểm tra định dạng ngày hợp lệ (ví dụ yyyy-MM-dd hoặc yyyy/MM/dd)
+    isValidDateString(value: string): boolean {
+        // Kiểm tra regex định dạng chuẩn
+        const dateRegex = /^\d{4}[-/]\d{2}[-/]\d{2}$/;
+        return dateRegex.test(value);
+    }
+
+
     // File Contract
     convertFileFromObject(file: any) {
         const form_data = new FormData();

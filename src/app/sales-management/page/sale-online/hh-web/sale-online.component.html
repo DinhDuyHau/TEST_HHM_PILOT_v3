@@ -249,7 +249,7 @@
         <delivery-infomation-2 
           [data]="ticket.transport" 
           [dataDefault]="'01'" 
-          [readonly]="isInputDisabled()"
+          [readonly]="ticket.masterInfo.status !== '1' ? isInputDisabled() : false"
           [isOtherLabel]="true" 
           />
       </tab-custom>

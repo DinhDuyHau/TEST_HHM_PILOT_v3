@@ -32,6 +32,15 @@ export class EInvoiceInfoComponent implements OnChanges {
     return this._data;
   }
 
+  // nếu ten_kh thay đổi thì gán hd_nguoi_mua
+  private prevTenKh: string = '';
+  ngDoCheck() {
+    if (this._data && this._data.ten_kh !== this.prevTenKh) {
+      this.prevTenKh = this._data.ten_kh;
+      this._data.hd_nguoi_mua = this._data.ten_kh;
+    }
+  }
+
 
   @Output() handleChangeData = new EventEmitter<any>();
 

@@ -245,7 +245,7 @@
         l_ten_don_vi="Tên đơn vị / Shipper"
         dataDefault="03"
         [data]="ticket.transport"
-        [readonly]="isInputDisabled() && !allowAdminEdit()"
+        [readonly]="ticket.masterInfo.status !== '1' ? isInputDisabled() : false && !allowAdminEdit()"
         [isOtherLabel]="true" />
       </tab-custom>
       <!-- <tab-custom label="Bảo hành" class="w-100">
