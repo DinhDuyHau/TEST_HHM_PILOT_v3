@@ -75,7 +75,7 @@
 
       <form-select-custom
         class="box"
-        [isDisable]="isDisableReturnType"
+        [isDisable]="isDisableReturnType || action == 'update' ? true : false "
         [label]="'Loại giao dịch'"
         [options]="saleReturnType"
         optionDes="ten_loai"

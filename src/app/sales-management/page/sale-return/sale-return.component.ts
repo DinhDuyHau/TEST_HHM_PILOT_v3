@@ -373,6 +373,7 @@ export class SaleReturnComponent implements OnInit, AfterViewInit {
                             const service_item: any[] = [service];
                             this.saleReturnService.convertFromVoucherService(service_item, this.ticket.service);
                           }
+                          this.saleReturnService.calcMoney();
                         });
                       });
                     }
