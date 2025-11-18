@@ -3,11 +3,44 @@
     {{ title }}
   </div>
   <div mat-dialog-content>
-    <table-custom
-      [dataSource]="dataSource"
-      [columns]="columns"
-      [selectByCheckbox]="true"
-      [selectSingle]="true" />
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <form-payment-custom
+        label="Số tiền cọc"
+        class="flex-1"
+        [value]="tien_coc"
+        [align]="'end'"
+        [max]="data.t_tong_tien"
+        dataType="number"
+        format="moneyInputFormat"
+        (handleChangeValue)="tien_coc = $event;tien_con_no = tien_coc - thanh_toan"/>
+      <form-payment-custom
+        [readonly]="true"
+        label="Số tiền thanh toán"
+        class="flex-1"
+        [value]="thanh_toan"
+        [align]="'end'"
+        dataType="number"
+        format="moneyInputFormat"
+        (handleChangeValue)="tien_con_no = tien_coc - thanh_toan"
+        [disabled]="true" />
+      <form-payment-custom
+        [readonly]="true"
+        label="Tiền còn nợ"
+        class="flex-1"
+        [value]="tien_con_no"
+        [align]="'end'"
+        dataType="number"
+        format="moneyViewFormat"
+        [disabled]="true" />
+    </div>
+
+    <div class="search-dialog pt-2">
+      <table-custom
+        [dataSource]="dataSource"
+        [columns]="columns"
+        [selectByCheckbox]="true" 
+        (handleChangeSelectCheckbox)="handleChangeSelectCheckbox($event)"/>
+    </div>
   </div>
 
   <div mat-dialog-actions class="gap-3 justify-end ml-5">

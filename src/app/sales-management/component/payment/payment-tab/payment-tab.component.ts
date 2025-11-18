@@ -170,7 +170,6 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
   initViewPayment() {
     this.viewPayment = this.paymentService.convertPaymentRequest(this.data, this.voucherCode).filter(x => x.tien >= 0).map((item) => {
       const ma_ct_tragop = this.voucherCode === 'BHA' || this.voucherCode === 'BHK';
-
       switch (item.ma_thanhtoan) {
         case PAYMENT_CODE.CASH:
           return { payment: item.ten_thanhtoan, note: '', money: item.tien };
@@ -216,7 +215,7 @@ export class PaymentTabComponent implements OnChanges, OnInit, AfterViewInit {
         case PAYMENT_CODE.CONVERSION:
           return { payment: item.ten_thanhtoan, note: '', money: item.tien };
         case PAYMENT_CODE.DEPOSIT:
-          return { payment: item.ten_thanhtoan, note: '', money: item.tien };
+          return { payment: item.ten_thanhtoan, note: item.gc_td1, money: item.tien };
         case PAYMENT_CODE.DISCOUNTCODE:
           return { payment: item.ten_thanhtoan, note: `Mã GG: ${item.ma_gg}`, money: item.tien };
         case PAYMENT_CODE.DISCOUNTPROGRAMCRM:

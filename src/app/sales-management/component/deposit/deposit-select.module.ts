@@ -8,6 +8,8 @@ import { GridModule } from '@app/_components/grid/grid.module';
 import { MatButtonModule } from '@angular/material/button';
 import { DepositSelectComponent } from './deposit-select.component';
 import { TableCustomModule } from '../form-control-custom/table-custom/table-custom.module';
+import { FormPaymentCustomModule } from '../form-control-custom/form-payment-custom/form-payment-custom.module';
+
 
 @NgModule({
     declarations: [DepositSelectComponent],
@@ -19,7 +21,8 @@ import { TableCustomModule } from '../form-control-custom/table-custom/table-cus
         MatIconModule,
         GridModule,
         MatButtonModule,
-        TableCustomModule
+        TableCustomModule,
+        FormPaymentCustomModule
     ],
     exports: [DepositSelectComponent],
 
