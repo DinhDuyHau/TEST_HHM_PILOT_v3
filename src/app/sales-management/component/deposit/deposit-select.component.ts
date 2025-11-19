@@ -81,8 +81,12 @@ export class DepositSelectComponent implements OnInit, OnChanges, AfterViewInit 
   }
 
   onSelect(): void {
+    let t_tien_coc = 0;
     const items = this.dataSource.filter((e: any) => e.selected && e.tien_pb != 0);
-    this.dialogRef.close([items, this.tien_coc]);
+    items.forEach(item => {
+      t_tien_coc += item.tien_pb;
+    });
+    this.dialogRef.close([items, t_tien_coc]);
   }
 
   onCancel() {

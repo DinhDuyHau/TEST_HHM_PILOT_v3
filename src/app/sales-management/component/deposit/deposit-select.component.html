@@ -3,9 +3,9 @@
     {{ title }}
   </div>
   <div mat-dialog-content>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
       <form-payment-custom
-        label="Số tiền cọc"
+        label="Số tiền cọc thanh toán"
         class="flex-1"
         [value]="tien_coc"
         [align]="'end'"
@@ -15,7 +15,7 @@
         (handleChangeValue)="tien_coc = $event;tien_con_no = tien_coc - thanh_toan"/>
       <form-payment-custom
         [readonly]="true"
-        label="Số tiền thanh toán"
+        label="Tiền cọc đã phân bổ"
         class="flex-1"
         [value]="thanh_toan"
         [align]="'end'"
@@ -25,9 +25,18 @@
         [disabled]="true" />
       <form-payment-custom
         [readonly]="true"
-        label="Tiền còn nợ"
+        label="Tiền cọc chưa phân bổ"
         class="flex-1"
         [value]="tien_con_no"
+        [align]="'end'"
+        dataType="number"
+        format="moneyViewFormat"
+        [disabled]="true" />
+      <form-payment-custom
+        [readonly]="true"
+        label="Tổng tiền đơn hàng"
+        class="flex-1"
+        [value]="data.t_tong_tien"
         [align]="'end'"
         dataType="number"
         format="moneyViewFormat"

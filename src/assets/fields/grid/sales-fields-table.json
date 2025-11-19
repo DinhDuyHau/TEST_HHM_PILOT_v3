@@ -1566,7 +1566,7 @@
             "title": "Tiền cọc",
             "type": "texbox",
             "dataType": "number",
-            "format": "moneyView2Digit",
+            "format": "moneyViewFormat",
             "align": "right"
         },
         {
@@ -1574,7 +1574,7 @@
             "title": "Tiền phân bổ",
             "type": "texbox",
             "dataType": "number",
-            "format": "moneyView2Digit",
+            "format": "moneyViewFormat",
             "align": "right"
         },
         {
