@@ -14,29 +14,62 @@ export class DepositSelectComponent implements OnInit, OnChanges, AfterViewInit 
   dataSource!: any[];
   columns!: Cell[];
   title!: string;
+  tien_coc: number = 0;
+  thanh_toan: number = 0;
+  tien_con_no: number = 0;
 
   constructor(
     public dialogRef: MatDialogRef<DepositSelectComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { dataSource: any[], currentItem: any[] },
+    @Inject(MAT_DIALOG_DATA) public data: { dataSource: any[], currentItem: any[], tien_coc: number, t_tong_tien: number },
   ) {
   }
 
   ngOnInit(): void {
+    this.dataSource = this.data.dataSource.map(e => {
+      const item = this.data.currentItem.find(i => i.stt_rec_pt === e.stt_rec);
+      return {
+        ...e,
+        tien_pb: item ? item.tien : 0
+      };
+    });
     this.columns = DEPOSIT_SELECT as any;
-    this.dataSource = this.data.dataSource;
     this.title = "Danh sách đặt cọc còn hiệu lực có thể áp dụng";
     this.dataSource.map(e => e.cl_nt_max = e.cl_nt);
     this.loadDepositSelected();
+    this.tien_coc = this.data.tien_coc;
+    this.thanh_toan = this.dataSource.reduce((sum, x) => sum + (x.tien_pb ?? 0), 0);
   }
 
   loadDepositSelected() {
     this.itemsSelected = this.data.currentItem;
-    const ids = this.itemsSelected.map(e => e.stt_rec);
+    const ids = this.itemsSelected.map(e => e.stt_rec_pt);
     this.dataSource.map((e: any) => {
       if (ids.includes(e.stt_rec)) {
         e.selected = true
       }
     });
+  }
+
+  updateTienPB(stt_rec: string, value: number) {
+    this.dataSource = this.dataSource.map(e =>
+      e.stt_rec === stt_rec
+        ? { ...e, tien_pb: value }
+        : e
+    );
+
+    this.thanh_toan = this.dataSource.reduce((s, x) => s + (x.tien_pb ?? 0), 0);
+    this.tien_con_no = this.tien_coc - this.thanh_toan;
+  }
+
+  handleChangeSelectCheckbox(item: any) {
+    if (item.selected == true) {
+      if (item.cl_nt > (this.tien_coc - this.thanh_toan))
+        this.updateTienPB(item.stt_rec, this.tien_coc - this.thanh_toan);
+      else
+        this.updateTienPB(item.stt_rec, item.cl_nt);
+    }
+    else
+      this.updateTienPB(item.stt_rec, 0);
   }
 
   ngOnChanges(): void {
@@ -48,8 +81,8 @@ export class DepositSelectComponent implements OnInit, OnChanges, AfterViewInit 
   }
 
   onSelect(): void {
-    const items = this.dataSource.filter((e: any) => e.selected);
-    this.dialogRef.close(items);
+    const items = this.dataSource.filter((e: any) => e.selected && e.tien_pb != 0);
+    this.dialogRef.close([items, this.tien_coc]);
   }
 
   onCancel() {

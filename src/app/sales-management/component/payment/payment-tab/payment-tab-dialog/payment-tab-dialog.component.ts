@@ -51,7 +51,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   tong_no = 0;
   ma_gg = '';
   dataFormat = dataFormat;
-  depositSelected = [];
+  depositSelected = {};
   invalid = {
     quet_the_tra_gop: {
       ma_may_pos: false,
@@ -190,6 +190,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
   }
 
   ngAfterViewInit(): void {
+    this.depositSelected = this.data.tien_dat_coc.detail
     //
   }
 
@@ -511,20 +512,19 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     );
 
     if (deposit.length > 0) {
-      this.commonService.openDialog(DepositSelectComponent, { dataSource: deposit, currentItem: this.depositSelected })
+      this.commonService.openDialog(DepositSelectComponent, { dataSource: deposit, currentItem: this.depositSelected, tien_coc: this.data.tien_dat_coc.tien, t_tong_tien: this.t_tong_tien })
         .afterClosed().subscribe(depositSelected => {
           this.depositSelected = depositSelected || [];
           if (depositSelected && depositSelected.length) {
-            const tien_tt_coc = depositSelected.reduce((pre: number, cur: any) => pre + cur.cl_nt, 0);
-            this.data.tien_dat_coc.tien = this.t_con_no > tien_tt_coc ? tien_tt_coc : this.t_con_no;
+            this.data.tien_dat_coc.tien = depositSelected[1];
             this.data.tien_dat_coc.selected = this.data.tien_dat_coc.tien > 0;
-            this.data.tien_dat_coc.detail = depositSelected.map((item: any) => {
+            this.data.tien_dat_coc.detail = depositSelected[0].map((item: any) => {
               const payment = new DepositDetail;
-              // payment.tien = item.cl_nt;
-              payment.tien = this.data.tien_dat_coc.tien;
+              payment.tien = item.tien_pb;
               payment.stt_rec_pt = item.stt_rec;
               payment.ma_sp = item.ma_vt;
               payment.ma_ctr = item.ma_ctr;
+              payment.gc_td1 = item.so_ct;
               return payment;
             });
 

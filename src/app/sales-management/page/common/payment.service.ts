@@ -35,6 +35,7 @@ export class PaymentService {
                     depositDetail.tien_nt2 = e.tien_nt;
                     depositDetail.ma_ctr = e.ma_ctr;
                     depositDetail.selected = true;
+                    depositDetail.gc_td1 = e.gc_td1;
                     des.tien_dat_coc.detail.push(depositDetail);
                     break;
                 case PAYMENT_CODE.CASH:
@@ -190,19 +191,21 @@ export class PaymentService {
                 ];
             }); */
             if (src.tien_dat_coc && Array.isArray(src.tien_dat_coc.detail) && src.tien_dat_coc.detail.length > 0) {
-                const element = src.tien_dat_coc.detail[0];
-                des = [
-                    ...des,
-                    new PaymentRequest({
-                        ma_thanhtoan: PAYMENT_CODE.DEPOSIT,
-                        ten_thanhtoan: PAYMENT_NAME.DEPOSIT,
-                        tien: element.tien,
-                        tien_nt: element.tien_nt2 || 0,
-                        stt_rec_pt: element.stt_rec_pt,
-                        ma_sp: element.ma_sp,
-                        ma_ctr: element.ma_ctr,
-                    }),
-                ];
+                src.tien_dat_coc.detail.forEach(element => {
+                    des = [
+                        ...des,
+                        new PaymentRequest({
+                            ma_thanhtoan: PAYMENT_CODE.DEPOSIT,
+                            ten_thanhtoan: PAYMENT_NAME.DEPOSIT,
+                            tien: element.tien,
+                            tien_nt: element.tien_nt2 || 0,
+                            stt_rec_pt: element.stt_rec_pt,
+                            ma_sp: element.ma_sp,
+                            ma_ctr: element.ma_ctr,
+                            gc_td1: element.gc_td1,
+                        }),
+                    ];
+                });
             }
         }
         if (src.tien_mat.selected) {

@@ -1570,6 +1570,14 @@
             "align": "right"
         },
         {
+            "name": "tien_pb",
+            "title": "Tiền phân bổ",
+            "type": "texbox",
+            "dataType": "number",
+            "format": "moneyView2Digit",
+            "align": "right"
+        },
+        {
             "name": "dien_giai",
             "title": "Diễn giải"
         },

@@ -106,6 +106,7 @@ export class DepositDetail extends BaseModelPayment {
     stt_rec_pt = '';
     ma_sp = '';
     ma_ctr = '';
+    gc_td1 = '';
 }
 export class Cash extends BaseModelPayment {
 }
