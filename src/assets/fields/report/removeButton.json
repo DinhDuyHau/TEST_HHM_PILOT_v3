@@ -1,0 +1,13 @@
+{ 
+    "rptRetailPrice":
+    {   "isFilterButton": false,
+        "isPrintButton": true,
+        "isRefreshButton": false,
+        "isLockingColumnButton": false,
+        "isExportButton": true
+    },
+    "rptLookupInventory":
+    {
+        "isExportButton": true
+    }
+}

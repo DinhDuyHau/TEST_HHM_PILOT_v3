@@ -35,7 +35,7 @@
     <div class="flex py-1">
       <div *ngFor="let button of buttons">
         <button
-          *ngIf="(button.id !== 'Export' || isViewButtonExport) && button.id != buttonPrintId"
+          *ngIf="(button.id !== 'Export') && button.id != buttonPrintId"
           [disabled]="disabled"
           (click)="onClickButton($event, button.id)"
           class="mr-2 px-1 py-1.5 text-sm lg:text-base min-w-button_small lg:min-w-button flex items-center justify-center rounded-md"
@@ -52,7 +52,7 @@
           </div>
         </button>
         <button
-          *ngIf="(button.id !== 'Export' || isViewButtonExport) && button.id == buttonPrintId"
+          *ngIf="(button.id !== 'Export') && button.id == buttonPrintId"
           [matMenuTriggerFor]="
             menu_report && menu_report.length > 1 ? menu : null
           "
