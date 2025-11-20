@@ -87,7 +87,7 @@ export class ReportComponent implements OnInit, OnChanges {
       for (const item in this.removeButton) {
         if (this.removeButton.hasOwnProperty(item)) {
           const value = this.removeButton[item];
-          console.log(`Key: ${item}, Value:`, value);
+          // console.log(`Key: ${item}, Value:`, value);
           if (item && item == 'isFilterButton' && value) {
             this.buttons = this.buttons.filter(btn => btn !== button.FilterButton);
           }
