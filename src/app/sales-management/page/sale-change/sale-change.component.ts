@@ -260,9 +260,6 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
           this.onEnterCustomerCode(result.result.masterInfo.ma_kh);
         }
 
-        console.log(result.result);
-
-
         const merchandise = result.result.details[0].data;
         const service = result.result.details[1].data;
         const src_merchandise = merchandise.filter((x: any) => x.ma_imei.toLowerCase().trim() === ma_imei.toLowerCase().trim());
@@ -275,7 +272,7 @@ export class SaleChangeComponent implements OnInit, AfterViewInit {
         }
 
         this.merchandiseService.convertFromVoucher(src_merchandise, this.ticket.merchandise_return, Merchandise);
-        this.serviceOfMerchandiseService.convertFromVoucher(service.filter((x: any) => x.ma_imei.trim() === ma_imei.trim()), this.ticket.service);
+        this.serviceOfMerchandiseService.convertFromVoucher(service.filter((x: any) => x.ma_imei.toLowerCase().trim() === ma_imei.toLowerCase().trim()), this.ticket.service);
         this.ticket.service.forEach(x => {
           x.ma_imei_tra = ma_imei;
           x.gia_ck = 0;
