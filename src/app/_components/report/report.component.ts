@@ -14,6 +14,7 @@ import { DataFormatPipe } from '@app/_pipe/dataFormat/data-format.pipe';
 import dataFormat from '@app/_common/dataFormat';
 import { MenuItem } from '../header/header.model';
 import { forkJoin } from 'rxjs';
+const removeButtonList = require('@assets/fields/report/removeButton.json');
 
 
 @Component({
@@ -43,6 +44,7 @@ export class ReportComponent implements OnInit, OnChanges {
   reportService!: ReportService;
   isLoadReport = false;
   isPivotReport = false;
+  removeButton = [];
 
   mapperVoucher: Map<string, any> = new Map();
 
@@ -56,6 +58,7 @@ export class ReportComponent implements OnInit, OnChanges {
       this.filterMode = menu?.filterMode || false;
     }
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     //
   }
@@ -78,6 +81,29 @@ export class ReportComponent implements OnInit, OnChanges {
       }
       else {
         this.init();
+      }
+      this.removeButton = removeButtonList[this.entity];
+      //    buttons = [button.FilterButton, button.PrintButton, button.RefreshButton, button.LockingColumnButton, button.ExportButton];
+      for (const item in this.removeButton) {
+        if (this.removeButton.hasOwnProperty(item)) {
+          const value = this.removeButton[item];
+          console.log(`Key: ${item}, Value:`, value);
+          if (item && item == 'isFilterButton' && value) {
+            this.buttons = this.buttons.filter(btn => btn !== button.FilterButton);
+          }
+          if (item && item == 'isPrintButton' && value) {
+            this.buttons = this.buttons.filter(btn => btn !== button.PrintButton);
+          }
+          if (item && item == 'isRefreshButton' && value) {
+            this.buttons = this.buttons.filter(btn => btn !== button.RefreshButton);
+          }
+          if (item && item == 'isLockingColumnButton' && value) {
+            this.buttons = this.buttons.filter(btn => btn !== button.LockingColumnButton);
+          }
+          if (item && item == 'isExportButton' && value) {
+            this.buttons = this.buttons.filter(btn => btn !== button.ExportButton);
+          }
+        }
       }
     });
     //
