@@ -38,6 +38,13 @@ export class DepositSelectComponent implements OnInit, OnChanges, AfterViewInit 
     this.loadDepositSelected();
     this.tien_coc = this.data.tien_coc;
     this.thanh_toan = this.dataSource.reduce((sum, x) => sum + (x.tien_pb ?? 0), 0);
+
+    // nếu ban đầu không có tiền cọc => lấy default là sum của tiền cọc trong grid chi tiết hoặc tổng tiền đơn hàng (so sánh rồi lấy số nhỏ hơn)
+    if (!this.tien_coc || this.tien_coc === 0) {
+      this.tien_coc = this.dataSource.reduce((sum, x) => sum + (x.cl_nt ?? 0), 0);
+      if (this.tien_coc > this.data.t_tong_tien) this.tien_coc = this.data.t_tong_tien;
+      this.tien_con_no = this.tien_coc;
+    }
   }
 
   loadDepositSelected() {
