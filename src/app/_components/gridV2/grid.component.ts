@@ -50,6 +50,7 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
   @Input() gridType = GridType.Grid;
   @Input() isChoose = false;
   @Input() multipleChoose = false;
+  @Input() disableByShop = false;
   @Input() pageIndex = 0;
   @Input() pageSize = 10;
   @Input() pageCount = 0;
@@ -127,6 +128,7 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
   @Input() searchIMEI!: string;
   @ViewChildren(MatRow, { read: ElementRef }) rowRefs!: QueryList<ElementRef>;
   @Input() isResizeColumn = false;
+  shopCode: string = '';
 
   constructor(
     library: FaIconLibrary,
@@ -140,6 +142,11 @@ export class GridV2Component implements AfterViewInit, OnInit, OnChanges {
     library.addIconPacks(fas, far);
   }
   ngOnChanges(changes: SimpleChanges): void {
+    if (this.disableByShop) {
+      const userStr = localStorage.getItem('user');
+      this.shopCode = userStr ? JSON.parse(userStr).shop : null;
+    }
+
     if (changes['fields'] && !changes['fields'].firstChange) {
       if (changes['fields'].currentValue.length !== changes['fields'].previousValue.length) {
         this.title = this.fields.filter(item => !item.hidden).map(item => item.name);

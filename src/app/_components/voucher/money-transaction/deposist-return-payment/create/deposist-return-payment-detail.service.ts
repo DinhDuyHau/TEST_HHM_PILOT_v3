@@ -16,7 +16,7 @@ import { DialogInputComponent } from '@app/_components/dialog/dialog-input/dialo
 @Injectable({
   providedIn: 'root'
 })
-export class DeposistReturnReceiptDetailService implements IGridService<ReceiptDetail>{
+export class DeposistReturnReceiptDetailService implements IGridService<ReceiptDetail> {
 
   name?: string;
   constructor(private http: HttpClient, public dialog: MatDialog) {
@@ -121,7 +121,8 @@ export class DeposistReturnReceiptDetailService implements IGridService<ReceiptD
     dialogConfig.disableClose = true;
     dialogConfig.data = {
       service: control,
-      multipleChoose: multipleChoose
+      multipleChoose: multipleChoose,
+      disableByShop: true
     };
     const dialogRef = this.dialog.open(LookupComponent, dialogConfig);
     return dialogRef.afterClosed();

@@ -43,6 +43,16 @@
     "width": 260
   },
   {
+    "name": "ma_cuahang",
+    "title": "Cửa hàng",
+    "isLockingColumn": true,
+    "isPrimaryKey": true,
+    "width": 100,
+    "allowSorting": true,
+    "allowFilter": true,
+    "dataFormatString": "upperCaseFormat"
+  },
+  {
     "name": "ngay_ct",
     "title": "Ngày CT",
     "type": "date",

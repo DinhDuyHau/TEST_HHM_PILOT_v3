@@ -5,4 +5,5 @@ export interface LookupData {
     service: IGridServiceV2<any>;
     multipleChoose: boolean;
     highlightColumns?: string[];
+    disableByShop: boolean;
 }
