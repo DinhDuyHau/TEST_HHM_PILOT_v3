@@ -427,7 +427,7 @@
                 'hover:text-green-600': (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
               }">
               <mat-checkbox
-                [disabled]="column.type === 'boolean' && !enabledCheckboxColumns.includes(column.name)"
+                [disabled]="(column.type === 'boolean' && !enabledCheckboxColumns.includes(column.name)) || (disableByShop && element.ma_cuahang !== this.shopCode) "
                 [(ngModel)]="element[column.name]"
                 (change)="
                   onCheckboxChange(
