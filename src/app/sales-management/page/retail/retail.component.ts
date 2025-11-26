@@ -391,7 +391,18 @@ export class RetailComponent implements OnInit, AfterViewInit {
         .afterClosed().subscribe(result => {
           if (!result) {
             //không xác nhận => reset về mã cũ
-            this.ticket.masterInfo.ma_kh = ma_kh_old;
+            this.customerApiService.getOneById(ma_kh_old).subscribe(result => {
+              if (result.success && result.result) {
+                const customer: any = result.result;
+                this.retailService.setInfoCustomer(customer);
+                this.ticketApiService.getRankCustomer({ ma_kh: customer.ma_kh }).subscribe(result => {
+                  const { ma_hang, mau_chu, tl_tich_diem } = result.result as any;
+                  this.ticket.masterInfo.ma_hang = ma_hang || '';
+                  this.ticket.masterInfo.tl_tich_diem = tl_tich_diem || 0;
+                  this.generateLabelWithColor(ma_hang, mau_chu);
+                });
+              }
+            });
             return;
           }
           // xóa và reset ck 09 khi xác nhận => reset

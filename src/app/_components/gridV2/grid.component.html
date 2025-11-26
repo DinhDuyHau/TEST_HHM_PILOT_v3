@@ -304,6 +304,7 @@
                 'hover:text-green-600':
                   (column.isPrimaryKey && gridType === 1 && !multipleChoose) || (column.link &&  (element[column.name] + '').trim() !== ''),
                 'font-semibold': element['sysbold'] === 1,
+                'text-red-600': disableByShop && element.ma_cuahang !== shopCode && column.name === 'ma_cuahang'
               }">
               <input
                 *ngIf="!column.multipleLine"
