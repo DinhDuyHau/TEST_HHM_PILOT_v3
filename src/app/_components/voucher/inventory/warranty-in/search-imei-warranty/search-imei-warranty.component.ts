@@ -122,11 +122,13 @@ export class SearchImeiWarrantyComponent implements OnInit {
           let ma_vt = item.ma_vt;
           let ten_vt = item.ten_vt;
           let ngay_ct_px = item.ngay_ct_px;
+          let stt_rec_px = item.stt_rec_px;
 
-          this.addItem(ma_imei, so_ct_px, ngay_ct_px, ma_vt, ten_vt);
+          this.addItem(ma_imei, so_ct_px, ngay_ct_px, ma_vt, ten_vt, stt_rec_px);
         });
       } else {
-        this.commonService.showMessage('Không tìm thấy kết quả phù hợp');
+        const msg = result.message && result.message !== '' ? result.message : 'Không tìm thấy kết quả phù hợp';
+        this.commonService.showMessage(msg);
       }
     } catch (error) {
       let msg_error = error || 'Runtime_err';
@@ -136,7 +138,7 @@ export class SearchImeiWarrantyComponent implements OnInit {
     }
   }
 
-  addItem(ma_imei: string, so_ct_px?: string, ngay_ct_px?: Date, ma_vt?: string, ten_vt?: string) {
+  addItem(ma_imei: string, so_ct_px?: string, ngay_ct_px?: Date, ma_vt?: string, ten_vt?: string, stt_rec_px?: string) {
     // ko được đẩy vào mảng khi trùng ma_imei
     const isDuplicate = this.dataSource.some(item => item.ma_imei === ma_imei);
     if (!isDuplicate) {
@@ -146,6 +148,7 @@ export class SearchImeiWarrantyComponent implements OnInit {
         ngay_ct_px,
         ma_vt,
         ten_vt,
+        stt_rec_px,
       });
     }
   }
