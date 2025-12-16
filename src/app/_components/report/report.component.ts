@@ -142,7 +142,9 @@ export class ReportComponent implements OnInit, OnChanges {
         if (field) {
           data.forEach(x => {
             const link = this.mapperVoucher.get(x.ma_ct)?.link as string || '';
-            x.linkToVoucher = this.mapperVoucher.get(x.ma_ct)?.link + (link.includes('voucher/') ? '/view?stt_rec=' : '/view?key=') + (field.key ? x[field.key] : x['stt_rec']);
+            const rawValue = field.key ? x[field.key] : x['stt_rec'];
+            const encodedValue = encodeURIComponent(rawValue);
+            x.linkToVoucher = this.mapperVoucher.get(x.ma_ct)?.link + (link.includes('voucher/') ? '/view?stt_rec=' : '/view?key=') + encodedValue;
           });
         }
 
