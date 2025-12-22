@@ -79,6 +79,7 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
   readonly = false;
   ten_nvbh = ''; // ten_asm
   duyet_yn = false; // dùng để kiểm tra xem có cần chọn asm duyệt hay ko
+  searchIMEI: string = '';
 
   override gridType = GridType.GridDetail;
   actionButtons = [button.DeleteButton];
@@ -624,6 +625,7 @@ export class EventGiftDetailComponent extends Grid<ReceiptDetail> implements OnI
       });
       this.calcTotal();
       this.dataSource.data = this.data.details[0].data;
+      this.searchIMEI = imei;
       return true;
     }
     return false;
