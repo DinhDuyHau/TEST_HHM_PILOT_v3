@@ -29,6 +29,17 @@ export class IMEIService {
         const encode_imei = this.codec.encodeValue(ma_imei);
         return this.http.get<any>(`${environment.apiUrl}/imei/getinstore?ma_imei=${encode_imei}&ma_ct=${ma_ct}&ma_cuahang=${ma_cuahang}`);
     }
+    getImeiInfoV2(ma_imei: string, ma_cuahang: string, ma_ct: string) {
+        //const encode_imei = this.codec.encodeValue(ma_imei);
+
+        const body = {
+            ma_imei: ma_imei.trim(),
+            ma_ct: ma_ct,
+            ma_cuahang: ma_cuahang
+        };
+
+        return this.http.post<any>(`${environment.apiUrl}/imei/getinstore2`, body);
+    }
     getListImeiState(ma_imei: string[]) {
         return this.http.post<ResultNoPaging<ImeiState>>(`${environment.apiUrl}/imei/getstate`,
             ma_imei
