@@ -457,7 +457,9 @@ export class WarrantyOutDetailComponent extends Grid<ReceiptDetail> implements O
       map.set('xuat_yn', false);
       map.set('dieu_chuyen_yn', false);
       map.set('dat_hang_yn', false);
+      console.log('res.result[0]:', res.result[0])
       const message = this.imeiService.GetMessageStatusImei(map, res.result[0]);
+      console.log('message:', message)
       if (message) {
         /*
         * Ko đúng imei sẽ mở dialog tìm kiếm
@@ -482,7 +484,7 @@ export class WarrantyOutDetailComponent extends Grid<ReceiptDetail> implements O
         return false;
       }
     }
-    const result = await lastValueFrom(this.imeiService.getImeiInfo(imei, this.ma_cuahang, this.voucherCode));
+    const result = await lastValueFrom(this.imeiService.getImeiInfoV2(imei, this.ma_cuahang, this.voucherCode));
     if (result.success && result.result) {
       const response = result.result[0];
       this.data.details[0].data.push({
