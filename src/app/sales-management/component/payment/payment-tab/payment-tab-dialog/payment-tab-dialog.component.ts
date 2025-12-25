@@ -707,11 +707,18 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
     if (ma_dvcs === 'THO') tk_nganhang = '05BIDV';
     if (ma_dvcs === 'HPH') tk_nganhang = '06BIDV';
 
+    // 2025-12-25: bổ sung thêm tk 01PAYOO để lấy máy POS trả góp của ngân hàng VIB
+    tk_nganhang += ',01PAYOO'
+    let ma_nh_pht = 'BIDV,VIB';
+
     this.commonService.openDialog(SearchDialogComponent,
       {
         shop: this.shop, keyword: '', componentName: SEARCH_COMPONENT_NAME.POS,
         title: 'Danh sách máy POS',
-        filter: [{ name: 'tk_nganhang', operator: '=', value: tk_nganhang }]
+        filter: [
+          { name: 'tk_nganhang', operator: 'IN', value: tk_nganhang },
+          { name: 'ma_nh', operator: 'IN', value: ma_nh_pht }           // 2025-12-25: thêm đk lọc
+        ]
       }, 'search-style-dialog')
       .afterClosed()
       .subscribe((pos: POSModel) => pos && this.handleAddPOSBank(pos));
@@ -765,6 +772,7 @@ export class PaymentTabDialogComponent implements OnChanges, OnInit, AfterViewIn
 
   handleAddPOSBank(pos: POSModel) {
     this.data.quet_the_tra_gop_bidv.ma_may_pos = pos.ma_pos;
+    this.data.quet_the_tra_gop_bidv.tk_nh_nhan = pos.ma_nh;
   }
 
   validateFail() {
