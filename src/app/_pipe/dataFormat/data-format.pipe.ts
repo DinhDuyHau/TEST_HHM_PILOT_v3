@@ -187,6 +187,15 @@ export class DataFormatPipe implements PipeTransform {
         return formatDate(value, dataFormatString, 'en_US');
       }
     }
+    else if (type === 'mask') {
+      if (!value || value === '') return '';
+      const strValue = value.toString().trim();
+      const len = strValue.length;
+      if (len <= 5) return strValue;
+      const masked = '*'.repeat(len - 5);
+      return masked + strValue.slice(-5);
+    }
+
     return value;
   }
 }

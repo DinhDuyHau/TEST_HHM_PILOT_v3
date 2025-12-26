@@ -97,6 +97,18 @@
                 : record[column['name']]
             }}
           </div>
+          <div 
+          [ngStyle]="{ width: column.width, minWidth: column.minWidth }" 
+          *ngIf="column['type'] === 'mask'" 
+          [ngClass]="{ 
+            'text-center': column.align === 'center', 
+            'text-end': column.align === 'end', 
+            'text-right': column.align === 'right', 
+            'text-left': column.align === 'left' }"> 
+            {{ 
+            record[column['name']] | formatData:'mask'
+            }} 
+          </div>
           <input
             [ngClass]="{
               'w-full bg-transparent outline-none': true,

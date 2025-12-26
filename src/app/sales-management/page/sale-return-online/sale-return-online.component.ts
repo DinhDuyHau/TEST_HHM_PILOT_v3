@@ -24,6 +24,7 @@ import { Service } from '@app/sales-management/model/ticket/common-model/service
 import { ServiceOfMerchandiseService } from '../common/service.service';
 import { PaymentService } from '../common/payment.service';
 import { ServiceApiService } from '@app/sales-management/api/service-api.service';
+import { Payment } from '@app/sales-management/model/ticket/common-model/payment.model';
 
 const { MERCHANDISE_RETURN_ONLINE_LIST, SERVICE_LIST, SERVICE_LIST_SALE_RETURN } = require('@assets/fields/grid/sales-fields-table.json');
 
@@ -223,8 +224,24 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
   //#endregion
 
   // #region imei
-
   onEnterImeiCode(ma_imei: string) {
+    if (this.ticket.merchandise.length !== 0) {
+      const found = this.ticket.merchandise.some(item => {
+        if (item.ma_imei.toLowerCase().trim() === ma_imei.toLowerCase().trim()) {
+          item.gc_td3 = ma_imei.trim();
+          this.commonService.clearText2([this.tabIndex.imei]);
+          this.commonService.focusControl2(this.tabIndex.imei);
+          return true;
+        }
+        return false;
+      });
+
+      if (!found) {
+        this.commonService.showMessage('Imei xuất và Imei nhập không trùng khớp.');
+        return;
+      }
+    }
+
     this.saleReturnOnlineService.getListImeiInfo([ma_imei]).subscribe(result => {
       if (result.success && result.result.length) {
         const map = new Map();
@@ -247,6 +264,17 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
         this.saleReturnOnlineService.getSoldInfo(ma_imei, rate, this.tien_giam).subscribe((result: any) => {
           if (result && result.success && result.result && result.result.details) {
             this.loadCustomerInfo(result.result.masterInfo.ma_kh);
+
+            //bỏ những bản ghi đã tồn tại trong this.ticket.merchandise
+            result.result.details = result.result.details.map(
+              (detail: { data: { ma_imei: string }[] }) => ({
+                ...detail,
+                data: detail.data.filter(
+                  (mer: { ma_imei: string }) => !this.ticket.merchandise.some(t => t.ma_imei === mer.ma_imei)
+                )
+              })
+            );
+
             const merchandise = result.result.details[0].data;
             const ext = result.result.details[5].data;
             const details = result.result.details
@@ -268,7 +296,6 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
               merchandise[0].giam_gia_yn = this.isSaleDown;
 
               this.merchandiseService.convertFromVoucher(merchandise, this.ticket.merchandise, Merchandise, ext);
-
               details.map((detail: any) => {
                 switch (detail.name.toLocaleLowerCase()) {
                   case 'services':
@@ -332,7 +359,11 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
     this.tien_giam = 0;
   }
   onRemoveMerchandise(event: { item: Merchandise }) {
-    this.handleRemoveMerchandise(event.item);
+    //this.handleRemoveMerchandise(event.item);
+    this.ticket.merchandise = [];
+    this.ticket.service = [];
+    this.ticket.payment = new Payment;
+    this.saleReturnOnlineService.calcMoney();
   }
 
   handleRemoveMerchandise(merchandise: Merchandise) {
@@ -357,7 +388,16 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
       this.commonService.showMessage('Tiền nợ không được âm');
       return;
     }
+    const invalidItem = this.ticket.merchandise.find(item =>
+      !item.gc_td3 || item.gc_td3.trim().toLowerCase() !== item.ma_imei.trim().toLowerCase()
+    );
 
+    if (invalidItem && this.ticket.masterInfo.status === '2') {
+      this.commonService.showMessage('Có IMEI nhập bị thiếu hoặc không khớp với IMEI xuất.');
+      return;
+    }
+
+    const exist_mechandise = this.ticket.merchandise.filter((x: any) => x.ma_imei && x.ma_imei !== '')
     //Check imei trùng trong grid chi tiết
     let mechandise_dup = [];
     const counter: { [key: string]: number } = {};
