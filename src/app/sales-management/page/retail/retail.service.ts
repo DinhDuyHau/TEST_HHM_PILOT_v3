@@ -172,7 +172,7 @@ export class RetailService {
             }
         });
         this.ticketApiService.getVoucherDate().subscribe(result => {
-          ticket.masterInfo.ngay_ct = result?.result as any || Date();
+            ticket.masterInfo.ngay_ct = result?.result as any || Date();
         });
     }
 

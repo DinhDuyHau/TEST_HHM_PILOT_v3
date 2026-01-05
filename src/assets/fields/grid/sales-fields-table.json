@@ -1674,6 +1674,13 @@
             "format": "moneyViewNoDigit",
             "dataType": "number",
             "align": "right"
+        },
+        {
+            "name": "cp_bh",
+            "title": "Tiền hoa hồng",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
         }
     ],
     "SERVICE_LIST_SALE_RETURN": [
@@ -2232,6 +2239,13 @@
         {
             "name": "tong_tien",
             "title": "Tổng tiền",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
+        },
+        {
+            "name": "cp_bh",
+            "title": "Tiền hoa hồng",
             "format": "moneyViewNoDigit",
             "dataType": "number",
             "align": "right"

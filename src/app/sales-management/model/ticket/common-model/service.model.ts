@@ -55,6 +55,10 @@ export class Service {
     stt_rec0hd = '';
     stt_rec0 = '';
 
+    // tiền hoa hồng dịch vụ hcare
+    cp_bh = 0;
+    cp_bh_nt = 0;
+
     constructor(obj?: any) {
         Object.assign(this, obj);
     }
@@ -94,6 +98,10 @@ export class ServiceRequest extends BaseEntity {
     //sale return
     ck_nt = 0;
     ti_le_giam = 0;
+
+    // hoa hồng dịch vụ
+    cp_bh = 0;
+    cp_bh_nt = 0;
 
     constructor(obj?: any) {
         super();

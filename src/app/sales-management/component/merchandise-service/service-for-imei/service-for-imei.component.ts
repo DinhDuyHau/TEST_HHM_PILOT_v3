@@ -133,6 +133,11 @@ export class ServiceForImeiComponent implements OnInit, OnChanges, AfterViewInit
             serviceNew.tien_thue = serviceNew.tong_tien - serviceNew.thanh_tien;
             //2024-05-15: end
 
+            // 2025-12-31: add tiền hoa hồng hcare
+            serviceNew.cp_bh = (result.result as any).tien_hoahong;
+            serviceNew.cp_bh_nt = serviceNew.cp_bh;
+            // 2025-12-31: end
+
             this.serviceOfMerchandiseService.addNew(this.data.ma_imei, [serviceNew], this.dataSource);
             this.preious_quantity.push(1);
           }
