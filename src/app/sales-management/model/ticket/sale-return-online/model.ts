@@ -67,6 +67,7 @@ export class Merchandise extends BaseMerchandise {
   ma_td1 = '';
   gc_td1 = '';
   gc_td2 = '';
+  gc_td3 = '';
 
   constructor(obj?: any) {
     super();

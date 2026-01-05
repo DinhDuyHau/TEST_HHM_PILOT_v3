@@ -1320,7 +1320,13 @@
         },
         {
             "name": "ma_imei",
-            "title": "Imei",
+            "title": "Imei xuất",
+            "align": "center",
+            "type": "mask"
+        },
+        {
+            "name": "gc_td3",
+            "title": "Imei nhập",
             "align": "center"
         },
         {
