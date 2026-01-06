@@ -295,6 +295,9 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
               merchandise[0].tien_giam = this.tien_giam;
               merchandise[0].giam_gia_yn = this.isSaleDown;
 
+              // gán imei nhập là giá trị imei đang input tương ứng với item trong array lấy được từ api
+              (merchandise.find((x: any) => x.ma_imei.trim() === ma_imei.trim()))!.gc_td3 = ma_imei;
+
               this.merchandiseService.convertFromVoucher(merchandise, this.ticket.merchandise, Merchandise, ext);
               details.map((detail: any) => {
                 switch (detail.name.toLocaleLowerCase()) {
@@ -307,7 +310,7 @@ export class SaleReturnOnlineComponent implements OnInit, AfterViewInit {
                           if (response && response.success && response.result) {
                             this.commonService.showMessage(`Dịch vụ đã được nhập / mua lại ở phiếu: ${response.result}`);
                           } else {
-                            this.saleReturnOnlineService.convertFromVoucherService(detail.data, this.ticket.service);
+                            this.saleReturnOnlineService.convertFromVoucherService([service], this.ticket.service);
                           }
                         });
                       });
