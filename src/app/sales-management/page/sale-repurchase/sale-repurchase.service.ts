@@ -143,7 +143,7 @@ export class SaleRepurchaseService {
 
     }
     getMerchandiseInfo(ma_vt: string) {
-        return this.merchandiseApiService.getOneById(ma_vt);
+        return this.merchandiseApiService.getOneByIdV2(ma_vt);
     }
 
     // #endregion imei
