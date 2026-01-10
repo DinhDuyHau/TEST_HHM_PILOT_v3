@@ -252,7 +252,8 @@ export class RecommentToUseDetailComponent extends Grid<ReceiptDetail> implement
     };
     if (this.mode == MODE.CREATE) {
       this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
-        this.statusList = result;
+        //this.statusList = result;
+        this.statusList = result.filter(item => item.status !== '2');
         if (!this.data.masterInfo.status) {
           this.data.masterInfo.status = this.statusList[0].status;
           if (this.f) {
@@ -293,7 +294,11 @@ export class RecommentToUseDetailComponent extends Grid<ReceiptDetail> implement
         if (params['key']) {
           this.initData(params['key']);
           this.statusVoucher.getStatus(this.voucherCode).subscribe(result => {
-            this.statusList = result;
+            if (this.mode == MODE.VIEW)
+              this.statusList = result;
+            else
+              this.statusList = result.filter(item => item.status !== '2');
+
             if (!this.data.masterInfo.status) {
               this.data.masterInfo.status = this.statusList[0].status;
               if (this.f) {
