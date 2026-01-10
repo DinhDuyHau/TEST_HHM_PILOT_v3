@@ -333,13 +333,9 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
             }
             else {
               const merchandise = new Merchandise;
-              // nếu loại giao dịch là 2 thì mới lấy thuế suất
-              if (this.ticket.masterInfo.fcode1 == "2") {
-                merchandise.thue_suat = imei_info.ma_thue ? imei_info.thue_suat : this.repurchase.thue_suat;
-                merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua / (1 + (merchandise.thue_suat / 100));
-              } else {
-                merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua;
-              }
+              merchandise.thue_suat = imei_info.ma_thue ? imei_info.thue_suat : this.repurchase.thue_suat;
+              merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua / (1 + (merchandise.thue_suat / 100));
+
               merchandise.s4 = this.ticket.masterInfo.gia_nhap_mua;
               merchandise.thanh_tien = merchandise.gia_ban * merchandise.so_luong;
               merchandise.tt = merchandise.s4 * merchandise.so_luong;
@@ -372,10 +368,9 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
             }
 
             // Tính toán các giá trị trước
-            const thue_suat = this.ticket.masterInfo.fcode1 == "2" ? (this.repurchase.ma_thue ? this.repurchase.thue_suat : 0) : 0;
-            const gia_ban = this.ticket.masterInfo.fcode1 == "2"
-              ? this.ticket.masterInfo.gia_nhap_mua / (1 + (thue_suat / 100))
-              : this.ticket.masterInfo.gia_nhap_mua;
+            const thue_suat = this.repurchase.ma_thue ? this.repurchase.thue_suat : 0;
+            const gia_ban = this.ticket.masterInfo.gia_nhap_mua / (1 + (thue_suat / 100));
+
             const s4 = this.ticket.masterInfo.gia_nhap_mua;
             const thanh_tien = gia_ban * 1;
             const tt = s4 * 1;
@@ -675,6 +670,8 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
         this.repurchase.ma_vt = merchandise.ma_vt;
         this.repurchase.ten_vt = merchandise.ten_vt;
         this.repurchase.dvt = merchandise.dvt;
+        this.repurchase.ma_thue = merchandise.ma_thue;
+        this.repurchase.thue_suat = merchandise.thue_suat;
 
         //get imei from input field
         const imeiElement = document.getElementById(`${this.tabIndex.imei}`);
