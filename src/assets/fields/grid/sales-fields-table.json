@@ -1788,6 +1788,13 @@
             "format": "moneyView2Digit",
             "dataType": "number",
             "align": "right"
+        },
+        {
+            "name": "cp_bh",
+            "title": "Tiền hoa hồng",
+            "format": "moneyViewNoDigit",
+            "dataType": "number",
+            "align": "right"
         }
     ],
     "SALE_REPURCHASE_SERVICE": [
