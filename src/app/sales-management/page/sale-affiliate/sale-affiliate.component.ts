@@ -466,7 +466,10 @@ export class SaleAffiliateComponent implements OnInit, AfterViewInit {
           this.commonService.showMessage('Imei đã được đặt hàng trên phiếu khác');
           return;
         }
-        this.commonService.showMessage('Imei không tồn tại trong hệ thống hoặc không tồn kho tại cửa hàng');
+        if (result.message)
+          this.commonService.showMessageByName(result.message);
+        else
+          this.commonService.showMessage('Imei không tồn tại trong hệ thống hoặc không tồn kho tại cửa hàng');
         return;
       }
     });
