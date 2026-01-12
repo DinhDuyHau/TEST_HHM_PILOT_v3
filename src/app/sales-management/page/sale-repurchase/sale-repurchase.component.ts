@@ -333,8 +333,12 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
             }
             else {
               const merchandise = new Merchandise;
-              merchandise.thue_suat = imei_info.ma_thue ? imei_info.thue_suat : this.repurchase.thue_suat;
-              merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua / (1 + (merchandise.thue_suat / 100));
+              if (this.ticket.masterInfo.fcode1 == "2") {
+                merchandise.thue_suat = imei_info.ma_thue ? imei_info.thue_suat : this.repurchase.thue_suat;
+                merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua / (1 + (merchandise.thue_suat / 100));
+              } else {
+                merchandise.gia_ban = this.ticket.masterInfo.gia_nhap_mua;
+              }
 
               merchandise.s4 = this.ticket.masterInfo.gia_nhap_mua;
               merchandise.thanh_tien = merchandise.gia_ban * merchandise.so_luong;
@@ -368,8 +372,10 @@ export class SaleRepurchaseComponent implements OnInit, AfterViewInit {
             }
 
             // Tính toán các giá trị trước
-            const thue_suat = this.repurchase.ma_thue ? this.repurchase.thue_suat : 0;
-            const gia_ban = this.ticket.masterInfo.gia_nhap_mua / (1 + (thue_suat / 100));
+            const thue_suat = this.ticket.masterInfo.fcode1 == "2" ? (this.repurchase.ma_thue ? this.repurchase.thue_suat : 0) : 0;
+            const gia_ban = this.ticket.masterInfo.fcode1 == "2"
+              ? this.ticket.masterInfo.gia_nhap_mua / (1 + (thue_suat / 100))
+              : this.ticket.masterInfo.gia_nhap_mua;
 
             const s4 = this.ticket.masterInfo.gia_nhap_mua;
             const thanh_tien = gia_ban * 1;
