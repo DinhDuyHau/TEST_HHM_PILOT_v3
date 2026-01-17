@@ -143,6 +143,7 @@
           [readonly]="readonly"
           [dataSource]="ticket.merchandise"
           [columns]="merchandiseColumns"
+          [isShowDelete]="false"
           (handleDelete)="onRemoveMerchandise($event)" />
       </tab-custom>
       <tab-custom label="Dịch vụ" class="w-100">
