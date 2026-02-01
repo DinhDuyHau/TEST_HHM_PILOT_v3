@@ -542,7 +542,7 @@ export class WarrantyInDetailComponent extends Grid<ReceiptDetail> implements On
               this.stt_rec_px = response.item[0]?.stt_rec_px;
               this.so_ct_px = response.item[0]?.so_ct_px;
 
-              result = await lastValueFrom(this.imeiService.getWarrantyOutInfo(this.imei_xuat, this.ma_cuahang));
+              result = await lastValueFrom(this.imeiService.getWarrantyOutInfoV2(this.imei_xuat, this.ma_cuahang));
 
               this.addItem(imei, this.imei_xuat, this.so_ct_px, this.stt_rec_px, this.ngay_ct_px, result, true, this.item_code, this.item_name, true).then((flag) => {
                 if (flag) {

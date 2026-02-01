@@ -78,6 +78,12 @@ export class IMEIService {
         return this.http.get<any>(`${environment.apiUrl}/imei/warranty-out-info?ma_imei=${ma_imei}&ma_cuahang=${ma_cuahang}`);
     }
 
+    getWarrantyOutInfoV2(ma_imei: string, ma_cuahang: string) {
+        const url = `${environment.apiUrl}/imei/warranty-out-info-v2?ma_cuahang=${ma_cuahang}`
+        const arr_imei = [ma_imei];
+        return this.http.post<any>(url, arr_imei);
+    }
+
     searchImeiWarranty(ma_imei: string, ma_cuahang: string) {
         return this.http.get<any>(`${environment.apiUrl}/imei/search-imei-warranty?ma_imei=${ma_imei}&ma_cuahang=${ma_cuahang}`);
     }
