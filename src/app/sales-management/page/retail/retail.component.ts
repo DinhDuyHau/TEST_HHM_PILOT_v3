@@ -1343,9 +1343,13 @@ export class RetailComponent implements OnInit, AfterViewInit {
   applyDiscount09ForMerchandise(merchandiseResponse: any) {
     const ma_kh = this.ticket.masterInfo.ma_kh ? this.ticket.masterInfo.ma_kh.trim() : '';
     const ma_hang = this.ticket.masterInfo.ma_hang ? this.ticket.masterInfo.ma_hang.trim() : '';
-    const ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
+    let ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
     const ma_imei = merchandiseResponse.ma_imei ? merchandiseResponse.ma_imei.trim() : '';
     const ma_vt = merchandiseResponse.ma_vt ? merchandiseResponse.ma_vt.trim() : '';
+
+    //xử lý format lại ngay_ct để tránh bị bug lệch múi giờ
+    const vc_date = formatDate(ngay_ct, 'yyyy/MM/dd', 'en_US');
+    ngay_ct = new Date(`${vc_date}Z`);
 
     this.imeiApiService.getDiscountRankCustomer(ma_kh, ma_hang, ngay_ct, ma_imei, ma_vt, TICKET_CODE.RETAIL).subscribe((res: any) => {
       if (res.success && res.result) {
