@@ -14,6 +14,7 @@ import { ReportComponent } from '@app/_components/report/report.component';
  * @param imei mã imei cần kiểm tra
  */
 export function checkValidImei(imei: string): boolean {
+    if (imei.length <= 4) return false;
     const regex = /[^A-Za-z0-9.+\-*\/_?%$&]/;
     return !regex.test(imei);
 }
