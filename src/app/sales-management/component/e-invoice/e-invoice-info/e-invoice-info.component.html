@@ -36,13 +36,13 @@
     class="flex-1"
     [label]="'Tên đơn vị'"
     [value]="data.hd_ten_kh"
-    [disabled]="disabled || entity == 'SVTran_BHD' || is_disable_ten_kh"
+    [disabled]="!is_admin_right && (disabled || entity == 'SVTran_BHD' || is_disable_ten_kh)"
     (handleChangeValue)="data.hd_ten_kh = $event"></form-input-custom>
   <form-input-custom
     class="flex-1"
     [label]="'Địa chỉ'"
     [value]="data.hd_dia_chi"
-    [disabled]="disabled || entity == 'SVTran_BHD' || is_disable_dia_chi"
+    [disabled]="!is_admin_right && (disabled || entity == 'SVTran_BHD' || is_disable_dia_chi)"
     (handleChangeValue)="data.hd_dia_chi = $event"></form-input-custom>
   <div>
     <form-input-custom

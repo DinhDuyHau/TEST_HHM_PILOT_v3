@@ -17,7 +17,7 @@ export class EInvoiceInfoComponent implements OnChanges {
   is_disable_ten_kh = false;
   is_disable_dia_chi = false;
   is_disabled_so_giay_to = false;
-
+  is_admin_right = false;
 
 
   private _data: any;
@@ -69,6 +69,10 @@ export class EInvoiceInfoComponent implements OnChanges {
       { ma: '1', ten: 'CCCD' },
       { ma: '3', ten: 'Hộ chiếu' },
     ];
+
+    const user_authorization = JSON.parse(localStorage.getItem('authorization')!);
+    this.is_admin_right = user_authorization && (user_authorization.sa_yn && user_authorization.sa_yn == 1);
+
   }
 
   handleChangeTaxCode(event: string) {
