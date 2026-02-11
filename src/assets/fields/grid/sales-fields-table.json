@@ -3258,5 +3258,27 @@
             "format": "moneyViewNoDigit",
             "align": "right"
         }
+    ],
+    "STOCKTAKING_TRANSACTION_TYPE": [
+        {
+            "name": "ma_gd",
+            "title": "Mã giao dịch",
+            "isPrimaryKey": true
+        },
+        {
+            "name": "ten_gd",
+            "title": "Tên giao dịch"
+        }
+    ],
+    "ITEM_GROUP": [
+        {
+            "name": "ma_nh",
+            "title": "Mã nhóm",
+            "isPrimaryKey": true
+        },
+        {
+            "name": "ten_nh",
+            "title": "Tên nhóm"
+        }
     ]
 }

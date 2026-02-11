@@ -11,6 +11,10 @@ export class MerchandiseRequest extends BaseMerchandiseRequest {
     tien_kmqd = 0;
     imei_mua = '';
     gia_vat = 0;
+    so_luong_tt = 0;
+    ma_imei_tt = '';
+    nguon_kk = '0';
+    kq_kk = '1';
 
     fnote2 = '';
     ngay_lct = '';
@@ -34,8 +38,19 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
 
     ma_kho = '';
     ten_kho = '';
+    ma_gd = '';
+    ten_gd = '';
     ma_nvkk01 = '';
     ten_nvkk01 = '';
+    ma_nvkk02 = '';
+    ten_nvkk02 = '';
+    ma_nvkk03 = '';
+    ten_nvkk03 = '';
+    ma_vt = '';
+    nh_vt1 = '';
+    nh_vt2 = '';
+    nh_vt3 = '';
+    nh_vt4 = '';
 
     constructor(obj?: any) {
         super();

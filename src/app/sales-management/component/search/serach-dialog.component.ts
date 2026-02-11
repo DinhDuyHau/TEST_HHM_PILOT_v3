@@ -39,7 +39,9 @@ const {
   REASON_SEARCH,
   TELESALE_SEARCH,
   GROUP_INVENTORY,
-  QRBANK_FTCODE_SEARCH
+  QRBANK_FTCODE_SEARCH,
+  STOCKTAKING_TRANSACTION_TYPE,
+  ITEM_GROUP,
 } = require('@assets/fields/grid/sales-fields-table.json');
 
 const { STOCK_LIST, SHOP_INFO } = require('@assets/fields/grid/voucher-stock-transfer-from-shop.json')
@@ -184,7 +186,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         this.columns = TYPE_MERCHANDISE as any;
         filter.name = 'ma_vt';
         filter.value = `%${this.data.keyword}%`;
-        this.defaultFilters = [filter];
+        this.defaultFilters = [filter, ...(this.data.filter || [])];
         break;
       case SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE_V2:
         this.columns = TYPE_MERCHANDISE_V2 as any;
@@ -295,6 +297,20 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         break;
       case SEARCH_COMPONENT_NAME.QRBANK_FTCODE_SEARCH:
         this.columns = QRBANK_FTCODE_SEARCH as any;
+        break;
+      case SEARCH_COMPONENT_NAME.STOCKTAKING_TRANSACTION_TYPE:
+        this.columns = STOCKTAKING_TRANSACTION_TYPE as any;
+        filter.name = 'ma_gd';
+        filter.operator = "like";
+        filter.value = `%${this.data.keyword}%`;
+        this.defaultFilters = [filter];
+        break;
+      case SEARCH_COMPONENT_NAME.ITEM_GROUP:
+        this.columns = ITEM_GROUP as any;
+        filter.name = 'loai_nh';
+        filter.operator = "=";
+        filter.value = `${this.data.keyword}`;
+        this.defaultFilters = [filter];
         break;
       default:
         break;
@@ -410,6 +426,10 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.QRBANK_FTCODE_SEARCH:
         return this.ticketApiService.findFTCode(this.data.filter!.find(x => x.name == 'ma_kh')?.value,
           this.customizeFilters, this.page_index, this.page_size);
+      case SEARCH_COMPONENT_NAME.STOCKTAKING_TRANSACTION_TYPE:
+        return this.ticketApiService.getStocktakingTransactionType(this.filters, this.page_index, this.page_size);
+      case SEARCH_COMPONENT_NAME.ITEM_GROUP:
+        return this.ticketApiService.getItemGroup(this.defaultFilters, this.page_index, this.page_size);
       default:
         return of();
     }
@@ -581,5 +601,7 @@ export const SEARCH_COMPONENT_NAME = {
   REPURCHASE_GROUP_INVENTORY: 30,
   QRBANK_FTCODE_SEARCH: 31,
   TYPE_MERCHANDISE_V2: 32,
+  STOCKTAKING_TRANSACTION_TYPE: 33,
+  ITEM_GROUP: 34,
 };
 

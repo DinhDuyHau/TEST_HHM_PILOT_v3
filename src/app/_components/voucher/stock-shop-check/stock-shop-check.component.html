@@ -30,17 +30,17 @@
       <div class="box order-dynamic-1 d-flex gap-3">
         <form-input-custom
           class="flex-1"
-          [name]="'ma_kho'"
-          [label]="'Mã kho'"
-          [value]="ticket.masterInfo.ma_kho"
-          (handleChangeValue)="onChangeValueInventoryCode($event)"
+          [name]="'ma_gd'"
+          [label]="'Mã giao dịch'"
+          [value]="ticket.masterInfo.ma_gd"
           (handleClickOpenDialog)="openInventorySearchDialog()"
+          [readonly]="true"
           [disabled]="false" />
         <form-input-custom
           class="flex-1"
-          [name]="'ten_kho'"
-          [label]="'Tên kho'"
-          [value]="ticket.masterInfo.ten_kho"
+          [name]="'ten_gd'"
+          [label]="'Tên giao dịch'"
+          [value]="ticket.masterInfo.ten_gd"
           [disabled]="true" />
       </div>
       <div class="box order-dynamic-1 d-flex gap-3">
@@ -57,6 +57,7 @@
           [value]="ticket.masterInfo.ten_nvkk01"
           [disabled]="true" />
       </div>
+
       <div class="box order-dynamic-1 d-flex gap-3">
         <form-select-custom
           class="flex-1"
@@ -92,16 +93,42 @@
           [value]="ticket.masterInfo.ten_nvkk02"
           [disabled]="true" />
       </div>
-      <div class="box order-dynamic-1 d-flex">
+
+      <div class="box order-dynamic-3 d-flex gap-3">
         <form-input-custom
-          #txtImei
-          [name]="'imei'"
-          [label]="getLabel('lbl_imei')"
-          [tabIndex]="tabIndex.imei"
-          *ngIf="!readonly"
-          (handleEnterInput)="onEnterImeiCode($event); txtImei.value = ''"
-          (handleClickCodeScanner)="onClickCodeScanner()"
-          [uploadImage]="true" />
+          class="flex-1"
+          [name]="'nh_vt1'"
+          [label]="'Chủng loại'"
+          (handleClickOpenDialog)="openItemGroupSearchDialog(1)"
+          (handleChangeValue)="onChangeItemGroup($event,1)"
+          [value]="ticket.masterInfo.nh_vt1"
+          [disabled]="isItemInfoDisabled" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'nh_vt2'"
+          [label]="'Hãng sản xuất'"
+          (handleClickOpenDialog)="openItemGroupSearchDialog(2)"
+          (handleChangeValue)="onChangeItemGroup($event,2)"
+          [value]="ticket.masterInfo.nh_vt2"
+          [disabled]="isItemInfoDisabled" />
+      </div>
+      <div class="box order-dynamic-3 d-flex gap-3">
+        <form-input-custom
+          class="flex-1"
+          [name]="'nh_vt3'"
+          [label]="'Loại model'"
+          (handleClickOpenDialog)="openItemGroupSearchDialog(3)"
+          (handleChangeValue)="onChangeItemGroup($event,3)"
+          [value]="ticket.masterInfo.nh_vt3"
+          [disabled]="isItemInfoDisabled" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'nh_vt4'"
+          [label]="'Cấu hình'"
+          (handleClickOpenDialog)="openItemGroupSearchDialog(4)"
+          (handleChangeValue)="onChangeItemGroup($event,4)"
+          [value]="ticket.masterInfo.nh_vt4"
+          [disabled]="isItemInfoDisabled" />
       </div>
       <div class="box order-dynamic-3 d-flex gap-3">
         <form-input-custom
@@ -118,15 +145,56 @@
           [value]="ticket.masterInfo.ten_nvkk03"
           [disabled]="true" />
       </div>
+
+      <div class="box order-dynamic-3 d-flex gap-3">
+        <form-input-custom
+          class="flex-1"
+          [name]="'ma_vt'"
+          [label]="'Mã vật tư'"
+          (handleClickOpenDialog)="openItemListDialog(ticket.masterInfo.nh_vt1,ticket.masterInfo.nh_vt2,ticket.masterInfo.nh_vt3)"
+          (handleChangeValue)="onChangeItem($event)"
+          (handleEnterInput)="onEnterItemCode($event)"
+          [value]="ticket.masterInfo.ma_vt"
+          [disabled]="isItemInfoDisabled" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'ten_vt'"
+          [label]="'Tên vật tư'"
+          [value]="ticket.masterInfo.ten_vt"
+          [disabled]="true" />
+      </div>
+      <div class="box order-dynamic-1 d-flex">
+        <form-input-custom
+          #txtImei2
+          [name]="'ma_imei_tt'"
+          [label]="'Imei xuất bán khi kiểm kê'"
+          [tabIndex]="tabIndex.imei"
+          *ngIf="!readonly"
+          (handleEnterInput)="onEnterImeiCode2($event); txtImei2.value = ''"
+         />
+      </div>
+      <div class="box order-dynamic-1 d-flex">
+        <form-input-custom
+          #txtImei
+          [name]="'ma_imei_tt'"
+          [label]="getLabel('lbl_imei')"
+          [tabIndex]="tabIndex.imei"
+          *ngIf="!readonly"
+          (handleEnterInput)="onEnterImeiCode($event); txtImei.value = ''"
+          (handleClickCodeScanner)="onClickCodeScanner()"
+          [uploadImage]="true" />
+      </div>
     </div>
 
     <div class="d-flex justify-content-end">
       <button
         class="btn-input-imei text-nowrap"
-        (click)="onOpenInputImeiModal()">
-        Nhập danh sách imei
+        [hidden]="isStockCheckDisabled"
+        (click)="onClickCheckInventory()">
+        Lấy tồn kho
       </button>
     </div>
+    
 
     <tabs-custom title="Thông tin hàng hóa">
       <tab-custom label="Hàng hoá" class="w-100">
@@ -138,11 +206,11 @@
           [isChangeColorWhenSelected]="true"
           [isShowDiscountNG]="true"
           [isTicket]="false"
-          (handleUpdate)="onOpenInputImeiModal($event)"
           (handleDelete)="onRemoveMerchandise($event)" />
       </tab-custom>
     </tabs-custom>
-
+          <!-- (handleUpdate)="onOpenInputImeiModal($event)" -->
+           
     <div>
       <div class="d-flex justify-end gap-2 m-3">
         <app-voucher-info
