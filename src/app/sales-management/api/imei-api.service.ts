@@ -139,6 +139,8 @@ export class ImeiApiService extends ApiService {
     }
 
     getDiscountRankCustomer(ma_kh: string, ma_hang: string, ngay_ct: Date, ma_imei: any, ma_vt: any, ma_ct: any): Observable<ResultNoPaging<any>> {
+        console.log(ngay_ct.toISOString());
+
         return this.get<ResultNoPaging<any>>(GET_DISCOUNT_RANK_CUSTOMER, { ma_kh, ma_hang, ngay_ct: ngay_ct.toISOString(), ma_imei, ma_vt, ma_ct });
     }
 }

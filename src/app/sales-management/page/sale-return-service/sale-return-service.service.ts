@@ -10,6 +10,7 @@ import { CommonService } from '../common/common.service';
 import { MasterInfoRequest, ServiceRequest } from '@app/sales-management/model/ticket/sale-return-service/request.model';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { ServiceOfMerchandiseService } from '../common/service.service';
+import { PaymentService } from '../common/payment.service';
 
 @Injectable({
     providedIn: 'root'
@@ -23,6 +24,7 @@ export class SaleReturnServiceService {
         private customerApiService: CustomerApiService,
         private ticketApiService: TicketApiService,
         private commonService: CommonService,
+        private paymentService: PaymentService,
         private serviceOfMerchandiseService: ServiceOfMerchandiseService,
     ) {
 
@@ -51,6 +53,9 @@ export class SaleReturnServiceService {
                 case TAB_NAME.ELECTRONIC_BILL:
                     this.ticket.electronic_bill = this.commonService.convertDateOfModelFromVoucher(e.data[0]);
                     break;
+                case TAB_NAME.PAYMENT:
+                    this.paymentService.convertPaymentFromVoucher(e.data, this.ticket.payment);
+                    break;
                 default:
                     break;
             }
@@ -64,7 +69,7 @@ export class SaleReturnServiceService {
         voucherDto.masterInfo = this.commonService.convertMasterInfo(this.ticket.masterInfo, MasterInfoRequest);
         voucherDto.details = [...voucherDto.details, { id: 1, name: TAB_NAME.SERVICE, data: this.convertVoucher(voucherDto.masterInfo) }];
         voucherDto.details = [...voucherDto.details, { id: 2, name: TAB_NAME.ELECTRONIC_BILL, data: [this.commonService.convertDateOfModelToRequest(this.ticket.electronic_bill, voucherDto.masterInfo)] }];
-
+        voucherDto.details = [...voucherDto.details, { id: 3, name: TAB_NAME.PAYMENT, data: this.paymentService.convertPaymentToRequest(this.ticket.payment, voucherDto.masterInfo) }];
 
         return voucherDto;
     }

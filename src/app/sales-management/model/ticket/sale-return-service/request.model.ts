@@ -4,6 +4,7 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     email_nhan_key = '';
     so_dh = '';
     t_con_no = 0;
+    t_da_tra = 0;
     tien_dat_coc = 0;
     constructor(obj?: any) {
         super();

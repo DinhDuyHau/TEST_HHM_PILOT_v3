@@ -180,8 +180,8 @@ export class ServiceOfMerchandiseService {
             serviceNew.thanh_tien = e.thanh_tien;
             serviceNew.thue = e.tien_thue;
             serviceNew.tong_tien = e.tong_tien;
-            serviceNew.gia2 = e.gia_tra_lai || e.gia2;
-            serviceNew.gia_nt2 = e.gia_tra_lai || e.gia2;
+            serviceNew.gia2 = e.gia_tra_lai;
+            serviceNew.gia_nt2 = e.gia_tra_lai;
             serviceNew.vt_ton_kho = e.vt_ton_kho;
             serviceNew.tien_giam = e.tien_giam;
             serviceNew.tl_giam = e.tl_giam;

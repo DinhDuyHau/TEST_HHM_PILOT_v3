@@ -146,27 +146,23 @@ export class StockShopCheckComponent {
   // #region master info
   openInventorySearchDialog() {
     let data = this.stocks.filter(e => e.ma_cuahang === this.ticket.masterInfo.ma_cuahang);
-    let ma_loai = this.ma_loai;
-    if (this.ma_loai === "HH") {
-      ma_loai === "HD";
-    }
-    else if (this.ma_loai === "HL") {
-      ma_loai === "BH";
-    }
-    else if (this.ma_loai === "BH") {
-      ma_loai === "HL";
-    }
+    // let ma_loai = this.ma_loai;
+    // if (this.ma_loai === "HH") {
+    //   ma_loai === "HD";
+    // }
+    // else if (this.ma_loai === "HL") {
+    //   ma_loai === "BH";
+    // }
+    // else if (this.ma_loai === "BH") {
+    //   ma_loai === "HL";
+    // }
 
-    const filter = [{
-      name: 'ma_loai',
-      operator: "=",
-      value: ma_loai
-    },
-    {
-      name: 'ma_cuahang',
-      operator: "=",
-      value: this.ticket.masterInfo.ma_cuahang
-    }
+    const filter = [
+      {
+        name: 'ma_cuahang',
+        operator: "=",
+        value: this.ticket.masterInfo.ma_cuahang
+      }
     ]
 
     this.commonService.openDialog(SearchDialogComponent, { filter, componentName: SEARCH_COMPONENT_NAME.STOCK_INFO })
@@ -316,6 +312,10 @@ export class StockShopCheckComponent {
       this.commonService.showMessage(message);
     } else if (!this.invalid && !message) {
       const voucherDto = this.stockShopCheckService.prepareVoucher();
+
+      console.log(voucherDto);
+      return;
+
       this.route.queryParams.subscribe((data: any) => {
         this.isDisabled = true;
         if (this.mode === MODE.UPDATE && !this.isSaving) {

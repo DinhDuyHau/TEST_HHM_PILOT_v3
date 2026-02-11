@@ -23,7 +23,7 @@ import { ServiceOrderComponent } from '@app/sales-management/component/merchandi
 import { PaymentService } from '../common/payment.service';
 import { ServiceApiService } from '@app/sales-management/api/service-api.service';
 
-const { SALE_SERVICE_LIST } = require('@assets/fields/grid/sales-fields-table.json');
+const { SALE_SERVICE_RETURN_LIST } = require('@assets/fields/grid/sales-fields-table.json');
 
 @Component({
   selector: 'app-sale-return-service',
@@ -39,7 +39,7 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
   discountCanApply: Discount[] = [];
   uploadImageSuccess = false;
   uploading = true;
-  serviceColumns = SALE_SERVICE_LIST;
+  serviceColumns = SALE_SERVICE_RETURN_LIST;
   mode!: number;
   submitButtonTitle!: string;
   cancelButtonTitle!: string;
@@ -232,6 +232,9 @@ export class SaleReturnServiceComponent implements OnInit, AfterViewInit {
           // **Thêm các dịch vụ mới**
           this.serviceOfMerchandiseService.convertReturnServiceFromVoucher(orders, this.ticket.service, Service);
           this.saleReturnServiceService.calcMoney();
+
+          //tính lại số tiền còn nợ
+          this.ticket.masterInfo.t_con_no = Math.abs(this.ticket.masterInfo.t_tt_nt - this.ticket.masterInfo.t_da_tra);
         }
       });
     });
