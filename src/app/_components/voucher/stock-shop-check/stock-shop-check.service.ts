@@ -68,7 +68,7 @@ export class StockShopCheckService {
         const userJson = localStorage.getItem('user');
         const userObj = userJson !== null && JSON.parse(userJson);
         ticket.masterInfo.ma_nvkk01 = userObj.username;
-        this.customerApiService.getOneById('GEN').subscribe(res => {
+        this.customerApiService.getOneById(ticket.masterInfo.ma_nvkk01).subscribe(res => {
             if (res.success) {
                 ticket.masterInfo.ten_nvkk01 = res.result[0]?.ma_kh;
             }
@@ -127,7 +127,7 @@ export class StockShopCheckService {
     }
 
     isInvalidForm(masterInfo: MasterInfo) {
-        if (!masterInfo.ma_kho || !masterInfo.ma_nvkk01 || !masterInfo.ma_nvkk02 || !masterInfo.ma_nvkk03) {
+        if (!masterInfo.ma_nvkk01 || !masterInfo.ma_nvkk02 || !masterInfo.ma_nvkk03) {
             return true;
         }
         return false;

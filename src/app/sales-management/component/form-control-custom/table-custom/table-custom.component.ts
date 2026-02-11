@@ -275,6 +275,26 @@ export class TableCustomComponent implements
     }
   }
 
+  selectRowByImei(ma_imei: string) {
+    this.dataSource = this.dataSource.map(item => ({
+      ...item,
+      selectedRow: item.ma_imei === ma_imei
+    }));
+
+    const selectedRow = this.rowRefs?.toArray().find((ref: ElementRef, index: number) => {
+      return this.dataSource[index]?.selectedRow;
+    });
+
+    if (selectedRow) {
+      selectedRow.nativeElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+  }
+
+
+
   onDeleteItem(item: any) {
     this.commonService.openDialog(DialogConfirmComponent).afterClosed().subscribe(result => {
       if (result) {

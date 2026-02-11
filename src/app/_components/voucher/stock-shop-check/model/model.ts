@@ -10,7 +10,8 @@ export class StockShopCheckTicket {
 export type TicketList = BaseTicket;
 
 export const TAB_NAME = {
-    MERCHANDISE: 'ctkk',
+    // MERCHANDISE: 'ctkk',
+    MERCHANDISE: 'd535',
 };
 
 export class MasterInfo extends BaseMasterInfo {
@@ -31,6 +32,15 @@ export class MasterInfo extends BaseMasterInfo {
     ma_nvkk03 = '';
     ten_nvkk03 = '';
     ngay_lct = '';
+    ma_gd = '';
+    ten_gd = '';
+    nh_vt1 = '';
+    nh_vt2 = '';
+    nh_vt3 = '';
+    nh_vt4 = '';
+    ma_vt = '';
+    ten_vt = '';
+
 
     constructor(obj?: any) {
         super();
@@ -46,6 +56,13 @@ export class Merchandise extends BaseMerchandise {
     no_km_yn?: boolean = false;
     tien_kmqd = 0;
     imei_mua = '';
+    nguon_kk = '0';
+    ten_nguon_kk = '';
+    ma_imei_tt = '';
+    so_luong_tt = 0;
+    kq_kk = '1';
+    ten_kq_kk = '';
+    ghi_chu = '';
 
     constructor(obj?: any) {
         super();

@@ -59,6 +59,10 @@ const GET_VERSION_APP = `${environment.apiUrl}/service/get_version_app`;
 const GET_LOOKUP_VOUCHER_URL = `${environment.apiUrl}/Voucher/getlookup`;
 const GET_DATE = `${environment.apiUrl}/option/getdate`;
 const GET_FTCODE_QRPAYMENT = `${environment.apiUrl}/qrpayment/getftcodebycustomer`;
+const GET_STOCKTAKING_TRANSACTION_TYPE = `${environment.apiUrl}/category/find/dmloaigdkk`;
+const GET_ITEM_GROUP = `${environment.apiUrl}/category/find/dmnhvt`;
+
+const GET_STOCK_BALANCE = `${environment.apiUrl}/report/rptStockBalanceImeiByRow`
 
 @Injectable({
     providedIn: 'root'
@@ -311,7 +315,6 @@ export class TicketApiService extends ApiService {
     findStocks(body: any, page_index: number, page_size: number): Observable<Result<any>> {
         return this.post<Result<any>>(GET_STOCK_BY_SHOP, body, { page_index, page_size });
     }
-
     findFTCode(ma_kh: string, filter: any, page_index: number, page_size: number): Observable<Result<any>> {
         const body: any = { ma_kh: ma_kh, filter: filter };
         return this.post<Result<any>>(GET_FTCODE_QRPAYMENT, body, { page_index, page_size });
@@ -415,4 +418,17 @@ export class TicketApiService extends ApiService {
         const url = GET_DATE;
         return this.get<ResultNoPaging<any>>(url);
     }
+
+    getStocktakingTransactionType(body: any, page_index: number, page_size: number): Observable<Result<any>> {
+        return this.post<Result<any>>(GET_STOCKTAKING_TRANSACTION_TYPE, body, { page_index, page_size });
+    }
+
+    getItemGroup(body: any, page_index: number, page_size: number): Observable<Result<any>> {
+        return this.post<Result<any>>(GET_ITEM_GROUP, body, { page_index, page_size });
+    }
+
+    getStockBalance(body: any): Observable<Result<any>> {
+        return this.post<Result<any>>(GET_STOCK_BALANCE, body);
+    }
+
 }

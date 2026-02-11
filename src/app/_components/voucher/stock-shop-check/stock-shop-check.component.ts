@@ -7,6 +7,8 @@ import { ScanQrcodeComponent } from '@app/_components/scan-qrcode/scan-qrcode.co
 import { StatusTicket } from '@app/_models';
 import { IMEIService } from '@app/_services/imei.service';
 import { TicketApiService } from '@app/sales-management/api/ticket-api.service';
+import { MerchandiseApiService } from '@app/sales-management/api/merchandise-api.service';
+import { CustomerApiService } from '@app/sales-management/api/customer-api.service';
 import { SearchDialogComponent, SEARCH_COMPONENT_NAME } from '@app/sales-management/component/search/serach-dialog.component';
 import { VoucherDto } from '@app/sales-management/model/ticket/common-model/voucher.dto.model';
 import { CommonService } from '@app/sales-management/page/common/common.service';
@@ -17,6 +19,8 @@ import { ImportImeiComponent, ImportImeiTypeEnum } from '../stock-transfer/impor
 import { STOCK_SHOP_CHECK_TICKET_ENTITY, STOCK_SHOP_CHECK_TICKET_CODE, STATUS } from './model/constants';
 import { StockShopCheckService } from './stock-shop-check.service';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
+import { ViewChild } from '@angular/core';
+import { TableCustomComponent } from '@app/sales-management/component/form-control-custom/table-custom/table-custom.component';
 
 const {
   MERCHANDISE_LIST
@@ -28,6 +32,7 @@ const {
   styleUrls: ['./stock-shop-check.component.scss']
 })
 export class StockShopCheckComponent {
+  @ViewChild(TableCustomComponent) tableCustom!: TableCustomComponent;
   ticket: StockShopCheckTicket = new StockShopCheckTicket;
   statusList: StatusTicket[] = [];
   dataFormat = dataFormat;
@@ -38,6 +43,9 @@ export class StockShopCheckComponent {
   cancelButtonTitle!: string;
   readonly = false;
   isDisabled = false;
+  isStockCheckDisabled = false;
+  isItemInfoDisabled = false;
+  isSaveAuto = false;
   invalid = false;
   isSaving = false;
   tabIndex = {
@@ -72,6 +80,8 @@ export class StockShopCheckComponent {
     private stockShopCheckService: StockShopCheckService,
     public dialog: MatDialog,
     private ticketApiService: TicketApiService,
+    private merchandiseApiService: MerchandiseApiService,
+    private customerApiService: CustomerApiService,
     private commonService: CommonService,
     private merchandiseService: MerchandiseService,
     private imeiService: IMEIService
@@ -109,6 +119,7 @@ export class StockShopCheckComponent {
             this.title = Language.content.view;
             this.mode = MODE.VIEW;
             this.readonly = true;
+            this.isStockCheckDisabled = true;
             this.cancelButtonTitle = Language.content.exit;
             break;
         }
@@ -120,6 +131,18 @@ export class StockShopCheckComponent {
         this.statusList = result.result.items as StatusTicket[];
       });
     };
+
+
+
+    if (this.mode == MODE.CREATE) {
+      this.ticketApiService.getStocktakingTransactionType([{ Name: 'ma_gd', Operator: '=', Value: '01' }], 1, 1).subscribe(result => {
+        if (result.success && result.result?.items[0]) {
+          const _stocktakingTransactionType = result?.result?.items[0];
+          this.ticket.masterInfo.ma_gd = _stocktakingTransactionType?.ma_gd;
+          this.ticket.masterInfo.ten_gd = _stocktakingTransactionType?.ten_gd;
+        }
+      });
+    }
 
     this.route.queryParams.pipe().subscribe((data: any) => {
       if (data.key) {
@@ -145,59 +168,41 @@ export class StockShopCheckComponent {
 
   // #region master info
   openInventorySearchDialog() {
-    let data = this.stocks.filter(e => e.ma_cuahang === this.ticket.masterInfo.ma_cuahang);
-    let ma_loai = this.ma_loai;
-    if (this.ma_loai === "HH") {
-      ma_loai === "HD";
-    }
-    else if (this.ma_loai === "HL") {
-      ma_loai === "BH";
-    }
-    else if (this.ma_loai === "BH") {
-      ma_loai === "HL";
-    }
-
-    const filter = [{
-      name: 'ma_loai',
-      operator: "=",
-      value: ma_loai
-    },
-    {
-      name: 'ma_cuahang',
-      operator: "=",
-      value: this.ticket.masterInfo.ma_cuahang
-    }
-    ]
-
-    this.commonService.openDialog(SearchDialogComponent, { filter, componentName: SEARCH_COMPONENT_NAME.STOCK_INFO })
+    this.commonService.openDialog(SearchDialogComponent, { componentName: SEARCH_COMPONENT_NAME.STOCKTAKING_TRANSACTION_TYPE })
       .afterClosed().subscribe(result => {
-        this.ticket.masterInfo.ma_kho = result?.ma_kho;
-        this.ticket.masterInfo.ten_kho = result?.ten_kho;
+        this.ticket.masterInfo.ma_gd = result?.ma_gd;
+        this.ticket.masterInfo.ten_gd = result?.ten_gd;
+
+        if (this.ticket.masterInfo.ma_gd == '02') {
+          this.isItemInfoDisabled = true;
+          this.ticket.masterInfo.nh_vt1 = '';
+          this.ticket.masterInfo.nh_vt2 = '';
+          this.ticket.masterInfo.nh_vt3 = '';
+          this.ticket.masterInfo.nh_vt4 = '';
+          this.ticket.masterInfo.ma_vt = '';
+          this.ticket.masterInfo.ten_vt = '';
+        }
+        else { this.isItemInfoDisabled = false; }
       });
   }
 
   onChangeValueInventoryCode(event: any) {
-    const stockInFilter = [
+    const stocktakingTransactionTypeFilter = [
       {
-        name: 'ma_kho',
+        name: 'ma_gd',
         operator: "=",
         value: (event as string).trim()
-      },
-      {
-        name: 'ma_cuahang',
-        operator: "=",
-        value: this.ticket.masterInfo.ma_cuahang
       }
     ]
 
-    this.ticketApiService.findStocks(stockInFilter, 1, 1).subscribe(result => {
+    this.ticketApiService.getStocktakingTransactionType(stocktakingTransactionTypeFilter, 1, 1).subscribe(result => {
       if (result.success && result.result?.items[0]) {
-        const _stock = result?.result?.items[0];
-        this.ticket.masterInfo.ma_kho = _stock?.ma_kho;
-        this.ticket.masterInfo.ten_kho = _stock?.ten_kho;
+        const _stocktakingTransactionType = result?.result?.items[0];
+        this.ticket.masterInfo.ma_gd = _stocktakingTransactionType?.ma_gd;
+        this.ticket.masterInfo.ten_gd = _stocktakingTransactionType?.ten_gd;
       }
       else {
-        this.commonService.showMessage("Không tìm thấy kho " + event)
+        this.commonService.showMessage("Không tìm thấy loại giao dịch kiểm kê " + event)
       }
     })
   }
@@ -215,44 +220,207 @@ export class StockShopCheckComponent {
         }
       });
   }
+
+  openItemListDialog(nh_vt1?: string, nh_vt2?: string, nh_vt3?: string) {
+    const filter = [
+      nh_vt1 && { name: 'nh_vt1', operator: '=', value: nh_vt1 },
+      nh_vt2 && { name: 'nh_vt2', operator: '=', value: nh_vt2 },
+      nh_vt3 && { name: 'nh_vt3', operator: '=', value: nh_vt3 },
+    ].filter(Boolean);
+
+    this.commonService.openDialog(SearchDialogComponent, { filter, componentName: SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE })
+      .afterClosed().subscribe(result => {
+        this.ticket.masterInfo.ma_vt = result?.ma_vt;
+        this.ticket.masterInfo.ten_vt = result?.ten_vt;
+      });
+  }
+  openItemGroupSearchDialog(type: number) {
+    this.commonService.openDialog(SearchDialogComponent, { keyword: type || '', componentName: SEARCH_COMPONENT_NAME.ITEM_GROUP })
+      .afterClosed().subscribe(result => {
+        if (!result?.ma_nh) return;
+
+        switch (type) {
+          case 1:
+            this.ticket.masterInfo.nh_vt1 = result.ma_nh;
+            break;
+          case 2:
+            this.ticket.masterInfo.nh_vt2 = result.ma_nh;
+            break;
+          case 3:
+            this.ticket.masterInfo.nh_vt3 = result.ma_nh;
+            break;
+          case 4:
+            this.ticket.masterInfo.nh_vt4 = result.ma_nh;
+            break;
+        }
+      });
+  }
+
+  onChangeItemGroup(event: any, group: number) {
+    switch (group) {
+      case 1:
+        this.ticket.masterInfo.nh_vt1 = event;
+        break;
+      case 2:
+        this.ticket.masterInfo.nh_vt2 = event;
+        break;
+      case 3:
+        this.ticket.masterInfo.nh_vt3 = event;
+        break;
+      case 4:
+        this.ticket.masterInfo.nh_vt4 = event;
+        break;
+    }
+  }
+
+  onChangeItem(event: any) {
+    this.ticket.masterInfo.ma_vt = event;
+  }
+  onEnterItemCode(event: any) {
+    this.merchandiseApiService.getMany([{ Name: 'ma_vt', Operator: '=', Value: event }]).subscribe(result => {
+      if (result.success && result.result?.items[0]) {
+        this.ticket.masterInfo.ma_vt = result.result?.items[0].ma_vt;
+        this.ticket.masterInfo.ten_vt = result.result?.items[0].ten_vt;
+      }
+    });
+  }
+
+  onClickCheckInventory() {
+    if (this.ticket.merchandise && this.ticket.merchandise.length > 0) {
+      const isContinue = confirm("Thông tin hàng hóa sẽ bị xóa. Bạn có muốn tiếp tục không?");
+      if (isContinue)
+        this.ticket.merchandise = []
+      else
+        return
+    }
+    if (!this.ticket.masterInfo.ma_gd) {
+      this.commonService.showMessage("Mã giao dịch không được để trống.");
+      return;
+    }
+    else {
+      this.isSaving = true;
+
+      const body: any = {
+        tu_ngay: "2025-03-01",
+        den_ngay: new Date(this.ticket.masterInfo.ngay_ct),
+        ma_cuahang: this.ticket.masterInfo.ma_cuahang,
+        ma_vt: this.ticket.masterInfo.ma_vt,
+        nh_vt1: this.ticket.masterInfo.nh_vt1,
+        nh_vt2: this.ticket.masterInfo.nh_vt2,
+        nh_vt3: this.ticket.masterInfo.nh_vt3,
+        nh_vt4: this.ticket.masterInfo.nh_vt4,
+        reset: true,
+        page_index: 1,
+        page_size: 500000
+      };
+
+      this.ticketApiService.getStockBalance(body).subscribe(res => {
+        if (res) {
+          this.ticket.masterInfo.t_so_luong = res.result.recordCount - 1;
+          this.ticket.merchandise = res.result.items
+            .filter((item: any) => item.sysorder == 5) // lọc sysorder = 5
+            .map((item: any) => ({
+              ...item,
+              line_nbr: item.stt,          // số thứ tự
+              ma_kho: item.ma_kho,         // mã kho
+              nguon_kk: '0',               // thêm trường mới
+              ten_nguon_kk: 'Đổ tồn',      // tên nguồn kiểm kê
+              ma_vt: item.ma_vt,           // mã vật tư
+              ten_vt: item.ten_vt,         // tên vật tư
+              dvt: item.dvt,               // đơn vị tính
+              so_luong: item.so_luong,     // số lượng
+              ma_imei: item.ma_imei,       // mã imei
+              ma_imei_tt: '',              // imei thực tế (chưa nhập)
+              so_luong_tt: 0,              // số lượng thực tế (mặc định 0)
+              kq_kk: '1',                  // thêm trường mới
+              ten_kq_kk: 'Thiếu',          // tên kết quả kiểm kê
+              ghi_chu: ''                  // ghi chú
+            }));
+          this.isSaveAuto = true;
+          this.onSave()
+          this.mode = MODE.UPDATE
+        }
+        else {
+          this.commonService.showMessage("Không tìm thấy dữ liệu tồn kho.");
+          return;
+        }
+      });
+    }
+  }
+
   // #endregion master info
 
   // #region imei
   handleAddImei(merchandiseResponse: any) {
-    const isExistImei = this.ticket.merchandise.find(e => e.ma_imei?.includes(merchandiseResponse.ma_imei))
+    const isExistImei = this.ticket.merchandise.find(e => e.ma_imei_tt?.includes(merchandiseResponse.ma_imei))
     if (isExistImei) {
       this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: merchandiseResponse.ma_imei });
       return;
     }
 
-    const merchandise = this.ticket.merchandise.find(e => e.ma_vt === merchandiseResponse.ma_vt);
+    const merchandise = this.ticket.merchandise.find(e => e.ma_imei === merchandiseResponse.ma_imei);
     if (merchandise) {
-      merchandise.ma_imei += `,${merchandiseResponse.ma_imei}`;
-      merchandise.so_luong = merchandise.ma_imei.split(",").length;
+      merchandise.ma_imei_tt = `${merchandiseResponse.ma_imei}`;
+      merchandise.so_luong_tt = 1;
+      merchandise.kq_kk = '0';
+      merchandise.ten_kq_kk = 'Đủ'
     }
     else {
-      this.merchandiseService.addNew(merchandiseResponse, this.ticket.merchandise, Merchandise);
-    }
-  }
-
-  onEnterImeiCode(ma_imei: string) {
-    this.imeiService.getListImeiInfo([ma_imei], this.ticket.masterInfo.ma_kho).subscribe((result) => {
-      if (result.success && result.result.length) {
-        result.result.map(merchandise => {
-          this.handleAddImei(merchandise);
+      // Nếu chưa có thì thêm mới 
+      this.ticket.merchandise.push(
+        new Merchandise({
+          ma_vt: merchandiseResponse.ma_vt,
+          ten_vt: merchandiseResponse.ten_vt,
+          dvt: merchandiseResponse.dvt,
+          ma_imei: merchandiseResponse.ma_imei,
+          ma_imei_tt: merchandiseResponse.ma_imei,
+          so_luong_tt: 1,
+          kq_kk: '2',
+          ten_kq_kk: 'Thừa'
+          // các trường khác sẽ lấy giá trị mặc định từ class
         })
-      }
-      else {
-        this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: ma_imei });
-      }
-    })
-    this.commonService.focusControl(this.tabIndex.imei);
+      );
+    }
+
   }
 
   onClickCodeScanner() {
     this.commonService.openDialog(ScanQrcodeComponent, {}, '', true, '100').afterClosed().subscribe(result => {
       result && this.onEnterImeiCode(result);
     });
+  }
+  onEnterImeiCode(ma_imei_tt: string) {
+    this.imeiService.getListImeiInfo([ma_imei_tt], this.ticket.masterInfo.ma_kho).subscribe((result) => {
+      if (result.success && result.result.length) {
+        result.result.map(merchandise => {
+          this.handleAddImei(merchandise);
+
+          // gọi hàm có sẵn trong TableCustomComponent
+          this.tableCustom.selectRowByImei(merchandise.ma_imei);
+        });
+      } else {
+        this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: ma_imei_tt });
+      }
+    });
+
+    this.commonService.focusControl(this.tabIndex.imei);
+  }
+
+  onEnterImeiCode2(ma_imei_xuat: string) {
+    const foundItem = this.ticket.merchandise.find(
+      (item: any) => item.ma_imei === ma_imei_xuat
+    );
+
+    if (!foundItem) {
+      this.commonService.showMessage("Không tìm thấy dữ liệu trong danh sách kiểm kê.");
+    } else {
+      // Cập nhật bản ghi
+      foundItem.ma_imei_tt = ma_imei_xuat;
+      foundItem.so_luong_tt = 1;
+      foundItem.kq_kk = '0';
+      foundItem.ten_kq_kk = 'Đủ';
+      foundItem.ghi_chu = "Xuất trong lúc kiểm kê";
+    }
   }
 
   onOpenInputImeiModal(event?: { item: any }) {
@@ -303,7 +471,7 @@ export class StockShopCheckComponent {
   // Submit
   onSave() {
     const message = this.stockShopCheckService.validateTicket(this.ticket);
-    this.invalid = this.stockShopCheckService.isInvalidForm(this.ticket.masterInfo);
+    //this.invalid = this.stockShopCheckService.isInvalidForm(this.ticket.masterInfo);
 
     //check valid các trường số lượng và tiền trong grid hàng hóa và dịch vụ
     if (!this.stockShopCheckService.isInvalidMerchandise(this.ticket.merchandise)) {
@@ -311,37 +479,33 @@ export class StockShopCheckComponent {
       return;
     }
 
-    this.invalid && this.commonService.showMessage(Language.content.Missing_information);
+    // this.invalid && this.commonService.showMessage(Language.content.Missing_information);
     if (message) {
       this.commonService.showMessage(message);
     } else if (!this.invalid && !message) {
       const voucherDto = this.stockShopCheckService.prepareVoucher();
       this.route.queryParams.subscribe((data: any) => {
         this.isDisabled = true;
-        if (this.mode === MODE.UPDATE && !this.isSaving) {
+        if (this.mode === MODE.UPDATE) {
           this.isSaving = true;
+          if (!this.ticket.masterInfo) {
+
+          }
           this.ticketApiService.updateVoucher(STOCK_SHOP_CHECK_TICKET_ENTITY, voucherDto).subscribe(result => {
             this.isSaving = false;
             this.isDisabled = false;
             if (result.success) {
               this.commonService.showMessage(Language.content.Update_Completed);
-              // if (this.ticket.masterInfo.status == '2') {
-              //   this.commonService.sendEmailService(this.ticket.masterInfo.stt_rec).subscribe((res) => {
-              //     if (res.success) {
-              //       this.commonService.showMessageByName(res.message);
-              //     }
-              //     this.router.navigate(['voucher/stock-tranfer-from-shop']);
-              //   });
-              // }
-              // else {
-              //   this.router.navigate(['voucher/stock-tranfer-from-shop']);
-              // }
-              this.router.navigate(['voucher/stock-tranfer-from-shop']);
+              if (!this.isSaveAuto)
+                this.router.navigate(['voucher/stock-shop-check']);
+              this.isSaveAuto = false;
             } else {
-              this.commonService.handleResponseErrorVoucher(result, 'voucher/stock-tranfer-from-shop');
+              if (!this.isSaveAuto)
+                this.commonService.handleResponseErrorVoucher(result, 'voucher/stock-shop-check');
+              this.isSaveAuto = false;
             }
           });
-        } else if (this.mode === MODE.CREATE && !this.isSaving) {
+        } else if (this.mode === MODE.CREATE) {
           this.isSaving = true;
           this.isDisabled = true;
           this.ticketApiService.addNewVoucher(STOCK_SHOP_CHECK_TICKET_ENTITY, voucherDto).subscribe(result => {
@@ -349,9 +513,13 @@ export class StockShopCheckComponent {
             this.isDisabled = false;
             if (result.success) {
               this.commonService.showMessage(Language.content.Successful_Create);
-              this.router.navigate(['voucher/stock-tranfer-from-shop']);
+              if (!this.isSaveAuto)
+                this.router.navigate(['voucher/stock-shop-check']);
+              this.isSaveAuto = false;
             } else {
-              this.commonService.handleResponseErrorVoucher(result, 'voucher/stock-tranfer-from-shop');
+              if (!this.isSaveAuto)
+                this.commonService.handleResponseErrorVoucher(result, 'voucher/stock-shop-check');
+              this.isSaveAuto = false;
             }
           });
         }

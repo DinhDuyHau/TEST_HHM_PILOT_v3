@@ -40,8 +40,17 @@
     "MERCHANDISE_LIST": [
         {
             "name": "line_nbr",
-            "title": "Stt",
+            "title": "STT",
             "align": "center"
+        },
+        {
+            "name": "ma_kho",
+            "title": "Mã kho",
+            "align": "center"
+        },
+        {
+            "name": "ten_nguon_kk",
+            "title": "Nguồn gốc"
         },
         {
             "name": "ma_vt",
@@ -49,21 +58,39 @@
         },
         {
             "name": "ten_vt",
-            "title": "Tên vật tư"
+            "title": "Tên vật tư",
+            "width": "300px"
         },
         {
             "name": "dvt",
-            "title": "Đơn vị tính",
+            "title": "Đvt",
             "align": "center"
         },
         {
             "name": "so_luong",
-            "title": "Số lượng",
+            "title": "Số lượng (HT)",
+            "format": "moneyViewNoDigit",
             "align": "center"
         },
         {
             "name": "ma_imei",
-            "title": "Mã imei"
+            "title": "Mã imei (HT)",
+            "align": "center"
+        },
+        {
+            "name": "ma_imei_tt",
+            "title": "Mã imei (TT)",
+            "align": "center"
+        },
+        {
+            "name": "so_luong_tt",
+            "title": "Số lượng (TT)",
+            "format": "moneyViewNoDigit",
+            "align": "center"
+        },
+        {
+            "name": "ten_kq_kk",
+            "title": "Kết quả"
         },
         {
             "name": "ghi_chu",
