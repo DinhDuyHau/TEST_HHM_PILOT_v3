@@ -620,7 +620,7 @@ export class RetailComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if (!ma_imei || ma_imei.length < 5) {
+    if (!ma_imei || ma_imei.length < 4) {
       this.commonService.showMessage('Imei cần ít nhất 5 ký tự để tìm kiếm');
       return;
     }
@@ -903,8 +903,8 @@ export class RetailComponent implements OnInit, AfterViewInit {
     */
     //sửa lại cách lấy ngày chứng từ => cách lấy trên vẫn bị bug trừ lùi 7h do múi giờ
     let ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
-    const vc_date = formatDate(ngay_ct, 'yyyy/MM/dd', 'en_US');
-    let dateObj = new Date(`${vc_date}Z`);
+    const vc_date = formatDate(ngay_ct, 'yyyy/MM/dd', 'en_US').replaceAll('/', '-');
+    let dateObj = new Date(`${vc_date}T00:00:00Z`);
 
     const relatedDiscounts = this.ticket.discount.filter(d => d.ma_imei === event.item.ma_imei);
     const matchedVoucher = relatedDiscounts
@@ -1348,10 +1348,10 @@ export class RetailComponent implements OnInit, AfterViewInit {
     const ma_vt = merchandiseResponse.ma_vt ? merchandiseResponse.ma_vt.trim() : '';
 
     //xử lý format lại ngay_ct để tránh bị bug lệch múi giờ
-    const vc_date = formatDate(ngay_ct, 'yyyy/MM/dd', 'en_US');
-    ngay_ct = new Date(`${vc_date}Z`);
+    const vc_date = formatDate(ngay_ct, 'yyyy/MM/dd', 'en_US').replaceAll('/', '-');
+    let dateObj = new Date(`${vc_date}T00:00:00Z`);
 
-    this.imeiApiService.getDiscountRankCustomer(ma_kh, ma_hang, ngay_ct, ma_imei, ma_vt, TICKET_CODE.RETAIL).subscribe((res: any) => {
+    this.imeiApiService.getDiscountRankCustomer(ma_kh, ma_hang, dateObj, ma_imei, ma_vt, TICKET_CODE.RETAIL).subscribe((res: any) => {
       if (res.success && res.result) {
         const discount = res.result[0] as any;
         // add vào tab ck

@@ -903,7 +903,8 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
         const imei_ban = sale_item.ma_imei.trim();
         const ma_kho_nhap = sale_item.ma_kho_nhap;
         if (imei_ban && imei_ban !== '' && ma_kho_nhap && ma_kho_nhap !== '') {
-          this.ticket.merchandise_used.find(x => x.gc_td1.trim() === imei_ban)!.ma_kho = ma_kho_nhap;
+          this.ticket.merchandise_used.find(x =>
+            x.gc_td1.trim().toUpperCase() === imei_ban.toUpperCase())!.ma_kho = ma_kho_nhap;
         }
 
       } else {
@@ -1408,8 +1409,8 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
 
           // const ngay_ct = new Date(`${this.ticket.masterInfo.ngay_ct}Z`);
           let ngay_ct = new Date(this.ticket.masterInfo.ngay_ct);
-          const vc_date = formatDate(ngay_ct, 'yyyy/MM/dd', 'en_US');
-          ngay_ct = new Date(`${vc_date}Z`);
+          const vc_date = formatDate(ngay_ct, 'yyyy/MM/dd', 'en_US').replaceAll('/', '-');
+          ngay_ct = new Date(`${vc_date}T00:00:00Z`);
 
           this.saleRenewService.adjustBuyPrice(ngay_ct, this.ticket.masterInfo.ma_ncc, res, sale_item!)?.pipe().subscribe(result => {
             if (result && result.success && result.result) {
@@ -1546,8 +1547,8 @@ export class SaleRenewComponent implements OnInit, AfterViewInit {
     const ma_vt = merchandiseResponse.ma_vt ? merchandiseResponse.ma_vt.trim() : '';
 
     //xử lý format lại ngay_ct để tránh bị bug lệch múi giờ
-    const vc_date = formatDate(ngay_ct, 'yyyy/MM/dd', 'en_US');
-    ngay_ct = new Date(`${vc_date}Z`);
+    const vc_date = formatDate(ngay_ct, 'yyyy/MM/dd', 'en_US').replaceAll('/', '-');
+    ngay_ct = new Date(`${vc_date}T00:00:00Z`);
 
     this.imeiApiService.getDiscountRankCustomer(ma_kh, ma_hang, ngay_ct, ma_imei, ma_vt, TICKET_CODE.RENEW).subscribe((res: any) => {
       if (res.success && res.result) {
