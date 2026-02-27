@@ -33,6 +33,21 @@
             "title": "Diễn giải"
         },
         {
+            "name": "ten_gd",
+            "title": "Loại kiểm"
+        },
+        {
+            "name": "datetime0",
+            "title": "Giờ đổ tồn",
+            "dataType": "time",
+            "format": "datetimeFormat"
+        },
+        {
+            "name": "duration",
+            "title": "Thời gian kiểm",
+            "dataType": "duration"
+        },
+        {
             "name": "comment",
             "title": "Người lập"
         }

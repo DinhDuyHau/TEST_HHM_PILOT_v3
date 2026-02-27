@@ -552,6 +552,24 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
           }
 
           this.dataSource = voucherData.map((voucherRecord: any) => {
+            if (voucherRecord.datetime0 && voucherRecord.datetime2) {
+
+              const start = new Date(voucherRecord.datetime0).getTime();
+              const end = new Date(voucherRecord.datetime2).getTime();
+
+              const diff = end - start;
+
+              if (diff > 0) {
+                const totalMinutes = Math.floor(diff / 60000);
+                const hours = Math.floor(totalMinutes / 60);
+                const minutes = totalMinutes % 60;
+
+                return {
+                  ...voucherRecord,
+                  duration: `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`
+                };
+              }
+            }
             this.processTypeTransaction(voucherRecord);
             this.sanitizeRecord(voucherRecord);
             this.processPayments(voucherRecord, paymentMethodData);

@@ -338,7 +338,7 @@ export class StockShopCheckComponent {
             }));
           this.isSaveAuto = true;
           this.onSave()
-          this.mode = MODE.UPDATE
+
         }
         else {
           this.commonService.showMessage("Không tìm thấy dữ liệu tồn kho.");
@@ -375,6 +375,8 @@ export class StockShopCheckComponent {
           ma_imei: merchandiseResponse.ma_imei,
           ma_imei_tt: merchandiseResponse.ma_imei,
           so_luong_tt: 1,
+          nguon_kk: '1',
+          ten_nguon_kk: "Nhập trong lúc kiểm",
           kq_kk: '2',
           ten_kq_kk: 'Thừa'
           // các trường khác sẽ lấy giá trị mặc định từ class
@@ -484,10 +486,6 @@ export class StockShopCheckComponent {
       this.commonService.showMessage(message);
     } else if (!this.invalid && !message) {
       const voucherDto = this.stockShopCheckService.prepareVoucher();
-
-      console.log(voucherDto);
-      return;
-
       this.route.queryParams.subscribe((data: any) => {
         this.isDisabled = true;
         if (this.mode === MODE.UPDATE) {
@@ -519,7 +517,12 @@ export class StockShopCheckComponent {
               this.commonService.showMessage(Language.content.Successful_Create);
               if (!this.isSaveAuto)
                 this.router.navigate(['voucher/stock-shop-check']);
-              this.isSaveAuto = false;
+              else {
+                const queryParams = {} as any;
+                queryParams.key = (result.result as any).stt_rec;
+                this.router.navigate(['voucher/stock-shop-check/update'], { queryParams });
+                this.isSaveAuto = false;
+              }
             } else {
               if (!this.isSaveAuto)
                 this.commonService.handleResponseErrorVoucher(result, 'voucher/stock-shop-check');

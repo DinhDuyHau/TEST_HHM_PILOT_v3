@@ -187,6 +187,21 @@ export class DataFormatPipe implements PipeTransform {
         return formatDate(value, dataFormatString, 'en_US');
       }
     }
+    else if (type === 'time') {
+      if (!value || value === '') return '';
+      // Nếu backend trả ISO: 2026-02-27T14:35:12
+      if (typeof value === 'string' && value.includes('T')) {
+        return value.substring(11, 16); // HH:mm
+      }
+
+      // Nếu backend trả dạng HH:mm:ss
+      if (typeof value === 'string' && value.length >= 5) {
+        return value.substring(0, 5);
+      }
+
+      // Nếu là Date object
+      return formatDate(value, 'HH:mm', 'en_US');
+    }
     else if (type === 'mask') {
       if (!value || value === '') return '';
       const strValue = value.toString().trim();

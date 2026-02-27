@@ -488,6 +488,9 @@ export class TableCustomComponent implements
   }
 
   showDeleteButton(record: any) {
+    if (record?.nguon_kk == '0') {
+      return false;
+    }
     if (this.handleDelete.observers.length === 0) {
       return false;
     }
