@@ -51,6 +51,10 @@ export class MasterInfoRequest extends BaseMasterInfoRequest {
     nh_vt2 = '';
     nh_vt3 = '';
     nh_vt4 = '';
+    t_sl_thuc_te = 0;
+    t_chenh_lech = 0;
+    loai_gd_n = '';
+    so_ct_pn = '';
 
     constructor(obj?: any) {
         super();

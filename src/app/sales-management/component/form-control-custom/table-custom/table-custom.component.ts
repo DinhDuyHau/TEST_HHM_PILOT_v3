@@ -450,6 +450,9 @@ export class TableCustomComponent implements
 
   // #region show edit button
   showEditButton(record: any) {
+    if (record?.nguon_kk == '0') {
+      return false;
+    }
     if (this.handleUpdate.observers.length === 0) {
       return false;
     }

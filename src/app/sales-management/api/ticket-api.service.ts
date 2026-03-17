@@ -62,7 +62,7 @@ const GET_FTCODE_QRPAYMENT = `${environment.apiUrl}/qrpayment/getftcodebycustome
 const GET_STOCKTAKING_TRANSACTION_TYPE = `${environment.apiUrl}/category/find/dmloaigdkk`;
 const GET_ITEM_GROUP = `${environment.apiUrl}/category/find/dmnhvt`;
 
-const GET_STOCK_BALANCE = `${environment.apiUrl}/report/rptStockBalanceImeiByRow`
+const GET_STOCK_BALANCE = `${environment.apiUrl}/report/rptStockBalanceImeiByRow_KK1`
 
 @Injectable({
     providedIn: 'root'

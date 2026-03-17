@@ -1,8 +1,8 @@
 {
     "TICKET": [
         {
-            "name": "ma_dvcs",
-            "title": "Mã đơn vị"
+            "name": "ma_cuahang",
+            "title": "Mã cửa hàng"
         },
         {
             "name": "ten_ca",
@@ -24,7 +24,19 @@
         },
         {
             "name": "t_so_luong",
-            "title": "Số lượng",
+            "title": "SL tồn HT",
+            "dataType": "number",
+            "align": "center"
+        },
+        {
+            "name": "t_sl_thuc_te",
+            "title": "SL tồn thực",
+            "dataType": "number",
+            "align": "center"
+        },
+        {
+            "name": "t_chenh_lech",
+            "title": "SL chênh lệch",
             "dataType": "number",
             "align": "center"
         },
@@ -90,6 +102,12 @@
         {
             "name": "ma_imei",
             "title": "Mã imei (HT)",
+            "align": "center",
+            "type": "mask"
+        },
+        {
+            "name": "ma_imei",
+            "title": "Mã imei (HT)",
             "align": "center"
         },
         {
@@ -110,6 +128,10 @@
         {
             "name": "ghi_chu",
             "title": "Ghi chú"
+        },
+        {
+            "name": "so_ct_pn",
+            "title": "Số phiếu nhập"
         }
     ]
 }
