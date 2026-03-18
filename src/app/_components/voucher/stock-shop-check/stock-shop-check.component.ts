@@ -21,7 +21,6 @@ import { StockShopCheckService } from './stock-shop-check.service';
 import { Option } from '@app/sales-management/model/ticket/common-model/option.model';
 import { ViewChild } from '@angular/core';
 import { TableCustomComponent } from '@app/sales-management/component/form-control-custom/table-custom/table-custom.component';
-import { ChangeDetectorRef } from '@angular/core';
 
 const {
   MERCHANDISE_LIST
@@ -61,30 +60,14 @@ export class StockShopCheckComponent {
   entity = STOCK_SHOP_CHECK_TICKET_ENTITY;
   transactionTypeOptions = [
     {
-      label: "Phiếu nhập mua nhà cung cấp",
-      value: "PNA"
+      label: "1-Luân chuyển kho tại cửa hàng",
+      value: 1
     },
     {
-      label: "Phiếu mua lại hàng",
-      value: "MHA"
-    },
-    {
-      label: "Phiếu nhập hàng bán trả lại",
-      value: "HDF"
-    },
-    {
-      label: "Phiếu nhập hoàn sàn TMĐT",
-      value: "HDR"
-    },
-    {
-      label: "Phiếu nhập thu hồi hàng cho mượn",
-      value: "PNM"
-    },
-    {
-      label: "Phiếu nhập bảo hành",
-      value: "PNW"
+      label: "2-Chuyển hàng lỗi về kho tổng",
+      value: 2
     }
-  ];
+  ]
   kho_nhap_datasource = [];
   kho_xuat_datasource = [];
   ma_loai = "";
@@ -101,18 +84,10 @@ export class StockShopCheckComponent {
     private customerApiService: CustomerApiService,
     private commonService: CommonService,
     private merchandiseService: MerchandiseService,
-    private imeiService: IMEIService,
-    private cdr: ChangeDetectorRef
+    private imeiService: IMEIService
   ) {
     localStorage.setItem('useGridCached', '1');
     this.stockShopCheckService.setTicket(this.ticket, this.option);
-  }
-
-  private reIndexLineNbr(): void {
-    this.ticket.merchandise = this.ticket.merchandise.map((item, index) => ({
-      ...item,
-      line_nbr: index + 1
-    }));
   }
 
   ngAfterViewInit(): void {
@@ -247,21 +222,86 @@ export class StockShopCheckComponent {
   }
 
   openItemListDialog(nh_vt1?: string, nh_vt2?: string, nh_vt3?: string) {
+    const getItemGroupFilter = (name: string, value?: string) => {
+      if (!value) return null;
+      const values = value
+        .split(',')
+        .map(item => item.trim())
+        .filter(Boolean);
+
+      if (!values.length) return null;
+
+      return {
+        name,
+        operator: values.length > 1 ? 'in' : '=',
+        value: values.join(', '),
+      };
+    };
+
     const filter = [
-      nh_vt1 && { name: 'nh_vt1', operator: '=', value: nh_vt1 },
-      nh_vt2 && { name: 'nh_vt2', operator: '=', value: nh_vt2 },
-      nh_vt3 && { name: 'nh_vt3', operator: '=', value: nh_vt3 },
+      getItemGroupFilter('nh_vt1', nh_vt1),
+      getItemGroupFilter('nh_vt2', nh_vt2),
+      getItemGroupFilter('nh_vt3', nh_vt3),
     ].filter(Boolean);
 
-    this.commonService.openDialog(SearchDialogComponent, { filter, componentName: SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE })
+    this.commonService.openDialog(SearchDialogComponent, {
+      filter,
+      componentName: SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE,
+      multiple: true,
+    })
       .afterClosed().subscribe(result => {
+        if (!result) return;
+
+        if (Array.isArray(result)) {
+          const selectedCodes = result
+            .map((item: any) => item?.ma_vt)
+            .filter(Boolean)
+            .join(', ');
+
+          if (!selectedCodes) return;
+
+          this.ticket.masterInfo.ma_vt = selectedCodes;
+          return;
+        }
+
         this.ticket.masterInfo.ma_vt = result?.ma_vt;
-        this.ticket.masterInfo.ten_vt = result?.ten_vt;
       });
   }
   openItemGroupSearchDialog(type: number) {
-    this.commonService.openDialog(SearchDialogComponent, { keyword: type || '', componentName: SEARCH_COMPONENT_NAME.ITEM_GROUP })
+    const isMultiple = type === 1 || type === 2 || type === 3 || type === 4;
+    this.commonService.openDialog(SearchDialogComponent, {
+      keyword: type || '',
+      componentName: SEARCH_COMPONENT_NAME.ITEM_GROUP,
+      multiple: isMultiple,
+    })
       .afterClosed().subscribe(result => {
+        if (!result) return;
+
+        if (Array.isArray(result)) {
+          const selectedValues = result
+            .map((item: any) => item?.ma_nh)
+            .filter(Boolean)
+            .join(', ');
+
+          if (!selectedValues) return;
+
+          switch (type) {
+            case 1:
+              this.ticket.masterInfo.nh_vt1 = selectedValues;
+              break;
+            case 2:
+              this.ticket.masterInfo.nh_vt2 = selectedValues;
+              break;
+            case 3:
+              this.ticket.masterInfo.nh_vt3 = selectedValues;
+              break;
+            case 4:
+              this.ticket.masterInfo.nh_vt4 = selectedValues;
+              break;
+          }
+          return;
+        }
+
         if (!result?.ma_nh) return;
 
         switch (type) {
@@ -363,7 +403,7 @@ export class StockShopCheckComponent {
             }));
           this.isSaveAuto = true;
           this.onSave()
-
+          this.mode = MODE.UPDATE
         }
         else {
           this.commonService.showMessage("Không tìm thấy dữ liệu tồn kho.");
@@ -376,97 +416,37 @@ export class StockShopCheckComponent {
   // #endregion master info
 
   // #region imei
-  handleAddImei(merchandiseResponse: any): void {
-
-    if (!merchandiseResponse?.ma_imei) return;
-
-    // 1️⃣ Kiểm tra IMEI đã tồn tại trong danh sách kiểm kê chưa
-    const isExistImei = this.ticket.merchandise.some(
-      e => e.ma_imei_tt === merchandiseResponse.ma_imei
-    );
-
+  handleAddImei(merchandiseResponse: any) {
+    const isExistImei = this.ticket.merchandise.find(e => e.ma_imei_tt?.includes(merchandiseResponse.ma_imei))
     if (isExistImei) {
-      this.commonService.showMessageByNameAdvance(
-        'lblWarningExistImeiDetail',
-        { name: '%imei', value: merchandiseResponse.ma_imei }
-      );
+      this.commonService.showMessageByNameAdvance('lblWarningExistImeiDetail', { name: '%imei', value: merchandiseResponse.ma_imei });
       return;
     }
 
-    // Kiểm tra đã tồn tại dòng hàng hóa theo ma_imei chưa
-    const index = this.ticket.merchandise.findIndex(
-      e => e.ma_imei === merchandiseResponse.ma_imei
-    );
-
-    // =============================
-    // Nếu đã có dòng hàng hóa
-    // =============================
-    if (index !== -1) {
-
-      const updatedItem = {
-        ...this.ticket.merchandise[index],
-        ma_imei_tt: merchandiseResponse.ma_imei,
-        so_luong_tt: 1,
-        kq_kk: '0',
-        ten_kq_kk: 'Đủ'
-      };
-
-      // Tạo mảng mới để Angular detect change
-      this.ticket.merchandise = [
-        ...this.ticket.merchandise.slice(0, index),
-        updatedItem,
-        ...this.ticket.merchandise.slice(index + 1)
-      ];
-
-      const master = this.ticket.masterInfo;
-      // tăng số lượng thực tế
-      const new_sl_thuc_te = (master.t_sl_thuc_te || 0) + 1;
-      // tính chênh lệch
-      const new_chenh_lech = new_sl_thuc_te - (master.t_so_luong || 0);
-      // cập nhật master
-      this.ticket.masterInfo = {
-        ...master,
-        t_sl_thuc_te: new_sl_thuc_te,
-        t_chenh_lech: new_chenh_lech
-      };
-
+    const merchandise = this.ticket.merchandise.find(e => e.ma_imei === merchandiseResponse.ma_imei);
+    if (merchandise) {
+      merchandise.ma_imei_tt = `${merchandiseResponse.ma_imei}`;
+      merchandise.so_luong_tt = 1;
+      merchandise.kq_kk = '0';
+      merchandise.ten_kq_kk = 'Đủ'
     }
-    // =============================
-    // Nếu chưa có thì thêm mới
-    // =============================
     else {
-
-      const newItem = new Merchandise({
-        ma_vt: merchandiseResponse.ma_vt,
-        ten_vt: merchandiseResponse.ten_vt,
-        dvt: merchandiseResponse.dvt,
-        ma_imei_tt: merchandiseResponse.ma_imei,
-        so_luong_tt: 1,
-        nguon_kk: '1',
-        ten_nguon_kk: 'Nhập trong lúc kiểm kê',
-        kq_kk: '2',
-        ten_kq_kk: 'Thừa'
-      });
-
-      // Tạo mảng mới
-      this.ticket.merchandise = [
-        ...this.ticket.merchandise,
-        newItem
-      ];
-
-      const master = this.ticket.masterInfo;
-      // tăng số lượng thực tế
-      const new_sl_thuc_te = (master.t_sl_thuc_te || 0) + 1;
-      // tính chênh lệch
-      const new_chenh_lech = new_sl_thuc_te - (master.t_so_luong || 0);
-      // cập nhật master
-      this.ticket.masterInfo = {
-        ...master,
-        t_sl_thuc_te: new_sl_thuc_te,
-        t_chenh_lech: new_chenh_lech
-      };
+      // Nếu chưa có thì thêm mới 
+      this.ticket.merchandise.push(
+        new Merchandise({
+          ma_vt: merchandiseResponse.ma_vt,
+          ten_vt: merchandiseResponse.ten_vt,
+          dvt: merchandiseResponse.dvt,
+          ma_imei: merchandiseResponse.ma_imei,
+          ma_imei_tt: merchandiseResponse.ma_imei,
+          so_luong_tt: 1,
+          kq_kk: '2',
+          ten_kq_kk: 'Thừa'
+          // các trường khác sẽ lấy giá trị mặc định từ class
+        })
+      );
     }
-    this.reIndexLineNbr();
+
   }
 
   onClickCodeScanner() {
@@ -475,34 +455,18 @@ export class StockShopCheckComponent {
     });
   }
   onEnterImeiCode(ma_imei_tt: string) {
-    this.imeiService
-      .getListImeiInfo([ma_imei_tt], this.ticket.masterInfo.ma_kho)
-      .subscribe((result) => {
+    this.imeiService.getListImeiInfo([ma_imei_tt], this.ticket.masterInfo.ma_kho).subscribe((result) => {
+      if (result.success && result.result.length) {
+        result.result.map(merchandise => {
+          this.handleAddImei(merchandise);
 
-        if (result.success && result.result.length) {
-
-          // Thêm / cập nhật IMEI trước
-          result.result.forEach(merchandise => {
-            this.handleAddImei(merchandise);
-          });
-
-          // Đợi Angular render xong rồi mới focus
-          setTimeout(() => {
-            const lastImei =
-              result.result[result.result.length - 1]?.ma_imei;
-
-            if (lastImei) {
-              this.tableCustom.selectRowByImei(lastImei);
-            }
-          });
-
-        } else {
-          this.commonService.showMessageByNameAdvance(
-            result.message,
-            { name: '%imei', value: ma_imei_tt }
-          );
-        }
-      });
+          // gọi hàm có sẵn trong TableCustomComponent
+          this.tableCustom.selectRowByImei(merchandise.ma_imei);
+        });
+      } else {
+        this.commonService.showMessageByNameAdvance(result.message, { name: '%imei', value: ma_imei_tt });
+      }
+    });
 
     this.commonService.focusControl(this.tabIndex.imei);
   }
@@ -521,57 +485,6 @@ export class StockShopCheckComponent {
       foundItem.kq_kk = '0';
       foundItem.ten_kq_kk = 'Đủ';
       foundItem.ghi_chu = "Xuất trong lúc kiểm kê";
-    }
-  }
-
-  onClickImeiImportVoucher() {
-    if (!this.ticket.masterInfo.so_ct_pn || !this.ticket.masterInfo.loai_gd_n) {
-      this.commonService.showMessage("Số phiếu nhập và loại giao dịch nhập bắt buộc phải nhập.");
-    }
-    else {
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      const req = {
-        ma_ct: this.ticket.masterInfo.loai_gd_n,
-        so_ct: this.ticket.masterInfo.so_ct_pn,
-        ma_gd: this.ticket.masterInfo.ma_gd,
-
-        nh_vt1: this.ticket.masterInfo.nh_vt1,
-        nh_vt2: this.ticket.masterInfo.nh_vt2,
-        nh_vt3: this.ticket.masterInfo.nh_vt3,
-        nh_vt4: this.ticket.masterInfo.nh_vt4,
-        ma_vt: this.ticket.masterInfo.ma_vt,
-        ma_cuahang: user.shop
-      };
-
-      this.imeiService.getImeiFromImportVoucher(req)
-        .subscribe(res => {
-
-          if (!res.success) return;
-          const option = this.transactionTypeOptions.find(
-            x => x.value === this.ticket.masterInfo.loai_gd_n
-          );
-          res.data.forEach((item: any) => {
-            this.ticket.merchandise.push({
-              ...item,
-              // ma_imei_tt: item.ma_imei,
-              so_luong: 1,
-              so_luong_tt: 1,
-              nguon_kk: '1',
-              ten_nguon_kk: 'Nhập trong lúc kiểm kê',
-              kq_kk: '2',
-              ten_kq_kk: 'Thừa',
-              ghi_chu: option?.label,
-              // this.ticket.masterInfo.loai_gd_n,
-
-              stt_rec_pn: item.stt_rec,
-              stt_rec0pn: item.stt_rec0,
-              so_ct_pn: item.so_ct,
-              ngay_ct_pn: item.ngay_ct
-            });
-
-          });
-          this.reIndexLineNbr();
-        });
     }
   }
 
@@ -636,6 +549,7 @@ export class StockShopCheckComponent {
       this.commonService.showMessage(message);
     } else if (!this.invalid && !message) {
       const voucherDto = this.stockShopCheckService.prepareVoucher();
+
       this.route.queryParams.subscribe((data: any) => {
         this.isDisabled = true;
         if (this.mode === MODE.UPDATE) {
@@ -667,12 +581,7 @@ export class StockShopCheckComponent {
               this.commonService.showMessage(Language.content.Successful_Create);
               if (!this.isSaveAuto)
                 this.router.navigate(['voucher/stock-shop-check']);
-              else {
-                const queryParams = {} as any;
-                queryParams.key = (result.result as any).stt_rec;
-                this.router.navigate(['voucher/stock-shop-check/update'], { queryParams });
-                this.isSaveAuto = false;
-              }
+              this.isSaveAuto = false;
             } else {
               if (!this.isSaveAuto)
                 this.commonService.handleResponseErrorVoucher(result, 'voucher/stock-shop-check');
@@ -692,5 +601,3 @@ export class StockShopCheckComponent {
   }
 
 }
-
-
