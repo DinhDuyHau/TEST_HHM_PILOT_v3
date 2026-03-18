@@ -26,3 +26,17 @@ export interface ImeiInfo {
     ma_thue: string,
     thue_suat: number,
 }
+
+export interface ImeiImportVoucherRequest {
+    ma_ct: string;
+    so_ct: string;
+    ma_gd: string;
+
+    nh_vt1?: string;
+    nh_vt2?: string;
+    nh_vt3?: string;
+    nh_vt4?: string;
+    ma_vt?: string;
+
+    ma_cuahang: string;
+}

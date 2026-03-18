@@ -165,16 +165,6 @@
       </div>
       <div class="box order-dynamic-1 d-flex">
         <form-input-custom
-          #txtImei2
-          [name]="'ma_imei_tt'"
-          [label]="'Imei xuất bán khi kiểm kê'"
-          [tabIndex]="tabIndex.imei"
-          *ngIf="!readonly"
-          (handleEnterInput)="onEnterImeiCode2($event); txtImei2.value = ''"
-         />
-      </div>
-      <div class="box order-dynamic-1 d-flex">
-        <form-input-custom
           #txtImei
           [name]="'ma_imei_tt'"
           [label]="getLabel('lbl_imei')"
@@ -184,18 +174,64 @@
           (handleClickCodeScanner)="onClickCodeScanner()"
           [uploadImage]="true" />
       </div>
+      
+      <div class="box order-dynamic-1 d-flex flex-column justify-content-end">
+        <button
+          class="btn-input-imei text-nowrap"
+          [hidden]="isStockCheckDisabled" 
+          (click)="onClickCheckInventory()">
+          Lấy tồn kho
+        </button>
+      </div>
     </div>
 
-    <div class="d-flex justify-content-end">
-      <button
-        class="btn-input-imei text-nowrap"
-        [hidden]="isStockCheckDisabled"
-        (click)="onClickCheckInventory()">
-        Lấy tồn kho
-      </button>
+    <div class="container mt-3">
+      <!-- Tiêu đề -->
+      <h5 class="fw-bold mb-3">Giải trình kiểm kê</h5>
+
+      <!-- Khối nhập liệu -->
+      <div class="box-container mb-3">
+        <div class="box order-dynamic-1 d-flex gap-3">
+          <form-input-custom
+            class="flex-1"
+            #txtImei
+            [name]="'ma_imei_tt'"
+            [label]="'Imei xuất bán khi kiểm kê'"
+            [tabIndex]="tabIndex.imei"
+            *ngIf="!readonly"
+            (handleEnterInput)="onEnterImeiCode2($event); txtImei.value = ''" />
+        </div>
+        <div class="box order-dynamic-1 d-flex gap-3">
+          <form-select-custom
+            class="flex-1"
+            [label]="'Loại giao dịch nhập'"
+            [options]="transactionTypeOptions"
+            optionDes="label"
+            optionValue="value"
+            [value]="ticket.masterInfo.loai_gd_n" 
+            (handleChangeValue)="ticket.masterInfo.loai_gd_n = $event"/>
+        </div>
+        
+        <div class="box order-dynamic-1 d-flex gap-3">
+          <form-input-custom
+            class="flex-1"
+            [name]="'so_ct_pn'"
+            [label]="'Số phiếu nhập'"
+            [value]="ticket.masterInfo.so_ct_pn"
+            (handleChangeValue)="ticket.masterInfo.so_ct_pn = $event"/>
+          <div class="d-flex flex-column justify-content-end">
+            <button
+            class="btn-input-imei text-nowrap"
+            [hidden]="isStockCheckDisabled"
+            (click)="onClickImeiImportVoucher()">
+            Lấy imei phiếu nhập
+        </button>
+          </div>
+      </div>
+      </div>
     </div>
+
     
-
     <tabs-custom title="Thông tin hàng hóa">
       <tab-custom label="Hàng hoá" class="w-100">
         <table-custom
@@ -206,12 +242,39 @@
           [isChangeColorWhenSelected]="true"
           [isShowDiscountNG]="true"
           [isTicket]="false"
+          (handleUpdate)="onOpenInputImeiModal($event)"
           (handleDelete)="onRemoveMerchandise($event)" />
       </tab-custom>
     </tabs-custom>
           <!-- (handleUpdate)="onOpenInputImeiModal($event)" -->
            
     <div>
+      <div class="d-flex justify gap-3 m-3">
+        <form-input-custom
+          class="flex-1"
+          [name]="'t_so_luong'"
+          [label]="'Tổng SL hệ thống'"
+          [type]="'number'"
+          [align]="'right'"
+          [value]="ticket.masterInfo.t_so_luong"
+          [disabled]="true" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'t_sl_thuc_te'"
+          [label]="'Tổng SL thực tế'"
+          [type]="'number'"
+          [align]="'right'"
+          [value]="ticket.masterInfo.t_sl_thuc_te"
+          [disabled]="true" />
+        <form-input-custom
+          class="flex-1"
+          [name]="'t_chenh_lech'"
+          [label]="'Tổng SL chêch lệch'"
+          [type]="'number'"
+          [align]="'right'"
+          [value]="ticket.masterInfo.t_chenh_lech"
+          [disabled]="true" />
+      </div>
       <div class="d-flex justify-end gap-2 m-3">
         <app-voucher-info
           *ngIf="this.mode != 0"

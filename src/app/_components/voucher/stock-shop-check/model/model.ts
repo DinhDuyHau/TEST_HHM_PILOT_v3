@@ -40,6 +40,10 @@ export class MasterInfo extends BaseMasterInfo {
     nh_vt4 = '';
     ma_vt = '';
     ten_vt = '';
+    t_sl_thuc_te = 0;
+    t_chenh_lech = 0;
+    loai_gd_n = '';
+    so_ct_pn = '';
 
 
     constructor(obj?: any) {

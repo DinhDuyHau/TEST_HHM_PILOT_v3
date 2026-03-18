@@ -5,7 +5,7 @@ import { environment } from '@environments/environment';
 import { of } from 'rxjs';
 import { getResource } from '@app/_common/commonFunction';
 import { ImeiState } from '@app/_models';
-import { ImeiInfo } from '@app/sales-management/model/dto/imei-state.dto';
+import { ImeiInfo, ImeiImportVoucherRequest } from '@app/sales-management/model/dto/imei-state.dto';
 import { ResultNoPaging } from '@app/_models/Result';
 
 @Injectable({ providedIn: 'root' })
@@ -121,5 +121,10 @@ export class IMEIService {
         return this.http.post<ResultNoPaging<ImeiInfo>>(url,
             ma_imei
         );
+    }
+
+    getImeiFromImportVoucher(data: ImeiImportVoucherRequest) {
+        let url = `${environment.apiUrl}/imei/get_imei_import_voucher`;
+        return this.http.post<any>(url, data);
     }
 }
