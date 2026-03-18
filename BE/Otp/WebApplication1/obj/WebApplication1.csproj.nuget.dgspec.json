@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\project\\Otp\\WebApplication1\\WebApplication1.csproj": {}
+    "D:\\Genbyte\\HHM-SHOP\\FRONT_END\\TEST_HHM_PILOT_v3\\BE\\Otp\\WebApplication1\\WebApplication1.csproj": {}
   },
   "projects": {
-    "D:\\project\\Otp\\WebApplication1\\WebApplication1.csproj": {
+    "D:\\Genbyte\\HHM-SHOP\\FRONT_END\\TEST_HHM_PILOT_v3\\BE\\Otp\\WebApplication1\\WebApplication1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\project\\Otp\\WebApplication1\\WebApplication1.csproj",
+        "projectUniqueName": "D:\\Genbyte\\HHM-SHOP\\FRONT_END\\TEST_HHM_PILOT_v3\\BE\\Otp\\WebApplication1\\WebApplication1.csproj",
         "projectName": "WebApplication1",
-        "projectPath": "D:\\project\\Otp\\WebApplication1\\WebApplication1.csproj",
-        "packagesPath": "C:\\Users\\Trung\\.nuget\\packages\\",
-        "outputPath": "D:\\project\\Otp\\WebApplication1\\obj\\",
+        "projectPath": "D:\\Genbyte\\HHM-SHOP\\FRONT_END\\TEST_HHM_PILOT_v3\\BE\\Otp\\WebApplication1\\WebApplication1.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "D:\\Genbyte\\HHM-SHOP\\FRONT_END\\TEST_HHM_PILOT_v3\\BE\\Otp\\WebApplication1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Trung\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,7 +34,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net6.0": {
@@ -68,7 +74,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }

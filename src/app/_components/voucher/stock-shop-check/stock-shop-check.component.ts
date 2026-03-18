@@ -115,6 +115,14 @@ export class StockShopCheckComponent {
     }));
   }
 
+  // sắp xếp hàng hóa theo kết quả Thừa -> Thiếu -> Đủ
+  private sortMerchandiseByResult(): void {
+    const order: Record<string, number> = { '2': 0, '1': 1, '0': 2 };
+    this.ticket.merchandise = [...this.ticket.merchandise].sort(
+      (a, b) => (order[a.kq_kk] ?? 99) - (order[b.kq_kk] ?? 99)
+    );
+  }
+
   ngAfterViewInit(): void {
     // this.commonService.focusControl(this.tabIndexFocusFirst);
   }
@@ -177,6 +185,7 @@ export class StockShopCheckComponent {
               this.router.navigate(['/404']);
             }
             this.stockShopCheckService.loadData(result.result as any as VoucherDto);
+            this.sortMerchandiseByResult();
             this.list_imei_old = this.ticket.merchandise.map(x => x.ma_imei);
             this.commonService.addToImeisInVoucher(this.ticket.merchandise.filter(e => e.ma_imei).map(e => e.ma_imei));
             getStatusList();
@@ -361,6 +370,7 @@ export class StockShopCheckComponent {
               ten_kq_kk: 'Thiếu',          // tên kết quả kiểm kê
               ghi_chu: ''                  // ghi chú
             }));
+          this.sortMerchandiseByResult();
           this.isSaveAuto = true;
           this.onSave()
 
@@ -467,6 +477,7 @@ export class StockShopCheckComponent {
       };
     }
     this.reIndexLineNbr();
+    this.sortMerchandiseByResult();
   }
 
   onClickCodeScanner() {
@@ -571,6 +582,7 @@ export class StockShopCheckComponent {
 
           });
           this.reIndexLineNbr();
+          this.sortMerchandiseByResult();
         });
     }
   }
