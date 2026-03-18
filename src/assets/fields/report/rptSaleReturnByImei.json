@@ -199,6 +199,14 @@
     "width": 100
   },
   {
+    "name": "tien_hoahong",
+    "title": "Tiền hoa hồng thu hồi",
+    "allowFilter": true,
+    "type": "number",
+    "dataFormatString": "normalPrice",
+    "isLockingColumn": true
+  },
+  {
     "name": "ma_nx",
     "title": "Mã nx",
     "allowFilter": true,
