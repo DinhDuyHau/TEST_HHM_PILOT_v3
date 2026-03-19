@@ -10,8 +10,11 @@
         [totalItem]="recordCount"
         [size]="page_size"
         [page_index]="page_index"
+        [selectByCheckbox]="isMultiple" --chọn nhiều
+        [selectByCheckboxAll]="isMultiple"  --chọn nhiều
         [useFilter]="isFilter"
         (handleSelect)="onSelectItem($event)"
+        (handleChangeSelectCheckbox)="onChangeSelectCheckbox($event)"  --chọn nhiều
         (handleFilter)="onClickSearchFilter($event)"
         (handleChangePage)="onChangePage($event)"
         (handleChangePageSize)="onChangePageSize($event)"></table-custom>
@@ -19,7 +22,7 @@
 
     <div class="d-flex justify-end gap-2 m-3">
       <div class="btn-responsive btn-cancel" (click)="onCancel()">Đóng</div>
-      <!-- <div class="btn-responsive btn-add" (click)="onSave()">Chọn</div> -->
+      <div class="btn-responsive btn-add" *ngIf="isMultiple" (click)="onSave()">Chọn</div> 
     </div>
     <div class="close-btn" (click)="onCancel()">
       <i class="fas fa-times"></i>

@@ -66,7 +66,9 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   isLoading = false;
   isFilter = true;
   isCheckInventory = true;
+  isMultiple = false;
   customizeFilters: ItemFilter[] = [];
+  selectedItems: Record<string, any> = {};
 
   constructor(
     public dialogRef: MatDialogRef<SearchDialogComponent>,
@@ -75,6 +77,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       shop: string,
       componentName: number,
       title: string,
+      multiple?: boolean,
       ma_ct?: string,
       filter?: ItemFilter[],
       dataSource: any,
@@ -98,6 +101,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.isFilter = this.data.isFilter != undefined ? this.data.isFilter : true;
     this.isCheckInventory = this.data.isCheckInventory != undefined ? this.data.isCheckInventory : true;
+    this.isMultiple = this.data.multiple ?? false;
     this.title = this.data.title || '';
     this.filters = this.data.filter || [];
     const filter = {
@@ -184,9 +188,13 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         break;
       case SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE:
         this.columns = TYPE_MERCHANDISE as any;
-        filter.name = 'ma_vt';
-        filter.value = `%${this.data.keyword}%`;
-        this.defaultFilters = [filter, ...(this.data.filter || [])];
+        const ten_vt = `${this.data.keyword || ''}`.trim();
+        this.defaultFilters = [
+          ...(ten_vt
+            ? [{ name: 'ma_vt', operator: 'like', value: `%${ten_vt}%` }]
+            : []),
+          ...(this.data.filter || []),
+        ];
         break;
       case SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE_V2:
         this.columns = TYPE_MERCHANDISE_V2 as any;
@@ -311,6 +319,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.operator = "=";
         filter.value = `${this.data.keyword}`;
         this.defaultFilters = [filter];
+        this.filters = [...this.defaultFilters];
         break;
       default:
         break;
@@ -429,7 +438,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.STOCKTAKING_TRANSACTION_TYPE:
         return this.ticketApiService.getStocktakingTransactionType(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.ITEM_GROUP:
-        return this.ticketApiService.getItemGroup(this.defaultFilters, this.page_index, this.page_size);
+        return this.ticketApiService.getItemGroup(this.filters, this.page_index, this.page_size);
       default:
         return of();
     }
@@ -483,6 +492,14 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         } else {
           this.dataSource = result.result as any;
         }
+
+        if (this.isMultiple) {
+          const primaryKey = this.getPrimaryKeyName();
+          this.dataSource = (this.dataSource || []).map((item: any) => ({
+            ...item,
+            selected: !!this.selectedItems[item?.[primaryKey]],
+          }));
+        }
       },
       error: () => {
         //
@@ -495,7 +512,47 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   }
 
   onSelectItem(event: { item: any }): void {
-    this.dialogRef.close(event.item);
+    if (!this.isMultiple) {
+      this.dialogRef.close(event.item);
+      return;
+    }
+
+    const primaryKey = this.getPrimaryKeyName();
+    const key = event.item?.[primaryKey];
+    if (!key) return;
+
+    const selected = !(this.selectedItems[key]);
+    if (selected) {
+      this.selectedItems[key] = event.item;
+    } else {
+      delete this.selectedItems[key];
+    }
+
+    this.dataSource = (this.dataSource || []).map((item: any) =>
+      item?.[primaryKey] === key
+        ? { ...item, selected }
+        : item
+    );
+  }
+
+  onChangeSelectCheckbox(_: any) {
+    if (!this.isMultiple) return;
+
+    const primaryKey = this.getPrimaryKeyName();
+    (this.dataSource || []).forEach((item: any) => {
+      const key = item?.[primaryKey];
+      if (!key) return;
+
+      if (item.selected) {
+        this.selectedItems[key] = item;
+      } else {
+        delete this.selectedItems[key];
+      }
+    });
+  }
+
+  getPrimaryKeyName() {
+    return this.columns?.find((column: any) => column?.isPrimaryKey)?.name || 'id';
   }
 
   onClickSearchFilter(filters: any) {
@@ -539,6 +596,11 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   }
 
   onSave() {
+    if (this.isMultiple) {
+      this.dialogRef.close(Object.values(this.selectedItems));
+      return;
+    }
+
     this.dialogRef.close();
   }
 

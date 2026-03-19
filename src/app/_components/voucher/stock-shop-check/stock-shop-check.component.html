@@ -156,12 +156,12 @@
           (handleEnterInput)="onEnterItemCode($event)"
           [value]="ticket.masterInfo.ma_vt"
           [disabled]="isItemInfoDisabled" />
-        <form-input-custom
+        <!-- <form-input-custom
           class="flex-1"
           [name]="'ten_vt'"
           [label]="'Tên vật tư'"
           [value]="ticket.masterInfo.ten_vt"
-          [disabled]="true" />
+          [disabled]="true" /> -->
       </div>
       <div class="box order-dynamic-1 d-flex">
         <form-input-custom
@@ -242,7 +242,6 @@
           [isChangeColorWhenSelected]="true"
           [isShowDiscountNG]="true"
           [isTicket]="false"
-          (handleUpdate)="onOpenInputImeiModal($event)"
           (handleDelete)="onRemoveMerchandise($event)" />
       </tab-custom>
     </tabs-custom>
