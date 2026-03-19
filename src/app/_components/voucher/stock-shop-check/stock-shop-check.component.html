@@ -100,7 +100,7 @@
           [name]="'nh_vt1'"
           [label]="'Chủng loại'"
           (handleClickOpenDialog)="openItemGroupSearchDialog(1)"
-          (handleChangeValue)="onChangeItemGroup($event,1)"
+          (handleChangeValue)="onChangeItemGroup($event, 1)"
           [value]="ticket.masterInfo.nh_vt1"
           [disabled]="isItemInfoDisabled" />
         <form-input-custom
@@ -108,7 +108,7 @@
           [name]="'nh_vt2'"
           [label]="'Hãng sản xuất'"
           (handleClickOpenDialog)="openItemGroupSearchDialog(2)"
-          (handleChangeValue)="onChangeItemGroup($event,2)"
+          (handleChangeValue)="onChangeItemGroup($event, 2)"
           [value]="ticket.masterInfo.nh_vt2"
           [disabled]="isItemInfoDisabled" />
       </div>
@@ -118,7 +118,7 @@
           [name]="'nh_vt3'"
           [label]="'Loại model'"
           (handleClickOpenDialog)="openItemGroupSearchDialog(3)"
-          (handleChangeValue)="onChangeItemGroup($event,3)"
+          (handleChangeValue)="onChangeItemGroup($event, 3)"
           [value]="ticket.masterInfo.nh_vt3"
           [disabled]="isItemInfoDisabled" />
         <form-input-custom
@@ -126,7 +126,7 @@
           [name]="'nh_vt4'"
           [label]="'Cấu hình'"
           (handleClickOpenDialog)="openItemGroupSearchDialog(4)"
-          (handleChangeValue)="onChangeItemGroup($event,4)"
+          (handleChangeValue)="onChangeItemGroup($event, 4)"
           [value]="ticket.masterInfo.nh_vt4"
           [disabled]="isItemInfoDisabled" />
       </div>
@@ -151,17 +151,23 @@
           class="flex-1"
           [name]="'ma_vt'"
           [label]="'Mã vật tư'"
-          (handleClickOpenDialog)="openItemListDialog(ticket.masterInfo.nh_vt1,ticket.masterInfo.nh_vt2,ticket.masterInfo.nh_vt3)"
+          (handleClickOpenDialog)="
+            openItemListDialog(
+              ticket.masterInfo.nh_vt1,
+              ticket.masterInfo.nh_vt2,
+              ticket.masterInfo.nh_vt3
+            )
+          "
           (handleChangeValue)="onChangeItem($event)"
           (handleEnterInput)="onEnterItemCode($event)"
           [value]="ticket.masterInfo.ma_vt"
           [disabled]="isItemInfoDisabled" />
-        <form-input-custom
+        <!-- <form-input-custom
           class="flex-1"
           [name]="'ten_vt'"
           [label]="'Tên vật tư'"
           [value]="ticket.masterInfo.ten_vt"
-          [disabled]="true" />
+          [disabled]="true" /> -->
       </div>
       <div class="box order-dynamic-1 d-flex">
         <form-input-custom
@@ -174,11 +180,11 @@
           (handleClickCodeScanner)="onClickCodeScanner()"
           [uploadImage]="true" />
       </div>
-      
+
       <div class="box order-dynamic-1 d-flex flex-column justify-content-end">
         <button
           class="btn-input-imei text-nowrap"
-          [hidden]="isStockCheckDisabled" 
+          [hidden]="isStockCheckDisabled"
           (click)="onClickCheckInventory()">
           Lấy tồn kho
         </button>
@@ -208,30 +214,29 @@
             [options]="transactionTypeOptions"
             optionDes="label"
             optionValue="value"
-            [value]="ticket.masterInfo.loai_gd_n" 
-            (handleChangeValue)="ticket.masterInfo.loai_gd_n = $event"/>
+            [value]="ticket.masterInfo.loai_gd_n"
+            (handleChangeValue)="ticket.masterInfo.loai_gd_n = $event" />
         </div>
-        
+
         <div class="box order-dynamic-1 d-flex gap-3">
           <form-input-custom
             class="flex-1"
             [name]="'so_ct_pn'"
             [label]="'Số phiếu nhập'"
             [value]="ticket.masterInfo.so_ct_pn"
-            (handleChangeValue)="ticket.masterInfo.so_ct_pn = $event"/>
+            (handleChangeValue)="ticket.masterInfo.so_ct_pn = $event" />
           <div class="d-flex flex-column justify-content-end">
             <button
-            class="btn-input-imei text-nowrap"
-            [hidden]="isStockCheckDisabled"
-            (click)="onClickImeiImportVoucher()">
-            Lấy imei phiếu nhập
-        </button>
+              class="btn-input-imei text-nowrap"
+              [hidden]="isStockCheckDisabled"
+              (click)="onClickImeiImportVoucher()">
+              Lấy imei phiếu nhập
+            </button>
           </div>
-      </div>
+        </div>
       </div>
     </div>
 
-    
     <tabs-custom title="Thông tin hàng hóa">
       <tab-custom label="Hàng hoá" class="w-100">
         <table-custom
@@ -246,8 +251,8 @@
           (handleDelete)="onRemoveMerchandise($event)" />
       </tab-custom>
     </tabs-custom>
-          <!-- (handleUpdate)="onOpenInputImeiModal($event)" -->
-           
+    <!-- (handleUpdate)="onOpenInputImeiModal($event)" -->
+
     <div>
       <div class="d-flex justify gap-3 m-3">
         <form-input-custom
@@ -298,7 +303,7 @@
           *ngIf="this.mode == 2"
           [voucherId]="this.ticket.masterInfo.stt_rec"
           [email]="this.ticket.masterInfo.email_nhan_key"
-          [status]="this.ticket.masterInfo.status"/>
+          [status]="this.ticket.masterInfo.status" />
       </div>
     </div>
   </div>

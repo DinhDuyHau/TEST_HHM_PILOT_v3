@@ -67,6 +67,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   isFilter = true;
   isCheckInventory = true;
   customizeFilters: ItemFilter[] = [];
+  isMultiSelect = true;
+  selectedRows: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<SearchDialogComponent>,
@@ -79,7 +81,8 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       filter?: ItemFilter[],
       dataSource: any,
       isFilter: boolean,
-      isCheckInventory: boolean
+      isCheckInventory: boolean,
+      isMultiSelect?: boolean,
     },
     private customerApiService: CustomerApiService,
     private imeiApiService: ImeiApiService,
@@ -100,6 +103,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
     this.isCheckInventory = this.data.isCheckInventory != undefined ? this.data.isCheckInventory : true;
     this.title = this.data.title || '';
     this.filters = this.data.filter || [];
+    this.isMultiSelect = this.data.isMultiSelect ?? false;
     const filter = {
       name: '',
       operator: 'like',
@@ -114,9 +118,13 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         break;
       case SEARCH_COMPONENT_NAME.MERCHANDISE:
         this.columns = MERCHANDISE_SEARCH as any;
-        filter.name = 'ma_vt';
-        filter.value = `%${this.data.keyword}%`;
-        this.defaultFilters = [filter];
+        const ten_vt = `${this.data.keyword || ''}`.trim();
+        this.defaultFilters = [
+          ...(ten_vt
+            ? [{ name: 'ma_vt', operator: 'like', value: `%${ten_vt}%` }]
+            : []),
+          ...(this.data.filter || []),
+        ];
         break;
       case SEARCH_COMPONENT_NAME.IMEI:
         this.columns = IMEI_SEARCH as any;
@@ -311,6 +319,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
         filter.operator = "=";
         filter.value = `${this.data.keyword}`;
         this.defaultFilters = [filter];
+        this.filters = [...this.defaultFilters];
         break;
       default:
         break;
@@ -429,7 +438,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
       case SEARCH_COMPONENT_NAME.STOCKTAKING_TRANSACTION_TYPE:
         return this.ticketApiService.getStocktakingTransactionType(this.filters, this.page_index, this.page_size);
       case SEARCH_COMPONENT_NAME.ITEM_GROUP:
-        return this.ticketApiService.getItemGroup(this.defaultFilters, this.page_index, this.page_size);
+        return this.ticketApiService.getItemGroup(this.filters, this.page_index, this.page_size);
       default:
         return of();
     }
@@ -539,9 +548,25 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   }
 
   onSave() {
-    this.dialogRef.close();
+    if (this.selectedRows.length === 0) return;
+    this.dialogRef.close(this.selectedRows);
   }
 
+  onChangeSelectCheckbox(selectedItem: any) {
+    if (Array.isArray(selectedItem)) {
+      // Từ onToggleAllCheckboxes → emit mảng
+      this.selectedRows = selectedItem.filter(r => r.selected);
+      return;
+    }
+
+    // Từ onChangeSelectCheckbox → emit object đơn
+    const idx = this.selectedRows.findIndex(r => r === selectedItem);
+    if (idx > -1) {
+      this.selectedRows.splice(idx, 1); // bỏ chọn
+    } else {
+      this.selectedRows.push(selectedItem); // thêm vào
+    }
+  }
 }
 
 export interface Result<T> {

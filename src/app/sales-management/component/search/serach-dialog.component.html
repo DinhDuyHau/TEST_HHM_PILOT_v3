@@ -11,6 +11,8 @@
         [size]="page_size"
         [page_index]="page_index"
         [useFilter]="isFilter"
+        [selectByCheckbox]="true"
+        (handleChangeSelectCheckbox)="onChangeSelectCheckbox($event)"
         (handleSelect)="onSelectItem($event)"
         (handleFilter)="onClickSearchFilter($event)"
         (handleChangePage)="onChangePage($event)"
@@ -19,7 +21,7 @@
 
     <div class="d-flex justify-end gap-2 m-3">
       <div class="btn-responsive btn-cancel" (click)="onCancel()">Đóng</div>
-      <!-- <div class="btn-responsive btn-add" (click)="onSave()">Chọn</div> -->
+      <div class="btn-responsive btn-add" (click)="onSave()">Chọn</div>
     </div>
     <div class="close-btn" (click)="onCancel()">
       <i class="fas fa-times"></i>

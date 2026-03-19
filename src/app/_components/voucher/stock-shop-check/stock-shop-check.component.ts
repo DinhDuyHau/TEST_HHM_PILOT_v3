@@ -22,6 +22,7 @@ import { Option } from '@app/sales-management/model/ticket/common-model/option.m
 import { ViewChild } from '@angular/core';
 import { TableCustomComponent } from '@app/sales-management/component/form-control-custom/table-custom/table-custom.component';
 import { ChangeDetectorRef } from '@angular/core';
+import { multiply } from '@angular/flex-layout/core/multiply/multiplier';
 
 const {
   MERCHANDISE_LIST
@@ -256,21 +257,85 @@ export class StockShopCheckComponent {
   }
 
   openItemListDialog(nh_vt1?: string, nh_vt2?: string, nh_vt3?: string) {
+    const getItemGroupFilter = (name: string, value?: string) => {
+      if (!value) return null;
+      const values = value
+        .split(',')
+        .map(item => item.trim())
+        .filter(Boolean);
+
+      if (!values.length) return null;
+
+      return {
+        name,
+        operator: values.length > 1 ? 'in' : '=',
+        value: values.join(', '),
+      };
+    };
+
     const filter = [
-      nh_vt1 && { name: 'nh_vt1', operator: '=', value: nh_vt1 },
-      nh_vt2 && { name: 'nh_vt2', operator: '=', value: nh_vt2 },
-      nh_vt3 && { name: 'nh_vt3', operator: '=', value: nh_vt3 },
+      getItemGroupFilter('nh_vt1', nh_vt1),
+      getItemGroupFilter('nh_vt2', nh_vt2),
+      getItemGroupFilter('nh_vt3', nh_vt3),
     ].filter(Boolean);
 
-    this.commonService.openDialog(SearchDialogComponent, { filter, componentName: SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE })
+    this.commonService.openDialog(SearchDialogComponent, {
+      filter,
+      componentName: SEARCH_COMPONENT_NAME.TYPE_MERCHANDISE,
+      isMultiSelect: true,
+    })
       .afterClosed().subscribe(result => {
+        if (!result) return;
+
+        if (Array.isArray(result)) {
+          const selectedCodes = result
+            .map((item: any) => item?.ma_vt)
+            .filter(Boolean)
+            .join(', ');
+
+          if (!selectedCodes) return;
+
+          this.ticket.masterInfo.ma_vt = selectedCodes;
+          return;
+        }
+
         this.ticket.masterInfo.ma_vt = result?.ma_vt;
-        this.ticket.masterInfo.ten_vt = result?.ten_vt;
       });
   }
   openItemGroupSearchDialog(type: number) {
-    this.commonService.openDialog(SearchDialogComponent, { keyword: type || '', componentName: SEARCH_COMPONENT_NAME.ITEM_GROUP })
+    this.commonService.openDialog(SearchDialogComponent, {
+      keyword: type || '',
+      componentName: SEARCH_COMPONENT_NAME.ITEM_GROUP,
+      isMultiSelect: true
+    })
       .afterClosed().subscribe(result => {
+        if (!result) return;
+
+        if (Array.isArray(result)) {
+          const selectedValues = result
+            .map((item: any) => item?.ma_nh)
+            .filter(Boolean)
+            .join(', ');
+
+          if (!selectedValues) return;
+
+          switch (type) {
+            case 1:
+              this.ticket.masterInfo.nh_vt1 = selectedValues;
+              break;
+            case 2:
+              this.ticket.masterInfo.nh_vt2 = selectedValues;
+              break;
+            case 3:
+              this.ticket.masterInfo.nh_vt3 = selectedValues;
+              break;
+            case 4:
+              this.ticket.masterInfo.nh_vt4 = selectedValues;
+              break;
+          }
+          return;
+        }
+        // Trường hợp chỉ chọn 1 nhóm hàng
         if (!result?.ma_nh) return;
 
         switch (type) {
