@@ -50,6 +50,7 @@ export class MasterInfo extends BaseMasterInfo {
     fnote3 = ''; // xác định có lập hddt ko
     fnote2 = ''; // đối tượng hóa đơn điện tử
     xtag = ''; // hiện tên người mua trên HĐĐT hay ko, 1: có 0: ko
+    fcode3 = '';
 
     constructor(obj?: any) {
         super();

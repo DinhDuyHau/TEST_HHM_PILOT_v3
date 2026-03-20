@@ -74,6 +74,8 @@ export class VoucherCompensationService {
     loadData(data: VoucherDto, callback: any) {
         this.ticket.masterInfo = this.commonService.convertMasterInfoFromVoucher(data.masterInfo, MasterInfo);
 
+        this.ticket.masterInfo.fcode3 = data.masterInfo.fcode3 ?? '';
+
         this.customerApiService.getOneById(data.masterInfo.ma_kh).subscribe(result => {
             const customer = result.result as any;
             this.ticket.masterInfo.ten_kh = customer.ten_kh;

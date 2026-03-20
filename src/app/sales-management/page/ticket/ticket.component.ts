@@ -809,6 +809,16 @@ export class TicketComponent implements OnInit, OnChanges, AfterViewInit {
 
     this.commonService.openDialog(DialogConfirmComponent).afterClosed().subscribe(confirm => {
       if (confirm) {
+        // kiểm tra mã chứng từ, nếu là XD1 thì check fcode3, nếu 3 ký tự cuối là KK1 thì không cho xóa
+        const selectedItem = this.dataSource.find(item => item.stt_rec === this.select_item_current);
+        if (this.codeName === 'XD1') {
+          const fcode3 = (selectedItem?.fcode3 ?? '').trim();
+          const suffix = fcode3.slice(-3);
+          if (suffix === 'KK1') {
+            this.commonService.showMessage('Không thể xóa phiếu này do KK1');
+            return;
+          }
+        }
         this.ticketApiService.getVoucherStatus(this.entityName, this.select_item_current).subscribe((x: any) => {
           if (x && x.status === '0') {
             this.ticketApiService.deleteOne(this.entityName, this.select_item_current).subscribe(result => {

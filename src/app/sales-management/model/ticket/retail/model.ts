@@ -54,6 +54,7 @@ export class MasterInfo extends BaseMasterInfo {
     fnote3 = ''; // xác định có lập hddt ko
     fnote2 = ''; // đối tượng hóa đơn điện tử
     xtag = ''; // hiện tên người mua trên HĐĐT hay ko, 1: có 0: ko
+    fcode3 = '';
 
     constructor(obj?: any) {
         super();
@@ -69,6 +70,7 @@ export class Merchandise extends BaseMerchandise {
     no_km_yn?: boolean = false;
     tien_kmqd = 0;
     imei_mua = '';
+
 
     constructor(obj?: any) {
         super();

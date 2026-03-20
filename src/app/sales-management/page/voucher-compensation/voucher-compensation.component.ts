@@ -521,6 +521,14 @@ export class VoucherCompensationComponent implements OnInit, AfterViewInit {
   }
 
   handleRemoveMerchandise(merchandise: Merchandise) {
+    const fcode3 = (this.ticket.masterInfo.fcode3 ?? '').trim(); // lấy fcode3 và loại bỏ khoảng trắng
+    const suffix = fcode3.slice(-3); // lấy 3 ký tự cuối
+    console.log(fcode3);
+
+    if (suffix === 'KK1') {
+      this.commonService.showMessage('Không được phép xóa hàng hóa');
+      return;
+    }
     if (merchandise.km_yn) {
       this.voucherCompensationService.removePromotionMechandise(merchandise);
     } else {

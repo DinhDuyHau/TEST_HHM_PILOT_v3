@@ -508,6 +508,14 @@ export class TableCustomComponent implements
       return false;
     }
 
+    // Thêm điều kiện chặn xóa cho SVTran_XD1 có fcode3 kết thúc KK1
+    if (this.entityName === 'SVTran_XD1') {
+      const fcode3 = (record?.fcode3 ?? '').trim();
+      if (fcode3.slice(-3) === 'KK1') {
+        return false;
+      }
+    }
+
     if (this.isShowDelete) return true
 
     if (!this.isShowDelete) {
