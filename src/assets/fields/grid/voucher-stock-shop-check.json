@@ -106,11 +106,6 @@
             "type": "mask"
         },
         {
-            "name": "ma_imei",
-            "title": "Mã imei (HT)",
-            "align": "center"
-        },
-        {
             "name": "ma_imei_tt",
             "title": "Mã imei (TT)",
             "align": "center"
