@@ -121,6 +121,7 @@ export class StockShopCheckComponent {
     this.ticket.merchandise = [...this.ticket.merchandise].sort(
       (a, b) => (order[a.kq_kk] ?? 99) - (order[b.kq_kk] ?? 99)
     );
+    this.reIndexLineNbr();
   }
 
   ngAfterViewInit(): void {
@@ -538,7 +539,6 @@ export class StockShopCheckComponent {
         t_chenh_lech: new_chenh_lech
       };
     }
-    this.reIndexLineNbr();
     this.sortMerchandiseByResult();
   }
 
@@ -689,6 +689,8 @@ export class StockShopCheckComponent {
 
   handleRemoveMerchandise(merchandise: Merchandise) {
     this.stockShopCheckService.removeMerchandise(merchandise);
+    this.sortMerchandiseByResult();
+    this.ticket.merchandise = [...this.ticket.merchandise];
   }
   // #endregion merchandise
 
