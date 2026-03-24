@@ -69,6 +69,7 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
   isMultiple = false;
   customizeFilters: ItemFilter[] = [];
   selectedItems: Record<string, any> = {};
+  isSelectAllAcrossPages = false;
 
   constructor(
     public dialogRef: MatDialogRef<SearchDialogComponent>,
@@ -497,8 +498,16 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
           const primaryKey = this.getPrimaryKeyName();
           this.dataSource = (this.dataSource || []).map((item: any) => ({
             ...item,
-            selected: !!this.selectedItems[item?.[primaryKey]],
+            selected: this.isSelectAllAcrossPages || !!this.selectedItems[item?.[primaryKey]],
           }));
+
+          if (this.isSelectAllAcrossPages) {
+            (this.dataSource || []).forEach((item: any) => {
+              const key = item?.[primaryKey];
+              if (!key) return;
+              this.selectedItems[key] = item;
+            });
+          }
         }
       },
       error: () => {
@@ -535,8 +544,19 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
     );
   }
 
-  onChangeSelectCheckbox(_: any) {
+  onChangeSelectCheckbox(event: any) {
     if (!this.isMultiple) return;
+
+    // `table-custom` emits array for header checkbox (select all), object for row checkbox.
+    if (Array.isArray(event)) {
+      const checked = event.length > 0 ? event.every(item => !!item?.selected) : false;
+      this.isSelectAllAcrossPages = checked;
+      if (!checked) {
+        this.selectedItems = {};
+      }
+    } else {
+      this.isSelectAllAcrossPages = false;
+    }
 
     const primaryKey = this.getPrimaryKeyName();
     (this.dataSource || []).forEach((item: any) => {
@@ -597,6 +617,13 @@ export class SearchDialogComponent implements OnInit, AfterViewInit {
 
   onSave() {
     if (this.isMultiple) {
+      if (this.isSelectAllAcrossPages && this.data.componentName === SEARCH_COMPONENT_NAME.ITEM_GROUP) {
+        this.ticketApiService.getItemGroup(this.filters, 1, 500000).subscribe((result: any) => {
+          this.dialogRef.close(result?.result?.items || Object.values(this.selectedItems));
+        });
+        return;
+      }
+
       this.dialogRef.close(Object.values(this.selectedItems));
       return;
     }
